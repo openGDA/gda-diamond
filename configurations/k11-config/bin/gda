@@ -43,6 +43,8 @@ fi
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
+GDA_NEW_LOGPANEL=true
+
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################

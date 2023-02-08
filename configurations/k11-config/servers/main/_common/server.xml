@@ -135,6 +135,8 @@
 
 	<import	resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
 	
+	<import resource="tr7000.xml"/>
+	
 	<import resource="experiment.xml" />
 
 	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
