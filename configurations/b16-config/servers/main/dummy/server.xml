@@ -54,6 +54,7 @@
 	<import resource="controlpoint/dcmpiezo.xml" />
 	
 	<import resource="monitor/analoguein.xml" />
+	<import resource="monitor/cryo.xml" />
 	<import resource="monitor/mstat.xml" />
 
 	<import resource="positioner/attenuator.xml" />

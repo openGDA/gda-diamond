@@ -53,6 +53,7 @@
 	<import resource="epics/controlpoint/analogueout.xml" />
 
 	<import resource="epics/monitor/analoguein.xml" />
+	<import resource="epics/monitor/cryo.xml" />
 	<import resource="epics/monitor/mstat.xml" />
 
 	<import resource="epics/positioner/attenuator.xml" />
