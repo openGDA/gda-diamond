@@ -9,7 +9,6 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.opengda.lde.ui.views.ChildrenTableView;
 import org.opengda.lde.ui.views.DataCollectionStatus;
 import org.opengda.lde.ui.views.LiveImageView;
-import org.opengda.lde.ui.views.ReducedDataPlotView;
 import org.opengda.lde.ui.views.SampleGroupView;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
@@ -25,7 +24,7 @@ import uk.ac.gda.epics.client.pixium.views.PixiumView;
 public class LDEPerspective implements IPerspectiveFactory {
 
 	public static final String ID="uk.ac.gda.beamline.i11.lde.perspective";
-	
+
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projectFolder";
 	private static final String STATUS_FOLDER = "statusFolder";
@@ -35,10 +34,9 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String SCAN_PLOT_FOLDER="scanPlotFolder";
 	private static final String PROPERTIES_FOLDER="propertiesFolder";
 	private static final String DATA_COLLECTION_STATUS_FOLDER="dataCollectionStatusFolder";
-	
+
 	private static final String CHILDREN_TABLE_VIEW_ID = ChildrenTableView.ID;
 	private static final String PIXIUM_IMAGE_VIEW_ID = LiveImageView.ID;
-	private static final String PIXIUM_PLOT_VIEW_ID = ReducedDataPlotView.ID;
 	private static final String DETECTOR_PLOT_VIEW_ID = DetectorFilePlotView.ID;
 	private static final String SCAN_PLOT_VIEW_ID = LivePlotView.ID;
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
@@ -82,7 +80,6 @@ public class LDEPerspective implements IPerspectiveFactory {
         detectorPlotFolder.addView(DETECTOR_PLOT_VIEW_ID);
 
         IFolderLayout scanPlotFolder= layout.createFolder(SCAN_PLOT_FOLDER, IPageLayout.RIGHT, (float)0.33, DETECTOR_PLOT_FOLDER); //$NON-NLS-1$
-        scanPlotFolder.addView(PIXIUM_PLOT_VIEW_ID);
         scanPlotFolder.addView(SCAN_PLOT_VIEW_ID);
         
         IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.RIGHT, (float)0.5, SCAN_PLOT_FOLDER); //$NON-NLS-1$
@@ -100,7 +97,6 @@ public class LDEPerspective implements IPerspectiveFactory {
         layout.addShowViewShortcut(SERVER_SAMPLES_VIEW_ID);
         layout.addShowViewShortcut(CHILDREN_TABLE_VIEW_ID);
         layout.addShowViewShortcut(PIXIUM_IMAGE_VIEW_ID);
-        layout.addShowViewShortcut(PIXIUM_PLOT_VIEW_ID);
         layout.addShowViewShortcut(DETECTOR_PLOT_VIEW_ID);
         layout.addShowViewShortcut(LivePlotView.ID);
         layout.addShowViewShortcut(JythonTerminalView.ID);

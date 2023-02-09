@@ -6,7 +6,5 @@
 
 	<import resource="machineStatus.xml" />
 	<import resource="beamlineStatus.xml" />
-	<import resource="pixium.xml" />
 	<import resource="../_common/client.xml" />
-
 </beans>

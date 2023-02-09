@@ -15,15 +15,4 @@
 		<property name="name" value="calibrantName"/>
 	</bean>
 
-	<bean id="simpleUDPServer" class="gda.device.scannable.SimpleUDPServerScannable">
-		<property name="port" value="9876"/>
-		<property name="prefix" value="DataReduction"/>
-	</bean>
-
-	<bean id="datareduction" class="org.opengda.lde.scannables.DataReductionScannable">
-		<property name="name" value="datareduction"/>
-		<property name="eventAdmin" ref="eventadmin"/>
-		<property name="currentCalibrationScannable" ref="calibrationScannable"/>
-		<property name="simpleUDPServer" ref="simpleUDPServer"/>
-	</bean>
 </beans>
