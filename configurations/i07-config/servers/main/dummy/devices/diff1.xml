@@ -50,4 +50,13 @@
 
 	<bean id="diff1DeferMoves" class="gda.device.controlpoint.DummyControlPoint"/>
 
+	<bean id="mo8ax8" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>None</value>
+				<value>CS2</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>
