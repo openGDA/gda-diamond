@@ -273,8 +273,4 @@
 		</property>
 	</bean>
 
-	<gda:rmi-export
-		service="pixium"
-		serviceName="gda/pixium"
-		serviceInterface="gda.device.detector.pixium.IPixiumNXDetector" />
 </beans>

@@ -57,9 +57,4 @@
 		</property>
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/pixium" />
-		<property name="service" ref="pixium_hdf" />
-		<property name="serviceInterface" value="gda.device.Detector" />
-	</bean>
 </beans>
