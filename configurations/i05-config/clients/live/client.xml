@@ -11,5 +11,6 @@
 	<import resource="es_i3_live_controls.xml"/>
 	<import resource="stream_views.xml" />
 	<import resource="monitors.xml" />
+	<import resource="mbs_analyser_livedata.xml" />
 
 </beans>

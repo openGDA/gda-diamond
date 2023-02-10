@@ -47,6 +47,15 @@
             icon="icons/application_view_gallery.png"
             name="HR Monitoring">
       </perspective>
+      <perspective
+            class="uk.ac.gda.arpes.perspectives.ArpesSlicingPerspective"
+            icon="icons/application_view_gallery.png"
+            id="uk.ac.gda.arpes.perspectives.ArpesSlicingPerspective"
+            name="ARPES Slicing">
+         <description>
+            Slicing perspective
+         </description>
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -84,6 +93,14 @@
             icon="icons/sample.gif"
             id="uk.ac.gda.arpes.ContinuousModeControllerView"
             name="Continuous Mode"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.arpes.ui.views.ArpesSlicingView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.slicingview"
+            name="ARPES Slicing View"
             restorable="true">
       </view>
       <view
