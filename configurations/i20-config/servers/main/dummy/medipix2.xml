@@ -82,7 +82,7 @@
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
-								<property name="adBase" ref="medipix_adbase" />
+								<property name="adBase" ref="medipix2_adbase" />
 								<property name="readoutTime" value="0" />
 							</bean>
 						</property>

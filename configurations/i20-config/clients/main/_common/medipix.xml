@@ -49,18 +49,18 @@
 		<property name="properties" ref="medipixdictionary" />
 	</bean>
 
-	<bean id="medipix_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="medipix_plotserver_roi_provider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="medipix1_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="medipix1_plotserver_roi_provider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="medipix_camera_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="medipix1_camera_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Medipix1 camera" />
 		<property name="arrayPv" value="#{medipixBasePv}:ARR" />
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
-				<constructor-arg ref="medipix_camera_control" />
+				<constructor-arg ref="medipix1_camera_control" />
 			</bean>
 		</property>
-		<property name="roiProvider" ref="medipix_plotserver_roi_provider" />
+		<property name="roiProvider" ref="medipix1_plotserver_roi_provider" />
 	</bean>
 
 

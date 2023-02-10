@@ -29,21 +29,21 @@
 		<constructor-arg value="false" />
 	</bean>
 
-	<bean id="medipix_adbase"
+	<bean id="medipix1_adbase"
 		class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="#{medipixBasePv}:CAM:" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="medipix_nxcollectionstrategy"
+	<bean id="medipix1_nxcollectionstrategy"
 		class="gda.device.detector.addetector.triggering.MultipleExposureHardwareTriggeredStrategy">
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg value="0" />
 		<property name="readAcquisitionTime" value="false" />
 	</bean>
 
-	<alias name="medipix_nxcollectionstrategy" alias="medipix_multiple_nxcollectionstrategy"/>
+	<alias name="medipix1_nxcollectionstrategy" alias="medipix_multiple_nxcollectionstrategy"/>
 
 <!-- Plugin chain and NXDetector objects are created in _common/medipix.xml  -->
 
