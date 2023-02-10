@@ -298,7 +298,7 @@
 				 </bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_pos"/>
-					<property name="scannableName" value="s6vgap"/>
+					<property name="scannableName" value="s6vcentre"/>
 				</bean>
 			</list>
 		</property>
