@@ -5,4 +5,12 @@
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
+	<bean id="unpausableDetectorsList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list value-type="java.lang.String">
+				<value>BL18I-ML-SCAN-02</value>
+				<value>BL18I-ML-SCAN-03</value>
+			</list>
+		</constructor-arg>
+	</bean>
 </beans>

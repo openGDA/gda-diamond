@@ -7,4 +7,12 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
+	<bean id="unpausableDetectorsList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list value-type="java.lang.String">
+				<value>Xspress3A</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
 </beans>

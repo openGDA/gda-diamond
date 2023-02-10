@@ -43,5 +43,16 @@
 	
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	<!-- ensures topup watchdog is disabled during excalibur scans -->
+	<bean id="UnpausableDetectorsWatchdogMonitor" class="uk.ac.diamond.daq.scanning.UnpausableDetectorsWatchdogMonitor" init-method="addScanParticipant" >
+		<property name="unpausableDetectors" ref="unpausableDetectorsList">
+			
+		</property>
+		<property name="watchdogsToDisable">
+			<list>
+				<value>topup_watchdog</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>
