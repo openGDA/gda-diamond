@@ -155,6 +155,12 @@
       </perspective>
       <perspective
             class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.i18.perspective.tfgscan"
+            icon="icons/map.png"
+            name="TFG">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
             id="uk.ac.gda.beamline.i18.perspective.synoptic"
             icon="icons/eye.png"
             name="Synoptic" >
@@ -165,6 +171,39 @@
             icon="icons/camera.png"
             name="Synoptic Views">
       </perspective>
+   </extension>
+   
+   <extension
+         id="uk.ac.gda.beamline.i18.perspective.tfg"
+         name="TFG Scan"
+         point="org.eclipse.ui.views">
+
+	     <view
+	           allowMultiple="true"
+	           category="uk.ac.gda.client.general.category"
+	           class="uk.ac.gda.beamline.i18.views.TFGDataView"
+	           icon="icons/chart_curve.png"
+	           id="uk.ac.gda.beamline.i18.views.tfgdataview"
+	           name="TFG Data"
+            restorable="true">
+         </view>
+
+   </extension>
+   <extension
+   	     point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.beamline.i18.perspective.tfgscan">
+         <view
+               id="uk.ac.gda.beamline.i18.views.tfgdataview"
+               ratio="0.7f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss" />
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.3f"
+               relationship="right"
+               relative="uk.ac.gda.beamline.i18.views.tfgdataview" />
+       </perspectiveExtension>
    </extension>
 
    <extension
