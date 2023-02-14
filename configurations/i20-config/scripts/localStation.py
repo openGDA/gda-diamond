@@ -55,13 +55,13 @@ run "spectrometer-setup.py"
 run "detector-setup.py"
 
 #### preparers ###
-detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
+detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
-detectorPreparer.setPluginsForMutableRoi(getMedipixMutableRoiPlugins(medipix))
-detectorPreparer.setMutableRoi(medipix_roi)
-detectorPreparer.setMedipixDefaultBasePvName(getMedipixBasePvName(medipix))
+detectorPreparer.setPluginsForMutableRoi(getMedipixMutableRoiPlugins(medipix1))
+detectorPreparer.setMutableRoi(getMedipixMutableRoi(medipix1))
+detectorPreparer.setMedipixDefaultBasePvName(getMedipixBasePvName(medipix1))
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
@@ -162,7 +162,8 @@ XesOffsetsUpper.removeAll()
 if LocalProperties.get("gda.mode") == "live":
     run "adc_monitor"
     #Don't include 'count_time' in medipix readout values. imh 18/1/2018 
-    medipix.getCollectionStrategy().setReadAcquisitionTime(False)
+    medipix1.getCollectionStrategy().setReadAcquisitionTime(False)
+    medipix2.getCollectionStrategy().setReadAcquisitionTime(False)
 else :        
     # Set ROI plugin base pv name : real detector uses 'ROI1', simulated area detector uses 'ROI:'
     detectorPreparer.setRoiPvName("ROI:")
