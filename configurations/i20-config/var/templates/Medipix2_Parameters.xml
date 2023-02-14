@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <MedipixParameters>
+    <detectorName>medipix2</detectorName>
 	<roiRegion>
 		<roiName>roi1</roiName>
 		<xRoi>

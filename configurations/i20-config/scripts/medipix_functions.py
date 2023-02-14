@@ -88,7 +88,6 @@ def showMedipixRoi(detectorObject=defaultDetector) :
     print "Jython ROI for %s : start = (%d, %d), size = (%d, %d)"%(detectorObject.getName(), roi.getXstart(), roi.getYstart(),  roi.getXsize(), roi.getYsize())
 
 
-
 setupMedipixPlugins(medipix1)
 setupMedipixPlugins(medipix2)
 

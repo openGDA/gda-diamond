@@ -17,6 +17,7 @@
 	</bean>
 
 	<bean id="medipix2_hdf5" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndArrayPortVal" ref="medipix2CamPort" />
 		<property name="ndFileHDF5" ref="medipix2_ndfilehdf5" />
 		<property name="fileNameTemplate" value="medipix2" />
 		<property name="filePathTemplate" value="$datadir$/nexus/" />

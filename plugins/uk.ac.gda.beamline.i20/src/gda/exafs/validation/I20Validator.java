@@ -22,11 +22,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.exafs.scan.ExafsValidator;
 import gda.exafs.scan.ScanObject;
 import gda.jython.InterfaceProvider;
+import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
+import uk.ac.gda.beans.exafs.ScanColourType;
+import uk.ac.gda.beans.exafs.SpectrometerScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
@@ -42,6 +48,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * schema can test the xml file.
  */
 public class I20Validator extends ExafsValidator {
+	private static final Logger logger = LoggerFactory.getLogger(I20Validator.class);
 
 	private static final String DEFAULT_SAMPLE_NAME = "Please set a sample name";
 	private static final double MINENERGY = 2000; // the lowest value out of I18, B18 and I20
@@ -58,6 +65,7 @@ public class I20Validator extends ExafsValidator {
 		try {
 			errors.addAll(validateIScanParameters(bean.getScanParameters(), bean.getDetectorParameters()));
 		} catch (Exception e) {
+			logger.error("Problem validating scan parameters", e);
 			throw new InvalidBeanException("Error in scan XML file: " + bean.getScanFileName() + ": " + e.getMessage());
 		}
 		try {
@@ -68,6 +76,7 @@ public class I20Validator extends ExafsValidator {
 		try {
 			errors.addAll(validateIDetectorParameters(bean.getDetectorParameters()));
 		} catch (Exception e) {
+			logger.error("Problem validating detector parameters", e);
 			throw new InvalidBeanException("Error in detector XML file: "+ bean.getDetectorFileName() + ": " + e.getMessage());
 		}
 		try {
@@ -108,77 +117,67 @@ public class I20Validator extends ExafsValidator {
 	@Override
 	public List<InvalidBeanMessage> validateXesScanParameters(XesScanParameters x, IDetectorParameters detParams) {
 
-		if (x == null) {
+		if (x == null || !x.isShouldValidate()) {
 			return Collections.emptyList();
 		}
 
-		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
-		if (!x.isShouldValidate()) {
-			return errors;
-		}
+		final List<InvalidBeanMessage> errors = new ArrayList<>();
 
 		// check the detector type XES has been chosen
-		if (detParams != null && !detParams.getExperimentType().equalsIgnoreCase("xes")) {
+		if (detParams != null && detParams.getDetectorConfigurations() == null &&
+				!DetectorParameters.XES_TYPE.equalsIgnoreCase(detParams.getExperimentType())) {
 			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The experiment type in the detector parameters file is "
 					+ detParams.getExperimentType() + " which should be XES"));
 		}
+		ScanColourType scanColour = x.getScanColourType();
+		if (scanColour == null || scanColour.useRow1()) {
+			errors.addAll(checkXesParameters(x, 0));
+		}
+		if (scanColour != null && scanColour.useRow2() && scanColour != ScanColourType.ONE_COLOUR) {
+			errors.addAll(checkXesParameters(x, 1));
+		}
+		return errors;
+	}
 
-		if (x.getScanType() == XesScanParameters.SCAN_XES_FIXED_MONO) {
+	private List<InvalidBeanMessage> checkXesParameters(XesScanParameters xesScanParams, int index) {
 
-			checkBounds("Integration Time", x.getXesIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
-			double initialE = x.getXesInitialEnergy();
-			double finalE = x.getXesFinalEnergy();
-			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
+		List<InvalidBeanMessage> errors = new ArrayList<>();
+
+		int scanType = xesScanParams.getScanType();
+		SpectrometerScanParameters specParams = xesScanParams.getSpectrometerScanParameters().get(index);
+
+		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+			checkBounds("Integration Time", specParams.getIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
+			checkEnergyRange("XES", specParams.getInitialEnergy(), specParams.getFinalEnergy(), errors);
+
+			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+				checkEnergyRange("Mono", xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy(), errors);
 			}
 
-			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
-			checkBounds("XES Final Energy", finalE, initialE, 35000d, errors);
+		} else if (bean != null) {
+			// Fixed XES and XAS or XANES, or SCAN_XES_REGION_FIXED_MONO
+			String xmlFolderName = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/xml/"
+					+ bean.getFolder().getName() + "/";
 
-		} else if (x.getScanType() == XesScanParameters.SCAN_XES_SCAN_MONO) {
-
-			checkBounds("Integration Time", x.getXesIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
-			double initialE = x.getXesInitialEnergy();
-			double finalE = x.getXesFinalEnergy();
-			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
+			String scanFileName = xesScanParams.getScanFileName();
+			if (scanType == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
+				scanFileName = specParams.getScanFileName();
 			}
+			checkFileExists("Scan file name", scanFileName, xmlFolderName, errors);
 
-			checkBounds("XES Initial Energy", initialE, 0d, finalE, errors);
-			checkBounds("XES Final Energy", finalE, initialE, 35000d, errors);
-
-			initialE = x.getMonoInitialEnergy();
-			finalE = x.getMonoFinalEnergy();
-			if (initialE >= finalE) {
-				errors.add(new InvalidBeanMessage(WarningType.HIGH, "The initial energy is greater than or equal to the final energy."));
-			}
-
-			checkBounds("Mono Initial Energy", initialE, 0d, finalE, errors);
-			checkBounds("Mono Final Energy", finalE, initialE, 35000d, errors);
-
-		} else { // Fixed XES and XAS or XANES
-			if (bean != null) {
-				String xmlFolderName = InterfaceProvider.getPathConstructor().createFromDefaultProperty() + "/xml/"
-						+ bean.getFolder().getName() + "/";
-				checkFileExists("Scan file name", x.getScanFileName(), xmlFolderName, errors);
-
-				if (errors.size() == 0) {
-					Object energyScanBean;
-					try {
-						energyScanBean = XMLHelpers.getBeanObject(xmlFolderName, x.getScanFileName());
-					} catch (Exception e) {
-						InvalidBeanMessage msg = new InvalidBeanMessage(WarningType.HIGH, e.getMessage());
-						errors.add(msg);
-						return errors;
-					}
-					if (x.getScanType() == XesScanParameters.FIXED_XES_SCAN_XAS) {
-						validateXasScanParameters((XasScanParameters) energyScanBean, MINENERGY, MAXENERGY);
-					} else {
-						validateXanesScanParameters((XanesScanParameters) energyScanBean);
-					}
+			try {
+				Object energyScanBean = XMLHelpers.getBeanObject(xmlFolderName, scanFileName);
+				if (scanType == XesScanParameters.FIXED_XES_SCAN_XAS) {
+					errors.addAll(validateXasScanParameters((XasScanParameters) energyScanBean, MINENERGY, MAXENERGY));
+				} else {
+					errors.addAll(validateXanesScanParameters((XanesScanParameters) energyScanBean));
 				}
-
+			} catch (Exception e) {
+				InvalidBeanMessage msg = new InvalidBeanMessage(WarningType.HIGH, e.getMessage());
+				errors.add(msg);
+				return errors;
 			}
+
 		}
 		return errors;
 	}

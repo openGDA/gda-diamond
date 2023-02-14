@@ -18,6 +18,7 @@
 
 package uk.ac.gda.server.exafs.scan;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +38,7 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 
+import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.device.DeviceException;
@@ -46,6 +48,10 @@ import gda.device.detector.xmap.Xmap;
 import gda.device.scannable.DummyScannable;
 import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.TwoDScanPlotter;
+import gda.device.scannable.XESEnergyScannable;
+import gda.device.scannable.XesSpectrometerScannable;
+import gda.factory.Factory;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
 import gda.jython.JythonServerFacade;
@@ -72,9 +78,14 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScanTest {
 
-	private Scannable analyserAngle;
-	private Scannable xes_energy;
-	private Scannable mono_energy;
+	private Scannable xesBraggBoth;
+	private Scannable xesEnergyBoth;
+	private Scannable monoEnergy;
+	private XESEnergyScannable xesUpperEnergy;
+	private XESEnergyScannable xesLowerEnergy;
+	private XesSpectrometerScannable xesBraggUpper;
+	private XesSpectrometerScannable xesBraggLower;
+
 	private I20OutputParameters outputParams;
 	private ISampleParameters sampleParams;
 	private DetectorParameters detParams;
@@ -108,7 +119,7 @@ public class XesScanTest {
 		Mockito.when(ionchambers.getInputNames()).thenReturn(new String[] { "time" });
 		Mockito.when(ionchambers.getOutputFormat()).thenReturn(new String[] { "%.2f", "%.2f", "%.2f", "%.2f" });
 
-		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
+		xmpaMca = createMockOfType(Xmap.class, "xmpaMca");
 		Mockito.when(xmpaMca.getName()).thenReturn("xmpaMca");
 		Mockito.when(xmpaMca.readout()).thenReturn(new double[] { 7.0 });
 		Mockito.when(xmpaMca.getExtraNames()).thenReturn(new String[] { "FF" });
@@ -125,8 +136,13 @@ public class XesScanTest {
 		InterfaceProvider.setBatonStateProviderForTesting(jythonserverfacade);
 		InterfaceProvider.setJythonNamespaceForTesting(jythonserverfacade);
 		InterfaceProvider.setScanStatusHolderForTesting(jythonserverfacade);
+
+		// Set the visit directory - so that logging in XasScanBase exception handling works
+		LocalProperties.set(LocalProperties.GDA_VISIT_DIR, "/Data");
+
 		Mockito.when(jythonserverfacade.getFromJythonNamespace("ionchambers")).thenReturn(ionchambers);
 		Mockito.when(jythonserverfacade.getFromJythonNamespace("xmpaMca")).thenReturn(xmpaMca);
+
 
 		JythonServer jythonserver = Mockito.mock(JythonServer.class);
 		InterfaceProvider.setDefaultScannableProviderForTesting(jythonserver);
@@ -144,12 +160,12 @@ public class XesScanTest {
 		metashop = new NXMetaDataProvider();
 		loggingScriptController = Mockito.mock(LoggingScriptController.class);
 
-		mono_energy = Mockito.mock(ScannableMotor.class);
-		Mockito.when(mono_energy.getName()).thenReturn("mono_energy");
-		Mockito.when(mono_energy.getInputNames()).thenReturn(new String[] { "mono_energy" });
-		Mockito.when(mono_energy.getExtraNames()).thenReturn(new String[] {});
-		Mockito.when(mono_energy.getOutputFormat()).thenReturn(new String[] { "%.2f" });
-		Mockito.when(mono_energy.getPosition()).thenReturn(7000.0);
+		monoEnergy = Mockito.mock(ScannableMotor.class);
+		Mockito.when(monoEnergy.getName()).thenReturn("mono_energy");
+		Mockito.when(monoEnergy.getInputNames()).thenReturn(new String[] { "mono_energy" });
+		Mockito.when(monoEnergy.getExtraNames()).thenReturn(new String[] {});
+		Mockito.when(monoEnergy.getOutputFormat()).thenReturn(new String[] { "%.2f" });
+		Mockito.when(monoEnergy.getPosition()).thenReturn(7000.0);
 
 		// create XasScan object
 		XasScanFactory theFactory = new XasScanFactory();
@@ -160,7 +176,7 @@ public class XesScanTest {
 		theFactory.setLoggingScriptController(loggingScriptController);
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
-		theFactory.setEnergyScannable(mono_energy);
+		theFactory.setEnergyScannable(monoEnergy);
 		theFactory.setScanName("energyScan");
 		xasscan = theFactory.createEnergyScan();
 
@@ -202,15 +218,24 @@ public class XesScanTest {
 		outputParams.setAsciiDirectory("ascii");
 		outputParams.setNexusDirectory("nexus");
 
-		analyserAngle = createMockScannable("analyserAngle");
-		xes_energy = createMockScannable("analyserAngle");
-		Mockito.when(xes_energy.getPosition()).thenReturn(6300.0);
+		// Create the XES energy and bragg scannables
+		xesUpperEnergy = createMockOfType(XESEnergyScannable.class, "XESEnergyUpper");
+		xesLowerEnergy = createMockOfType(XESEnergyScannable.class, "XESEnergyLower");
+		xesBraggUpper = createMockOfType(XesSpectrometerScannable.class, "XESBraggUpper");
+		xesBraggLower = createMockOfType(XesSpectrometerScannable.class, "XESBraggLower");
+		Mockito.when(xesUpperEnergy.getXes()).thenReturn(xesBraggUpper);
+		Mockito.when(xesLowerEnergy.getXes()).thenReturn(xesBraggLower);
+
+		xesBraggBoth = createMockScannable("XESBraggBoth");
+		xesEnergyBoth = createMockScannable("XESEnergyBoth");
+
+		Mockito.when(xesEnergyBoth.getPosition()).thenReturn(6300.0);
 
 		// normally use a factory object, but we are not testing that here
 		xesScan = new XesScan();
-		xesScan.setAnalyserAngle(analyserAngle);
-		xesScan.setXes_energy(xes_energy);
-		xesScan.setMono_energy(mono_energy);
+		xesScan.setXesBraggBoth(xesBraggBoth);
+		xesScan.setXesEnergyBoth(xesEnergyBoth);
+		xesScan.setMono_energy(monoEnergy);
 		xesScan.setXas(xasscan);
 		xesScan.setBeamlinePreparer(beamlinePreparer);
 		xesScan.setDetectorPreparer(detectorPreparer);
@@ -221,13 +246,18 @@ public class XesScanTest {
 		xesScan.setIncludeSampleNameInNexusName(true);
 
 
-
+		// Add XES scannables to the finder
+		final Factory factory = TestHelpers.createTestFactory();
+		factory.addFindable(xesUpperEnergy);
+		factory.addFindable(xesLowerEnergy);
+		Finder.addFactory(factory);
 	}
 
 	@After
 	public void closeStaticMock() {
 		staticMock.close();
 		staticMock2.close();
+		Finder.removeAllFactories();
 	}
 
 	private Set<IonChamberParameters> makeIonChamberParameters() {
@@ -258,11 +288,11 @@ public class XesScanTest {
 	}
 
 	private Scannable createMockScannable(String string) {
-		return createMock(DummyScannable.class, string);
+		return createMockOfType(DummyScannable.class, string);
 	}
 
-	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
-		Scannable newMock = Mockito.mock(clazz);
+	private <T extends Scannable> T createMockOfType(Class<T> clazz, String name) {
+		T newMock = Mockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
 		return newMock;
 	}
@@ -380,7 +410,7 @@ public class XesScanTest {
 		// the scan run is controlled by the xasscan object, which we do not wish to test here.
 		// but do test that the outputParams object was modified to contain
 
-		verifySignalParametersContains(outputParams.getSignalList(), new Scannable[] { xes_energy, analyserAngle });
+		verifySignalParametersContains(outputParams.getSignalList(), new Scannable[] { xesLowerEnergy, xesBraggLower, xesUpperEnergy, xesBraggUpper });
 
 		// inorder.verify(outputParams).getAfterScriptName();
 		inorder.verify(detectorPreparer).completeCollection();
@@ -466,15 +496,15 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 9);
+		assertEquals(9, scanArgs.length);
 
-		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
-		assertTrue(scanArgs[1].equals(6000.0));
-		assertTrue(scanArgs[2].equals(7000.0));
-		assertTrue(scanArgs[3].equals(200.0));
-		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
-		assertTrue(scanArgs[5].equals(10000.0));
-		assertTrue(getScannableName(scanArgs[6]).equals(analyserAngle.getName()));
+		assertEquals(getScannableName(scanArgs[0]), xesUpperEnergy.getName());
+		assertEquals(6000.0, scanArgs[1]);
+		assertEquals(7000.0, scanArgs[2]);
+		assertEquals(200.0, scanArgs[3]);
+		assertEquals(monoEnergy.getName(), getScannableName(scanArgs[4]));
+		assertEquals(10000.0, scanArgs[5]);
+		assertEquals(xesBraggUpper.getName(), getScannableName(scanArgs[6]));
 		assertTrue(scanArgs[7] instanceof Xmap);
 		assertTrue(scanArgs[8] instanceof TfgScalerWithFrames);
 
@@ -506,17 +536,17 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 12);
+		assertEquals(12, scanArgs.length);
 
-		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
-		assertTrue(scanArgs[1].equals(6000.0));
-		assertTrue(scanArgs[2].equals(7000.0));
-		assertTrue(scanArgs[3].equals(200.0));
-		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
-		assertTrue(scanArgs[5].equals(11000.0));
-		assertTrue(scanArgs[6].equals(12000.0));
-		assertTrue(scanArgs[7].equals(100.0));
-		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
+		assertEquals(xesUpperEnergy.getName(), getScannableName(scanArgs[0]));
+		assertEquals(6000.0, scanArgs[1]);
+		assertEquals(7000.0, scanArgs[2]);
+		assertEquals(200.0, scanArgs[3]);
+		assertEquals(monoEnergy.getName(), getScannableName(scanArgs[4]));
+		assertEquals(11000.0, scanArgs[5]);
+		assertEquals(12000.0, scanArgs[6]);
+		assertEquals(100.0, scanArgs[7]);
+		assertEquals(xesBraggUpper.getName(), getScannableName(scanArgs[8]));
 
 		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);
 		assertTrue(scanArgs[10] instanceof Xmap);
@@ -549,17 +579,17 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 12);
+		assertEquals(12, scanArgs.length);
 
-		assertTrue(((Scannable) scanArgs[0]).getName().equals(mono_energy.getName()));
-		assertTrue(scanArgs[1].equals(11000.0));
-		assertTrue(scanArgs[2].equals(12000.0));
-		assertTrue(scanArgs[3].equals(100.0));
-		assertTrue(getScannableName(scanArgs[4]).equals(xes_energy.getName()));
-		assertTrue(scanArgs[5].equals(6000.0));
-		assertTrue(scanArgs[6].equals(7000.0));
-		assertTrue(scanArgs[7].equals(200.0));
-		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
+		assertEquals(monoEnergy.getName(), getScannableName(scanArgs[0]));
+		assertEquals(11000.0, scanArgs[1]);
+		assertEquals(12000.0, scanArgs[2]);
+		assertEquals(100.0, scanArgs[3]);
+		assertEquals(xesUpperEnergy.getName(), getScannableName(scanArgs[4]));
+		assertEquals(6000.0, scanArgs[5]);
+		assertEquals(7000.0, scanArgs[6]);
+		assertEquals(200.0, scanArgs[7]);
+		assertEquals(xesBraggUpper.getName(), getScannableName(scanArgs[8]));
 
 		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);
 		assertTrue(scanArgs[10] instanceof Xmap);

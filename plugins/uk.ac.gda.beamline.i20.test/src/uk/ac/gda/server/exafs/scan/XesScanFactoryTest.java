@@ -70,8 +70,8 @@ public class XesScanFactoryTest {
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
 		theFactory.setScanName("xesscan");
-		theFactory.setXes_energy(xesEnergyScannable);
-		theFactory.setAnalyserAngle(analyserAngle);
+		theFactory.setXesEnergyBoth(xesEnergyScannable);
+		theFactory.setXesBraggBoth(analyserAngle);
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
 
@@ -100,7 +100,7 @@ public class XesScanFactoryTest {
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
 		theFactory.setScanName("xesscan");
-		theFactory.setAnalyserAngle(analyserAngle);
+		theFactory.setXesBraggBoth(analyserAngle);
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
 
@@ -129,7 +129,7 @@ public class XesScanFactoryTest {
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
 		theFactory.setScanName("xesscan");
-		theFactory.setXes_energy(xesEnergyScannable);
+		theFactory.setXesEnergyBoth(xesEnergyScannable);
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
 

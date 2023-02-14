@@ -139,8 +139,9 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	/**
-	 * Do scans of {scannableToMove} with {scannableToMonitor} as the detector and perform gaussian fits to the
-	 * 1-dimensional profile. Do this twice, at lowEnergy and highEnergy positions of {bragg} scannable.
+	 * Do scans of {@link scannableToMove} with {@link scannableToMonitor} as the detector and perform gaussian fits to the
+	 * 1-dimensional profile. Do this twice: first with {@code bragg} scannable at the highEnergy position,
+	 * then at the lowEnergy position.
 	 * Gaussian fit parameters are stored and used by {@link #configureOffsetParameters(MonoMoveWithOffsetScannable)} to configure offset parameters.
 	 * @param bragg
 	 * @param lowEnergy
@@ -175,6 +176,9 @@ public class MonoOptimisation extends FindableBase {
 	 * @throws Exception
 	 */
 	private Gaussian runAndFitOffsetScan(Scannable bragg, double energy) throws Exception {
+		logger.info("Running offset scan : {} = {}", bragg.getName(), energy);
+		InterfaceProvider.getTerminalPrinter().print("Running bragg offset optimisation scan : "+bragg.getName()+" = "+energy+" eV");
+
 		moveEnergyScannable(bragg, energy);
 		String filename = runOffsetScan();
 		Dataset data = loadDataFromNexusFile(filename);
@@ -554,7 +558,7 @@ public class MonoOptimisation extends FindableBase {
 	public static double goldenSectionSearch(Scannable scannableToMove, Scannable scannableToMonitor, double minPos, double maxPos, double tolerance) throws DeviceException, InterruptedException {
 		// Golden ratios
 		final double goldenR = 0.61803399;
-		final double goldenC = 1.0 - goldenR; 
+		final double goldenC = 1.0 - goldenR;
 
 		double midPos = minPos + 0.5*(maxPos-minPos);
 

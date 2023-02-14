@@ -59,9 +59,10 @@ detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
-detectorPreparer.setPluginsForMutableRoi(getMedipixMutableRoiPlugins(medipix1))
-detectorPreparer.setMutableRoi(getMedipixMutableRoi(medipix1))
-detectorPreparer.setMedipixDefaultBasePvName(getMedipixBasePvName(medipix1))
+detectorPreparer.setPluginsForMutableRoi(medipix1, getMedipixMutableRoiPlugins(medipix1))
+detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
+detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(medipix2))
+detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
@@ -80,9 +81,9 @@ theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
 theFactory.setScanName("xas")
-theFactory.setAnalyserAngle(XESBraggUpper)
-theFactory.setXes_energy(XESEnergyUpper)
-theFactory.setXesOffsets(XesOffsetsUpper)
+theFactory.setXesBraggBoth(XESBraggBoth)
+theFactory.setXesEnergyBoth(XESEnergyBoth)
+theFactory.setXesOffsetsList([XesOffsetsUpper, XesOffsetsLower])
 xes = theFactory.createXesScan()
 xes.setTwoDPlotter(xes_2d_plotter)
 
@@ -164,9 +165,13 @@ if LocalProperties.get("gda.mode") == "live":
     #Don't include 'count_time' in medipix readout values. imh 18/1/2018 
     medipix1.getCollectionStrategy().setReadAcquisitionTime(False)
     medipix2.getCollectionStrategy().setReadAcquisitionTime(False)
+
 else :        
-    # Set ROI plugin base pv name : real detector uses 'ROI1', simulated area detector uses 'ROI:'
-    detectorPreparer.setRoiPvName("ROI:")
+    # Set collection time to ensure detector does not run too fast for scans that don't explicitly
+    # set the collection time for the medipix 
+    medipix1.setCollectionTime(0.5)
+    medipix2.setCollectionTime(0.5)
+
 
 if LocalProperties.isDummyModeEnabled() :
     setup_dummy_spectrometer(XESEnergyUpper)
