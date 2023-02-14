@@ -70,5 +70,8 @@
 	<bean id="MotorBASEPITCH_DIFF1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:PITCH" />
 	</bean>
+	<bean id="mo8ax8" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL07I-MO-STEP-08:M8:CsPort" />
+	</bean>
 
 </beans>
