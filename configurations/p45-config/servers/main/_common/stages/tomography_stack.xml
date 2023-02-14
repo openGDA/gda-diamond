@@ -10,13 +10,32 @@
 	<bean id="stagey" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage_y_motor" />
 	</bean>
-
-	<bean id="stagez" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage_z_motor" />
+	
+	<bean id="stagey_top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_y_top_motor" />
 	</bean>
 	
+	<bean id="stagey_bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_y_bottom_motor" />
+	</bean>
+	
+	<bean id="stagey_stretch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_y_stretch_motor" />
+	</bean>
+
 	<bean id="theta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage_theta_motor" />
 	</bean>
 
+	<bean id="theta_top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_theta_top_motor" />
+	</bean>
+	
+	<bean id="theta_bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_theta_bottom_motor" />
+	</bean>
+	
+	<bean id="theta_skew" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage_theta_skew_motor" />
+	</bean>
 </beans>

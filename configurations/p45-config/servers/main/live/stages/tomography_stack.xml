@@ -4,31 +4,60 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>
-		EpicsMotors to control the mapping test rig stage
+		EpicsMotors to control the P45 test rig tomography stage
 	</description>
+
+<!-- Other PVs to be added to the config:
+BL45P-MO-MAP-01:ZEBRA
+ -->
+
+	<!-- Physical motors -->
 
 	<bean id="stage_x_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL45P-MO-STAGE-01:X" />
 	</bean>
+	
+	<bean id="stage_y_top_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL45P-MO-STAGE-01:Y:TOP" />
+	</bean>
+
+	<bean id="stage_y_bottom_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL45P-MO-STAGE-01:Y:BOT" />
+	</bean>
+
+	<bean id="stage_theta_top_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL45P-MO-STAGE-01:THETA:TOP" />		
+	</bean>
+	
+	<bean id="stage_theta_bottom_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL45P-MO-STAGE-01:THETA:BOT" />
+	</bean>
+
+	<!-- Virtual motors -->
 
 	<bean id="stage_y_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL45P-MO-STAGE-01:Y" />
+		<property name="pvName" value="BL45P-MO-STAGE-01:CS:Y" />
 	</bean>
 
-	<bean id="stage_z_motor"
+	<bean id="stage_y_stretch_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL45P-MO-STAGE-01:Z" />
+		<property name="pvName" value="BL45P-MO-STAGE-01:CS:Y:STRETCH" />	
 	</bean>
-	
+
 	<bean id="stage_theta_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL45P-MO-SAMP-01:THETA" />
+		<property name="pvName" value="BL45P-MO-STAGE-01:THETA:POS" />	
 	</bean>
 
-<!-- Other PVs to be added to the config:
-BL45P-MO-MAP-01:ZEBRA
- -->
+	<bean id="stage_theta_skew_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL45P-MO-STAGE-01:THETA:SKEW" />	
+	</bean>
 
 </beans>

@@ -12,23 +12,49 @@
 		but they would have a different ref names for _common/stages/tomography_stack.xml 
 		-->
 
+	<!-- Physical motors -->
+
 	<bean id="stage_x_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="#{workstation}-MO-SIM-01:M1" />
 	</bean>
 	
-	<bean id="stage_y_motor"
+	<bean id="stage_y_top_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="#{workstation}-MO-SIM-01:M2" />
 	</bean>
 
-	<bean id="stage_z_motor"
+	<bean id="stage_y_bottom_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="#{workstation}-MO-SIM-01:M3" />
 	</bean>
-	<bean id="stage_theta_motor"
+
+	<bean id="stage_theta_top_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="#{workstation}-MO-SIM-01:M4" />		
+	</bean>
+	
+	<bean id="stage_theta_bottom_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:M5" />		
+	</bean>
+
+	<!-- Virtual motors -->
+
+	<bean id="stage_y_motor"
+			class="gda.device.motor.DummyMotor">	
+	</bean>
+
+	<bean id="stage_y_stretch_motor"
+			class="gda.device.motor.DummyMotor">	
+	</bean>
+
+	<bean id="stage_theta_motor"
+			class="gda.device.motor.DummyMotor">	
+	</bean>
+
+	<bean id="stage_theta_skew_motor"
+			class="gda.device.motor.DummyMotor">	
 	</bean>
 
 </beans>
