@@ -285,7 +285,7 @@ public class EdeScanTest extends EdeTestBase {
 		// test the Ascii file to see if the number of columns and rows are correct
 		try(BufferedReader reader = new BufferedReader(new FileReader(asciiFilename))) {
 			// Skip header parts
-			String dataString = dataString=reader.readLine(); // skip the first line
+			String dataString = reader.readLine(); // skip the first line
 			dataString=reader.readLine();
 			while( !dataString.replace("#","").trim().contains(scnName) ) {
 				dataString=reader.readLine();

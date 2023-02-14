@@ -107,7 +107,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	public void doCollectionFrelon() throws Exception {
 		// load the detector parameters
 		validate();
-		logger.debug(toString() + " loading detector parameters...");
+		logger.debug("{} loading detector parameters...", this);
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
 
 		triggeringParameters.setDetector(theDetector);
@@ -122,7 +122,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		moveShutter(ValvePosition.OPEN);
 
 		// start the detector running (it waits for a pulse from the eTFG)
-		logger.debug(toString() + " starting detector running...");
+		logger.debug("{} starting detector running...", this);
 		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 
 		// Store orig. trigger mode setting
@@ -284,7 +284,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		// load the detector parameters
 		int numberOfRepititionsDone=0;
 		validate();
-		logger.debug(toString() + " loading detector parameters...");
+		logger.debug("{} loading detector parameters...", this);
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		// derive the eTFG parameters and load them
 
@@ -294,7 +294,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		boolean triggerOnRisingEdge = true;
 		if (theDetector instanceof XhDetector) {
 			// try to get trigger rise/fall value from timing group parameters (false by default, if not set explicitly)
-			if (scanParameters.getGroups().size()>0) {
+			if (!scanParameters.getGroups().isEmpty()) {
 				triggerOnRisingEdge = scanParameters.getGroups().get(0).isGroupTrigRisingEdge();
 			} else {
 				triggerOnRisingEdge = false;
@@ -311,7 +311,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		moveShutter(ValvePosition.OPEN);
 
 		// start the detector running (it waits for a pulse from the eTFG)
-		logger.debug(toString() + " starting detector running...");
+		logger.debug("{} starting detector running...", this);
 		InterfaceProvider.getTerminalPrinter().print(
 				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		if (theDetector.getName().equalsIgnoreCase("frelon")) {
@@ -349,7 +349,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			pollDetectorAndFetchData();
 		}
-		logger.debug(toString() + " doCollection finished.");
+		logger.debug("{} doCollection finished.", this);
 	}
 
 	private void prepareTFG(boolean shouldStartOnTopupSignal) throws DeviceException {
@@ -414,8 +414,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		boolean readFromScalers = readTopupFromScalers();
 		int numAccumulationsPerSpectrum = 1;
-		if (theDetector instanceof EdeFrelon) {
-			numAccumulationsPerSpectrum = ((EdeFrelon)theDetector).getCurrentTimingGroup().getNumberOfScansPerFrame();
+		if (theDetector instanceof EdeFrelon edeFrelon) {
+			numAccumulationsPerSpectrum = edeFrelon.getCurrentTimingGroup().getNumberOfScansPerFrame();
 		}
 		double[][] topupValuePerSpectra = getTopupValuesForSpectra(lowFrame, highFrame, numAccumulationsPerSpectrum, readFromScalers);
 		if (topupValuePerSpectra != null) {
@@ -463,11 +463,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		}
 
 		lastTimeTillTopup = timeToTopup;
-		if (timeToTopup < waitTimeEitherSideOfTopup || timeToTopup > timeAtTopupStart - waitTimeEitherSideOfTopup) {
-			return true;
-		} else {
-			return false;
-		}
+		return timeToTopup < waitTimeEitherSideOfTopup || timeToTopup > timeAtTopupStart - waitTimeEitherSideOfTopup;
 	}
 
 	/**
@@ -520,8 +516,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			} else {
 				// Sum over number of accumulations to find total counts for each spectrum
-				double[][] countsForSpectra= getScalerCountsForSpectra(lowFrame, highFrame);
-				return countsForSpectra;
+				return getScalerCountsForSpectra(lowFrame, highFrame);
 			}
 		} catch (Exception e) {
 			logger.error("Problem collecting topup signal data ", e);

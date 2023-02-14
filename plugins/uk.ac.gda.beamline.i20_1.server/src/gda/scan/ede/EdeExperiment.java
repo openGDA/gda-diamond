@@ -327,8 +327,8 @@ public abstract class EdeExperiment implements IObserver {
 	 * @return
 	 */
 	public EdeScan makeEdeScan( EdeScanParameters scanParams, TFGTrigger triggerOptions, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
-		if (detector instanceof EdeDummyDetector) {
-			((EdeDummyDetector)detector).setMainDetectorName(theDetector.getName());
+		if (detector instanceof EdeDummyDetector edeDummyDetector) {
+			edeDummyDetector.setMainDetectorName(theDetector.getName());
 		}
 
 		EdeScan edeScan = null;
@@ -340,7 +340,7 @@ public abstract class EdeExperiment implements IObserver {
 
 		// Set option for using fast shutter during scan
 		edeScan.setUseFastShutter(useFastShutter);
-		if ( useFastShutter == true && fastShutterName != null ) {
+		if (useFastShutter && fastShutterName != null ) {
 			fastShutter = (Scannable) Finder.find( fastShutterName );
 			edeScan.setFastShutter( fastShutter );
 		}
@@ -371,8 +371,8 @@ public abstract class EdeExperiment implements IObserver {
 
 	private void addScansForExperiment() throws Exception {
 		Scannable motorToMoveDuringScan = getItScanPositions().getScannableToMoveDuringScan();
-		if (motorToMoveDuringScan != null && i0Position instanceof EdeScanMotorPositions) {
-			((EdeScanMotorPositions)i0Position).setScannableToMoveDuringScan(motorToMoveDuringScan);
+		if (motorToMoveDuringScan != null && i0Position instanceof EdeScanMotorPositions edeScanMotorPositions) {
+			edeScanMotorPositions.setScannableToMoveDuringScan(motorToMoveDuringScan);
 		}
 
 		double timeToTopup = getNextTopupTime();
@@ -437,9 +437,9 @@ public abstract class EdeExperiment implements IObserver {
 		return writeToFiles();
 	}
 
-	private void mainShutterMoveTo(String position) throws DeviceException, InterruptedException {
+	private void mainShutterMoveTo(String position) throws DeviceException {
 		if (beamLightShutter != null) {
-			logger.debug("Moving main shutter to {} position", beamLightShutter.getName(), position);
+			logger.debug("Moving main shutter {} to {} position", beamLightShutter.getName(), position);
 			beamLightShutter.moveTo(position);
 		}
 	}
@@ -486,17 +486,17 @@ public abstract class EdeExperiment implements IObserver {
 			if (!fileNameSuffix.isEmpty()) {
 				filenameTemplate += "_"+fileNameSuffix;
 			}
-			if (dataWriter instanceof XasAsciiNexusDataWriter) {
+			if (dataWriter instanceof XasAsciiNexusDataWriter xasAsciiNexusDataWriter) {
 				String template = "ascii/" + filenameTemplate+".dat";
-				((XasAsciiNexusDataWriter)dataWriter).setAsciiFileNameTemplate(template);
+				xasAsciiNexusDataWriter.setAsciiFileNameTemplate(template);
 			}
 
 			String template = "nexus/" + filenameTemplate+".nxs";
-			if (dataWriter instanceof NexusDataWriter) {
-				((NexusDataWriter)dataWriter).setNexusFileNameTemplate(template);
+			if (dataWriter instanceof NexusDataWriter nexusDataWriter) {
+				nexusDataWriter.setNexusFileNameTemplate(template);
 			}
-			if (dataWriter instanceof XasAsciiNexusDataWriter) {
-				((XasAsciiNexusDataWriter)dataWriter).setNexusFileNameTemplate(template);
+			if (dataWriter instanceof XasAsciiNexusDataWriter xasAsciiNexusDataWriter) {
+				xasAsciiNexusDataWriter.setNexusFileNameTemplate(template);
 			}
 
 			List<ScanBase> allScans = addAllScans();
@@ -512,7 +512,7 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private List<ScanBase> addAllScans() {
-		List<ScanBase> scans = new ArrayList<ScanBase>();
+		final List<ScanBase> scans = new ArrayList<>();
 		scans.addAll(scansBeforeIt);
 		scans.addAll(scansForIt);
 		scans.addAll(scansAfterIt);
@@ -584,17 +584,14 @@ public abstract class EdeExperiment implements IObserver {
 		StringBuilder metadataText = new StringBuilder();
 		// Alignment parameters
 		Object result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
-		if (result != null && (result instanceof AlignmentParametersBean)) {
+		if (result instanceof AlignmentParametersBean) {
 			metadataText.append(result.toString());
 		}
 		metadataText.append(getHeaderText());
 		if (!sampleDetails.isEmpty()) {
 			metadataText.append("\nSample details: " + sampleDetails + "\n");
-
-			ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add(sampleDetails);
-			if (dataWriter instanceof XasAsciiNexusDataWriter) {
-				((XasAsciiNexusDataWriter)dataWriter).setDescriptions(arrayList);
+			if (dataWriter instanceof XasAsciiNexusDataWriter xasAsciiDataWriter) {
+				xasAsciiDataWriter.setDescriptions(List.of(sampleDetails));
 			}
 		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
@@ -630,12 +627,13 @@ public abstract class EdeExperiment implements IObserver {
 	protected TopupChecker createTopupChecker(Double realTimeRequired) {
 		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
 		if (realTimeRequired >= TOP_UP_TIME) {
-			logger.info("Time required (" + realTimeRequired + ") secs is too large to fit within a topup");
+			logger.info("Time required ({} secs) is too large to fit within a topup", realTimeRequired);
 		}
 
-		double timeRequired = Math.min(TOP_UP_TIME-30, realTimeRequired); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
+		final double timeRequired = Math.min(TOP_UP_TIME-30, realTimeRequired); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
 
-		double waitTime = 5.0, tolerance = 2.0;
+		double waitTime = 5.0;
+		double tolerance = 2.0;
 
 		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
 		TopupChecker topupCheckerMachine = (TopupChecker) Finder.find("topupChecker");
@@ -661,8 +659,8 @@ public abstract class EdeExperiment implements IObserver {
 		topupchecker.setPauseBeforePoint(false);
 
 		// Set machine mode monitor object for topup object so it works correctly.
-		Scannable machineModeMonitor = Finder.find( "machineModeMonitor" );
-		if ( machineModeMonitor != null ) {
+		Scannable machineModeMonitor = Finder.find("machineModeMonitor");
+		if (machineModeMonitor != null) {
 			topupchecker.setMachineModeMonitor(machineModeMonitor);
 		}
 		return topupchecker;
@@ -693,7 +691,7 @@ public abstract class EdeExperiment implements IObserver {
 
 		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
 		if (timeForPreItScans >= TOP_UP_TIME) {
-			logger.info("Time required for before It collection ("+timeForPreItScans+") secs is too large to fit within a topup");
+			logger.info("Time required for before It collection ({} secs) is too large to fit within a topup", timeForPreItScans);
 		}
 
 		return createTopupChecker(timeForPreItScans);
@@ -716,7 +714,7 @@ public abstract class EdeExperiment implements IObserver {
 
 		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. imh 14/10/2015
 		if (timeForItScan >= TOP_UP_TIME) {
-			logger.info("Time required for before It collection ("+timeForItScan+") secs is too large to fit within a topup");
+			logger.info("Time required for before It collection ({}) secs) is too large to fit within a topup", timeForItScan);
 		}
 		return createTopupChecker(timeForItScan);
 
@@ -727,11 +725,8 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	public boolean getItWaitForTopup() {
-		if ( itScanParameters.getGroups().size() > 0 ) {
-			return itScanParameters.getGroups().get(0).getUseTopupChecker();
-		} else {
-			return false;
-		}
+		return !itScanParameters.getGroups().isEmpty() &&
+				itScanParameters.getGroups().get(firstRepetitionIndex).getUseTopupChecker();
 	}
 
 	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
@@ -753,8 +748,7 @@ public abstract class EdeExperiment implements IObserver {
 	private MultiScan multiScan;
 	@Override
 	public void update(Object source, Object arg) {
-		if (controller != null && arg instanceof EdeScanProgressBean) {
-			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
+		if (controller != null && arg instanceof EdeScanProgressBean progress) {
 			if (source.equals(i0DarkScan)) {
 				lastEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
 				if (!theDetector.isEnergyCalibrationSet()) {

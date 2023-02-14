@@ -19,6 +19,7 @@
 package gda.scan;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
@@ -44,16 +45,21 @@ public class TurboXasMotorParameters {
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasMotorParameters.class);
 
+	private static final double MINIMUM_ALLOWED_MOTOR_MOVE_SIZE = 1e-6;
+
 	@JsonProperty("TurboXasParameters")
 	private TurboXasParameters scanParameters;
 	private TurboSlitTimingGroup currentTimingGroup = null;
 
 	// These are all set using values from TurboXasScanParameters
-	private double scanStartPosition, scanEndPosition;
+	private double scanStartPosition;
+	private double scanEndPosition;
 	private double scanMotorSpeed;
 	private double returnMotorSpeed;
 
-	private double startPosition, endPosition, motorRampDistance;
+	private double startPosition;
+	private double endPosition;
+	private double motorRampDistance;
 	private int    numReadoutsForScan;
 	private double positionStepsize;
 
@@ -70,8 +76,6 @@ public class TurboXasMotorParameters {
 
 	// Not currently set from scanParameters, should it be?
 	private double motorStabilisationDistance;
-
-	static final double minimumAllowedMotorMoveSize = 1e-6;
 
 	public TurboXasMotorParameters() {
 		scanParameters = new TurboXasParameters();
@@ -115,11 +119,11 @@ public class TurboXasMotorParameters {
 				// gdaLimits returns Double[] as an Object
 				Double[] val = (Double[])scannableMotor.getAttribute("lowerGdaLimits");
 				if (val!=null) {
-					lowerMotorLimit = (double) val[0];
+					lowerMotorLimit = val[0];
 				}
 				val = (Double[])scannableMotor.getAttribute("upperGdaLimits");
 				if (val!=null) {
-					upperMotorLimit = (double) val[0];
+					upperMotorLimit = val[0];
 				}
 			}
 			motorLowLimit = lowerMotorLimit;
@@ -292,17 +296,24 @@ public class TurboXasMotorParameters {
 		this.stepsizeResolution = stepsizeResolution;
 	}
 
+	private static final DecimalFormat FORMAT;
+
+	static {
+		FORMAT = new DecimalFormat();
+		FORMAT.setMaximumFractionDigits(5);
+	}
+
 	public void showParameters() {
-		String numFormat = "%.5g\n", twoNumFormat = "%.5g, %.5g\n";
-		String params = String.format("Start, end positions for scan energy range : "+twoNumFormat, scanStartPosition, scanEndPosition)
-		+ String.format("Scan range  : "+numFormat, getScanPositionRange())
-		+ String.format("Motor speed : "+numFormat, scanMotorSpeed)
-		+ String.format("Initial, final position  : "+twoNumFormat, startPosition, endPosition)
-		+ String.format("Ramp distance     : "+numFormat, motorRampDistance)
-		+ String.format("Velocity stabilisation distance : "+numFormat, motorStabilisationDistance)
-		+ String.format("Max motor speed   : "+numFormat, motorMaxSpeed)
-		+ String.format("Parameters valid ? %s", validateParameters());
-		InterfaceProvider.getTerminalPrinter().print(params);
+		final StringBuilder params = new StringBuilder();
+		params.append(String.format("Start, end positions for scan energy range : %.5g, %.5g", scanStartPosition, scanEndPosition));
+		params.append(String.format("Scan range : %.5g", getScanPositionRange()));
+		params.append(String.format("Motor speed : %.5g", scanMotorSpeed));
+		params.append(String.format("Initial, final position  : %.5g, %.5g", startPosition, endPosition));
+		params.append(String.format("Ramp distance     : %.5g", motorRampDistance));
+		params.append(String.format("Velocity stabilisation distance : %.5g", motorStabilisationDistance));
+		params.append(String.format("Max motor speed   : %.5g", motorMaxSpeed));
+		params.append(String.format("Parameters valid ? %s", validateParameters()));
+		InterfaceProvider.getTerminalPrinter().print(params.toString());
 	}
 
 	/**
@@ -311,7 +322,7 @@ public class TurboXasMotorParameters {
 	 * @return True if > minimum motor move size
 	 */
 	public boolean validMotorScanRange() {
-		return Math.abs(getScanPositionRange()) > minimumAllowedMotorMoveSize;
+		return Math.abs(getScanPositionRange()) > MINIMUM_ALLOWED_MOTOR_MOVE_SIZE;
 	}
 
 	/**

@@ -87,8 +87,7 @@ public class SpectrumEvent {
 	 */
 	public void setPosition(Object position) {
 
-		if (position instanceof String) {
-			String pos = (String) position;
+		if (position instanceof String pos) {
 			String[] splitStr = pos.split("\\s+");
 			if (splitStr.length == 1) {
 				this.position = convertString(splitStr[0]);

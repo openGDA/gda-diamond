@@ -93,8 +93,7 @@ public class PlotUpdater {
 	}
 
 	DoubleDataset extractDoubleDatset(NexusGroupData groupData) {
-		if (groupData!=null && groupData.getBuffer() instanceof double[]) {
-			double[] originalData = (double[]) groupData.getBuffer();
+		if (groupData != null && groupData.getBuffer() instanceof double[] originalData) {
 			return (DoubleDataset) DatasetFactory.createFromObject(Arrays.copyOf(originalData, originalData.length), originalData.length);
 		} else
 			return null;

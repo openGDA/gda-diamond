@@ -18,6 +18,8 @@
 
 package gda.scan;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -29,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdePositionType;
@@ -179,12 +182,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	@Override
 	public String getHeaderDescription() {
-		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
-		for (int index = 0; index < scanParameters.getGroups().size(); index++){
-			TimingGroup group = scanParameters.getGroups().get(index);
-			desc += "\n#Group "+ index + " " + group.getHeaderDescription();
-		}
-		return desc;
+		final List<TimingGroup> timingGroups = scanParameters.getGroups();
+		final String timingGroupsStr = IntStream.range(0, timingGroups.size())
+				.mapToObj(index -> "#Group "+ index + " " + timingGroups.get(index).getHeaderDescription())
+				.collect(joining("\n"));
+		return String.format("%s %s scan with %d timing groups%n", scanType, motorPositions.getType(), timingGroups.size()) + timingGroupsStr;
 	}
 
 	@Override
@@ -282,16 +284,17 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 */
 	private void setupShutterChecker() {
 		Optional<ShutterChecker> foundShutterChecker = allScannables.stream()
-				.filter(scn -> scn instanceof ShutterChecker)
-				.map(scn -> (ShutterChecker) scn)
+				.filter(ShutterChecker.class::isInstance)
+				.map(ShutterChecker.class::cast)
 				.filter(scn -> scn.getShutter().getName().equals(shutter.getName()))
 				.findFirst();
 
-		if (foundShutterChecker.isPresent()) {
-			shutterChecker = foundShutterChecker.get();
-			logger.debug("Found shutter checker {} to use for scan", shutterChecker.getName());
+		shutterChecker = foundShutterChecker.orElse(null);
+
+		if (shutterChecker == null) {
+			logger.debug("No shutter checker found to use for scan");
 		} else {
-			shutterChecker = null;
+			logger.debug("Found shutter checker {} to use for scan", shutterChecker.getName());
 		}
 	}
 
@@ -354,7 +357,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			collectSingleFrame();
 		}
 
-		logger.debug(toString() + " loading detector parameters...");
+		logger.debug("{} loading detector parameters...", this);
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
 
 		if (!useFastShutter) {
@@ -392,8 +395,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 		terminalPrinter.print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		moveMotorDuringScan = false;
-		if (motorPositions instanceof EdeScanMotorPositions) {
-			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
+		if (motorPositions instanceof EdeScanMotorPositions scanMotorPositions) {
 			List<Object> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
 			motorToMoveDuringScan = scanMotorPositions.getScannableToMoveDuringScan();
 
@@ -402,10 +404,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				addScannableToMonitorDuringScan(motorToMoveDuringScan);
 			}
 
-			if (isLightItScan() && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
+			if (isLightItScan() && motorToMoveDuringScan !=null && motorPositionsToScan != null && !motorPositionsToScan.isEmpty()) {
 				int count = 1;
 				moveMotorDuringScan = true;
-				for(Object pos : motorPositionsToScan) {
+				for (Object pos : motorPositionsToScan) {
 					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
 					motorToMoveDuringScan.waitWhileBusy();
 					motorToMoveDuringScan.asynchronousMoveTo(pos);
@@ -429,7 +431,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				collectDetectorData();
 			}
 		} else {
-			logger.debug(toString() + " starting detector running...");
+			logger.debug("{} starting detector running...", this);
 			collectDetectorData();
 		}
 

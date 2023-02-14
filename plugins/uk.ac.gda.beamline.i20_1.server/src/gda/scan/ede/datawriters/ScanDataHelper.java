@@ -69,7 +69,6 @@ public class ScanDataHelper {
 	}
 
 	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
-		List<String> names = scanDataPoint.getDetectorNames();
-		return names.indexOf(detectorName);
+		return scanDataPoint.getDetectorNames().indexOf(detectorName);
 	}
 }

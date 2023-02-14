@@ -57,6 +57,8 @@ public class DetectorFunctions  {
 
 	private static final Logger logger = LoggerFactory.getLogger(DetectorFunctions.class);
 
+	private static final String PATH_TO_ATTRIBUTE_DATA = "/entry/instrument/NDAttributes";
+
 	private BufferedDetector[] detectors;
 	private Zebra zebra1 = null;
 	private Zebra zebra2 = null;
@@ -65,7 +67,6 @@ public class DetectorFunctions  {
 	private SwmrFileReader xspress3FileReader;
 	private Xspress3BufferedDetector xspress3BufferedDetector;
 	private Map<String, String> xspressAttributeMap = Collections.emptyMap();
-	private String pathToAttributeData = "/entry/instrument/NDAttributes";
 
 	private boolean useXspress3SwmrReadout = true;
 
@@ -82,10 +83,10 @@ public class DetectorFunctions  {
 		int minNumFrames = Integer.MAX_VALUE;
 		for (BufferedDetector detector : detectors) {
 			int numFramesAvailable = detector.getNumberFrames();
-			if (detector instanceof BufferedScaler) {
-				numFramesAvailable = getNumTfgScalerFrames((BufferedScaler) detector);
-			} else if (detector instanceof Xspress3BufferedDetector) {
-				numFramesAvailable = getNumXspress3Frames((Xspress3BufferedDetector) detector);
+			if (detector instanceof BufferedScaler bufferedScaler) {
+				numFramesAvailable = getNumTfgScalerFrames(bufferedScaler);
+			} else if (detector instanceof Xspress3BufferedDetector xspress3BufferedDetector) {
+				numFramesAvailable = getNumXspress3Frames(xspress3BufferedDetector);
 			}
 			logger.debug("Number of frames of data available for {} : {}", detector.getName(), numFramesAvailable);
 			minNumFrames = Math.min(minNumFrames, numFramesAvailable);
@@ -245,31 +246,31 @@ public class DetectorFunctions  {
 		totalNumReadoutsForDummy = numSpectra * numReadoutsPerSpectra;
 		for (BufferedDetector detector : detectors) {
 			detector.clearMemory();
-			if (detector instanceof BufferedScaler) {
-				setScalerMode((BufferedScaler)detector);
-				((BufferedScaler)detector).setNumCycles(numCycles);
+			if (detector instanceof BufferedScaler bufferedScaler) {
+				setScalerMode(bufferedScaler);
+				bufferedScaler.setNumCycles(numCycles);
 			}
 			detector.setContinuousParameters(params);
 			detector.setContinuousMode(true);
-			if (detector instanceof Xspress3BufferedDetector) {
-				xspress3BufferedDetector = (Xspress3BufferedDetector)detector;
+			if (detector instanceof Xspress3BufferedDetector xspress3) {
+				xspress3BufferedDetector = xspress3;
 				prepareXSpress3(numSpectra, numReadoutsPerSpectra);
 			}
 		}
 	}
 
 	public boolean isTfgArmed() throws DeviceException {
-		Optional<BufferedScaler> scaler = Arrays.stream(detectors).
-				filter(d -> d instanceof BufferedScaler).
-				map(d -> (BufferedScaler)d).
+		final Optional<BufferedScaler> scaler = Arrays.stream(detectors).
+				filter(BufferedScaler.class::isInstance).
+				map(BufferedScaler.class::cast).
 				findFirst();
 		return scaler.isPresent() && scaler.get().isWaitingForTrigger();
 	}
 
 	public Xspress3BufferedDetector getXspress3Detector() {
 		for (BufferedDetector detector : detectors) {
-			if (detector instanceof Xspress3BufferedDetector) {
-				return (Xspress3BufferedDetector) detector;
+			if (detector instanceof Xspress3BufferedDetector xpress3) {
+				return xpress3;
 			}
 		}
 		return null;
@@ -328,7 +329,7 @@ public class DetectorFunctions  {
 	private Map<String, String> createXspressAttributeMap(Xspress3BufferedDetector detector) {
 		Map<String, String> map = new HashMap<>();
 		for(int channel=0; channel<detector.getNumberOfElements(); channel++) {
-			map.put(String.format("FF_%d", channel+1), String.format("%s/Chan%dSca%d", pathToAttributeData, channel+1, 5));
+			map.put(String.format("FF_%d", channel+1), String.format("%s/Chan%dSca%d", PATH_TO_ATTRIBUTE_DATA, channel+1, 5));
 		}
 		return map;
 	}

@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,8 +128,7 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	private static final int[] AXIS_IN_USE   = { 0,   0,   0,   0,   0,   0,   1,   0,   0};
 
 	public void setDefaults() throws Exception {
-		if (trajScanController instanceof EpicsTrajectoryScanController){
-			EpicsTrajectoryScanController epicsTrajScanController = (EpicsTrajectoryScanController) trajScanController;
+		if (trajScanController instanceof EpicsTrajectoryScanController epicsTrajScanController){
 			// Set in use status for each axis; for in use axes also set default resolution
 			// and offset
 			for (int i = 0; i < AXIS_IN_USE.length; i++) {
@@ -456,7 +454,7 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 		List<Double> convertedTimes = trajectoryTimes.stream()
 				.map(t -> t * trajScanController.getTimeConversionFromSecondsToDeviceUnits())
-				.collect(Collectors.toList());
+				.toList();
 
 		// check no time exceeds the maximum the device can handle
 		final double maxTime = 1 << 24;
@@ -585,9 +583,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		private double spectrumVelocity;
 		private double rundownTime = timeForRundown;
 		private double turnaroundWaitTime = 0;
-
-		public TurnaroundParameters() {
-		}
 
 		public void setTurnaroundWaitTime(double turnaroundWaitTime) {
 			this.turnaroundWaitTime = turnaroundWaitTime;
