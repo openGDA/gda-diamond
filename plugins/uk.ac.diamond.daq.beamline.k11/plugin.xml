@@ -173,4 +173,29 @@
       </hiddenToolBarItem>
       </perspectiveExtension>
    </extension>
+   <extension point="org.eclipse.ui.commands">
+      <command
+            name="Toggle Test Mode"
+            id="uk.ac.diamond.daq.beamline.k11.command.toggleTestMode"
+            defaultHandler="uk.ac.diamond.daq.beamline.k11.command.ToggleTestMode">
+      </command>
+   </extension>
+   
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="k11.menu.admin"
+               label="Admin"
+               mnemonic="A">
+            <command
+                  commandId="uk.ac.diamond.daq.beamline.k11.command.toggleTestMode"
+                  icon="icons/exclamation.png"
+                  label="Toggle Test Mode">
+                  <visibleWhen>
+	                  <test property="gda.authentication.isStaff" value="true" />
+            	  </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 </plugin>

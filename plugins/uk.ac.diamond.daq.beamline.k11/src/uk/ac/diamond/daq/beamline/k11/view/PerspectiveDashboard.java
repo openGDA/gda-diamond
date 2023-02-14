@@ -22,16 +22,15 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientGridDataFactory;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientLabel;
 
-import java.util.Optional;
-
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
+import org.springframework.context.ApplicationListener;
 
-import uk.ac.gda.client.properties.mode.Modes;
-import uk.ac.gda.client.properties.mode.TestMode;
+import uk.ac.gda.client.properties.mode.TestModeToggled;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.ClientResourceManager;
@@ -44,23 +43,52 @@ public class PerspectiveDashboard extends ViewPart {
 
 	public static final String ID = "uk.ac.diamond.daq.beamline.k11.view.PerspectiveDashboard";
 
+	private static final String TITLE = "DIAD";
+	private static final String TEST_MODE_PREFIX = "[Test Mode]";
+
+	private Label label;
+
 	@Override
 	public void createPartControl(Composite parent) {
 
 		final var composite = composite(parent, 1);
 		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 
-		var labelName = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
-				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
-		createClientGridDataFactory().align(SWT.CENTER, SWT.END).indent(5, 5).applyTo(labelName);
 
-		Optional.ofNullable(getClientProperties())
-			.map(ClientSpringProperties::getModes)
-			.map(Modes::getTest)
-			.filter(TestMode::isActive)
-			.ifPresent(t -> labelName.setText(labelName.getText() + " [Test Mode]"));
+		label = createClientLabel(composite, SWT.NONE, ClientMessages.DIAD,
+				FontDescriptor.createFrom(ClientResourceManager.getDefaultFont(), 14, SWT.BOLD));
+		createClientGridDataFactory().align(SWT.CENTER, SWT.END).indent(5, 5).applyTo(label);
+
+		var labelUpdater = new LabelUpdater();
+		SpringApplicationContextFacade.addApplicationListener(labelUpdater);
+		label.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(labelUpdater));
+
+		labelUpdater.update();
 
 		new PerspectiveDashboardCompositeFactory().createComposite(composite, SWT.NONE);
+	}
+
+	private class LabelUpdater implements ApplicationListener<TestModeToggled> {
+
+		@Override
+		public void onApplicationEvent(TestModeToggled event) {
+			update();
+		}
+
+		private void update() {
+			var testModeActive = getClientProperties().getModes().getTest().isActive();
+			if (testModeActive) {
+				label.setText(String.format("%s %s", TITLE, TEST_MODE_PREFIX));
+			} else {
+				label.setText(TITLE);
+			}
+			label.getParent().layout(true, true);
+		}
+
+		private ClientSpringProperties getClientProperties() {
+			return SpringApplicationContextFacade.getBean(ClientSpringProperties.class);
+		}
+
 	}
 
 	@Override
@@ -68,7 +96,4 @@ public class PerspectiveDashboard extends ViewPart {
 		// do nothing
 	}
 
-	private ClientSpringProperties getClientProperties() {
-		return SpringApplicationContextFacade.getBean(ClientSpringProperties.class);
-	}
 }
