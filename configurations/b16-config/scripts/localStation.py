@@ -457,7 +457,6 @@ if installation.isLive():
 	print "Adding checkbeam device (rc>190mA, 60s wait after beam back)"
 	print "   (change threshold with checkbeam.minumumThreshold=12345)"
 	oldcheckbeam = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkbeam', rc, minumumThreshold=190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=180) #@UndefinedVariable
-	oldcheckbeam = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkbeam', rc, minumumThreshold=190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=180) #@UndefinedVariable
 	oldcheckbeam.setLevel(6)
 	checkct15 = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkcttime', ct15, minumumThreshold=160000, secondsBetweenChecks=0.5, secondsToWaitAfterBeamBackUp=10) #@UndefinedVariable
 	checkct15.setLevel(6)
@@ -473,7 +472,8 @@ if installation.isLive():
 	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 5, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
 	checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
-	checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
+	checkab0 = WaitForScannableState('checkab0', ab0, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+	checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1, checkab0])
 	checkbeam.configure()
 
 
