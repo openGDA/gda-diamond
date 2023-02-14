@@ -19,6 +19,8 @@
 		<property name="pvName" value="BL07C-OP-CCM-01:ROTY" />
 	</bean>
 
-	
+	<bean id="ccmc_named_position" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07C-OP-CCM-01:CRYSTAL:MP" />
+	</bean>
 	
 </beans>

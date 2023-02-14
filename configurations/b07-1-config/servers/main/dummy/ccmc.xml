@@ -11,4 +11,14 @@
 
 	<bean id="roty_motor" class="gda.device.motor.DummyMotor"/>
 	
+	<bean id="ccmc_named_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out of Beam</value>
+				<value>Xtal_2000</value>
+				<value>Xtal_2250</value>
+				<value>Xtal_2500</value>
+			</list>
+		</property>
+	</bean>
 </beans>

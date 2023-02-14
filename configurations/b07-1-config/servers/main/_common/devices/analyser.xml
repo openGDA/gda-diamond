@@ -11,7 +11,8 @@
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
 		<property name="collectionStrategy" ref="collection_strategy" />
-		<property name="photonEnergyProvider" ref="pgm_energy" />
+		<property name="photonEnergyProvider" ref="photon_energy_provider" />
+<!-- 		<property name="photonEnergyProvider" ref="pgm_energy" /> -->
 		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="experimentalShutter" ref="expt_shutter" />
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->

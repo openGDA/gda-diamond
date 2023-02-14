@@ -6,10 +6,10 @@
 		
 	<bean id="pv_provider" class="uk.ac.diamond.daq.devices.specs.phoibos.api.AnalyserPVProvider">
 		<property name="name" value="pv_provider"/>
-		<property name="spectrumPV" value="TEST-SPECS-02:INT_SPECTRUM" />
-		<property name="imagePV" value="TEST-SPECS-02:IMAGE" />
-		<property name="totalPointsIterationPV" value="TEST-SPECS-02:TOTAL_POINTS_ITERATION_RBV" />
-		<property name="slicesPV" value="TEST-SPECS-02:SLICES_RBV" />
+		<property name="spectrumPV" value="TEST-SPECS-01:INT_SPECTRUM" />
+		<property name="imagePV" value="TEST-SPECS-01:IMAGE" />
+		<property name="totalPointsIterationPV" value="TEST-SPECS-01:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="slicesPV" value="TEST-SPECS-01:SLICES_RBV" />
 	</bean>
 
 
