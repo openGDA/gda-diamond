@@ -7,4 +7,9 @@
 		<property name="level" value="6" />
 	</bean>
 
+	<bean id="fastshutter_fatt" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="fastshutter_fatt" />
+		<property name="level" value="6" />
+	</bean>
+
 </beans>

@@ -9,4 +9,11 @@
 		<property name="level" value="6" />
 	</bean>
 
+	<bean id="fastshutter_fatt"
+		class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="fastshutter_fatt" />
+		<property name="pvName" value="BL07I-OP-FILT-01:SHUTTER:POS" />
+		<property name="level" value="6" />
+	</bean>
+
 </beans>
