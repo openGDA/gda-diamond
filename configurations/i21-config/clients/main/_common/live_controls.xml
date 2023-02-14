@@ -63,10 +63,10 @@
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
 	<bean id="feedback_state" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Feedback" />
+		<property name="displayName" value="" />
 		<property name="group" value="Beam" />
 		<property name="scannableName" value="feedbackState" />
-		<property name="textWidth" value="85"/>
+		<property name="textWidth" value="90"/>
 		<property name="userUnits" value="" />
 		<property name="readOnly" value="true"/>
 	</bean>	
