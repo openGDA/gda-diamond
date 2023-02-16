@@ -43,7 +43,7 @@
 	<import resource="sm21b.xml"/>
 	<import resource="sm52b.xml"/>
 	<import resource="analyser.xml" />
-	
+
 	<!-- Pressures -->
 	<import resource="pressures.xml" />
 	<import resource="frontEnd.xml"/>
@@ -54,7 +54,10 @@
 		
 	<!-- Keithley amplifier as a detector -->
 	<import resource="keithley.xml" />
-
+	
+	<!-- LED control -->
+	<import resource="led.xml" />
+	
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

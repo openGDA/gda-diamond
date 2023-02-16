@@ -242,6 +242,29 @@
 		</property>
 	</bean>
 	
+	<bean id="led_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value=" LED " />
+		<property name="scannableName" value="led_status_controller" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="false" />
+	</bean>
+	
+	<bean id="led_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="" />
+		<property name="group" value=" LED " />
+		<property name="scannableName" value="led_status_controller" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="OFF" value-ref="red_colour" />
+				<entry key="ON" value-ref="green_colour" />
+			</util:map>		
+		</property>
+	</bean>
+	
 	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -270,6 +293,8 @@
 	 			<ref bean="pss_shutter1_status" />
 		 	 	<ref bean="pss_shutter2_status" />
 				<ref bean="fast_shutter_status" />
+				<ref bean="led_status" />
+				<ref bean="led_control" />
 			</list>
 		</property>
 	</bean>
