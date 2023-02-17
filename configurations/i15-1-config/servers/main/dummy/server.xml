@@ -26,8 +26,8 @@
 	    <constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
 	</bean>
 
-	<import resource="device/all.xml"/>
-	<import resource="transient/all.xml"/>
+	<import resource="device/*.xml"/>
+	<import resource="transient/*.xml"/>
 
 	<import resource="metadata.xml"/>
 	<import resource="port_shutter.xml"/>
