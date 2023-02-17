@@ -30,6 +30,7 @@
 	<import resource="transient/all.xml"/>
 
 	<import resource="metadata.xml"/>
+	<import resource="port_shutter.xml"/>
 	<import resource="terminal_logger.xml"/>
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>

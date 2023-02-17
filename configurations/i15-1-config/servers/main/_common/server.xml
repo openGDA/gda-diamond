@@ -5,6 +5,7 @@
 
 	<import resource="required_at_start.xml"/>
 
+	<import resource="beam_watchdogs_i15-1.xml" />
 	<import resource="abstract_command_server.xml"/>
 
 	<bean id="command_server" parent="abstract_command_server">
