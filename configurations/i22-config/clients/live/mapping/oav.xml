@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="p1xy_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="base_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="base_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_x" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_y" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_z" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_zoom" />
+	<bean class="uk.ac.gda.remoting.client.GdaRmiProxy" id="oav_cam_control" />
+
+	<bean id="oav_zoom_calibration_base" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxis" ref="base_x" />
+		<constructor-arg name="yAxis" ref="base_y" />
+		<constructor-arg name="xOffsetDefault" value="-0.050" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.18" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration_base.csv" />
+	</bean>
+	<bean id="oav_offset_ext_base" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="oav_zoom_calibration_base" />
+	</bean>
+
+	<bean id="oav_zoom_calibration_p1xy" class="uk.ac.gda.client.live.stream.calibration.CsvCameraOffsetCalibration">
+		<constructor-arg name="xAxis" ref="p1xy_x" />
+		<constructor-arg name="yAxis" ref="p1xy_y" />
+		<constructor-arg name="xOffsetDefault" value="-0.050" /> <!-- Offset of camera in x axis -->
+		<constructor-arg name="yOffsetDefault" value="-0.18" /> <!-- Offset of camera in y axis -->
+		<constructor-arg name="xPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in x axis -->
+		<constructor-arg name="yPixelScalingDefault" value="0.001037" /> <!-- Number of pixels per scannable unit in y axis -->
+		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration_p1xy.csv" />
+	</bean>
+	<bean id="oav_offset_ext_p1xy" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsOffsetCalibrate">
+		<property name="CsvCameraOffsetCalibration" ref="oav_zoom_calibration_p1xy" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_base">
+		<property name="displayName" value="OAV - base" />
+		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
+		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
+		<property name="sleepTime" value="500" />
+		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_base" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="oav_cam_control" />
+                <property name="extensions">
+                    <list>
+                        <ref bean="oav_offset_ext_base" />
+                    </list>
+                </property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_p1xy">
+		<property name="displayName" value="OAV - p1xy" />
+		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
+		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
+		<property name="sleepTime" value="500" />
+		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_p1xy" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="oav_cam_control" />
+                <property name="extensions">
+                    <list>
+                        <ref bean="oav_offset_ext_p1xy" />
+                    </list>
+                </property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_x_control">
+		<property name="displayName" value="OAV X" />
+		<property name="scannableName" value="oav_x" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_y_control">
+		<property name="displayName" value="OAV Y" />
+		<property name="scannableName" value="oav_y" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_z_control">
+		<property name="displayName" value="OAV Z" />
+		<property name="scannableName" value="oav_z" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl" id="oav_zoom_control">
+		<property name="displayName" value="OAV Zoom" />
+		<property name="scannableName" value="oav_zoom" />
+		<property name="group" value="OAV" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean class="uk.ac.gda.client.livecontrol.ControlSet" name="oavLiveControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="oav_x_control" />
+				<ref bean="oav_y_control" />
+				<ref bean="oav_z_control" />
+				<ref bean="oav_zoom_control" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

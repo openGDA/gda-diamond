@@ -12,7 +12,6 @@
     <context:property-placeholder/>
 
     <import resource="command_queue_processor.xml"/>
-    <import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
     <import resource="mapping/mapping.xml"/>
     <import resource="mapping/mapping_view.xml"/>
     <import resource="mapping/tomo_scan.xml"/>

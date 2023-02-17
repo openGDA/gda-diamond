@@ -15,7 +15,4 @@
     <import resource="cameras/*.xml" />
 	<import resource="mapping/*.xml" />
 
-<!-- Do not remove anything below here -->
-    <import resource="../_common/server.xml" />
-
 </beans>
