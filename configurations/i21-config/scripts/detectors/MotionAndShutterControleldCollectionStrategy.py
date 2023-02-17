@@ -20,9 +20,10 @@ import time
 from gdascripts.utils import frange
 from gda.device.detector.nxdata import NXDetectorDataAppender
 from gda.data.nexus.extractor import NexusGroupData, NexusExtractor
-from java.lang import String
+from java.lang import String  # @UnresolvedImport
 from gda.data.nexus.tree import NexusTreeNode
 from org.slf4j import LoggerFactory
+from gda.jython import JythonServerFacade
 
 
 logger = LoggerFactory.getLogger(__name__)
@@ -56,9 +57,8 @@ class NXDetectorDataDoubleAppenderWithUnitSupport(NXDetectorDataAppender):
 
 class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     '''
-    a detector collection strategy used to collect scattering or diffraction data from detector which is acquiring while sample is moving across the X-ray beam.
+    a detector collection strategy used to collect scattering or diffraction image from detector which is acquiring while sample is moving across the X-ray beam.
     '''
-
 
     def __init__(self, name, detector, shutter, exposure_time_limit = 0.1, motors = None, beam_size = None, sample_size = None, sample_centre = None):
         '''
@@ -140,6 +140,9 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     
     #this class internal methods   
     def setMotorSpeed(self):
+        '''calculate and set motor speed for continuous moving motor so that X-ray exposure time 
+        at every point of the sample will not exceed the exposure time limit set
+        '''
         if self.zContinuous:
             min_speed = self.beamSizeZ / self.expsoureTimeLimit
             self.original_z_speed = self.z.getSpeed()
@@ -158,6 +161,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             return min_speed if self.speedYChanged else self.original_y_speed    
 
     def restoreMotorSpeed(self):
+        '''restore motor speed if it is changed by this object
+        '''
         if self.speedYChanged:
             print("Restore motor %s speed to %f" % (self.y.getName(), self.original_y_speed))
             self.y.setSpeed(self.original_y_speed)
@@ -166,6 +171,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.z.setSpeed(self.original_z_speed)
             
     def detecrmineControlPositions(self):
+        '''calculate positions at which motor starts and stops and at which shutther opens and closes
+        '''
         self.y_start = self.sampleCentreY - self.sampleSizeY/2
         self.y_open = self.sampleCentreY - self.sampleSizeY/2 + self.beamSizeY
         self.y_close = self.sampleCentreY + self.sampleSizeY/2 - self.beamSizeY
@@ -188,7 +195,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.z.stop()
                 
     def update_motor_shutter_control(self, source, change):
-        # print("source is %s, change is %d" % (source, change))
+        '''handling detector acquiring event
+        '''
         if change == 1: #detector exposure started
             print("\ndetector acquire start")
             if not self.motor_shutter_control_thread.isAlive():
@@ -199,7 +207,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         elif change == 0: #detector exposure completed
             if self.motor_shutter_control_thread.isAlive():
                 self.stop_motors_close_shutter_on_acquire_finish()
-                print("\ndetector acquire completed\n")
+                print("\ndetector acquire complete\n")
             else:
                 print("motion and shutter control thread is not running")
     
@@ -255,14 +263,17 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
                     continuous_move_motor.stop()
                     break
                 self.shutterControl()
-                # time.sleep(0.05)
             print("shutter open time is %f" % (self.end_time - self.start_time))
             self.shutter_open_times.append(self.end_time - self.start_time)
             self.step_motor_pos_index = index
             print("step motor '%s' position at %f, %d steps done, %d steps still available" % (step_move_motor.getName(), float(step_move_motor.getPosition()), index, len(step_move_motor_positions) - index))
         if self.step_motor_pos_index == len(step_move_motor_positions)-1:
-            print("all sample positions are used now ! so stop detector acquiring")
-            self.ad_base.stopAcquiring()
+            print("\nAll sample positions are used up now !")
+            self.closeShutter()
+            self.end_time = time.time()
+            print("\nRequest current scan to finish earlier")
+            JythonServerFacade.getInstance().requestFinishEarly()
+            print("Please wait for current exposure for point %d to complete\n" % self.point_number)
 
     
     # implement NXCollectionStrategyPlugin interface
@@ -277,7 +288,6 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
 
     def prepareForCollection(self, collection_time, number_images_per_cllection, scan_info):
         print("\nPrepare for collection")
-        # super(AbstractADTriggeringStrategy, self).prepareForCollection(collection_time, number_images_per_cllection, scan_info)
         self.detecrmineControlPositions()
         erio() # control fast shutter separately, not as part of detector
         fastshutter.moveTo("Closed") #ensure shutter is closed before collection
@@ -290,17 +300,19 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.state_observable.addObserver(self.state_observer)
         print("Create motor and shutter control thread")
         if self.zContinuous:
-            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="x_step_y_continue", args = (self.z, self.z_start, self.z_end, self.y, self.y_positions))
+            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="y_step_z_continue", args = (self.z, self.z_start, self.z_end, self.y, self.y_positions))
         if self.yContinuous:
-            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="y_step_x_continue", args = (self.y, self.y_start, self.y_end, self.z, self.z_positions))
+            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="z_step_y_continue", args = (self.y, self.y_start, self.y_end, self.z, self.z_positions))
         print("Move motor to start point: y = %f, z = %f" % (self.y_start, self.z_start))
-        self.y.moveTo(self.y_start)
-        self.z.moveTo(self.z_start)
+        self.y.asynchronousMoveTo(self.y_start)
+        self.z.asynchronousMoveTo(self.z_start)
+        self.y.waitWhileBusy()
+        self.z.waitWhileBusy()
         self.shutter_open_times = [] #to record shutter opening times
         self.step_motor_pos_index = 0
         self.motor_shutter_control_thread.do_stop = False
         self.accumulated_shutter_open_time_so_far = 0.0
-        self.point_collected = 0
+        self.point_number = 0
         motor_speed = self.setMotorSpeed()
         if self.zContinuous:
             print("Motor speed is %f for %s" % (motor_speed, self.z.getName()))
@@ -310,12 +322,9 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             
 
     def collectData(self):
-        print("\nCollect data")
-        self.point_collected = self.point_collected + 1
-        self.motor_shutter_control_thread.do_stop = False
-        time.sleep(1)
+        self.point_number += 1
         self.ad_base.startAcquiring()
-        print("Start detector %s acquiring ..." % self.det.getName())
+        print("\nStart detector %s acquiring ..." % self.det.getName())
 
     def getStatus(self):
         return self.det.getCollectionStrategy().getStatus()
@@ -323,26 +332,17 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     def waitWhileBusy(self):
         self.det.getCollectionStrategy().waitWhileBusy()
 
-    # def setGenerateCallbacks(self, b):
-    #     super(AbstractADTriggeringStrategy, self).setGenerateCallbacks(b)
-    #
-    # def isGenerateCallbacks(self):
-    #     super(AbstractADTriggeringStrategy, self).isGenerateCallbacks()
-
-
     def getNumberImagesPerCollection(self, t):
         return 1
 
-    # def requiresAsynchronousPlugins(self):
-    #     super(AbstractADTriggeringStrategy, self).requiresAsynchronousPlugins()
-        
 
     #implement PositionInputStream interface
     def read(self, max_to_read):
         appenders = []
+        # current_point_number = JythonServerFacade.getInstance().getLastScanDataPoint().getCurrentPointNumber()
         total_shutter_open_time = sum(self.shutter_open_times) - self.accumulated_shutter_open_time_so_far
         self.accumulated_shutter_open_time_so_far =  total_shutter_open_time + self.accumulated_shutter_open_time_so_far
-        print("\nTotal shutter open time for point %d is %f \n" % (self.point_collected, total_shutter_open_time))
+        print("\nTotal shutter open time for point %d is %f \n" % (self.point_number, total_shutter_open_time))
         appenders.append(NXDetectorDataDoubleAppenderWithUnitSupport("total_count_time", total_shutter_open_time, "s"))
         return appenders
     
@@ -350,52 +350,46 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     # implement NXPluginBase interface
     def getName(self):
         return self.myname
-    
-    # def willRequireCallbacks(self):
-    #     super(AbstractADTriggeringStrategy, self).willRequireCallbacks()
-    
-    # def prepareForLine(self):
-    #     super(AbstractADTriggeringStrategy, self).prepareForLine()
-    #
-    # def completeLine(self):
-    #     super(AbstractADTriggeringStrategy, self).completeLine()
 
     def completeCollection(self):
-        # super(AbstractADTriggeringStrategy, self).completeCollection()
         self.motor_shutter_control_thread.do_stop = True
-        print("completeCollection called, stop detector acquiring")
+        print("completeCollection called ...")
+        print("Stop detector acquiring")
         self.ad_base.stopAcquiring()
         self.closeShutter()
-        print("completeCollection called, stop motors %s and %s" % (self.y.getName(), self.z.getName()))
+        print("Stop motors %s and %s" % (self.y.getName(), self.z.getName()))
         self.y.stop()
         self.z.stop()
         self.restoreMotorSpeed()
         if self.state_observer and self.state_observable:
-            print("completeCollection called, remove detector acquiring state observer")
+            print("Remove detector acquiring state observer")
             self.state_observable.removeObserver(self.state_observer)
             self.state_observer = None
             self.state_observable = None
         self.cs.completeCollection()
+        print("Exit completeCollection method\n")
                         
     def atCommandFailure(self):
-        print("atCommandFailure called! Stopping detector")
+        print("atCommandFailure called!")
         self.completeCollection()
 
     def stop(self):
         self.motor_shutter_control_thread.do_stop = True
-        print("Stop called, stop detector acquiring")
+        print("Stop called ...")
+        print("Abort detector acquiring")
         self.ad_base.stopAcquiring()
         self.closeShutter()
-        print("Stop called, stop motors %s and %s" % (self.y.getName(), self.z.getName()))
+        print("Stop motors %s and %s" % (self.y.getName(), self.z.getName()))
         self.y.stop()
         self.z.stop()
         self.restoreMotorSpeed()
         if self.state_observer and self.state_observable:
-            print("Stop called, remove detector acquiring state observer")
+            print("Remove detector acquiring state observer")
             self.state_observable.removeObserver(self.state_observer)
             self.state_observer = None
             self.state_observable = None
         self.cs.completeCollection()
+        print("Exit stop method\n")
             
     def getInputStreamNames(self):
         return self.cs.getInputStreamNames()
