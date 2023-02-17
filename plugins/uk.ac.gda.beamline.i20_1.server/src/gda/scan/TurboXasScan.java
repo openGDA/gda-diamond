@@ -173,8 +173,8 @@ public class TurboXasScan extends ContinuousScan {
 		if (turboXasMotorParams != null && !turboXasMotorParams.getScanParameters().isUsePositionsForScan()) {
 			energyAxisName = TurboXasNexusTree.ENERGY_COLUMN_NAME;
 		}
-		if (getScanAxis() instanceof TurboXasScannable) {
-			turboSlit = (TurboXasScannable) getScanAxis();
+		if (getScanAxis() instanceof TurboXasScannable turboSlit) {
+			this.turboSlit = turboSlit;
 		}
 		plotUpdater.setEnergyAxisName(energyAxisName);
 		plotUpdater.setPositionAxisName(TurboXasNexusTree.POSITION_COLUMN_NAME);
