@@ -31,6 +31,7 @@
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
 	<import resource="ccmc.xml"/>
+	<import resource="photon_energy_provider.xml"/>
 
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
