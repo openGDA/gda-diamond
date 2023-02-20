@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Watchdogs -->
+	<bean id="watchdog_control" class="uk.ac.gda.client.livecontrol.WatchdogControl">
+		<property name="group" value="Watchdogs" />
+		<property name="watchdogNames">
+			<list>
+				<value>beam_available_watchdog</value>
+				<value>topup_watchdog</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Note: for the WatchdogControl control to work, ensure that localStation.py imports the watchdog functions it requires:
+		from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled
+
+		>>> from org.eclipse.scanning.sequencer import ServiceHolder
+		>>> wdservice = ServiceHolder.getWatchdogService()
+		>>> wdservice.getRegisteredNames()
+		[beam_available_watchdog, topup_watchdog]
+		>>> baw=wdservice.getWatchdog('beam_available_watchdog')
+		>>> tuw=wdservice.getWatchdog('topup_watchdog')
+		>>> baw.enabled ; tuw.enabled
+		True
+		True
+	 -->
+
+	<!-- Overall control set -->
+	<bean name="watchdog_controls" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="watchdog_control" />
+			</list>
+		</property>
+	</bean>
+</beans>

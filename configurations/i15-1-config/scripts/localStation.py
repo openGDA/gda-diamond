@@ -6,6 +6,7 @@ from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled # @UnusedImport
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
 from gda.factory import Finder
