@@ -13,7 +13,7 @@
 	<bean id="sgmgratingtranslationMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:X"/>
 	</bean>
-	<bean id="sgmgratingpitchMotor" class="gda.device.motor.FeedbackControlledEpicsMotor">
+	<bean id="sgmgratingpitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:PITCH"/>
 	</bean>
 	<bean id="sgmlongxMotor" class="gda.device.motor.EpicsMotor">
