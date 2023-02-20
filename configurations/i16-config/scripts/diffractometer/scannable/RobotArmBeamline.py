@@ -13,8 +13,8 @@ class kinematics(object):
         self.L_vects=args[1]
         self.motor_limits = args[2]
         self.motor_offsets = np.array(args[3])
-        self.tool_offset = args[4]
-        self.centre_offset = args[5]
+        self.centre_offset = args[4]
+        self.tool_offset = args[5]
         self.strategy = args[6]
         self.weighting = args[7]
         self.constraint = args[8]
@@ -224,15 +224,7 @@ class kinematics(object):
         _v5 = self.rotxyz(_v5, self.axis_vects[1,:], angles[1])                  
         self.v5 = self.rotxyz(_v5, self.axis_vects[0,:], angles[0])
 
-
-        new_centre = self.rotxyz(np.array([self.centre_offset]), self.axis_vects[5,:] ,angles[5])        
-        new_centre = self.rotxyz(new_centre, self.axis_vects[4,:] ,angles[4]) 
-        new_centre = self.rotxyz(new_centre, self.axis_vects[3,:] ,angles[3]) 
-        new_centre = self.rotxyz(new_centre, self.axis_vects[2,:] ,angles[2]) 
-        new_centre = self.rotxyz(new_centre, self.axis_vects[1,:] ,angles[1])        
-        new_centre = self.rotxyz(new_centre, self.axis_vects[0,:] ,angles[0])
-
-
+        new_centre = self.rotxyz(np.array([self.centre_offset]), self.axis_vects[0,:] ,angles[0])        
 
                 #L5
         _t_off = self.rotxyz(np.array([self.tool_offset]), self.axis_vects[5,:], angles[5])
@@ -241,9 +233,7 @@ class kinematics(object):
         _t_off = self.rotxyz(_t_off, self.axis_vects[2,:], angles[2])
         _t_off = self.rotxyz(_t_off, self.axis_vects[1,:], angles[1])                  
         self._t_off = self.rotxyz(_t_off, self.axis_vects[0,:], angles[0])
-        
-        
-        
+
         _v6 = self.rotxyz(np.array([self.L_vects[6,:]]), self.axis_vects[5,:], angles[5])
         _v6 = self.rotxyz(_v6, self.axis_vects[4,:], angles[4])
         _v6 = self.rotxyz(_v6, self.axis_vects[3,:], angles[3])  
@@ -281,34 +271,68 @@ class kinematics(object):
         v1 = self.target[1,:]
         v2 = self.target[2,:]
         v3 = self.target[3,:]
-        new_offset = np.dot(np.array([self.centre_offset]),self.target[1:,:])[0]
-        v0 = v0 - new_offset
         
         vlength = (np.linalg.norm(self.L_vects[4,:]))
         vc1 = (v0-(v3/np.linalg.norm(v3)*vlength))-self.L_vects[0,:] # Calculate the origin of L4
         vc1n = np.linalg.norm(vc1)
         theta0check = np.arctan2(vc1[1],vc1[0])
-#        t_v3_check = np.arctan2(target[3,1],target[3,0])
-        #-------------------  To prevent the arm bending backwards ------------#
-#        if (theta0check-t_v3_check)-np.pi < (theta0check-(t_v3_check+np.pi))-(2*np.pi):
-        
+
+
+        num_iterations = 40
         num_checks = 8
         keep_index = np.zeros((8,2))
         for ii in list(range(num_checks)):
             if ii == 0 or ii == 4:
                 theta0 = theta0check
+                #-------------------------------------------------------------------------#
+                #                  Correction for internal centre offset
+                #-------------------------------------------------------------------------#
+                if np.linalg.norm(self.centre_offset) != 0.0:
+                    for iii in list(range(num_iterations)):
+                        new_centre = np.array(self.rotxyz(np.array([self.centre_offset]), np.array([[0,0,1]]) ,theta0*180.00000/np.pi))[0]
+                        v0new = v0 - new_centre
+                        vc1 = (v0new-(v3/np.linalg.norm(v3)*vlength))-self.L_vects[0,:] # Calculate the origin of L4
+                        vc1n = np.linalg.norm(vc1)
+                        theta0 = np.arctan2(vc1[1],vc1[0])
+                    
                 theta1 = np.arccos((L1**2+vc1n**2-L2**2)/(2*L1*vc1n)) # law of cosines
                 theta2 = np.pi-np.arccos((L1**2+L2**2-vc1n**2)/(2*L1*L2)) # law of cosines
                 theta2 = theta2-(self.vp_angle((self.L_vects[3,:]+self.L_vects[2,:]),[1,0,0],[0,1,0]))
                 theta1 = -theta1+self.vp_angle(vc1,[1,0,0],[0,1,0])
             elif ii ==1 or ii == 5:
                 theta0 = theta0check + np.pi
+
+                #-------------------------------------------------------------------------#
+                #                  Correction for internal centre offset
+                #-------------------------------------------------------------------------#
+                if np.linalg.norm(self.centre_offset) != 0:
+                    for iii in list(range(num_iterations)):                
+                        new_centre = np.array(self.rotxyz(np.array([self.centre_offset]), np.array([[0,0,1]]) ,theta0*180.00000/np.pi))[0]
+                        v0new = v0 - new_centre
+                        vc1 = (v0new-(v3/np.linalg.norm(v3)*vlength))-self.L_vects[0,:] # Calculate the origin of L4
+                        vc1n = np.linalg.norm(vc1)
+                        theta0 = np.arctan2(vc1[1],vc1[0])+np.pi
+
                 theta1 = np.arccos((L1**2+vc1n**2-L2**2)/(2*L1*vc1n)) # law of cosines
                 theta2 = np.pi-np.arccos((L1**2+L2**2-vc1n**2)/(2*L1*L2)) # law of cosines
                 theta2 = theta2-(self.vp_angle((self.L_vects[3,:]+self.L_vects[2,:]),[1,0,0],[0,1,0]))
                 theta1 = -theta1-self.vp_angle(vc1,[1,0,0],[0,1,0])
+                
             elif ii == 2 or ii == 6:
                 theta0 = theta0check
+
+                #-------------------------------------------------------------------------#
+                #                  Correction for internal centre offset
+                #-------------------------------------------------------------------------#
+                if np.linalg.norm(self.centre_offset) != 0:
+                    if np.linalg.norm(self.centre_offset) != 0: 
+                        for iii in list(range(num_iterations)):                 
+                            new_centre = np.array(self.rotxyz(np.array([self.centre_offset]), np.array([[0,0,1]]) ,theta0*180.00000/np.pi))[0]
+                            v0new = v0 - new_centre
+                            vc1 = (v0new-(v3/np.linalg.norm(v3)*vlength))-self.L_vects[0,:] # Calculate the origin of L4
+                            vc1n = np.linalg.norm(vc1)
+                            theta0 = np.arctan2(vc1[1],vc1[0])+np.pi
+
                 theta1 = -np.arccos((L1**2+vc1n**2-L2**2)/(2*L1*vc1n)) # law of cosines
                 theta2 = -(np.pi-np.arccos((L1**2+L2**2-vc1n**2)/(2*L1*L2))) # law of cosines
                 theta2 = theta2-(self.vp_angle((self.L_vects[3,:]+self.L_vects[2,:]),[1,0,0],[0,1,0]))
@@ -316,6 +340,18 @@ class kinematics(object):
 
             elif ii == 3 or ii == 7:
                 theta0 = theta0check + np.pi
+                #-------------------------------------------------------------------------#
+                #                  Correction for internal centre offset
+                #-------------------------------------------------------------------------#
+                if np.linalg.norm(self.centre_offset) != 0:
+                    if np.linalg.norm(self.centre_offset) != 0: 
+                        for iii in list(range(num_iterations)):                   
+                            new_centre = np.array(self.rotxyz(np.array([self.centre_offset]), np.array([[0,0,1]]) ,theta0*180.00000/np.pi))[0]
+                            v0new = v0 - new_centre
+                            vc1 = (v0new-(v3/np.linalg.norm(v3)*vlength))-self.L_vects[0,:] # Calculate the origin of L4
+                            vc1n = np.linalg.norm(vc1)
+                            theta0 = np.arctan2(vc1[1],vc1[0])+np.pi
+                        
                 theta1 = -np.arccos((L1**2+vc1n**2-L2**2)/(2*L1*vc1n)) # law of cosines
                 theta2 = -(np.pi-np.arccos((L1**2+L2**2-vc1n**2)/(2*L1*L2))) # law of cosines
                 theta2 = theta2-(self.vp_angle((self.L_vects[3,:]+self.L_vects[2,:]),[1,0,0],[0,1,0]))
@@ -446,22 +482,53 @@ v5 = np.array([1,0,0])
 v6 = np.array([0,1,0])
 v7 = np.array([0,0,1])
 L_vects = np.array([v0, (v1-v0), (v2-v1), (v3-v2), (v4-v3), v5, v6, v7])
-L_vects[1,:] =  L_vects[1,:]*(1+-0.0099)
-L_vects[2,:] =  L_vects[2,:]*(1+0.0019)
-L_vects[3,:] =  L_vects[3,:]*(1+0.0078)
-L_vects[4,:] =  L_vects[4,:]*(1+0.0094)
+# L_vects[1,:] =  L_vects[1,:]*(1+-0.0099)
+# L_vects[2,:] =  L_vects[2,:]*(1+0.0019)
+# L_vects[3,:] =  L_vects[3,:]*(1+0.0078)
+# L_vects[4,:] =  L_vects[4,:]*(1+0.0094)
+#
+L_vects[1,:] =  L_vects[1,:]*(1+7.44E-4)
+L_vects[2,:] =  L_vects[2,:]*(1+8.3554E-4)
+L_vects[3,:] =  L_vects[3,:]*(1+-2.013E-3)
+L_vects[4,:] =  L_vects[4,:]*(1+-1.388E-4)
 ax3=v3-v2
 axis_vects = np.array([[0,0,1],[0,1,0],[0,1,0],ax3,[0,1,0],[0,0,1]]) # make sure v4 is consistent with ax4 rotation offset
+# motor_offsets = (0,0,58,0,32,0)
 motor_offsets = (0,0,58,0,32,0)
-
 # motor_limits = np.array([[-175, 175],[-70, 90],[-135, 70],[-170, 170],[-115, 115],[-3600, 3600]])
 motor_limits = np.array([[-175, 175],[-70, 90],[-90, 70],[-170, 170],[-90, 115],[-3600, 3600]])
 
-tool_offset = [0,0,-15.28000]
+tool_offset = [0,0,-17.08]
+L3_angle_offset = 32
+strategy = 'minimum_movement_weighted'
+
+
+motor_offsets = (0,0,58,0,32,0)
+motor_offsets = (2.175E-3,-6.68E-5,58+8.6418E-4,4.816E-4,32+2.138E-3,3.3387E-3) #best so far
+# motor_offsets = (0.002175, -1.0400668, 57.900864, 0.0004816, 32.002138, 0.0033387)
+
+# motor_offsets = (0,0,58,0,32,0) #from fit
+# motor_limits = np.array([[-175, 175],[-70, 90],[-135, 70],[-170, 170],[-115, 115],[-3600, 3600]])
+motor_limits = np.array([[-175, 175],[-70, 90],[-90, 70],[-170, 170],[-90, 115],[-3600, 3600]])
+
+tool_offset = [0,0,-15.88]
 L3_angle_offset = 32
 strategy = 'minimum_movement_weighted'
 weighting = [6,5,4,3,2,1]
-centre_offset = [0, 0.8, 0]
+# centre_offset = [-1.03428, 0.7079, 0]
+# centre_offset = [1.14126, 0.60311, 0] #from fit
+centre_offset =[1.10126, 0.85311, 0]
+
+# centre_offset =[0.42, 0.58, 0]
+
+
+
+
+
+
+
+
+#0.83928 0.5714
 initial_rotations = np.array([[0,0,0],
                                 [0,0,0],
                                 [0,0,0],
@@ -469,7 +536,7 @@ initial_rotations = np.array([[0,0,0],
                                 [0,0,0],
                                 [0,0,0]])
 constraint = 'eta'
-kin = kinematics(axis_vects,L_vects,motor_limits,motor_offsets,tool_offset,centre_offset,strategy,weighting,constraint)
+kin = kinematics(axis_vects,L_vects,motor_limits,motor_offsets,centre_offset,tool_offset,strategy,weighting,constraint)
 #----------------------------------------------------------------------#
 # 
 class robotArmClass(ScannableMotionBase):
@@ -479,7 +546,8 @@ class robotArmClass(ScannableMotionBase):
             if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
             # self.setInputNames([name])
             self.setInputNames(['rx','ry', 'rz','ralpha','rbeta','rgamma'])
-            self.setOutputFormat(['%4.5f', '%4.5f','%4.5f','%4.5f','%4.5f','%4.5f'])
+            self.setExtraNames(['rm1','rm2','rm3','rm4','rm5','rm6'])
+            self.setOutputFormat(['%4.5f', '%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f', '%4.5f','%4.5f','%4.5f','%4.5f','%4.5f'])
             self.Units=['mixed']
             self.setLevel(5)
             self.arm=arm
@@ -559,7 +627,7 @@ class robotArmClass(ScannableMotionBase):
         raw_motors = self.getPositionRaw() 
         virtual_motors = kin.f_kinematics([float(raw_motors[0]),float(raw_motors[1]),float(raw_motors[2]),float(raw_motors[3]),float(raw_motors[4]),float(raw_motors[5])])
         v_motors = np.concatenate((virtual_motors[0,:],virtual_motors[1,:]),0)
-        return v_motors.tolist()
+        return v_motors.tolist()+raw_motors
     
     def isBusy(self):
         sleep(0.2)
@@ -576,57 +644,26 @@ class robotArmClass(ScannableMotionBase):
         CAClient.put(self.channel+'MOTION:RESUME',1)
         CAClient.put(self.channel+'ROBOT:STATUS:BUSY',0)
 
-class robotArmClassRaw(ScannableMotionBase):
+
+class robotArmClassRaw(robotArmClass):
     '''Device to control the Meca 500 robot arm.'''
-    def __init__(self,name,arm,help=None):
+    def __init__(self,name, help=None):
             self.setName(name)
             if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
-            self.setInputNames([name])
-            self.setOutputFormat(['%4.5f', '%4.5f','%4.5f','%4.5f','%4.5f','%4.5f'])
-            self.Units=['deg']
+            self.setInputNames(['rm1','rm2','rm3','rm4','rm5','rm6'])
+            self.setOutputFormat(['%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f'])
             self.setLevel(5)
-            self.arm=kin.solutions[0]
             self.channel = 'BL16I-MO-ROBOT-01:'
-    def setSpeed(self,speed):
-        '''Speed is set as a percentage. 10 is a good value'''
-        CAClient.put(self.channel+'JOINTVEL:SET',speed)
-    
+
     def asynchronousMoveTo(self,values):
         CAClient.put(self.channel+'ROBOT:STATUS:BUSY',1)
         sleep(0.1)
-        CAClient.put(self.channel+'JOINTS:THETA1:SP',values[0])
-        CAClient.put(self.channel+'JOINTS:THETA2:SP',values[1])
-        CAClient.put(self.channel+'JOINTS:THETA3:SP',values[2])
-        CAClient.put(self.channel+'JOINTS:THETA4:SP',values[3])
-        CAClient.put(self.channel+'JOINTS:THETA5:SP',values[4])
-        CAClient.put(self.channel+'JOINTS:THETA6:SP',values[5])
-        CAClient.put(self.channel+'PREPARE_MOVE_JOINTS_ARRAY.PROC',1)
-    
+        self.pos_raw_motors(values)
+
+
     def getPosition(self):
-        arm = [CAClient.get(self.channel+'JOINTS:THETA1:RBV'),
-               CAClient.get(self.channel+'JOINTS:THETA2:RBV'),
-               CAClient.get(self.channel+'JOINTS:THETA3:RBV'),
-               CAClient.get(self.channel+'JOINTS:THETA4:RBV'),
-               CAClient.get(self.channel+'JOINTS:THETA5:RBV'),
-               CAClient.get(self.channel+'JOINTS:THETA6:RBV')]
-
-        return np.array(arm)
-    
-    def isBusy(self):
-        sleep(0.2)
-        loopcheck = 0
-        while CAClient.get(self.channel+'ROBOT:STATUS:EOM')=='0.0' and CAClient.get(self.channel+'ROBOT:STATUS:BUSY')=='BUSY' and loopcheck < 10:
-            loopcheck+=1
-            sleep(0.1)
-        if CAClient.get(self.channel+'ROBOT:STATUS:EOM')=='0.0':
-            CAClient.put(self.channel+'ROBOT:STATUS:BUSY',0)
-        return CAClient.get(self.channel+'ROBOT:STATUS:BUSY')=='BUSY'
-
-    def stop(self):
-        CAClient.put(self.channel+'MOTION:ABORT',1)
-        CAClient.put(self.channel+'MOTION:RESUME',1)
-        CAClient.put(self.channel+'ROBOT:STATUS:BUSY',0)
-
+        raw_motors = self.getPositionRaw()
+        return list(raw_motors)
 
 
 class rMuEtaChiPhiClass(robotArmClass):
@@ -653,10 +690,36 @@ class rMuEtaChiPhiClass(robotArmClass):
         raw_motors = self.getPositionRaw()
         virtual_motors = kin.f_kinematics([float(raw_motors[0]),float(raw_motors[1]),float(raw_motors[2]),float(raw_motors[3]),float(raw_motors[4]),float(raw_motors[5])])
         v_motors = np.concatenate((virtual_motors[0,:],virtual_motors[1,:]),0)
-        diff_motors = kin.get_mu_eta_chi_phi(v_motors[3],v_motors[4],v_motors[5])
+        diff_motors = np.array(kin.get_mu_eta_chi_phi(v_motors[3],v_motors[4],v_motors[5]))
         return list(diff_motors)+raw_motors
+    
+    
+class rXYZMuEtaChiPhiClass(robotArmClass):
+    '''Device to control the Meca 500 robot arm.'''
+    def __init__(self,name, help=None):
+            self.setName(name)
+            if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
+            self.setInputNames(['rx','ry','rz','rmu','reta','rchi','rphi'])
+            self.setExtraNames(['rm1','rm2','rm3','rm4','rm5','rm6'])
+            self.setOutputFormat(['%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f','%4.5f'])
+            self.setLevel(5)
+            self.channel = 'BL16I-MO-ROBOT-01:'
 
+    def asynchronousMoveTo(self,values):
+        raw_motors = self.getPositionRaw()
+        virtual_motors = kin.f_kinematics([float(raw_motors[0]),float(raw_motors[1]),float(raw_motors[2]),float(raw_motors[3]),float(raw_motors[4]),float(raw_motors[5])])
+        v_motors = np.concatenate((virtual_motors[0,:],virtual_motors[1,:]),0)
+        current_mu_eta_chi_phi = kin.get_mu_eta_chi_phi(v_motors[3],v_motors[4],v_motors[5])
+        r_alpha, r_beta, r_gamma = kin.set_mu_eta_chi_phi(values[3], values[4],values[5], values[6])
+        motor_values = kin.setEulerTarget(values[0], values[1],values[2],r_alpha,r_beta,r_gamma)
+        self.pos_raw_motors(motor_values)
 
+    def getPosition(self):
+        raw_motors = self.getPositionRaw()
+        virtual_motors = kin.f_kinematics([float(raw_motors[0]),float(raw_motors[1]),float(raw_motors[2]),float(raw_motors[3]),float(raw_motors[4]),float(raw_motors[5])])
+        v_motors = np.concatenate((virtual_motors[0,:],virtual_motors[1,:]),0)
+        diff_motors = kin.get_mu_eta_chi_phi(v_motors[3],v_motors[4],v_motors[5])
+        return list(virtual_motors[0])+list(diff_motors)+raw_motors
 
 class rMuClass(ScannableMotionBase):
     '''Device to control the Meca 500 robot arm.'''
@@ -1537,13 +1600,14 @@ rm3 = rMClass('rm3',axis=3,help='robot Arm m3')
 rm4 = rMClass('rm4',axis=4,help='robot Arm m4')
 rm5 = rMClass('rm5',axis=5,help='robot Arm m5')
 rm6 = rMClass('rm6',axis=6,help='robot Arm m6')
-rbraw = robotArmClassRaw('rbraw','_arm',help='Robot Arm Control')
+rbraw = robotArmClassRaw('rbraw',help='Robot Arm Control')
 
 #----------------------------------------------------#
 #               Raw Motors
 #----------------------------------------------------#
 rb=robotArmClass('rb','_arm',help='Robot Arm Control')
 rmu_eta_chi_phi = rMuEtaChiPhiClass('rmu_eta_chi_phi',help='Grouped mu eta chi phi device')
+rxyz_mu_eta_chi_phi = rXYZMuEtaChiPhiClass('rxyz_mu_eta_chi_phi',help='Grouped mu eta chi phi device')
 #rmu_eta_chi_phi2 = rMuEtaChiPhiClass2('rmu_eta_chi_phi',help='Grouped mu eta chi phi device')
 
 rmu = rMuClass('rmu',help='robot Arm Mu')
