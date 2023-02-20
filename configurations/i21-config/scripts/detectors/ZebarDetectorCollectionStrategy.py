@@ -17,9 +17,9 @@ class ZebraNXDetectorCaptureDataAppender(NXDetectorDataAppender):
         self.data=data
         self.units=units
         
-    def appendTo(self, data, detectorName) :
+    def appendTo(self, data, detector_name) :
         for key, value in dict.iteritems():
-            data.addData(key, detectorName, NexusGroupData(value), self.units[key], 1)
+            data.addData(detector_name, key, NexusGroupData(value), self.units[key], 1)
 
 
 class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
