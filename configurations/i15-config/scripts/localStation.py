@@ -543,17 +543,15 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	try:
-		from localStationConfiguration import enableAttoPiezos
-		if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
-			msg = "Not installing atto devices, as the IOC is down"
-			print "* "+msg+" *"
-			localStation_exceptions.append("    "+msg)
-		elif enableAttoPiezos:
-			print "Installing atto devices from epics BL15I-EA-ATTO..."
-			
-			from future.anc150axis import createAnc150Axis
-			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
+	from localStationConfiguration import enableAttoPiezos
+	if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
+		msg = "Not installing atto devices, as the IOC is down"
+		print "* "+msg+" *"
+		localStation_exceptions.append("    "+msg)
+	elif enableAttoPiezos:
+		print "Installing atto devices from epics BL15I-EA-ATTO..."
+		from future.anc150axis import createAnc150Axis
+		try:
 			# BL16B > equipment > Attocube ANC150								# B16 GDA name
 			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25) # attox3
 			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25) # attoz1
@@ -561,42 +559,52 @@ try:
 			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25) # attoz2
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25) # attorot2
-			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
-			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
-			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
-			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
-
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
 			atto3.setFrequency(900)
 			atto4.setFrequency(900)
 			atto5.setFrequency(900)
 			atto6.setFrequency(900)
+		except:
+			localStation_exception(sys.exc_info(), "creating atto1-6  devices")
+		try:
+			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
+			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
+			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
+			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
 			# Do not override the current EPICS frequency for atto7 to atto9
 			# See https://jira.diamond.ac.uk/browse/I15-587
-
+		except:
+			localStation_exception(sys.exc_info(), "creating atto7-9 devices")
+		try:
 			from future.ecc100axis import createEcc100Axis
-			# BL15I > Experimental Hutch > Sample Environments > B16 ECC100 Attocube
+			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
 			# BL16B > equipment > Attocube ECC100
 			attol1 = createEcc100Axis("attol1", "BL15I-EA-ECC-03:ACT0:")
 			attol2 = createEcc100Axis("attol2", "BL15I-EA-ECC-03:ACT1:")
 			attol3 = createEcc100Axis("attol3", "BL15I-EA-ECC-03:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attol1-3 devices")
+		try:
 			attoltilt1 = createEcc100Axis("attoltilt1", "BL15I-EA-ECC-02:ACT0:")
 			attoutilt1 = createEcc100Axis("attoutilt1", "BL15I-EA-ECC-02:ACT1:")
 			attorot1   = createEcc100Axis("attorot1",   "BL15I-EA-ECC-02:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attoltilt1, attoutilt1 & attorot1 devices")
+		try:
 			attoltilt2 = createEcc100Axis("attoltilt2", "BL15I-EA-ECC-01:ACT0:")
 			attoutilt2 = createEcc100Axis("attoutilt2", "BL15I-EA-ECC-01:ACT1:")
 			attorot2   = createEcc100Axis("attorot2",   "BL15I-EA-ECC-01:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attoltilt2, attoutilt2 & attorot2 devices")
+		try:
 			attol4 = createEcc100Axis("attol4", "BL15I-EA-ECC-04:ACT0:")
 			attol5 = createEcc100Axis("attol5", "BL15I-EA-ECC-04:ACT1:")
 			attov1 = createEcc100Axis("attov1", "BL15I-EA-ECC-04:ACT2:")
-		else:
-			print "* Not installing atto devices *"
-	except:
-		localStation_exception(sys.exc_info(), "creating atto devices")
+		except:
+			localStation_exception(sys.exc_info(), "creating attol4, attol5 & attov1 devices")
+	else:
+		print "* Not installing atto devices *"
 
 	try:
 		if Finder.find("ippwsme07m") != None:
