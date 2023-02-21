@@ -629,6 +629,23 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating ipp3 devices")
 
+	try:
+		if Finder.find("dcam9_tiff") != None:
+			global dcam9_tiff
+			dcam9 = ProcessingDetectorWrapper(
+				'dcam9',
+				dcam9_tiff,  # @UndefinedVariable
+				[],
+				panel_name_rcp='dcam9',
+				returnPathAsImageNumberOnly=True,
+				fileLoadTimout=60)
+			dcam9peak2d = DetectorDataProcessorWithRoi('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
+			dcam9max2d = DetectorDataProcessorWithRoi('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
+			dcam9intensity2d = DetectorDataProcessorWithRoi('dcam9intensity2d', dcam9, [PixelIntensity()])
+			dcam9roi = DetectorDataProcessorWithRoi('dcam9roi', dcam9, [SumMaxPositionAndValue()])
+	except:
+		localStation_exception(sys.exc_info(), "creating dcam9 devices")
+
 	from localStationConfiguration import enableWirescanner
 	if enableWirescanner:
 		print "Installing example wirescanner..."
