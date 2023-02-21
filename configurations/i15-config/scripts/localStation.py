@@ -77,7 +77,7 @@ global run, etl, prop, add_default, vararg_alias, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9
 
-if Finder.find("cryox"):
+if Finder.find("cryox") != None:
 	global cryox, cryoy, cryoz, cryorot
 
 #	det2z,
@@ -259,9 +259,9 @@ try:
 	from localStationConfiguration import enableCryoMotors
 	if enableCryoMotors:
 		print "Checking cryo motors are available"
-		if not Finder.find("cryox"):
+		if Finder.find("cryox") == None:
 			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or restart the GDA servers with the cryo transient device enabled")
-	elif Finder.find("cryox"):
+	elif Finder.find("cryox") != None:
 			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or restart the GDA servers without the cryo transient device")
 
 	try:
@@ -795,7 +795,7 @@ try:
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				)
-			if enableCryoMotors and Finder.find("cryox"):
+			if enableCryoMotors and Finder.find("cryox") != None:
 				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
