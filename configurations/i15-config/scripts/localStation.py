@@ -40,6 +40,7 @@ from gda.epics import CAClient
 
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
@@ -598,15 +599,15 @@ try:
 		localStation_exception(sys.exc_info(), "creating atto devices")
 
 	try:
-		from localStationConfiguration import enableIpp3
-		if enableIpp3 and Finder.find("ippwsme07m"):
-			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
-			from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
-
+		if Finder.find("ippwsme07m") != None:
+			from gdascripts.visit import VisitSetter, IPPAdapter #, ProcessingDetectorWrapperAdapter
 			ipp3rootPathForWindows = 'Z:/data'
 			ipp3rootPathForLinux = '/dls/i15/data'
 			ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace=ipp3rootPathForWindows,
 				replacement=ipp3rootPathForLinux, panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True) #@UndefinedVariable
+			# Prevent use of 'pos ipp3 1234' since ippwsme07m is a SnapperDetector and requires special handling.
+			ipp3.disable_operation_outside_scans=True
+			# Use 'pos ippwsme07m 1234' or 'pos ipp3._det 1234' instead
 			ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
 			ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
 			ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
@@ -619,13 +620,6 @@ try:
 			# Is ^ even needed as both visit setters are targetting the same detector, and only one is needed.
 			# Force processing this now, otherwise changes won't be picked up by a reset_namespace
 			visit_setter.setDetectorDirectories()
-		elif enableIpp3:
-			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=False or restart the GDA servers with the B16-IPP transient device enabled")
-		elif Finder.find("ippwsme07m"):
-			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=True or restart the GDA servers without the B16-IPP transient device")
-		else:
-			print "* Not installing ipp3 devices *"
-			localStation_exceptions.append("    not installing ipp3 devices") # REMOVE ME
 	except:
 		localStation_exception(sys.exc_info(), "creating ipp3 devices")
 
