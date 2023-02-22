@@ -1,0 +1,35 @@
+Devices			AbstractNexusMetadataDevice
+
+org.eclipse.scanning.device.BeamNexusDevice				customNodes
+org.eclipse.scanning.device.InsertionDeviceNexusDevice	customNodes
+org.eclipse.scanning.device.MonochromatorNexusDevice	customNodes
+org.eclipse.scanning.device.NexusMetadataDevice<N>		childNodes
+org.eclipse.scanning.device.SourceNexusDevice			customNodes
+org.eclipse.scanning.device.UserNexusDevice
+
+Appenders
+				AbstractNexusContextAppender
+org.eclipse.dawnsci.nexus.appender.CompoundNexusContextAppender				(constructor list! in i18 only)
+org.eclipse.dawnsci.nexus.appender.NexusNodeCopyAppender<N>			modePaths
+org.eclipse.dawnsci.nexus.template.device.NexusTemplateAppender<N>			(unused?)
+org.eclipse.dawnsci.nexus.appender.SimpleNexusMetadataAppender<N>			(unused?)
+
+				AbstractTransformationsAppender
+org.eclipse.scanning.device.DetectorTransformationsAppender					(unused?)
+org.eclipse.scanning.device.PositionerTransformationsAppender				(unused?)
+
+				NexusObjectAppender
+org.eclipse.scanning.device.NexusMetadataAppender		childNodes	For adding data to detectors
+
+Fields
+
+				AbstractMetadataNode
+org.eclipse.scanning.device.GroupMetadataNode			nexusClass	
+? org.eclipse.scanning.device.LinkedField				linkPath			(unused?)
+
+				AbstractMetadataField
+uk.ac.gda.epics.nexus.device.ProcessingVariableField	pvName #	
+org.eclipse.scanning.device.ScalarField					value		Works with numbers and strings
+org.eclipse.scanning.device.ScannableComponentField		scannableName, componentName
+org.eclipse.scanning.device.ScannableField				scannableName
+org.eclipse.scanning.device.SpringExpressionField		expression

@@ -164,7 +164,7 @@ from javashell import * #@UnusedWildImport
 localStation_print("Importing various gda classes")
 from gda.analysis.io import  PilatusTiffLoader
 from gda.device.epicsdevice import ReturnType #@UnusedImport
-from gda.device.scannable import ScannableBase #@UnusedImport
+from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableMotionBase as PseudoDevice
 from gda.epics import CAClient #@UnusedImport
 from gda.jython.commands.GeneralCommands import alias, run #@UnusedImport
@@ -1661,6 +1661,38 @@ if installation.isLive():
 
 if USE_NEXUS:
 	try:
+		class TextsScannable (ScannableBase):
+			def __init__(self, name, contents):
+				self.name = name
+				self.contents = contents
+		
+			def getPosition(self):
+				return self.contents
+		
+			def rawAsynchronousMoveTo(self, contents):
+				self.contents = contents
+		
+			def isBusy(self):
+				return False
+		
+		_title = TextsScannable('title', 'Scan of sample with GDA')
+		
+		def title(title = None):
+			if not title == None:
+				_title.rawAsynchronousMoveTo(title)
+			return _title.getPosition()
+		
+		alias(title)
+		
+		_sample= TextsScannable('sample', 'Default Sample')
+		
+		def sample(sampleName = None):
+			if not sampleName == None:
+				_title.rawAsynchronousMoveTo(title)
+			return _title.getPosition()
+		
+		alias(sample)
+
 		run("datawriting/i16_nexus")
 	except:
 		localStation_exception("running datawriting/i16_nexus script")

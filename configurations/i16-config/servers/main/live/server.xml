@@ -61,14 +61,9 @@
 
 	<!-- Detectors -->
 
-	<!--
 	<import resource="detector/vortex.xml" />
-	 -->
 	<import resource="detector/pilatus100k.xml" />
 	<import resource="detector/pilatus3_100k.xml" />
-	<!--
-	<import resource="detector/fastpil1.xml" />
-	 -->
 	<import resource="detector/pilatus2M.xml" />
 	<import resource="detector/andor1.xml" />
 	<import resource="detector/bpm1.xml" />
@@ -77,11 +72,8 @@
 	<import resource="detector/camd3.xml" />
 	<import resource="detector/camd4.xml" />
 	<import resource="detector/camd5.xml" />
-	<import resource=         "detector/camlab84.xml" />
-	<!-- 
-	<import resource="../dummy/detector/camlab84.xml" />
+	<import resource="detector/camlab84.xml" />
 	<import resource="detector/medipix.xml" />
-	 -->
 	<import resource="detector/merlin.xml" />
 	<import resource="detector/c10.xml" />
 	<import resource="detector/xeye.xml" />

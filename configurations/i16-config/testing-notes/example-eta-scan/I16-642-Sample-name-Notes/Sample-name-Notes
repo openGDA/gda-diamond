@@ -1,0 +1,30 @@
+================================================================================
+The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
+`pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.
+
+Scan command: scancn eta 0.02 31 pil 1 roi2
+
+Scan		Configuration	Dummy	nxlsa	Notes
+			NDW	DWE	LF	T	/Live			
+----------- --- --- --	-	-----	-----	------------------------------------
+2023010024	NDW	DWE	LF		Dummy	Failed	NDW Baseline, full path in nxs but with leading / stripped off
+2023010138	NSD				Dummy	Good	NSD Baseline
+2023010141	NSD				Dummy	Good	Sample and Title added
+2023010157	NDW	DWE	LF		Dummy	Failed	NDW Regression test passed
+----------- --- --- --	-	-----	-----	------------------------------------
+	NDW	NexusDataWriter				NSD	NexusScanDataWriter
+	DWE	DataWriterExtender			T	Template
+	LF	Link Files					Trunc	Truncated
+
+	See bottom of ./Notes file for: Preparing a scan for archiving here
+
+    Note that the failed nxlsa runs appear to be related to similated area
+    detector handling of relative/absolutioe paths, preventing nxlsa from
+    finding the pilatus data file.
+
+================================================================================
+
+--------------------------------------------------------------------------------
+
+================================================================================
+

@@ -98,6 +98,7 @@
 		<!-- 
 		<property name="enabled" value="true" />
 		 -->
+		<property name="lazyOpen" value="true" />
 	</bean>
 
 	<bean id="pilatus3_nxfilewriter_for_snaps"

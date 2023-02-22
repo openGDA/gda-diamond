@@ -39,8 +39,8 @@
 		 -->
 	</bean>
 
-	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
-		<property name="name" value="beamNexusDevice" />
+	<bean id="beam" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam" />
 		<property name="incidentEnergyScannableName" value="en" />
 		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
 		<property name="incidentBeamDivergenceScannableName" value="dummy1" />
@@ -48,10 +48,38 @@
 		<property name="beamExtentScannableName" value="dummy1" />
 		<property name="fluxScannableName" value="dummy1" />
 		 -->
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="incident_wavelength"/>
+					<property name="expression" value="1e9 * 6.62606957e-34 * 299792458 / (@en.getPosition() * 1000 * 1.60217657e-19)"/>
+					<!--                  wavelength = 1e9 * PLANCK *         LIGHTSPEED / (energy           * 1000 * EVOLT_TO_JOULE) -->
+					<property name="units" value="nm"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
 		<property name="name" value="userNexusDevice" />
+	</bean>
+
+	<bean id="metadata" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="metadata" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="title_old"/>
+					<property name="scannableName" value="_title"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="sample_name"/>
+					<property name="scannableName" value="_sample"/>
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
@@ -61,11 +89,12 @@
 		<property name="bendingMagnetName" value="" />
 		 -->
 		<property name="monochromatorName" value="monochromatorNexusDevice" />
-		<property name="beamName" value="beamNexusDevice" />
+		<property name="beamName" value="beam" />
 		<property name="userDeviceName" value="userNexusDevice" />
 		<property name="additionalDeviceNames">
 			<set>
 				<value>before_scan</value>
+				<value>metadata</value>
 			</set>
 		</property>
 	</bean>
@@ -97,15 +126,6 @@
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/Frontend:NXcollection/frontendx</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="en">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>sample:NXsample/beam:NXbeam/incident_energy</value>
 							</list>
 						</property>
 					</bean>
