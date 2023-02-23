@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		define D cameras and detectors Live Stream views
+	</description>
+
+	<!-- D1B Cam 1 -->
+	<bean id="d1b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d1b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d1b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D1B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D1B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-01:DCAM1:ARR" />
+		<property name="roiProvider" ref="d1b_cam1_roi" />
+	</bean>
+
+	<!-- D1B Cam 2 -->
+	<bean id="d1b_cam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d1b2Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d1b_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D1B Cam 2" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D1B.DCAM0.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-01:DCAM0:ARR" />
+		<property name="roiProvider" ref="d1b_cam2_roi" />
+	</bean>
+
+	<!-- D2B Cam 1 -->
+	<bean id="d2b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d2b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d2b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D2B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D2B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-02:DCAM1:ARR" />
+		<property name="roiProvider" ref="d2b_cam1_roi" />
+	</bean>
+
+	<!-- D3B Cam 1 -->
+	<bean id="d3b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d3b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
+	<bean id="sm52b_yp" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="sm52b_zp" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+	<bean id="d3b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D3B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8082/D3B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-03:DCAM1:ARR" />
+		<property name="roiProvider" ref="d3b_cam1_roi" />
+		<property name="rgb" value="true" />
+		<property name="calibratedAxesProvider"> 
+			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+				<constructor-arg name="xAxisScannable" ref="sm52b_yp" />     
+		        <constructor-arg name="xAxisPixelScaling" value="-0.052" />
+		        <constructor-arg name="xAxisOffset" value="16.611" />      
+		        <constructor-arg name="yAxisScannable" ref="sm52b_zp" />     
+		        <constructor-arg name="yAxisPixelScaling" value="-0.054" />
+		        <constructor-arg name="yAxisOffset" value="4.71" />
+			</bean>      
+		</property>
+	</bean>
+
+	<!-- D4B Cam 1 -->
+	<bean id="d4b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d4b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d4b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D4B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D4B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-04:DCAM1:ARR" />
+		<property name="roiProvider" ref="d4b_cam1_roi" />
+	</bean>
+
+	<!-- D5B Cam 1 -->
+	<bean id="d5b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d5b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d5b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D5B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D5B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-05:DCAM1:ARR" />
+		<property name="roiProvider" ref="d5b_cam1_roi" />
+	</bean>
+
+	<!-- D5B Cam 2 -->
+	<bean id="d5b_cam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d5b2Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d5b_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D5B Cam 2" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D5B.DCAM2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-05:DCAM2:ARR" />
+		<property name="roiProvider" ref="d5b_cam2_roi" />
+	</bean>
+
+	<!-- D6B Cam 1 -->
+	<bean id="d6b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d6b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d6b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D6B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D6B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-06:DCAM1:ARR" />
+		<property name="roiProvider" ref="d6b_cam1_roi" />
+	</bean>
+
+	<!-- D8B Cam 1 -->
+	<bean id="d8b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d8b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d8b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D8B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8081/D8B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-08:DCAM1:ARR" />
+		<property name="roiProvider" ref="d8b_cam1_roi" />
+	</bean>
+
+	<!-- D9B Cam 1 -->
+	<bean id="d9b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d9b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d9b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D9B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8082/D9B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-09:DCAM1:ARR" />
+		<property name="roiProvider" ref="d9b_cam1_roi" />
+	</bean>
+
+	<!-- D10B Cam 1 -->
+	<bean id="d10b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d10b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d10b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D10B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8082/D10B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-10:DCAM1:ARR" />
+		<property name="roiProvider" ref="d10b_cam1_roi" />
+	</bean>
+
+	<!-- D21B Cam 1 -->
+	<bean id="d21b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}d21b1Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="d21b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D21B Cam 1" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/D21B.DCAM1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-DI-PHDGN-10:DCAM1:ARR" />
+		<property name="roiProvider" ref="d21b_cam1_roi" />
+	</bean>
+
+	<!-- D98B Cam 1 -->
+	<bean id="d98b_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="d98b_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D98B Cam 1" />
+  		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8083/D98B.DCAM1.mjpg.mjpg" />
+  		<property name="arrayPv" value="BL07B-DI-PHDGN-98:DCAM1:ARR" />
+		<property name="rgb" value="true" />
+		<property name="roiProvider" ref="d98b_cam1_roi" />
+	</bean>
+</beans>
+
+	

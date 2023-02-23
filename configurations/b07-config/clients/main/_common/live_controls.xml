@@ -62,6 +62,20 @@
 		<property name="increment" value="0.2" />
 	</bean>	
 	
+	<bean id="ca16b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca16b sensitivity " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca16b_sensitivity" />
+		<property name="showStop" value="false" />
+	</bean>		
+	
+	<bean id="ca16b_sensitivity_units_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca16b sensitivity units" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca16b_sensitivity_units" />
+		<property name="showStop" value="false" />
+	</bean>	
+	
 	<bean id="ca35b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="ca35b sensitivity " />
 		<property name="group" value="..." />
@@ -131,8 +145,40 @@
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0.1" />
 	</bean>
-
-	<bean id="sm21b_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+ 	
+ 	<bean id="sm52b_xp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM52b_XP " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm52b_xp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+	<bean id="sm52b_yp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM52b_YP " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm52b_yp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+ 	<bean id="sm52b_zp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM52b_ZP " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm52b_zp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+ 	<bean id="sm52b_roty_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM52b_RotY " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm52b_roty" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+ 	<bean id="sm21b_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="SM21b_Rot " />
 		<property name="group" value=".." />
 		<property name="scannableName" value="sm21b_roty" />
@@ -140,7 +186,7 @@
 		<property name="increment" value="5" />
 	</bean>
 
-	<bean id="img22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+ 	<bean id="img22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="IMG 22 " />
 		<property name="group" value="...." />
 		<property name="scannableName" value="img22b" />
@@ -162,7 +208,7 @@
 		<property name="readOnly" value="true" />
 	</bean>
 
-	<bean id="cap21_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+ 	<bean id="cap21_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="CAP 21 " />
 		<property name="group" value="...." />
 		<property name="scannableName" value="cap21b" />
@@ -265,7 +311,50 @@
 		</property>
 	</bean>
 	
-	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+ 	<bean id="m4b_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M4b_PITCH " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="m4b_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+ 	<bean id="m5b_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M5b_PITCH " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="m5b_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
+	<bean id="es1_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="s4b_ygapsize_control" />
+			 	<ref bean="pss_shutter1_control" />
+				<ref bean="pss_shutter2_control" /> 
+				<ref bean="fast_shutter_control" />
+				<ref bean="photon_energy_control" />
+				<ref bean="cff_control" />
+				<ref bean="grating_control" />
+				<ref bean="m4b_pitch_control" />
+				<ref bean="m5b_pitch_control" />
+				<ref bean="sm52b_xp_control" />
+				<ref bean="sm52b_yp_control" />
+				<ref bean="sm52b_zp_control" />
+				<ref bean="sm52b_roty_control" />
+				<ref bean="ca16b_sensitivity_control" />
+				<ref bean="ca16b_sensitivity_units_control" />
+	 			<ref bean="pss_shutter1_status" />
+		 	 	<ref bean="pss_shutter2_status" />
+				<ref bean="fast_shutter_status" />
+				<ref bean="led_status" />
+				<ref bean="led_control" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="es2_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="s4b_ygapsize_control" />
@@ -298,5 +387,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>

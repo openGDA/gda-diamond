@@ -7,5 +7,9 @@
 	<!-- Cameras -->
 	<import resource="es2b_cam1.xml"/>
 	<import resource="es2b_cam2.xml"/>
+	<import resource="es1b_cam1.xml"/>
+	<import resource="es1b_cam2.xml"/>
+	<import resource="es1b_cam3.xml"/>
+	<import resource="es1b_cam4.xml"/>
 
 </beans>
