@@ -14,5 +14,13 @@
 			</list>
 		</constructor-arg>
 	</bean>
+	
+	<bean id="xspress3DetectorNames" class="java.util.ArrayList">
+		<constructor-arg>
+			<list value-type="java.lang.String">
+				<value>Xspress3A</value>
+			</list>
+		</constructor-arg>
+	</bean>
 
 </beans>
