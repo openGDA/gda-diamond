@@ -8,14 +8,14 @@
 	<bean id="eiger_controller_base" class="uk.ac.gda.devices.odin.control.OdinDetectorControllerEpics">
 		<property name="basePv" value="BL14I-EA-EIGER-01:" />
 	</bean>
-
-	<bean id="eiger_controller" class="uk.ac.gda.devices.odin.control.OdinDetectorEiger">
+	
+	<bean id="eiger_threshold_controller" class="uk.ac.gda.devices.odin.control.OdinDetectorEigerThresholdScan">
 		<constructor-arg ref="eiger_controller_base" />
 		<property name="basePv" value="BL14I-EA-EIGER-01:"/>
 	</bean>
 
 	<bean id="eiger_camera_control"	class="uk.ac.gda.devices.odin.EigerOdinCameraControl">
-		<property name="controller" ref="eiger_controller" />
+		<property name="controller" ref="eiger_threshold_controller" />
 	</bean>
 
 
