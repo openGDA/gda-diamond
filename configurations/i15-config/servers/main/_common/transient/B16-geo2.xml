@@ -3,7 +3,7 @@
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="B16-geo2">
+	profile="b16-geo2">
 
 	<bean id="geo2mot1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="geo2mot1Motor" />

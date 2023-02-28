@@ -40,6 +40,7 @@ from gda.epics import CAClient
 
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
@@ -76,7 +77,7 @@ global run, etl, prop, add_default, vararg_alias, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9
 
-if Finder.find("cryox"):
+if Finder.find("cryox") != None:
 	global cryox, cryoy, cryoz, cryorot
 
 #	det2z,
@@ -258,9 +259,9 @@ try:
 	from localStationConfiguration import enableCryoMotors
 	if enableCryoMotors:
 		print "Checking cryo motors are available"
-		if not Finder.find("cryox"):
+		if Finder.find("cryox") == None:
 			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or restart the GDA servers with the cryo transient device enabled")
-	elif Finder.find("cryox"):
+	elif Finder.find("cryox") != None:
 			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or restart the GDA servers without the cryo transient device")
 
 	try:
@@ -542,17 +543,15 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	try:
-		from localStationConfiguration import enableAttoPiezos
-		if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
-			msg = "Not installing atto devices, as the IOC is down"
-			print "* "+msg+" *"
-			localStation_exceptions.append("    "+msg)
-		elif enableAttoPiezos:
-			print "Installing atto devices from epics BL15I-EA-ATTO..."
-			
-			from future.anc150axis import createAnc150Axis
-			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
+	from localStationConfiguration import enableAttoPiezos
+	if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
+		msg = "Not installing atto devices, as the IOC is down"
+		print "* "+msg+" *"
+		localStation_exceptions.append("    "+msg)
+	elif enableAttoPiezos:
+		print "Installing atto devices from epics BL15I-EA-ATTO..."
+		from future.anc150axis import createAnc150Axis
+		try:
 			# BL16B > equipment > Attocube ANC150								# B16 GDA name
 			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25) # attox3
 			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25) # attoz1
@@ -560,53 +559,63 @@ try:
 			atto4 = createAnc150Axis("atto4", "BL15I-EA-ATTO-04:PIEZO1:", 0.25)
 			atto5 = createAnc150Axis("atto5", "BL15I-EA-ATTO-04:PIEZO2:", 0.25) # attoz2
 			atto6 = createAnc150Axis("atto6", "BL15I-EA-ATTO-04:PIEZO3:", 0.25) # attorot2
-			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
-			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
-			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
-			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
-
 			atto1.setFrequency(900)
 			atto2.setFrequency(900)
 			atto3.setFrequency(900)
 			atto4.setFrequency(900)
 			atto5.setFrequency(900)
 			atto6.setFrequency(900)
+		except:
+			localStation_exception(sys.exc_info(), "creating atto1-6  devices")
+		try:
+			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
+			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
+			atto8 = createAnc150Axis("atto8", "BL15I-EA-ATTO-05:PIEZO2:", 0.25, True, False)
+			atto9 = createAnc150Axis("atto9", "BL15I-EA-ATTO-05:PIEZO3:", 0.25, True, False)
 			# Do not override the current EPICS frequency for atto7 to atto9
 			# See https://jira.diamond.ac.uk/browse/I15-587
-
+		except:
+			localStation_exception(sys.exc_info(), "creating atto7-9 devices")
+		try:
 			from future.ecc100axis import createEcc100Axis
-			# BL15I > Experimental Hutch > Sample Environments > B16 ECC100 Attocube
+			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
 			# BL16B > equipment > Attocube ECC100
 			attol1 = createEcc100Axis("attol1", "BL15I-EA-ECC-03:ACT0:")
 			attol2 = createEcc100Axis("attol2", "BL15I-EA-ECC-03:ACT1:")
 			attol3 = createEcc100Axis("attol3", "BL15I-EA-ECC-03:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attol1-3 devices")
+		try:
 			attoltilt1 = createEcc100Axis("attoltilt1", "BL15I-EA-ECC-02:ACT0:")
 			attoutilt1 = createEcc100Axis("attoutilt1", "BL15I-EA-ECC-02:ACT1:")
 			attorot1   = createEcc100Axis("attorot1",   "BL15I-EA-ECC-02:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attoltilt1, attoutilt1 & attorot1 devices")
+		try:
 			attoltilt2 = createEcc100Axis("attoltilt2", "BL15I-EA-ECC-01:ACT0:")
 			attoutilt2 = createEcc100Axis("attoutilt2", "BL15I-EA-ECC-01:ACT1:")
 			attorot2   = createEcc100Axis("attorot2",   "BL15I-EA-ECC-01:ACT2:")
-
+		except:
+			localStation_exception(sys.exc_info(), "creating attoltilt2, attoutilt2 & attorot2 devices")
+		try:
 			attol4 = createEcc100Axis("attol4", "BL15I-EA-ECC-04:ACT0:")
 			attol5 = createEcc100Axis("attol5", "BL15I-EA-ECC-04:ACT1:")
 			attov1 = createEcc100Axis("attov1", "BL15I-EA-ECC-04:ACT2:")
-		else:
-			print "* Not installing atto devices *"
-	except:
-		localStation_exception(sys.exc_info(), "creating atto devices")
+		except:
+			localStation_exception(sys.exc_info(), "creating attol4, attol5 & attov1 devices")
+	else:
+		print "* Not installing atto devices *"
 
 	try:
-		from localStationConfiguration import enableIpp3
-		if enableIpp3 and Finder.find("ippwsme07m"):
-			from gdascripts.visit import VisitSetter, IPPAdapter, ProcessingDetectorWrapperAdapter
-			from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
-
+		if Finder.find("ippwsme07m") != None:
+			from gdascripts.visit import VisitSetter, IPPAdapter #, ProcessingDetectorWrapperAdapter
 			ipp3rootPathForWindows = 'Z:/data'
 			ipp3rootPathForLinux = '/dls/i15/data'
 			ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace=ipp3rootPathForWindows,
 				replacement=ipp3rootPathForLinux, panel_name_rcp='ipp3', returnPathAsImageNumberOnly=True) #@UndefinedVariable
+			# Prevent use of 'pos ipp3 1234' since ippwsme07m is a SnapperDetector and requires special handling.
+			ipp3.disable_operation_outside_scans=True
+			# Use 'pos ippwsme07m 1234' or 'pos ipp3._det 1234' instead
 			ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
 			ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
 			ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
@@ -619,15 +628,25 @@ try:
 			# Is ^ even needed as both visit setters are targetting the same detector, and only one is needed.
 			# Force processing this now, otherwise changes won't be picked up by a reset_namespace
 			visit_setter.setDetectorDirectories()
-		elif enableIpp3:
-			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=False or restart the GDA servers with the B16-IPP transient device enabled")
-		elif Finder.find("ippwsme07m"):
-			localStation_exception(sys.exc_info(), "checking IPP. Please set enableIpp3=True or restart the GDA servers without the B16-IPP transient device")
-		else:
-			print "* Not installing ipp3 devices *"
-			localStation_exceptions.append("    not installing ipp3 devices") # REMOVE ME
 	except:
 		localStation_exception(sys.exc_info(), "creating ipp3 devices")
+
+	try:
+		if Finder.find("dcam9_tiff") != None:
+			global dcam9_tiff
+			dcam9 = ProcessingDetectorWrapper(
+				'dcam9',
+				dcam9_tiff,  # @UndefinedVariable
+				[],
+				panel_name_rcp='dcam9',
+				returnPathAsImageNumberOnly=True,
+				fileLoadTimout=60)
+			dcam9peak2d = DetectorDataProcessorWithRoi('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
+			dcam9max2d = DetectorDataProcessorWithRoi('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
+			dcam9intensity2d = DetectorDataProcessorWithRoi('dcam9intensity2d', dcam9, [PixelIntensity()])
+			dcam9roi = DetectorDataProcessorWithRoi('dcam9roi', dcam9, [SumMaxPositionAndValue()])
+	except:
+		localStation_exception(sys.exc_info(), "creating dcam9 devices")
 
 	from localStationConfiguration import enableWirescanner
 	if enableWirescanner:
@@ -784,7 +803,7 @@ try:
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				)
-			if enableCryoMotors and Finder.find("cryox"):
+			if enableCryoMotors and Finder.find("cryox") != None:
 				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
 			before=set(metashop.getMetaScannables())
 			cant_find=[]

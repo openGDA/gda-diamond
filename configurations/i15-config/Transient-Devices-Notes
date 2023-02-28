@@ -11,14 +11,14 @@ For example B16-IPP.xml starts with:
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="B16-IPP">
+	profile="b16-ipp">
 
 	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
 ...
 --------------------------------------------------------------------------------
 
 This means that, the ippwsme07m device will only be included if the GDA servers
-are started with B16-IPP in the list of extra profiles to include.
+are started with b16-ipp in the list of extra profiles to include.
 
 From Jython we can tell whether a profile is active by checking whether any
 device or scannable defined in that profile is available in the Finder.

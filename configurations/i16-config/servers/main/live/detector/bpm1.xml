@@ -68,7 +68,7 @@
 		</property>
 	</bean>
 	
-		<bean id="_bpm1_for_snaps" class="gda.device.detector.NXDetector">
+	<bean id="_bpm1_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="bpm1_for_snaps" />
 		<property name="collectionStrategy" ref="bpm1_nxcollectionstrategy" />
 		<property name="additionalPluginList">
@@ -79,4 +79,23 @@
 		</property>
 	</bean>
 
+	<bean id="_bpm1_no_screen" class="gda.device.detector.NXDetector">
+		<property name="name" value="bpm1" />
+		<property name="collectionStrategy" ref="bpm1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="bpm1_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="_bpm1_no_screen_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="bpm1_for_snaps" />
+		<property name="collectionStrategy" ref="bpm1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="bpm1_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
 </beans>

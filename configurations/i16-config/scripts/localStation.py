@@ -92,7 +92,7 @@ global x2000, x2003
 global delta
 global energy, simple_energy, gam
 global x1
-global _bpm1, _bpm1_for_snaps
+global _bpm1, _bpm1_for_snaps, _bpm1_no_screen, _bpm1_for_snaps_no_screen
 global _cam1, _cam1_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
@@ -408,15 +408,7 @@ do=delta_axis_offset
 
 ### Override gda's standard help command
 localStation_print("Overriding gda's standard help command")
-_gdahelp_orig = _gdahelp #@UndefinedVariable
-def _gdahelp(o):
-	_gdahelp_orig(o)
-	try:
-		print  o.__doc__
-	except:
-		pass
-
-alias("help")
+help=_gdahelp
 
 ### Create datadir functions
 localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
@@ -1203,6 +1195,7 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 
 try:
 	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
+	bpm_no_screen, bpm_no_screen_peak2d, bpm_no_screen_max2d = wrappedDetector("bpm", _bpm1_no_screen, _bpm1_no_screen_for_snaps, panel_name_rcp='BPM')
 	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='Plot 2')
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
@@ -1509,15 +1502,61 @@ if USE_CRYO_GEOMETRY:
 	except:
 		localStation_exception("testing meta_ls() when USE_CRYO_GEOMETRY = True, /i16-config/servers/main/_common/nxmetadata.xml is probably configured for kphi not cryophi.")
 
+# Define a function which turns any scannable into one which doesn't pause the
+# scan if it's moving.
+from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
+
+class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
+
+	def waitWhileBusy(self):
+		return
+
+	def stop(self):
+		return
+
+def asyncMonitor(scannable):
+	return AsyncMonitor(scannable)
+
+alias(asyncMonitor)
+
+class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
+
+	def __init__(self, scannable, targetPosition):
+		super(AsyncScannable, self).__init__(scannable)
+		self.targetPosition = targetPosition
+
+	def atScanStart(self):
+		self.asynchronousMoveTo(self.targetPosition)
+		super(AsyncScannable, self).atScanStart()
+
+	def atScanEnd(self):
+		self.stop()
+		super(AsyncScannable, self).atScanEnd()
+
+	def atCommandFailure(self):
+		self.stop()
+		super(AsyncScannable, self).atCommandFailure()
+
+	def waitWhileBusy(self):
+		return
+
+	def stop(self):
+		return
+
+def asyncScannable(scannable, targetPosition):
+	return AsyncScannable(scannable, targetPosition)
+
+alias(asyncScannable)
 ###Default Scannables###
 try:
 	if USE_CRYO_GEOMETRY:
 		default_scannable_names = ["cryophi"]
 	else:
 		default_scannable_names = ["kphi"]
-	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam", "delta_axis_offset"]
+	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam"]
 	for scannable_name in default_scannable_names:
-		add_default(jythonNameMap[scannable_name])
+		add_default(asyncMonitor(jythonNameMap[scannable_name]))
+	add_default(jythonNameMap["delta_axis_offset"])
 except:
 	localStation_exception("setting default scannables")
 
@@ -1808,47 +1847,6 @@ except:
 
 # Define offset between pilatus detector and analyser crystal
 do.pil = 8.8
-
-# Define a function which turns any scannable into one which doesn't pause the
-# scan if it's moving.
-from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
-
-class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
-
-	def waitWhileBusy(self):
-		return
-
-def asyncMonitor(scannable):
-	return AsyncMonitor(scannable)
-
-alias(asyncMonitor)
-
-class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
-
-	def __init__(self, scannable, targetPosition):
-
-		super(AsyncScannable, self).__init__(scannable)
-		self.targetPosition = targetPosition
-
-	def atScanStart(self):
-		self.asynchronousMoveTo(self.targetPosition)
-		super(AsyncScannable, self).atScanStart()
-
-	def atScanEnd(self):
-		self.stop()
-		super(AsyncScannable, self).atScanEnd()
-
-	def atCommandFailure(self):
-		self.stop()
-		super(AsyncScannable, self).atCommandFailure()
-
-	def waitWhileBusy(self):
-		return
-
-def asyncScannable(scannable, targetPosition):
-	return AsyncScannable(scannable, targetPosition)
-
-alias(asyncScannable)
 
 # Setting the standard metadata scannables & protecting all defined scannables should be last
 meta_std()

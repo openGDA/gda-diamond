@@ -28,4 +28,5 @@
 	<import resource="stage_controls.xml"/>  <!--  TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
 	<import resource="stage_controls_tree.xml"/>
 	<import resource="mapping.xml"/>
+	<import resource="watchdog_controls.xml"/>
 </beans>
