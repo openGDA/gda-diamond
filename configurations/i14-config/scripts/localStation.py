@@ -11,6 +11,7 @@ from i14_utilities import isLive
 
 print("Initialisation Started")
 
+# List all the scannables in the namespace
 def ls_scannables():
     ls_names(Scannable)
 
@@ -76,9 +77,6 @@ dcm_enrg_exporter.afterPropertiesSet()
 # Initialise the array plugin for all detectors
 from initialise_detectors import initialise_detectors
 initialise_detectors()
-
-# Define functions to change interferometer/stage offsets
-run('ifs_functions.py')
 
 # Define functions to control shutters
 run('shutter_control.py')

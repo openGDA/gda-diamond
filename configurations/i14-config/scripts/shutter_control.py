@@ -31,7 +31,7 @@ def toggle_oh3_shtr():
         pos(oh3_shutter_status, "Open")
 
 def open_eh2_nano_shtr():
-    if not eh2_nano_shutter_status() == "Open":
+    if eh2_nano_shutter_status() != "Open":
         pos(eh2_nano_shutter_status,"Reset")
         time.sleep(3)
         pos(eh2_nano_shutter_status, "Open")
