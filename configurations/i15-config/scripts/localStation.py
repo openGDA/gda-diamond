@@ -543,12 +543,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	from localStationConfiguration import enableAttoPiezos
-	if enableAttoPiezos and caget("BL15I-EA-IOC-22:STATUS") != u'0':
-		msg = "Not installing atto devices, as the IOC is down"
-		print "* "+msg+" *"
-		localStation_exceptions.append("    "+msg)
-	elif enableAttoPiezos:
+	if caget("BL15I-EA-IOC-22:STATUS") == u'0':
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
 		from future.anc150axis import createAnc150Axis
 		try:
