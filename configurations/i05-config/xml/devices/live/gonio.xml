@@ -8,6 +8,7 @@
 	</bean>
 	<bean id="sax" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sax_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="say_motor" class="gda.device.motor.EpicsMotor">
@@ -15,6 +16,7 @@
 	</bean>
 	<bean id="say" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="say_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="saz_motor" class="gda.device.motor.EpicsMotor">
@@ -22,6 +24,7 @@
 	</bean>
 	<bean id="saz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="saz_motor" />
+		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="sapolar_motor" class="gda.device.motor.EpicsMotor">
