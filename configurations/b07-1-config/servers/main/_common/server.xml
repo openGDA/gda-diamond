@@ -15,6 +15,11 @@
 		</property>
 	</bean>
 	
+	<!-- Data Server -->
+	<bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">
+		<property name="port" value="${gda.dataserver.port}" />
+	</bean>
+	
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
