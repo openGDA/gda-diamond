@@ -19,7 +19,7 @@
 package gda.scan.ede.datawriters;
 
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.List;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.january.dataset.Dataset;
@@ -45,7 +45,7 @@ public class ScanDataHelper {
 	}
 
 	private static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp, boolean isEnergy) {
-		Vector<Object> data = sdp.getDetectorData();
+		List<Object> data = sdp.getDetectorData();
 		int detIndex = getIndexOfMyDetector(detectorName, sdp);
 		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
 		String dataType = isEnergy? EdeDataConstants.ENERGY_COLUMN_NAME : EdeDataConstants.DATA_COLUMN_NAME;
@@ -69,7 +69,7 @@ public class ScanDataHelper {
 	}
 
 	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
-		Vector<String> names = scanDataPoint.getDetectorNames();
+		List<String> names = scanDataPoint.getDetectorNames();
 		return names.indexOf(detectorName);
 	}
 }
