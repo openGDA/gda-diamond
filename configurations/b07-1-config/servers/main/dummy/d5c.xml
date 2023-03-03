@@ -38,5 +38,8 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean class="gda.device.scannable.DummyScannable" id="d5c_cam1_centroid_x"/>
+	<bean class="gda.device.scannable.DummyScannable" id="d5c_cam1_centroid_y"/>
 
 </beans>

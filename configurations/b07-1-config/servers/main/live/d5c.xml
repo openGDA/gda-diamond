@@ -183,5 +183,15 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="d5c_cam1_centroid_x" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-DI-PHDGN-05:DCAM1:STAT:CentroidX_RBV" />
+		<property name="canMove" value="false" />	
+	</bean>
+	
+	<bean id="d5c_cam1_centroid_y" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-DI-PHDGN-05:DCAM1:STAT:CentroidY_RBV" />
+		<property name="canMove" value="false" />	
+	</bean>
 
 </beans>
