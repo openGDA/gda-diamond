@@ -7,7 +7,7 @@ from org.eclipse.dawnsci.analysis.api.persistence import IMarshallerService
 from org.eclipse.scanning.api.scan import IFilePathService
 from org.eclipse.scanning.api.event.scan import (ScanRequest, ScanBean)
 from org.eclipse.scanning.command.Services import getEventService
-from gda.configuration.properties.LocalProperties import getActiveMQBrokerURI
+from gda.configuration.properties.LocalProperties import getBrokerURI
 
 def get_scan_request(filename):
     

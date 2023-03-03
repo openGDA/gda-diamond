@@ -120,7 +120,7 @@ public class XpdfExperimentView {
 		if (taskSubmitter == null) {
 			URI uri;
 			try {
-				uri = new URI(LocalProperties.getActiveMQBrokerURI());
+				uri = new URI(LocalProperties.getBrokerURI());
 				taskSubmitter = eventService.createSubmitter(uri, QueueConstants.XPDF_TASK_QUEUE);
 			} catch (URISyntaxException e) {
 				throw new RuntimeException("Could not create submitter", e);

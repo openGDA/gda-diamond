@@ -55,7 +55,7 @@ public final class K11DefaultViews {
 	public static final String DETECTOR_FRAME_PEEK = DetectorFramePeekView.ID;
 
 	public static final String getQueueId() {
-		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
+		String queueViewId = StatusQueueView.createId(LocalProperties.getBrokerURI(),
 				"org.eclipse.scanning.api",
 				"org.eclipse.scanning.api.event.status.StatusBean",
 				EventConstants.STATUS_TOPIC,

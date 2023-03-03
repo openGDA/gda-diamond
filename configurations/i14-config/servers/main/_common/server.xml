@@ -174,7 +174,7 @@
 	<context:component-scan base-package="uk.ac.gda.core.tool.spring" />
 
 	<bean class="uk.ac.diamond.daq.experiment.structure.NodeInsertionRequestResponder"  init-method="connect">
-        <property name="broker" value="${gda.activemq.broker.uri}" />
+        <property name="broker" value="${gda.message.broker.uri}" />
         <property name="requestTopic" value="${experiment.structure.job.request.topic}" />
         <property name="responseTopic" value="${experiment.structure.job.response.topic}" />
     </bean>

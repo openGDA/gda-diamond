@@ -72,15 +72,15 @@ public class XpdfTaskConsumer {
 		Objects.requireNonNull(eventService, "Could not get Event Service");
 
 		try {
-			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
+			var jmsURI = new URI(LocalProperties.getBrokerURI());
 
-			jobQueue = eventService.createJobQueue(uri, QueueConstants.XPDF_TASK_QUEUE, EventConstants.STATUS_TOPIC);
+			jobQueue = eventService.createJobQueue(jmsURI, QueueConstants.XPDF_TASK_QUEUE, EventConstants.STATUS_TOPIC);
 			jobQueue.setRunner(ConsumerProcess::new);
 			jobQueue.setName("XPDF Task Runner queue");
 			jobQueue.start();
 			// start a queue reader for the queue for beans that are still submitted to the JMS queue.
 			// This reads the beans from the JMS queue and submits them to the IJobQueue.
-			jmsQueueReader = eventService.createJmsQueueReader(uri, QueueConstants.XPDF_TASK_QUEUE);
+			jmsQueueReader = eventService.createJmsQueueReader(jmsURI, QueueConstants.XPDF_TASK_QUEUE);
 			jmsQueueReader.start();
 		} catch (EventException | URISyntaxException e) {
 			logger.error("Failed to setup XPDF Task Runner queue", e);

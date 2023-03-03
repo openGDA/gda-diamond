@@ -15,20 +15,20 @@
 
 	<!-- Device Servlet -->
 	<bean id="deviceServlet" class="org.eclipse.scanning.server.servlet.DeviceServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 
 	<!-- This starts a scanServlet which handles new style scan requests arriving over ActiveMQ -->
 	<bean id="scanServlet" class="org.eclipse.scanning.server.servlet.ScanServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 
 	<bean id="acquireServlet" class="org.eclipse.scanning.server.servlet.AcquireServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 	
 	<bean id="positionerServlet" class="org.eclipse.scanning.server.servlet.PositionerServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 
 </beans>

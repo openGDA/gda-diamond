@@ -14,21 +14,21 @@
 
 	<!-- Device Servlet -->
 	<bean id="deviceServlet" class="org.eclipse.scanning.server.servlet.DeviceServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 
 	<!-- Instead of a standard ScanServlet, I18 uses the HeterogeneousScanServlet which allows experiment commands to
 		 be run using the new ActiveMQ queueing system instead of the old command queue -->
 	<bean id="scanServlet" class="gda.commandqueue.HeterogeneousScanServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 	
 	<bean id="positionerServlet" class="org.eclipse.scanning.server.servlet.PositionerServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 	
 	<bean id="acquireServlet" class="org.eclipse.scanning.server.servlet.AcquireServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="broker" value="${gda.message.broker.uri}" />
 	</bean>
 
 </beans>
