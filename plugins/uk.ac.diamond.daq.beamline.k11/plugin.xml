@@ -201,7 +201,7 @@
    <extension
          point="org.eclipse.scanning.api.rerunHandler">
       <rerunHandler
-            class="uk.ac.diamond.daq.beamline.k11.RerunHandler">
+            class="uk.ac.diamond.daq.beamline.k11.ExperimentAwareRerunHandler">
       </rerunHandler>
    </extension>
 </plugin>
