@@ -9,6 +9,13 @@
 
 	<!-- The Object which gets the ROIs from the client over RMI -->
 	<bean id="d98b_cam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/d98b1Roi" />
+		<property name="service" ref="d98b_cam1_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	
 	<bean id="d98b_cam_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />
 		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
@@ -23,6 +30,7 @@
 				<property name="index" value="0" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d98b_cam_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -39,6 +47,7 @@
 				<property name="index" value="1" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d98b_cam_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">

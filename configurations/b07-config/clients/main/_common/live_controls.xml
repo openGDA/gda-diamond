@@ -6,6 +6,12 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!--
+	 Note: some fast/average-changing live control beans are defined on a client side (names ending "_client").
+	 Otherwise every time it changes - flow of events from server to client can overload ActiveMQ.
+	 Very slow changing beans will be imported from the Server. 
+	-->	
 
 	<bean id="s4b_ygapsize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="S4b_y gapsize " />
@@ -40,16 +46,16 @@
 	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Photon Energy " />
 		<property name="group" value="." />
-		<property name="scannableName" value="pgm_energy" />
+		<property name="scannableName" value="pgm_energy_client" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="userUnits" value="eV" />
-		<property name="increment" value="50" />
+		<property name="increment" value="1" />
 	</bean>
 
 	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="CFF " />
 		<property name="group" value="." />
-		<property name="scannableName" value="pgm_cff" />
+		<property name="scannableName" value="pgm_cff_client" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0.2" />
 	</bean>	
@@ -76,6 +82,15 @@
 		<property name="showStop" value="false" />
 	</bean>	
 	
+	<bean id="ca16b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca16b ADC output" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca16b_adc_output_client" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean> 
+	
 	<bean id="ca35b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="ca35b sensitivity " />
 		<property name="group" value="..." />
@@ -93,7 +108,7 @@
 	<bean id="ca35b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="ca35b ADC output" />
 		<property name="group" value="..." />
-		<property name="scannableName" value="ca35b_adc_output" />
+		<property name="scannableName" value="ca35b_adc_output_client" />
 		<property name="showStop" value="false" />
 		<property name="showIncrement" value="false" />
 		<property name="readOnly" value="true" />
@@ -116,7 +131,7 @@
 	<bean id="ca36b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="ca36b ADC output" />
 		<property name="group" value="..." />
-		<property name="scannableName" value="ca36b_adc_output" />
+		<property name="scannableName" value="ca36b_adc_output_client" />
 		<property name="showStop" value="false" />
 		<property name="showIncrement" value="false" />
 		<property name="readOnly" value="true" />
@@ -151,7 +166,7 @@
 		<property name="group" value=".." />
 		<property name="scannableName" value="sm52b_xp" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="5" />
+		<property name="increment" value="0.1" />
 	</bean>
 	
 	<bean id="sm52b_yp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -159,7 +174,7 @@
 		<property name="group" value=".." />
 		<property name="scannableName" value="sm52b_yp" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="5" />
+		<property name="increment" value="0.1" />
 	</bean>
 	
  	<bean id="sm52b_zp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -167,7 +182,7 @@
 		<property name="group" value=".." />
 		<property name="scannableName" value="sm52b_zp" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="5" />
+		<property name="increment" value="0.1" />
 	</bean>
 	
  	<bean id="sm52b_roty_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -291,7 +306,7 @@
 	<bean id="led_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="" />
 		<property name="group" value=" LED " />
-		<property name="scannableName" value="led_status_controller" />
+		<property name="scannableName" value="led_status_con" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0" />
 		<property name="showStop" value="false" />
@@ -302,7 +317,7 @@
 	<bean id="led_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
 		<property name="displayName" value="" />
 		<property name="group" value=" LED " />
-		<property name="scannableName" value="led_status_controller" />
+		<property name="scannableName" value="led_status_sta" />
 		<property name="stateMap">
 			<util:map map-class="java.util.HashMap">
 				<entry key="OFF" value-ref="red_colour" />
@@ -314,17 +329,17 @@
  	<bean id="m4b_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="M4b_PITCH " />
 		<property name="group" value=".." />
-		<property name="scannableName" value="m4b_pitch" />
+		<property name="scannableName" value="m4b_pitch_client" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="5" />
+		<property name="increment" value="0.0001" />
 	</bean>
 	
  	<bean id="m5b_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="M5b_PITCH " />
 		<property name="group" value=".." />
-		<property name="scannableName" value="m5b_pitch" />
+		<property name="scannableName" value="m5b_pitch_client" />
 		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="5" />
+		<property name="increment" value="0.0001" />
 	</bean>
 	
 	<bean id="es1_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -345,6 +360,7 @@
 				<ref bean="sm52b_roty_control" />
 				<ref bean="ca16b_sensitivity_control" />
 				<ref bean="ca16b_sensitivity_units_control" />
+				<ref bean="ca16b_adc_output_control" />
 	 			<ref bean="pss_shutter1_status" />
 		 	 	<ref bean="pss_shutter2_status" />
 				<ref bean="fast_shutter_status" />

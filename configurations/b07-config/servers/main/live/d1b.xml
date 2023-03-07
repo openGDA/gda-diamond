@@ -43,6 +43,7 @@
 				<property name="index" value="0" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d1b_cam1_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -59,6 +60,7 @@
 				<property name="index" value="1" />
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d1b_cam1_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
@@ -96,7 +98,7 @@
 	</bean>
 
 	<bean id="d1b_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d1b_cam1" />
 		<property name="collectionStrategy" ref="d1b_cam1_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -188,7 +190,7 @@
 	</bean>
 
 	<bean id="d1b_cam2" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d1b_cam2" />
 		<property name="collectionStrategy" ref="d1b_cam2_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

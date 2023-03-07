@@ -10,7 +10,7 @@
 	<!-- ES1B Cam 2 -->
 	
 	<bean id="es1b_cam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}es1b1Roi" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}es1b2Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>

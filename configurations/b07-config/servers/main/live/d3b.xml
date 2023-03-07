@@ -39,6 +39,7 @@
 				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<!-- ROI-STAT pairs for Live Stream View-->
@@ -55,6 +56,7 @@
 			<property name="index" value="1" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 		</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d3b_cam1_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
@@ -92,7 +94,7 @@
 	</bean>
 
 	<bean id="d3b_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d3b_cam1" />
 		<property name="collectionStrategy" ref="d3b_cam1_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

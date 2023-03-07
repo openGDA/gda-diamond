@@ -22,7 +22,7 @@
 		<property name="pluginName" value="es1b_cam2_RoiStats1" />
 		<property name="baseRoiPVName" value="BL07B-EA-ENDST-01:DCAM2:ROI1:" />
 		<property name="baseStatsPVName" value="BL07B-EA-ENDST-01:DCAM2:STAT1:" />
-		<property name="roiInputNdArrayPort" value="es1b_cam2_adbase.DCAM2.CAM" />
+		<property name="roiInputNdArrayPort" value="ES1B.DCAM2.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -31,6 +31,7 @@
 				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<!-- ROI-STAT pairs for Live Stream View-->
@@ -47,6 +48,7 @@
 			<property name="index" value="1" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 		</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="es1b_cam2_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
@@ -84,7 +86,7 @@
 	</bean>
 
 	<bean id="es1b_cam2" class="gda.device.detector.NXDetector">
-		<property name="name" value="es1cam2" />
+		<property name="name" value="es1b_cam2" />
 		<property name="collectionStrategy" ref="es1b_cam2_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
