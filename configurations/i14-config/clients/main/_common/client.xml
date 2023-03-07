@@ -38,6 +38,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/scannable_ui_preferences.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/detector_cover.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/xanes_elements.xml" />
 
 	<import resource="file://${gda.facility.dir}/clients/_common/serverFileListener.xml" />
 </beans>
