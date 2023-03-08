@@ -16,6 +16,7 @@
 	<import resource="terminal_logger.xml" />
 
 	<import resource="device/*.xml"/>
+	<import resource="nxmetadata/*.xml"/>
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
 </beans>
