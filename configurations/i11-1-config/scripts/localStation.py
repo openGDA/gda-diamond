@@ -282,7 +282,7 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
                     break
                 time.sleep(2)
             else:
-                raise ValueError('No calibration result received after 300s')
+                print('WARNING: No calibration result received after 300s')
 
 alias("lde")
 ##### new objects must be added above this line ###############
