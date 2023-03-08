@@ -297,6 +297,11 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
                 print('WARNING: No calibration result received after 300s')
 
 alias("lde")
+
+def lde_slugs(duration):
+    lde(duration, SAM)
+    return lastScanDataPoint().scanIdentifier
+
 ##### new objects must be added above this line ###############
 print
 print "=================================================================================================================";
@@ -324,3 +329,5 @@ sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), 
 
 from gdascripts.scan.gdascans import Cscan
 cscan = Cscan()
+
+from config_tests import slug_trigger
