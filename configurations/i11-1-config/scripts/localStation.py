@@ -15,6 +15,8 @@ from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
 
+from gda.configuration.properties import LocalProperties
+
 from gdaserver import GDAMetadata as meta
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -86,6 +88,16 @@ def setSubdirectory(dirname):
 
 def getSubdirectory():
     return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
+
+def setVisit(visit):
+    meta['visit'] = visit
+
+def getVisit():
+    return meta['visit']
+
+def resetDataDirectory():
+    LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, "/dls/i11-1/data/$year$/$visit$/$subdirectory$/")
+
 
 def abspath(*bits):
     return os.path.abspath(os.path.join(*bits))
