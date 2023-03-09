@@ -7,7 +7,7 @@ Created on Feb 13, 2023
 
 @author: fy65
 '''
-from detectors.MotionAndShutterControleldCollectionStrategy import ExposureLimitedCollectionStrategy
+from detectors.SnakeMotionAndShutterControlCollectionStrategy import ExposureLimitedCollectionStrategy
 from gdaserver import andor, fastshutter, y, z  # @UnresolvedImport
 from gda.device.detector.nxdetector import NXCollectionStrategyPlugin
 from detectors.MotionCoupledDetector import ExposureLimitedDetector
@@ -30,3 +30,4 @@ el_andor.setYContinuous(False)
 el_andor.setZContinuous(True)
 el_andor.setYStep(0.030)
 el_andor.setZStep(0.005)
+el_andor.setPathReverse(True)

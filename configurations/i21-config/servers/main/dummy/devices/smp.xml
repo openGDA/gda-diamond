@@ -16,17 +16,17 @@
 	<bean id="smpxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.00000" />
 		<property name="maxPosition" value="5.00000" />
-		<property name="speed" value="2.00000" />
+		<property name="speed" value="0.300000" />
 	</bean>
 	<bean id="smpyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-4.691173" />
 		<property name="maxPosition" value="4.691173" />
-		<property name="speed" value="2.000000" />
+		<property name="speed" value="0.3000000" />
 	</bean>
 	<bean id="smpzMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-73.7000" />
 		<property name="maxPosition" value="26.3000" />
-		<property name="speed" value="0.500000" />
+		<property name="speed" value="0.1500000" />
 	</bean>
 	<bean id="smpphiMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-179.401645" />

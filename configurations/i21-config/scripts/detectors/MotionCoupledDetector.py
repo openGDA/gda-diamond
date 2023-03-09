@@ -9,6 +9,7 @@ Created on Feb 6, 2023
 
 
 from gda.device.detector import NXDetector
+import time
 
 class ExposureLimitedDetector(NXDetector):
     '''
@@ -44,7 +45,19 @@ class ExposureLimitedDetector(NXDetector):
         self.collectionStrategy.setYContinuous(b)
         
     def setZContinuous(self, b):
-        self.collectionStrategy.setZContinuous(b) 
+        self.collectionStrategy.setZContinuous(b)
+        
+    def atPointStart(self):
+        # print("atPointStart called")
+        self.getCollectionStrategy().atPointStart()
+    
+    def atPointEnd(self):
+        # print("atPointEnd Called")
+        self.getCollectionStrategy().atPointEnd()
+        
+    def setPathReverse(self, b):
+        self.getCollectionStrategy().setPathReverse(b)
+        
          
         
 
