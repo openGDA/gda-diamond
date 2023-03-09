@@ -101,6 +101,13 @@ def setVisit(new_visit):
 alias('setVisit')
 print
 
+def setCalibrationFile(file):
+    logger.info("Calibration file changed manually to %s", file)
+    meta['calibration_file'] = file
+
+def getCalibrationFile():
+    return meta['calibration_file']
+
 from gda.factory import Finder
 from time import sleep  # @UnusedImport
 import java #@UnresolvedImport
