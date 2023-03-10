@@ -43,6 +43,16 @@
 		<property name="userUnits" value="eV"/>
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
+	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="CFF" />
+		<property name="group" value="Beam" />
+		<property name="scannableName" value="cff" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="userUnits" value=""/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
 	<bean id="m4c1_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="m4c1" />
 		<property name="group" value="Beam" />
@@ -87,13 +97,33 @@
 		<property name="group" value="Sample" />
 	</bean>
 	<bean id="sample_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Temperature" />
-		<property name="group" value="Sample" />
-		<property name="scannableName" value="sampleTemperature" />
+		<property name="displayName" value="Tsample" />
+		<property name="group" value="Temperature and Shutter" />
+		<property name="scannableName" value="Tsample" />
 		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="K" />
 		<property name="readOnly" value="true"/>
 	</bean>	
+	<bean id="cryo_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Tcryo" />
+		<property name="group" value="Temperature and Shutter" />
+		<property name="scannableName" value="Tcryo" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="K" />
+		<property name="readOnly" value="true"/>
+	</bean>	
+	<!-- Fast Shutter -->
+	<bean id="fastshutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="fastshutter" />
+		<property name="group" value="Temperature and Shutter" />
+		<property name="scannableName" value="fastshutter" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value=""/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
 	<!-- Sample Translations -->
 	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="x" />
@@ -208,6 +238,17 @@
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 		<property name="horizontalLayout" value="true"/>
 	</bean>
+	<bean id="sgmpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sgmpitch" />
+		<property name="group" value="Spectrometer" />
+		<property name="scannableName" value="sgmpitch" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="deg"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>
 	<bean id="spech_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="spech" />
 		<property name="group" value="Spectrometer" />
@@ -275,13 +316,16 @@
 				<ref bean="idgap_control" />
 				<ref bean="polarisation_control" />
 				<ref bean="energy_s_control" />
+				<ref bean="cff_control" />
 				<ref bean="m4c1_control" />
 				<ref bean="s5v1gap_control" />
 				<ref bean="feedback_state" />
-				<ref bean="screws_position" />
-				<ref bean="transfer_position" />
-				<ref bean="rixs_position" />
+<!-- 				<ref bean="screws_position" /> -->
+<!-- 				<ref bean="transfer_position" /> -->
+<!-- 				<ref bean="rixs_position" /> -->
 				<ref bean="sample_temperature_display" />
+				<ref bean="cryo_temperature_display" />
+				<ref bean="fastshutter_control"/>
 				<ref bean="sax_control" />
 				<ref bean="say_control" />
 				<ref bean="saz_control" />
@@ -292,6 +336,7 @@
 				<ref bean="difftth_control" />
 				<ref bean="armtth_control"/>
 				<ref bean="sgmr1_control" />
+				<ref bean="sgmpitch_control" />
 				<ref bean="spech_control" />
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
