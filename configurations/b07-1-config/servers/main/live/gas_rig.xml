@@ -150,7 +150,7 @@
 	</bean>
 	
 	<bean id="gr_sample_temp" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="B07-EA-TCTRL-01:PV:RBV" />
+		<property name="pvName" value="BL07C-EA-TCTRL-01:PV:RBV" />
 		<property name="canMove" value="false" />
 		<property name="outputFormat" value="%3.3f" />
 	</bean>
