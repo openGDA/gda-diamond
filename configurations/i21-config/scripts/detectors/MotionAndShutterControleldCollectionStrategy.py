@@ -12,37 +12,22 @@ Created on Feb 10, 2023
 from gda.device.detector.addetector.triggering import AbstractADTriggeringStrategy
 from gda.device.detector.nxdetector import NXPlugin
 from gdaserver import z, y, fastshutter  # @UnresolvedImport
-from org.apache.commons.lang3.builder import EqualsBuilder, HashCodeBuilder
-from gda.observable import Observer
 from threading import Thread, currentThread
 from shutters.detectorShutterControl import erio
 import time
 from gdascripts.utils import frange
-from gda.device.detector.nxdata import NXDetectorDataAppender
+from gda.device import Detector
+from gda.device.detector.nxdata import NXDetectorDataAppender, NXDetectorDataDoubleAppender
 from gda.data.nexus.extractor import NexusGroupData, NexusExtractor
 from java.lang import String  # @UnresolvedImport
 from gda.data.nexus.tree import NexusTreeNode
 from org.slf4j import LoggerFactory
-from gda.jython import JythonServerFacade
+from gda.jython import InterfaceProvider
+from __builtin__ import True
+from detectors.generic_observer import GeneralObserver
 
 
 logger = LoggerFactory.getLogger(__name__)
-
-class GeneralObserver(Observer):
-    def __init__(self, name, update_function):
-        self.name =name
-        self.updateFunction = update_function # a function point
-        
-    def update(self, source, change):
-        self.updateFunction(source, change)
-    
-    #both equals and hashCode method required by addIObserver and deleteIOberser in Java observers set.        
-    def equals(self, other):
-        return EqualsBuilder.reflectionEquals(self, other, True)
-      
-    def hashCode(self):
-        # Apache lang3 org.apache.commons.lang3.builder.HashCodeBuilder
-        return HashCodeBuilder.reflectionHashCode(self, True)
 
 class NXDetectorDataDoubleAppenderWithUnitSupport(NXDetectorDataAppender):
     def __init__(self, name, value, unit):
@@ -55,6 +40,8 @@ class NXDetectorDataDoubleAppenderWithUnitSupport(NXDetectorDataAppender):
         valdata = nx_detector_data.addData(detector_name, self.name, NexusGroupData([self.value]), self.unit, None, None, True);
         valdata.addChildNode(NexusTreeNode("local_name",NexusExtractor.AttrClassName, valdata,  NexusGroupData(String.format("%s.%s", detector_name, self.name))));
 
+
+                
 class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     '''
     a detector collection strategy used to collect scattering or diffraction image from detector which is acquiring while sample is moving across the X-ray beam.
@@ -107,7 +94,10 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.expsoureTimeLimit = exposure_time_limit
         self.speedZChanged = False 
         self.speedYChanged = False
-    
+        
+        self._myStatus = Detector.IDLE
+        self.lastPointRealCountTime = 0.0
+        
     #this class property methods 
     def setBeamSize(self, beam_size):
         self.beamSizeY = beam_size[0]
@@ -171,16 +161,16 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.z.setSpeed(self.original_z_speed)
             
     def detecrmineControlPositions(self):
-        '''calculate positions at which motor starts and stops and at which shutther opens and closes
+        '''calculate positions at which motor starts and stops and at which shutter opens and closes
         '''
-        self.y_start = self.sampleCentreY - self.sampleSizeY/2
-        self.y_open = self.sampleCentreY - self.sampleSizeY/2 + self.beamSizeY
-        self.y_close = self.sampleCentreY + self.sampleSizeY/2 - self.beamSizeY
-        self.y_end = self.sampleCentreY + self.sampleSizeY/2
-        self.z_start = self.sampleCentreZ + self.sampleSizeZ/2
-        self.z_open = self.sampleCentreZ + self.sampleSizeZ/2 - self.beamSizeZ
-        self.z_close = self.sampleCentreZ - self.sampleSizeZ/2 + self.beamSizeZ 
-        self.z_end = self.sampleCentreZ - self.sampleSizeZ/2
+        self.y_start = self.sampleCentreY + self.sampleSizeY/2
+        self.y_open = self.sampleCentreY + self.sampleSizeY/2 + 2*self.beamSizeY
+        self.y_close = self.sampleCentreY - self.sampleSizeY/2 + 2*self.beamSizeY
+        self.y_end = self.sampleCentreY - self.sampleSizeY/2
+        self.z_start = self.sampleCentreZ - self.sampleSizeZ/2
+        self.z_open = self.sampleCentreZ - self.sampleSizeZ/2 + 2*self.beamSizeZ
+        self.z_close = self.sampleCentreZ + self.sampleSizeZ/2 - 2*self.beamSizeZ 
+        self.z_end = self.sampleCentreZ + self.sampleSizeZ/2
         if self.zContinuous:
             self.y_positions = [round(each, 3) for each in frange(self.y_start, self.y_end, self.yStep)]
             self.z_total_distance = abs(self.z_end - self.z_start)*len(self.y_positions)
@@ -198,139 +188,199 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         '''handling detector acquiring event
         '''
         if change == 1: #detector exposure started
-            print("\ndetector acquire start")
-            if not self.motor_shutter_control_thread.isAlive():
+            print("\nDetector acquire start")
+            self._myStatus = Detector.BUSY
+            self.detectorIsAcquiring = True
+            self.total_shutter_open_time = 0.0
+            if not self.motion_shutter_control_thread.isAlive():
                 print("Start motion and shutter control thread")
-                self.motor_shutter_control_thread.start()
+                self.motion_shutter_control_thread.start()
             else:
                 print("motion and shutter control thread is already running")
         elif change == 0: #detector exposure completed
-            if self.motor_shutter_control_thread.isAlive():
-                self.stop_motors_close_shutter_on_acquire_finish()
-                print("\ndetector acquire complete\n")
+            self.detectorIsAcquiring = False
+            if not self.observer_added:
+                self.observer_added = True
+                return
+            if self.motion_shutter_control_thread.isAlive():
+                print("\nDetector acquire complete\n")
+                time.sleep(3)
             else:
                 print("motion and shutter control thread is not running")
+            self._myStatus = Detector.IDLE
     
     def openShutter(self):
-        print("Open fast shutter")
         fastshutter.moveTo("Open")
     
     def closeShutter(self):
-        print("Close fast shutter")
         fastshutter.moveTo("Closed")
 
     def shutterControl(self):
         if self.zContinuous:
-            y_pos = float(self.z.getPosition())
-            if (y_pos < self.z_open or y_pos > self.z_close) and not self.shutterAlreadyOpen:
+            z_pos = float(self.z.getPosition())
+            if (z_pos > self.z_open and z_pos < self.z_close) and self.detectorIsAcquiring and not self.shutterAlreadyOpen:
                 self.openShutter()
                 self.start_time = time.time()
                 self.shutterAlreadyOpen = True
-            elif (y_pos > self.z_open or y_pos < self.z_close) and self.shutterAlreadyOpen:
+                print("Open  shutter at %f" % self.start_time)
+            elif (z_pos < self.z_open or z_pos > self.z_close or not self.detectorIsAcquiring) and self.shutterAlreadyOpen:
                 self.closeShutter()
                 self.end_time = time.time()
                 self.shutterAlreadyOpen = False
+                print("Close shutter at %f" % self.end_time)
+                print("shutter opening time is %f" % (self.end_time - self.start_time))
+                self.total_shutter_open_time += (self.end_time - self.start_time)
+                self.setRealCountTime(self.total_shutter_open_time)
+                if not self.detectorIsAcquiring:
+                    self.total_shutter_open_times.append(self.total_shutter_open_time)
+                    print("Total shutter opening time for point %d is %f" % (self.point_number, self.total_shutter_open_time))
+                    # self.afterCurrentPointCollected()
+                    # self.appenders.append(NXDetectorDataDoubleAppenderWithUnitSupport("real_count_time", self.total_shutter_open_times[self.point_number-1], "s"))
         if self.yContinuous:
-            x_pos = float(self.y.getPosition())
-            if (x_pos > self.y_open or x_pos < self.y_close) and not self.shutterAlreadyOpen:
+            y_pos = float(self.y.getPosition())
+            if (y_pos < self.y_open and y_pos > self.y_close) and self.detectorIsAcquiring and not self.shutterAlreadyOpen:
                 self.openShutter()
                 self.start_time = time.time()
                 self.shutterAlreadyOpen = True
-            elif (x_pos < self.y_open or x_pos > self.y_close) and self.shutterAlreadyOpen:
+                print("Open shutter at %f" % self.start_time)
+            elif (y_pos > self.y_open or y_pos < self.y_close or not self.detectorIsAcquiring) and self.shutterAlreadyOpen:
                 self.closeShutter()
                 self.end_time = time.time()
                 self.shutterAlreadyOpen = False
-               
+                print("Close shutter at %f" % self.end_time)
+                print("shutter opening time is %f" % (self.end_time - self.start_time))
+                self.total_shutter_open_time += (self.end_time - self.start_time)
+                if not self.detectorIsAcquiring:
+                    self.total_shutter_open_times.append(self.total_shutter_open_time)
+                    print("Total shutter opening time for point %d is %f" % (self.point_number, self.total_shutter_open_time))
+                    self.afterCurrentPointCollected()
+                    # self.appenders.append(NXDetectorDataDoubleAppenderWithUnitSupport("real_count_time", self.total_shutter_open_times[self.point_number-1], "s"))
+
+    def afterCurrentPointCollected(self):
+        lastPointRealCountTimes = []
+        for each in self.total_shutter_open_times:
+            lastPointRealCountTimes.append(each)
+        self.lastPointRealCountTimeTuple = tuple(lastPointRealCountTimes)
+    
+    def getRealCountTime(self):
+        return self.lastPointRealCountTime
+    
+    def setRealCountTime(self, t):
+        self.lastPointRealCountTime = t
+           
     def moveMotorsWhileControlShutter(self, continuous_move_motor, continuous_move_motor_start, continuous_move_motor_end, step_move_motor, step_move_motor_positions):
         t = currentThread()
+        step_move_motor_name = step_move_motor.getName()
+        continuous_move_motor_name = continuous_move_motor.getName()
         for index, motor_pos in enumerate(step_move_motor_positions[self.step_motor_pos_index:]):
             if getattr(t, "do_stop", False): #support early stop of this thread
                 print("this thread's do_stop is set to True before move step motor %s" % step_move_motor.getName())
                 break
-            print("\nMove motor '%s' to %f" % (step_move_motor.getName(), motor_pos))
+            print("\nMove motor '%s' to %f" % (step_move_motor_name, motor_pos))
             step_move_motor.moveTo(motor_pos)
             if index % 2 == 0:
-                print("Start moving motor '%s' to %f" % (continuous_move_motor.getName(), continuous_move_motor_end))
-                continuous_move_motor.asynchronousMoveTo(continuous_move_motor_end)
+                target_position = continuous_move_motor_end
             else:
-                print("Start moving motor '%s' to %f" % (continuous_move_motor.getName(), continuous_move_motor_start))
-                continuous_move_motor.asynchronousMoveTo(continuous_move_motor_start)
-                time.sleep(0.5) #give motor chance to update its status
+                target_position = continuous_move_motor_start
+            print("Start moving motor '%s' to %f" % (continuous_move_motor_name, target_position))
+            continuous_move_motor.asynchronousMoveTo(target_position)
+            time.sleep(0.1) #give motor chance to update its status
             while continuous_move_motor.isBusy():
-                if getattr(t, "do_stop", False):
+                if getattr(t, "do_stop", False): # scan aborted by users
                     self.closeShutter()
-                    print("Stop called while '%s' motor is moving" % continuous_move_motor.getName())
-                    continuous_move_motor.stop()
+                    self.end_time = time.time()
                     break
                 self.shutterControl()
-            print("shutter open time is %f" % (self.end_time - self.start_time))
-            self.shutter_open_times.append(self.end_time - self.start_time)
             self.step_motor_pos_index = index
-            print("step motor '%s' position at %f, %d steps done, %d steps still available" % (step_move_motor.getName(), float(step_move_motor.getPosition()), index, len(step_move_motor_positions) - index))
-        if self.step_motor_pos_index == len(step_move_motor_positions)-1:
-            print("\nAll sample positions are used up now !")
+            print("motors %s = %f, %s = %f, steps %d/%d done in %s" % 
+                  (step_move_motor_name, float(step_move_motor.getPosition()), continuous_move_motor_name, float(continuous_move_motor.getPosition()), index+1, len(step_move_motor_positions), step_move_motor_name))
+        InterfaceProvider.getCurrentScanController().requestFinishEarly()
+        print("\nAll '%s' sample positions are used up now !" % step_move_motor_name)
+        print("\nRequest current scan to finish earlier")
+        if self.shutterAlreadyOpen:
             self.closeShutter()
             self.end_time = time.time()
-            print("\nRequest current scan to finish earlier")
-            JythonServerFacade.getInstance().requestFinishEarly()
-            print("Please wait for current exposure for point %d to complete\n" % self.point_number)
+            self.shutterAlreadyOpen = False
+            print("\nClose shutter at %f" % self.end_time)
+            print("shutter opening time is %f" % (self.end_time - self.start_time))
+            self.total_shutter_open_time += (self.end_time - self.start_time)
+            self.total_shutter_open_times.append(self.total_shutter_open_time)
+            print("Total shutter opening time for point %s is %f" % (self.point_number, self.total_shutter_open_time))
+            self.afterCurrentPointCollected()
+            # self.appenders.append(NXDetectorDataDoubleAppenderWithUnitSupport("real_count_time", self.total_shutter_open_times[self.point_number-1], "s"))
+        print("\nPlease wait for current exposure for point %d to complete\n" % self.point_number)
 
-    
+
+    def atPointStart(self):
+        time.sleep(3)
+        
+
+    def atPointEnd(self):
+        time.sleep(3)
+        self.point_number += 1 
+        
     # implement NXCollectionStrategyPlugin interface
     def getAcquireTime(self):
-        return self.det.getCollectionStrategy().getAcquireTime()
+        return self.ad_base.getAcquireTime()
 
     def getAcquirePeriod(self):
-        return self.det.getCollectionStrategy().getAcquirePeriod()
+        return self.ad_base.getAcquirePeriod()
 
     def configureAcquireAndPeriodTimes(self, t):
         pass #this method deprecated
 
     def prepareForCollection(self, collection_time, number_images_per_cllection, scan_info):
         print("\nPrepare for collection")
+        self.total_shutter_open_times = [] #to capture shutter opening times per detector acquiring
+        self.total_shutter_open_time = 0.0
+        self.step_motor_pos_index = 0
+        self.appenders = []
+        self.point_number = 0
+        self.lastPointRealCountTimeTuple = ()
         self.detecrmineControlPositions()
+        print("Create motor and shutter control thread")
+        if self.zContinuous:
+            self.motion_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="y_step_z_continue", args = (self.z, self.z_start, self.z_end, self.y, self.y_positions))
+        if self.yContinuous:
+            self.motion_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="z_step_y_continue", args = (self.y, self.y_start, self.y_end, self.z, self.z_positions))
+        self.motion_shutter_control_thread.do_stop = False # used to abort earlier
         erio() # control fast shutter separately, not as part of detector
         fastshutter.moveTo("Closed") #ensure shutter is closed before collection
         self.shutterAlreadyOpen = False
         print("Configure detector %s" % (self.det.getName()))
+        self.cs.getDecoratee().getDecoratee().getDecoratee().setReadAcquisitionTime(True)
         self.cs.prepareForCollection(collection_time, number_images_per_cllection, scan_info) #this configures the actual detector
         print("Setup detector acquiring state observer")
+        self.observer_added = False
         self.state_observable = self.ad_base.createAcquireStateObservable()
         self.state_observer = GeneralObserver("state_observer", self.update_motor_shutter_control)
         self.state_observable.addObserver(self.state_observer)
-        print("Create motor and shutter control thread")
-        if self.zContinuous:
-            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="y_step_z_continue", args = (self.z, self.z_start, self.z_end, self.y, self.y_positions))
-        if self.yContinuous:
-            self.motor_shutter_control_thread = Thread(target = self.moveMotorsWhileControlShutter, name="z_step_y_continue", args = (self.y, self.y_start, self.y_end, self.z, self.z_positions))
-        print("Move motor to start point: y = %f, z = %f" % (self.y_start, self.z_start))
+        print("Move motors to start point: y = %f, z = %f" % (self.y_start, self.z_start))
         self.y.asynchronousMoveTo(self.y_start)
         self.z.asynchronousMoveTo(self.z_start)
+        self.scanInfo = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
+        self.scan_number = self.scanInfo.getScanNumber()        
         self.y.waitWhileBusy()
         self.z.waitWhileBusy()
-        self.shutter_open_times = [] #to record shutter opening times
-        self.step_motor_pos_index = 0
-        self.motor_shutter_control_thread.do_stop = False
-        self.accumulated_shutter_open_time_so_far = 0.0
-        self.point_number = 0
         motor_speed = self.setMotorSpeed()
         if self.zContinuous:
             print("Motor speed is %f for %s" % (motor_speed, self.z.getName()))
         if self.yContinuous:
             print("Motor speed is %f for %s" % (motor_speed, self.y.getName()))
-        print("Prepare for collection completed")
-            
+        print("Prepare for collection completed\n")            
 
     def collectData(self):
-        self.point_number += 1
         self.ad_base.startAcquiring()
-        print("\nStart detector %s acquiring ..." % self.det.getName())
+        print("\nStart detector '%s' acquiring ..." % self.det.getName())
 
     def getStatus(self):
-        return self.det.getCollectionStrategy().getStatus()
+        # return self.det.getCollectionStrategy().getStatus()
+        return self._myStatus
 
     def waitWhileBusy(self):
-        self.det.getCollectionStrategy().waitWhileBusy()
+        # self.det.getCollectionStrategy().waitWhileBusy()
+        while self.getStatus() == Detector.BUSY:
+            time.sleep(0.1)
 
     def getNumberImagesPerCollection(self, t):
         return 1
@@ -338,13 +388,13 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
 
     #implement PositionInputStream interface
     def read(self, max_to_read):
-        appenders = []
-        # current_point_number = JythonServerFacade.getInstance().getLastScanDataPoint().getCurrentPointNumber()
-        total_shutter_open_time = sum(self.shutter_open_times) - self.accumulated_shutter_open_time_so_far
-        self.accumulated_shutter_open_time_so_far =  total_shutter_open_time + self.accumulated_shutter_open_time_so_far
-        print("\nTotal shutter open time for point %d is %f \n" % (self.point_number, total_shutter_open_time))
-        appenders.append(NXDetectorDataDoubleAppenderWithUnitSupport("total_count_time", total_shutter_open_time, "s"))
-        return appenders
+        # while len(self.total_shutter_open_times) == self.point_number:
+        #     time.sleep(1)
+        # appenders = []
+        # print("\nReal actual exposure time for point %d is %f \n" % (self.point_number, self.total_shutter_open_times[self.point_number]))
+        # self.appenders.append(NXDetectorDataDoubleAppender("real_count_time", self.total_shutter_open_times))
+        self.appenders.append(NXDetectorDataDoubleAppender(self.getInputStreamNames(), [self.getAcquireTime(), self.getRealCountTime()]))
+        return self.appenders
     
     
     # implement NXPluginBase interface
@@ -352,7 +402,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         return self.myname
 
     def completeCollection(self):
-        self.motor_shutter_control_thread.do_stop = True
+        self.motion_shutter_control_thread.do_stop = True
         print("completeCollection called ...")
         print("Stop detector acquiring")
         self.ad_base.stopAcquiring()
@@ -374,7 +424,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.completeCollection()
 
     def stop(self):
-        self.motor_shutter_control_thread.do_stop = True
+        self.motion_shutter_control_thread.do_stop = True
         print("Stop called ...")
         print("Abort detector acquiring")
         self.ad_base.stopAcquiring()
@@ -392,10 +442,15 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         print("Exit stop method\n")
             
     def getInputStreamNames(self):
-        return self.cs.getInputStreamNames()
+        inputnames = self.cs.getInputStreamNames()
+        inputnames.append("real_count_time")
+        return inputnames
     
     def getInputStreamFormats(self):
-        return self.cs.getInputStreamFormats()
+        inputformats = self.cs.getInputStreamFormats()
+        inputformats.append("%f")
+        return inputformats
+    
 
     
 
