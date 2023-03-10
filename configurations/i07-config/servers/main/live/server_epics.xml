@@ -410,16 +410,6 @@
 
 	<!-- ============================== Epics Monitor definition section ============== -->
 	<!-- ============================== Monitor definition section ============================== -->
-	<!-- Beam Energy Epics Monitor -->
-	<bean id="beamenergy" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-	</bean>
-
-	<!-- Ring Currrent Epics Monitor -->
-	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-	</bean>
-
 	<!-- Fast shutter temp monitor -->
 	<bean id="temp3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-EA-TCTRL-01:THERMO:RBV" />
