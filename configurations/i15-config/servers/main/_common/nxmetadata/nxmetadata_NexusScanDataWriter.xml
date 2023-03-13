@@ -78,7 +78,7 @@
 		<property name="nexusTemplateFiles">
 			<list>
 				<!-- 
-				<value>${gda.config}/placeholder/template.yaml</value>
+				<value>${gda.config}/servers/main/_common/nxmetadata/dataCollectionGroup_NexusScanDataWriter.yaml</value>
 				-->
 			</list>
 		</property>

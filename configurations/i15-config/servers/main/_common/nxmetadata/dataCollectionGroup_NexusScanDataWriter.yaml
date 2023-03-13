@@ -1,0 +1,10 @@
+entry1/:
+  NX_class@: NXentry
+    before_scan/:
+      NX_class@: NXcollection
+        dataCollectionGroupId: /entry1/before_scan/dataCollectionGroupId
+
+#org.yaml.snakeyaml.scanner.ScannerException: mapping values are not allowed here
+# in 'reader', line 3, column 17:
+#        before_scan/:
+#                    ^
