@@ -1,8 +1,6 @@
 from contextlib import contextmanager
 from gda.configuration.properties import LocalProperties
 from gda.data.metadata import GDAMetadataProvider
-from gda.device import DeviceException
-from gda.device.scannable import ScannableBase
 from gda.factory import Finder
 from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import add_reset_hook
@@ -15,7 +13,6 @@ from time import mktime, localtime
 from uk.ac.diamond.ispyb.api import IspybDataCollectionFactoryService, DataCollectionGroup
 import os
 import scisoftpy as dnp
-from magicmodule import debug
 
 class IspybDataCollectionApiUtils(object):
 
@@ -215,78 +212,3 @@ def getDataCollectionGroupIdFromScan(scan_number, visitPath=None):
 				msg = "Could not find dataCollectionGroupId in `%r.nxs`" % scan_number
 				LoggerFactory.getLogger('getDataCollectionGroupIdFromScan()').error(msg, e)
 	print msg
-
-
-
-class DataCollectionGroupScannable (ScannableBase, IspybDataCollectionApiUtils):
-	"""
-In addition to being a normal scannable, this scannable can also be used as
-a context manager to create a new data collection group, or use a specific
-data collection group id, for one or more scans. For example:
-
-	>>> with DataCollectionGroupScannable() as dcg:
-	...	scan scn start stop step dcg
-
-	>>> with DataCollectionGroupScannable(987654321) as dcg:
-	...	scan scn start stop step dcg
-	"""
-	def __init__(self, dcg_id=None):
-		self.setName('dcg')
-		self.dcg_id = dcg_id
-		self.dcg = None
-		self.logger = self.getLogger()
-
-		self.extraNames = self.inputNames
-		self.inputNames = []
-
-		self.dbc = IspybDataCollectionApiConnector.instance()
-
-	# Class functions
-
-	def getLogger(self):
-		return LoggerFactory.getLogger("DataCollectionGroupScannable:%r" % self.dcg_id)
-
-	def retrieveDataCollectionGroup(self):
-		if self.dcg_id:
-			self.dcg = self.dbc.retrieveDataCollectionGroup(self.dcg_id)
-			self.logger.debug("dataCollectionGroup Id {} reused atScanStart: {}", self.dcg_id, self.dcg)
-		else: 
-			self.dcg = self.dbc.newDataCollectionGroup()
-			self.dcg_id = self.dcg.getId()
-			# Update logger as dcg_id has changed
-			self.logger = self.getLogger()
-
-	# Context interface method implementation
-
-	def __enter__(self):
-		self.logger.debug("__enter__() self.dcg_id = {} self.dbc = {}, self.dcg = {}", self.dcg_id, self.dbc, self.dcg)
-		self.retrieveDataCollectionGroup()
-		#return self
-
-	def __exit__(self, *_):
-		self.logger.debug("__exit__() self.dcg_id = {} self.dbc = {}, self.dcg = {}", self.dcg_id, self.dbc, self.dcg)
-
-	# Optional Scannable interface method implementations
-
-	def atScanStart(self):
-		self.logger.debug("atScanStart() self.dcg_id = {} self.dbc = {}, self.dcg = {}", self.dcg_id, self.dbc, self.dcg)
-		self.retrieveDataCollectionGroup()
-
-	def atScanEnd(self):
-		self.logger.debug("atScanEnd() self.dcg_id = {} self.dbc = {}, self.dcg = {}", self.dcg_id, self.dbc, self.dcg)
-		if not self.dcg:
-			self.logger.warn("dataCollectionGroup not set for scan!")
-			raise DeviceException("self.dcg not set!")
-		self.dbc.closeDataCollectionGroup(self.dcg)
-		self.dcg = None
-
-	# Required Scannable interface method implementations
-
-	def rawGetPosition(self):
-		try:
-			return int(self.dcg.getId())
-		except:
-			return None
-
-	def isBusy(self):
-		return False
