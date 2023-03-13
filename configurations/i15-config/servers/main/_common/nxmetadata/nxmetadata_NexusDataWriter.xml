@@ -36,6 +36,7 @@
 		<property name="metadataScannables">
 			<set>
 				<value>exposure</value>
+				<value>dataCollectionGroupId</value>
 			</set>
 		</property>
 	</bean>
