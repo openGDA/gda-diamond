@@ -133,7 +133,7 @@ def localStation_exception(exc_info, msg):
 try:
 	simpleLog("================ INITIALISING I15 GDA ================")
 
-	from scannables.dataCollectionGroupScannable import dataCollectionGroup, getDataCollectionGroupIdFromScan
+	from utilities.dataCollectionGroupUtils import dataCollectionGroup, getDataCollectionGroupIdFromScan
 
 	try:
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
