@@ -11,4 +11,9 @@
 		<property name="processingFile" value="dawn_config.json"/>
 		<property name="relativePathBase" value="${gda.paths.visitdirectory}/processing"/>
 	</bean>
+
+	<bean id="mimas" class="gda.device.scannable.SingleFileProcessingRequest"
+			c:name="mimas"
+			c:key="mimas">
+	</bean>
 </beans>
