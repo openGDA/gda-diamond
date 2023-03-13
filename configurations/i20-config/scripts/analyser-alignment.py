@@ -22,21 +22,24 @@ moveableImageDet.configure()
 nexusFilenameTemplate = "alignment/%d.nxs"
 asciiFilenameTemplate = "alignment/%d.dat"
 
-imageDetector = moveableImageDet
+imageDetector = medipix1_addetector
+imageSize=[256, 1033] #'height', 'width'
+roiCentre=[128, 517]
+roiSize=[50,25]
 
-imageSize = [1000, 500]
-
-roiCentre = [500, 250] # ROI centre pixel position
-roiSize = [20, 20] # ROI half size in x and y
+#imageDetector = moveableImageDet
+#imageSize = [1000, 500]
+#roiCentre = [500, 250] # ROI centre pixel position
+#roiSize = [20, 20] # ROI half size in x and y
 
 # ROIs to take lineout at roiCentre location on detector in horiz and vert. direction
 hvRois = RoiExtractor()
 hvRois.setName("hvRois")
 hvRois.setDetector(imageDetector)
+
 # ROI in horizontal direction (along x axis, at y ROI centre position)
-# name, xmin, ymin, xmax, ymax
-hvRois.addRoi("horizontalRoi", 0, roiCentre[1]-roiSize[1], imageSize[0], roiCentre[1]+roiSize[1])
-hvRois.addRoi("verticalRoi", roiCentre[0]-roiSize[0], 0, roiCentre[0]+roiSize[0], imageSize[1])
+hvRois.addRoi("verticalRoi", 0, roiCentre[1]-roiSize[1], imageSize[0], roiCentre[1]+roiSize[1]) # name, xmin, ymin, xmax, ymax
+hvRois.addRoi("horizontalRoi", roiCentre[0]-roiSize[0], 0, roiCentre[0]+roiSize[0], imageSize[1])
 hvRois.addRoi("centreRoi", roiCentre[0]-roiSize[0], roiCentre[1]-roiSize[1], roiCentre[0]+roiSize[0], roiCentre[1]+roiSize[1])
 hvRois.configure()
 
@@ -52,10 +55,10 @@ def getPitchScannable(analyserCrystal) :
     return analyserCrystal.getPitchMotor()
 
 def doPitchScan(pitchScannable, centralPitch) :
-    return runScanAndFindPeak(pitchScannable, centralPitch, 0.1, 0.01, "verticalRoi")
+    return runScanAndFindPeak(pitchScannable, centralPitch, 0.5, 0.05, "horizontalRoi")
 
 def doYawScan(yawScannable, centralYaw) :
-    return runScanAndFindPeak(yawScannable, centralYaw, 0.2, 0.02, "horizontalRoi")
+    return runScanAndFindPeak(yawScannable, centralYaw, 1.0, 0.05, "verticalRoi")
 
 def doEnergyScan(energyScannable, expectedEnergy) :
     return runScanAndFindPeak(energyScannable, expectedEnergy, 5.0, 0.3, "centreRoi")
@@ -71,10 +74,11 @@ def doEnergyScanLoop(energyScannable, pitchScannable, expectedEnergy, offsets) :
         
     return energyScanResults
 
-
 def runScanAndFindPeak(scnToMove, scanCentre, scanRange=0.1, scanStepSize=0.01, roiName="horizontalRoi", collectionTime=1.0):
     print("Scanning %s : centre = %.4g, range = %.4g, stepsize = %.4g"%(scnToMove.getName(), scanCentre, scanRange, scanStepSize))
     print("ROI = %s"%(roiName))
+    
+    imageDetector.stop()
     
     # Generate points for centroid scan (ConcurrentScan needs the points as a tuple) 
     scanPoints = dnp.arange(scanCentre-scanRange, scanCentre+scanRange+0.5*scanStepSize, scanStepSize)
@@ -134,7 +138,7 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
         
     """
     
-    printInfo("Preparing to optimise analyser %d on %s. Expected energy = %.4g"%(crystalIndex, xesEnergyScn.getName(), expectedEnergy))
+    printInfo("Preparing to optimise analyser %d on %s. Expected energy = %.2f"%(crystalIndex, xesEnergyScn.getName(), expectedEnergy))
 
     xesBraggScn = xesEnergyScn.getXes()
     
@@ -148,7 +152,7 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
         raise Exception("No analyser crystal with index = "+str(crystalIndex)+" was found in "+xesBraggScn.getName())
     
     # Disable all the analysers except the one being optimised    
-    disableAnalysers(xesBraggScn, analyserCrystal.getHorizontalIndex())   
+    # disableAnalysers(xesBraggScn, analyserCrystal.getHorizontalIndex())   
     
     # Move analyser motors to the expected energy
     print("Moving %s to expected energy %.4g"%(xesEnergyScn.getName(), expectedEnergy))
@@ -175,34 +179,35 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
     #Do pitch and yaw scans, find the pitch and yaw producing the peak ROI counts
     printInfo("Running pitch scan using "+pitchScannable.getName())
     pitchScanResults = doPitchScan(pitchScannable, centrePitch)
+    pitchPeak = pitchScanResults[1].getPosition()
+    print("Peak pitch position : %.4f\n"%(pitchPeak))
+    print("Moving pitch to peak position")
+    pitchScannable.moveTo(pitchPeak)
+    
     printInfo("Running yaw scan using "+yawScannable.getName())
     yawScanResults = doYawScan(yawScannable, centreYaw)
-    
-    # Set the pitch and yaw values to to peak intensity position found during the scan
-    pitchPeak = pitchScanResults[1].getPosition()
-    printInfo("Setting motor offsets using scan results")
-    setupOffsets(pitchScannable, pitchPeak, centrePitch)    
     yawPeak = yawScanResults[1].getPosition()
-    setupOffsets(yawScannable, yawPeak, centreYaw)
+    print("Peak yaw position : %.4f\n"%(yawPeak))
 
-    # Do XES energy scan near expected energy; repeat several times for different pitch offset values
-    pitchOffsets = [-0.4, -0.2, 0, 0.2, 0.4]
-    printInfo("Running energy scans using "+pitchScannable.getName()+" offset values : "+str(pitchOffsets))
-    energyScanResults = doEnergyScanLoop(xesEnergyScn, pitchScannable, expectedEnergy, pitchOffsets)
-    
-    
-    printInfo("Fitting motor offset - peak Xes energy values to find best offset for %s"%pitchScannable.getName())
+    # Set the pitch and yaw values to to peak intensity position found during the scan
+    #pitchPeak = pitchScanResults[1].getPosition()
+    printInfo("Setting motor offsets using scan results")
+    setupOffsets(pitchScannable, centrePitch, pitchPeak, )    
+    setupOffsets(yawScannable, centreYaw, yawPeak)
 
-    fitResults = fitOffsetPitchCurve(energyScanResults, pitchOffsets)
-    
-    # y = ax + b (y = energy, x = offset).
-    # Find offset to give expected energy 
-    a=fitResults[0]
-    b=fitResults[1]
-    offset = (expectedEnergy-b)/a
-    print("Offset to give peak at expected energy (%.4g) : %.4g"%(expectedEnergy, offset))
-    return fitResults
-
+def optimiseEnergy(xesEnergyScannable, expectedEnergy, pitchScannable, yawScannable) :
+    xesEnergyScannable.moveTo(expectedEnergy)
+    expectedPitch = pitchScannable.getPosition()
+    expectedYaw = yawScannable.getPosition();
+    for i in range(3) :  
+        fitResult = doEnergyScan(xesEnergyScannable, expectedEnergy)
+        peakEnergy = fitResult[1].getPosition()
+        print("Energy peak position : %.4f"%(peakEnergy))
+        print("Moving %s to %.4f"%(xesEnergyScannable.getName(), peakEnergy))
+        xesEnergyScannable.moveTo(peakEnergy)
+        setupOffsets(pitchScannable, expectedPitch)    
+        setupOffsets(yawScannable, expectedYaw)  
+        
 def fitOffsetPitchCurve(energyLoopResult, pitchOffsets) :
     energyPeakValues = []
     for res in energyLoopResult :
@@ -220,11 +225,14 @@ import scisoftpy as dnp
  
 # Move motor to given peakPosition (peakPos); Call setPosition with calculatedPos - this adjusts
 # the motor offsets so that next time it moves to calculatedPos, the real position is peakPos.
-def setupOffsets(scannableMotor, peakPos, calculatedPos):
-    print("Moving %s to peak found during scan : %.4g"%(scannableMotor.getName(), peakPos))
-    scannableMotor.moveTo(peakPos)
-    print("Setting offset on %s to give peak value at %.4g"%(scannableMotor.getName(), calculatedPos))
+def setupOffsets(scannableMotor, calculatedPos, peakPos=None):
+    if peakPos != None : 
+        print("Moving %s to peak found during scan : %.4f"%(scannableMotor.getName(), peakPos))
+        scannableMotor.moveTo(peakPos)
+    print("Current %s offset : %.6f"%(scannableMotor.getName(), scannableMotor.getUserOffset()))
+    print("Setting offset on %s to give peak value at %.4f"%(scannableMotor.getName(), calculatedPos))
     scannableMotor.setPosition(calculatedPos)
+    print("New %s offset : %.6f"%(scannableMotor.getName(), scannableMotor.getUserOffset()))
 
 def linearFit(xvals, yvals) :
     """
