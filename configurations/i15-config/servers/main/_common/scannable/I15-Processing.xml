@@ -15,5 +15,7 @@
 	<bean id="mimas" class="gda.device.scannable.SingleFileProcessingRequest"
 			c:name="mimas"
 			c:key="mimas">
+		<property name="processingFile" value="mimas.json"/>
+		<property name="relativePathBase" value="${gda.paths.visitdirectory}/processing"/>
 	</bean>
 </beans>
