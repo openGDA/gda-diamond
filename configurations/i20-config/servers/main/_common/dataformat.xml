@@ -3,6 +3,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="columnNameMappings" class="java.util.LinkedHashMap">
+		<constructor-arg>
+      	  	<map>
+      	  		<entry key="bragg1WithOffset" value="Energy" />
+      	  	
+				<entry key="XESEnergyUpper" value="XESEnergyUpper" />
+				<entry key="XESBraggUpper" value="XESBraggUpper" />
+				
+				<entry key="XESEnergyLower" value="XESEnergyLower" />
+				<entry key="XESBraggLower" value="XESBraggLower" />
+								
+				<entry key="medipix1_roi_total" value="FF_medipix1" />
+				<entry key="FFI1_medipix1" value="FFI1_medipix1" />
+
+				<entry key="medipix2_roi_total" value="FF_medipix2" />
+				<entry key="FFI1_medipix2" value="FFI1_medipix2" />
+        	</map>
+    	</constructor-arg>
+	</bean>
+
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
 		<property name="commentMarker" value="#"></property>
 		<property name="header">
@@ -251,12 +271,7 @@
 				</bean>
 			</list>
 		</property>
-
-		<property name="columnNameMap">
-			<map>
-				<entry key="medipix_roi_total" value="FF" />
-			</map>
-		</property>	
+		<property name="columnNameMap" ref="columnNameMappings" />
 
 	</bean>
 
@@ -513,11 +528,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="columnNameMap">
-			<map>
-				<entry key="medipix_roi_total" value="FF" />
-			</map>
-		</property>	
+		<property name="columnNameMap" ref="columnNameMappings" />
 	</bean>
 	
 	

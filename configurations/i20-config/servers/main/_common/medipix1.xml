@@ -68,7 +68,8 @@
 		<property name="baseRoiPVName" value="#{medipixBaseRoiPv}" />
 		<property name="baseStatsPVName" value="#{medipixBaseStatPv}" />
 		<property name="roiInputNdArrayPort" value="#{medipixCamPort}" />
-		<property name="enabledBasicStats" value="MaxValue,Total" />
+<!-- 		<property name="enabledBasicStats" value="MaxValue,Total" /> -->
+		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="legacyTSpvs" value="#{legacyTSPvs}"/> <!--  use new time series PVs after RHEL7 upgrade -->
 		<property name="roiProvider">
@@ -79,9 +80,10 @@
 	</bean>
 
 	<!--  New plugin added to calculate roi counts over I0 from ionchambers. imh 4/2/2015 -->
-	<bean id="medipix1_FFI0"	class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
+	<bean id="medipix1_FFI0" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
 		<property name="counterTimer" ref="I1" />
 		<property name="nxDetector" ref="medipix1" />
+		<property name="streamName" value="FFI1_medipix1" />
 	</bean>
 
 <!--  Make some lists of nx plugins to use for the medipix1 -->
