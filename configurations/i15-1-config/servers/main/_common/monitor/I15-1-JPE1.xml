@@ -12,12 +12,12 @@
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="y_position"/>
 					<property name="scannableName"			value="det1Y"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="z_position"/>
 					<property name="scannableName"			value="det1Z"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 			</list>
 		</property>

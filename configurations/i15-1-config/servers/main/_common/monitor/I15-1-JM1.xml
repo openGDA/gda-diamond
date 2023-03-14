@@ -27,27 +27,27 @@
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="upstream_x"/>
 					<property name="scannableName"			value="m1usX"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="downstream_x"/>
 					<property name="scannableName"			value="m1dsX"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="upstream_inboard_y"/>
 					<property name="scannableName"			value="m1ibY"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="upstream_outboard_y"/>
 					<property name="scannableName"			value="m1obY"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="downstream_y"/>
 					<property name="scannableName"			value="m1dsY"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 			</list>
 		</property>

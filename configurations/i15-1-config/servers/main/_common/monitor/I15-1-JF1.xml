@@ -27,17 +27,17 @@
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="filter1"/>
 					<property name="scannableName"			value="att1y"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="filter2"/>
 					<property name="scannableName"			value="att2y"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
 					<property name="destinationFieldName"	value="filter3"/>
 					<property name="scannableName"			value="att3y"/>
-					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="sourceFieldName"		value="value"/>
 				</bean>
 			</list>
 		</property>
