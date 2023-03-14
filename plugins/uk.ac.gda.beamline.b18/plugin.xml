@@ -260,21 +260,6 @@
          </separator>
       </menuContribution>
       <menuContribution
-            locationURI="toolbar:uk.ac.gda.beamline.b18.softxray">
-         <command
-               commandId="uk.ac.gda.beamline.b18.softxray.startcommand"
-               label="start"
-               style="push"
-               tooltip="start monitoring">
-         </command>
-         <command
-               commandId="uk.ac.gda.beamline.b18.softxray.stopcommand"
-               label="stop"
-               style="push"
-               tooltip="stop monitoring">
-         </command>
-      </menuContribution>
-      <menuContribution
             allPopups="false"
             locationURI="menu:window?after=showView">
          <menu
@@ -365,25 +350,6 @@
       		class="gda.exafs.validation.B18Validator">
       </validator>
    </extension>
-      <extension
-            point="org.eclipse.ui.commands">
-         <category
-            	id="uk.ac.gda.beamline.b18.softxray"
-            	name="SoftXRayViewCommands">
-   		 </category>
-         <command
-               categoryId="uk.ac.gda.beamline.b18.softxray"
-               defaultHandler="uk.ac.gda.beamline.b18.StartHandler"
-               id="uk.ac.gda.beamline.b18.softxray.startcommand"
-               name="Start Monitoring">
-         </command>
-         <command
-               categoryId="uk.ac.gda.beamline.b18.softxray"
-               defaultHandler="uk.ac.gda.beamline.b18.StopHandler"
-               id="uk.ac.gda.beamline.b18.softxray.stopcommand"
-               name="Stop Monitoring">
-         </command>      
-      </extension>
       <extension
             point="org.eclipse.ui.perspectiveExtensions">
          <perspectiveExtension
