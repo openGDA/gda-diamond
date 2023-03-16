@@ -194,7 +194,7 @@ def getDataCollectionGroupIdFromScan(scan_number, visitPath=None):
 
 	try:
 		nexusFilePath = os.path.join(visitPath, "{}.nxs".format(scan_number))
-		data = dnp.io.load(nexusFilePath)
+		data = dnp.io.load(nexusFilePath, warn=False)
 	except Exception as e:
 		data = None
 		msg = "Could not find `%r.nxs` in folder `%r`" % (scan_number, visitPath)
