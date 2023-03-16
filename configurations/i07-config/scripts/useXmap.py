@@ -130,25 +130,25 @@ monListener.multiLinesPlot = False
 
 # Generate Dataset of random values
 def getRandomArray(numElements) :
-	arr=[]
+	randomArr=[]
 	for i in range(numElements) :
-		arr.append(random.randrange(0, 100))
-	dataset = DatasetFactory.createFromObject(arr, numElements)
+		randomArr.append(random.randrange(0, 100))
+	dataset = DatasetFactory.createFromObject(randomArr, numElements)
 	dataset.setName("random data")
 	return dataset
 
 # Return dataset filled with array of values from PV
 def getArray(caclient, numElements) :
 	# print "Getting data from "+caclient.getPvName()
-	arr = caclient.cagetArrayDouble(numElements)
-	dataset = DatasetFactory.createFromObject(arr, numElements)
+	elementArr = caclient.cagetArrayDouble(numElements)
+	dataset = DatasetFactory.createFromObject(elementArr, numElements)
 	dataset.setName(caclient.getPvName())
 	return dataset
 
 def get2DArray(caclient, xsize, ysize) :
 	# print "Getting data from "+caclient.getPvName()
-	arr = caclient.cagetArrayDouble(xsize*ysize)
-	dataset = DatasetFactory.createFromObject(arr, xsize, ysize)
+	sizeArr = caclient.cagetArrayDouble(xsize*ysize)
+	dataset = DatasetFactory.createFromObject(sizeArr, xsize, ysize)
 	dataset.setName(caclient.getPvName())
 	return dataset
 
