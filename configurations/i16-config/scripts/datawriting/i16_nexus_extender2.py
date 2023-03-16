@@ -19,15 +19,6 @@ jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 _title=jythonNameMap['_title']
 _sample=jythonNameMap['_sample']
 
-#Copied from Python documentation since Jython does have this yet (added to Python in 2.6)
-def cartesian_product(*args, **kwds):
-    pools = map(tuple, args) * kwds.get('repeat', 1)
-    result = [[]]
-    for pool in pools:
-        result = [ x + [y] for x in result for y in pool ]
-    for prod in result:
-        yield tuple(prod)
-
 def set_diffcalc_instance(diffcalc):
     global DIFFCALC
     DIFFCALC = diffcalc
@@ -36,7 +27,6 @@ def use_cryo(cryo):
     global USE_CRYO_GEOMETRY
     USE_CRYO_GEOMETRY = cryo
 
-RAD_TO_DEG = 180 / math.pi
 EVOLT_TO_JOULE = 1.60217657e-19
 PLANCK = 6.62606957e-34
 LIGHTSPEED = 299792458.
@@ -583,24 +573,6 @@ class I16NexusExtender(DataWriterExtenderBase):
         data.name = "definition"
         self.logger.debug("writeDefinition() data={}", nFile, data)
         nFile.createData(group, data)
-
-    def writeDeltaOffset(self, nFile, transformations, metadata):
-        self.logger.debug("writeDeltaOffset(nFile={}, transformations={}, metadata={})", nFile, transformations, metadata)
-        diffGroup = nFile.getGroup(metadata, "diffractometer_sample", "NXcollection", False)
-        try:
-            offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble(0)
-        except:
-            offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble()
-            self.logger.error("writeDeltaOffset() coudn't get nFile.getData(diffGroup, delta_axis_offset').getDataset().getSlice().getDouble() use getDouble() instead")
-        offsetData = DF.createFromObject([offsetValue])
-        offsetData.name = "offsetdelta"
-        data = nFile.createData(transformations, offsetData)
-        NexusUtils.writeAttribute(nFile, data, "local_name", "delta_axis_offset.delta_axis_offset")
-        NexusUtils.writeAttribute(nFile, data, "vector", [0., -1., 0.])
-        NexusUtils.writeAttribute(nFile, data, "axis", 1)
-        NexusUtils.writeAttribute(nFile, data, "units", "deg")
-        NexusUtils.writeAttribute(nFile, data, "transformation_type", "rotation")
-        NexusUtils.writeAttribute(nFile, data, "depends_on","/entry1/instrument/transformations/gamma")
 
     def writeStuffToFile(self, fileName):
         self.logger.debug("writeStuffToFile(fileName={})", fileName)
