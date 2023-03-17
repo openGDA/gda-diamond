@@ -256,5 +256,8 @@ def setup():
     if LocalProperties.isDummyModeEnabled() :
         setup_dummy_spectrometer(XESEnergy)
     set_initial_crystal_values(XESEnergy)
+    
+    run "tfgSetup.py"
+    tfg=TFG()
 
 setup()
