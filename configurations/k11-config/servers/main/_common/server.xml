@@ -61,7 +61,6 @@
 
 	<!-- shutters -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/shutters/fe_shutter.xml" />
-	<import	resource="file:${gda.config}/servers/main/${gda.mode}/shutters/eh_shutter.xml" />
 
 	<!-- file registration -->
 	<import
@@ -81,6 +80,8 @@
 	
 	<!-- beam -->
 	<import	resource="file:${gda.config}/servers/main/_common/beam/beam_selector.xml" />
+	
+	<import	resource="file:${gda.config}/servers/main/_common/shutters/eh_shutter.xml" />
 	
 
 	<!-- cryo -->

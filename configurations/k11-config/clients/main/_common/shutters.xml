@@ -8,9 +8,7 @@
 		<property name="shutterDisplayName" value="EH Shutter" />
 		<property name="enablingScannableNamesAndMessages">
 			<map>
-				<entry key="eh_non_critical" value="EH non-critical interlock not cleared: check gas (He and Ar) levels!" />
-				<entry key="eh1_searched_and_locked" value="Hutch not searched?" />
-				<entry key="guardlines" value="Check guardline interlock status: if not cleared but EH1 searched and locked contact the control room 8899 and request them to be reset." />
+				<entry key="eh1_searched_and_locked" value="Hutch not searched" />
 			</map>
 		</property>
 	</bean>
