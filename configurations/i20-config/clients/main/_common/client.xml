@@ -19,7 +19,7 @@
 	<!-- Synoptic GUIs -->
 	<!--  set to 'true' to show mouse coordinates in synoptic views (useful when setting up views) -->
 	<bean id="showCoordinates" class="java.lang.String">
-		<constructor-arg value="true" />
+		<constructor-arg value="false" />
 	</bean>
 	<bean id="motorWidth" class="java.lang.String">
 		<constructor-arg value="70" />
@@ -83,7 +83,7 @@
 			<map>
 				<entry key="xmapMca" value="${gda.config}/var/templates/Vortex_Parameters.xml"/>
 <!-- 				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/> -->
-				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
+				<entry key="medipix1" value="${gda.config}/var/templates/Medipix1_Parameters.xml"/>
 				<entry key="medipix2" value="${gda.config}/var/templates/Medipix2_Parameters.xml"/>
 				<entry key="xspress3" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
 				<entry key="xspress3X" value="${gda.config}/var/templates/Xspress3X_Parameters.xml" />

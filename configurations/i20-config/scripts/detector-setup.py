@@ -6,7 +6,7 @@ run 'xspress_functions.py'
 
 def setupXspress3() :
     xspress3Controller = xspress3.getController()
-    basePvName = xspress3Controller.getEpicsTemplate()
+    basePvName = xspress3Controller.getBasePv()
     setup_xspress_detector(basePvName)
     setupResGrades(basePvName, False)
             
@@ -27,16 +27,9 @@ def setupXspress3X() :
          
 def setupXspress4() : 
     print "Setting up XSpress4 : "
-    
-    #arrayCounter = ":ArrayCounter_RBV" # Old Xspress4 IOC
-    arrayCounter = ":ARR:ArrayCounter_RBV" # New Xspress4 IOC (13April2022)
-    print("Setting Array counter RBV PV to :%s"%(arrayCounter))
-    xspress4.getController().setArrayCounterRbvName(arrayCounter)
-    # Recreate the PVs
-    xspress4.getController().afterPropertiesSet()
-    
+
     basename = xspress4.getController().getBasePv()
-    
+
     # setupResGrades(basename, True)
     setup_xspress_detector(basename)  # set the trigger mode, 1 frame of data to set data dimensions
 
@@ -49,11 +42,6 @@ def setupXspress4() :
     xspress4.setFilePath("");
     set_hdf5_filetemplate(basename)
 
-def setupMedipix() :
-    global medipix_basePvName
-    print "Setting up Medipix"
-    collect_software_triggered_frame(medipix_basePvName+":CAM", 1.0)
-
 def setupDetectors() :
     if LocalProperties.isDummyModeEnabled() :
         return
@@ -62,6 +50,5 @@ def setupDetectors() :
     run_in_try_catch(setupXspress3)
     run_in_try_catch(setupXspress3X)
     run_in_try_catch(setupXspress4)
-    run_in_try_catch(setupMedipix)
     
 setupDetectors()

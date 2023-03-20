@@ -29,6 +29,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DetectorHdfFunctions;
+import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.mythen.MythenDetectorImpl;
 import gda.device.detector.nxdetector.NXPluginBase;
@@ -578,12 +579,12 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		return selectedDetector;
 	}
 
-	public void setMedipixPlugins(List<NXPluginBase> mutableRoiPluginList) {
-		detectorPreparerFunctions.setMutableRoiPluginList(mutableRoiPluginList);
+	public void setMedipixPlugins(NXDetector medipixDetector, List<NXPluginBase> mutableRoiPluginList) {
+		detectorPreparerFunctions.setMutableRoiPluginList(medipixDetector, mutableRoiPluginList);
 	}
 
-	public void setMedipixMutableRoi(MutableRectangularIntegerROI mutableRoiForMedipix) {
-		detectorPreparerFunctions.setMutableRoiForMedipix(mutableRoiForMedipix);
+	public void setMedipixMutableRoi(NXDetector medipixDetector, MutableRectangularIntegerROI mutableRoiForMedipix) {
+		detectorPreparerFunctions.setMutableRoiForMedipix(medipixDetector, mutableRoiForMedipix);
 	}
 
 	public Detector getPilatusDetector() {

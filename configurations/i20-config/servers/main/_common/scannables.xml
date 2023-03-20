@@ -27,4 +27,22 @@
 		</property>
 	</bean>
 
+	<bean id="XESEnergyBoth" class="gda.device.scannable.ScannableGroupSinglePosition">
+		<property name="groupMembers">
+			<list>
+				<ref bean="XESEnergyUpper" />
+				<ref bean="XESEnergyLower" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="XESBraggBoth" class="gda.device.scannable.ScannableGroupSinglePosition">
+		<property name="groupMembers">
+			<list>
+				<ref bean="XESBraggUpper" />
+				<ref bean="XESBraggLower" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

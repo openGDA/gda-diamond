@@ -26,12 +26,10 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/tables-common.xml" />
 
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes-lower-row-motors.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/dummy/xes-lower-row-motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes-lower-row-motors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/xes-lower-row.xml" />
 	
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes-upper-row-motors.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/dummy/xes-upper-row-motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes-upper-row-motors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/xes-upper-row.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />

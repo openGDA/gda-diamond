@@ -2,25 +2,25 @@
 <DetectorParameters>
     <shouldValidate>true</shouldValidate>
     <detectorConfiguration>
-        <description>Ionchambers</description>
-        <detectorName>counterTimer01</detectorName>
+        <description>Ionchambers (I1)</description>
+        <detectorName>I1</detectorName>
         <configFileName></configFileName>
         <scriptCommand></scriptCommand>
         <useDetectorInScan>true</useDetectorInScan>
         <useConfigFile>false</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>
-        <description>Medipix</description>
-        <detectorName>medipix</detectorName>
-        <configFileName>Medipix_Parameters.xml</configFileName>
-        <useDetectorInScan>true</useDetectorInScan>
+        <description>Medipix1</description>
+        <detectorName>medipix1</detectorName>
+        <configFileName></configFileName>
+        <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>
         <description>Medipix2</description>
         <detectorName>medipix2</detectorName>
-        <configFileName>Medipix2_Parameters.xml</configFileName>
+        <configFileName></configFileName>
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
@@ -28,11 +28,11 @@
     <detectorConfiguration>
         <description>XMap</description>
         <detectorName>xmapMca</detectorName>
-        <configFileName>Vortex_Parameters.xml</configFileName>
+        <configFileName></configFileName>
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
-        <extraDetectorName>FFI0_vortex</extraDetectorName>
+        <extraDetectorName>FFI1</extraDetectorName>
     </detectorConfiguration>
     <detectorConfiguration>
         <description>Xspress3X</description>
@@ -41,15 +41,6 @@
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
-        <extraDetectorName>xspress3XFFI0</extraDetectorName>
-    </detectorConfiguration>
-    <detectorConfiguration>
-        <description>Xspress4</description>
-        <detectorName>xspress4Odin</detectorName>
-        <configFileName></configFileName>
-        <useDetectorInScan>false</useDetectorInScan>
-        <useScriptCommand>false</useScriptCommand>
-        <useConfigFile>true</useConfigFile>
-        <extraDetectorName>xspress4OdinFFI0</extraDetectorName>
+        <extraDetectorName>xspress3XFFI1</extraDetectorName>
     </detectorConfiguration>
 </DetectorParameters>

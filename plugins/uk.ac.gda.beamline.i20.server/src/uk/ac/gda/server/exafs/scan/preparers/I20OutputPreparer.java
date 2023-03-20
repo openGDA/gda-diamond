@@ -31,13 +31,14 @@ import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorGroup;
-import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.SignalParameters;
+import uk.ac.gda.beans.exafs.XanesScanParameters;
+import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 
@@ -103,16 +104,21 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	// #
 	@Override
 	public ScanPlotSettings getPlotSettings() {
-		String expType = detectorBean.getExperimentType();
-		if (expType.equals(DetectorParameters.XES_TYPE)) {
-			String axisName = scanBean.getScannableName();
-			if (axisName != null && axisName.contains("XES")) {
+		if (scanBean instanceof XesScanParameters xesScanParams) {
+			// this will need to change depending on the colour type
+			String axisName = xesScanParams.getSpectrometerParamsForRow(0).getScannableName();
+//			if (axisName != null && axisName.contains("XES")) {
 				ScanPlotSettings sps = new ScanPlotSettings();
-				sps.setXAxisName("XESEnergy");
+				sps.setXAxisName(axisName);
 				return sps;
+//			}
+		} else if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters) {
+
+			if (detectorBean.getFluorescenceParameters() == null ||
+				!detectorBean.getFluorescenceParameters().getDetectorType().equalsIgnoreCase(FluorescenceParameters.GERMANIUM_DET_TYPE)) {
+				return null;
 			}
-		} else if (expType.equals(DetectorParameters.FLUORESCENCE_TYPE)
-				&& (detectorBean.getFluorescenceParameters().getDetectorType().equalsIgnoreCase(FluorescenceParameters.GERMANIUM_DET_TYPE))) {
+
 			if (i20OutputParams.isXspressShowDTRawValues() || !i20OutputParams.isXspressOnlyShowFF()) {
 				// # create a filter for the DT columns and return it
 				LocalProperties.set("gda.scan.useScanPlotSettings", "true");

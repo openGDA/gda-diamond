@@ -18,16 +18,18 @@
 
 package uk.ac.gda.server.exafs.scan;
 
+import java.util.List;
+
 import gda.device.Scannable;
 import gda.exafs.xes.IXesOffsets;
 
 public class XesScanFactory extends XasScanFactory {
 
 
-	private Scannable analyserAngle;
-	private Scannable xes_energy;
+	private Scannable analyserAngleBoth;
+	private Scannable xesEnergyBoth;
 	private XesScan xesScan;
-	private IXesOffsets xesOffsets;
+	private List<IXesOffsets> xesOffsetsList;
 
 	public XesScan createXesScan(){
 
@@ -37,12 +39,12 @@ public class XesScanFactory extends XasScanFactory {
 
 		checkSharedObjectsNonNull();
 
-		checkDefined(analyserAngle, "analyserAngle");
-		checkDefined(xes_energy, "xes_energy");
+		checkDefined(analyserAngleBoth, "analyserAngleBoth");
+		checkDefined(xesEnergyBoth, "xesEnergyBoth");
 
 		xesScan = new XesScan();
-		xesScan.setAnalyserAngle(analyserAngle);
-		xesScan.setXes_energy(xes_energy);
+		xesScan.setXesBraggBoth(analyserAngleBoth);
+		xesScan.setXesEnergyBoth(xesEnergyBoth);
 		xesScan.setMono_energy(energyScannable);
 		xesScan.setXas(createEnergyScan());
 		xesScan.setBeamlinePreparer(beamlinePreparer);
@@ -52,33 +54,33 @@ public class XesScanFactory extends XasScanFactory {
 		xesScan.setLoggingScriptController(loggingScriptController);
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(includeSampleNameInNexusName);
-		xesScan.setXesOffsets(xesOffsets);
+		xesScan.setXesOffsetsList(xesOffsetsList);
 
 		return xesScan;
 	}
 
-	public Scannable getAnalyserAngle() {
-		return analyserAngle;
+	public Scannable getXesBraggBoth() {
+		return analyserAngleBoth;
 	}
 
-	public void setAnalyserAngle(Scannable analyserAngle) {
-		this.analyserAngle = analyserAngle;
+	public void setXesBraggBoth(Scannable analyserAngleBoth) {
+		this.analyserAngleBoth = analyserAngleBoth;
 	}
 
-	public Scannable getXes_energy() {
-		return xes_energy;
+	public Scannable getXesEnergyBoth() {
+		return xesEnergyBoth;
 	}
 
-	public void setXes_energy(Scannable xes_energy) {
-		this.xes_energy = xes_energy;
+	public void setXesEnergyBoth(Scannable xesEnergyBoth) {
+		this.xesEnergyBoth = xesEnergyBoth;
 	}
 
-	public IXesOffsets getXesOffsets() {
-		return xesOffsets;
+	public List<IXesOffsets> getXesOffsetsList() {
+		return xesOffsetsList;
 	}
 
-	public void setXesOffsets(IXesOffsets xesOffsets) {
-		this.xesOffsets = xesOffsets;
+	public void setXesOffsetsList(List<IXesOffsets> xesOffsetsList) {
+		this.xesOffsetsList = xesOffsetsList;
 	}
 
 
