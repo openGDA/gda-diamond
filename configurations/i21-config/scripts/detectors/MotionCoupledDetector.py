@@ -47,22 +47,5 @@ class ExposureLimitedDetector(NXDetector):
     def setZContinuous(self, b):
         self.collectionStrategy.setZContinuous(b)
         
-    def atPointStart(self):
-        # print("atPointStart called")
-        self.getCollectionStrategy().atPointStart()
-    
-    def atPointEnd(self):
-        # print("atPointEnd Called")
-        self.getCollectionStrategy().atPointEnd()
-        
     def setPathReverse(self, b):
         self.getCollectionStrategy().setPathReverse(b)
-        
-         
-        
-
-
-             
-    
-         
-        

@@ -31,6 +31,7 @@ from gdaserver import fastshutter  # @UnresolvedImport
 from detectors.generic_observer import GeneralObserver
 from org.slf4j import LoggerFactory
 from gda.jython import InterfaceProvider
+from gda.observable import ObservableUtil
 
 logger = LoggerFactory.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class SnakePathWithShutterControlThread(threading.Thread):
     Ask the thread to stop by calling its join() method.
     """
     def __init__(self, continuous_move_motor, continuous_move_motor_start, continuous_move_motor_end, shutter_open,
-                  shutter_close, step_move_motor, step_move_motor_positions, adbase, output_q, z_cont, y_cont, reverse):
+                  shutter_close, step_move_motor, step_move_motor_positions, adbase, output_q, z_cont, y_cont, reverse, observer):
         super(SnakePathWithShutterControlThread, self).__init__()
         self.continuous_move_motor = continuous_move_motor
         self.continuous_move_motor_start = continuous_move_motor_start
@@ -63,6 +64,8 @@ class SnakePathWithShutterControlThread(threading.Thread):
         self.state_observer = None
         self.state_observable = None
         self.firstTimeRunnThis = True
+        self.observableUtil = ObservableUtil()
+        self.observer = observer
         
     def run(self):
         while not self.stoprequest.isSet():
@@ -87,12 +90,16 @@ class SnakePathWithShutterControlThread(threading.Thread):
         self.state_observer = GeneralObserver("state_observer2", self.update_motor_shutter_control)
         self.state_observable.addObserver(self.state_observer)
         
+        self.observableUtil.addObserver(self.observer)
+        
     def removeObserver(self):
         if self.state_observer and self.state_observable:
             logger.debug("Remove detector acquiring state observer 2")
             self.state_observable.removeObserver(self.state_observer)
             self.state_observer = None
             self.state_observable = None
+            
+        self.observableUtil.removeObserver(self.observer)
         
     def update_motor_shutter_control(self, source, change):
         '''handling detector acquiring event
@@ -141,8 +148,27 @@ class SnakePathWithShutterControlThread(threading.Thread):
             if self.stoprequest.isSet(): #support early stop of this thread
                 logger.debug("stop requested before move step motor {}", step_move_motor_name)
                 break
+            
+            # make sure detector acquire started before continuous motion path
+            i = 1
+            while not self.detectorIsAcquiring and i < 50:
+                time.sleep(0.1)
+                i = i + 1
+            # if after wait 5 second, force start detector
+            scan_data_point = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint()
+            number_of_points = scan_data_point.getNumberOfPoints()
+            current_point_number = scan_data_point.getCurrentPointNumber()
+            logger.debug("point {}/{} is collecting", current_point_number, number_of_points)
+            if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points and not self.detectorIsAcquiring: # not the last scan data point, detector should acquire at here
+                logger.warn("detector should be acquiring by now, but it doesn't, so send {} to {}", self.detectorIsAcquiring, self.observer.name)
+                self.observableUtil.notifyIObservers(self.observableUtil, self.detectorIsAcquiring)
+
+            if self.shutterAlreadyOpen:
+                logger.error("Shutter should be closed during '{}' motion", step_move_motor_name)
+            
             logger.debug("Move motor '{}' to {}", step_move_motor_name, motor_pos)
             self.step_move_motor.moveTo(motor_pos)
+            
             if index % 2 == 0:
                 target_position = self.continuous_move_motor_end
             else:
@@ -155,11 +181,14 @@ class SnakePathWithShutterControlThread(threading.Thread):
                     self.closeShutter()
                     break
                 self.shutterControl()
+            
             logger.debug("motors %s = %f, %s = %f, steps %d/%d done in %s" % 
                   (step_move_motor_name, float(self.step_move_motor.getPosition()), continuous_move_motor_name, float(self.continuous_move_motor.getPosition()), index+1, len(step_move_motor_positions), step_move_motor_name))
-            
         
-        logger.info("All '{}' sample positions are used up now !", step_move_motor_name)
+        number_of_points = scan_data_point.getNumberOfPoints()
+        current_point_number = scan_data_point.getCurrentPointNumber()   
+        if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points: # not the last scan data point
+            logger.info("All '{}' sample positions are used up now !", step_move_motor_name)
         if index % 2 == 0: #swap start and end points
             continuous_end = self.continuous_move_motor_end
             self.continuous_move_motor_end = self.continuous_move_motor_start
@@ -170,7 +199,6 @@ class SnakePathWithShutterControlThread(threading.Thread):
                 self.closeShutter()
                 self.count_time_q.put(self.total_shutter_open_time)
                 logger.debug("Total shutter opening time for the last point is %f" % (self.total_shutter_open_time))
-            print("All '%s' sample positions are used up now !" % step_move_motor_name)
             InterfaceProvider.getCurrentScanController().requestFinishEarly()
             self.stoprequest.set()
             print("Trying to finish current scan ..., but, if failed or hanging, please click 'stop' to stop this scan!")

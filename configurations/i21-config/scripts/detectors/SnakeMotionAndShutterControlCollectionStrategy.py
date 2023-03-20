@@ -196,31 +196,6 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             if self.motion_shutter_control_thread.isAlive():
                 logger.debug("Detector acquire complete")
     
-    def atPointStart(self):
-        acquire_time = self.getAcquireTime()
-        sleep_time = acquire_time / (10 ** (int(math.log10(acquire_time)) + 1)) + 1.3
-        time.sleep(sleep_time)
-
-    def calculate_sleep_time(self):
-        # black magic used to avoid resonant among motion, shutter control and detector exposure
-        # There should be a better way to locking between these threads
-        acquire_time = self.getAcquireTime()
-        if acquire_time < 10:
-            sleep_time = acquire_time / 10 + 1.3
-        if acquire_time < 100:
-            sleep_time = acquire_time / 100 + 1.3
-        if acquire_time < 1000:
-            sleep_time = acquire_time / 1000 + 1.3
-        if acquire_time > 1000:
-            sleep_time = acquire_time / (10 ** (int(math.log10(acquire_time)) + 1)) + 1.3 # not tested, in hope user does not request so large exposure time per image.
-        return sleep_time
-
-    def atPointEnd(self):
-        # added delay to avoid resonant among motion, shutter control and detector exposure
-        acquire_time = self.getAcquireTime()
-        sleep_time = acquire_time / (10 ** (int(math.log10(acquire_time)) + 1)) + 1.3
-        time.sleep(sleep_time)
-        
                    
     # implement NXCollectionStrategyPlugin interface
     def getAcquireTime(self):
@@ -236,12 +211,14 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         logger.debug("Prepare for collection ...")
         self.detecrmineControlPositions()
         self.count_time_q = Queue.Queue()
+        self.collection_time = collection_time
+        self.detector_collect_observer = GeneralObserver("detector_not_collecting", self.make_detector_collect)
 
         logger.debug("Create motion and shutter control thread")
         if self.zContinuous:
-            self.motion_shutter_control_thread = SnakePathWithShutterControlThread(self.z, self.z_start, self.z_end, self.z_open, self.z_close, self.y, self.y_positions, self.ad_base, self.count_time_q, self.zContinuous, self.yContinuous, self.pathReverse)
+            self.motion_shutter_control_thread = SnakePathWithShutterControlThread(self.z, self.z_start, self.z_end, self.z_open, self.z_close, self.y, self.y_positions, self.ad_base, self.count_time_q, self.zContinuous, self.yContinuous, self.pathReverse, self.detector_collect_observer)
         if self.yContinuous:
-            self.motion_shutter_control_thread = SnakePathWithShutterControlThread(self.y, self.y_start, self.y_end, self.y_open, self.y_close, self.z, self.z_positions, self.ad_base, self.count_time_q, self.zContinuous, self.yContinuous, self.pathReverse)
+            self.motion_shutter_control_thread = SnakePathWithShutterControlThread(self.y, self.y_start, self.y_end, self.y_open, self.y_close, self.z, self.z_positions, self.ad_base, self.count_time_q, self.zContinuous, self.yContinuous, self.pathReverse,self.detector_collect_observer)
 
         erio() # control fast shutter separately, not as part of detector
         fastshutter.moveTo("Closed") #ensure shutter is closed before collection
@@ -256,6 +233,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.state_observer = GeneralObserver("state_observer1", self.update_motor_shutter_control)
         self.state_observable.addObserver(self.state_observer)
         self.motion_shutter_control_thread.addObserver(self.ad_base)
+        
         
         self.y.asynchronousMoveTo(self.y_start)
         self.z.asynchronousMoveTo(self.z_start)
@@ -273,9 +251,13 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             logger.debug("Motor speed is {} for {}", motor_speed, self.y.getName())
         logger.debug("Prepare for collection completed")            
 
+    def make_detector_collect(self, source, change):
+        if not change:
+            logger.warn("calling collectData() ...")
+            self.collectData()
+            
     def collectData(self):
         self.ad_base.startAcquiring()
-        self.collectDataCalled = True
 
     def getStatus(self):
         return self.det.getCollectionStrategy().getStatus()
@@ -301,6 +283,9 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
 
     def completeCollection(self):
         logger.debug("completeCollection called ...")
+        if self.motion_shutter_control_thread.isAlive():
+            self.motion_shutter_control_thread.join() # ask thread to die and wait for them to do it
+        self.motion_shutter_control_thread.removeObserver()
         logger.debug("Stop detector acquiring")
         self.ad_base.stopAcquiring()
         fastshutter.moveTo("Closed")
@@ -313,9 +298,6 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.state_observable.removeObserver(self.state_observer)
             self.state_observer = None
             self.state_observable = None
-        self.motion_shutter_control_thread.removeObserver()
-        if self.motion_shutter_control_thread.isAlive():
-            self.motion_shutter_control_thread.join() # ask thread to die and wait for them to do it
         self.count_time_q = None
         self.cs.completeCollection()
         logger.debug("Exit completeCollection method\n")
