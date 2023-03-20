@@ -20,7 +20,6 @@ package uk.ac.gda.server.exafs.scan.preparers;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -321,9 +320,10 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			Double collectionTime = scanParams.getIntegrationTime();
 			int numStepsXes = getNumStepsXes(scanParams);
 			int numStepsMono = getNumStepsMono(xesParams);
+			return new Double[]{collectionTime};
 
-			timeValues = new Double[numStepsMono * numStepsXes];
-			Arrays.fill(timeValues, collectionTime);
+//			timeValues = new Double[numStepsMono * numStepsXes];
+//			Arrays.fill(timeValues, collectionTime);
 		}
 
 		return timeValues;
@@ -374,7 +374,11 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 		if (xesMode) {
 			i1.clearFrameSets();
-			i1.setTimes(tfgFrameTimes);
+			if (tfgFrameTimes.length>1) {
+				i1.setTimes(tfgFrameTimes);
+			} else {
+				i1.setCollectionTime(tfgFrameTimes[0]);
+			}
 		} else {
 			ionchambers.clearFrameSets();
 			ionchambers.setTimes(tfgFrameTimes);
@@ -600,6 +604,10 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public void setXesMode(boolean xesMode) {
 		this.xesMode = xesMode;
+	}
+
+	public boolean isXesMode() {
+		return xesMode;
 	}
 
 	public void setPluginsForMutableRoi(NXDetector detector, List<NXPluginBase> pluginsForMutableRoi) {
