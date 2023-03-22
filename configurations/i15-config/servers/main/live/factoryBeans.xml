@@ -115,42 +115,4 @@
 	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL15I-DI-PROP-01:I" />
 	</bean>
-
-
-
-	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
-		<property name="locationMap">
-			<map>
-				<!-- 
-				<entry key="exposure">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>instrument:NXinstrument/expose:NXcollection/exposure</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				 -->
-				<entry key="exposureXXX">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>instrument:NXinstrument/expose:NXcollection/dkphi</value>
-								<value>instrument:NXinstrument/expose:NXcollection/exposure</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dx</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dy</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dz</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-			</map>
-		</property>
-		<property name="metadataScannables">
-			<set>
-				<value>exposure</value>
-			</set>
-		</property>
-	</bean>
 </beans>

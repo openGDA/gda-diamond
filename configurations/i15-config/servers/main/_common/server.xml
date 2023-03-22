@@ -15,7 +15,10 @@
 
 	<import resource="terminal_logger.xml" />
 
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+
 	<import resource="device/*.xml"/>
+	<import resource="nxmetadata/*.xml"/>
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
 </beans>
