@@ -185,6 +185,7 @@ class SnakePathWithShutterControlThread(threading.Thread):
             logger.debug("motors %s = %f, %s = %f, steps %d/%d done in %s" % 
                   (step_move_motor_name, float(self.step_move_motor.getPosition()), continuous_move_motor_name, float(self.continuous_move_motor.getPosition()), index+1, len(step_move_motor_positions), step_move_motor_name))
         
+        scan_data_point = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint()
         number_of_points = scan_data_point.getNumberOfPoints()
         current_point_number = scan_data_point.getCurrentPointNumber()   
         if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points: # not the last scan data point
