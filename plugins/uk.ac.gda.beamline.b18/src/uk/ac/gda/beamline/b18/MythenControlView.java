@@ -60,7 +60,6 @@ import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiUpdate;
 import uk.ac.diamond.scisoft.analysis.plotserver.IBeanScriptingManager;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.IPlotUI;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotConsumer;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJob;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJobType;
@@ -98,7 +97,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	private ExecutorService execSvc = null;
 	private PlotConsumer plotConsumer = null;
 	protected String plotViewName = "Plot View";
-	private IPlotUI plotUI = null;
 	private UUID plotID = null;
 	private GuiBean guiBean = null;
 	private boolean doPlotCalib;
@@ -117,13 +115,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	ProgressBar progress;
 	AsciiDataWriterConfiguration configuration;
 	Label rawFileLocationLabel;
-
-	/**
-	 * @return plot UI
-	 */
-	public IPlotUI getPlotUI() {
-		return plotUI;
-	}
 
 	private List<IObserver> observers = Collections.synchronizedList(new LinkedList<IObserver>());
 
