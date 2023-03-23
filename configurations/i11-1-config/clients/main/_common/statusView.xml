@@ -170,9 +170,10 @@
 					<property name="fileFilters">
 						<map>
 							<entry key="All Data" value=".*" />
-							<entry key="Pixium" value="pixium_.*" />
-							<entry key="PerkinElmer" value="perkin_.*" />
+							<entry key="Pixium" value="pixium_\d+.hdf" />
+							<entry key="PerkinElmer" value="perkin_\d+.hdf*" />
 							<entry key="Processed" value=".*\.xy" />
+							<entry key="Scan Files" value=".*\.nxs" />
 						</map>
 					</property>
 					<property name="plotter" ref="detectorFileDisplayer" />
