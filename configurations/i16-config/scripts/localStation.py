@@ -408,7 +408,7 @@ do=delta_axis_offset
 
 ### Override gda's standard help command
 localStation_print("Overriding gda's standard help command")
-help=_gdahelp
+#help=_gdahelp
 
 ### Create datadir functions
 localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
