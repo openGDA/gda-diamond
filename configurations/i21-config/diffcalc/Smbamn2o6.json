@@ -1,0 +1,29 @@
+{
+    "name": "Smbamn2o6", 
+    "crystal": "[u'smbamno', 'Cubic', 3.9, 3.9, 3.9, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "None", 
+            "hkl": "[1.0, 1.0, 0.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "time": "2019-02-08T15:28:32.125000"
+        }, 
+        "2": {
+            "tag": "None", 
+            "hkl": "[1.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "time": "2019-02-08T15:33:16.324000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 1.0, 0.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

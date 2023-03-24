@@ -1,0 +1,40 @@
+{
+    "name": "NdNiO2", 
+    "crystal": "[u'NdNiO2', 'Tetragonal', 3.91, 3.91, 3.31, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "orient_100", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "pos": "[1.0, 0, 0.000334282, 0, 1.4, -0.0]", 
+            "time": "2019-12-11T09:38:48.016000"
+        }, 
+        "2": {
+            "tag": "orient_001", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[1.0, 0, 0.0, 0, 1.4, -0.0]", 
+            "time": "2019-12-11T09:39:22.061000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "chi": 0.024434609527920613, 
+        "delta": 0.0, 
+        "eta": 0.0
+    }
+}

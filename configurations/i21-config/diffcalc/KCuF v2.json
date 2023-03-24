@@ -1,0 +1,23 @@
+{
+    "name": "KCuF v2", 
+    "crystal": "[u'KCuF', 4.145, 4.145, 7.847, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": null, 
+            "hkl": "[0.0, 0.0, 2.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "time": "2019-01-18T16:52:55.994000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

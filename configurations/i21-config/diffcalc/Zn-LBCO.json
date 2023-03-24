@@ -1,0 +1,40 @@
+{
+    "name": "Zn-LBCO", 
+    "crystal": "[u'Zn-LBCO', 'Tetragonal', 3.78, 3.78, 13.28, 90.0, 90.0, 90.0]", 
+    "reflist": {
+        "1": {
+            "tag": "tag001", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "pos": "[30.37, 0, 61.0, 0, 1.73, -0.77]", 
+            "energy": 0.92904, 
+            "time": "2022-10-19T13:56:04.847000"
+        }, 
+        "2": {
+            "tag": "tag101", 
+            "hkl": "[-1.0, 0.0, 1.0]", 
+            "pos": "[3.9, 0, 155.6, 0, 1.73, -0.77]", 
+            "energy": 1.74, 
+            "time": "2022-10-19T13:56:48.720000"
+        }
+    }, 
+    "orientlist": {}, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "psi": 0.0, 
+        "delta": 0.0, 
+        "eta": 0.0
+    }
+}

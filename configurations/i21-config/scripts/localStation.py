@@ -4,14 +4,17 @@ import installation
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.degas.degas import Degas  # @UnusedImport
 from gda.jython.commands.GeneralCommands import alias
-from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
 import gdascripts
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gda.device.scannable import DummyScannable
+from org.slf4j import LoggerFactory
 
 simpleLog("================ INITIALISING I21 GDA ================")
+
+logger = LoggerFactory.getLogger(__name__)
+
 print("-"*100)
 print("Set scan returns to the original positions on completion to false (0); default is 0.")
 print("   To set scan returns to its start positions on completion please do:")
@@ -200,6 +203,18 @@ print("create 'alltth' scannable")
 from scannabledevices.M5GroupScannable import alltth  # @UnusedImport
 
 print("-"*100)
+if installation.isDummy():
+    # install UB matrix data files in dummy mode when first time run GDA server after checkout GDA source codes from repositories!
+    from gda.configuration.properties import LocalProperties
+    import os
+    to_directory = LocalProperties.get(LocalProperties.GDA_VAR_DIR) + os.sep + "diffcalc"    
+    if not os.path.exists(to_directory):
+        #install UB data
+        from distutils.dir_util import copy_tree
+        from_directory = LocalProperties.get(LocalProperties.GDA_CONFIG) + os.sep + "diffcalc"
+        logger.info("Install 'diffcalc' directory and UB matrix data files in {}", to_directory)
+        copy_tree(from_directory, to_directory)
+
 #DiffCalc
 print("import DIFFCALC support for I21")
 # Import toolpoint scannables into namespace
