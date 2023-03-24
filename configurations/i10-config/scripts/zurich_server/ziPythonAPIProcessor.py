@@ -10,7 +10,7 @@ Created on 5 Jun 2019
 
 @author: fy65
 '''
-from python2_socket.MessageProcessor import Processor
+from zurich_server.MessageProcessor import Processor
 import zhinst.ziPython  # @UnresolvedImport
 from zhinst.ziPython import ScopeModule  # @UnresolvedImport
 from collections import defaultdict

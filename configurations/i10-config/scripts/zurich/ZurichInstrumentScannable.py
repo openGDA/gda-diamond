@@ -19,22 +19,22 @@ class ZurichScannable(ScannableMotionBase):
         self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat(["%f"])
-        self.path=None
-        self.communicator=ZiDAQServerMessager(ipaddress, port, terminator, separator)
+        self.path = None
+        self.communicator = ZiDAQServerMessager(ipaddress, port, terminator, separator)
         
     def getPath(self):
         return self.path
 
     def setPath(self,path):
-        self.path=path
+        self.path = path
     
     def getPosition(self):
-        value=self.communicator.get(self.path)
+        value = self.communicator.get(self.path)
         return value[self.path]['value'][0]
     
     def asynchronousMoveTo(self, newpos):
         if isinstance(newpos, (list, tuple)):
-            self.path=newpos[0]
+            self.path = newpos[0]
             self.setInputNames([self.path])
         else:
             raise ValueError("asynchronousMoveTo takes a path-value pair as list or tuple.")
