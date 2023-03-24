@@ -9,11 +9,12 @@
 # Diamond Light Source Ltd.
 
 
+from gda.configuration.properties import LocalProperties
 import java
 import shelve
 import os
 
-ShelvePath="C:\\temp\\"
+ShelvePath=LocalProperties.get("gda.var") + "/oldStyleShelveIO/"
 
 ## The class uses shelve to provide general methods to archive
 # and retrieve variables.
@@ -111,7 +112,7 @@ class ShelveIO(java.lang.Object):
    ## Throws an error message
    #
    def __repr__(self):
-      
+
       s = "SettingsFileName: %s\n" % self.SettingsFileName
       s+= "path: %s\n" % self.path
       s+= "cname: %s\n" % self.cname
@@ -122,13 +123,13 @@ class ShelveIO(java.lang.Object):
       for key in keys:
           s+= key + " : " + `self.getValue(key)` +"\n"
       return s
-  
+
    def getAsDict(self):
       d = {}
       for key in self.getAllKeys():
           d[key] = self.getValue(key)
-      return d    
-    
+      return d
+
    def possiblyUnicodeToString(self, s):
       if type(s) == unicode:
           print "WARNING: shelf '%s' received the unicode key '%s'" % (self.cname, s)

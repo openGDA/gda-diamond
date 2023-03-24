@@ -15,14 +15,11 @@
 #
 
 
-# I believe setting ,y_simulation is designes to let software run totally outside the gda
+# I believe setting my_simulation is designed to let software run totally outside the gda
 # In the process of being obsoleted.
 my_simulation = 0
 if my_simulation:
-	print "WARNING: Simulataion mode set in beamline_objects.py.Some devices not loaded, and energy set from file"
-
-
-
+	print "WARNING: Simulation mode set in beamline_objects.py.Some devices not loaded, and energy set from file"
 
 import ShelveIO
 BLO=ShelveIO.ShelveIO()
