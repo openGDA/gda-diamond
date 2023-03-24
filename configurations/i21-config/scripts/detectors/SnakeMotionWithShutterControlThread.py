@@ -156,12 +156,13 @@ class SnakePathWithShutterControlThread(threading.Thread):
                 i = i + 1
             # if after wait 5 second, force start detector
             scan_data_point = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint()
-            number_of_points = scan_data_point.getNumberOfPoints()
-            current_point_number = scan_data_point.getCurrentPointNumber()
-            logger.debug("point {}/{} is collecting", current_point_number, number_of_points)
-            if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points and not self.detectorIsAcquiring: # not the last scan data point, detector should acquire at here
-                logger.warn("detector should be acquiring by now, but it doesn't, so send {} to {}", self.detectorIsAcquiring, self.observer.name)
-                self.observableUtil.notifyIObservers(self.observableUtil, self.detectorIsAcquiring)
+            if scan_data_point:
+                number_of_points = scan_data_point.getNumberOfPoints()
+                current_point_number = scan_data_point.getCurrentPointNumber()
+                logger.debug("point {}/{} is collecting", current_point_number, number_of_points)
+                if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points and not self.detectorIsAcquiring: # not the last scan data point, detector should acquire at here
+                    logger.warn("detector should be acquiring by now, but it doesn't, so send {} to {}", self.detectorIsAcquiring, self.observer.name)
+                    self.observableUtil.notifyIObservers(self.observableUtil, self.detectorIsAcquiring)
 
             if self.shutterAlreadyOpen:
                 logger.error("Shutter should be closed during '{}' motion", step_move_motor_name)
@@ -186,10 +187,11 @@ class SnakePathWithShutterControlThread(threading.Thread):
                   (step_move_motor_name, float(self.step_move_motor.getPosition()), continuous_move_motor_name, float(self.continuous_move_motor.getPosition()), index+1, len(step_move_motor_positions), step_move_motor_name))
         
         scan_data_point = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint()
-        number_of_points = scan_data_point.getNumberOfPoints()
-        current_point_number = scan_data_point.getCurrentPointNumber()   
-        if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points: # not the last scan data point
-            logger.info("All '{}' sample positions are used up now !", step_move_motor_name)
+        if scan_data_point:
+            number_of_points = scan_data_point.getNumberOfPoints()
+            current_point_number = scan_data_point.getCurrentPointNumber()   
+            if not self.stoprequest.isSet() and (current_point_number + 1) != number_of_points: # not the last scan data point
+                logger.info("All '{}' sample positions are used up now !", step_move_motor_name)
         if index % 2 == 0: #swap start and end points
             continuous_end = self.continuous_move_motor_end
             self.continuous_move_motor_end = self.continuous_move_motor_start
