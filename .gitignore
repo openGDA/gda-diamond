@@ -1,2 +1,4 @@
 target/
 .polyglot.build.properties
+.nxs
+.hdf5

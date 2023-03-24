@@ -221,42 +221,6 @@ Switching pil3_100k for pilatus3 we lose the roi processors but get the data lin
 +   entry1/instrument/pilatus3/image_data: (31,)
 
 ================================================================================
-					Preparing a scan for archiving here
-================================================================================
-								Common setup
---------------------------------------------------------------------------------
-module load msmapper/latest
---------------------------------------------------------------------------------
-								Live setup
---------------------------------------------------------------------------------
-DEPLOYMENT=/dls_sw/i16/software/gda
-cd $DEPLOYMENT/config/testing-notes/example-eta-scan
-VISIT=/dls/i16/data/2022/cm31138-14
---------------------------------------------------------------------------------
-								Dummy setup
---------------------------------------------------------------------------------
-DEPLOYMENT=/scratch/dls_sw/i16/software/gda
-cd $DEPLOYMENT/config/testing-notes/example-eta-scan
-VISIT=$DEPLOYMENT/gda_data_non_live
---------------------------------------------------------------------------------
-								Analysis
---------------------------------------------------------------------------------
-ls -trd $VISIT/*.nxs
-SCAN=
-
-ls -tr $VISIT/$SCAN*
-rsync -av --exclude=*/*.tif $VISIT/$SCAN* .
-nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa
-nexus.tree $SCAN.nxs > $SCAN.nxs.tree
-echo $SCAN.nxs.nxlsa $SCAN.nxs.tree
-
-BASELINESCAN=$SCAN
-kdiff3 $BASELINESCAN.nxs.tree  $SCAN.nxs.tree
-kdiff3 $BASELINESCAN.nxs.nxlsa $SCAN.nxs.nxlsa
-
-Once analysis is done, the original .nxs file and scan files folder can be removed.
-
-================================================================================
 
 # Example position to keep baseline tests consistent.
 
