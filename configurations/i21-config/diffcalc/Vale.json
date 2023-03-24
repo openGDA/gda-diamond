@@ -1,0 +1,29 @@
+{
+    "name": "Vale", 
+    "crystal": "[u'LiIrO', 'Monoclinic', 5.152, 8.986, 5.12, 90.0, 109.7, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "00-1", 
+            "hkl": "[0.0, 0.0, -1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "time": "2019-02-13T11:26:00.633000"
+        }, 
+        "2": {
+            "tag": "None", 
+            "hkl": "[-1.0, 0.0, 0.333]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "time": "2019-02-13T11:25:10.463000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 1.0, 0.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

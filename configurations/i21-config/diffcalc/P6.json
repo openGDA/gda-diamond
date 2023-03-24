@@ -1,0 +1,40 @@
+{
+    "name": "P6", 
+    "crystal": "[u'Bi2201', 'Tetragonal', 3.86, 3.86, 24.69, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "orient_100", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "pos": "[2.9, 0, 153.9844842, 0, 1.19, -57.399039]", 
+            "time": "2019-12-13T19:19:25.446000"
+        }, 
+        "2": {
+            "tag": "orient_001", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[2.9, 0, 153.9844842, 0, 1.19, -57.399039]", 
+            "time": "2019-12-13T19:20:06.415000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "psi": -1.5707963267948966, 
+        "delta": 0.0, 
+        "eta": 0.0
+    }
+}

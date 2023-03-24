@@ -1,0 +1,29 @@
+{
+    "name": "Pr438", 
+    "crystal": "[u'Pr438', 'Tetragonal', 3.934, 3.934, 25.485, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "None", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "time": "2019-02-22T14:05:45.645000"
+        }, 
+        "2": {
+            "tag": "None", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "time": "2019-02-22T14:06:03.231000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 1.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

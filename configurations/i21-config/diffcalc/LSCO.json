@@ -1,0 +1,40 @@
+{
+    "name": "LSCO", 
+    "crystal": "[u'LSCO', 'Tetragonal', 3.78, 3.78, 13.28, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "tag001", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[2.0, 0, 120.0, 0, -0.0904, -4.498624]", 
+            "time": "2022-10-20T11:09:58.230000"
+        }, 
+        "2": {
+            "tag": "tag100", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "pos": "[2.0, 0, 120.0, 0, -0.0904, -4.498624]", 
+            "time": "2022-10-20T11:10:22.005000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "psi": 0.0, 
+        "delta": 0.0, 
+        "eta": 0.0
+    }
+}

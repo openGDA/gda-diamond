@@ -1,0 +1,40 @@
+{
+    "name": "La2NiO4-NGO", 
+    "crystal": "[u'La2NiO4-NGO', 'Tetragonal', 3.86, 3.86, 12.5, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "tag100", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[0.0, 1.0, 0.0]", 
+            "pos": "[0.0, 0, 154.0001148, 0, 4.83, 2.25]", 
+            "time": "2022-05-22T19:13:58.270000"
+        }, 
+        "2": {
+            "tag": "tag001", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[0.0, 0, 154.0001148, 0, 4.83, 2.25]", 
+            "time": "2022-05-22T19:14:12.322000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "psi": 0.0, 
+        "delta": 0.0, 
+        "eta": 0.0
+    }
+}

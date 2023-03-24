@@ -1,0 +1,16 @@
+{
+    "name": "LSCO12", 
+    "crystal": "[u'LSCO12', 'Tetragonal', 3.78, 3.78, 3.78, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {}, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

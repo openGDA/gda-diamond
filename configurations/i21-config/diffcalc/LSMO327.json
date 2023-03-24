@@ -1,0 +1,20 @@
+{
+    "name": "LSMO327", 
+    "crystal": "[u'LSMO', 3.78, 3.78, 19.9413, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {}, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 1.0, 0.0]"
+    }, 
+    "u": [
+        "0.97667, 0.0, -0.21474", 
+        "0.01603, 0.99721, 0.07289", 
+        "0.21414, -0.07463, 0.97395"
+    ], 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}
