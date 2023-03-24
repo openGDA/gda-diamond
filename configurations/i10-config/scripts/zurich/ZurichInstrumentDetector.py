@@ -6,7 +6,6 @@ Created on 10 Jun 2019
 from gda.device.detector import DetectorBase, NexusDetector, NXDetectorData
 from zurich.ziPythonClientMessager import ZiDAQServerMessager
 from gda.device import Detector
-from gda.factory import ConfigurableBase
 from org.slf4j import LoggerFactory
 from time import sleep
 from gda.data.nexus.extractor import NexusGroupData
@@ -22,23 +21,22 @@ class ZurichDetector(DetectorBase, NexusDetector):
         '''
         Constructor
         '''
-        self.logger=LoggerFactory.getLogger(ZurichDetector)
+        self.logger = LoggerFactory.getLogger(__name__)
         self.setName(name)
-        self.length=1
-        self.collectingTime=0.0
-        self.communicator=ZiDAQServerMessager(ipaddress, port, terminator, separator)
-        self.dataPath=dataPath
-        self.staticsPath=staticsPath
-        self.starttime=0.0
+        self.length = 1
+        self.collectingTime = 0.0
+        self.communicator = ZiDAQServerMessager(ipaddress, port, terminator, separator)
+        self.dataPath = dataPath
+        self.staticsPath = staticsPath
+        self.starttime = 0.0
         
     def configure(self):
         self.logger.debug("{}: configure called", self.getName())
-        self.super__configure()
-        #ConfigurableBase.configure(self)
+        super(ZurichDetector, self).configure(self)
      
     def setCollectionTime(self, t):
         self.logger.debug("{}: set collection time called with {}",self.getName(), t)
-        self.collectingTime=t
+        self.collectingTime = t
          
     def getCollectionTime(self):
         return self.collectingTime
@@ -62,7 +60,7 @@ class ZurichDetector(DetectorBase, NexusDetector):
         
         self.communicator.set(['/dev4206/scopes/0/enable', 1]) # start continuous triggering
         self.communicator.execute('scope')
-        while self.communicator.progress('scope')<1:
+        while self.communicator.progress('scope') < 1:
             sleep(0.1)
         
     def collectData(self):
@@ -77,7 +75,7 @@ class ZurichDetector(DetectorBase, NexusDetector):
         self.logger.trace("{}: Acquiring finshed.", self.getName());
      
     def getStatus(self):
-        if self.starttime+self.getCollectionTime()< time.time():
+        if self.starttime + self.getCollectionTime() < time.time():
             return Detector.BUSY
         return Detector.IDLE
     
@@ -85,19 +83,19 @@ class ZurichDetector(DetectorBase, NexusDetector):
         return False
     
     def atScanStart(self):
-        self.super__atScanStart()
+        super(ZurichDetector, self).atScanStart()
         self.firstReadoutInScan=True
         
     def atScanEnd(self):
-        self.super__atScanEnd()
+        super(ZurichDetector, self).atScanEnd()
         self.firstReadoutInScan=False
         
     def atCommandFailure(self):
-        self.super__atCommandFailure()
+        super(ZurichDetector, self).atCommandFailure()
         self.stop()
     
     def stop(self):
-        self.super__stop()
+        super(ZurichDetector, self).stop()
         self.communicator.stopModuleCommandExecution('scope')
         
     def readout(self):
@@ -111,7 +109,7 @@ class ZurichDetector(DetectorBase, NexusDetector):
         #statics readout
         data_s = self.communicator.read('scope', True)
         static = data_s[self.staticsPath][0][0]['wave'].flatten().mean() * data_s[self.staticsPath][0][0]['channelscaling'][0]
-        print static, x, y
+        print(static, x, y)
         data = NXDetectorData(self)
         #set data to plot during scan
         data.setPlottableValue("x", x)
