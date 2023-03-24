@@ -1,0 +1,471 @@
+2023030005.nxs:
+/
+    entry1:NXentry/
+    entry1/before_scan:NXcollection/
+    entry1/before_scan/PPR:NXcollection/
+    entry1/before_scan/PPR/ppchi=0.0
+    entry1/before_scan/PPR/pppiezo1=0.0
+    entry1/before_scan/PPR/pppiezo2=0.0
+    entry1/before_scan/PPR/ppth1=0.0
+    entry1/before_scan/PPR/ppth2=0.0
+    entry1/before_scan/PPR/ppz1=0.0
+    entry1/before_scan/PPR/ppz2=0.0
+    entry1/before_scan/delta_offset:NXcollection/
+    entry1/before_scan/delta_offset/delta_offset=0.0
+    entry1/before_scan/dettrans:NXcollection/
+    entry1/before_scan/dettrans/dettrans=0.0
+    entry1/before_scan/mrwolf:NXcollection/
+    entry1/before_scan/mrwolf/Day=24
+    entry1/before_scan/mrwolf/Hours=16
+    entry1/before_scan/mrwolf/Minutes=4
+    entry1/before_scan/mrwolf/Month=3
+    entry1/before_scan/mrwolf/Seconds=41
+    entry1/before_scan/mrwolf/Year=2023
+    entry1/before_scan/p2:NXcollection/
+    entry1/before_scan/p2/p2rot=0.0
+    entry1/before_scan/p2/p2x1=0.0
+    entry1/before_scan/p2/p2y1=0.0
+    entry1/before_scan/p2/p2zbot=0.0
+    entry1/before_scan/p2/p2ztop=0.0
+    entry1/before_scan/ppchi:NXcollection/
+    entry1/before_scan/ppchi/ppchi=0.0
+    entry1/before_scan/ppchitemp:NXcollection/
+    entry1/before_scan/ppchitemp/ppchitemp=0.0
+    entry1/before_scan/pppitch:NXcollection/
+    entry1/before_scan/pppitch/pppitch=0.0
+    entry1/before_scan/ppth1:NXcollection/
+    entry1/before_scan/ppth1/ppth1=0.0
+    entry1/before_scan/ppth1temp:NXcollection/
+    entry1/before_scan/ppth1temp/ppth1temp=0.0
+    entry1/before_scan/ppth2:NXcollection/
+    entry1/before_scan/ppth2/ppth2=0.0
+    entry1/before_scan/ppth2temp:NXcollection/
+    entry1/before_scan/ppth2temp/ppth2temp=0.0
+    entry1/before_scan/ppx:NXcollection/
+    entry1/before_scan/ppx/ppx=0.0
+    entry1/before_scan/ppy:NXcollection/
+    entry1/before_scan/ppy/ppy=0.0
+    entry1/before_scan/ppyaw:NXcollection/
+    entry1/before_scan/ppyaw/ppyaw=0.0
+    entry1/before_scan/ppz1:NXcollection/
+    entry1/before_scan/ppz1/ppz1=0.0
+    entry1/before_scan/ppz1temp:NXcollection/
+    entry1/before_scan/ppz1temp/ppz1temp=0.0
+    entry1/before_scan/ppz2:NXcollection/
+    entry1/before_scan/ppz2/ppz2=0.0
+    entry1/before_scan/ppz2temp:NXcollection/
+    entry1/before_scan/ppz2temp/ppz2temp=0.0
+    entry1/before_scan/s7xgap:NXcollection/
+    entry1/before_scan/s7xgap/s7xgap=0.0
+    entry1/before_scan/s7xtrans:NXcollection/
+    entry1/before_scan/s7xtrans/s7xtrans=0.0
+    entry1/before_scan/s7ygap:NXcollection/
+    entry1/before_scan/s7ygap/s7ygap=0.0
+    entry1/before_scan/s7ytrans:NXcollection/
+    entry1/before_scan/s7ytrans/s7ytrans=0.0
+    entry1/before_scan/ubMeta:NXcollection/
+    entry1/before_scan/ubMeta/value='{"name": "test", "crystal": "[\'testsample\', \'Triclinic\', 3.8, 3.8, 7.9, 90.0, 90.0, 90.0]", "reflist": {"1": {"tag": "None", "hkl": "[1.0, 0.0, 0.0]", "pos": "[0.0, 100.0, 0.0, 12.534499999999994, -0.0, 0.0]", "energy": 12.39842, "time": "2023-03-24T13:51:53.203000"}, "2": {"tag": "None", "hkl": "[0.0, 0.0, 1.0]", "pos": "[0.0, 100.0, 0.0, 12.534499999999994, 89.99999999999999, 0.0]", "energy": 12.39842, "time": "2023-03-24T13:51:53.331000"}}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 0.0, 0.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": null, "or1": null}'
+    entry1/definition='NXmx'
+    entry1/end_time='2023-03-24T16:05:16.200Z'
+    entry1/entry_identifier='2023030005'
+    entry1/features: (3,)
+    entry1/instrument:NXinstrument/
+    entry1/instrument/atime:NXpositioner/
+    entry1/instrument/atime/TimeSec: (31,)
+                                     @local_name='atime.TimeSec'
+                                     @target='/entry1/instrument/atime/TimeSec'
+    entry1/instrument/atimetwo:NXpositioner/
+    entry1/instrument/atimetwo/TimeFromEpoch: (31,)
+                                              @local_name='atimetwo.TimeFromEpoch'
+                                              @target='/entry1/instrument/atimetwo/TimeFromEpoch'
+    entry1/instrument/eta:NXpositioner/
+    entry1/instrument/eta/eta: (31,)
+                               @axis='1'
+                               @label='1'
+                               @local_name='eta.eta'
+                               @primary='1'
+                               @target='/entry1/instrument/eta/eta'
+    entry1/instrument/eta/soft_limit_max: (1,)
+    entry1/instrument/eta/soft_limit_min: (1,)
+    entry1/instrument/ic1monitor:NXpositioner/
+    entry1/instrument/ic1monitor/ic1monitor: (31,)
+                                             @local_name='ic1monitor.ic1monitor'
+                                             @target='/entry1/instrument/ic1monitor/ic1monitor'
+    entry1/instrument/name='i16'
+    entry1/instrument/pil3_100k:NXdetector/
+    entry1/instrument/pil3_100k/calibration_date='2022-07-15 10:54:08'
+    entry1/instrument/pil3_100k/calibration_scan_number=942247
+    entry1/instrument/pil3_100k/count_time: (31,)
+                                            @local_name='pil3_100k.count_time'
+                                            @target='/entry1/instrument/pil3_100k/count_time'
+    entry1/instrument/pil3_100k/data (external link to 2023030005-pilatus3_100k-files/2023030005.hdf#/entry/instrument/detector/data): (31, 960, 1280)
+                                      @NDArrayDimBinning=array([1, 1], dtype=int32)
+                                      @NDArrayDimOffset=array([0, 0], dtype=int32)
+                                      @NDArrayDimReverse=array([0, 0], dtype=int32)
+                                      @NDArrayNumDims=2
+                                      @signal=1
+    entry1/instrument/pil3_100k/depends_on='/entry1/instrument/pil3_100k/transformations/origin_offset'
+    entry1/instrument/pil3_100k/description='DetectorBase'
+    entry1/instrument/pil3_100k/id='detectorbase-1'
+    entry1/instrument/pil3_100k/image_data: (31,)
+                                            @data_filename=array([1], dtype=int32)
+                                            @signal=array([1], dtype=int32)
+    entry1/instrument/pil3_100k/maxval: (31,)
+                                        @local_name='pil3_100k.maxval'
+                                        @target='/entry1/instrument/pil3_100k/maxval'
+    entry1/instrument/pil3_100k/maxx: (31,)
+                                      @local_name='pil3_100k.maxx'
+                                      @target='/entry1/instrument/pil3_100k/maxx'
+    entry1/instrument/pil3_100k/maxy: (31,)
+                                      @local_name='pil3_100k.maxy'
+                                      @target='/entry1/instrument/pil3_100k/maxy'
+    entry1/instrument/pil3_100k/module:NXdetector_module/
+    entry1/instrument/pil3_100k/module/data_origin: (2,)
+    entry1/instrument/pil3_100k/module/data_size: (2,)
+    entry1/instrument/pil3_100k/module/fast_pixel_direction: (1,) units=mm
+                                                             @depends_on='/entry1/instrument/pil3_100k/module/module_offset'
+                                                             @offset=array([0., 0., 0.])
+                                                             @transformation_type='translation'
+                                                             @vector=array([ 0.7063757 ,  0.00183285, -0.70783474])
+    entry1/instrument/pil3_100k/module/module_offset: (1,) units=mm
+                                                      @depends_on='/entry1/instrument/pil3_100k/transformations/origin_offset'
+                                                      @offset=array([0., 0., 0.])
+                                                      @transformation_type='translation'
+                                                      @vector=array([0., 0., 0.])
+    entry1/instrument/pil3_100k/module/slow_pixel_direction: (1,) units=mm
+                                                             @depends_on='/entry1/instrument/pil3_100k/module/module_offset'
+                                                             @offset=array([0., 0., 0.])
+                                                             @transformation_type='translation'
+                                                             @vector=array([4.41563000e-04, 9.99995312e-01, 3.03000900e-03])
+    entry1/instrument/pil3_100k/path: (31,)
+                                      @local_name='pil3_100k.path'
+                                      @target='/entry1/instrument/pil3_100k/path'
+    entry1/instrument/pil3_100k/saturation_value: (1,)
+    entry1/instrument/pil3_100k/sensor_material='Silicon'
+    entry1/instrument/pil3_100k/sensor_thickness: (1,)
+    entry1/instrument/pil3_100k/sum: (31,)
+                                     @local_name='pil3_100k.sum'
+                                     @target='/entry1/instrument/pil3_100k/sum'
+    entry1/instrument/pil3_100k/transformations:NXtransformations/
+    entry1/instrument/pil3_100k/transformations/origin_offset: (1,) units=mm
+                                                               @depends_on='/entry1/instrument/transformations/offsetdelta'
+                                                               @offset=array([0., 0., 0.]) mm
+                                                               @transformation_type='translation'
+                                                               @vector=array([ 62.58314655, -18.31388151, 621.14621608])
+    entry1/instrument/pil3_100k/type='DetectorBase'
+    entry1/instrument/rc:NXpositioner/
+    entry1/instrument/rc/rc: (31,)
+                             @axis='1'
+                             @local_name='rc.rc'
+                             @target='/entry1/instrument/rc/rc'
+    entry1/instrument/roi2:NXdetector/
+    entry1/instrument/roi2/description=' '
+    entry1/instrument/roi2/id=' '
+    entry1/instrument/roi2/roi2_maxval: (31,)
+                                        @local_name='roi2.roi2_maxval'
+                                        @target='/entry1/instrument/roi2/roi2_maxval'
+    entry1/instrument/roi2/roi2_maxx: (31,)
+                                      @local_name='roi2.roi2_maxx'
+                                      @target='/entry1/instrument/roi2/roi2_maxx'
+    entry1/instrument/roi2/roi2_maxy: (31,)
+                                      @local_name='roi2.roi2_maxy'
+                                      @target='/entry1/instrument/roi2/roi2_maxy'
+    entry1/instrument/roi2/roi2_sum: (31,)
+                                     @local_name='roi2.roi2_sum'
+                                     @target='/entry1/instrument/roi2/roi2_sum'
+    entry1/instrument/roi2/type=' '
+    entry1/instrument/source:NXsource/
+    entry1/instrument/source/name='DLS'
+    entry1/instrument/source/probe='x-ray'
+    entry1/instrument/source/type='Synchrotron X-Ray Source'
+    entry1/instrument/transformations:NXtransformations/
+    entry1/instrument/transformations/delta: (31,) units=deg
+                                             @axis='1'
+                                             @depends_on='entry1/instrument/transformations/gamma'
+                                             @local_name='kdelta.kdelta'
+                                             @target='/entry1/instrument/transformations/delta'
+                                             @transformation_type='rotation'
+                                             @vector=array([0., 1., 0.])
+    entry1/instrument/transformations/gamma: (31,) units=deg
+                                             @axis='1'
+                                             @depends_on='.'
+                                             @local_name='kgam.kgam'
+                                             @target='/entry1/instrument/transformations/gamma'
+                                             @transformation_type='rotation'
+                                             @vector=array([1., 0., 0.])
+    entry1/instrument/transformations/offsetdelta: (31,) units=deg
+                                                   @axis='1'
+                                                   @depends_on='entry1/instrument/transformations/delta'
+                                                   @local_name='delta_axis_offset.delta_axis_offset'
+                                                   @target='/entry1/instrument/transformations/offsetdelta'
+                                                   @transformation_type='rotation'
+                                                   @vector=array([ 0., -1.,  0.])
+    entry1/measurement:NXdata/
+                               @TimeFromEpoch_indices=array([0], dtype=int32)
+                               @TimeSec_indices=array([0], dtype=int32)
+                               @axes='eta'
+                               @count_time_indices=array([0], dtype=int32)
+                               @delta_axis_offset_indices=array([0], dtype=int32)
+                               @eta_indices=array([0], dtype=int32)
+                               @ic1monitor_indices=array([0], dtype=int32)
+                               @kap_indices=array([0], dtype=int32)
+                               @kdelta_indices=array([0], dtype=int32)
+                               @kgam_indices=array([0], dtype=int32)
+                               @kmu_indices=array([0], dtype=int32)
+                               @kphi_indices=array([0], dtype=int32)
+                               @kth_indices=array([0], dtype=int32)
+                               @maxval_indices=array([0], dtype=int32)
+                               @maxx_indices=array([0], dtype=int32)
+                               @maxy_indices=array([0], dtype=int32)
+                               @path_indices=array([0], dtype=int32)
+                               @rc_indices=array([0], dtype=int32)
+                               @roi2_maxval_indices=array([0], dtype=int32)
+                               @roi2_maxx_indices=array([0], dtype=int32)
+                               @roi2_maxy_indices=array([0], dtype=int32)
+                               @roi2_sum_indices=array([0], dtype=int32)
+                               @signal='roi2_sum'
+                               @sum_indices=array([0], dtype=int32)
+    entry1/measurement/TimeFromEpoch: (31,)
+    entry1/measurement/TimeSec: (31,)
+    entry1/measurement/count_time: (31,)
+    entry1/measurement/delta_axis_offset: (31,)
+    entry1/measurement/eta: (31,)
+    entry1/measurement/ic1monitor: (31,)
+    entry1/measurement/kap: (31,)
+    entry1/measurement/kdelta: (31,)
+    entry1/measurement/kgam: (31,)
+    entry1/measurement/kmu: (31,)
+    entry1/measurement/kphi: (31,)
+    entry1/measurement/kth: (31,)
+    entry1/measurement/maxval: (31,)
+    entry1/measurement/maxx: (31,)
+    entry1/measurement/maxy: (31,)
+    entry1/measurement/path: (31,)
+    entry1/measurement/rc: (31,)
+    entry1/measurement/roi2_maxval: (31,)
+    entry1/measurement/roi2_maxx: (31,)
+    entry1/measurement/roi2_maxy: (31,)
+    entry1/measurement/roi2_sum: (31,)
+    entry1/measurement/sum: (31,)
+    entry1/pil3_100k:NXdata/
+    entry1/pil3_100k/TimeFromEpoch: (31,)
+                                    @local_name='atimetwo.TimeFromEpoch'
+                                    @target='/entry1/instrument/atimetwo/TimeFromEpoch'
+    entry1/pil3_100k/TimeSec: (31,)
+                              @local_name='atime.TimeSec'
+                              @target='/entry1/instrument/atime/TimeSec'
+    entry1/pil3_100k/count_time: (31,)
+                                 @local_name='pil3_100k.count_time'
+                                 @target='/entry1/instrument/pil3_100k/count_time'
+    entry1/pil3_100k/data (external link to 2023030005-pilatus3_100k-files/2023030005.hdf#/entry/instrument/detector/data): (31, 960, 1280)
+                           @NDArrayDimBinning=array([1, 1], dtype=int32)
+                           @NDArrayDimOffset=array([0, 0], dtype=int32)
+                           @NDArrayDimReverse=array([0, 0], dtype=int32)
+                           @NDArrayNumDims=2
+                           @signal=1
+    entry1/pil3_100k/delta: (31,) units=deg
+                            @axis='1'
+                            @depends_on='entry1/instrument/transformations/gamma'
+                            @local_name='kdelta.kdelta'
+                            @target='/entry1/instrument/transformations/delta'
+                            @transformation_type='rotation'
+                            @vector=array([0., 1., 0.])
+    entry1/pil3_100k/eta: (31,)
+                          @axis='1'
+                          @label='1'
+                          @local_name='eta.eta'
+                          @primary='1'
+                          @target='/entry1/instrument/eta/eta'
+    entry1/pil3_100k/gamma: (31,) units=deg
+                            @axis='1'
+                            @depends_on='.'
+                            @local_name='kgam.kgam'
+                            @target='/entry1/instrument/transformations/gamma'
+                            @transformation_type='rotation'
+                            @vector=array([1., 0., 0.])
+    entry1/pil3_100k/ic1monitor: (31,)
+                                 @local_name='ic1monitor.ic1monitor'
+                                 @target='/entry1/instrument/ic1monitor/ic1monitor'
+    entry1/pil3_100k/kappa: (31,) units=deg
+                            @axis='1'
+                            @depends_on='entry1/sample/transformations/theta'
+                            @local_name='kap.kap'
+                            @target='/entry1/sample/transformations/kappa'
+                            @transformation_type='rotation'
+                            @vector=array([ 0.        ,  0.64278761, -0.76604443])
+    entry1/pil3_100k/maxval: (31,)
+                             @local_name='pil3_100k.maxval'
+                             @target='/entry1/instrument/pil3_100k/maxval'
+    entry1/pil3_100k/maxx: (31,)
+                           @local_name='pil3_100k.maxx'
+                           @target='/entry1/instrument/pil3_100k/maxx'
+    entry1/pil3_100k/maxy: (31,)
+                           @local_name='pil3_100k.maxy'
+                           @target='/entry1/instrument/pil3_100k/maxy'
+    entry1/pil3_100k/mu: (31,) units=deg
+                         @axis='1'
+                         @depends_on='.'
+                         @local_name='kmu.kmu'
+                         @target='/entry1/sample/transformations/mu'
+                         @transformation_type='rotation'
+                         @vector=array([1., 0., 0.])
+    entry1/pil3_100k/offsetdelta: (31,) units=deg
+                                  @axis='1'
+                                  @depends_on='entry1/instrument/transformations/delta'
+                                  @local_name='delta_axis_offset.delta_axis_offset'
+                                  @target='/entry1/instrument/transformations/offsetdelta'
+                                  @transformation_type='rotation'
+                                  @vector=array([ 0., -1.,  0.])
+    entry1/pil3_100k/path: (31,)
+                           @local_name='pil3_100k.path'
+                           @target='/entry1/instrument/pil3_100k/path'
+    entry1/pil3_100k/phi: (31,) units=deg
+                          @axis='1'
+                          @depends_on='entry1/sample/transformations/kappa'
+                          @local_name='kphi.kphi'
+                          @target='/entry1/sample/transformations/phi'
+                          @transformation_type='rotation'
+                          @vector=array([0., 1., 0.])
+    entry1/pil3_100k/rc: (31,)
+                         @axis='1'
+                         @local_name='rc.rc'
+                         @target='/entry1/instrument/rc/rc'
+    entry1/pil3_100k/sum: (31,)
+                          @local_name='pil3_100k.sum'
+                          @target='/entry1/instrument/pil3_100k/sum'
+    entry1/pil3_100k/theta: (31,) units=deg
+                            @axis='1'
+                            @depends_on='entry1/sample/transformations/mu'
+                            @local_name='kth.kth'
+                            @target='/entry1/sample/transformations/theta'
+                            @transformation_type='rotation'
+                            @vector=array([0., 1., 0.])
+    entry1/program_name='GDA 9.29.0pre'
+    entry1/roi2:NXdata/
+    entry1/roi2/TimeFromEpoch: (31,)
+                               @local_name='atimetwo.TimeFromEpoch'
+                               @target='/entry1/instrument/atimetwo/TimeFromEpoch'
+    entry1/roi2/TimeSec: (31,)
+                         @local_name='atime.TimeSec'
+                         @target='/entry1/instrument/atime/TimeSec'
+    entry1/roi2/delta: (31,) units=deg
+                       @axis='1'
+                       @depends_on='entry1/instrument/transformations/gamma'
+                       @local_name='kdelta.kdelta'
+                       @target='/entry1/instrument/transformations/delta'
+                       @transformation_type='rotation'
+                       @vector=array([0., 1., 0.])
+    entry1/roi2/eta: (31,)
+                     @axis='1'
+                     @label='1'
+                     @local_name='eta.eta'
+                     @primary='1'
+                     @target='/entry1/instrument/eta/eta'
+    entry1/roi2/gamma: (31,) units=deg
+                       @axis='1'
+                       @depends_on='.'
+                       @local_name='kgam.kgam'
+                       @target='/entry1/instrument/transformations/gamma'
+                       @transformation_type='rotation'
+                       @vector=array([1., 0., 0.])
+    entry1/roi2/ic1monitor: (31,)
+                            @local_name='ic1monitor.ic1monitor'
+                            @target='/entry1/instrument/ic1monitor/ic1monitor'
+    entry1/roi2/kappa: (31,) units=deg
+                       @axis='1'
+                       @depends_on='entry1/sample/transformations/theta'
+                       @local_name='kap.kap'
+                       @target='/entry1/sample/transformations/kappa'
+                       @transformation_type='rotation'
+                       @vector=array([ 0.        ,  0.64278761, -0.76604443])
+    entry1/roi2/mu: (31,) units=deg
+                    @axis='1'
+                    @depends_on='.'
+                    @local_name='kmu.kmu'
+                    @target='/entry1/sample/transformations/mu'
+                    @transformation_type='rotation'
+                    @vector=array([1., 0., 0.])
+    entry1/roi2/offsetdelta: (31,) units=deg
+                             @axis='1'
+                             @depends_on='entry1/instrument/transformations/delta'
+                             @local_name='delta_axis_offset.delta_axis_offset'
+                             @target='/entry1/instrument/transformations/offsetdelta'
+                             @transformation_type='rotation'
+                             @vector=array([ 0., -1.,  0.])
+    entry1/roi2/phi: (31,) units=deg
+                     @axis='1'
+                     @depends_on='entry1/sample/transformations/kappa'
+                     @local_name='kphi.kphi'
+                     @target='/entry1/sample/transformations/phi'
+                     @transformation_type='rotation'
+                     @vector=array([0., 1., 0.])
+    entry1/roi2/rc: (31,)
+                    @axis='1'
+                    @local_name='rc.rc'
+                    @target='/entry1/instrument/rc/rc'
+    entry1/roi2/roi2_maxval: (31,)
+                             @local_name='roi2.roi2_maxval'
+                             @target='/entry1/instrument/roi2/roi2_maxval'
+    entry1/roi2/roi2_maxx: (31,)
+                           @local_name='roi2.roi2_maxx'
+                           @target='/entry1/instrument/roi2/roi2_maxx'
+    entry1/roi2/roi2_maxy: (31,)
+                           @local_name='roi2.roi2_maxy'
+                           @target='/entry1/instrument/roi2/roi2_maxy'
+    entry1/roi2/roi2_sum: (31,)
+                          @local_name='roi2.roi2_sum'
+                          @target='/entry1/instrument/roi2/roi2_sum'
+    entry1/roi2/theta: (31,) units=deg
+                       @axis='1'
+                       @depends_on='entry1/sample/transformations/mu'
+                       @local_name='kth.kth'
+                       @target='/entry1/sample/transformations/theta'
+                       @transformation_type='rotation'
+                       @vector=array([0., 1., 0.])
+    entry1/sample:NXsample/
+    entry1/sample/beam:NXbeam/
+    entry1/sample/beam/incident_energy: (1,)
+                                        @axis='1'
+                                        @local_name='en.en'
+    entry1/sample/beam/incident_wavelength=0.09999999397755344 units=nm
+    entry1/sample/depends_on='/entry1/sample/transformations/phi'
+    entry1/sample/name='Default Sample'
+    entry1/sample/transformations:NXtransformations/
+    entry1/sample/transformations/kappa: (31,) units=deg
+                                         @axis='1'
+                                         @depends_on='entry1/sample/transformations/theta'
+                                         @local_name='kap.kap'
+                                         @target='/entry1/sample/transformations/kappa'
+                                         @transformation_type='rotation'
+                                         @vector=array([ 0.        ,  0.64278761, -0.76604443])
+    entry1/sample/transformations/mu: (31,) units=deg
+                                      @axis='1'
+                                      @depends_on='.'
+                                      @local_name='kmu.kmu'
+                                      @target='/entry1/sample/transformations/mu'
+                                      @transformation_type='rotation'
+                                      @vector=array([1., 0., 0.])
+    entry1/sample/transformations/phi: (31,) units=deg
+                                       @axis='1'
+                                       @depends_on='entry1/sample/transformations/kappa'
+                                       @local_name='kphi.kphi'
+                                       @target='/entry1/sample/transformations/phi'
+                                       @transformation_type='rotation'
+                                       @vector=array([0., 1., 0.])
+    entry1/sample/transformations/theta: (31,) units=deg
+                                         @axis='1'
+                                         @depends_on='entry1/sample/transformations/mu'
+                                         @local_name='kth.kth'
+                                         @target='/entry1/sample/transformations/theta'
+                                         @transformation_type='rotation'
+                                         @vector=array([0., 1., 0.])
+    entry1/sample/ub_matrix: (1, 3, 3)
+    entry1/sample/unit_cell: (1, 6)
+    entry1/scan_command='scan eta 12.534499999999984 13.134499999999985 0.02 pil3_100k 1 roi2'
+    entry1/scan_dimensions: (1,)
+    entry1/scan_identifier='6bb73085-848d-4952-bcdf-bf0579cfdcdd'
+    entry1/start_time='2023-03-24T16:04:39.952Z'
+    entry1/title='scan eta 12.534499999999984 13.134499999999985 0.02 pil3_100k 1 roi2'
+    entry1/title_old='Scan of sample with GDA'
+    entry1/user01:NXuser/
+    entry1/user01/username='voo82358'
