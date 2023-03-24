@@ -270,8 +270,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             if str(s.getName()) == str(self.idscannable.getName()):
                 try:
                     if new_polarisation in ["LH3", "LH5"]:
+                        if new_polarisation == "LH3":
+                            BeamEnergyPolarisationClass.harmonicOrder = 3
+                        if new_polarisation == "LH5":
+                            BeamEnergyPolarisationClass.harmonicOrder = 5
                         new_polarisation = "LH" # Java class does not explicitly support Harmonic
                     elif new_polarisation in ["LV3", "LV5"]:
+                        if new_polarisation == "LV3":
+                            BeamEnergyPolarisationClass.harmonicOrder = 3
+                        if new_polarisation == "LV5":
+                            BeamEnergyPolarisationClass.harmonicOrder = 5
                         new_polarisation = "LV"
                     s.asynchronousMoveTo([gap, new_polarisation, phase])
                 except:
