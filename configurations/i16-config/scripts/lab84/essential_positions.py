@@ -1,6 +1,6 @@
 # All of these postions are based on persistent values which are required
 # during localStation but which aren't created automatically. We position
-# them manually once, which creates them in the persostence system, so
+# them manually once, which creates them in the persistence system, so
 # that on subsequent restarts, the are created automatically.
 
 # This  script needs to be run after every new deployent, before it can be
