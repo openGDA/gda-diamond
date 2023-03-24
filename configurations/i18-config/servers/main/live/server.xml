@@ -23,4 +23,14 @@
 			</list>
 		</constructor-arg>
 	</bean>
+
+	<bean id="snapshotDetectors" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="BL18I-ML-SCAN-01" value-ref="VM"/>
+				<entry key="BL18I-ML-SCAN-02" value-ref="VM"/>
+				<entry key="BL18I-ML-SCAN-03" value-ref="VM"/>
+			</map>
+		</constructor-arg>
+	</bean>
 </beans>

@@ -23,4 +23,11 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="snapshotDetectors" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="Xspress3A" value-ref="VM"/>
+			</map>
+		</constructor-arg>
+	</bean>
 </beans>
