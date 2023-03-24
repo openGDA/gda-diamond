@@ -1,9 +1,10 @@
-import gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from scisoftpy.external import create_function
 from gda.configuration.properties import LocalProperties
 from gda.device import DeviceException
 from org.slf4j import LoggerFactory
+import gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter
+import os
 
 class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 
@@ -68,8 +69,10 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
             datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
             nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
             detectorPath = "/entry/instrument/detector/data"
-            detectorFileName = detectorFileName.replace(datadirectory, "")
+            detectorFileName = os.path.relpath(detectorFileName, datadirectory)
             if detectorFileName[0] == '/':
+                self.logger.debug("detectorFileName='{}', datadirectory='{}'", detectorFileName, datadirectory)
+                self.logger.warn("Relative path conversion failed, falling back to stripping the leading /")
                 detectorFileName = detectorFileName.split('/', 1)[1]
 
             self.logger.debug("Calling nexusHDFLink.detectorLinkInserter({}, {}, {}, {}) on %s" % self.getName(),
