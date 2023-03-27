@@ -48,13 +48,13 @@ else:
     from dummy.dummy_beam_monitor import DummyBeamMonitor
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq #@Unresolvedimport
     dcm_enrg = DCMpdq("dcm_enrg", DummyBeamMonitor(), dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
-#    run("dummy/xanes_scan.py")
-#    run("dummy/sparse_xanes_scan.py")
-#    run("dummy/cross_hairs.py")
-#    run("dummy/standards_scan.py")
-#    run("dummy/tomo_scan.py")
-#    run("dummy/ptychography_scan.py")
-#    run("dummy/gui_automation.py")
+    run("dummy/scanning/xanes_scan.py")
+    run("dummy/scanning/sparse_xanes_scan.py")
+    run("dummy/scanning/standards_scan.py")
+    run("dummy/scanning/tomo_scan.py")
+    run("dummy/scanning/ptychography_scan.py")
+    run("dummy/cross_hairs.py")
+    run("dummy/gui_automation.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")

@@ -1,17 +1,10 @@
-from java.net import URI
-from java.lang import System
-from java.lang import Exception as JavaException
 import scisoftpy as dnp
-
-from org.eclipse.scanning.sequencer import ScanRequestBuilder
-from org.eclipse.scanning.api.scan.models import ScanMetadata
-from org.eclipse.scanning.api.points.models import BoundingBox, CompoundModel
-from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel, AxialMultiStepModel
-from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI
-from org.eclipse.scanning.command.Services import getEventService, getRunnableDeviceService
-from org.eclipse.scanning.api.event.scan import ScanBean
-from org.eclipse.scanning.api.event.EventConstants import SUBMISSION_QUEUE
+from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel, AxialMultiStepModel #@Unresolvedimport
     
+    
+"""
+Get energy points to scan
+"""
 def get_energies(energy_model):
     energies = []
     if isinstance(energy_model,AxialMultiStepModel):
@@ -21,20 +14,23 @@ def get_energies(energy_model):
             start = ee.getStart()
             stop  = ee.getStop()
             step  = ee.getStep()
-            step_enrgs = dnp.arange(start,stop,step)
+            step_energies = dnp.arange(start,stop,step)
             print("sub_region",start,stop,step)
-            energies = dnp.concatenate((energies,step_enrgs))
+            energies = dnp.concatenate((energies,step_energies))
     elif isinstance(energy_model,AxialStepModel):
         start = energy_model.getStart()
         stop  = energy_model.getStop()
         step  = energy_model.getStep()
-        step_enrgs = dnp.arange(start,stop,step)
-        energies = dnp.concatenate((energies,step_enrgs))
+        step_energies = dnp.arange(start,stop,step)
+        energies = dnp.concatenate((energies,step_energies))
     elif isinstance(energy_model,AxialArrayModel):
-        step_enrgs = energy_model.getPositions()
-        energies = dnp.concatenate((energies,step_enrgs))
+        step_energies = energy_model.getPositions()
+        energies = dnp.concatenate((energies,step_energies))
     return energies
 
+"""
+Get the y dimensions of the bounding box
+"""
 def get_y_dimensions(map_model):
     map_box = map_model.getBoundingBox()
     
@@ -45,6 +41,9 @@ def get_y_dimensions(map_model):
     
     return y_min, y_max, y_range, y_step
 
+"""
+Get the x dimensions of the bounding box
+"""
 def get_x_dimensions(map_model):
     map_box = map_model.getBoundingBox()
     
@@ -55,6 +54,9 @@ def get_x_dimensions(map_model):
     
     return x_min, x_max, x_range, x_step
 
+"""
+Get the energy model and the map model
+"""
 def get_models(scanRequest):
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
@@ -71,6 +73,8 @@ def get_models(scanRequest):
     
     return dcm_enrg_model, map_model
 
+
+# TODO
 def set_amplifier_gains():
     current_gain1 = int(caget("BL14I-DI-BPM-03:IAMP1:MR").encode("ascii"))
     current_gain2 = int(caget("BL14I-DI-BPM-03:IAMP2:MR").encode("ascii"))
@@ -82,5 +86,3 @@ def set_amplifier_gains():
     caput("BL14I-DI-BPM-03:IAMP1:SETRANGE",current_gain)
     caput("BL14I-DI-BPM-03:IAMP2:SETRANGE",current_gain)
     sleep(2)
-    
-    
