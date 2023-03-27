@@ -156,14 +156,46 @@ def dataCollectionGroup(dataCollectionGroupId=None,
 						processingScannable="mimas",
 						dataCollectionGroupIdScannable="dataCollectionGroupId"):
 	"""
-This is a context manager which puts one or more scans in a new or specific
-data collection group, to support batch data processing. For example:
 
-	>>> with dataCollectionGroup() as processing:
-	...    scan scn start stop step processing
+dataCollectionGroup(dataCollectionGroupId=None,
+					experimentTypeDAC=False,
+					dataCollectionGroupIdScannable="dataCollectionGroupId",
+					processingScannable="mimas")
+
+This is a context manager which puts one or more scans in a new or specific
+data collection group, to support batch data processing. It returns the mimas
+processing scannable, by default, which can then be added to scans if not
+already a default scannable.
+
+The default or specified dataCollectionGroupIdScannable is updated with a new
+or requested dataCollectionGroupId before the scans are run, and reset to None
+after.
+
+If experimentTypeDAC=True when creating a new dataCollectionGroupId, the group
+will be created with the "Diamond Anvil High Pressure" experiment type. All
+scans in a data collection group must have the same experiment type though, so
+if a scan is added to an existing data collection group the experimentTypeDAC
+will be ignored and the experiment type will remain unchanged.
+
+For example:
+
+	>>> with dataCollectionGroup():
+	...    scan scn start stop step
 
 	>>> with dataCollectionGroup(987654321) as processing:
 	...    scan scn start stop step processing
+
+	>>> with dataCollectionGroup(getDataCollectionGroupIdFromScan(12345)):
+	...    scan scn start stop step
+
+	>>> with dataCollectionGroup(experimentTypeDAC=True) as processing:
+	...    expose(exposeTime, fileNameSuffix, processing)
+
+	>>> with dataCollectionGroup(processingScannable="alt_mimas") as mimas:
+	...    expose(exposeTime, fileNameSuffix, mimas)
+
+	>>> with dataCollectionGroup(dataCollectionGroupIdScannable="testDcgId"):
+	...    expose(exposeTime, fileNameSuffix)
 	"""
 	#print "dataCollectionGroup(%r, %r, %r)" % (dataCollectionGroupId, dataCollectionGroupIdScannable, processingScannable)
 
