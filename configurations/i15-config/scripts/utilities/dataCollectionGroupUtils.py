@@ -4,6 +4,7 @@ from gda.data.metadata import GDAMetadataProvider
 from gda.factory import Finder
 from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import add_reset_hook
+from gda.px.datamodel import ExperimentType
 from gda.util.osgi import OsgiJythonHelper
 from java.sql import Timestamp
 from java.util import Optional
@@ -74,7 +75,7 @@ class IspybDataCollectionApiConnector(IspybDataCollectionApiUtils):
 
 	# Public functions
 
-	def newDataCollectionGroup(self):
+	def newDataCollectionGroup(self, experimentType):
 		self.logger.debug("newDataCollectionGroup() self.logger={}, self.dbs={}", self.logger, self.dbs)
 		visit = GDAMetadataProvider.getInstance().getMetadataValue("visit") or \
 				LocalProperties.get('gda.defVisit')
@@ -90,6 +91,7 @@ class IspybDataCollectionApiConnector(IspybDataCollectionApiUtils):
 		dcg.setSessionNumber(sessionNumber)
 		dcg.setStarttime(self.sqlTime())
 		dcg.setComments("visit=%s, since retrieveDataCollectionGroup() doesn't populate proposalCode, proposalNumber & sessionNumber." % visit)
+		dcg.setExperimenttype(experimentType)
 
 		try:
 			dataCollectionGroupId = self.dbs.upsertDataCollectionGroup(dcg)
@@ -150,24 +152,57 @@ public interface IspybDataCollectionApi extends Closeable {
 
 @contextmanager
 def dataCollectionGroup(dataCollectionGroupId=None,
-						dataCollectionGroupIdScannable="dataCollectionGroupId",
-						processingScannable="mimas"):
+						experimentTypeDAC=False,
+						processingScannable="mimas",
+						dataCollectionGroupIdScannable="dataCollectionGroupId"):
 	"""
-This is a context manager which puts one or more scans in a new or specific
-data collection group, to support batch data processing. For example:
 
-	>>> with dataCollectionGroup() as processing:
-	...    scan scn start stop step processing
+dataCollectionGroup(dataCollectionGroupId=None,
+					experimentTypeDAC=False,
+					dataCollectionGroupIdScannable="dataCollectionGroupId",
+					processingScannable="mimas")
+
+This is a context manager which puts one or more scans in a new or specific
+data collection group, to support batch data processing. It returns the mimas
+processing scannable, by default, which can then be added to scans if not
+already a default scannable.
+
+The default or specified dataCollectionGroupIdScannable is updated with a new
+or requested dataCollectionGroupId before the scans are run, and reset to None
+after.
+
+If experimentTypeDAC=True when creating a new dataCollectionGroupId, the group
+will be created with the "Diamond Anvil High Pressure" experiment type. All
+scans in a data collection group must have the same experiment type though, so
+if a scan is added to an existing data collection group the experimentTypeDAC
+will be ignored and the experiment type will remain unchanged.
+
+For example:
+
+	>>> with dataCollectionGroup():
+	...    scan scn start stop step
 
 	>>> with dataCollectionGroup(987654321) as processing:
 	...    scan scn start stop step processing
+
+	>>> with dataCollectionGroup(getDataCollectionGroupIdFromScan(12345)):
+	...    scan scn start stop step
+
+	>>> with dataCollectionGroup(experimentTypeDAC=True) as processing:
+	...    expose(exposeTime, fileNameSuffix, processing)
+
+	>>> with dataCollectionGroup(processingScannable="alt_mimas") as mimas:
+	...    expose(exposeTime, fileNameSuffix, mimas)
+
+	>>> with dataCollectionGroup(dataCollectionGroupIdScannable="testDcgId"):
+	...    expose(exposeTime, fileNameSuffix)
 	"""
 	#print "dataCollectionGroup(%r, %r, %r)" % (dataCollectionGroupId, dataCollectionGroupIdScannable, processingScannable)
 
 	dbc = IspybDataCollectionApiConnector.instance()
 
 	if not dataCollectionGroupId:
-		dcg = dbc.newDataCollectionGroup()
+		dcg = dbc.newDataCollectionGroup(ExperimentType.DLS_ANVIL_HP if experimentTypeDAC else None)
 		dataCollectionGroupId = dcg.getId()
 		msg = "Created with Id  "
 	else:
