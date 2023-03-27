@@ -33,8 +33,6 @@
 				<ref bean="medipix_RoiStats2" />
 				<ref bean="medipix_RoiStats3" />
 				<ref bean="medipix_RoiStats4" />
-				<ref bean="medipix_RoiStats5" />
-				<ref bean="medipix_RoiStats6" />
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
@@ -50,8 +48,6 @@
 				<ref bean="medipix_RoiStats2" />
 				<ref bean="medipix_RoiStats3" />
 				<ref bean="medipix_RoiStats4" />
-				<ref bean="medipix_RoiStats5" />
-				<ref bean="medipix_RoiStats6" />
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
@@ -67,8 +63,6 @@
 				<ref bean="medipix_RoiStats2" />
 				<ref bean="medipix_RoiStats3" />
 				<ref bean="medipix_RoiStats4" />
-				<ref bean="medipix_RoiStats5" />
-				<ref bean="medipix_RoiStats6" />
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
@@ -84,8 +78,6 @@
 				<ref bean="medipix_RoiStats2" />
 				<ref bean="medipix_RoiStats3" />
 				<ref bean="medipix_RoiStats4" />
-				<ref bean="medipix_RoiStats5" />
-				<ref bean="medipix_RoiStats6" />
 				<ref bean="medipixHdf5Filewriter" />
 			</list>
 		</property>
