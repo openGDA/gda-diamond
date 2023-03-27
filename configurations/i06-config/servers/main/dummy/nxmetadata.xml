@@ -43,6 +43,10 @@
 								<property name="name" value="image_mode"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode"/>
 							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="mode"/>
+								<property name="pvName" value="24 bit"/><!-- there is no BL06I-EA-DET-02:CAM:QuadMerlinMode PV in ADSIM -->
+							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="24bit"/>
