@@ -1,0 +1,49 @@
+================================================================================
+					Preparing a scan for archiving here
+================================================================================
+								Common setup
+--------------------------------------------------------------------------------
+module load msmapper/latest
+--------------------------------------------------------------------------------
+							Live or scratch deployment
+--------------------------------------------------------------------------------
+
+SCRATCH=/scratch
+DEPLOYMENT=$SCRATCH/dls_sw/i16/software/gda
+cd $DEPLOYMENT/config/testing-notes/example-eta-scan
+
+--------------------------------------------------------------------------------
+							Live vs scratch data
+--------------------------------------------------------------------------------
+
+VISIT=/dls/i16/data/2023/cm33911-1
+--------------------------------------------------------------------------------
+VISIT=$DEPLOYMENT/gda_data_non_live
+
+--------------------------------------------------------------------------------
+								Analysis
+--------------------------------------------------------------------------------
+ls -trd $VISIT/*.nxs
+SCAN=
+
+ls -tr $VISIT/$SCAN*
+rsync -av --exclude=*/*.tif $VISIT/$SCAN* .
+nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa
+nexus.tree $SCAN.nxs > $SCAN.nxs.tree
+
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.tree  $SCAN.nxs.ndw.tree
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.tree  $SCAN.nxs.nsd.tree
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.nxlsa $SCAN.nxs.ndw.nxlsa
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa
+
+echo $SCAN.nxs.n*
+
+
+
+BASELINESCAN=$SCAN
+kdiff3 $BASELINESCAN.nxs.*.tree  $SCAN.nxs.*.tree
+kdiff3 $BASELINESCAN.nxs.*.nxlsa $SCAN.nxs.*.nxlsa
+
+Once analysis is done, the original .nxs file and scan files folder can be removed.
+
+================================================================================

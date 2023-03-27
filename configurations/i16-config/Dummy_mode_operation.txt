@@ -38,6 +38,14 @@ To check they have all been set, you can run
 pos delta_axis_offset cry_offset dcmharmonic ref_offset bragg_offset idgap_offset uharmonic delta_offset eta_offset
 
 --------------------------------------------------------------------------------
+Set up a new 'test' ub matrix:
+
+run('lab84/basic_ub')
+
+This can also be used to reset to a standard 'text' matrix if you've been
+playing with diffcalc.
+
+--------------------------------------------------------------------------------
 Run a few scans to check basic operation
 
 scan stokes 1 2 1	# Check out a standard GDA scannable dummy motor
@@ -47,4 +55,3 @@ pos pil3_100k 1
 scan eta 1 2 1 pil3_100k 1.5
 
 --------------------------------------------------------------------------------
-
