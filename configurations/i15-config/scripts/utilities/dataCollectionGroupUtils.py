@@ -4,6 +4,7 @@ from gda.data.metadata import GDAMetadataProvider
 from gda.factory import Finder
 from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import add_reset_hook
+from gda.px.datamodel import ExperimentType
 from gda.util.osgi import OsgiJythonHelper
 from java.sql import Timestamp
 from java.util import Optional
@@ -74,7 +75,7 @@ class IspybDataCollectionApiConnector(IspybDataCollectionApiUtils):
 
 	# Public functions
 
-	def newDataCollectionGroup(self):
+	def newDataCollectionGroup(self, experimentType):
 		self.logger.debug("newDataCollectionGroup() self.logger={}, self.dbs={}", self.logger, self.dbs)
 		visit = GDAMetadataProvider.getInstance().getMetadataValue("visit") or \
 				LocalProperties.get('gda.defVisit')
@@ -90,6 +91,7 @@ class IspybDataCollectionApiConnector(IspybDataCollectionApiUtils):
 		dcg.setSessionNumber(sessionNumber)
 		dcg.setStarttime(self.sqlTime())
 		dcg.setComments("visit=%s, since retrieveDataCollectionGroup() doesn't populate proposalCode, proposalNumber & sessionNumber." % visit)
+		dcg.setExperimenttype(experimentType)
 
 		try:
 			dataCollectionGroupId = self.dbs.upsertDataCollectionGroup(dcg)
@@ -150,8 +152,9 @@ public interface IspybDataCollectionApi extends Closeable {
 
 @contextmanager
 def dataCollectionGroup(dataCollectionGroupId=None,
-						dataCollectionGroupIdScannable="dataCollectionGroupId",
-						processingScannable="mimas"):
+						experimentTypeDAC=False,
+						processingScannable="mimas",
+						dataCollectionGroupIdScannable="dataCollectionGroupId"):
 	"""
 This is a context manager which puts one or more scans in a new or specific
 data collection group, to support batch data processing. For example:
@@ -167,7 +170,7 @@ data collection group, to support batch data processing. For example:
 	dbc = IspybDataCollectionApiConnector.instance()
 
 	if not dataCollectionGroupId:
-		dcg = dbc.newDataCollectionGroup()
+		dcg = dbc.newDataCollectionGroup(ExperimentType.DLS_ANVIL_HP if experimentTypeDAC else None)
 		dataCollectionGroupId = dcg.getId()
 		msg = "Created with Id  "
 	else:
