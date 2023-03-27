@@ -945,6 +945,14 @@ try:
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
+def exposeConfigSummary():
+	from localStationScripts.user_commands import _horizMotor, _vertMotor, _rockMotor, _sweepMotor, _rockCentre, _exposeDetector
+	print "="*80+"\nExpose Configuration:\n\n"+\
+		"%10s for exposeDetector, %10s for rockMotor,  %10s for sweepMotor, \n" % (
+				 _exposeDetector().name,  _rockMotor().name,   _sweepMotor().name) + \
+		"%10.3f for rockCentre,     %10s for horizMotor, %10s for vertMotor" % (
+				 _rockCentre(),             _horizMotor().name,  _vertMotor().name)
+
 print "*"*80
 print "Attempting to run localStationStaff.py from user scripts directory"
 try:
@@ -964,6 +972,9 @@ except java.io.FileNotFoundException, e:
 	print "No localStationUser.py found in user scripts directory"
 except:
 	localStation_exception(sys.exc_info(), "running localStationUser user script")
+
+print "*"*80
+exposeConfigSummary()
 
 if len(localStation_exceptions) > 0:
 	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
