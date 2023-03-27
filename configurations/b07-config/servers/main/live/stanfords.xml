@@ -19,6 +19,7 @@
 			</map>
 		</property>
 	</bean>
+	
 	<bean id="ca16b_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07B-DI-IAMP-16:SENS:SEL2" />
 		<property name="values">
@@ -29,6 +30,11 @@
 				<entry key="mA/V" value="mA/V" />
 			</map>
 		</property>
+	</bean>
+	
+	<bean id="ca16b_adc_output" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-HRFM-01:I1:I" />
+		<property name="poll" value="true"/>
 	</bean>
 
 	<bean id="ca35b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
@@ -174,7 +180,12 @@
 			</map>
 		</property>
 	</bean>
-
+	
+	<bean id="ca35b_adc_output"  class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-EA-ENDST-02:I1:I" />
+		<property name="poll" value="true"/>
+	</bean>
+	
 	<bean id="ca36b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07B-DI-IAMP-36:SENS:SEL1" />
 		<property name="values">
@@ -318,10 +329,17 @@
 			</map>
 		</property>
 	</bean>
-
+	
+	<bean id="ca36b_adc_output" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-EA-ENDST-02:I2:I" />
+		<property name="poll" value="true"/>
+	</bean>
+	
 	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="ca16b_sensitivity" />
+				<ref bean="ca16b_sensitivity_units" />
 				<ref bean="ca35b_sensitivity" />
 				<ref bean="ca35b_sensitivity_units" />
 				<ref bean="ca35b_offset" />
@@ -333,6 +351,7 @@
 				<ref bean="ca35b_filter_highpass" />
 				<ref bean="ca35b_filter_lowpass" />
 				<ref bean="ca35b_gain_mode" />
+				<!-- <ref bean="ca35b_adc_output" /> -->
 				<ref bean="ca36b_sensitivity" />
 				<ref bean="ca36b_sensitivity_units" />
 				<ref bean="ca36b_offset" />
@@ -344,6 +363,7 @@
 				<ref bean="ca36b_filter_highpass" />
 				<ref bean="ca36b_filter_lowpass" />
 				<ref bean="ca36b_gain_mode" />
+				<!-- <ref bean="ca36b_adc_output" /> -->
 			</list>
 		</property>
 	</bean>

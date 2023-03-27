@@ -10,7 +10,7 @@
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
 	<bean id="d1b_cam2" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d1b_cam2" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -22,7 +22,7 @@
 	</bean>
 
 	<bean id="d1b_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d1b_cam1" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

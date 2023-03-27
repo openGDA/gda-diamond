@@ -36,6 +36,7 @@
 				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 			</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<!-- ROI-STAT pairs for Live Stream View-->
@@ -52,6 +53,7 @@
 			<property name="index" value="1" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 		</bean>
 		</property>
+		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
 	<bean id="d5b_cam1_centroid_x" class="gda.device.scannable.PVScannable">
@@ -190,7 +192,7 @@
 	</bean>
 
 	<bean id="d5b_cam2" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
+		<property name="name" value="d5b_cam2" />
 		<property name="collectionStrategy" ref="d5b_cam2_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
