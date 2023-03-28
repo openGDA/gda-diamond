@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -33,6 +34,8 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
 import gda.device.Scannable;
+import gda.device.detector.NXDetector;
+import gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.device.scannable.XESEnergyScannable;
 import gda.exafs.xes.IXesOffsets;
@@ -51,6 +54,7 @@ import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 import uk.ac.gda.server.exafs.scan.preparers.I20DetectorPreparer;
+import uk.ac.gda.server.exafs.scan.preparers.I20OutputPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScan extends XasScanBase implements XasScan {
@@ -229,6 +233,8 @@ public class XesScan extends XasScanBase implements XasScan {
 		Scannable xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
 		Scannable xesBraggScannable = getXesAngleScannable(xesEnergyScannable);
 
+		Detector[] detList = getDetectors();
+
 		List<Object> xesScanArguments = new ArrayList<>();
 
 		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
@@ -236,6 +242,7 @@ public class XesScan extends XasScanBase implements XasScan {
 					specParameters.getFinalEnergy(), specParameters.getStepSize(), mono_energy,
 					xesScanParameters.getMonoEnergy(), xesBraggScannable);
 			xesScanArguments.addAll(scanParams);
+			setXesEnergyAxisName(xesEnergyScannable);
 		} else if (innerScanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
 			List<Object> spectrometerScanParams = Arrays.asList(xesEnergyScannable, specParameters.getInitialEnergy(),
@@ -253,6 +260,7 @@ public class XesScan extends XasScanBase implements XasScan {
 						specParameters.getStepSize());
 				twodplotter.setXAxisName(monoAxisLabel);
 				twodplotter.setYAxisName(xesEnergyScannable.getName()+" [eV]");
+				setXesEnergyAxisName(mono_energy);
 			} else {
 				xesScanArguments.addAll(monoScanParams);
 				xesScanArguments.addAll(spectrometerScanParams);
@@ -262,17 +270,58 @@ public class XesScan extends XasScanBase implements XasScan {
 						xesScanParameters.getMonoStepSize());
 				twodplotter.setXAxisName(xesEnergyScannable.getName()+" [eV]");
 				twodplotter.setYAxisName(monoAxisLabel);
+				setXesEnergyAxisName(xesEnergyScannable);
 			}
 			// Add XESBragg angle
 			xesScanArguments.add(xesBraggScannable);
-			twodplotter.setZ_colName("FFI1");
+
+			// Try to set the name of the z axis quantity automatically
+			// (the stream name from the ADROiCountsI0 plugin on the medipix detector)
+			Optional<String> ffName = Stream.of(detList)
+					.map(this::getFFI1Name)
+					.filter(Optional::isPresent)
+					.findFirst()
+					.orElse(Optional.empty());
+
+			if (ffName.isPresent()) {
+				logger.debug("Setting name of Z axis to : {}", ffName.get());
+				twodplotter.setZ_colName(ffName.get());
+			} else {
+				twodplotter.setZ_colName("FFI1");
+			}
 			xesScanArguments.add(twodplotter);
 		}
 
-		Detector[] detList = getDetectors();
 		xesScanArguments.addAll(Arrays.asList(detList));
 
 		return xesScanArguments.toArray();
+	}
+
+	/**
+	 * Name of the x-axis in the scan plot
+	 * (i.e. name of object being scanned for the particular scan type)
+	 * @param name
+	 */
+	private void setXesEnergyAxisName(Scannable scannable) {
+		if (getOutputPreparer() instanceof I20OutputPreparer prep) {
+			if (scannable == xesEnergyBoth) {
+				prep.setXesEnergyAxisName(scannable.getExtraNames()[0]);
+			} else {
+				prep.setXesEnergyAxisName(scannable.getName());
+			}
+		}
+	}
+
+	public Optional<String> getFFI1Name(Detector detector) {
+		if (detector instanceof NXDetector nxDetector) {
+			return nxDetector.getAdditionalPluginList()
+					.stream()
+					.filter(ADRoiCountsI0.class::isInstance)
+					.map(ADRoiCountsI0.class::cast)
+					.map(ADRoiCountsI0::getStreamName)
+					.findFirst();
+		}
+		return Optional.empty();
 	}
 
 	/**
@@ -372,6 +421,9 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		logger.info("Scan parameters loaded from {}", xasRegionFileName);
 		setXasXanesScannable(xasScanParams, movingScannable.getName());
+
+		// Set the name of the x-axis to be used for the scan plot
+		setXesEnergyAxisName(movingScannable);
 
 		// Set scannable object to be moved during scan
 		xas.setEnergyScannable(movingScannable);

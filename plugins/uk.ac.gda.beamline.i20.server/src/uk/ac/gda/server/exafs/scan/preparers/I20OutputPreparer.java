@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
@@ -44,22 +47,23 @@ import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 
 public class I20OutputPreparer extends OutputPreparerBase {
 
+	private static final Logger logger = LoggerFactory.getLogger(I20OutputPreparer.class);
+
+
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
-	private TfgScalerWithFrames ionchambers;
-//	private Xspress2Detector xspress2system;
 	private Xmap xmapMca;
 	private IDetectorParameters detectorBean;
 	private I20OutputParameters i20OutputParams;
 	private I20DetectorPreparer detectorPreparer;
 	private IScanParameters scanBean;
 
+	private String xesEnergyAxisName ="";
+
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
 			Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
 		super(datawriterconfig, metashop);
 		this.datawriterconfig_xes = datawriterconfig_xes;
-		this.ionchambers = ionchambers;
-//		this.xspress2system = xspress2system;
 		this.xmapMca = xmapMca;
 		this.detectorPreparer = detectorPreparer;
 	}
@@ -71,47 +75,30 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		this.detectorBean = detectorBean;
 		this.scanBean = scanBean;
 		this.i20OutputParams = (I20OutputParameters) outputParameters;
-		// redefineNexusMetadata();
-		// # Custom for I20, which is why it is here instead of the shared DetectorConfiguration.java classes.
-		// # Set the output options for the fluo detectors. Hope that this output preparer has been called AFTER the
-		// # detector preparer or these settings will be overwritten.
-//		xspress2system.setOnlyDisplayFF(i20OutputParams.isXspressOnlyShowFF());
-//		xspress2system.setAddDTScalerValuesToAscii(i20OutputParams.isXspressShowDTRawValues());
-//		xspress2system.setSaveRawSpectrum(i20OutputParams.isXspressSaveRawSpectrum());
 		xmapMca.setSaveRawSpectrum(i20OutputParams.isVortexSaveRawSpectrum());
-		// return []
 	}
 
-	// #
-	// # Determines the AsciiDataWriterConfiguration to use to format the header/footer of the ascii data files
-	// #
-	// # If this returns None, then let the Ascii Data Writer class find the config for itself.
-	// #
 	@Override
 	public AsciiDataWriterConfiguration getAsciiDataWriterConfig(IScanParameters scanParameters) {
 		if (scanParameters instanceof XesScanParameters) {
-			// # will return None if not found
-			// print "Ascii (.dat) files will have XES format header."
 			return datawriterconfig_xes;
 		}
-		// # will return None if not found
-		// print "Ascii (.dat) files will have XAS format header."
 		return getDatawriterconfig();
 	}
 
-	// #
-	// # For any specific plotting requirements based on all the options in this experiment
-	// #
 	@Override
 	public ScanPlotSettings getPlotSettings() {
-		if (scanBean instanceof XesScanParameters xesScanParams) {
-			// this will need to change depending on the colour type
-			String axisName = xesScanParams.getSpectrometerParamsForRow(0).getScannableName();
-//			if (axisName != null && axisName.contains("XES")) {
-				ScanPlotSettings sps = new ScanPlotSettings();
-				sps.setXAxisName(axisName);
-				return sps;
-//			}
+		if (detectorPreparer.isXesMode()) {
+
+			if (StringUtils.isEmpty(xesEnergyAxisName)) {
+				logger.warn("XES energy axis name has not been set");
+				return null;
+			}
+
+			ScanPlotSettings sps = new ScanPlotSettings();
+			sps.setXAxisName(xesEnergyAxisName);
+			return sps;
+
 		} else if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters) {
 
 			if (detectorBean.getFluorescenceParameters() == null ||
@@ -120,13 +107,10 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			}
 
 			if (i20OutputParams.isXspressShowDTRawValues() || !i20OutputParams.isXspressOnlyShowFF()) {
-				// # create a filter for the DT columns and return it
+				// Create a filter for the DT columns and return it
 				LocalProperties.set("gda.scan.useScanPlotSettings", "true");
-				ScanPlotSettings sps = new ScanPlotSettings();
-				sps.setXAxisName("Energy");// # column will have be converted to this name
 
 				String[] axes = createAxesList();
-
 				String[] visibleAxes = new String[0];
 				String[] invisibleAxes = new String[0];
 				for (String axis : axes) {
@@ -136,9 +120,11 @@ public class I20OutputPreparer extends OutputPreparerBase {
 						visibleAxes = (String[]) ArrayUtils.add(visibleAxes, axis);
 					}
 				}
+
+				ScanPlotSettings sps = new ScanPlotSettings();
 				sps.setYAxesShown(visibleAxes);
 				sps.setYAxesNotShown(invisibleAxes);
-				// # if anything extra, such as columns added in the output parameters xml should also be plotted
+				// if anything extra, such as columns added in the output parameters xml should also be plotted
 				sps.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
 				return sps;
 			}
@@ -157,9 +143,10 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			}
 		}
 
-		if (fluoDetGroup == null)
+		if (fluoDetGroup == null) {
 			// the XML is inconsistent
 			return new String[]{};
+		}
 
 		HashMap<String, Detector> detectorsMap = createDetectorsMap();
 
@@ -192,5 +179,9 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			detectorsMap.put(det.getName(), det);
 		}
 		return detectorsMap;
+	}
+
+	public void setXesEnergyAxisName(String axisName) {
+		this.xesEnergyAxisName = axisName;
 	}
 }

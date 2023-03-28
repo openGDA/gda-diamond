@@ -77,7 +77,7 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		this.bragg = bragg;
 		this.braggOffset = braggOffset;
 
-		setInputNames(new String[] {bragg.getName()});
+		setInputNames(new String[] {getName()});
 		setIncludeOffsetInPosition(false);
 
 		offsetLastMove = 0;
