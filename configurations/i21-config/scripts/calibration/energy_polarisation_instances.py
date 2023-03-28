@@ -30,5 +30,4 @@ else:
     energypolarisation = BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut=ID_ENERGY_TO_GAP_CALIBRATION_FILE) 
     energypolarisation.configure()
 
-energypolarisation.setInputNames(["energy"])
-energypolarisation.setExtraNames(["polarisation"])
+energypolarisation.setInputNames(["energy", "polarisation"])

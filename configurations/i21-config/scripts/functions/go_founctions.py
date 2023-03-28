@@ -39,7 +39,7 @@ def go(en_val_std, pol):
     from gdaserver import pgmEnergy  # @UnresolvedImport
     from time import sleep
     from utils.ScriptLogger import SinglePrint
-    if not (pol in X_RAY_POLARISATIONS[:-2]):
+    if pol not in X_RAY_POLARISATIONS[:-2]:
         print("Requested polarisation %s is not supported" % pol)
         return
     if installation.isDummy():
@@ -56,3 +56,4 @@ def go(en_val_std, pol):
     else:
         caput(EPICS_FEEDBACK_PV,4)
     print("energy is now at %f, polarisation is now at %s" % (en_val_std, pol))
+    

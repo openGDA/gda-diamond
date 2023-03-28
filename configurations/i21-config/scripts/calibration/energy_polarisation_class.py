@@ -98,12 +98,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''get gap and phase from ID hardware controller, and set polarisation mode in GDA 'idscannable' instance
         This method sync current object states with ID state in EPICS IOC.
         '''
-        result=list(self.idscannable.getPosition())
-        gap=float(result[0])
-        polarisation=str(result[1])
-        if BeamEnergyPolarisationClass.harmonicOrder > 1: # support other harmonic
-            polarisation = str(polarisation)+str(BeamEnergyPolarisationClass.harmonicOrder)
-        phase=float(result[2])
+        result = list(self.idscannable.getPosition())
+        gap = float(result[0])
+        polarisation = str(result[1])
+        if self.getHarmonic() > 1: # support other harmonic
+            polarisation = str(polarisation)+str(self.getHarmonic())
+        phase = float(result[2])
         return (gap, polarisation, phase)
     
     def showFittingCoefficentsLookupTable(self):
@@ -156,27 +156,29 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
 
     def get_phase_and_set_harmonic_order(self, mode, gap):
+        n = 1
         if mode == "LH":
             phase = 0.0
-            BeamEnergyPolarisationClass.harmonicOrder = 1
+            n = 1
         elif mode == "LH3":
             phase = 0.0
-            BeamEnergyPolarisationClass.harmonicOrder = 3
+            n = 3
         elif mode == "LH5":
             phase = 0.0
-            BeamEnergyPolarisationClass.harmonicOrder = 5
+            n = 5
         elif mode == "LV":
             phase = self.maxPhase
-            BeamEnergyPolarisationClass.harmonicOrder = 1
+            n = 1
         elif mode == "LV3":
             phase = self.maxPhase
-            BeamEnergyPolarisationClass.harmonicOrder = 3
+            n = 3
         elif mode == "LV5":
             phase = self.maxPhase
-            BeamEnergyPolarisationClass.harmonicOrder = 5
+            n = 5
         elif mode in ["CR", "CL"]:
             phase = 12.92907548 + 0.37353288 * gap + (-0.00614332 * gap ** 2) + 5.3209E-06 * gap ** 3 + 2.00631E-06 * gap ** 4 + (-3.9185E-08 * gap ** 5) + 3.17986E-10 * gap ** 6 + (-9.93646E-13 * gap ** 7)
-            BeamEnergyPolarisationClass.harmonicOrder = 1
+            n = 1
+        self.setHarmonic(n)
         return phase
 
 
@@ -216,7 +218,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             phase = self.get_phase_and_set_harmonic_order(mode, gap)
                 
         elif mode in X_RAY_POLARISATIONS[-2:]:
-            BeamEnergyPolarisationClass.harmonicOrder = 1
+            self.setHarmonic(1)
             gap, phase = self.get_gap_and_phase_in_linear_arbitrary_polarisation(Ep, polar)
         else:
             raise ValueError("Unsupported polarisation mode %s is requested!" % (mode))
@@ -270,16 +272,20 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             if str(s.getName()) == str(self.idscannable.getName()):
                 try:
                     if new_polarisation in ["LH3", "LH5"]:
+                        n = 1
                         if new_polarisation == "LH3":
-                            BeamEnergyPolarisationClass.harmonicOrder = 3
+                            n = 3
                         if new_polarisation == "LH5":
-                            BeamEnergyPolarisationClass.harmonicOrder = 5
+                            n = 5
+                        self.setHarmonic(n)
                         new_polarisation = "LH" # Java class does not explicitly support Harmonic
                     elif new_polarisation in ["LV3", "LV5"]:
+                        n = 1
                         if new_polarisation == "LV3":
-                            BeamEnergyPolarisationClass.harmonicOrder = 3
+                            n = 3
                         if new_polarisation == "LV5":
-                            BeamEnergyPolarisationClass.harmonicOrder = 5
+                            n = 5
+                        self.setHarmonic(n)
                         new_polarisation = "LV"
                     s.asynchronousMoveTo([gap, new_polarisation, phase])
                 except:
@@ -450,16 +456,3 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 self.pgmenergy.deleteIObserver(self.energyObserver)
                 self.energyObserver = None
         
-
-# lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv' #theoretical table from ID group
-#  
-# idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-# energy=BeamEnergyPolarisationClass("energy", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", polarisationConstant=True)  # @UndefinedVariable
-# energy.configure()
-# polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=True,feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
-# polarisation.configure()
-# energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy, pgmGratingSelect, idlamlookup, lut="IDEnergy2GapCalibrations.csv",feedbackPV="BL21I-OP-MIRR-01:FBCTRL:MODE")  # @UndefinedVariable
-# energypolarisation.configure()
-# energypolarisation.setInputNames(["energy"])
-# energypolarisation.setExtraNames(["polarisation"])
-
