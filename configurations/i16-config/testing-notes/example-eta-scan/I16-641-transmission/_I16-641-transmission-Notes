@@ -15,9 +15,8 @@ Scan		Configuration	Dummy	Notes
 2023030006	NSD				Dummy	NSD Baseline
 2023030009	NDW	DWE	LF		Dummy	NDW Baseline with dummy closer to live		scan eta 12.2345 12.834500000000002 0.02 pil3_100k 1 roi1 roi2
 2023030010	NSD				Dummy	NSD Baseline with dummy closer to live
-
-2023030?	NSD				Dummy	
-2023030?	NDW	DWE	LF		Dummy	NDW ...	Verified match?
+2023030012	NSD				Dummy	Confirmed attenuator group added
+2023030013	NDW	DWE	LF		Dummy	NDW verified against baseline
 ----------- --- --- --	-	-----	--------------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	DWE	DataWriterExtender			T	Template

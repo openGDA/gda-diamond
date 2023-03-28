@@ -82,6 +82,20 @@
 		</property>
 	</bean>
 
+	<bean id="attenuator" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="attenuator" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXattenuator"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="attenuator_transmission"/>
+					<property name="expression" value="@gains_atten.getPosition()[1]"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
@@ -95,6 +109,7 @@
 			<set>
 				<value>before_scan</value>
 				<value>metadata</value>
+				<value>attenuator</value>
 			</set>
 		</property>
 	</bean>

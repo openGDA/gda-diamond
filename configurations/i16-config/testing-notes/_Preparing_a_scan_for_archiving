@@ -38,7 +38,8 @@ grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa
 
 echo $SCAN.nxs.n*
 
-
+Need to split baseline into NDW and NSD, since diffs between NDW and NSD directly
+are pointless.
 
 BASELINESCAN=$SCAN
 kdiff3 $BASELINESCAN.nxs.*.tree  $SCAN.nxs.*.tree
