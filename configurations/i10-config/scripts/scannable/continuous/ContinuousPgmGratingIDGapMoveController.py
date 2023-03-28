@@ -322,28 +322,48 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
             if installation.isLive():
                 self.idpvs['vel'].caput(self._id_gap_speed)
             else:
-                self.idcontrols['gap'].speed = self._id_gap_speed 
+                self.idcontrols['gap'].speed = self._id_gap_speed
+                
+        if self.getGratingMoveDirectionPositive():
+            energy_end_offset =  self._move_step
+        else:
+            energy_end_offset =  -self._move_step
+                
+        self._grat_pitch_end_offset = enemirror2grating(gd=self.grating_density, 
+                                                 energy=self._move_end + energy_end_offset, 
+                                                 pmang=self.mirr_pitch_midpoint, 
+                                                 groff=self.grating_offset, 
+                                                 pmoff=self.plane_mirror_offset, 
+                                                 ecg=self.energy_calibration_gradient, 
+                                                 ecr=self.energy_calibration_reference)
         
         if self.isPGMMoveEnabled():
             if self.getGratingMoveDirectionPositive():
                 if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                        (self._grat_pitch_end + self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
-                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end + self._pgm_runupdown)*1000.)
+                                                        (self._grat_pitch_end_offset + self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
+                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end_offset + self._pgm_runupdown)*1000.)
             else:
                 if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                        (self._grat_pitch_end - self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
-                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._pgm_runupdown)*1000.)
-                
+                                                        (self._grat_pitch_end_offset - self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
+                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end_offset - self._pgm_runupdown)*1000.)
+        
+        if self.getIDGapMoveDirectionPositive():
+            energy_end_offset = self._move_step
+        else:
+            energy_end_offset = -self._move_step
+        
+        self._id_gap_end_offset, phase_end = self.energy.get_ID_gap_phase_at_current_source_polarisation(self._move_end + energy_end_offset)  # @UnusedVariable      
+        
         if self.isIDMoveEnabled():
             sleep(self.getIDStartDelayTime())
             if self.getIDGapMoveDirectionPositive():
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                        (self._id_gap_end + 0.05 + self._id_gap_runupdown), self._id_gap_speed))
-                self.idcontrols['gap'].asynchronousMoveTo((self._id_gap_end + 0.05 + self._id_gap_runupdown))
+                                                        (self._id_gap_end_offset + 0.05 + self._id_gap_runupdown), self._id_gap_speed))
+                self.idcontrols['gap'].asynchronousMoveTo((self._id_gap_end_offset + 0.05 + self._id_gap_runupdown))
             else:
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                        (self._id_gap_end - 0.05 - self._id_gap_runupdown), self._id_gap_speed))
-                self.idcontrols['gap'].asynchronousMoveTo((self._id_gap_end - 0.05 - self._id_gap_runupdown))
+                                                        (self._id_gap_end_offset - 0.05 - self._id_gap_runupdown), self._id_gap_speed))
+                self.idcontrols['gap'].asynchronousMoveTo((self._id_gap_end_offset - 0.05 - self._id_gap_runupdown))
 
         self.continuousMovingStarted = True
         if self.verbose: self.logger.info('...startMove')
