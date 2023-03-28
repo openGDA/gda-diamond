@@ -1915,7 +1915,7 @@ if localStation_warnings:
 		len(localStation_warnings), "\n".join(localStation_warnings))
 
 if localStation_exceptions:
-	print "\n====================== %r ERRORS DURING STARTUP WHILE ======================" % (
+	print "\n====================== %r ERRORS DURING STARTUP WHILE ======================\n%s" % (
 		len(localStation_exceptions), "\n".join(localStation_exceptions))
 
 print "\n======================================================================"
