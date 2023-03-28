@@ -26,6 +26,7 @@
 	<logger name="uk.ac.gda.menu.JythonControlsFactory">								<level value="DEBUG"/></logger>
 	<logger name="gda.util.logging.LogbackUtils">										<level value="DEBUG"/></logger>
 	<logger name="gda.jython.batoncontrol.BatonManager">								<level value="DEBUG"/></logger>
+	<logger name="gda.jython.server.shell.Highlighters">								<level value="DEBUG"/></logger>
 
 	<!-- Classes where we want all messages
 	 -->

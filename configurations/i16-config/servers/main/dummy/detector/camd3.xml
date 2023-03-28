@@ -15,64 +15,64 @@
 
 	<!-- Simulated AD hardware -->
 
-	<bean id="cam1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+	<bean id="camd3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="#{ADSIM_HOST}-AD-SIM-01:CAM:" />
 	</bean>
 
-	<bean id="cam1_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+	<bean id="camd3_ndfile_base" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="basePVName" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
 	</bean>
 
-	<bean id="cam1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+	<bean id="camd3_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
-		<property name="pluginBase" ref="cam1_ndfile_base" />
+		<property name="pluginBase" ref="camd3_ndfile_base" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="cam1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="cam1_adbase" />
+	<bean id="camd3_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="camd3_adbase" />
 		<constructor-arg value="-1" />
 	</bean>
 
 	<!-- NXDetector file writers -->
 
-	<bean id="cam1_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="cam1" />
-		<property name="ndFile" ref="cam1_ndfile" />
-		<property name="keyNameForMetadataPathTemplate" value="cam1_path_template" />
+	<bean id="camd3_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="camd3" />
+		<property name="ndFile" ref="camd3_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="camd3_path_template" />
 		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="alwaysPrepare" value="true" />
 	</bean>
 
-	<bean id="cam1_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
-		<constructor-arg value="cam1" />
-		<property name="ndFile" ref="cam1_ndfile" />
-		<property name="numTrackerExtension" value="cam1snaps" />
+	<bean id="camd3_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="camd3" />
+		<property name="ndFile" ref="camd3_ndfile" />
+		<property name="numTrackerExtension" value="camd3snaps" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
 
-	<bean id="_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="cam1" />
-		<property name="collectionStrategy" ref="cam1_nxcollectionstrategy" />
+	<bean id="_camd3" class="gda.device.detector.NXDetector">
+		<property name="name" value="camd3" />
+		<property name="collectionStrategy" ref="camd3_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="cam1_nxfilewriter_for_scans" />
+				<ref bean="camd3_nxfilewriter_for_scans" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="_cam1_for_snaps" class="gda.device.detector.NXDetector">
-		<property name="name" value="cam1_for_snaps" />
-		<property name="collectionStrategy" ref="cam1_nxcollectionstrategy" />
+	<bean id="_camd3_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="camd3_for_snaps" />
+		<property name="collectionStrategy" ref="camd3_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="cam1_nxfilewriter_for_snaps" />
+				<ref bean="camd3_nxfilewriter_for_snaps" />
 			</list>
 		</property>
 	</bean>

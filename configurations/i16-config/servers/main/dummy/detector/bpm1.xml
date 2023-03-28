@@ -66,8 +66,8 @@
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="_bpm1_for_snaps" class="gda.device.detector.NXDetector">
+
+	<bean id="_bpm1_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="bpm1_for_snaps" />
 		<property name="collectionStrategy" ref="bpm1_nxcollectionstrategy" />
 		<property name="additionalPluginList">
@@ -77,4 +77,6 @@
 		</property>
 	</bean>
 
+	<bean id="_bpm1_no_screen" parent="_bpm1" />
+	<bean id="_bpm1_no_screen_for_snaps" parent="_bpm1_for_snaps" />
 </beans>

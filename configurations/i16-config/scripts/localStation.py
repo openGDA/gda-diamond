@@ -81,6 +81,7 @@ LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 global Finder, pos, add_default, meta
 global idgap
+global bragg, perp
 
 global sixckappa, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
@@ -92,7 +93,7 @@ global x2000, x2003
 global delta
 global energy, simple_energy, gam
 global x1
-global _bpm1, _bpm1_for_snaps, _bpm1_no_screen, _bpm1_for_snaps_no_screen
+global _bpm1, _bpm1_for_snaps, _bpm1_no_screen, _bpm1_no_screen_for_snaps
 global _cam1, _cam1_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
@@ -406,10 +407,6 @@ do=delta_axis_offset
 ###                            Generic Functions                            ###
 ###############################################################################
 
-### Override gda's standard help command
-localStation_print("Overriding gda's standard help command")
-#help=_gdahelp
-
 ### Create datadir functions
 localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
 localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
@@ -497,6 +494,7 @@ if installation.isLive():
 """
 
 if not USE_DIFFCALC:
+	localStation_warning("setting up diffractometer, using Allesandro's code instead of diffcalc")
 	run("localStationScripts/startup_diffractometer_hkl")
 	azihkl=AzihklClass('aziref')
 	azihkl.azir_function = azir
@@ -509,7 +507,7 @@ else:
 	from startup.i16 import *
 
 	if USE_DIFFCALC_WITHOUT_LASTUB:
-		localStation_print("Not running lastub() as it has been suppressed by Starting Diffcalc by USE_DIFFCALC_WITHOUT_LASTUB %r" % USE_DIFFCALC_WITHOUT_LASTUB)
+		localStation_warning("loading lastub(), this has been suppressed by Starting Diffcalc by USE_DIFFCALC_WITHOUT_LASTUB %r" % USE_DIFFCALC_WITHOUT_LASTUB)
 	else:
 		try:
 			lastub()  # Load the last ub calculation used
@@ -638,8 +636,7 @@ pitchup=pitchupClass()
 #	mcaSca1 = mca_utils.rdScaClass('mcaSca1',mca,910,917)
 #	mcaSca2 = mca_utils.rdScaClass('mcaSca2',mca,913,914)
 
-if True: #installation.isLive():
-
+try:
 	### Various ###
 	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
 	run("localStationScripts/startup_epics_monitors")
@@ -720,12 +717,14 @@ if True: #installation.isLive():
 	tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')
 
 	### MCA ###
-	localStation_print("Creating MCA scannables: mca1, mca")
-	try:
+	if installation.isLive():
+		localStation_print("Creating MCA scannables: mca1")
 		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
-	except:
-		localStation_exception("initiliasing mca1 scannable")
+except:
+	localStation_exception("configuring epics scannables")
 
+
+if installation.isLive():
 	### LS340 ###
 	localStation_print("Creating LS340 scannables")
 	try:
@@ -763,10 +762,20 @@ if True: #installation.isLive():
 	#LSPID=ReadPDGroupClass('LS_PID',[LSP,LSI,LSD])
 	pid1=EpicsLakeshorePID('PID_1','PID? 1','PID 1','','%4f')
 	pid2=EpicsLakeshorePID('PID_2','PID? 2','PID 2','','%4f')
+else:
+	localStation_print("Creating limited dummy LS340 scannables") # Based on scan 971324
+	from gda.device.scannable import DummyUnitsScannable
+	# DummyUnitsScannable(String name, double initialPosition, String hardwareUnits, String userUnits) throws
+	tset=DummyUnitsScannable('tset', 300.0,  'K','K')
+	Ta=DummyUnitsScannable(  'Ta',   300.033,'K','K')
+	Tb=DummyUnitsScannable(  'Tb',   297.84, 'K','K')
+	Tc=DummyUnitsScannable(  'Tc',   3.15,   'K','K')
+	Td=DummyUnitsScannable(  'Td',   3.15,   'K','K')
 
 
+try:
 	### Struck ###
-	localStation_print("   creating new Stuck counter-timet object, t    Type help t")
+	localStation_print("   creating new Stuck counter-timer object, t    Type help t")
 	t=Struck2('t',"BL16I-EA-DET-01:SCALER",[3])
 	t.setname(3,'APD'); t.setname(4,'Scintillator1'); t.setname(5,'APD2'); t.setname(9,'SCA1'); t.setname(10,'SCA2'); t.setname(11,'SCA3'); t.setname(15,'IC2');
 
@@ -786,14 +795,8 @@ if True: #installation.isLive():
 	x2trig.triggerLength=0.2
 	#ppa* & ppb* scannables moved to localStationStaff.py
 
-else:
-	localStation_print("NOT LIVE :SKIPPED EPICS DEVICES/MONITORS")
-	localStation_print("      Creating dummy bragg motor should be on PV:BL16I-MO-DCM-01:BRMTR:MOT.RBV")
-	bragg = dummyClass('bragg')
-	bragg.asynchronousMoveTo(-23.2997)
-	localStation_print("      Creating dummy perp motor should be on PV:BL16I-MO-DCM-01:FPMTR:PREAD")
-	perp = dummyClass('perp')
-	bragg.asynchronousMoveTo(0.033523)
+except:
+	localStation_exception("creating strick, checkbeam and x trig scannables")
 
 
 ### Homebrew positioners
@@ -1238,7 +1241,7 @@ except:
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
-if Finder.find(""):
+if Finder.find("andor1"):
 	localStation_print("Configuring andor")
 	from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
 	# the andor has no hardware triggered mode configured. This class is used to hijak its DetectorSnapper implementation.
@@ -1393,7 +1396,7 @@ localStation_print("Configuring metadata capture")
 
 run('localStationScripts/Sample_perpMotion')
 
-if installation.isLive():
+try:
 	diffractometer_sample_scannables = [delta, eta, chi, phi, gam, mu, hkl]
 	if not USE_DIFFCALC:
 		diffractometer_sample_scannables += [psi]
@@ -1448,6 +1451,8 @@ if installation.isLive():
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
+except:
+	localStation_exception("configuring metadata capture")
 
 def meta_std(full=True):
 	try:
@@ -1629,14 +1634,18 @@ print "======================================================================"
 from gda.device.motor import DummyMotor
 if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==DummyMotor:
 	print "!"*80
-	localStation_print("Warning: Using a dummy idgap motor")
+	localStation_warning("finding idgap motor, using dummy idgap")
 	print "!"*80
+
 if type(bragg.getMotor())==DummyMotor:
 	print "!"*80
-	localStation_print("WARNING: Using a dummy bragg motor")
+	localStation_warning("finding bragg motor, using dummy bragg")
+	bragg.asynchronousMoveTo(-16.189525) # Based on scan 971324
 
-if USE_DIFFCALC:
-	localStation_print("WARNING: Using Diffcalc instead of Allesandro's code")
+if type(perp.getMotor())==DummyMotor:
+	print "!"*80
+	localStation_warning("finding perp motor, using dummy perp")
+	perp.asynchronousMoveTo(40.54095) # Based on scan 971324
 
 print "======================================================================"
 
@@ -1886,13 +1895,13 @@ if installation.isLive():
 	except:
 		localStation_exception("running localStationUser user script! See above for details.")
 else:
+	print "*"*80
 	try:
 		run("dummy/localStationStaff")
 	except:
 		localStation_exception("running localStationStaff dummy script")
 
-	protect_all_scannables()
-
+	print "*"*80
 	try:
 		run("dummy/localStationUser")
 	except:
@@ -1902,14 +1911,12 @@ print "*"*80
 protect_all_scannables()
 
 if localStation_warnings:
-	print "\n====================== DURING STARTUP: %r warnings ======================" % len(localStation_warnings)
-	for localStation_warning in localStation_warnings:
-		print localStation_warning
+	print "\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
+		len(localStation_warnings), "\n".join(localStation_warnings))
 
 if localStation_exceptions:
-	print "\n======================  DURING STARTUP : %r ERRORS ======================" % len(localStation_exceptions)
-	for localStationException in localStation_exceptions:
-		print localStationException
+	print "\n====================== %r ERRORS DURING STARTUP WHILE ======================" % (
+		len(localStation_exceptions), "\n".join(localStation_exceptions))
 
 print "\n======================================================================"
 localStation_print("Local Station Script completed")
