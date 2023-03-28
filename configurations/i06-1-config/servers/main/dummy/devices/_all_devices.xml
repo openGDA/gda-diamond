@@ -7,7 +7,7 @@
 	<import resource="d8.xml"/>
 	<import resource="branchShutter.xml"/>
 	<import resource="s6.xml"/>
-	<import resource="CHP.xml"/>
+<!-- 	<import resource="CHP.xml"/> -->
 	<import resource="d9.xml"/>
 	<import resource="m7.xml"/>
 	<import resource="s7.xml"/>
@@ -17,7 +17,6 @@
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
-<!-- 	<import resource="userMotors.xml"/> -->
 	<import resource="fastScan.xml"/>
 	<import resource="laser_ec2.xml"/>
 	<import resource="keithley428Amp.xml"/>
