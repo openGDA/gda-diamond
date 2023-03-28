@@ -4,24 +4,32 @@
 The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
 `pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.
 
-Scan command: scancn eta 0.02 31 pil 1 roi2
+Scan command:	scancn eta 0.02 31 pil 1 roi2
+				scancn eta 0.02 31 pil 1 roi1 roi2
 
 Scan		Configuration	Dummy	Notes
 			NDW	DWE	LF	T	/Live
------------ --- --- --	-	-----	------------------------------------
+----------- --- --- --	-	-----	--------------------------------------------
 971324		NDW	DWE	LF		Live	Similar, but 21 points not 31
 2023030005	NDW	DWE	LF		Dummy	NDW Baseline
 2023030006	NSD				Dummy	NSD Baseline
-2023030?	NSD				Dummy	NSD ...
+2023030009	NDW	DWE	LF		Dummy	NDW Baseline with dummy closer to live		scan eta 12.2345 12.834500000000002 0.02 pil3_100k 1 roi1 roi2
+2023030010	NSD				Dummy	NSD Baseline with dummy closer to live
+
+2023030?	NSD				Dummy	
 2023030?	NDW	DWE	LF		Dummy	NDW ...	Verified match?
------------ --- --- --	-	-----	------------------------------------
+----------- --- --- --	-	-----	--------------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	DWE	DataWriterExtender			T	Template
 	LF	Link Files
 
 	See testing-notes/_Preparing_a_scan_for_archiving for process
 ================================================================================
+Comparisons to live...
 
+kdiff3 ../971324.nxs.ndw.nxlsa 2023030009.nxs.ndw.nxlsa
+
+... now only omits mtthp, temperatures and BeamOk, added in localstationStaff.
 --------------------------------------------------------------------------------
 
 ================================================================================
