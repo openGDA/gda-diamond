@@ -6,14 +6,14 @@
 
 	<!-- medipix camera control -->
 	<bean id="medipix_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Exposure " />
+		<property name="displayName" value="expo " />
 		<property name="group" value="medipix Acquire Time" />
 		<property name="scannableName" value="medipixAcquireTime" />
 		<property name="textWidth" value="40"/>
 		<property name="userUnits" value=" s" />
 	</bean>
 	<bean id="medipix_idle_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Idle " />
+		<property name="displayName" value="idle " />
 		<property name="group" value="medipix Acquire Time" />
 		<property name="scannableName" value="medipixIdleTime" />
 		<property name="textWidth" value="40"/>
@@ -21,10 +21,10 @@
 		<property name="lowerLimit" value="0.002"/>
 	</bean>
 	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="NumFilter " />
+		<property name="displayName" value="filter " />
 		<property name="group" value="medipix PROC" />
 		<property name="scannableName" value="medipixProcNumFilterWithResetEnableAfter" />
-		<property name="textWidth" value="30" />
+		<property name="textWidth" value="20" />
 		<property name="userUnits" value=""/>
 	</bean>
 
@@ -36,16 +36,9 @@
 		<property name="buttonTooltip" value="Display image in preview mode (exposure time 0.1s and number of images 2)"/>
 	</bean>
 
-	<bean id="medipixstoppreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="stop_preview()" />
-		<property name="buttonText" value="Stop Preview" />
-		<property name="group" value="medipix Mode" />
-		<property name="buttonTooltip" value="Stop preview of medipix"/>
-	</bean>
-
 	<!-- medipix image rotation control -->
 	<bean id="medipix_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Rot.Ang " />
+		<property name="displayName" value="rota " />
 		<property name="group" value="medipix Rotation" />
 		<property name="scannableName" value="medipixRotationAngle" />
 		<property name="textWidth" value="40" />
@@ -53,11 +46,32 @@
 	</bean>
 
 	<bean id="leem_calc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Leem" />
+		<property name="displayName" value="leem" />
 		<property name="group" value="medipix Rotation" />
 		<property name="scannableName" value="leem_calc" />
 		<property name="horizontalLayout" value="true"/>
 		<property name="showStop" value="false"/>
+	</bean>
+	<bean id="medipix_acq_mode_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="acq.mode" />
+		<property name="group" value="medipix Mode" />
+		<property name="scannableName" value="medipixAcqMode" />
+		<property name="horizontalLayout" value="true"/>
+		<property name="showStop" value="false"/>
+	</bean>
+	<bean id="medipix_driver_mode_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="cam.mode" />
+		<property name="group" value="medipix Mode" />
+		<property name="scannableName" value="medipixDriverMode" />
+		<property name="horizontalLayout" value="true"/>
+		<property name="showStop" value="false"/>
+	</bean>
+	<bean id="kb_raster_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="rast" />
+		<property name="group" value="KB Mirror" />
+		<property name="scannableName" value="KBRasterPeriod" />
+		<property name="textWidth" value="40" />
+		<property name="userUnits" value=" s"/>
 	</bean>
 
 	<bean id="medipixCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
@@ -72,10 +86,12 @@
 						<ref bean="medipix_expsure_time_control" />
 						<ref bean="medipix_idle_time_control"/>
 						<ref bean="medipix_proc_num_filter_control" />
-						<ref bean="medipixpreview" />
+						<ref bean="medipix_acq_mode_control" />
+						<ref bean="medipix_driver_mode_control"/>
 						<ref bean="medipix_image_rotation_angle_control" />
+						<ref bean="kb_raster_period_control"/>
+						<ref bean="medipixpreview" />
 						<ref bean="leem_calc_control"/>
-						<ref bean="medipixstoppreview"/>
 					</list>
 				</property>
 				<property name="cameraState" ref="medipixCameraState"/>
