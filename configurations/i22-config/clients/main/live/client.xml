@@ -3,6 +3,15 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="Pilatus_SAXS" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+        <property name="displayName" value="Live SAXS" />
+        <property name="pvAccessPv" value="BL22I-EA-PILAT-01:PVA:ARRAY" />
+    </bean>
+    <bean id="Pilatus_WAXS" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+        <property name="displayName" value="Live WAXS" />
+        <property name="pvAccessPv" value="BL22I-EA-PILAT-03:PVA:ARRAY" />
+    </bean>
+
     <import resource="mapping/*.xml"/>
     <import resource="video_streams.xml"/>
     <import resource="../_common/client.xml"/>

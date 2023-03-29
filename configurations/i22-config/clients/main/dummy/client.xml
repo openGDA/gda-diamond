@@ -5,6 +5,16 @@
 
 	<import resource="../_common/client.xml"/>
 	<beans profile="ioc_sim" >
+        <bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+        <bean id="Pilatus_SAXS" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+            <property name="displayName" value="Live SAXS" />
+            <property name="pvAccessPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:PVA:ARRAY" />
+        </bean>
+        <bean id="Pilatus_WAXS" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+            <property name="displayName" value="Live WAXS" />
+            <property name="pvAccessPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:PVA:ARRAY" />
+        </bean>
 		<import resource="live_stream.xml" />
 	</beans>
 </beans>
