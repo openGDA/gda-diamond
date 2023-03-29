@@ -29,14 +29,20 @@ import gda.rcp.OpenLocalFileAction;
  * This uses a custom implementation of OpenLocalFileAction from
  * the core plugin which causes the open file dialog to default
  * to a script directory rather than the user's home directory
+ * on the first time it is opened (subsequent times will remember
+ * the previous script location).
  */
 public class ScriptDirOpenFileHandler extends AbstractHandler {
 
+	private OpenLocalFileAction action;
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		OpenLocalFileAction a = new OpenLocalFileAction();
-		a.init(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
-		a.run();
+		if (action == null) {
+			action = new OpenLocalFileAction();
+			action.init(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+		}
+		action.run();
 		return null;
 	}
 }
