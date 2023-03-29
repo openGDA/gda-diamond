@@ -3,10 +3,10 @@
 from datetime import datetime, timedelta
 from gda.device.scannable import PositionInputStream
 import java.util.Vector
-from java.util import NoSuchElementException
 from org.slf4j import LoggerFactory
 import time
 import installation
+from gda.device import DeviceException
 
 class WaveformChannelPollingInputStream(PositionInputStream):
 
@@ -59,13 +59,10 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             new_available = self._waitForNewElements()
             if self.channel in ['GRT:PITCH:','MIR:PITCH:','PGM:ENERGY:']:
                 if self.channel == 'GRT:PITCH:':
-#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.grating_pitch_positions)
                     all_data=self.hardwareTriggerProvider.grating_pitch_positions[:self.elements_read + new_available]
                 elif self.channel == 'MIR:PITCH:':
-#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.mirror_pitch_positions)
                     all_data=self.hardwareTriggerProvider.mirror_pitch_positions[:self.elements_read + new_available]
                 elif self.channel == 'PGM:ENERGY:':
-#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.pgm_energy_positions)
                     all_data=self.hardwareTriggerProvider.pgm_energy_positions[:self.elements_read + new_available]
             else:
                 all_data = self.pv_waveform.generateData(self.channel, self.elements_read + new_available)
@@ -79,7 +76,6 @@ class WaveformChannelPollingInputStream(PositionInputStream):
 
     def _waitForNewElements(self):
         """return the number of new elements available, polling until some are"""
-        #if self.verbose: self.logger.info('_waitForNewElements()... elements_read=%r' % (self.elements_read))
         acquiring_old = self._controller.getChannelInputStreamAcquiring()
         exposure_time = self._controller.getExposureTime()
         sleep_time = exposure_time if exposure_time > 0.2 else 0.2
@@ -87,7 +83,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         log_time = last_element_time = datetime.now()
         new_element_timeout = exposure_time + 20.0 
         
-        while True and not self.stoppedExplicitly:
+        while not self.stoppedExplicitly:
             if installation.isLive():
                 elements_available = int(float(self.pv_count.caget()))
                 from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
@@ -95,36 +91,30 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                     elements_available = elements_available + 1 #BINPOINT:NLAST.B index starts at 0, -1 is waveform empty
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
-                #the following line does not ensure cvscan complete 100%
-                #elements_available = sum(x<=float(self.hardwareTriggerProvider._pgm_grat_pitch.getPosition()/1000.0) for x in self.hardwareTriggerProvider.grating_pitch_positions)
                 if not self.startTimeSet:
                     elements_available = int(self._controller.number_of_positions)
                 else:
-                    elapsedTime = time.time() - self.start_time
-                    if elapsedTime < self._controller.getHardwareTriggerProvider().getTotalTime():
-                        elements_available = int(self._controller.number_of_positions * elapsedTime/self._controller.getHardwareTriggerProvider().getTotalTime())
+                    elapsed_time = time.time() - self.start_time
+                    if elapsed_time < self._controller.getHardwareTriggerProvider().getTotalTime():
+                        elements_available = int(self._controller.number_of_positions * elapsed_time/self._controller.getHardwareTriggerProvider().getTotalTime())
                     else:
                         elements_available = int(self._controller.number_of_positions)
 
-            #print "self.elements_read = %d" % self.elements_read
-            #print "element_available = %d" % elements_available
             # check continuous move started then poll the data so far
             acquiring = self._controller.getChannelInputStreamAcquiring()
             if acquiring:
-                if acquiring_old <> acquiring:
+                if acquiring_old != acquiring:
                     self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring now %r, was %r' % (
                                     elements_available, self.elements_read, acquiring, acquiring_old))
                     acquiring_old = acquiring
                     last_element_time = log_time = datetime.now()
                 if elements_available > self.elements_read:
-                    last_element_time = log_time = datetime.now()
                     if self.verbose: self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring %r, %r new_elements available' % (
-                                                    elements_available,  self.elements_read, acquiring,
-                           elements_available - self.elements_read))
+                                                    elements_available,  self.elements_read, acquiring, elements_available - self.elements_read))
                     return elements_available - self.elements_read
                 elif (datetime.now() - last_element_time) > timedelta(seconds=new_element_timeout):
                     self.logger.error("_waitForNewElements() no new elements for  %r seconds, raising an exception..." % new_element_timeout)
-                    raise NoSuchElementException("no new elements for  %r seconds" % new_element_timeout)
+                    raise DeviceException("no new elements for  %r seconds" % new_element_timeout)
             if self.verbose and (datetime.now() - log_time) > timedelta(seconds=log_timeout):
                 self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring %r, no new elements for %r seconds!' % (
                                 elements_available,  self.elements_read, acquiring, log_timeout))
