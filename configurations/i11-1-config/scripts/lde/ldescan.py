@@ -16,7 +16,6 @@ NDR=0
 CAL=1
 calName=Finder.find("calibrantName")
 
-dr=Finder.find("datareduction")
 def ldescan(*args):
     MUSTADDDATAREDUCTIONATEND=False
     newargs=[]
@@ -38,14 +37,12 @@ def ldescan(*args):
             if (str(calName.getPosition())=="Undefined"):  # @UndefinedVariable
                 raise Exception("Calibrant name is not defined.")
             meta['calibration_file'] = ''
-            dr.setCalibrant(True)
             proc = calibration
         else:
-            dr.setCalibrant(False)
             proc = process
         i=1
         if (isinstance(args[i], Detector)) :
-            newargs.append(dr)
+            newargs.append(ds1)
             newargs.append(1.0)
             newargs.append(1.0)
             newargs.append(1.0)
@@ -55,7 +52,7 @@ def ldescan(*args):
             newargs.append(args[i])
             i=i+1
         if MUSTADDDATAREDUCTIONATEND:
-            newargs.append(dr)
+            newargs.append(ds1)
 
         newargs.append(proc)
         scan(newargs)

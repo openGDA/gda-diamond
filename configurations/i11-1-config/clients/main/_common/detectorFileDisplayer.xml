@@ -12,7 +12,6 @@
 					<property name="filter" value="pixium.*.hdf,perkin.*.hdf" />
 				</bean>
 				<bean id="scanFileHandler" class="uk.ac.gda.beamline.synoptics.utils.NexusScanFileHandler">
-<!-- 					<property name="dataPath" value="/entry/instrument/detector/data"/> -->
 					<property name="filter" value="i11-1-.*.nxs" />
 				</bean>
 				<bean id="datFileHandler" class="uk.ac.gda.beamline.synoptics.utils.DatFileHandler">

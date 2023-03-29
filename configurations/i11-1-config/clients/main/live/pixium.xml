@@ -57,6 +57,11 @@
 		<property name="pixiumViewController" ref="pixiumViewController" />
 	</bean>
 
+	<bean id="pixium_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration" >
+		<property name="displayName" value="Pixium" />
+		<property name="arrayPv" value="BL11J-EA-DET-10:ARR" />
+	</bean>
+
 	<bean id="imageviewfactory" class="org.opengda.lde.ui.viewfactories.LiveImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="xDimension" value="2880" />

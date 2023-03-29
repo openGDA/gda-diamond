@@ -4,30 +4,33 @@
        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-               http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
+               http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
 
-	<bean name="command_server" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean name="GDAMetadata" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<gda:proxy id="command_server" />
+	<gda:proxy id="GDAMetadata" />
+    <gda:proxy id="commandQueueProcessor" >
+        <gda:service interface="gda.commandqueue.IFindableQueueProcessor" />
+        <gda:service interface="gda.commandqueue.Queue" />
+    </gda:proxy>
 
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.NewFileListener">
+		<property name="fileProviderName" value="client_file_announcer" />
+		<property name="ignoredFiles" value=".*\.log, .*\.reprocessing, .*\.xye, .*\.txt, .*\.archived" />
+	</bean>
+
 	<gda:rbac />
 
 	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
 		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
 	</bean>
 
-	<import resource="commandQueueProcessor.xml" />
 	<import resource="batonStateProvider.xml" />
-	<import resource="pixium.xml" />
 	<import resource="samplesView.xml" />
 	<import resource="statusView.xml" />
-	<import resource="RCPController.xml" />
 	<import resource="detectorFileDisplayer.xml" />
-	<import resource="dataFileMonitor.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
 </beans>

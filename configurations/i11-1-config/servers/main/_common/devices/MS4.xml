@@ -23,5 +23,6 @@
 		<property name="parkPosition" value="-430.0"/>
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="1200.0"/>
+		<property name="detectorPosition" value="1600" />
 	</bean>
 </beans>

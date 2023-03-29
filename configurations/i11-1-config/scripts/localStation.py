@@ -267,12 +267,10 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
             meta['calibration_file'] = ''
             if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
                 raise Exception("Calibrant name is not defined.")
-            datareduction.setCalibrant(True)  # @UndefinedVariable
             proc = calibration
         else:
-            datareduction.setCalibrant(False)  # @UndefinedVariable
             proc = process
-        scan(datareduction, 1.0,n,1.0, det, t, proc)  # @UndefinedVariable
+        scan(ds, 1.0,n,1.0, det, t, proc)  # @UndefinedVariable
         if collectionType == CAL:
             print 'Waiting for calibration to complete'
             start = time.time()
