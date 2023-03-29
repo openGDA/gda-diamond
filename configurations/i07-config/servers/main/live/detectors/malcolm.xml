@@ -33,6 +33,12 @@
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcExc" />
 		<property name="enabled" value="false" />
+		<property name="signalRoiIndex" value="1" />
+		<property name="backgroundRoiIndices">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil2">
@@ -40,6 +46,12 @@
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil2" />
 		<property name="enabled" value="false" />
+		<property name="signalRoiIndex" value="1" />
+		<property name="backgroundRoiIndices">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil3">
@@ -47,6 +59,12 @@
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil3" />
 		<property name="enabled" value="false" />
+		<property name="signalRoiIndex" value="1" />
+		<property name="backgroundRoiIndices">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="excalibur_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
