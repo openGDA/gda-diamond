@@ -6,7 +6,7 @@
 
     <bean id="exafs" class="uk.ac.gda.server.ncd.calibration.ExafsScannable">
         <property name="incident" ref="qbpm0_total"/>
-        <property name="transmission" ref="qbpm1_total"/>
+        <property name="transmission" ref="d6d1"/>
     </bean>
 
     <bean id="bragg_calibration_service" class="uk.ac.gda.server.ncd.calibration.CalibrationScanRunner" >
@@ -26,10 +26,10 @@
         </property>
         <property name="edgePositioner" ref="d5motor"/>
         <property name="scanPositions">
-            <bean class="uk.ac.gda.server.ncd.calibration.CentroidScanParameters" c:before="0.06" c:after="0.1" c:step="0.005" />
+            <bean class="uk.ac.gda.server.ncd.calibration.CentroidScanParameters" c:before="0.02" c:after="0.1" c:step="0.0005" />
         </property>
         <property name="pitchOptimiser">
-            <bean class="uk.ac.gda.server.ncd.calibration.GaussianOptimisingScan" c:positioner-ref="dcm_pitch" c:readback-ref="qbpm0_total" c:range="500" c:centre="0" c:step="2">
+            <bean class="uk.ac.gda.server.ncd.calibration.GaussianOptimisingScan" c:positioner-ref="dcm_pitch" c:readback-ref="qbpm0_total" c:range="300" c:centre="0" c:step="2">
                 <property name="scanTitle" ref="title"/>
             </bean>
         </property>
