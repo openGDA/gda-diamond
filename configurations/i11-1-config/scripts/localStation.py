@@ -15,6 +15,8 @@ from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
 
+from gda.configuration.properties import LocalProperties
+
 from gdaserver import GDAMetadata as meta
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -86,6 +88,16 @@ def setSubdirectory(dirname):
 
 def getSubdirectory():
     return Finder.find("GDAMetadata").getMetadataValue("subdirectory")
+
+def setVisit(visit):
+    meta['visit'] = visit
+
+def getVisit():
+    return meta['visit']
+
+def resetDataDirectory():
+    LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, "/dls/i11-1/data/$year$/$visit$/$subdirectory$/")
+
 
 def abspath(*bits):
     return os.path.abspath(os.path.join(*bits))
@@ -280,9 +292,14 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
                     break
                 time.sleep(2)
             else:
-                raise ValueError('No calibration result received after 300s')
+                print('WARNING: No calibration result received after 300s')
 
 alias("lde")
+
+def lde_slugs(duration):
+    lde(duration, SAM)
+    return lastScanDataPoint().scanIdentifier
+
 ##### new objects must be added above this line ###############
 print
 print "=================================================================================================================";
@@ -310,3 +327,5 @@ sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), 
 
 from gdascripts.scan.gdascans import Cscan
 cscan = Cscan()
+
+from config_tests import slug_trigger

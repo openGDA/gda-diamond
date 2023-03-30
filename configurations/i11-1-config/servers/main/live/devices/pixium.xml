@@ -22,7 +22,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11J-EA-DET-10:ROI:" />
-				<property name="initialArrayPort" value="Pixium.Cam" />
+				<property name="initialArrayPort" value="Pixium.RX" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="true" />
 				<property name="initialEnableCallbacks" value="1" />
@@ -35,24 +35,12 @@
 		<property name="initialBinX" value="1" />
 		<property name="initialBinY" value="1" />
 	</bean>
-	<bean id="pixium.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="BL11J-EA-DET-10:STAT:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL11J-EA-DET-10:STAT:" />
-				<property name="initialArrayPort" value="Pixium.Cam" />
-				<property name="initialArrayAddress" value="0" />
-				<property name="initialBlockingCallbacks" value="false" />
-				<property name="initialEnableCallbacks" value="1" />
-			</bean>
-		</property>
-	</bean>
 	<bean id="pixium.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL11J-EA-DET-10:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11J-EA-DET-10:ARR:" />
-				<property name="initialArrayPort" value="Pixium.Cam" />
+				<property name="initialArrayPort" value="Pixium.RX" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
 				<property name="initialEnableCallbacks" value="1" />
@@ -64,7 +52,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11J-EA-DET-10:PROC:" />
-				<property name="initialArrayPort" value="Pixium.Cam" />
+				<property name="initialArrayPort" value="Pixium.RX" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
 				<property name="initialEnableCallbacks" value="1" />
@@ -113,7 +101,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11J-EA-DET-10:HDF5:" />
-				<property name="initialArrayPort" value="Pixium.Cam" />
+				<property name="initialArrayPort" value="Pixium.RX" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -182,7 +170,7 @@
 		<property name="enabled" value="true"/>
 		<property name="blocking" value="true"/>
 		<property name="writeDataToFile" value="false"/>
-		<property name="ndArrayPortVal" value="Pixium.Cam"/>
+		<property name="ndArrayPortVal" value="Pixium.RX"/>
 	</bean>
 	<bean id="pixium_hdf" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_hdf"/>
@@ -256,7 +244,7 @@
 		<property name="enabled" value="true"/>
 		<property name="blocking" value="true"/>
 		<property name="writeDataToFile" value="true"/>
-		<property name="ndArrayPortVal" value="Pixium.Cam"/>
+		<property name="ndArrayPortVal" value="Pixium.RX"/>
 	</bean>
 	<bean id="pixium" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium"/>

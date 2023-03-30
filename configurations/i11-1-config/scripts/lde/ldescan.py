@@ -65,5 +65,5 @@ def ldescan(*args):
                     break
                 time.sleep(2)
             else:
-                raise ValueError('No calibration result received after 300s')
+                print('WARNING: No calibration result received after 300s')
 
