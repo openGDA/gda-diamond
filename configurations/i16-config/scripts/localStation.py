@@ -527,8 +527,6 @@ hkl.setLevel(6)
 ###							       kbm tripod                               ###
 ###############################################################################
 
-from scannable.tripod import TripodToolBase
-
 #_kbm_common_geom = {'l':[134.2, 134.2, 134.2],
 #		't':[219.129, 219.129, 84.963],
 #		'psi':[-pi / 3, pi / 3, 0],
@@ -554,8 +552,10 @@ hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5)
 kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5)
 kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5)
 
-if Finder.find("kbmbase"):
+if Finder.find("kbmbase") and installation.isLive():
 	try:
+		from scannable.tripod import TripodToolBase
+
 		kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 	
 		kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
@@ -641,10 +641,35 @@ try:
 	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
 	run("localStationScripts/startup_epics_monitors")
 	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
+except:
+	localStation_exception("running localStationScripts/startup_epics_monitors.py")
 
+if installation.isDummy():
+	from gda.device.scannable import DummyScannable
+	frontendx = DummyScannable('frontendx', 0)
+	frontendy = DummyScannable('frontendy', 0)
+	m1piezo = DummyScannable("m1piezo", 0)
+	m3pitch = DummyScannable("m3pitch", -3.399999999997849e-05)
+	m3x = DummyScannable("m3x", -3.999865)
+	m4pitch = DummyScannable("m4pitch", 1.6799999999983495e-05)
+	m4x = DummyScannable("m4x", 4.000532499999999)
+	p2mj1 = DummyScannable("p2mj1", 0)
+	p2mj2 = DummyScannable("p2mj2", 0)
+	p2mj3 = DummyScannable("p2mj3", 0)
+	p2mx1 = DummyScannable("p2mx1", 0)
+	p2mx2 = DummyScannable("p2mx2", 0)
+	shtr3x = DummyScannable("shtr3x", 11.53)
+	shtr3y = DummyScannable("shtr3y", 4.305)
+	x1=x1_ttl=DummyScannable("x1_ttl", 0)
+	ytable = DummyScannable("ytable", 0)
+	ztable = DummyScannable("ztable", 0)
+	zp = DummyScannable('zp', -22.314700000000002)
+
+else:
 	localStation_print("   running localStationScripts/startup_epics_positioners.py")
 	run("localStationScripts/startup_epics_positioners")
 
+try:
 	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
 	run("localStationScripts/startup_cryocooler")
 
@@ -1635,6 +1660,7 @@ from gda.device.motor import DummyMotor
 if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==DummyMotor:
 	print "!"*80
 	localStation_warning("finding idgap motor, using dummy idgap")
+	idgap.asynchronousMoveTo(6.1511) # Based on scan 971324
 	print "!"*80
 
 if type(bragg.getMotor())==DummyMotor:
