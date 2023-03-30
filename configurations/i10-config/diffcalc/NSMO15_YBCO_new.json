@@ -1,0 +1,35 @@
+{
+    "name": "NSMO15_YBCO_new", 
+    "crystal": "['', 'Tetragonal', 3.96, 3.96, 12.175, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "121.0", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[1.0, 0.0, 0.0]", 
+            "pos": "[0, 0.0, 0, 0.0, 0.0, 0]", 
+            "time": "2020-02-27T15:25:35.838000"
+        }, 
+        "2": {
+            "tag": "1111.0", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[0, 0.0, 0, 0.0, 0.0, 0]", 
+            "time": "2020-02-27T15:26:01.629000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

@@ -5,10 +5,12 @@ import sys
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
+from org.slf4j import LoggerFactory
 
 print("*"*80)
 print("Running the I10 startup script localStation.py...")
 print("\n")
+logger = LoggerFactory.getLogger(__name__)
 
 print("-"*100)
 print("Set scan returns to the original positions on completion to false (0); default is 0.")
@@ -91,6 +93,18 @@ if "scattering" in spring_profiles:
     print("\n")
     print("*"*80)
     #DiffCalc
+    if installation.isDummy():
+        # install UB matrix data files in dummy mode when first time run GDA server after checkout GDA source codes from repositories!
+        from gda.configuration.properties import LocalProperties
+        import os
+        to_directory = LocalProperties.get(LocalProperties.GDA_VAR_DIR) + os.sep + "diffcalc"    
+        if not os.path.exists(to_directory):
+            #install UB data
+            from distutils.dir_util import copy_tree
+            from_directory = LocalProperties.get(LocalProperties.GDA_CONFIG) + os.sep + "diffcalc"
+            logger.info("Install 'diffcalc' directory and UB matrix data files in {}", to_directory)
+            copy_tree(from_directory, to_directory)
+
     print("import DIFFCALC support for I10")
     try:
         from startup.i10 import *  # @UnusedWildImport 

@@ -1,0 +1,40 @@
+{
+    "name": "cns", 
+    "crystal": "[u'listub', 'Triclinic', 1, 1, 1, 90.0, 90.0, 90.0]", 
+    "reflist": {
+        "1": {
+            "tag": null, 
+            "hkl": "[0.5, 0.0, 0.0]", 
+            "pos": "[0, 106.240000000085, 0, 85.05820409113, 91.3000000699, 0]", 
+            "energy": 0.7784797999999999, 
+            "time": "2022-09-07T17:42:39.698000"
+        }, 
+        "2": {
+            "tag": null, 
+            "hkl": "[0.0, 0.5, 0.0]", 
+            "pos": "[0, 106.23, 0, 25.13, 90.2, 0]", 
+            "energy": 0.7784797999999999, 
+            "time": "2022-09-07T17:43:33.898000"
+        }
+    }, 
+    "orientlist": {}, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "mu": 0.0, 
+        "phi": 0.0, 
+        "gam": 0.0
+    }
+}
