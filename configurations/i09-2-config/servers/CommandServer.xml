@@ -31,7 +31,7 @@
 	</bean>
 	<bean id="epics_script_project" class="gda.jython.ScriptProject">
 		<constructor-arg index="0"
-			value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
+			value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.epics/scripts" />
 		<constructor-arg index="1" value="epics-core-scripts" />
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CORE" />

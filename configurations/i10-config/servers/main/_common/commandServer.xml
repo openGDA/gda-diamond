@@ -68,7 +68,7 @@
 	</bean>
 
 	<bean id="gda_epics_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
+		<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.epics/scripts" />
 		<property name="name" value="Scripts: EPICS" />
 		<property name="type" value="CORE" />
 	</bean>
