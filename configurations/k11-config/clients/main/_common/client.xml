@@ -8,7 +8,7 @@
 
 	<!-- KEEP FIRST -->
 	<context:component-scan base-package="uk.ac.diamond.daq.beamline.k11"></context:component-scan>
-	<import resource="file://${gda.core.dir}/clients/_common/client.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/client.xml" />
 	<!-- KEEP FIRST -->
 
 	<bean class="uk.ac.gda.client.ServerFileListener">

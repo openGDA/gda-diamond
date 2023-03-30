@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.core.dir}/clients/_common/mapping_controllers.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/mapping_controllers.xml" />
 
 	<!-- Mapping view for I08-1 -->
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">

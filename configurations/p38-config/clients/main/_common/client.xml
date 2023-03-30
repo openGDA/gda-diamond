@@ -13,7 +13,7 @@
     </bean>
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/mapping_view.xml" />
 
     <bean id="clientReferences" class="gda.device.FindableObjectHolder">
         <property name="map">

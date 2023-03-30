@@ -17,6 +17,6 @@
 	<import resource="../../../../../dls-config/clients/_common/stage_controls_tree.xml"/>
 
 	<!-- mapping perspective -->
-	<import resource="../../../../../../gda-core.git/core-config/clients/_common/mapping_view.xml"/>
+	<import resource="../../../../../dls-config/clients/_common/mapping_view.xml"/>
 	<import resource="mapping.xml"/>
 </beans>

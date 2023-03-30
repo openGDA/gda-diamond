@@ -20,7 +20,7 @@
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
 
-	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/mapping_view.xml" />
 	<import resource="mapping.xml" />
 
 </beans>
