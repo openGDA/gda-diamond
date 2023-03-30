@@ -96,6 +96,26 @@
 		</property>
 	</bean>
 
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="compatibility" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="features"/>
+					<property name="value">
+						<list>
+							<value>3</value>
+							<value>6</value>
+							<value>-4539647395532570642</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
@@ -110,6 +130,7 @@
 				<value>before_scan</value>
 				<value>metadata</value>
 				<value>attenuator</value>
+				<value>compatibility</value>
 			</set>
 		</property>
 	</bean>
@@ -128,6 +149,7 @@
 		<property name="nexusTemplateFiles">
 			<list>
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
+				<value>${gda.config}/yaml/compatibility.yaml</value>
 				<!-- 
 				<value>${gda.config}/yaml/locationMap.yaml</value>
 				 -->
