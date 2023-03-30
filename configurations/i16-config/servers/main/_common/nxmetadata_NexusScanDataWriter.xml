@@ -60,11 +60,11 @@
 		</property>
 	</bean>
 
-	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+	<bean class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
 		<property name="name" value="userNexusDevice" />
 	</bean>
 
-	<bean id="metadata" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="metadata" />
 		<property name="category" value="NX_ENTRY"/>
 		<property name="nexusClass" value="NXcollection"/>
@@ -82,7 +82,7 @@
 		</property>
 	</bean>
 
-	<bean id="attenuator" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="attenuator" />
 		<property name="category" value="NX_INSTRUMENT"/>
 		<property name="nexusClass" value="NXattenuator"/>
