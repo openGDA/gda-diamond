@@ -60,6 +60,7 @@ See &lt;http://www.opengda.org/&gt;
 -Xms512m
 -Xmx2g
 -Dpydev.funding.hide=true
+-Dgda.spring.profiles.active=scattering,windows10,absorption,em,hfm
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
