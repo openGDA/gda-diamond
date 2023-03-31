@@ -6,7 +6,7 @@
 	<!-- PIXIS controls -->
 	<beans profile="DD">
 		<bean id="pixisExposureTime" class="gda.device.scannable.EpicsScannable">
-			<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:AcquireTime"/>
+			<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AcquireTime"/>
 			<property name="useNameAsInputName" value="true"/>
 			<property name="hasUnits" value="false"/>	
 			<property name="outputFormat">
@@ -16,7 +16,7 @@
 			</property>
 		</bean>
 		<bean id="pixisAcquirePeriod" class="gda.device.scannable.EpicsScannable">
-			<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:AcquirePeriod"/>
+			<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AcquirePeriod"/>
 			<property name="useNameAsInputName" value="true"/>
 			<property name="hasUnits" value="false"/>	
 			<property name="outputFormat">
@@ -26,7 +26,7 @@
 			</property>
 		</bean>
 		<bean id="pixisProcNumFilter" class="gda.device.scannable.EpicsScannable">
-			<property name="pvName" value="BL06I-EA-PIXIS-01:PROC:NumFilter"/>
+			<property name="pvName" value="BL06J-EA-PIXIS-01:PROC:NumFilter"/>
 			<property name="useNameAsInputName" value="true"/>
 			<property name="hasUnits" value="false"/>	
 			<property name="outputFormat">

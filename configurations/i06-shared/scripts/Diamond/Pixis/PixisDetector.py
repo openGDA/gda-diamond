@@ -21,7 +21,7 @@ logger=ScriptLoggerClass();
 #The Class for creating a Pixis Detector as Psuedo Device
 #the detectorName should be the adDetector that configured in GDA.
 class PixisDetectorClass(DetectorBase):
-	def __init__(self, name, panelName, detectorName, initPV="BL06I-EA-PIXIS-01:CAM:Initialize"):
+	def __init__(self, name, panelName, detectorName, initPV="BL06J-EA-PIXIS-01:CAM:Initialize"):
 		self.setName(name);
 		self.setInputNames([name]);
 		self.setExtraNames([]);
