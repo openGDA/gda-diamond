@@ -28,15 +28,15 @@
 				</bean>
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 					<property name="name" value="manufacturer"/>
-					<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:Manufacturer_RBV"/>
+					<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:Manufacturer_RBV"/>
 				</bean>
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 					<property name="name" value="model"/>
-					<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:Model_RBV"/>
+					<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:Model_RBV"/>
 				</bean>
 				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 					<property name="name" value="serial_number"/>
-					<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:SerialNum_RBV"/>
+					<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:CamSerialNum"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="pixis_settings"/>
@@ -45,77 +45,77 @@
 						<list>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="exposure"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:AcquireTime_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AcquireTime_RBV"/>
 								<property name="units" value="s"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="period"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:AcquirePeriod_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AcquirePeriod_RBV"/>
 								<property name="units" value="s"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="number_of_image"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:NumImages_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:NumImages_RBV"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_mode"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:ImageMode"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:ImageMode"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="speed"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:SpeedSelection_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AdcSpeed_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bit_depth"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:BitDepth_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:AdcBitDepth_RBV"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_x"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:MaxSizeX_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:MaxSizeX_RBV"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="sensor_size_y"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:MaxSizeY_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:MaxSizeY_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_x"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:MinX_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:MinX_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_y"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:MinY_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:MinY_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_x"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:SizeX_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:SizeX_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_y"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:SizeY_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:SizeY_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_x"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:ArraySizeX_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:ArraySizeX_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_y"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:ArraySizeY_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:ArraySizeY_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bin_x"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:BinX_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:BinX_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="bin_y"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:BinY_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:BinY_RBV"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_measured"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:MeasuredTemperature_RBV"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:TemperatureActual"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_set"/>
-								<property name="pvName" value="BL06I-EA-PIXIS-01:CAM:SetTemperature"/>
+								<property name="pvName" value="BL06J-EA-PIXIS-01:CAM:Temperature"/>
 							</bean>
 						 </list>
 					</property>
