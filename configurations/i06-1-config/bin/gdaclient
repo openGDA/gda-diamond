@@ -1,3 +1,4 @@
 #!/bin/bash
 
-gda --start client "$@"
+export SPRING_PROFILES=DD,magnet,xabs
+gda --start client --springprofiles $SPRING_PROFILES "$@"
