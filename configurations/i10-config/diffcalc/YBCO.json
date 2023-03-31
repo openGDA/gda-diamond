@@ -1,0 +1,35 @@
+{
+    "name": "YBCO", 
+    "crystal": "['', 'Triclinic', 1, 1, 1, 90.0, 90.0, 90.0]", 
+    "reflist": {}, 
+    "orientlist": {
+        "1": {
+            "tag": "None", 
+            "hkl": "[1.0, 0.0, 0.0]", 
+            "xyz": "[1.0, 0.0, 0.0]", 
+            "pos": "[0, 0.0, 0, 0.0, 0.0, 0]", 
+            "time": "2019-08-07T15:09:41.494000"
+        }, 
+        "2": {
+            "tag": "None", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "xyz": "[0.0, 0.0, 1.0]", 
+            "pos": "[0, 0.0, 0, 0.0, 0.0, 0]", 
+            "time": "2019-08-07T15:09:57.064000"
+        }
+    }, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null
+}

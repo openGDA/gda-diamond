@@ -1,0 +1,40 @@
+{
+    "name": "Cu16_2", 
+    "crystal": "[u'Cu16_2', 'Cubic', 8.886, 8.886, 8.886, 90.0, 90.0, 90.0]", 
+    "reflist": {
+        "1": {
+            "tag": "1.0", 
+            "hkl": "[0.0, 0.0, 1.0]", 
+            "pos": "[0, 97.0868, 0, 48.6825, 88.6744, 0]", 
+            "energy": 0.9309702, 
+            "time": "2023-03-18T10:51:40.781000"
+        }, 
+        "2": {
+            "tag": "10.0", 
+            "hkl": "[0.0, 1.0, 0.0]", 
+            "pos": "[0, 97.0868, 0, 48.6825, 178.6744, 0]", 
+            "energy": 0.9309702, 
+            "time": "2023-03-18T10:52:51.763000"
+        }
+    }, 
+    "orientlist": {}, 
+    "tau": 0, 
+    "sigma": 0, 
+    "reference": {
+        "n_hkl_configured": "[1.0, 0.0, 0.0]", 
+        "n_phi_configured": null
+    }, 
+    "surface": {
+        "n_hkl_configured": null, 
+        "n_phi_configured": "[0.0, 0.0, 1.0]"
+    }, 
+    "u": null, 
+    "ub": null, 
+    "or0": null, 
+    "or1": null, 
+    "constraints": {
+        "mu": 0.0, 
+        "phi": 0.0, 
+        "gam": 0.0
+    }
+}

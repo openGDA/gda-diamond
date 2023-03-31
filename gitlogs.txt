@@ -1,0 +1,151 @@
+I10-624 Scan Data file not close properly when missing one data point
+Merge "I10-624 Scan Data file not close properly when missing one data point"
+Merge "I06-1198 Update PIXIS IOC and install software on i06-1-softxray3"
+I10-624 Scan Data file not close properly when missing one data point
+I06-1198 Update PIXIS IOC and install software on i06-1-softxray3
+I21-1034 fix go function to support cvscan in higher harmonic
+Merge "I06-1147 add more fields to medipix viewer"
+I06-1147 add more fields to medipix viewer
+Merge "clean up i06 stuffs from i06-2"
+clean up i06 stuffs from i06-2
+Merge "I06-1211 add the MEDIPIX "mode" to the metadata"
+I06-1211 add the MEDIPIX "mode" to the metadata
+I06-1209 set MEDIPIX camera viewer proc filter auto reset to false
+Merge "merge beamline changes from i21"
+Merge "Merge i10 beamline updates"
+Merge i10 beamline updates
+merge beamline changes from i21
+Merge "I21-1035 taking out cameras that no longer in EPICS database"
+I21-1035 taking out cameras that no longer in EPICS database
+Merge "I21-1037 use documented names for beam flux, divergence, extent"
+Merge "I21-1036 ensure UB matrix files available when running in dummy mode"
+Merge "I21-1023 only access scan_data_point method if it is not None"
+I21-1037 use documented names for beam flux, divergence, extent
+I21-1036 ensure UB matrix files available when running in dummy mode
+I21-1023 only access scan_data_point method if it is not None
+Merge "I21-1023 ensure variable scan_data_point is declared before use"
+I21-1023 ensure variable scan_data_point is declared before use
+Merge "I21-1023 make sure detector is always acquiring when y motor step moves"
+I21-1023 make sure detector is always acquiring when y motor step moves
+Merge "add fastshutter, TSample, CFF, Tcryo to Live Control View"
+Merge "I21-1023 acquireRIXS and pos motor simmultaneously"
+I21-1023 acquireRIXS and pos motor simmultaneously
+add fastshutter, TSample, CFF, Tcryo to Live Control View
+Merge "sonar issue fix"
+correct sgmpitch motor type in GDA
+sonar issue fix
+Merge "I21-1023 acquireRIXS and pos motor simultaneously"
+I21-1023 acquireRIXS and pos motor simultaneously
+I21-1023 acquireRIXS and pos motor simmultaneously
+Merge "I21-1028 S6 vcenter not saved in the nxs metadata"
+Merge "remove unnecessary feedback label"
+remove unnecessary feedback label
+I21-1028 S6 vcenter not saved in the nxs metadata
+Merge "I21-1027 make scan plot line use dark colours only"
+I21-1027 make scan plot line use dark colours only
+Merge "I06_2-4 Elog is not correctly integrated with GDA"
+I06_2-4 Elog is not correctly integrated with GDA
+Merge "I09-435 separate display of accumulated image and Live image for delay line detector"
+Merge "B07-840 Xspress3 - fix miscan supporting multiple frames per data point"
+I09-435 separate display of accumulated image and Live image for delay line detector
+B07-840 Xspress3 - fix miscan supporting multiple frames per data point
+Merge "B07-840 Xspress3 support collecting multi-frame summed spectrum using EPICS PROC"
+B07-840 Xspress3 support collecting multi-frame summed spectrum using EPICS PROC
+Merge "I09-421 support Delay Line Detector i09-2 momentous microscope"
+I09-421 support Delay Line Detector i09-2 momentous microscope
+Merge "I09-421 support Delay Line Detector i09-2 momentous microscope"
+Merge "correct LEEM rotation process variable name"
+correct LEEM rotation process variable name
+Merge "I06_2-2 sync medipix functions with i06 medipix functions"
+I06_2-2 sync medipix functions with i06 medipix functions
+i06_2-2 delete i06 hardware related scripts
+Merge "I06_2-2 update client objects configuration"
+Merge "I21-1021 support high harmonic in cvscan"
+I06_2-2 update client objects configuration
+I06_2-2 update server objects configuration
+I21-1021 support high harmonic in cvscan
+Merge "I21-993 fix gap/phase lookup in LA polarisation mode"
+I21-993 fix gap/phase lookup in LA polarisation mode
+I21-993 Linear arbitrary polarisation control
+I09-421 support Delay Line Detector i09-2 momentous microscope
+Merge "BLXXJ-364 : TFG triggered collection is now working correctly when using the Frelon detector (overlapping pulses, pulse counting and start on topup). Unit tests have also been added for the generated TFG commands. " into gda-8.44
+BLXXJ-354: Edeg reference data file unavailable. switch from gda.config folder to gda.var folder
+BLXXJ-348: Linear Experiment test failed, colection done but throw exception, lost 'start' control. this time is 'invalid thread access' error in TimeResolvedExperimentModel.java, not the same as last one.
+BLXXJ-342: Energy Calibration and ROIs to be, fixed, reviewed and tested fix ROIs update, plot against strips
+BLXXJ-347: “Use strips number for x axis” on the EDE experiment plot  doesn’t work
+BLXXJ-330: PBS/BS reports the 'stop' of EDEExperiment button does not work
+BLXXJ-330: PBS/BS reports the 'stop' of EDEExperiment button does not work  remove syncExec() call in firePropertyChange for SCANNING_PROP_NAME
+BLXXJ-345: add support for Step scan with Ede Detectors complete phyo's refactoring and add support for Frelon to this.
+BLXXJ-342: Energy Calibration and ROIs to be, fixed, reviewed and tested
+BLXXJ-344: to provide live view of spectrum as they are collected, not wait all spectra collection completed
+BLXXJ-342: Energy Calibration and ROIs to be, fixed, reviewed and tested
+BLXXJ-344: to provide live view of spectrum as they are collected, not wait all spectra collection completed
+BLXXJ-343: Remove hard coded "frelon" string in implementation and replace with a generic 'dropFirstFrame' boolean property so it can apply to any detector include XH/XStrip.
+Merge "ensure the gda launchers pass on the additional parameters" into gda-8.44
+ensure the gda launchers pass on the additional parameters
+frelon integration fixed for 1st users
+Merge "BLXXJ-327: Integrate frelon detector into GDA Task-Url: http://jira.diamond.ac.uk/browse/BLXXJ-327" into gda-8.44
+BLXXJ-327: Integrate frelon detector into GDA Task-Url: http://jira.diamond.ac.uk/browse/BLXXJ-327
+BLXXJ-327: Integrate frelon detector into GDA change the default frelon input channels to 3_4 at request of Monica Change-Id: I00f84e839ae96033e78b5b64a390590ea8c4c877
+BLXXJ-327: Integrate frelon detector into GDA update yesterday's change Change-Id: Id4286573f417dbe9860729bb49e6162db0d9cf3c
+BLXXJ-327: Integrate frelon detector into GDA update image_roi to [begnin_x, begin_y, length_x, length_y], the doc is wrong.
+BLXXJ-327: Integrate frelon detector into GDA update default values for frelon after discussion with Monica of I20-1
+BLXXJ-327: Integrate frelon detector into GDA integrate frelon into exisiting EDE views Change-Id: Ie9a27202703f80e42681116b9893ee1229a3d1f7
+BLXXJ-327: Integrate frelon detector into GDA aad unit of 'pixel' for pixel detector
+BLXXJ-327: Integrate frelon detector into GDA integrate EdeFrelon into detector setup up dialog, note there is no bis voltage for frelon.
+BLXXJ-327: Integrate frelon detector into GDA
+BLXXJ-327: Integrate frelon detector into GDA
+BLXXJ-327: Integrate frelon detector into GDA add Frelon to the available detector list in EDE system
+BLXXJ-325: External TFG timing calculation implementation in TFGTrigger.getTfgSetupGrupsCommandParameters() is not correct
+BLXXJ-327: Integrate frelon detector into GDA 1. implement sortable TriggerableObjects based on TriggerDelay; 2. add trigger pulse length in triggerPair and ensure triggerPair are sortable on time member; 3. implement External TFG trigger logics based on data collection and trigger pairs covering a. there is a trigger after data collection b. there is no external trigger after data collection c. no external triger at all
+BLXXJ-327: Integrate frelon detector into GDA
+BLXXJ-327: Integrate frelon detector into GDA implement getnumberScansInFrame interface method.
+BLXXJ-327: Integrate frelon detector into GDA
+BLXXJ-327: Integrate frelon detector into GDA 1.fix configure Detector For Collection, 2.fix loading of detector data from saved properties file - the cache. 3.update impl of methods
+BLXXJ-334: Could not access remote service [rmi://i20-1-control.diamond.ac.uk/gda/xh] in DetectorModel
+BLXXJ-312: move i20-1 to new configuration launchers
+Merge "BLXXJ-312: move i20-1 to new configuration launchers  update gdaclient, gdaservers, and gdalog to use new launcher script" into gda-8.44
+Merge "BLXXJ-312: move i20-1 to new configuration launchers" into gda-8.44
+BLXXJ-312: move i20-1 to new configuration launchers update gdaclient, gdaservers, and gdalog to use new launcher script
+BLXXJ-312: move i20-1 to new configuration launchers
+Merge "BLXXJ-326: beamline staffs request to always use the falling edge of the external TFG to trigger the XHDetector.  fix test for 'trig-falling'" into gda-8.44
+Merge "BLXXJ-324: beamline staffs request to be able to select User out port of the external TFG2." into gda-8.44
+Merge "BLXXJ-323: No metadata is written in ascii file after data collection " into gda-8.44
+Merge "BLXXJ-323: No metadata is written in ascii file after data collection This seems did not fix the problem on beamline, so further investigation required." into gda-8.44
+Merge "BLXXJ-322: Shutter does not close at end of experiment run" into gda-8.44
+Merge "BLXXJ-325: External TFG timing calculation implementation in  remove test as it test run stuff, need to re-visit to fix once implementation reaches what beamline wants." into gda-8.44
+BLXXJ-326: beamline staffs request to always use the falling edge of the external TFG to trigger the XHDetector. fix test for 'trig-falling'
+BLXXJ-325: External TFG timing calculation implementation in remove test as it test run stuff, need to re-visit to fix once implementation reaches what beamline wants.
+BLXXJ-323: No metadata is written in ascii file after data collection
+BLXXJ-324: beamline staffs request to be able to select User out port of the external TFG2.
+BLXXJ-323: No metadata is written in ascii file after data collection This seems did not fix the problem on beamline, so further investigation required.
+BLXXJ-322: Shutter does not close at end of experiment run
+update launcher
+make launcher for gda log point to correct dls-config gda_start_logpanel.
+Merge "BLXXJ-320: update logging files to use new RCP log service these are what on the beamline i20-1 which is working. It need to be persisted in repository to support backward compatibility. I will do further work to migrate them to use new configuration later http://jira.diamond.ac.uk/browse/BLXXJ-320"
+Merge "BLXXJ-315: ensure air supply is on for air bearing motor when motion is requested the configuration part. The core and epics already commited and pushed. added forgot part of client configuration http://jira.diamond.ac.uk/browse/BLXXJ-315"
+Merge "BLXXJ-321: update server dependency add tango dependency to server http://jira.diamond.ac.uk/browse/BLXXJ-321"
+Merge "BLXXJ-309: re-deploy and install GDA software http://jira.diamond.ac.uk/browse/BLXXJ-309"
+Merge "BLXXJ-319: remove dead_pause from TFG2 trigger using a single dead frame to ensure the last frame time is passed in External TFG2. "
+BLXXJ-319: remove dead_pause from TFG2 trigger using a single dead frame to ensure the last frame time is passed in External TFG2.
+BLXXJ-321: update server dependency add tango dependency to server http://jira.diamond.ac.uk/browse/BLXXJ-321
+BLXXJ-320: update logging files to use new RCP log service these are what on the beamline i20-1 which is working. It need to be persisted in repository to support backward compatibility. I will do further work to migrate them to use new configuration later http://jira.diamond.ac.uk/browse/BLXXJ-320
+BLXXJ-309: re-deploy and install GDA software http://jira.diamond.ac.uk/browse/BLXXJ-309
+BLXXJ-316: add EPICS T5 support, change sample_x_motor to real motor update GUI motor items http://jira.diamond.ac.uk/browse/BLXXJ-316
+BLXXJ-315: ensure air supply is on for air bearing motor when motion is requested the configuration part. The core and epics already commited and pushed. added forgot part of client configuration http://jira.diamond.ac.uk/browse/BLXXJ-315
+Merge "BLXXJ-318: update config project references http://jira.diamond.ac.uk/browse/BLXXJ-318"
+Merge "BLXXJ-317: update scripts in config after Phyo's refectoring Java codes http://jira.diamond.ac.uk/browse/BLXXJ-317"
+BLXXJ-314: XH detector must collect live frame using 'frame-time' qualifier for time precision, not the default number of scans in TFG2
+BLXXJ-318: update config project references http://jira.diamond.ac.uk/browse/BLXXJ-318
+BLXXJ-317: update scripts in config after Phyo's refectoring Java codes http://jira.diamond.ac.uk/browse/BLXXJ-317
+Merge "BLXXJ-311: add new sample table stage to beamline I20-1 "
+BLXXJ-311: add new sample table stage to beamline I20-1
+I20-1 dummy product
+I20-1 update properties
+create dummy product to install on /scratch/gda_i20_ede/ for devlopment and testing off-beamline
+move to use new configuration layout (GDA-6009)
+extend buckminster build to create symlink 'client' as part of build option
+update launchers in the PATH to reuse the common launchers in dls-config project.
+Merge "further refactoring for EDE frelon development"
+further refactoring for EDE frelon development
+rename the confusing EDE 'Detector' to 'EdeDetectorBase'.
