@@ -8,4 +8,6 @@
 #############
 #
 # This script should not be added to as it is being phased out
-gda servers $*
+
+export SPRING_PROFILES=DD,magnet,xabs
+gda servers --springprofiles $SPRING_PROFILES $*
