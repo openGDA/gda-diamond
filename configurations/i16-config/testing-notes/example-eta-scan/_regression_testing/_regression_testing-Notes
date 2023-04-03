@@ -1,0 +1,24 @@
+================================================================================
+			Regression testing against beamline
+================================================================================
+The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
+`pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.
+
+Scan command: scancn eta 0.02 31 pil 1 roi2
+
+Scan		Configuration	Dummy	Notes
+			NDW	DWE	LF	T	/Live
+----------- --- --- --	-	-----	------------------------------------
+../971324	NDW	DWE	LF		Live	Similar, but 21 points not 31
+2023030040	NSD				Dummy	Make NSD easier to compare to NDW
+----------- --- --- --	-	-----	------------------------------------
+	NDW	NexusDataWriter				NSD	NexusScanDataWriter
+	DWE	DataWriterExtender			T	Template
+	LF	Link Files
+
+	See testing-notes/_Preparing_a_scan_for_archiving for process
+================================================================================
+
+--------------------------------------------------------------------------------
+
+================================================================================

@@ -1,3 +1,43 @@
 entry1/:
   NX_class@: NXentry
   features: /entry1/compatibility/features
+  # The DefaultDataGroupConfiguration creates the measurement group in /entry1/
+  # then it is linked to /entry1/classic_scan/measurement in NXclassic_scan.yaml
+
+  # ------------------------------ Temporary ------------------------------
+  # Various changes between NDW and NSD make comparing files difficult, so this
+  # section is mostly about temporarily making NSD look more like NDW to make
+  # it more obvious when things are missing from NSD nexus files.  
+  # -----------------------------------------------------------------------
+
+  # The primary location of before_scan moved to /entry1/classic_scan from
+  # /entry1/ so temporarily link it back to it's original location.
+  before_scan: /entry1/classic_scan/before_scan
+
+  # NSD uses scannable names instead of field names for single value metadata
+  # entries, so temporarily create links from their original locations.
+  # This works, but it requires every potential NXdata to be included here.
+  instrument/:
+    NX_class@: NXinstrument
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
+  pil3_100k/:
+    NX_class@: NXdata
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
+  roi1/:
+    NX_class@: NXdata
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
+  roi2/:
+    NX_class@: NXdata
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
+  roi3/:
+    NX_class@: NXdata
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
+  roi4/:
+    NX_class@: NXdata
+    TimeFromEpoch: /entry1/instrument/atimetwo/TimeFromEpoch
+    TimeSec: /entry1/instrument/atime/TimeSec
