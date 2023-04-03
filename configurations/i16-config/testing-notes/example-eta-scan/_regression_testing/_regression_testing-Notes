@@ -11,6 +11,7 @@ Scan		Configuration	Dummy	Notes
 ----------- --- --- --	-	-----	------------------------------------
 ../971324	NDW	DWE	LF		Live	Similar, but 21 points not 31
 2023030040	NSD				Dummy	Make NSD easier to compare to NDW
+2023030053	NSD				Dummy	I16-644 Add NXmx definition
 ----------- --- --- --	-	-----	------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	DWE	DataWriterExtender			T	Template

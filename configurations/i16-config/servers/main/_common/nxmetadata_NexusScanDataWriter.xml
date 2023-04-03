@@ -112,6 +112,10 @@
 						</list>
 					</property>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="definition"/>
+					<property name="value" value="NXmx" />
+				</bean>
 			</list>
 		</property>
 	</bean>

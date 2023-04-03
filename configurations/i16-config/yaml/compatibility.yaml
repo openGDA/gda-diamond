@@ -1,5 +1,6 @@
 entry1/:
   NX_class@: NXentry
+  definition: /entry1/compatibility/definition
   features: /entry1/compatibility/features
   # The DefaultDataGroupConfiguration creates the measurement group in /entry1/
   # then it is linked to /entry1/classic_scan/measurement in NXclassic_scan.yaml
@@ -9,6 +10,12 @@ entry1/:
   # section is mostly about temporarily making NSD look more like NDW to make
   # it more obvious when things are missing from NSD nexus files.  
   # -----------------------------------------------------------------------
+
+  # Since this causes validation to fail, with I16-653 unresolved, add in a
+  # depends_on in sample.
+  sample/:
+    NX_class@: NXsample
+    depends_on: /entry1/sample/transformations/phi
 
   # The primary location of before_scan moved to /entry1/classic_scan from
   # /entry1/ so temporarily link it back to it's original location.
