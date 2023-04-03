@@ -1,32 +1,26 @@
-from java.net import URI
-from java.lang import System
-from java.lang import Exception as JavaException
+from java.lang import Exception as JavaException #@Unresolvedimport
+from org.eclipse.scanning.sequencer import ScanRequestBuilder #@Unresolvedimport
+from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
+from org.eclipse.scanning.api.points.models import CompoundModel #@Unresolvedimport
+from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel #@Unresolvedimport
+from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI #@Unresolvedimport
+
 import scisoftpy as dnp
-
-from org.eclipse.scanning.sequencer import ScanRequestBuilder
-from org.eclipse.scanning.api.scan.models import ScanMetadata
-from org.eclipse.scanning.api.points.models import BoundingBox, CompoundModel
-from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel, AxialMultiStepModel
-from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI
-from org.eclipse.scanning.command.Services import getEventService, getRunnableDeviceService
-from org.eclipse.scanning.api.event.scan import ScanBean
-from org.eclipse.scanning.api.event.EventConstants import SUBMISSION_QUEUE
-
-from dummy.sparse_xanes_scan_utilities import *
 from mapping_scan_commands import submit
+from dummy.scanning.utils import get_energies, get_models, get_x_dimensions, get_y_dimensions
+
 
 def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
-    # Initialise the scan submitter
-    #submitter = getEventService().createSubmitter(URI(System.getProperty("GDA/gda.activemq.broker.uri")), SUBMISSION_QUEUE)
-
-    # percentage of rows to keep in the model
-    percentage = float(xanesEdgeParams.getPercentage())/100
-
-    validMalcolmDetectorName = '-ML-SCAN-01'
-    malcolmDetectorName = scanRequest.getDetectors().keys()[0]
-    if (not malcolmDetectorName.endswith(validMalcolmDetectorName)):
+    
+    valid_malcolm_detector_name = '-ML-SCAN-01'
+    malcolm_detector_name = scanRequest.getDetectors().keys()[0]
+    if (not malcolm_detector_name.endswith(valid_malcolm_detector_name)):
         print("Selected detector is not valid for this type of scan")
         return;
+    
+    sparse_parameters = xanesEdgeParams.getSparseParameters()
+    if sparse_parameters is not None:
+        rows_percentage = float(sparse_parameters.getPercentage())/100
 
     energy_model, map_model = get_models(scanRequest)
     energies = get_energies(energy_model)
@@ -40,12 +34,12 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     print("x_min {}, x_max {}, x_range {}, x_step {}".format(x_min, x_max, x_range, x_step))  
     
     try:
-        #1. Move to first energy and disable harmonic switching
+        # move to first energy and disable harmonic switching
         #dcm_enrg.moveTo(dnp.amin(energies))
         #dcm_enrg.disableHarmonicSwitching()
         #sleep(10)
         
-        #2. disable locum gain switching
+        # disable locum gain switching
         #set_amplifier_gains()
         
         # 3. create 2d map per energy point
@@ -53,7 +47,7 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
             y_positions = dnp.arange(y_min, y_max, y_step)
             # last scan will be all positions
             if idx < len(energies)-1:
-                n_lines = int (percentage*len(y_positions))
+                n_lines = int (rows_percentage*len(y_positions))
                 rand_index = []
                 while len(rand_index) < n_lines:
                     r=dnp.random.randint(0, len(y_positions))
@@ -94,21 +88,19 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
                       .withProcessingRequest(scanRequest.getProcessingRequest()) \
                       .build()
                       
-            #pos(dcm_enrg, energy)
+            # pos(dcm_enrg, energy)
             #sleep(2)
-            # Submit the scan
+
             print('Submitting scan ',idx+1,'.')
             scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
             try:
-                #submitter.blockingSubmit(ScanBean(request))
                 submit(request, block=True, name=scan_name)
             except JavaException as e:
-                # scan failed?
                 print(e)
                 print("Problem with the scan at :",energy)
     except Exception as e:
-                #print(e)
-                #dcm_enrg.enableHarmonicSwitching()
+        print(e)
+        # dcm_enrg.enableHarmonicSwitching()
         print("XANES scan crashed...re-enabling harmonic switching")
     finally:
         print("Locum-4 amplifer gains to auto")
