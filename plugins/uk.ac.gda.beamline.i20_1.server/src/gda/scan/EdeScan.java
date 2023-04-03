@@ -18,6 +18,7 @@
 
 package gda.scan;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
 
 import java.util.ArrayList;
@@ -787,8 +788,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// write the same data into Nexus file. Do it *after* broadcasting the SDP, since need to store the
 			// datapoint and broadcast energy and spectrum data to client...
 			if (useNexusTreeWriter && nexusTreeWriter != null) {
-				thisPoint.getDetectors().clear();
-				thisPoint.getScannables().clear();
+				thisPoint.setDetectors(emptyList());
+				thisPoint.setScannables(emptyList());
 			}
 
 			// then write data to data handler
