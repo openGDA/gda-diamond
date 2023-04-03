@@ -10,7 +10,6 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     except:
         print("XANES scan terminated abnormally: {}".format(sys.exc_info()[0]))
 
-# TODO 
 def run_scan_request(scanRequest, xanesEdgeParams):
     print("Running XANES scan")
     print("scanRequest = {}".format(scanRequest))

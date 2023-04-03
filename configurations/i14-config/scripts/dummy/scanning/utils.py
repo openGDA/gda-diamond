@@ -1,7 +1,6 @@
 import scisoftpy as dnp
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel, AxialMultiStepModel #@Unresolvedimport
     
-    
 """
 Get energy points to scan
 """
@@ -72,17 +71,3 @@ def get_models(scanRequest):
     map_model = models.get(0)
     
     return dcm_enrg_model, map_model
-
-
-# TODO
-def set_amplifier_gains():
-    current_gain1 = int(caget("BL14I-DI-BPM-03:IAMP1:MR").encode("ascii"))
-    current_gain2 = int(caget("BL14I-DI-BPM-03:IAMP2:MR").encode("ascii"))
-    current_gain1 = range_dict[current_gain1]
-    current_gain2 = range_dict[current_gain2]
-    current_gain = max(current_gain1,current_gain2)
-    print("Amplifier Gains",current_gain1,current_gain2,current_gain)
-    sleep(2)
-    caput("BL14I-DI-BPM-03:IAMP1:SETRANGE",current_gain)
-    caput("BL14I-DI-BPM-03:IAMP2:SETRANGE",current_gain)
-    sleep(2)

@@ -40,9 +40,7 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         #sleep(10)
         
         # disable locum gain switching
-        #set_amplifier_gains()
         
-        # 3. create 2d map per energy point
         for idx, energy in enumerate(energies):
             y_positions = dnp.arange(y_min, y_max, y_step)
             # last scan will be all positions
