@@ -99,3 +99,20 @@ d11_ncd = sampleCam.AdCam('d11_ncd', d11gige)
 add_reset_hook(lambda ncd=ncddetectors, cam=d11_ncd: ncd.removeDetector(cam))
 d12_ncd = sampleCam.AdCam('d12_ncd', d12gige)
 add_reset_hook(lambda ncd=ncddetectors, cam=d12_ncd: ncd.removeDetector(cam))
+
+from setup import malcolm_tfg
+from gdaserver import Pilatus2M_SAXS, Pilatus2M_WAXS, I0, bsdiodes
+
+saxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_SAXS)
+waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
+i0_reset = malcolm_tfg.NcdTetrammReset(I0)
+bsdiodes_reset = malcolm_tfg.NcdTetrammReset(bsdiodes)
+
+def install_hook(detector, action):
+    detector.addPreScanAction(action)
+    add_reset_hook(lambda det=detector, act=action: det.removePreScanAction(act))
+
+install_hook(Pilatus2M_SAXS, saxs_reset)
+install_hook(Pilatus2M_WAXS, waxs_reset)
+install_hook(I0, i0_reset)
+install_hook(bsdiodes, bsdiodes_reset)
