@@ -169,7 +169,7 @@
             class="uk.ac.gda.ui.views.synoptic.SynopticPerspective:xes_perspective_config"
             id="uk.ac.gda.beamline.i18.SynopticPerspective.xes_perspective_config"
             icon="icons/camera.png"
-            name="Synoptic Views">
+            name="XES Views">
       </perspective>
    </extension>
    
@@ -177,7 +177,6 @@
          id="uk.ac.gda.beamline.i18.perspective.tfg"
          name="TFG Scan"
          point="org.eclipse.ui.views">
-
 	     <view
 	           allowMultiple="true"
 	           category="uk.ac.gda.client.general.category"
@@ -187,8 +186,8 @@
 	           name="TFG Data"
             restorable="true">
          </view>
-
    </extension>
+   
    <extension
    	     point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
