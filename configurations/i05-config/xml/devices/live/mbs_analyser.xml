@@ -137,7 +137,9 @@
 	</bean>
 
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:DeflX_RBV" />
+		<!-- DeflX_RBV does not work properly in MBS software, replaced with DeflX -->
+		<!-- <property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:DeflX_RBV" /> -->
+		<property name="pvNameGetPoint" value="BL05I-EA-DET-02:CAM:DeflX" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:DeflX" />
 		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
 	</bean>
