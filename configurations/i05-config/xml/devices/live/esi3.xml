@@ -32,7 +32,7 @@
 		</property>
 	</bean>
 	
-	<bean id="es_i3Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+	<bean id="es_i3Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="fileNameTemplate" value="es_i3"/>
 		<property name="ndFileHDF5">
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
@@ -44,6 +44,17 @@
 				</property>
 			</bean>
 		</property>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<!-- The Object which gets the ROIs from the client over RMI -->
@@ -59,7 +70,7 @@
 		<property name="pluginName" value="es_i3_RoiStats1" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI1:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT1:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -75,7 +86,7 @@
 		<property name="pluginName" value="es_i3_RoiStats2" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI2:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT2:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -91,7 +102,7 @@
 		<property name="pluginName" value="es_i3_RoiStats3" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI3:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT3:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -107,7 +118,7 @@
 		<property name="pluginName" value="es_i3_RoiStats4" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI4:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT4:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -123,7 +134,7 @@
 		<property name="pluginName" value="es_i3_RoiStats5" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI5:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT5:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -139,7 +150,7 @@
 		<property name="pluginName" value="es_i3_RoiStats6" />
 		<property name="baseRoiPVName" value="${es_i3}:ROI6:" />
 		<property name="baseStatsPVName" value="${es_i3}:STAT6:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i3.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -152,7 +163,8 @@
 	</bean>
 
  	<bean id="esi3" class="gda.device.detector.NXDetector">
-		<property name="name" value="es-i3" />
+		<property name="name" value="esi3" />
+		<property name="collectionTime" value="0.5"/>
 		<property name="collectionStrategy" ref="es_i3CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

@@ -88,7 +88,7 @@
 		<property name="pluginName" value="es_i2_RoiStats1" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI1:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT1:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -104,7 +104,7 @@
 		<property name="pluginName" value="es_i2_RoiStats2" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI2:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT2:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -120,7 +120,7 @@
 		<property name="pluginName" value="es_i2_RoiStats3" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI3:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT3:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -136,7 +136,7 @@
 		<property name="pluginName" value="es_i2_RoiStats4" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI4:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT4:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -152,7 +152,7 @@
 		<property name="pluginName" value="es_i2_RoiStats5" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI5:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT5:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -168,7 +168,7 @@
 		<property name="pluginName" value="es_i2_RoiStats6" />
 		<property name="baseRoiPVName" value="${es_i2}:ROI6:" />
 		<property name="baseStatsPVName" value="${es_i2}:STAT6:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam1.cam" />
+		<property name="roiInputNdArrayPort" value="ES-i2.DCAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -182,6 +182,7 @@
 
  	<bean id="esi2" class="gda.device.detector.NXDetector">
 		<property name="name" value="esi2" />
+		<property name="collectionTime" value="0.5"/>
 		<property name="collectionStrategy" ref="es_i2CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
