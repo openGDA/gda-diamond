@@ -21,11 +21,29 @@
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="es_i2CamBase" />
-								<property name="restoreAcquireState" value="true"/>
+									<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+										<property name="pvName" value="BL05I-DI-PHDGN-11:DCAM:CAM:ColorMode" />
+										<property name="expression" value="0"/> <!-- [ 0] Mono [ 1] Bayer [ 2] RGB1 [ 3] RGB2 [ 4] RGB3 [ 5] YUV444 [ 6] YUV422 [ 7] YUV421 -->
+										<property name="waitTimeInSeconds" value="0.1"/>
+										<property name="enabled" value="true" />
+										<property name="restorePvValue" value="true" />
+										<property name="decoratee">
+											<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+												<property name="pvName" value="BL05I-DI-PHDGN-11:DCAM:CAM:PixelFormat" />
+												<property name="expression" value="0"/> <!--[0] Mono8 [1]BayerRG8 [2]BayerRG12 [3]BayerRG12Packed [ 4] RGB8Packed [ 5] BGR8Packed [ 6] YUV411Packed [ 7] YUV422Packed [8] YUV444Packed-->
+												<property name="waitTimeInSeconds" value="0.1"/>
+												<property name="enabled" value="true" />
+												<property name="restorePvValue" value="true" />
+												<property name="decoratee">
+													<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+														<property name="adBase" ref="es_i2CamBase" />
+														<property name="restoreAcquireState" value="true"/>
+											</bean>
+										</property>	
+									</bean>
+								</property>	
 							</bean>
-						</property>
+						</property>	
 					</bean>
 				</property>
 			</bean>
