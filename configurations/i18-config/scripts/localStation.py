@@ -245,7 +245,7 @@ def setup():
     setup_factories()
     setup_aliases()
     fix_snapshot()
-    set_energy_scannable(energy)
+    set_energy_scannable(energy_scannable_for_scans)
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
     print("\n...initialisation complete!")
     print_useful_info()
