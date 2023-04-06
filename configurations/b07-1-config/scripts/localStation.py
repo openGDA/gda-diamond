@@ -86,7 +86,7 @@ else:
         meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp, sm2_xpc, sm2_ypc, sm2_zpc] #@UndefinedVariable
 
 patch_panel_list = [ppc_temp_1,ppc_temp_2,ppc_temp_3,ppc_temp_4,ppc_ai_1,ppc_ai_2,ppc_ai_3,ppc_ai_4,ppc_ao_1,ppc_ao_2,ppc_ao_3,ppc_ao_4,ppc_di_1,ppc_di_2,ppc_di_3,ppc_di_4,ppc_do_5,ppc_do_6,ppc_do_7,ppc_do_8]  # @UndefinedVariable
-crystal_monochromator_list = [ccmc_x, ccmc_y, ccmc_z, roty] # @UndefinedVariable
+crystal_monochromator_list = [ccmc_x, ccmc_y, ccmc_z] # @UndefinedVariable
 meta_data_list = meta_data_list + patch_panel_list + crystal_monochromator_list
 
 for each in meta_data_list:
