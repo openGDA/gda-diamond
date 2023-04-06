@@ -131,8 +131,6 @@
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
 				<value>SR830_channel_two</value>
-				<value>ca35b_sensitivity</value>
-				<value>ca36b_sensitivity</value>
 			</set>
 		</property>
 	</bean>
