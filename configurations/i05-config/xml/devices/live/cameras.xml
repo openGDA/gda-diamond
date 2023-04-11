@@ -8,14 +8,17 @@
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:properties id="cameraPVs">
+		<prop key="es_i1">BL05I-DI-PHDGN-10:DCAM</prop>
 	    <prop key="es_i2">BL05I-DI-PHDGN-11:DCAM</prop>
 	    <prop key="es_i3">BL05I-DI-PHDGN-12:DCAM</prop>
 	    <prop key="m1_i1">BL05I-DI-PHDGN-13:DCAM</prop>
+	    <prop key="m4_i1">BL05I-DI-PHDGN-14:DCAM</prop>
 	</util:properties>
 
 	<import resource="esi1.xml" />
 	<import resource="esi2.xml" />
 	<import resource="esi3.xml" />
 	<import resource="m1i1.xml" />
+	<import resource="m4i1.xml" />
 	
 </beans>
