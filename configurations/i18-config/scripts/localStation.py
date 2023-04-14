@@ -13,7 +13,7 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.factory import Finder
 from stageSelector import StageSelector
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
-from gda.jython.commands.ScannableCommands import add_default
+from gda.jython.commands.ScannableCommands import add_default, remove_default
 
 from mapping_scan_commands import static
 
@@ -83,6 +83,19 @@ def setup_watchdogs():
     topup_watchdog.setEnabled(True)
     beam_available_watchdog.setEnabled(True)
 
+def noBeamMode(noBeam):
+    if noBeam:
+        disableWatchdogs()
+        remove_default(topupMonitor)
+        remove_default(beamMonitor)
+    else:
+        enableWatchdogs()
+        add_default(topupMonitor)
+        add_default(beamMonitor)
+    print "topup_watchdog Enabled: "+str(topup_watchdog.enabled)
+    print "beam_available_watchdog Enabled: "+str(beam_available_watchdog.enabled)
+    
+
 def setup_factories():
     theFactory = XasScanFactory();
     theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -148,6 +161,7 @@ def setup_aliases():
     alias("enableWatchdogs")
     alias("disableWatchdogs")
     alias("listWatchdogs")
+    alias("noBeamMode")
     # mapping
     vararg_alias("xas")
     vararg_alias("xanes")
@@ -185,6 +199,9 @@ def print_useful_info():
     
     Disable/enable a single watchdog e.g. topup:
      topup_watchdog.setEnabled(False)/(True)
+     
+    Disable/enable all watchdogs and monitors that require beam (topup_watchdog, beam_available_watchdog, topupMonitor, beamMonitor):
+     noBeamMode True/False
     
     Specify calibration and mask files for Excalibur:
      excalibur_metadata.set_calibration_file(...)
