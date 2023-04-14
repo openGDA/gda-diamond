@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--  Live controls for controlling the Meca robot and displaying its current status -->
+
+<!-- Motor controls for adjusting 'pose' values (x,y,z,alpha,theta,gamma) -->
+  	<bean id="robot_pose_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose X" />
+		<property name="scannableName" value="meca_move_pose_x" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="robot_pose_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose Y" />
+		<property name="scannableName" value="meca_move_pose_y" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="robot_pose_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose Z" />
+		<property name="scannableName" value="meca_move_pose_z" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	
+  	<bean id="robot_pose_alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose Alpha" />
+		<property name="scannableName" value="meca_move_pose_alpha" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="robot_pose_beta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose Beta" />
+		<property name="scannableName" value="meca_move_pose_beta" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+  	<bean id="robot_pose_gamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot pose Gamma" />
+		<property name="scannableName" value="meca_move_pose_gamma" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	<bean id="robot_pose_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Robot pose controls" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="robot_pose_x_control" />
+				<ref bean="robot_pose_y_control" />
+				<ref bean="robot_pose_z_control" />
+				<ref bean="robot_pose_alpha_control" />
+				<ref bean="robot_pose_beta_control" />
+				<ref bean="robot_pose_gamma_control" />
+			</list>
+		</property>
+	</bean>
+
+<!--  Cassette and scanning area position indicators -->
+	<bean id="meca_in_cassette_area_control" class="uk.ac.gda.beamline.b18.LiveControlBitField">
+		<property name="scannableName" value="meca_in_cassette_area" />	
+		<property name="numBits" value="1" />
+		<property name="bitFieldValues">
+			<list>
+				<value>In cassette area</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="meca_in_scanning_area_control" class="uk.ac.gda.beamline.b18.LiveControlBitField">
+		<property name="scannableName" value="meca_in_scanning_area" />	
+		<property name="numBits" value="1" />
+		<property name="bitFieldValues">
+			<list>
+				<value>In scanning area</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="robot_status_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Robot cassette/scanning area status" />
+		<property name="numColumns" value="2" />
+		<property name="equalWidthColumns" value="false" />
+		<property name="controls">
+			<list>
+				<ref bean="meca_in_cassette_area_control" />
+				<ref bean="meca_in_scanning_area_control" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Robot and gripper bit field statuses -->
+	<bean id="robot_status_bitfield" class="uk.ac.gda.beamline.b18.LiveControlBitField">
+		<property name="group" value="Robot status bits" />
+		<property name="scannableName" value="meca_robot_status_word" />
+		<property name="bitFieldValues">
+			<list>
+				<value>Activated</value>
+				<value>Homed</value>
+				<value>Simulation Mode</value>
+				<value>Error</value>
+				<value>Paused</value>
+				<value>End of Block</value>
+				<value>End of Movement</value>
+			</list>
+		</property>
+		<property name="bitColours">
+			<map>
+				<entry key="3" value="3"/>  <!-- error = red -->
+				<entry key="4" value="7"/>  <!-- paused = yellow -->
+			</map>
+		</property>	
+	</bean>
+	<bean id="gripper_status_bitfield" class="uk.ac.gda.beamline.b18.LiveControlBitField">
+		<property name="group" value="Gripper status bits" />
+		<property name="scannableName" value="meca_gripper_status_word" />	
+		<property name="bitFieldValues">
+			<list>
+				<value>Gripper Present</value>
+				<value>Homed</value>
+				<value>Holding Part</value>
+				<value>Limit Reached</value>
+				<value>Error</value>
+				<value>Overload</value>
+			</list>
+		</property>
+<!-- 		<property name="numColumns" value="1" /> -->
+		<!--  set 'error' bits to red -->
+		<property name="bitColours">
+			<map>
+				<entry key="4" value="3"/>
+				<entry key="5" value="3"/>
+			</map>
+		</property>	
+	</bean>
+
+<!-- Reset, pause, resume controls -->
+	<bean id="meca_error_reset_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="buttonText" value="Reset error" />
+		<property name="jythonCommand" value="meca_pstop_error_reset.moveTo(1); meca_error_reset.moveTo(1)" />
+	</bean>
+	<bean id="meca_motion_pause_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="buttonText" value="Pause motion" />
+		<property name="jythonCommand" value="meca_motion_pause.moveTo(1)" />
+	</bean>
+	<bean id="meca_motion_resume_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="buttonText" value="Resume motion" />
+		<property name="jythonCommand" value="meca_motion_resume.moveTo(1)" />
+	</bean>
+	<bean id="robot_motion_buttons_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="numColumns" value="3" />
+		<property name="equalWidthColumns" value="false" />
+		<property name="controls">
+			<list>
+				<ref bean="meca_error_reset_control" />
+				<ref bean="meca_motion_pause_control" />
+				<ref bean="meca_motion_resume_control" />
+			</list>
+		</property>
+	</bean>
+
+<!--  Sample number and 'move to scanning/cassette area' controls -->
+	<bean id="meca_sample_holder_number_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Sample holder number" />
+		<property name="scannableName" value="meca_sample_holder_number" />
+		<property name="textWidth" value="60" />
+	</bean>
+	<bean id="meca_move_to_cassette_area_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="buttonText" value="Move to cassette area" />
+		<property name="jythonCommand" value="meca_move_to_cassette_area.moveTo(1)" />
+	</bean>
+	<bean id="meca_move_to_scanning_area_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="buttonText" value="Move to scanning area" />
+		<property name="jythonCommand" value="meca_move_to_scanning_area.moveTo(1)" />
+	</bean>
+	<bean id="robot_sample_holder_controls" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Robot sample holder controls" />
+		<property name="numColumns" value="3" />
+		<property name="equalWidthColumns" value="false" />
+		<property name="controls">
+			<list>
+				<ref bean="meca_sample_holder_number_control" />
+				<ref bean="meca_move_to_cassette_area_control" />
+				<ref bean="meca_move_to_scanning_area_control" />			
+			</list>
+		</property>
+	</bean>
+
+	<bean name="robotControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="robot_pose_controls_group" />
+				<ref bean="robot_status_group" />
+				<ref bean="robot_status_bitfield" />
+				<ref bean="gripper_status_bitfield" />
+				<ref bean="robot_motion_buttons_group" />
+				<ref bean="robot_sample_holder_controls" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
