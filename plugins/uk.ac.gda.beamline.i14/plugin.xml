@@ -120,6 +120,12 @@
                relationship="stack"
                relative="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView">
          </view>
+         <view
+               id="uk.ac.gda.client.live.stream.view.LiveStreamView"
+               minimized="false"
+               relationship="stack"
+               relative="console_folder">
+         </view>
       </perspectiveExtension>
    </extension>
     <extension
