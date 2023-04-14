@@ -62,7 +62,7 @@
 	</bean>
 
 	<!-- Overall control set -->
-	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<bean name="generalControls" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="energy_control" />
@@ -74,9 +74,7 @@
 				<ref bean="watchdog_control" />
 			</list>
 		</property>
+		<property name="viewName" value="General Controls"/>
 	</bean>
 
-	<bean name="live_control_config" class="uk.ac.gda.beamline.i18.views.LiveControlsPerspectiveConfiguration">
-		<property name="liveControlSet" value="liveControlSet"/>
-	</bean>
 </beans>
