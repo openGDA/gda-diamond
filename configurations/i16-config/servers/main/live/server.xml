@@ -73,6 +73,7 @@
 	<import resource="detector/camd4.xml" />
 	<import resource="detector/camd5.xml" />
 	<import resource="detector/camlab84.xml" />
+	<import resource="detector/camlab84b.xml" />
 	<import resource="detector/medipix.xml" />
 	<import resource="detector/merlin.xml" />
 	<import resource="detector/c10.xml" />

@@ -21,19 +21,72 @@
 	<import resource="../_common/server.xml"/>
 
 	<context:property-placeholder/>
+	
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
 
 	<bean id="ADSIM_HOST" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
+		<constructor-arg type="java.lang.String" value="#{localhostInetAddress.hostName.split('\.')[0]}"/>
 	</bean>
 
-	<!-- 
-	<import resource="detector/*.xml" />
-	 -->
-	<import resource="../live/detector/*.xml" />
-	<import resource="monitor/*.xml" />
-	<import resource="motor/*.xml" />
-	<import resource="transient/*.xml" />
+	<import resource="motor/atten.xml" />
+	<import resource="motor/dcm.xml" />
+	<import resource="motor/diag.xml" />
+	<import resource="motor/id.xml" />
+	<import resource="motor/m1.xml" />
+	<import resource="motor/m2.xml" />
+	<import resource="motor/p2.xml" />
+	<import resource="motor/pa.xml" />
+	<import resource="motor/ppr.xml" />
+	<import resource="motor/qsys.xml" />
+	<import resource="motor/s1.xml" />
+	<import resource="motor/s2.xml" />
+	<import resource="motor/s3.xml" />
+	<import resource="motor/s4.xml" />
+	<import resource="motor/s5.xml" />
+	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
+	<import resource="motor/sixc.xml" />
+	<import resource="motor/sixcbase.xml" />
+	<import resource="motor/sixcsample.xml" />
+	<import resource="motor/pie725_raster.xml" />
+		
+	<import resource="transient/kbmbase.xml" />
+<!-- 	<import resource="transient/pilatus3_100k_smargon.xml" /> -->
+	<import resource="transient/smargon.xml" />
 
+	<import resource="monitor/currentamps.xml" />
+	<import resource="monitor/machine.xml" />
+	<import resource="monitor/sixc.xml" />
+	<import resource="monitor/user.xml" />
+
+	<import resource="detector/vortex.xml" />
+<!-- 	<import resource="detector/pilatus100k.xml" /> -->
+	<import resource="detector/pilatus3_100k.xml" />
+<!-- 	<import resource="detector/pilatus2M.xml" /> -->
+<!-- 	<import resource="detector/andor1.xml" /> -->
+	<import resource="detector/bpm1.xml" />
+	<import resource="detector/cam1.xml" />
+	<import resource="detector/cam2.xml" />
+	<import resource="detector/camd3.xml" />
+	<import resource="detector/camd4.xml" />
+	<import resource="detector/camd5.xml" />
+	<!-- develop profile to control the Lab84 camera and pure dummy off-lab84 -->
+	<import resource="detector/camlab84.xml" />
+	<import resource="detector/camlab84b.xml" />
+	<!-- in Lab84 comment out 2 live above, uncomment out 2 line below -->
+<!-- 	<import resource="../live/detector/camlab84.xml" /> -->
+<!-- 	<import resource="../live/detector/camlab84b.xml" /> -->
+	
+<!-- 	<import resource="detector/medipix.xml" /> -->
+	<import resource="detector/merlin.xml" />
+	<import resource="detector/c10.xml" />
+	<import resource="detector/xeye.xml" />
+<!-- 	<import resource="detector/zebra_smargon.xml" /> -->
+	<import resource="detector/zebra1.xml" />
+<!-- 	<import resource="detector/zebra2.xml" /> -->
+	<import resource="detector/zylar.xml" />
+<!-- 	<import resource="detector/rasterpil1.xml" /> -->
+		
 	<bean id="terminallog_path_provider"
 		class="gda.data.SimpleObservablePathProvider"/>
 
