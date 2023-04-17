@@ -67,32 +67,6 @@
 		<property name="readPV" value="#{mecaPosePv}:GAMMA:RBV" />
 	</bean>
 
-	<bean id="meca_pose" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="meca_pose_x" />
-				<ref bean="meca_pose_y" />
-				<ref bean="meca_pose_z" />
-				<ref bean="meca_pose_alpha" />
-				<ref bean="meca_pose_beta" />
-				<ref bean="meca_pose_gamma" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="meca_joint_theta" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="meca_joint_theta_1" />
-				<ref bean="meca_joint_theta_2" />
-				<ref bean="meca_joint_theta_3" />
-				<ref bean="meca_joint_theta_4" />
-				<ref bean="meca_joint_theta_5" />
-				<ref bean="meca_joint_theta_6" />
-			</list>
-		</property>
-	</bean>
-
 <!-- Copy all Readback values into the Setpoint values (only one PV for joints and poses?) -->
 	<bean id="meca_copy_readbacks" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:COPY_RBV_TO_SP.PROC" />
@@ -115,38 +89,88 @@
 	</bean>
 
 <!-- Robot and gripper status words  -->
-	<bean id="meca_robot_status" class="gda.device.scannable.PVScannable">
+	<bean id="meca_robot_status_word" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:ROBOT:STATUS:WORD" />
 		<property name="canMove" value="false" />
 	</bean>
-	<bean id="meca_gripper_status" class="gda.device.scannable.PVScannable">
+	<bean id="meca_gripper_status_word" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:GRIPPER:STATUS:WORD" />
 		<property name="canMove" value="false" />
 	</bean>
+
 <!-- 'In cassette' and 'in scanning area' PVs-->
 	<bean id="meca_in_cassette_area" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:ROBOT:STATUS:IN_CASSETTE_AREA" />
 		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%.0f</value>
+			</list>
+		</property>
 	</bean>
+
 	<bean id="meca_in_scanning_area" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:ROBOT:STATUS:IN_SCANNING_AREA" />
 		<property name="canMove" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%.0f</value>
+			</list>
+		</property>
 	</bean>
-	
+
+<!-- 'Robot control' PVs  -->
+
+<!-- Connected/disconnect and check the connection state -->
 	<bean id="meca_is_connected" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:ASYN.CNCT" />
+	</bean>
+<!-- 	Activate  -->
+	<bean id="meca_activate" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:ACTIVATE" />
+	</bean>
+<!-- 	Deactivate  -->
+	<bean id="meca_deactivate" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:DEACTIVATE" />
+	</bean>
+<!-- 	Home the robot  -->
+	<bean id="meca_home" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:HOME" />
+	</bean>
+<!-- 	String containing error message -->
+	<bean id="meca_error_message" class="gda.device.scannable.PVStringScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:ERROR:MESSAGE" />
 		<property name="canMove" value="false" />
 	</bean>
+	<bean id="meca_error_reset" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:ERROR:RESET" />
+	</bean>	
+	<bean id="meca_pstop_error_reset" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:PSTOP:RESET" />
+	</bean>	
+	<bean id="meca_motion_pause" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:MOTION:PAUSE" />
+	</bean>	
+	<bean id="meca_motion_resume" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{mecaRobotBasePv}:MOTION:RESUME" />
+	</bean>	
 
 <!-- Sample holder number -->
 	<bean id="meca_sample_holder_number" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:SAMPLE_HOLDER:NUMBER" />
+		<property name="outputFormat">
+			<list>
+				<value>%.0f</value>
+			</list>
+		</property>
 	</bean>
+
 <!-- Move to scanning area -->
 	<bean id="meca_move_to_scanning_area" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:SAMPLE_HOLDER:MOVE_TO_SCANNING.PROC" />
 	</bean>
-<!-- Move to cassette  -->
+
+<!-- Move to cassette area -->
 	<bean id="meca_move_to_cassette_area" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:SAMPLE_HOLDER:MOVE_TO_CASSETTE.PROC" />
 	</bean>
@@ -155,6 +179,7 @@
 	<bean id="meca_open_gripper" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:GRIPPER:OPEN" />
 	</bean>
+
 <!-- Close the gripper -->
 	<bean id="meca_close_gripper" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{mecaRobotBasePv}:GRIPPER:CLOSE" />

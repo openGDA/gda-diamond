@@ -23,9 +23,20 @@
 	<bean id="meca_move_linear" class="gda.device.scannable.DummyScannable" />
 	<bean id="meca_move_pose" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="meca_robot_status" class="gda.device.scannable.DummyScannable" />
-	<bean id="meca_gripper_status" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_robot_status_word" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_gripper_status_word" class="gda.device.scannable.DummyScannable" />
 
+	<bean id="meca_in_cassette_area" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_in_scanning_area" class="gda.device.scannable.DummyScannable" />
+	
+	<bean id="meca_is_connected" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_error_message" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_error_reset" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_pstop_error_reset" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_motion_pause" class="gda.device.scannable.DummyScannable" />
+	<bean id="meca_motion_resume" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="meca_sample_holder_number" class="gda.device.scannable.DummyScannable" />
 	<bean id="meca_move_to_scanning_area" class="gda.device.scannable.DummyScannable" />
 	<bean id="meca_move_to_cassette_area" class="gda.device.scannable.DummyScannable" />
 

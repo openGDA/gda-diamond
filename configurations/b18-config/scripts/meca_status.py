@@ -16,3 +16,13 @@ def showRobotStatus():
 def showGripperStatus():
     statusWord = int(meca_gripper_status.getPosition())
     interpretBits(statusWord, gripperStatusBits)
+
+def resetRobotError() :
+    pos meca_pstop_error_reset 1
+    pos meca_error_reset 1
+    pos meca_motion_resume 1
+
+def moveRobotToCassette() :
+    pos meca_copy_readbacks 1
+    pos meca_joint_theta_1 49
+    pos meca_move_joints 1
