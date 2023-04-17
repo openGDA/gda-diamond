@@ -8,14 +8,12 @@
 		To use the Simulated Area detector in dummy mode:
 			1) Launch the Utilities > GDA AreaDetector Simulation
 				on the local machine and start the IOC.
-			2) If you want to use an Area detector on another machine, or
-				you are also launching the GDA servers, export the
-				WORKSTATION environment variable with the short name for
-				the machine the Simulation IOC is running on.
 	</description>
 
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
 	<bean id="ADSIM_HOST" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
+		<constructor-arg type="java.lang.String" value="#{localhostInetAddress.hostName.split('\.')[0]}"/>
 	</bean>
 
 	<bean id="pil1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
