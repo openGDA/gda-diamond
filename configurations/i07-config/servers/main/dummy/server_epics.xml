@@ -291,12 +291,6 @@
 
     <!--  ============================== Epics Monitor definition section ============== -->
     <!--  ============================== Monitor definition section ============================== -->
-    <!-- Beam Energy Epics Monitor -->
-    <bean id="beamenergy" class="gda.device.monitor.DummyEpicsMonitor"/>
-
-    <!-- Ring Currrent Epics Monitor -->
-    <bean id="ringcurrent" class="gda.device.monitor.DummyEpicsMonitor"/>
-
     <!-- Fast shutter temp monitor -->
     <bean id="temp3" class="gda.device.monitor.DummyEpicsMonitor"/>
 

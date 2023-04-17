@@ -14,13 +14,13 @@
 		resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="eh2_epics.xml" />
-
 	<import resource="detectors/dcam2.xml" />
 	<import resource="detectors/dcam3.xml" />
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
 	<import resource="server_core.xml" />
 
+	<import resource="shared/*.xml" />
 	<import resource="eh2/*.xml" />
 
 	<import resource="../_common/server.xml" />

@@ -30,6 +30,7 @@
 		resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<import resource="commandQueueProcessor.xml" />
+	<import resource="shared/*.xml" />
     <import resource="eh2/*.xml" />
 
 	<beans profile="eh1">
