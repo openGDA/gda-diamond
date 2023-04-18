@@ -141,7 +141,7 @@ def createContinuousScannable(scn, name=None):
 """
 No zebra used for synchronization. Motor move and tfg start at same time 
 """
-def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None ) :
+def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None, extraScannables=None ) :
     detectors=[qexafs_counterTimer01]
     if extraDetectors != None :
         detectors.extend(extraDetectors)
@@ -149,6 +149,11 @@ def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDet
     cs=ContinuousScan(continuous_axis, start, stop, readouts, time, detectors)
     # cs.getAllScannables().add(axis) # add hoffset scannable to get the real position at each scan data point (from Epics)
     cs.getAllScannables().add(set_tfg_internal_trigger)
+    
+    # Add any extra scannables (to record the position for each point in the scan)
+    if extraScannables != None :
+        for scn in extraScannables : 
+            cs.getAllScannables().add(scn)
     return cs 
 
 def runCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None ) :

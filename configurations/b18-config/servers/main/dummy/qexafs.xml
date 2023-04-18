@@ -15,51 +15,5 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
-		<property name="xspress2system" ref="xspress2system" />
-		<property name="daserver" ref="DAServer" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<value>time</value>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iref</value>
-				<value>lnI0It</value>
-				<value>lnItIref</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="DAServer" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="true" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
-		<property name="outputFormat">
-			<list>
-				<value>%.6g</value>
-				<value>%6.5g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.6g</value>
-				<value>%.6g</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
 	
 </beans>

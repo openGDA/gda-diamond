@@ -3,31 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- position compare -->
-
-<!-- 	<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable"> -->
-<!-- 		<property name="motor" ref="energy_motor" /> -->
-<!-- 		<property name="lowerGdaLimits" value="2000" /> -->
-<!-- 		<property name="upperGdaLimits" value="40000" /> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<list> -->
-<!-- 				<value>%.2f</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="outputModePV" value="BL18B-OP-DCM-01:PC:CTRL" /> -->
-<!-- 		<property name="startPV" value="BL18B-OP-DCM-01:PC:START" /> -->
-<!-- 		<property name="stopPV" value="BL18B-OP-DCM-01:PC:STOP" /> -->
-<!-- 		<property name="stepPV" value="BL18B-OP-DCM-01:PC:STEP" /> -->
-<!-- 		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" /> -->
-<!-- 		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" /> -->
-<!-- 		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" /> -->
-<!-- 		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" /> -->
-<!-- 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" /> -->
-<!-- 		<property name="stepIncDegPV" value="BL18B-OP-DCM-01:PC:STEP" /> -->
-<!-- 		<property name="stepIncDemandPV" value="BL18B-OP-DCM-01:PC:CONVSTEP" /> -->
-<!-- 		<property name="numPulsesPV" value="BL18B-OP-DCM-01:PC:NPULSES" /> -->
-<!-- 	</bean> -->
-
 <!-- zebra -->
 
 	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraImpl" >
@@ -53,93 +28,5 @@
 		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
 	</bean>
-
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
-
-	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
-		<property name="xspress2system" ref="xspress2system" />
-		<property name="daserver" ref="DAServer" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<value>time</value>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iref</value>
-				<value>lnI0It</value>
-				<value>lnItIref</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="DAServer" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="true" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
-		<property name="outputFormat">
-			<list>
-				<value>%.6g</value>
-				<value>%6.5g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.6g</value>
-				<value>%.6g</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="qexafs_counterTimer01_gmsd" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<value>time</value>
-				<value>I0</value>
-				<value>tey</value>
-				<value>gmsd1</value>
-				<value>gmsd2</value>
-				<value>gmsd3</value>
-				<value>gmsd4</value>
-				<value>gmsd5</value>
-				<value>gmsd6</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="DAServer" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="8" />
-		<property name="outputFormat">
-			<list>
-				<value>%.6g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-			</list>
-		</property>
-	</bean>
-
-<!-- 	<bean id="QexafsGMSDI0" class="gda.device.detector.QexafsGMSDOverIO"> -->
-<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01_gmsd" /> -->
-<!-- 	</bean> -->
 
 </beans>
