@@ -654,5 +654,8 @@
 		</property>
 	</bean>
 
+	<bean id="dcm_energy_range_provider" class="gda.util.DcmEnergyRangeProvider" >
+		<property name="dcmCrystalScannable" ref="dcm_crystal" />
+	</bean>
 
 </beans>
