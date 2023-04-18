@@ -20,6 +20,9 @@ VISIT=/dls/i16/data/2023/cm33911-1
 --------------------------------------------------------------------------------
 VISIT=$DEPLOYMENT/gda_data_non_live
 
+BASELINE=../971324 # For pil3
+BASELINE=../979681 # For merlin
+BASELINE=../985494 # For merlins
 --------------------------------------------------------------------------------
 								Analysis
 --------------------------------------------------------------------------------
@@ -47,16 +50,16 @@ echo $SCAN.nxs.n*
 
 	To compare the current scan with a beamline ndw baseline
 
-[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 ../971324.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
-[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 ../971324.nxs.ndw.nxlsa $SCAN.nxs.nsd.nxlsa
+[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
+[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.nsd.nxlsa
 # or
-[ -e $SCAN.nxs.ndw.tree  ] && kdiff3 ../971324.nxs.ndw.tree  $SCAN.nxs.ndw.tree  ; \
-[ -e $SCAN.nxs.nsd.tree  ] && kdiff3 ../971324.nxs.ndw.tree  $SCAN.nxs.nsd.tree 
+[ -e $SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree  $SCAN.nxs.ndw.tree  ; \
+[ -e $SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree  $SCAN.nxs.nsd.tree 
 
 	To set the current scan as a new baseline
 
-[ -e $SCAN.nxs.ndw.nxlsa ] && BASELINE_NDW_SCAN=$SCAN
-[ -e $SCAN.nxs.nsd.nxlsa ] && BASELINE_NSD_SCAN=$SCAN
+[ -e $SCAN.nxs.ndw.nxlsa ] && BASELINE=$SCAN
+[ -e $SCAN.nxs.nsd.nxlsa ] && BASELINE=$SCAN
 
 	To compare the current scan with it's ndw baseline
 
@@ -66,11 +69,11 @@ kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.tree  $SCAN.nxs.ndw.tree
 
 	To compare the current scan with it's baseline
 
-[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
-[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE_NSD_SCAN.nxs.nsd.nxlsa $SCAN.nxs.nsd.nxlsa
+[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
+[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE.nxs.nsd.nxlsa $SCAN.nxs.nsd.nxlsa
 # or
-[ -e $SCAN.nxs.ndw.tree ] && kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.tree $SCAN.nxs.ndw.tree ; \
-[ -e $SCAN.nxs.nsd.tree ] && kdiff3 $BASELINE_NSD_SCAN.nxs.nsd.tree $SCAN.nxs.nsd.tree
+[ -e $SCAN.nxs.ndw.tree ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.ndw.tree ; \
+[ -e $SCAN.nxs.nsd.tree ] && kdiff3 $BASELINE.nxs.nsd.tree $SCAN.nxs.nsd.tree
 
 	To quickly summarise current state
 
