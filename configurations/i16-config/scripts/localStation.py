@@ -4,42 +4,13 @@
 # or the gda servers are restarted.                                           #
 ###############################################################################
 
-import gda, time
-print "============================================================="
-print "Running I16 specific initialisation code from localStation.py"
-print "============================================================="
+from localstation_functions import localStation_print, localStation_exception,\
+	localStation_warning, localStation_warnings, localStation_exceptions
+from localStationScripts.startup_epics_positioners import X1_DELAY
 
-from org.slf4j import LoggerFactory
-localStation_slf4j_logger = LoggerFactory.getLogger("localStation.py(slf4j)")
-import logging
-localStation_python_logger = logging.getLogger("localStation.py(python)")
-
-localStation_exceptions = []
-localStation_warnings = []
-
-def localStation_exception(msg, exception=True):
-	"""Use exception=None if you don't want a stack trace."""
-	import java, sys, traceback
-	localStation_exceptions.append("    %s" % msg)
-	print "!"*(len(msg)+20)
-	print "!!!!  Failure %s  !!!!" % msg
-	print "!"*(len(msg)+20)
-	if isinstance(exception, java.lang.Exception) or exception == None:
-		localStation_slf4j_logger.error(msg, exception)
-		localStation_python_logger.error(msg, exc_info=exception)
-	else:
-		localStation_slf4j_logger.error(msg + ':\n {}', ''.join(traceback.format_exception(*sys.exc_info())))
-		localStation_python_logger.error(msg, exc_info=exception)
-	# Check out https://confluence.diamond.ac.uk/x/FZbCB
-
-def localStation_warning(msg):
-	import java, sys, traceback
-	localStation_warnings.append("    %s" % msg)
-
-def localStation_print(msg):
-	print msg
-	localStation_slf4j_logger.info(msg)
-	localStation_python_logger.info(msg)
+print("=============================================================")
+print("Running I16 specific initialisation code from localStation.py")
+print("=============================================================")
 
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
@@ -137,6 +108,10 @@ if installation.isDummy():
 	print "*"*80
 	localStation_print("DUMMY Mode!")
 	print "*"*80
+	
+	from lab84.installVarDataFromBeamlineIfNotPresent import install_cache_data
+	install_cache_data()
+	
 	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
 	USE_DIFFCALC_WITHOUT_LASTUB = False
@@ -403,6 +378,10 @@ localStation_print("  use 'offsetshelf' to see summary of offsets")
 delta_axis_offset.pil=8.6#new offset 19/02/17
 do=delta_axis_offset
 
+if installation.isDummy():
+	from lab84.initialise_offsets import setup_scannables_offsets
+	setup_scannables_offsets()
+	
 ###############################################################################
 ###                            Generic Functions                            ###
 ###############################################################################
@@ -935,7 +914,7 @@ except:
 from scannable.detector.DetectorWithShutter import DetectorWithShutter
 from scannable.pilatus import PilatusThreshold, PilatusGain
 
-X1_DELAY = 0.1 # See https://jira.diamond.ac.uk/browse/I16-538
+
 
 ### 2m ###
 if USE_PIL2:
@@ -1007,66 +986,7 @@ else:
 	localStation_print("Not configuring pilatus 1 (100k)")
 
 if USE_PIL3:
-	localStation_print("Configuring pilatus 3 (100k)")
-	global pilatus3, kphiZebraPil3, kthZebraPil3, smargonZebraPil3, pilatus3_for_snaps
-	try:
-		_pilatus3_counter_monitor = Finder.find("pilatus3_plugins").get('pilatus3_counter_monitor')
-		#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
-		pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
-			pilatus3,
-			kphiZebraPil3, # Switch to kthZebraPil3 if needed
-			#kthZebraPil3, # Should normally be kphiZebraPil3
-			#smargonZebraPil3, # Should normally be kphiZebraPil3
-			pilatus3_for_snaps,
-			[],
-			panel_name_rcp='Pilatus',
-			toreplace=None,
-			replacement=None,
-			iFileLoader=PilatusTiffLoader,
-			fileLoadTimout=60,
-			returnPathAsImageNumberOnly=True,
-			array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
-
-		#pil3_100ks = DetectorWithShutter(pil3_100k, x1, X1_DELAY, nameSuffix="")
-		# With ^ the Nexus file ends up with a pil3_100ks node but the link writer inside NxProcessingDetectorWrapper fails with
-		#   KeyError: "Unable to open object (object 'pil3_100k' doesn't exist)"
-		# as pil3_100k has no way to know that it's name is being overridden. Instead clone the NxProcessingDetectorWrapper with
-		# it's new name baked in.
-		pil3_100ksNPDW = NxProcessingDetectorWrapper('pil3_100ks',
-				pil3_100k.detector,
-				pil3_100k.hardware_triggered_detector,
-				pil3_100k.detector_for_snaps,
-				pil3_100k.processors,
-				pil3_100k.panel_name,
-				pil3_100k.toreplace,
-				pil3_100k.replacement,
-				pil3_100k.iFileLoader,
-				pil3_100k.root_datadir,
-				pil3_100k.fileLoadTimout,
-				pil3_100k.printNfsTimes,
-				pil3_100k.returnPathAsImageNumberOnly,
-				pil3_100k.panel_name_rcp,
-				pil3_100k.return_performance_metrics,
-				pil3_100k.array_monitor_for_hardware_triggering)
-		pil3_100ks = DetectorWithShutter(pil3_100ksNPDW, x1, X1_DELAY, nameSuffix="")
-
-		pil3_100k.processors      = [DetectorDataProcessorWithRoi('max', pil3_100k,  [SumMaxPositionAndValue()], False)]
-		pil3_100ksNPDW.processors = [DetectorDataProcessorWithRoi('max', pil3_100ks, [SumMaxPositionAndValue()], False)]
-		pil3_100k.printNfsTimes      = False
-		pil3_100ksNPDW.printNfsTimes = False
-		pil3 = pil3_100k
-		pil  = pil3_100k
-		pil3s = pil3_100ks
-		pils  = pil3_100ks
-
-		pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
-		pil3_100kgain =        PilatusGain('pil3_100kgain',   pil3_100k.hardware_triggered_detector.driver.getAdDriverPilatus())
-
-		# Make sure hdf5 writer isn't still running
-		#caput('BL16I-EA-PILAT-03:HDF5:Capture',0)
-		pilatus3.hdfwriter.stop()
-	except:
-		localStation_exception("configuring pilatus 3 (100k)")
+	from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100ksNPDW, pil3_100kthresh, pil3s, pils
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
 
@@ -1924,6 +1844,9 @@ else:
 	print "*"*80
 	try:
 		run("dummy/localStationStaff")
+		from lab84.initialise_offsets import setup_pil3_centre
+		setup_pil3_centre()
+
 	except:
 		localStation_exception("running localStationStaff dummy script")
 
@@ -1933,17 +1856,17 @@ else:
 	except:
 		localStation_exception("running localStationUser dummy script")
 
-print "*"*80
+print("*"*80)
 protect_all_scannables()
 
 if localStation_warnings:
-	print "\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
-		len(localStation_warnings), "\n".join(localStation_warnings))
+	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
+		len(localStation_warnings), "\n".join(localStation_warnings)))
 
 if localStation_exceptions:
 	print "\n====================== %r ERRORS DURING STARTUP WHILE ======================\n%s" % (
 		len(localStation_exceptions), "\n".join(localStation_exceptions))
 
-print "\n======================================================================"
+print("\n======================================================================")
 localStation_print("Local Station Script completed")
-print "======================================================================"
+print("======================================================================")

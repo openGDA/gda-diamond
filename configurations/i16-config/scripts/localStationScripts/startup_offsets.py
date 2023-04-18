@@ -1,4 +1,5 @@
 import pd_offset; reload(pd_offset)
+from gda.jython import InterfaceProvider
 
 ########create new device by adding to this list and move to a position"
 
@@ -32,10 +33,13 @@ mu_offset=pd_offset.Offset('mu_offset')
 #    delta_axis_offset = pd_offset.Offset('delta_axis_offset', euler.delta)
 #except NameError:
 
-if USE_CRYO_GEOMETRY:
-    delta_axis_offset = pd_offset.OffsetDualScannable('delta_axis_offset', (kdelta, euler_cryo.delta))
+local_sixckappa = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("sixckappa")
+local_euler_cryo = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("euler_cryo")
+
+if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_CRYO_GEOMETRY"): # if USE_CRYO_GEOMETRY:
+    delta_axis_offset = pd_offset.OffsetDualScannable('delta_axis_offset', (local_sixckappa.kdelta, local_euler_cryo.delta))
 else:
-    delta_axis_offset = pd_offset.Offset('delta_axis_offset', kdelta)
+    delta_axis_offset = pd_offset.Offset('delta_axis_offset', local_sixckappa.kdelta)
     
 idgap_offset=pd_offset.Offset('idgap_offset')
 bragg_offset=pd_offset.Offset('bragg_offset')
