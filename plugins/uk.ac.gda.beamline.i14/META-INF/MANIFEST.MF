@@ -5,7 +5,6 @@ Bundle-SymbolicName: uk.ac.gda.beamline.i14;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Diamond Light Source
-Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: gda.configuration.properties,
  gda.observable,
  javax.annotation;version="1.2.0",

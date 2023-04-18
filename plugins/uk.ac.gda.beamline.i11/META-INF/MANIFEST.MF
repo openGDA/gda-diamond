@@ -36,7 +36,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i11,
  uk.ac.gda.beamline.i11.views
-Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: org.dawnsci.plotting.jreality,
  org.eclipse.draw2d,
  org.slf4j;version="1.5.6",
