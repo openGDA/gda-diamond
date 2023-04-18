@@ -10,26 +10,26 @@
 	<!-- Beans referenced in the mapping view configurations for I08 & I08-1 -->
 
 	<!-- Elements & edges to appear in the combo box in PolaristionScanSubmitSection -->
-	<bean id="elementAndEdgesList" class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdgesList">
-		<property name="elementsAndEdges">
-			<util:list value-type="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
-				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
+	<bean id="elementsAndEdgesList" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElementsList">
+		<property name="xanesElements">
+			<util:list value-type="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="O" />
 					<property name="edge" value="K" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="Fe" />
 					<property name="edge" value="L" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="Co" />
 					<property name="edge" value="L" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="Ni" />
 					<property name="edge" value="L" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ElementAndEdges">
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="Cu" />
 					<property name="edge" value="L" />
 				</bean>
