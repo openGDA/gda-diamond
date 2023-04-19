@@ -10,4 +10,13 @@ entry1/:
     before_scan: /entry1/instrument/before_scan
     scan_command: /entry1/scan_command
     scan_fields: /entry1/diamond_scan/scan_fields
-    measurement: /entry1/measurement
+
+    # ------------------------------ Temporary ------------------------------
+    # Various changes between NDW and NSD make comparing files difficult, so this
+    # section is mostly about temporarily making NSD look more like NDW to make
+    # it more obvious when things are missing from NSD nexus files.  
+    # -----------------------------------------------------------------------
+
+    # This obscures where DefaultDataGroupConfiguration creates the measurement
+    # group, so disable it when comparing NSD with NDW.
+    #measurement: /entry1/measurement

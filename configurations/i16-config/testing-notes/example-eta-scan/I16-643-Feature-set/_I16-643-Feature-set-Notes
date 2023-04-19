@@ -1,5 +1,5 @@
 ================================================================================
-			Description
+			I16-643 Transition feature set value away from I16 using NDWE
 ================================================================================
 The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
 `pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.

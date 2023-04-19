@@ -20,6 +20,9 @@ VISIT=/dls/i16/data/2023/cm33911-1
 --------------------------------------------------------------------------------
 VISIT=$DEPLOYMENT/gda_data_non_live
 
+BASELINE=../971324 # For pil3
+BASELINE=../979681 # For merlin
+BASELINE=../985494 # For merlins
 --------------------------------------------------------------------------------
 								Analysis
 --------------------------------------------------------------------------------
@@ -33,33 +36,50 @@ SCAN=
 	To generate the structure files:
 
 ls -tr $VISIT/$SCAN* ; \
-rsync -av --exclude=*/*.tif $VISIT/$SCAN* .  ; \
-\
-nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa ; \
-nexus.tree $SCAN.nxs > $SCAN.nxs.tree ; \
-\
+cp $VISIT/$SCAN.dat .
+echo ; \
+nxls    -a $VISIT/$SCAN.nxs > $SCAN.nxs.nxlsa ; \
+nexus.tree $VISIT/$SCAN.nxs > $SCAN.nxs.tree ; \
+echo ; \
 grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.tree  $SCAN.nxs.ndw.tree ; \
 grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.tree  $SCAN.nxs.nsd.tree ; \
 grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.nxlsa $SCAN.nxs.ndw.nxlsa ; \
 grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa ; \
-\
+echo ; \
 echo $SCAN.nxs.n*
 
-	To set the current scan as a baseline
+	To compare the current scan with a beamline ndw baseline
 
-[ -e $SCAN.nxs.ndw.nxlsa ] && BASELINE_NDW_SCAN=$SCAN
-[ -e $SCAN.nxs.nsd.nxlsa ] && BASELINE_NSD_SCAN=$SCAN
+[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
+[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.nsd.nxlsa
+# or
+[ -e $SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree  $SCAN.nxs.ndw.tree  ; \
+[ -e $SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree  $SCAN.nxs.nsd.tree 
 
-	To compare the current scan's nxlsa with it's baseline nxlsa
+	To set the current scan as a new baseline
 
-[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
-[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE_NSD_SCAN.nxs.nsd.nxlsa $SCAN.nxs.nsd.nxlsa
+[ -e $SCAN.nxs.ndw.nxlsa ] && BASELINE=$SCAN
+[ -e $SCAN.nxs.nsd.nxlsa ] && BASELINE=$SCAN
 
-	To compare the current scan's tree with it's baseline tree
+	To compare the current scan with it's ndw baseline
 
-[ -e $SCAN.nxs.ndw.tree ] && kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.tree $SCAN.nxs.ndw.tree ; \
-[ -e $SCAN.nxs.nsd.tree ] && kdiff3 $BASELINE_NSD_SCAN.nxs.nsd.tree $SCAN.nxs.nsd.tree
+kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa
+# or
+kdiff3 $BASELINE_NDW_SCAN.nxs.ndw.tree  $SCAN.nxs.ndw.tree
 
-	Once analysis is done, the original .nxs file and scan files folder can be removed.
+	To compare the current scan with it's baseline
+
+[ -e $SCAN.nxs.ndw.nxlsa ] && kdiff3 $BASELINE.nxs.ndw.nxlsa $SCAN.nxs.ndw.nxlsa ; \
+[ -e $SCAN.nxs.nsd.nxlsa ] && kdiff3 $BASELINE.nxs.nsd.nxlsa $SCAN.nxs.nsd.nxlsa
+# or
+[ -e $SCAN.nxs.ndw.tree ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.ndw.tree ; \
+[ -e $SCAN.nxs.nsd.tree ] && kdiff3 $BASELINE.nxs.nsd.tree $SCAN.nxs.nsd.tree
+
+	To quickly summarise current state
+
+echo SCAN=$SCAN BASELINE_NDW_SCAN=$BASELINE_NDW_SCAN BASELINE_NSD_SCAN=$BASELINE_NSD_SCAN
+
+	Once analysis is done, the original .nxs file and scan files folder can be
+	removed.
 
 ================================================================================

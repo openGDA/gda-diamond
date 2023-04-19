@@ -318,13 +318,13 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.scanFileName = self.scanFileName[:-3] + "nxs"
         DataWriterExtenderBase.addData(self, dwParent, scanDataPoint)
 
-    def writeTitle(self, nFile, group, title):
+    def writeTitle(self, nFile, group, title): # I16-639
         self.logger.debug("writeTitle({}, {}, {})", nFile, group, title)
         data = DF.createFromObject(title)
         data.name = "title_old"
         nFile.createData(group, data)
 
-    def writeDetectorModule(self, nFile, group, detName, dependsOn):
+    def writeDetectorModule(self, nFile, group, detName, dependsOn):	# I16-649
         self.logger.debug("writeDetectorModule({}, {}, {}, {})", nFile, group, detName, dependsOn)
         if not DETECTOR_MODULES.has_key(detName):
             self.logger.warn("DETECTOR_MODULES does not have key {} - NeXuS file may not be valid", detName)
@@ -368,7 +368,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, node, "units", detModule[OFFSET_UNITS])
         NexusUtils.writeAttribute(nFile, node, "vector", detModule[OFFSET_VECTOR])
 
-    def writeDetectorProperties(self, nFile, group, detName):
+    def writeDetectorProperties(self, nFile, group, detName): # I16-648
         self.logger.debug("writeDetectorProperties({}, {}, {})", nFile, group, detName)
         if not DETECTOR_PROPERTIES.has_key(detName):
             self.logger.warn("DETECTOR_PROPERTIES does not have key {} - NeXuS file may not be valid", detName)
@@ -406,7 +406,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             data.name = "type"
             nFile.createData(group, data)
 
-    def writeDetector(self, nFile, group, name, dependsOn):
+    def writeDetector(self, nFile, group, name, dependsOn): # I16-651
         self.logger.debug("writeDetector({}, {}, {}, {})", nFile, group, name, dependsOn)
         if not DETECTOR_TRANSFORMATIONS.has_key(name):
             self.logger.warn("DETECTOR_TRANSFORMATIONS does not have key {} - NeXuS file may not be valid", name)
@@ -430,7 +430,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.writeDetectorModule(nFile, group, name, detDependsOn)
         self.writeDetectorProperties(nFile, group, name)
 
-    def writeTifPaths(self, nFile, group, detName, fileTemplate):
+    def writeTifPaths(self, nFile, group, detName, fileTemplate): # I16-640
         self.logger.debug("writeTifPaths({}, {}, {}, {})", nFile, group, detName, fileTemplate)
         numberDataset = nFile.getData(group, "path").getDataset().getSlice()
         dimensions = numberDataset.shape
@@ -448,7 +448,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, data, "data_filename", [1])
         NexusUtils.writeAttribute(nFile, data, "signal", [1])
 
-    def writeDynamicDetectors(self, nFile, instrument, detectors, dependsOn):
+    def writeDynamicDetectors(self, nFile, instrument, detectors, dependsOn): #I16-650
         self.logger.debug("writeDynamicDetectors({}, {}, {}, {})", nFile, instrument, detectors, dependsOn)
         for det in detectors:
             detName = det.getName()
@@ -512,12 +512,12 @@ class I16NexusExtender(DataWriterExtenderBase):
         ds.name = "attenuator_transmission"
         return ds
 
-    def writeTransmission(self, nFile, instrument, transmission):
+    def writeTransmission(self, nFile, instrument, transmission): # I16-641
         attenGroup = nFile.getGroup(instrument, "attenuator", "NXattenuator", True)
         nFile.createData(attenGroup, transmission)
 
 
-    def writeCrystalInfo(self, nFile, group, latticeParams, ubMatrix):
+    def writeCrystalInfo(self, nFile, group, latticeParams, ubMatrix): # I16-647
         self.logger.debug("writeCrystalInfo(nFile=%r, group=%r, latticeParams=%r, ubMatrix=%r)" %(nFile, group, latticeParams, ubMatrix))
         unit_cell = DF.createFromObject(latticeParams)
         unit_cell.name = "unit_cell"
@@ -537,7 +537,7 @@ class I16NexusExtender(DataWriterExtenderBase):
 
         nFile.createData(group, ub_matrix)
 
-    def writeIncidentWavelength(self, nFile, group):
+    def writeIncidentWavelength(self, nFile, group): # I16-645
         self.logger.debug("writeIncidentWavelength(nFile={}, group={})", nFile, group)
         try:
             self.logger.debug("writeIncidentWavelength() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}",
@@ -554,7 +554,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         data = nFile.createData(group, dataset)
         NexusUtils.writeAttribute(nFile, data, "units", "nm")
 
-    def writeSample(self, nFile, group, sampleName, sampleDependsOn):
+    def writeSample(self, nFile, group, sampleName, sampleDependsOn): # I16-642 I16-653
         dependsData = DF.createFromObject(sampleDependsOn)
         dependsData.name = "depends_on"
         nFile.createData(group, dependsData)
@@ -562,12 +562,12 @@ class I16NexusExtender(DataWriterExtenderBase):
         nameData.name = "name"
         nFile.createData(group, nameData)
 
-    def writeFeatures(self, nFile, group, features):
+    def writeFeatures(self, nFile, group, features): # I16-643
         data = DF.createFromObject(Dataset.INT64, features)
         data.name = "features"
         nFile.createData(group, data)
 
-    def writeDefinition(self, nFile, group, definition):
+    def writeDefinition(self, nFile, group, definition): # I16-654
         self.logger.debug("writeDefinition(nFile={}, group={}, definition={})", nFile, group, definition)
         data = DF.createFromObject(definition)
         data.name = "definition"
@@ -613,7 +613,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             self.writeSample(nFile, sample, _sample.getPosition(), sampleDependsOn)
             instrument = nFile.getGroup("/entry1/instrument", False)
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
-            self.writeDefinition(nFile, entry, "NXmx")
+            self.writeDefinition(nFile, entry, "NXmx") # I16-644
             self.writeFeatures(nFile, entry, [GDA_SCAN, NXMX, SAMPLE_GEOMETRY])
             transmission = self.extractTransmission(nFile, metadataGroup)
             self.writeTransmission(nFile, instrument, transmission)

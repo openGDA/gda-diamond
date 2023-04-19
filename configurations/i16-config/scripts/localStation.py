@@ -644,7 +644,10 @@ try:
 except:
 	localStation_exception("running localStationScripts/startup_epics_monitors.py")
 
-if installation.isDummy():
+if installation.isLive():
+	localStation_print("   running localStationScripts/startup_epics_positioners.py")
+	run("localStationScripts/startup_epics_positioners")
+else:
 	from gda.device.scannable import DummyScannable
 	frontendx = DummyScannable('frontendx', 0)
 	frontendy = DummyScannable('frontendy', 0)
@@ -665,28 +668,36 @@ if installation.isDummy():
 	ztable = DummyScannable("ztable", 0)
 	zp = DummyScannable('zp', -22.314700000000002)
 
-else:
-	localStation_print("   running localStationScripts/startup_epics_positioners.py")
-	run("localStationScripts/startup_epics_positioners")
+	T1dcm = DummyScannable('T1dcmSi111', 108.24045790941138) # From scan 971324
+	T2dcm = DummyScannable('T2dcmSi111', 11.705548057664442)
 
 try:
 	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
 	run("localStationScripts/startup_cryocooler")
+except:
+	localStation_exception("running localStationScripts/pd_femto_adc_current2.py")
 
+try:
 	localStation_print("   running pd_femto_adc_current2.py")
-	try:
-		run("localStationScripts/pd_femto_adc_current2.py")
-	except:
-		localStation_exception("running localStationScripts/pd_femto_adc_current2.py")
+	run("localStationScripts/pd_femto_adc_current2.py")
+except:
+	localStation_exception("running localStationScripts/pd_femto_adc_current2.py")
 
+try:
 	localStation_print("   running pd_xyslit.py")
 	from pd_xyslit import pd_xyslit
 	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
 	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
+except:
+	localStation_exception("configuring epics ds & ss scannables")
 
+try:
 	localStation_print("   creating ion pump scannables")
 	run("localStationScripts/startup_ionpumps")
+except:
+	localStation_exception("running localStationScripts/startup_ionpumps.py")
 
+try:
 	localStation_print("   creating shutter scannable")
 	shutter= Epics_Shutter('shutter','BL16I-PS-SHTR-01:CON')
 
@@ -711,7 +722,10 @@ try:
 	#pmon=qbpm8=EPICSODQBPMClass2('QBPM8','BL16I-DI-IAMP-08',help='Current amp for polarimeter QBPM in experimental hutch')
 	#vpos=ReadSingleValueFromVectorPDClass(qbpm6,6,'vpos','%.4f',help='qbpm vertical position (Y)')
 	#hpos=ReadSingleValueFromVectorPDClass(qbpm6,5,'hpos','%.4f',help='qbpm horizontal position (X)')
+except:
+	localStation_exception("configuring epics shutter struck and qbpm scannables")
 
+if installation.isLive():
 	### Foil inserters ###
 	localStation_print("   creating foil inserter scannables")
 	Al10u=Foilinserter('Al10u',"BL16I-OP-ATTN-04:F1TRIGGER","BL16I-OP-ATTN-04:F1STATE",AlBulk,10)#,0.82674)
@@ -727,7 +741,11 @@ try:
 	Al75u0=Foilinserter('Al75u',"BL16I-OP-ATTN-04:F4TRIGGER","BL16I-OP-ATTN-04:F4STATE",AlBulk,0)
 	atten = Atten('Attenuator',[Al10u,Al20u,Al40u,Al75u,Al150u,Al300u,Al500u,Al880u])
 	atten.setOutputFormat(['%.0f', '%.4g'])
+else:
+	atten = Atten('Attenuator',[])
+	atten.setOutputFormat(['%.0f', '%.4g'])
 
+try:
 	### Polarization analyser ###
 	localStation_print("   creating polarisation analyser scannable: pol")
 #	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
@@ -746,7 +764,7 @@ try:
 		localStation_print("Creating MCA scannables: mca1")
 		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
 except:
-	localStation_exception("configuring epics scannables")
+	localStation_exception("configuring epics pol, tca and mca scannables")
 
 
 if installation.isLive():

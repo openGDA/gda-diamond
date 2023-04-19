@@ -1,0 +1,86 @@
+entry1/: # A trailing / indicates that this is a group with an NX_class, but
+  NX_class@: NXentry # without one, it's a dataset without an NX_class
+  instrument/:
+    NX_class@: NXinstrument
+    pil100k/:
+      NX_class@: NXdetector
+      # ------------------------------ I16-651 ------------------------------
+      transformations/:
+        # TRANSFORMATION_NAME : 'origin_offset',
+        # TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
+        # TRANSFORMATION_VECTOR : [50.40, -17.96, 525.95],
+        # TRANSFORMATION_OFFSET : [0., 0., 0.],
+        # TRANSFORMATION_SIZE : [1.],
+        # TRANSFORMATION_UNITS : 'mm',
+        # TRANSFORMATION_OFFSET_UNITS : 'mm',
+        NX_class@: NXtransformations
+        origin_offset:
+          value: [1.0] # TRANSFORMATION_SIZE
+          depends_on@: entry1/instrument/transformations/offsetdelta
+          offset@: [0., 0., 0.] # TRANSFORMATION_OFFSET
+          offset_units@: mm # TRANSFORMATION_OFFSET_UNITS
+          transformation_type@: translation # TRANSFORMATION_TYPE
+          units@: mm # TRANSFORMATION_UNITS, TODO: Use value from geometry file
+          vector@: [50.40, -17.96, 525.95] # TRANSFORMATION_VECTOR, TODO: Use value from geometry file
+      # ------------------------------ I16-648 ------------------------------
+      # SENSOR_SATURATION_VALUE : [1000000],
+      # SENSOR_MATERIAL : "Silicon",
+      # SENSOR_THICKNESS : [0.32],
+      # SENSOR_THICKNESS_UNITS : "mm",
+      # SENSOR_TYPE : "Pixel",
+      # SENSOR_DESCRIPTION : "Pilatus 100k",
+      # CALIBRATION_TIME : CALIBRATION_TIME_DEF,
+      # CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
+      calibration_date: "0000-01-01 00:00:00" # CALIBRATION_TIME, TODO: Use value from geometry file
+      calibration_scan_number: -1 # CALIBRATION_SCAN, TODO: Use value from geometry file
+      depends_on: "entry1/instrument/pil100k/transformations/origin_offset"
+      saturation_value: [1000000] # SENSOR_SATURATION_VALUE
+      sensor_material: "Silicon" # SENSOR_MATERIAL
+      sensor_thickness:
+        value: [0.32] # SENSOR_THICKNESS
+        unit@: mm
+      #description: "Pilatus 100k" # SENSOR_DESCRIPTION node already exists
+      #type: "Pixel" # SENSOR_TYPE node already exists
+      # ------------------------------ I16-649 ------------------------------
+      module/:
+        # DATA_ORIGIN : [0, 0],
+        # DATA_SIZE : [487, 195],
+        # FAST_PIXEL_DIRECTION : [0.7191, -0.01268, -0.6948],
+        # FAST_PIXEL_SIZE : [0.000172],
+        # FAST_PIXEL_OFFSET : [0., 0., 0.],
+        # FAST_PIXEL_UNITS : 'm',
+        # SLOW_PIXEL_DIRECTION : [0.01198, 0.9999, -0.005853],
+        # SLOW_PIXEL_SIZE : [0.000172],
+        # SLOW_PIXEL_UNITS : 'm',
+        # SLOW_PIXEL_OFFSET : [0., 0., 0.],
+        # OFFSET : [0.],
+        # OFFSET_VECTOR : [0., 0., 0.],
+        # OFFSET_OFFSET : [0., 0., 0.],
+        # OFFSET_UNITS : 'mm'
+        NX_class@: NXdetector_module
+        data_origin: [0, 0]
+        data_size: [487, 195]
+        module_offset:
+          value: [0.0] # OFFSET
+          depends_on@: entry1/instrument/pil100k/transformations/origin_offset
+          offset@: [0., 0., 0.] # OFFSET_OFFSET
+          #offset_units@: mm
+          transformation_type@: translation
+          units@: mm # 
+          vector@: [0., 0., 0.] # OFFSET_VECTOR
+        fast_pixel_direction:
+          value: [0.000172] # FAST_PIXEL_SIZE, TODO: Use value from geometry file
+          depends_on@: entry1/instrument/pil100k/module/module_offset
+          offset@: [0., 0., 0.] #FAST_PIXEL_OFFSET
+          #offset_units@: mm
+          transformation_type@: translation
+          units@: m # FAST_PIXEL_UNITS, TODO: Use value from geometry file
+          vector@: [0.7191, -0.01268, -0.6948] # FAST_PIXEL_DIRECTION, TODO: Use value from geometry file
+        slow_pixel_direction:
+          value: [0.000172] # SLOW_PIXEL_SIZE, TODO: Use value from geometry file
+          depends_on@: entry1/instrument/pil100k/module/module_offset
+          offset@: [0., 0., 0.] # SLOW_PIXEL_OFFSET
+          #offset_units@: m
+          transformation_type@: translation
+          units@: mm # SLOW_PIXEL_UNITS, TODO: Use value from geometry file
+          vector@: [0.01198, 0.9999, -0.005853] # SLOW_PIXEL_DIRECTION, TODO: Use value from geometry file
