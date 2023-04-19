@@ -33,7 +33,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.opengda.lde.model.editor
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: Diamond Light Source
-Export-Package: uk.ac.gda.beamline.i11.lde
 Import-Package: org.dawnsci.plotting.jreality,
  org.eclipse.core.filesystem,
  org.eclipse.draw2d,
