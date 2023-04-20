@@ -34,6 +34,15 @@
 		<constructor-arg value="2" />
 	</bean>
 
+	<!-- Set the paths to the directories containing the images -->
+	<bean id="imageDirectory" class="java.lang.String">
+		<constructor-arg value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/oe images" />
+	</bean>
+
+	<bean id="arrowImageDirectory" class="java.lang.String">
+		<constructor-arg value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/arrow images" />
+	</bean>
+
 	<import resource="sample-stage.xml" />
 	<import resource="xas-table.xml" />
 	<import resource="hutch-filters.xml" />
