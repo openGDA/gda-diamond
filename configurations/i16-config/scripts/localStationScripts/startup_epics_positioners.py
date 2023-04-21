@@ -193,6 +193,7 @@ xia2=SingleEpicsPositionerSetAndGetOnlyClass('XIA2','BL16I-OP-ATTN-05:F4TRIGGER'
 ################
 # TTL and analogue outputs
 ################
+X1_DELAY = 0.1 # See https://jira.diamond.ac.uk/browse/I16-538
 x1=x1_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x1_ttl','BL16I-EA-USER-01:BO1','BL16I-EA-USER-01:BO1','logical','%.0f',help='TTL out socket x1 (used for fast shutter)')
 x2=x2_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x2_ttl','BL16I-EA-USER-01:BO2','BL16I-EA-USER-01:BO2','logical','%.0f',help='TTL out socket x2')
 x3=x3_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x3_ttl','BL16I-EA-USER-01:BO3','BL16I-EA-USER-01:BO3','logical','%.0f',help='TTL out socket x3')
