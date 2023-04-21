@@ -63,11 +63,11 @@
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>1.0</percentAbsorption>
-            <pressure>986.6494125122085</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>1.0</percentAbsorption>
+	        <pressure>1.0456446052957429</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
         <ionChamber>
             <name>It</name>
@@ -76,11 +76,11 @@
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>2.0</percentAbsorption>
-            <pressure>2398.2255980303107</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>2.0</percentAbsorption>
+	        <pressure>2.1019050733089024</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
         <ionChamber>
             <name>Iref</name>
@@ -89,11 +89,11 @@
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>3.0</percentAbsorption>
-            <pressure>2149.659370269412</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>3.0</percentAbsorption>
+	        <pressure>3.16899917099518</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
     </transmission>
     <fluorescence>
@@ -106,11 +106,11 @@
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>1.0</percentAbsorption>
-            <pressure>2823.152371036204</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>1.0</percentAbsorption>
+	        <pressure>1.0456446052957429</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
         <ionChamber>
             <name>It</name>
@@ -119,11 +119,11 @@
             <currentAmplifierName>Stanford02</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>2.0</percentAbsorption>
-            <pressure>2398.2255980303107</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>2.0</percentAbsorption>
+	        <pressure>2.1019050733089024</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
         <ionChamber>
             <name>Iref</name>
@@ -132,11 +132,11 @@
             <currentAmplifierName>Stanford03</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>3.0</percentAbsorption>
-            <pressure>2149.659370269412</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>30.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>3.0</percentAbsorption>
+	        <pressure>3.16899917099518</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>30.0</ionChamberLength>
         </ionChamber>
     </fluorescence>
     <xes>
@@ -149,11 +149,11 @@
             <currentAmplifierName>Stanford01</currentAmplifierName>
             <gain>1 nA/V</gain>
             <offset>1 pA</offset>
-            <gasType>He</gasType>
-            <percentAbsorption>1.0</percentAbsorption>
-            <pressure>2823.152371036204</pressure>
-            <totalPressure>1.0</totalPressure>
-            <ionChamberLength>15.0</ionChamberLength>
+	        <gasType>He</gasType>
+	        <percentAbsorption>3.0</percentAbsorption>
+	        <pressure>6.33799834199036</pressure>
+	        <totalPressure>1.8</totalPressure>
+	        <ionChamberLength>15.0</ionChamberLength>
         </ionChamber>
     </xes>
 </DetectorParameters>
