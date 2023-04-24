@@ -170,6 +170,7 @@
 	<bean name="xes_upper_perspective_config" class="uk.ac.gda.ui.views.synoptic.SynopticPerspectiveConfiguration">
 		<property name="simulatedPositionsView" value="upper_simulated_positions_controlset" />	
 		<property name="spectrometerPicture" value="spectrometerRowsPicture" />
+		<property name="spectrometerSidePicture" value="spectrometerSideViewPicture" />
 		<property name="materialControls" value="upper_crystal_material_controls" />
 		<property name="allCrystalControls" value="all_upper_crystal_controls" />
 		<property name="detectorControls" value="upper_detector_controls" />
