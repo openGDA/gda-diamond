@@ -49,10 +49,10 @@
 	<import resource="motor/test3.xml" />
 	<import resource="motor/granite_table.xml" />
 	<import resource="motor/micro_tomo.xml" />
-	
+
 	<import resource="controlpoint/analogueout.xml" />
 	<import resource="controlpoint/dcmpiezo.xml" />
-	
+
 	<import resource="monitor/analoguein.xml" />
 	<import resource="monitor/cryo.xml" />
 	<import resource="monitor/mstat.xml" />
@@ -60,17 +60,17 @@
 	<import resource="positioner/attenuator.xml" />
 	<import resource="positioner/diagnostic.xml" />
 	<import resource="pneumatic/shutterabsorber.xml" />
-	
+
 	<import resource="detector/scaler_vortex.xml" />
 	<import resource="detector/simad.xml" />
+	<import resource="detector/xspress3.xml" />
 <!-- 	<import resource="detector/xmap_vortex.xml" /> -->
 	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
 	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
-	
 
 	<import resource="metadata.xml" />
-	
-	
+
+
 	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
 
 	<bean id="script_paths" parent="common_script_paths"/>
@@ -79,7 +79,7 @@
 		<property name="jythonScriptPaths" ref="script_paths"/>
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 	</bean>
-	
+
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">

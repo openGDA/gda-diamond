@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   
+
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
@@ -36,10 +36,8 @@
             id="uk.ac.diamond.scisoft.analysis.rcp.editors.HDF5TreeEditor"
             name="HDF5 Data Editor">
       </editor>
-      
-      
    </extension>
-  
+
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
@@ -88,6 +86,15 @@
                      value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress3X"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.xspress3XView">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -109,6 +116,12 @@
             class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
             id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector2"
             name="Xmap Fluorescence Detector 2"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:xspress3XViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress3XView"
+            name="XspressX view"
             restorable="true">
       </view>
    </extension>

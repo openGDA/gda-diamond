@@ -91,4 +91,10 @@
 		</property>
 	</bean>
  -->
+	
+	<bean id="xspress3XViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="detectorName" value="xspress3X" />
+		<property name="maxDetectorElementCounts" value="500000" />
+	</bean>
+	
 </beans>

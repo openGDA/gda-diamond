@@ -66,12 +66,16 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from init.energy_chcut import energy_chcut
 from tomographyScan import tomoFlyScan, tomoScan
 
-separator = "=" * 80
+def print_banner(message):
+	border_size = max([len(line) for line in message.split("\n")])
+	border = "=" * border_size
+	print(border)
+	print(message)
+	print(border)
+	
 
+print_banner("Running B16 specific initialisation code")
 
-print separator
-print "Running B16 specific initialisation code"
-print separator
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = True
 ENABLE_PCO4000 = True
@@ -621,7 +625,8 @@ if installation.isLive():
 									returnPathAsImageNumberOnly=True)
 		medipix4.disable_operation_outside_scans = True
 		medipix4_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix4_threshold_kev', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0_RBV', 10)
-		medipix4.processors=[DetectorDataProcessorWithRoiForNexus('max', medipix4, [SumMaxPositionAndValue()], False)]
+		from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+		medipix4.processors=[DetectorDataProcessorWithRoi('max', medipix4, [SumMaxPositionAndValue()], False)]
 
 		medipix4.display_image = True
 		medipix4peak2d = DetectorDataProcessorWithRoiForNexus('medipix4peak2d', medipix4, [TwodGaussianPeak()])
@@ -954,8 +959,42 @@ if installation.isLive():
 	#balor_multi_max2d = DetectorDataProcessorWithRoiForNexus('max2d', balor_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	#balor_multi_intensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', balor_multi, [PixelIntensity()],prefix_name_to_extranames=False)
 
+
+if installation.isLive():
+	try:
+		print "Setting up xspress3X detector."
+		run("xspress_functions.py")
+		from gdaserver import xspress3X
+		basePvName = xspress3X.getController().getBasePv()
+		
+		# this collects a software frame if necessary, but sets trigger mode to TTL Veto Only
+		setup_xspress_detector(basePvName)
+		
+		# so correct here
+		xspress3X.setTriggerMode(0) # Software trigger mode
+		
+		setupResGrades(basePvName, False)
+		
+		set_hdf5_filetemplate(basePvName)
+		for c in range(1, xspress3X.getController().getNumElements()+1) :
+			# BL18B-EA-XSP3X-01:C2_SCAS:EnableCallbacks
+			scaPv = basePvName+":C%d_SCAS:"%(c)
+			mcaEnablePv = basePvName+":MCA%d:Enable"%(c)
+			CAClient.put(scaPv+"EnableCallbacks", 1)
+			CAClient.put(scaPv+"TS:TSNumPoints", 10000)
+			# Refresh the time series data 1 time per second
+			CAClient.put(scaPv+"TS:TSRead.SCAN", 6)
+			CAClient.put(mcaEnablePv, 1)
+			
+		
+		print "Set detector to not apply DTC factors"
+		set_xspress_use_dtc(basePvName, False)
+	except:
+		print("Failed to configure Xspress3X")
+
+
 ###############################################################################
-###                                   TEMPORARY                              ###
+###                                TEMPORARY                                ###
 ###############################################################################
 class Bladesum(ScannableMotionBase):
 	def __init__(self,a,b,c,d):
@@ -1089,9 +1128,7 @@ waves = ScannableGroup("waves",
 ###############################################################################
 
 visit_setter.setDetectorDirectories()
-print separator
-print visit_setter
-print separator
+print_banner(visit_setter.__str__())
 
 
 #femtos are gone - Igor 27-06-18
@@ -1148,7 +1185,7 @@ except:
 	print "Error running localStationUser"
 	print sys.exc_info()
 finally:
-	print separator
+	print "="*80
 
 #from scannable.performance import LogTimeSinceLastGetPositionLessConstant
 #twrite = LogTimeSinceLastGetPositionLessConstant('twrite', 'BL16B-EA-IOC-10:TWRITE')
@@ -1199,83 +1236,47 @@ from scannable.hw.caenhvsupply import CaenHvSupply
 caen0 = CaenHvSupply('caen0', 'BL16B-EA-CAEN-01:', 0)
 caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 
-xmapRoiPlot1 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot1.name = "xmapRoiPlot1"
-xmapRoiPlot1.setPlotViewname("Plot 1")
-xmapRoiPlot1.z_colName = "Roi1"
-xmapRoiPlot2 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot2.name = "xmapRoiPlot2"
-xmapRoiPlot2.setPlotViewname("Plot 2")
-xmapRoiPlot2.z_colName = "Roi2"
-xmapRoiPlot3 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot3.name = "xmapRoiPlot3"
-xmapRoiPlot3.setPlotViewname("Plot 3")
-xmapRoiPlot3.z_colName = "Roi3"
-xmapRoiPlot4 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot4.name = "xmapRoiPlot4"
-xmapRoiPlot4.setPlotViewname("Plot 4")
-xmapRoiPlot4.z_colName = "Roi4"
-xmapRoiPlot5 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot5.name = "xmapRoiPlot5"
-xmapRoiPlot5.setPlotViewname("Plot 5")
-xmapRoiPlot5.z_colName = "Roi5"
-xmapRoiPlot6 = gda.device.scannable.TwoDScanPlotter()
-xmapRoiPlot6.name = "xmapRoiPlot6"
-xmapRoiPlot6.setPlotViewname("Plot 6")
-xmapRoiPlot6.z_colName = "Roi6"
-
-
-xmap2RoiPlot1 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot1.name = "xmap2RoiPlot1"
-xmap2RoiPlot1.setPlotViewname("Plot 1")
-xmap2RoiPlot1.z_colName = "Roi1"
-xmap2RoiPlot2 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot2.name = "xmap2RoiPlot2"
-xmap2RoiPlot2.setPlotViewname("Plot 2")
-xmap2RoiPlot2.z_colName = "Roi2"
-xmap2RoiPlot3 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot3.name = "xmap2RoiPlot3"
-xmap2RoiPlot3.setPlotViewname("Plot 3")
-xmap2RoiPlot3.z_colName = "Roi3"
-xmap2RoiPlot4 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot4.name = "xmap2RoiPlot4"
-xmap2RoiPlot4.setPlotViewname("Plot 4")
-xmap2RoiPlot4.z_colName = "Roi4"
-xmap2RoiPlot5 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot5.name = "xmap2RoiPlot5"
-xmap2RoiPlot5.setPlotViewname("Plot 5")
-xmap2RoiPlot5.z_colName = "Roi5"
-xmap2RoiPlot6 = gda.device.scannable.TwoDScanPlotter()
-xmap2RoiPlot6.name = "xmap2RoiPlot6"
-xmap2RoiPlot6.setPlotViewname("Plot 6")
-xmap2RoiPlot6.z_colName = "Roi6"
-
-#ensure xmapMca settings are correct (no epics screen) - one off
+from scannable.fluorescence_roi_plotter import FluorescenceROIPlotter
+if installation.isLive():  # TODO add dummy one! This detector is a permanent beamline fixture
+	try:
+		from gdaserver import xmapFluorescenceDetector2
+		xmap2plotter = FluorescenceROIPlotter("xmap2plotter", xmapFluorescenceDetector2)
+	except:
+		print("Could not create xmap2plotter - is the detector configured?")
+	
 try:
-	caput("ME13C-EA-DET-01:CollectMode", 0) #MCA Spectra
-	caput("ME13C-EA-DET-01:PresetMode", 1) #Real mode
-	caput("ME13C-EA-DET-01:MCA1.NUSE", 2048) #binning
-	caput("ME13C-EA-DET-01:DXP1:MaxEnergy", 20.48)
-	caput("ME13C-EA-DET-01:DXP2:MaxEnergy", 20.48)
-	caput("ME13C-EA-DET-01:DXP3:MaxEnergy", 20.48)
-	caput("ME13C-EA-DET-01:DXP4:MaxEnergy", 20.48)
+	from gdaserver import xspress3X
+	xsp3plotter = FluorescenceROIPlotter("xsp3plotter", xspress3X, roi_column_prefix="Element 0_")
 except:
-	print "WARNING: Could not ensure xmapMca settings are correct"
+	print("Could not create xsp3plotter - is xspress3X configured?")
 
-
-#ensure xmapMca2 settings are correct (no epics screen) - one off
-try:
-	#xmap2.getController().getEdxdController().getSubDetector(0).setReadingDoneIfNotAquiring(True)
-	caput("BL16B-EA-XMAP-02:CollectMode", 0) #MCA Spectra
-	caput("BL16B-EA-XMAP-02:PresetMode", 1) #Real mode
-	caput("BL16B-EA-XMAP-02:MCA1.NUSE", 2048) #binning
-	caput("BL16B-EA-XMAP-02:DXP1:MaxEnergy", 20.48)
-	caput("BL16B-EA-XMAP-02:DXP2:MaxEnergy", 20.48)
-	caput("BL16B-EA-XMAP-02:DXP3:MaxEnergy", 20.48)
-	caput("BL16B-EA-XMAP-02:DXP4:MaxEnergy", 20.48)
-	caput("BL16B-EA-XMAP-02:ReadAll.SCAN", 0)
-except:
-	print "WARNING: Could not ensure xmapMca settings are correct"
+if installation.isLive():
+	#ensure xmapMca settings are correct (no epics screen) - one off
+	try:
+		caput("ME13C-EA-DET-01:CollectMode", 0) #MCA Spectra
+		caput("ME13C-EA-DET-01:PresetMode", 1) #Real mode
+		caput("ME13C-EA-DET-01:MCA1.NUSE", 2048) #binning
+		caput("ME13C-EA-DET-01:DXP1:MaxEnergy", 20.48)
+		caput("ME13C-EA-DET-01:DXP2:MaxEnergy", 20.48)
+		caput("ME13C-EA-DET-01:DXP3:MaxEnergy", 20.48)
+		caput("ME13C-EA-DET-01:DXP4:MaxEnergy", 20.48)
+	except:
+		print "WARNING: Could not ensure xmapMca settings are correct"
+	
+	
+	#ensure xmapMca2 settings are correct (no epics screen) - one off
+	try:
+		#xmap2.getController().getEdxdController().getSubDetector(0).setReadingDoneIfNotAquiring(True)
+		caput("BL16B-EA-XMAP-02:CollectMode", 0) #MCA Spectra
+		caput("BL16B-EA-XMAP-02:PresetMode", 1) #Real mode
+		caput("BL16B-EA-XMAP-02:MCA1.NUSE", 2048) #binning
+		caput("BL16B-EA-XMAP-02:DXP1:MaxEnergy", 20.48)
+		caput("BL16B-EA-XMAP-02:DXP2:MaxEnergy", 20.48)
+		caput("BL16B-EA-XMAP-02:DXP3:MaxEnergy", 20.48)
+		caput("BL16B-EA-XMAP-02:DXP4:MaxEnergy", 20.48)
+		caput("BL16B-EA-XMAP-02:ReadAll.SCAN", 0)
+	except:
+		print "WARNING: Could not ensure xmapMca settings are correct"
 
 
 
@@ -1416,6 +1417,4 @@ waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop'
 waitForDetectorStop.setLevel(11)
 w.setLevel(12)
 
-print separator
-print "Initialisation complete"
-print separator
+print_banner("Initialisation complete")

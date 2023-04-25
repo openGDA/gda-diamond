@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xspress3X" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
+		<property name="controller" ref="xspress3XController" />
+		<property name="defaultSubdirectory" value="xspress3X" />
+		<property name="configFileName" value="${gda.config}/templates/Xspress3X_Parameters.xml" />
+		<property name="writeHDF5Files" value="false" />
+	</bean>
+
+	<bean id="xspress3XController"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+	</bean>
+
+</beans>

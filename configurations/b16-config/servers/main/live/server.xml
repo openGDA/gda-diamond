@@ -16,7 +16,7 @@
 	</bean>
 
 	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
-	
+
 	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -85,6 +85,8 @@
 	<import resource="epics/detector/zyla.xml" />
 	<import resource="epics/detector/xmap_new.xml" /> <!-- transient -->
 	<import resource="epics/detector/xmap2.xml" />
+	<import resource="epics/detector/xspress3.xml" />
+	
 	<import resource="epics/cryo.xml" />
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
