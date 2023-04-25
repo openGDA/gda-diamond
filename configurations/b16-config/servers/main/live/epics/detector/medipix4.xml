@@ -18,9 +18,26 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="medipix4_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="medipix4_adbase" />
-		<constructor-arg value="0" />
+	<bean id="medipix4_collection_strategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+				<property name="restoreAcquireTime" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="medipix4_adbase" />
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 
@@ -46,7 +63,7 @@
 
 	<bean id="_medipix4" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix4" />
-		<property name="collectionStrategy" ref="medipix4_nxcollectionstrategy"/>
+		<property name="collectionStrategy" ref="medipix4_collection_strategy"/>
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="medipix4_nxfilewriter_for_scans" />
@@ -56,7 +73,7 @@
 	
 	<bean id="_medipix4_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix4" />
-		<property name="collectionStrategy" ref="medipix4_nxcollectionstrategy"/>
+		<property name="collectionStrategy" ref="medipix4_collection_strategy"/>
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="medipix4_nxfilewriter_for_snaps" />
