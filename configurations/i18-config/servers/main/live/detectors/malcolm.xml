@@ -12,6 +12,7 @@
 	<bean id="xspress3MalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL18I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
+		<property name="minExposureTime" value="0.00007"/>
 	</bean>
 	<bean id="xspress3MalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL18I-ML-SCAN-01" />
@@ -30,6 +31,7 @@
 	<bean id="excaliburMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL18I-ML-SCAN-02" />
 		<property name="exposureTime" value="0.01" />
+		<property name="minExposureTime" value="0.01"/>
 	</bean>
 	<bean id="excaliburMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL18I-ML-SCAN-02" />

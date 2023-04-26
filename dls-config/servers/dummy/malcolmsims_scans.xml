@@ -7,6 +7,7 @@
 	<bean id="MappingMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-01"/>
 		<property name="exposureTime" value="0.01"/>
+		<property name="minExposureTime" value="0.01"/>
 	</bean>
 	<bean id="MappingMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.defaultMalcolmDevice"/>
@@ -24,6 +25,7 @@
 	<bean id="TomoMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="#{workstation_malcolmsims}-ML-SCAN-02"/>
 		<property name="exposureTime" value="0.01"/>
+		<property name="minExposureTime" value="0.01"/>
 	</bean>
 	<bean id="TomoMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.defaultMalcolmDevice"/>
