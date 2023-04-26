@@ -6,11 +6,11 @@
 	<bean id="topup_state" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Off</value>
 				<value>Running</value>
 				<value>Stopping</value>
 				<value>Failed</value>
 				<value>No process</value>
+				<value>Off</value>
 			</list>
 		</property>
 	</bean>
