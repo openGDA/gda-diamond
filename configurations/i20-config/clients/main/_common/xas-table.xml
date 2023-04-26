@@ -96,8 +96,8 @@
 		<property name="displayNameWidth" value="#{motorWidth}" />
 	</bean>
 	<bean id="table1_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/x.png" />
-		<property name="busyImageName" value="arrow images/x_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/x.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/x_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>table1_x</value> 
@@ -111,8 +111,8 @@
 		<property name="displayNameWidth" value="#{motorWidth}" />
 	</bean>
 	<bean id="table1_y_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/y2.png" />
-		<property name="busyImageName" value="arrow images/y2_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/y2.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/y2_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>table1_y</value> 
@@ -148,7 +148,7 @@
 
 	<bean id="xasTableView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XAS table stage (T1)"/>
-		<property name="backgroundImage" value="oe images/table_right_scaled.jpg"/>
+		<property name="backgroundImage" value="#{imageDirectory}/table_right_scaled.jpg"/>
 		<property name="imageStart" value="200, 200" />
 		<property name="showCoordinates" value="#{showCoordinates}" />
 		<property name="controlsList">

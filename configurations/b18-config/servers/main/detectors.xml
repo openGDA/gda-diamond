@@ -59,7 +59,7 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="minimumReadoutDelay" value="0" />
-		<property name="numChannelsToRead" value="3" />
+		<property name="numChannelsToRead" value="4" />
 		<property name="outputFormat">
 			<list>
 				<!-- <value>%6.2g</value> -->
@@ -71,6 +71,8 @@
 				<value>%.6g</value>
 			</list>
 		</property>
+		<property name="scalerOutputConfig" ref="scaler_output_config" />
+		<property name="useCustomisedOutput" value="true" />
 	</bean>
 
 	<bean id="counterTimer02_nocorr"
@@ -143,4 +145,101 @@
 	<bean id="daServerChecker" class="gda.device.detector.DAServerStatusChecker" >
 		<property name="daServer" ref="DAServer" />
 	</bean>
+	
+	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="DAServer" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6g</value>
+				<value>%6.5g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+		
+		<property name="scalerOutputConfig" ref="scaler_output_config" />
+		<property name="useCustomisedOutput" value="true" />
+	</bean>
+	
+	<bean id="scaler_output_config" class="java.util.ArrayList">
+		<constructor-arg>
+		<list>
+				<!-- I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0" />
+					<property name="format" value="%6.5g" />
+					<property name="channel1" value="0" />
+				</bean>
+
+				<!-- It -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="It" />
+					<property name="format" value="%9d" />
+					<property name="channel1" value="1" />
+				</bean>
+
+				<!-- IRef -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="IRef" />
+					<property name="format" value="%9d" />
+					<property name="channel1" value="2" />
+				</bean>
+
+				<!-- lnI0It -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="lnI0It" />
+					<property name="format" value="%.6g" />
+					<property name="channel1" value="0" />
+					<property name="channel2" value="1" />
+					<property name="operationType" value="2" />
+				</bean>
+
+				<!-- lnItIref -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="lnItIref" />
+					<property name="format" value="%.6g" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="2" />
+					<property name="operationType" value="2" />
+				</bean>
+
+				<!-- Iapd -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="Iapd" />
+					<property name="format" value="%9d" />
+					<property name="channel1" value="3" />
+				</bean>
+				
+				<!-- Iapd/I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="IapdI0" />
+					<property name="format" value="%.6g" />
+					<property name="channel1" value="3" />
+					<property name="channel2" value="0" />
+					<property name="operationType" value="1" />
+				</bean>			
+			</list>
+		</constructor-arg>
+	</bean>
+
 </beans>

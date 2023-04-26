@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+           
+	<bean id="meca_status_checker" class="gda.device.robot.MecaStatusChecker">
+		<property name="robotStatus" ref="meca_robot_status_word"/>
+		<property name="gripperStatus" ref="meca_gripper_status_word"/>
+	</bean>
+
+	<bean id="meca_move_pose_x" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_x" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	<bean id="meca_move_pose_y" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_y" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	<bean id="meca_move_pose_z" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_z" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	<bean id="meca_move_pose_alpha" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_alpha" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	<bean id="meca_move_pose_beta" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_beta" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	<bean id="meca_move_pose_gamma" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_gamma" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+
+	<bean id="meca_move_theta_1" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_joint_theta_1" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_joints" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+
+	<bean id="meca_sample_control" class="gda.device.robot.MecaSampleHolderControl">
+		<property name="sampleHolderNumberScannable" ref="meca_sample_holder_number" />
+		<property name="moveToScanningAreaScannable" ref="meca_move_to_scanning_area" />
+		<property name="moveToCassetteAreaScannable" ref="meca_move_to_cassette_area" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+
+	<bean id="meca_pose" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="meca_pose_x" />
+				<ref bean="meca_pose_y" />
+				<ref bean="meca_pose_z" />
+				<ref bean="meca_pose_alpha" />
+				<ref bean="meca_pose_beta" />
+				<ref bean="meca_pose_gamma" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="meca_joint_theta" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="meca_joint_theta_1" />
+				<ref bean="meca_joint_theta_2" />
+				<ref bean="meca_joint_theta_3" />
+				<ref bean="meca_joint_theta_4" />
+				<ref bean="meca_joint_theta_5" />
+				<ref bean="meca_joint_theta_6" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
