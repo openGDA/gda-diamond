@@ -66,6 +66,9 @@
 	<!-- LED control -->
 	<import resource="led.xml" />
 	
+	<!-- Heater output -->
+	<import resource="heaterES2.xml" />
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
