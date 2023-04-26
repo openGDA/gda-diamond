@@ -25,6 +25,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.springframework.context.ApplicationListener;
 
@@ -194,7 +195,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private void updateScanpathDocument(Object source, Object argument) {
 		if (source.equals(scanpathEditor) && argument instanceof ScanpathDocument document) {
 			scanningParameters.get().setScanpathDocument(document);
-			buttons.getSelection().ifPresent(shape -> axesCache.cache(shape, getAxes()));
+			Display.getDefault().syncExec(() -> buttons.getSelection().ifPresent(shape -> axesCache.cache(shape, getAxes())));
 			publishUpdate();
 		}
 	}
