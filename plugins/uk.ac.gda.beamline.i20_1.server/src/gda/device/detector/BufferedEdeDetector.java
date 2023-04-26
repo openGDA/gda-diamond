@@ -18,6 +18,9 @@
 
 package gda.device.detector;
 
+import java.util.Arrays;
+import java.util.List;
+
 import fr.esrf.Tango.DevFailed;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.ContinuousParameters;
@@ -41,9 +44,13 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 	private EdeDetector detector;
 
 	private int numberScansPerFrame = 1;
+	private double accumulationTime = 1e-5;
+	private boolean applyAccumulations = false;
+
 	private boolean externalTriggerStart = false; // wait for trigger, e.g. from Tfg before starting collection
 	private ContinuousParameters continuousParameters;
-	private EdeScanParameters edeScanParams;
+	private List<Integer> frameCounts;
+	private int maxReadFrames = 1000;
 
 	@Override
 	public void prepareForCollection() {
@@ -60,6 +67,7 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 
 	@Override
 	public void atScanEnd() throws DeviceException {
+		frameCounts = null;
 		detector.stop();
 		// Set frelon external trigger mode back to false
 		// (so that software trigger steps scans, live mode etc will work)
@@ -74,23 +82,32 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 	}
 
 	public void setFrelonExternalTrigger(boolean extTrigger) {
-		if (detector instanceof EdeFrelon) {
-			EdeFrelon edeDetector = (EdeFrelon) detector;
-			FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) edeDetector.getDetectorData();
-			if (extTrigger == true) {
-				detectorSettings.setTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
-			} else {
-				detectorSettings.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
-			}
+		if (!(detector instanceof EdeFrelon) ) {
+			return;
+		}
+
+		EdeFrelon edeDetector = (EdeFrelon) detector;
+		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) edeDetector.getDetectorData();
+		if (extTrigger) {
+			detectorSettings.setTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
+		} else {
+			detectorSettings.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
 		}
 	}
+
 	public void prepareDetectorForCollection(ContinuousParameters params) throws DeviceException {
-		prepareDetectorForCollection(params.getNumberDataPoints(), params.getTotalTime()/params.getNumberDataPoints());
+		int numSpectra = params.getNumberDataPoints();
+		double timePerSpectrum = params.getTotalTime()/params.getNumberDataPoints();
+		if (applyAccumulations) {
+			timePerSpectrum = accumulationTime * numberScansPerFrame;
+			prepareDetectorForCollection(numSpectra, timePerSpectrum, accumulationTime, numberScansPerFrame);
+		} else {
+			prepareDetectorForCollection(numSpectra, timePerSpectrum, timePerSpectrum, 1);
+		}
 	}
 
 	// Set detector using same params as for normal ede scan
 	public void prepareDetectorForCollection(int numSpectra, double timePerSpectrum, double accumulationTime, int numAccumulations) throws DeviceException {
-
 		TimingGroup newGroup = new TimingGroup();
 		newGroup.setLabel("group1");
 		newGroup.setNumberOfFrames(numSpectra);
@@ -99,30 +116,11 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 		newGroup.setTimePerFrame(timePerSpectrum);
 		newGroup.setDelayBetweenFrames(0);
 
-		setFrelonExternalTrigger(externalTriggerStart);
-		// for Frelon need to call configureDetectorForTimingGroup to setup for timing groups
-		detector.configureDetectorForTimingGroup(newGroup);
-	}
-
-	public void prepareDetectorForCollection(int numSpectra, double timePerSpectrum) throws DeviceException {
-		TimingGroup group1 = new TimingGroup();
-		group1.setLabel("group1");
-		group1.setNumberOfFrames(1);
-		// for this class accept time in ms not s, as per the normal Detector interface
-		double accumulationTime = 1e-6;
-		group1.setNumberOfFrames(numSpectra); // number of spectra
-		group1.setTimePerScan(accumulationTime); // accumulation time
-		group1.setNumberOfScansPerFrame(numberScansPerFrame); // num accumulations
-		group1.setTimePerFrame(timePerSpectrum);
-		group1.setUseTopupChecker(false);
+		detector.prepareDetectorwithScanParameters(EdeScanParameters.createEdeScanParameters(Arrays.asList(newGroup)));
 		if (detector instanceof EdeFrelon) {
-			// Set Frelon external trigger mode (on the detector directly)
 			setFrelonExternalTrigger(externalTriggerStart);
 			// for Frelon need to call configureDetectorForTimingGroup to setup for timing groups
-			detector.configureDetectorForTimingGroup(group1);
-		} else {
-			// XH uses group option to set trigger mode
-			group1.setUseTopupChecker(externalTriggerStart);
+			detector.configureDetectorForTimingGroup(newGroup);
 		}
 	}
 
@@ -152,10 +150,13 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 	public void clearMemory() throws DeviceException {
 	}
 
-	// This is confusing name - use setExternalTriggerMode instead;
 	@Override
 	public void setContinuousMode(boolean on) throws DeviceException {
-		detector.collectData();
+		if (on) {
+			frameCounts = null;
+			prepareDetectorForCollection(continuousParameters);
+			detector.collectData();
+		}
 	}
 
 	@Override
@@ -164,31 +165,27 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 	}
 
 	@Override
+	public int getNumberFrames() throws DeviceException {
+		int numImages = detector.getLastImageAvailable();
+		if (numImages == 0 && frameCounts != null && !frameCounts.isEmpty()) {
+			// XH : at end of scan, some frames of data still to be read out but detector reports zero frames available
+			// --> Return total number of points in the scan.
+			return continuousParameters.getNumberDataPoints();
+		}
+		if (frameCounts != null) {
+			frameCounts.add(numImages);
+		}
+		return numImages;
+	}
+
+	@Override
 	public void setContinuousParameters(ContinuousParameters parameters) throws DeviceException {
 		this.continuousParameters = parameters;
-//		prepareDetectorForCollection(continuousParameters);
 	}
 
 	@Override
 	public ContinuousParameters getContinuousParameters() throws DeviceException {
 		return continuousParameters;
-	}
-
-	private Boolean collectionFinished(DetectorStatus progressData) {
-		return progressData.getDetectorStatus() == EdeDetector.IDLE || progressData.getDetectorStatus() == EdeDetector.FAULT;
-	}
-
-	@Override
-	public int getNumberFrames() throws DeviceException {
-		if (detector instanceof EdeFrelon) {
-			EdeFrelon frelon =(EdeFrelon) detector;
-			try {
-				return frelon.getLimaCcd().getLastImageReady();
-			}catch(DevFailed e) {
-				throw new DeviceException(e);
-			}
-		}
-		return 0;
 	}
 
 	@Override
@@ -210,7 +207,11 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 
 	@Override
 	public int maximumReadFrames() throws DeviceException {
-		return 100;
+		return maxReadFrames;
+	}
+
+	public void setMaximumReadFrames(int maxReadFrames) {
+		this.maxReadFrames = maxReadFrames;
 	}
 
 	public EdeDetector getDetector() {
@@ -243,5 +244,18 @@ public class BufferedEdeDetector extends DetectorBase implements BufferedDetecto
 
 	public void setNumberScansPerFrame(int numberScansPerFrame) {
 		this.numberScansPerFrame = numberScansPerFrame;
+	}
+
+	public double getAccumulationTime() {
+		return accumulationTime;
+	}
+	public void setAccumulationTime(double accumulationTime) {
+		this.accumulationTime = accumulationTime;
+	}
+	public boolean isApplyAccumulations() {
+		return applyAccumulations;
+	}
+	public void setApplyAccumulations(boolean applyAccumulations) {
+		this.applyAccumulations = applyAccumulations;
 	}
 }
