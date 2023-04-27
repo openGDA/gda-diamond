@@ -10,8 +10,8 @@
         <useGasProperties>true</useGasProperties>
         <gasType>He</gasType>
         <percentAbsorption>1.0</percentAbsorption>
-        <pressure>1.0422658857198719</pressure>
-        <totalPressure>1.0</totalPressure>
+        <pressure>1.0456446052957429</pressure>
+        <totalPressure>1.8</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
         <gas_fill2_period_box>100.0</gas_fill2_period_box>
@@ -28,8 +28,8 @@
         <useGasProperties>true</useGasProperties>
         <gasType>He</gasType>
         <percentAbsorption>2.0</percentAbsorption>
-        <pressure>2.0951133318492863</pressure>
-        <totalPressure>1.0</totalPressure>
+        <pressure>2.1019050733089024</pressure>
+        <totalPressure>1.8</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
         <gas_fill2_period_box>100.0</gas_fill2_period_box>
@@ -46,9 +46,27 @@
         <useGasProperties>true</useGasProperties>
         <gasType>He</gasType>
         <percentAbsorption>3.0</percentAbsorption>
-        <pressure>3.158759401688541</pressure>
-        <totalPressure>1.0</totalPressure>
+        <pressure>3.16899917099518</pressure>
+        <totalPressure>1.8</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
+        <gas_fill1_period_box>100.0</gas_fill1_period_box>
+        <gas_fill2_period_box>100.0</gas_fill2_period_box>
+        <changeSensitivity>false</changeSensitivity>
+        <autoFillGas>false</autoFillGas>
+        <flush>false</flush>
+    </ionChambers>
+    <ionChambers>
+        <name>I1</name>
+        <deviceName>I1</deviceName>
+        <channel>1</channel>
+        <currentAmplifierName>Stanford04</currentAmplifierName>
+        <gain>1 nA/V</gain>
+        <useGasProperties>true</useGasProperties>
+        <gasType>He</gasType>
+        <percentAbsorption>3.0</percentAbsorption>
+        <pressure>6.33799834199036</pressure>
+        <totalPressure>1.8</totalPressure>
+        <ionChamberLength>15.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
         <gas_fill2_period_box>100.0</gas_fill2_period_box>
         <changeSensitivity>false</changeSensitivity>

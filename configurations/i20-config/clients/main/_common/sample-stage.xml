@@ -49,8 +49,8 @@
 
 <!-- Arrow images  -->
 	 <bean id="sample_fine_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/yaw.png" />
-		<property name="busyImageName" value="arrow images/yaw_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/yaw.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/yaw_red.png" />
 		<property name="scannablesToObserve">
 			<list>
 				<value>sample_fine_rot</value>
@@ -58,8 +58,8 @@
 		</property>
 	</bean>	
 	<bean id="sample_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/yaw.png" />
-		<property name="busyImageName" value="arrow images/yaw_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/yaw.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/yaw_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_rot</value> 
@@ -67,8 +67,8 @@
 		</property>
 	</bean>
 	 <bean id="sample_pitch_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/pitch.png" />
-		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/pitch.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/pitch_red.png" />
 		<property name="scannablesToObserve">
 			<list>
 				<value>sample_pitch</value>			
@@ -77,8 +77,8 @@
 	</bean>	
 	
 	<bean id="sample_pitch_arrow_xas" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/pitch.png" />
-		<property name="busyImageName" value="arrow images/pitch_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/pitch.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/pitch_red.png" />
 		<property name="scannablesToObserve">
 			<list>
 				<value>sample_roll</value>			
@@ -87,8 +87,8 @@
 	</bean>	
 
 	<bean id="sample_roll_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/roll.png" />
-		<property name="busyImageName" value="arrow images/roll_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/roll.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/roll_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_roll</value> 
@@ -97,8 +97,8 @@
 	</bean>	
 
 	<bean id="sample_roll_arrow_xas" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/roll.png" />
-		<property name="busyImageName" value="arrow images/roll_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/roll.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/roll_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_pitch</value> 
@@ -107,8 +107,8 @@
 	</bean>	
 
 	<bean id="sample_x_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/x.png" />
-		<property name="busyImageName" value="arrow images/x_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/x.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/x_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_x</value> 
@@ -116,8 +116,8 @@
 		</property>
 	</bean>	
 	<bean id="sample_y_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/y2.png" />
-		<property name="busyImageName" value="arrow images/y2_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/y2.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/y2_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_y</value> 
@@ -125,8 +125,8 @@
 		</property>
 	</bean>	
 	<bean id="sample_z_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="arrow images/z.png" />
-		<property name="busyImageName" value="arrow images/z_red.png" />
+		<property name="imageName" value="#{arrowImageDirectory}/z.png" />
+		<property name="busyImageName" value="#{arrowImageDirectory}/z_red.png" />
 		<property name="scannablesToObserve">
 			<list>			
 				<value>sample_z</value> 
@@ -135,7 +135,7 @@
 	</bean>	
 	
 	<bean id="xray_beam_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="oe images/beam_head.png" />
+		<property name="imageName" value="#{imageDirectory}/beam_head.png" />
 	</bean>	
 	<bean id="xray_beam_text" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
 		<property name="labelText" value="X-ray beam" />
@@ -143,7 +143,7 @@
 
 	<bean id="xasSampleStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XAS Sample stage"/>
-		<property name="backgroundImage" value="oe images/stage_01.jpg"/>
+		<property name="backgroundImage" value="#{imageDirectory}/stage_01.jpg"/>
 		<property name="imageStart" value="200, 150" />
 		<property name="showCoordinates" value="#{showCoordinates}" />
 		<property name="controlsList">
@@ -172,7 +172,7 @@
 
 	<bean id="xesSampleStageView" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XES Sample stage"/>
-		<property name="backgroundImage" value="oe images/stage_01.jpg"/>
+		<property name="backgroundImage" value="#{imageDirectory}/stage_01.jpg"/>
 		<property name="imageStart" value="200, 150" />
 		<property name="showCoordinates" value="#{showCoordinates}" />
 		<property name="controlsList">

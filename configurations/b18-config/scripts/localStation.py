@@ -178,10 +178,6 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     counterTimer01.getScaler().clear()
 
-# Set nexusTreeWriter flag for buffered xspress2
-qexafs_xspress.setUseNexusTreeWriter(True)
-# qexafs_xspress.setUseNexusTreeWriter(False) # needs to be False when used for 2d scan with continuous scan for inner axis.
-
 samplewheel_names.setPositions( samplewheel.getFilterNames() )
 
 # Set the zebra PC_pulse output for triggering the TFG. 3/4/2019
@@ -194,19 +190,19 @@ setUseMedipixRoiFromGui(False)
 setMedipixRoi(0, 0, 512, 512)
 
 # Set the plugin list and ROI object to use for setting the medipix ROI
-detectorPreparer.setMedipixPlugins(plugins_mutable_roi)
-detectorPreparer.setMedipixMutableRoi(medipix_roi)
+detectorPreparer.setMedipixPlugins(medipix, plugins_mutable_roi)
+detectorPreparer.setMedipixMutableRoi(medipix, medipix_roi)
 
 run("detector_setup_functions.py")
 run_in_try_catch(setupMedipix)
 run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
-run_in_try_catch(setupMythen)
+# run_in_try_catch(setupMythen)
 run_in_try_catch(setupPilatus)
 
 run("continuous_scans.py")
-# run("meca_status.py")
+run("meca_status.py")
 
 from gda.data.metadata import GDAMetadataProvider
 def setVisit(visitStr) :

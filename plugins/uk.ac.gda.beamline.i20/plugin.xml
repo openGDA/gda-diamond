@@ -526,6 +526,15 @@
                    value="uk.ac.gda.exafs.ui.views.xspress4View">
              </parameter>
           </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Ion chamber gas fill"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.ionchambers">
+             </parameter>
+          </command>
 	      </menu>
        <menu
              label="Synoptic views">
