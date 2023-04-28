@@ -59,6 +59,7 @@
 
  	<bean id="m4i1" class="gda.device.detector.NXDetector">
 		<property name="name" value="m4i1" />
+		<property name="collectionTime" value="0.5"/>
 		<property name="collectionStrategy" ref="m4_i1CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

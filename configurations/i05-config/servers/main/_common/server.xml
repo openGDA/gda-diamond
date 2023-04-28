@@ -33,7 +33,6 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<import resource="datawriter.xml" />
-	<import resource="abstract_nxplugins.xml"/>
 
 	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
 	<import resource="../../../xml/devices/common/i05_server_devices.xml" />
