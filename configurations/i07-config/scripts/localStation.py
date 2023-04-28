@@ -14,7 +14,7 @@ from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 from gdaserver import ebe
 
-	
+
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
@@ -23,7 +23,7 @@ def disable_nexus():
 
 def enable_nexus():
         LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
-	
+
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
 	print "-------------------------------------------------------------------"
 	if description:
@@ -32,7 +32,7 @@ def try_execfile(filepath, description=None, full_log=False, absolute=False):
 
 	if not absolute:
 		filepath = gdaScriptDir + filepath
-	
+
 	try:
 		execfile(filepath, globals());
 	except:
@@ -185,8 +185,8 @@ def checkHkl(position):
 hkl.checkPositionValid = checkHkl
 run "BeamlineI07/devices/ivium.py"
 
-# add hexapod reset command
-run "reset_symetrie.py"
-
-# add transmissions command
-run "transmissions.py"
+if "live"==LocalProperties.get("gda.mode") :
+	# add hexapod reset command
+	run "reset_symetrie.py"
+	# add transmissions command
+	run "transmissions.py"
