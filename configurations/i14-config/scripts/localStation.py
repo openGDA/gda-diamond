@@ -9,6 +9,7 @@ print("Initialisation Started")
 def ls_scannables():
     ls_names(Scannable)
 
+from gdascripts.mscanHandler import *
 from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm #@Unresolvedimport #@Unusedimport 
 alias("setTitle")
 alias("meta_add")
@@ -19,6 +20,7 @@ alias("meta_rm")
 from gda.configuration.properties import LocalProperties #@Unresolvedimport
 from gda.data.scan.datawriter import NexusDataWriter #@Unresolvedimport
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
+
 
 from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass #@Unresolvedimport
 waittime = waittimeClass('waittime')
