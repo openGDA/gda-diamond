@@ -4,6 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="includeDefaultVariables" value="false" />
 		<property name="commentMarker" value="#"></property>
 		<property name="header">
 			<list>
