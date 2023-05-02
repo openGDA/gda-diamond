@@ -86,7 +86,7 @@ sm52b_list = [sm52b_x,sm52b_y,sm52b_z,sm52b_roty,sm52b_xp,sm52b_yp,sm52b_zp] # @
 ring_list = [ring_current] # @UndefinedVariable
 pgm_list = [pgm_energy,pgm_cff,pgm_grating_pitch,pgm_grating_x,pgm_mirror_pitch,pgm_mirror_x,pgm_grating,pgm_mirror,pgm_override] # @UndefinedVariable
 shutter_list = [expt_shutter,pss_shutter1_con,pss_shutter2_con,fast_shutter_con] # @UndefinedVariable
-other_list = [img22b,img23b,cap21b,cap22b] # @UndefinedVariable
+other_list = [img22b,img23b,cap21b,cap22b,ES2_sample_temperature,ES2_heater_output] # @UndefinedVariable
 metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list
 meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4
 for each in meta_data_list:

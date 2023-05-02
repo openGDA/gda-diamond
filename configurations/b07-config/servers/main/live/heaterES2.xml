@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ES2_sample_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-EA-TCTRL-21:PV:RBV" />
+	</bean>
+
+	<bean id="ES2_heater_output" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-EA-TCTRL-21:O:RBV" />
+	</bean>
+
+</beans>
