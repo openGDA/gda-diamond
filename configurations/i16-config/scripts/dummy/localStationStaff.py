@@ -3,7 +3,6 @@ import pd_offset
 from gda.jython import InterfaceProvider
 from detector_wrappers.pilatus_instances import pil3
 
-
 pil3_centre_i = pd_offset.Offset('pil3_centre_i')
 pil3_centre_j = pd_offset.Offset('pil3_centre_j')
 ci = pil3_centre_i()
@@ -21,28 +20,11 @@ iw=50; jw=50; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.
 pil3.display_image = True
 
 from gdascripts.scannable.installStandardScannableMetadataCollection import addmeta
+
 addmeta(pil3_centre_i, pil3_centre_j)
 
-if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_DIFFCALC"): 
-# if USE_DIFFCALC:
-#if False:
-    from diffcalc.gdasupport.you import psi, alpha, beta, betain, betaout, hklverbose  # @UnusedImport
-    psic = psi
-    exec('psi = hklverbose.psi')
-    alphac =  alpha
-    exec('alpha = hklverbose.alpha')
-    betac = beta
-    exec('beta = hklverbose.beta')
-    betainc = betain
-    exec('betain = hklverbose.betain')
-    betaoutc = betaout
-    exec('betaout = hklverbose.betaout')
+if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_DIFFCALC"):
 
-    # Note that metadata scannables added manually will not be added in automatically if the
-    # metadata scannables list is reset using either meta_std or meta_minimal
-    addmeta(psi, alpha, beta,  betain,  betaout, psic, alphac, betac, betainc, betaoutc)
-
-    
     # Dan's DiffCalc crystal info class
     from i16_gda_functions.CrystalDevice import CrystalInfoDiffCalcName  # @UnresolvedImport
     from diffcalc.ub.ub import ubcalc
