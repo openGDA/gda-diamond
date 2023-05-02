@@ -69,6 +69,9 @@
 	<!-- Heater output -->
 	<import resource="heaterES2.xml" />
 	<import resource="heaterES1.xml" />
+
+	<!-- Microreactor ME08G output -->
+	<import resource="microreactor.xml" />
 	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
