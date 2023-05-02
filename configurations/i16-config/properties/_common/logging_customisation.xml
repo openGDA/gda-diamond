@@ -30,7 +30,7 @@
 
 	<!-- Classes where we want all messages
 	 -->
-	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
+	<logger name="gda.device.detector.areadetector">									<level value="DEBUG"/></logger>
 	<logger name="I16NexusExtender">													<level value="ALL"/></logger>
 
 	<!-- If this file exists it allows you to customise logging levels for each config -->
