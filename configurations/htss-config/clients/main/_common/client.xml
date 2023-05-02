@@ -14,7 +14,7 @@
 
 	<import resource="command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/mapping_view.xml" />
 	
 	<!-- Defines x_axis_name and y_axis_name -->
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/mapping_axes_names.xml" />

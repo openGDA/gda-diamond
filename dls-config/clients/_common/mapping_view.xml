@@ -5,7 +5,7 @@
 
 	<import resource="file://${gda.facility.dir}/clients/_common/mapping_controllers.xml" />
 
-	<!-- Mapping view for I08 -->
+	<!-- Default mapping view. Beamlines can use an alternative bean if they wish to customise the view -->
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
@@ -15,9 +15,6 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScriptFilesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.OuterScannablesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DarksAndFlatsSection">
-					<property name="darkFieldCollectorName" value="darkFieldCollector" />
-				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
@@ -29,7 +26,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />	
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
 			</list>
 		</property>
 	</bean>
