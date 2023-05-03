@@ -27,7 +27,8 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  com.fasterxml.jackson.core.jackson-core;bundle-version="2.12.1",
  com.fasterxml.jackson.module.jackson-module-jaxb-annotations;bundle-version="2.12.1",
  com.fasterxml.woodstox.woodstox-core,
- stax2-api
+ stax2-api,
+ com.google.guava.failureaccess;bundle-version="1.0.1"
 Import-Package: gda.configuration.properties,
  gda.observable,
  gda.scan.ede.position,
