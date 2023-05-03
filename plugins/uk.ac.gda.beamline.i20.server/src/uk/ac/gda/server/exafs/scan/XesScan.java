@@ -330,15 +330,12 @@ public class XesScan extends XasScanBase implements XasScan {
 	 * @param nameOfScannableToMove
 	 */
 	private void setXasXanesScannable(IScanParameters scanParams, String nameOfScannableToMove) {
-		String nameFromParams = scanParams.getScannableName();
-		if (nameFromParams == null || !nameFromParams.equals(nameOfScannableToMove)) {
-			logger.info("Updating name of scannable in Xas/Xanes parameter from {} to {}", nameFromParams, nameOfScannableToMove);
+		logger.info("Updating name of scannable in Xas/Xanes/Region parameter file to {}", nameOfScannableToMove);
 
-			if (scanParams instanceof XasScanParameters xasScanParams) {
-				xasScanParams.setScannableName(nameOfScannableToMove);
-			} else if (scanParams instanceof XanesScanParameters xanesScanParams) {
-				xanesScanParams.setScannableName(nameOfScannableToMove);
-			}
+		if (scanParams instanceof XasScanParameters xasScanParams) {
+			xasScanParams.setScannableName(nameOfScannableToMove);
+		} else if (scanParams instanceof XanesScanParameters xanesScanParams) {
+			xanesScanParams.setScannableName(nameOfScannableToMove);
 		}
 	}
 

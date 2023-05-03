@@ -1,5 +1,5 @@
 # Functions for setting up intial values on XES spectrometer objects
-
+from gda.device.scannable import ScannableUtils
 def set_initial_crystal_values(xesEnergyScannable):
     """ 
         Set initial values of allowedToMove scannables for XES spectrometer crystals
@@ -14,7 +14,14 @@ def set_initial_crystal_values(xesEnergyScannable):
             print "Setting initial value of {0} to 1".format(scn.getName())
             scn.moveTo(1)
 
-    xesEnergyScannable.getXes().getRadiusScannable().moveTo(1000.)
+    
+    # Check the radius is set to something sensible (but don't wipe out any previously restored value!)
+    radiusTooSmall = 500.0
+    defaultRadius = 1000.0;
+    radiusScannable = xesEnergyScannable.getXes().getRadiusScannable()
+    currentValue = ScannableUtils.objectToArray(lower_radius.getPosition())[0]
+    if currentValue < radiusTooSmall :
+        radiusScannable.moveTo(defaultRadius)
     
 
 def setup_dummy_spectrometer(xesEnergyScannable) :

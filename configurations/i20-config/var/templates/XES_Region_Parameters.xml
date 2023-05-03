@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XanesScanParameters>
-    <scannableName>XESEnergy</scannableName>
+    <scannableName></scannableName>
     <region>
         <energy>7000.0</energy>
         <step>3.0</step>
