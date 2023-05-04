@@ -80,7 +80,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	@Override
 	public AsciiDataWriterConfiguration getAsciiDataWriterConfig(IScanParameters scanParameters) {
-		if (scanParameters instanceof XesScanParameters) {
+		if (scanParameters instanceof XesScanParameters || detectorPreparer.isXesMode()) {
 			return datawriterconfig_xes;
 		}
 		return getDatawriterconfig();

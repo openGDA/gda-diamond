@@ -86,6 +86,10 @@ theFactory.setXesEnergyBoth(XESEnergyBoth)
 theFactory.setXesOffsetsList([XesOffsetsUpper, XesOffsetsLower])
 xes = theFactory.createXesScan()
 xes.setTwoDPlotter(xes_2d_plotter)
+xes.setDetectorOrder([I1])
+
+XESBraggUpper.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
+XESBraggLower.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -99,6 +103,7 @@ theFactory.setIncludeSampleNameInNexusName(False);
 theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
+xas.setDetectorOrder([ionchambers])
 xanes = xas
 
 vararg_alias("xas")
@@ -173,13 +178,14 @@ else :
     medipix2.setCollectionTime(0.5)
 
 
-if LocalProperties.isDummyModeEnabled() :
-    setup_dummy_spectrometer(XESEnergyUpper)
-    setup_dummy_spectrometer(XESEnergyLower)
+#if LocalProperties.isDummyModeEnabled() :
+#    setup_dummy_spectrometer(XESEnergyUpper)
+#    setup_dummy_spectrometer(XESEnergyLower)
 
 set_initial_crystal_values(XESEnergyLower)
 set_initial_crystal_values(XESEnergyUpper)
-
+XesMotorOffsetsLower = Finder.find("XesMotorOffsetsLower")
+XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
@@ -229,5 +235,8 @@ def reconnect_daserver_new() :
 
 run "topup-scannable.py"
 run "energy-transfer-scannable.py"
+
+# Increase speed of dummy test motor
+test.setSpeed(10000)
 
 print "****GDA startup script complete.****\n\n"
