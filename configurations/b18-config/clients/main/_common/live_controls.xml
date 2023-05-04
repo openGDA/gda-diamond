@@ -271,7 +271,7 @@
 		<property name="horizontalLayout" value="true" />
 	</bean>
 
-	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<bean name="motorsControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="shutter_group" />

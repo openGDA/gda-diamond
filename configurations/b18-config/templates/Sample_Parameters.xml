@@ -93,31 +93,31 @@
         <scannableName>gasX</scannableName>
         <description>Gas stage X</description>
         <doMove>false</doMove>
-        <demandPosition>0</demandPosition>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>gasY</scannableName>
         <description>Gas stage Y</description>
         <doMove>false</doMove>
-        <demandPosition>0</demandPosition>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sxRot</scannableName>
         <description>Soft x-ray Rotation</description>
         <doMove>false</doMove>
-        <demandPosition>0</demandPosition>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sxY</scannableName>
         <description>Soft x-ray Y</description>
         <doMove>false</doMove>
-        <demandPosition>0</demandPosition>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sam1x</scannableName>
         <description>Sam1 x</description>
         <doMove>false</doMove>
-        <demandPosition>0</demandPosition>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sam1y</scannableName>
@@ -143,30 +143,30 @@
         <doMove>false</doMove>
         <demandPosition>3.00001</demandPosition>
     </sampleParameterMotorPosition>
-	<sampleParameterMotorPosition>
-		<scannableName>sampleStageX</scannableName>
-		<description>Sample stage X</description>
-		<doMove>false</doMove>
-		<demandPosition>0</demandPosition>
-	</sampleParameterMotorPosition>
-	<sampleParameterMotorPosition>
-		<scannableName>sampleStageY</scannableName>
-		<description>Sample stage Y</description>
-		<doMove>false</doMove>
-		<demandPosition>0</demandPosition>
-	</sampleParameterMotorPosition>
-	<sampleParameterMotorPosition>
-		<scannableName>frameX</scannableName>
-		<description>Frame X</description>
-		<doMove>false</doMove>
-		<demandPosition>0</demandPosition>
-	</sampleParameterMotorPosition>
-	<sampleParameterMotorPosition>
-		<scannableName>frameY</scannableName>
-		<description>Frame Y</description>
-		<doMove>false</doMove>
-		<demandPosition>0</demandPosition>
-	</sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sampleStageX</scannableName>
+        <description>Sample stage X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sampleStageY</scannableName>
+        <description>Sample stage Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>frameX</scannableName>
+        <description>Frame X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>frameY</scannableName>
+        <description>Frame Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>fluoDist</scannableName>
         <description>Ge detector distance</description>
@@ -178,5 +178,47 @@
         <description>Si detector distance</description>
         <doMove>false</doMove>
         <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_sample_control</scannableName>
+        <description>Robot sample holder number</description>
+        <doMove>false</doMove>
+        <demandPosition>1.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_x</scannableName>
+        <description>Robot X position</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_y</scannableName>
+        <description>Robot Y position</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_z</scannableName>
+        <description>Robot Z position</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_alpha</scannableName>
+        <description>Robot Alpha angle</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_beta</scannableName>
+        <description>Robot Beta angle</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>meca_move_pose_gamma</scannableName>
+        <description>Robot Gamma angle</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
 </B18SampleParameters>
