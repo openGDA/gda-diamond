@@ -41,4 +41,28 @@
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>xes_sample_x</scannableName>
+        <description>XES Sample X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>xes_sample_y</scannableName>
+        <description>XES Sample Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>xes_sample_z</scannableName>
+        <description>XES Sample Z</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>xes_sample_rot</scannableName>
+        <description>XES Sample Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
 </I20SampleParameters>

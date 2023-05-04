@@ -32,6 +32,8 @@ import gda.device.DeviceException;
  */
 public abstract class DatasetNexusDetector extends DetectorBase implements NexusDetector {
 
+	private String dataGroupName = "imagedata";
+
 	@Override
 	public void collectData() throws DeviceException {
 	}
@@ -72,15 +74,22 @@ public abstract class DatasetNexusDetector extends DetectorBase implements Nexus
 	 * @param dataset
 	 * @return NexusTreeProvider object
 	 */
-	private NexusTreeProvider createNexusData(IDataset dataset) {
+	protected NXDetectorData createNexusData(IDataset dataset) {
 		NXDetectorData frame = new NXDetectorData(getExtraNames(), getOutputFormat(), getName());
 		INexusTree detTree = frame.getDetTree(getName());
 		// Add the image data
-		NXDetectorData.addData(detTree, "imagedata", new NexusGroupData(dataset), "rgb", 1);
+		NXDetectorData.addData(detTree, dataGroupName, new NexusGroupData(dataset), "", 1);
 
 		// Value displayed during scans
 		frame.setPlottableValue(getName(), 1.0);
 		return frame;
 	}
 
+	public String getDataGroupName() {
+		return dataGroupName;
+	}
+
+	public void setDataGroupName(String dataGroupName) {
+		this.dataGroupName = dataGroupName;
+	}
 }

@@ -181,5 +181,11 @@
 		<property name="spectrometerGroup" ref="lower_spectrometer_all_scannables" />
 		<property name="xesEnergyScannable" ref="XESEnergyLower" />
 	</bean>
-
+	
+	<bean id="lower_spectrometer_positions" class="gda.device.detector.ReadbackDemandDifference">
+		<property name="scannable" ref="lower_spectrometer_all_scannables" />
+	</bean>
+	<bean id="XesMotorOffsetsLower" class="gda.device.scannable.MotorOffsetStore" >
+		<property name="xesEnergyScannable" ref="XESEnergyLower" />
+	</bean>
 </beans>
