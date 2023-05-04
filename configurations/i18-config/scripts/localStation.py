@@ -218,7 +218,7 @@ def setup():
 
     global live_mode
     live_mode = LocalProperties.get("gda.mode") == 'live'
-    
+    global test
     test = DummyScannable("test")
     
     setup_monitors()
@@ -276,5 +276,7 @@ def setup():
     
     run "tfgSetup.py"
     tfg=TFG()
+    
+    
 
 setup()
