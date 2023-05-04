@@ -16,6 +16,8 @@
 	<import resource="d11.xml"/>
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
+	<import resource="gvj6.xml"/>
+	<import resource="gvj7.xml"/>
 	<import resource="u2.xml"/>
 	<import resource="fastScan.xml"/>
 	<import resource="laser_ec2.xml"/>

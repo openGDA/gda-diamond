@@ -12,8 +12,6 @@ scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
 
-from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
-
 #End Station Section
 import sys
 
@@ -63,6 +61,7 @@ from metadata.amplifierGainPaser import AmplifierGainParser
 from java.lang import System  # @UnresolvedImport
 profiles = System.getProperty("gda.spring.profiles.active")
 if "magnet" in profiles:
+    from beam.magnetvalve import closebeam, openbeam  # @UnusedImport
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
     # scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
     # scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
@@ -78,6 +77,7 @@ if "magnet" in profiles:
         #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
 
 if "DD" in profiles:
+    from beam.DDvalve import closebeam, openbeam  # @UnusedImport
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
     # ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
     # ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
@@ -90,6 +90,7 @@ if "DD" in profiles:
         localStation_exception(sys.exc_info(), "import diffcalc error.")
 
 if "xabs" in profiles:
+    from beam.xabsvalve import closebeam, openbeam  # @UnusedImport
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
     # xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     
