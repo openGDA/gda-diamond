@@ -168,7 +168,7 @@
             name="TFG">
       </perspective>
       <perspective
-            class="uk.ac.gda.beamline.i18.views.LiveControlsPerspective:live_control_config"
+            class="gda.rcp.EmptyNoEditorPerspective"
             id="uk.ac.gda.beamline.i18.perspective.synoptic"
             icon="icons/eye.png"
             name="Synoptic" >
@@ -290,7 +290,7 @@
                id="uk.ac.gda.views.status.serverStatusView"
                ratio="0.5f"
                relationship="bottom"
-               relative="uk.ac.gda.client.livecontrol.LiveControlsView"
+               relative="uk.ac.gda.client.livecontrol.SynopticLiveControlsView"
                moveable="false"
                closeable="false" />
       </perspectiveExtension>

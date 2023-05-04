@@ -77,7 +77,4 @@
 		<property name="viewName" value="General Controls"/>
 	</bean>
 
-	<bean name="live_control_config" class="uk.ac.gda.beamline.i18.views.LiveControlsPerspectiveConfiguration">
-		<property name="liveControlSet" value="liveControlSet"/>
-	</bean>
 </beans>
