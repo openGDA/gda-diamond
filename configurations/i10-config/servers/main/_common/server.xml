@@ -47,16 +47,6 @@
 	<import resource="nxmetadata-shared.xml"/>
 	
 	<!-- Spring profile must be the last lines in this file. -->
-	<beans profile="dummy">
-		<!--haxpod control: use beans in dummy, positiona compare motor in live mode  -->
-		<import resource="../../../../i10-shared/servers/main/_common/scannable/M1.xml"/>
-		<import resource="../../../../i10-shared/servers/main/_common/scannable/M3M5.xml"/>
-		<import resource="../dummy/devices/M4.xml"/>	
-		<import resource="scannable/M4.xml"/>
-		<import resource="../dummy/devices/M6.xml"/>	
-		<import resource="scannable/M6.xml"/>
-	</beans>
-	
 	<beans profile="scattering">
 		<import resource="../${gda.mode}/nxmetadata-scattering.xml"/>
 		<import resource="nxmetadata-scattering.xml"/>

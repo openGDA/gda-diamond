@@ -11,24 +11,28 @@
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="Channel0Temp"/>
 					<property name="scannableName" value="ls340"/>
 					<property name="componentName" value="Channel0Temp"/>
 					<property name="componentIndex" value="0"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="Channel1Temp"/>
 					<property name="scannableName" value="ls340"/>
 					<property name="componentName" value="Channel1Temp"/>
 					<property name="componentIndex" value="1"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="Channel2Temp"/>
 					<property name="scannableName" value="ls340"/>
 					<property name="componentName" value="Channel2Temp"/>
 					<property name="componentIndex" value="2"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="Channel3Temp"/>
 					<property name="scannableName" value="ls340"/>
 					<property name="componentName" value="Channel3Temp"/>
 					<property name="componentIndex" value="3"/>
