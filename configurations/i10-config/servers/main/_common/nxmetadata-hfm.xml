@@ -53,13 +53,17 @@
 		<property name="nexusClass" value="NXcollection"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="set_point"/>
-					<property name="expression" value="@itc2.getPosition()[0]"/>
+					<property name="scannableName" value="itc2"/>
+					<property name="componentName" value="itc2"/>
+					<property name="componentIndex" value="0"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sensor_temp"/>
-					<property name="expression" value="@itc2.getPosition()[1]"/>
+					<property name="scannableName" value="itc2"/>
+					<property name="componentName" value="sensor_temp"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
 			</list>
 		</property>
@@ -70,13 +74,17 @@
 		<property name="nexusClass" value="NXcollection"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="set_point"/>
-					<property name="expression" value="@itc3.getPosition()[0]"/>
+					<property name="scannableName" value="itc3"/>
+					<property name="componentName" value="itc3"/>
+					<property name="componentIndex" value="0"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sensor_temp"/>
-					<property name="expression" value="@itc3.getPosition()[1]"/>
+					<property name="scannableName" value="itc3"/>
+					<property name="componentName" value="sensor_temp"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
 			</list>
 		</property>
@@ -87,17 +95,29 @@
 		<property name="nexusClass" value="NXcollection"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="field_set_point"/>
-					<property name="expression" value="@ips_field.getPosition()[0]"/>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="field"/>
+					<property name="scannableName" value="ips_field"/>
+					<property name="componentName" value="ips_field"/>
+					<property name="componentIndex" value="0"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="demand_field"/>
-					<property name="expression" value="@ips_field.getPosition()[1]"/>
+					<property name="scannableName" value="ips_field"/>
+					<property name="componentName" value="demand_field"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sweep_rate"/>
-					<property name="expression" value="@ips_sweeprate.getPosition()[0]"/>
+					<property name="scannableName" value="ips_sweeprate"/>
+					<property name="componentName" value="ips_sweeprate"/>
+					<property name="componentIndex" value="0"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="sweep_rate_demand"/>
+					<property name="scannableName" value="ips_sweeprate"/>
+					<property name="componentName" value="demand_field"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
 			</list>
 		</property>
