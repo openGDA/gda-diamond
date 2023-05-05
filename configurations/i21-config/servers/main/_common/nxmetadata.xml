@@ -60,41 +60,55 @@
 		<property name="taperScannableName" value="taper"/>
 		<property name="customNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="polarisation"/>
-					<property name="expression" value="@polarisation_wrapper.getPosition()"/>
+					<property name="scannableName" value="polarisation_wrapper"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="rowPhase"/>
-					<property name="expression" value="@idscannable.getPosition()[2]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="rowPhase"/>
+					<property name="componentIndex" value="2"/>
 					<property name="units" value="mm"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="mode"/>
-					<property name="expression" value="@idscannable.getPosition()[3]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="mode"/>
+					<property name="componentIndex" value="3"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="enabled"/>
-					<property name="expression" value="@idscannable.getPosition()[4]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="enabled"/>
+					<property name="componentIndex" value="4"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="topOuter"/>
-					<property name="expression" value="@idscannable.getPosition()[5]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="topOuter"/>
+					<property name="componentIndex" value="5"/>
 					<property name="units" value="mm"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="topInner"/>
-					<property name="expression" value="@idscannable.getPosition()[6]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="topInner"/>
+					<property name="componentIndex" value="6"/>
 					<property name="units" value="mm"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="bottomOuter"/>
-					<property name="expression" value="@idscannable.getPosition()[7]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="bottomOuter"/>
+					<property name="componentIndex" value="7"/>
 					<property name="units" value="mm"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="bottomInner"/>
-					<property name="expression" value="@idscannable.getPosition()[8]"/>
+					<property name="scannableName" value="idscannable"/>
+					<property name="componentName" value="bottomInner"/>
+					<property name="componentIndex" value="8"/>
 					<property name="units" value="mm"/>
 				</bean>
 			</list>
@@ -575,34 +589,46 @@
 		<property name="nexusClass" value="NXsensor"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="demand"/>
-					<property name="expression" value="@lakeshore.getPosition()[0]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="demand"/>
+					<property name="componentIndex" value="0"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sample"/>
-					<property name="expression" value="@lakeshore.getPosition()[1]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="sample"/>
+					<property name="componentIndex" value="1"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="shield"/>
-					<property name="expression" value="@lakeshore.getPosition()[2]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="shield"/>
+					<property name="componentIndex" value="2"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="cryostat"/>
-					<property name="expression" value="@lakeshore.getPosition()[3]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="cryostat"/>
+					<property name="componentIndex" value="3"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater"/>
-					<property name="expression" value="@lakeshore.getPosition()[4]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater"/>
+					<property name="componentIndex" value="4"/>
 					<property name="units" value="%"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater_range"/>
-					<property name="expression" value="@lakeshore.getPosition()[5]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater_range"/>
+					<property name="componentIndex" value="5"/>
 				</bean>
 			</list>
 		</property>
