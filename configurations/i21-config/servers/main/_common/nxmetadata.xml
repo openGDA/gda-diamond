@@ -591,42 +591,42 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="demand"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="demand"/>
 					<property name="componentIndex" value="0"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sample"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="sample"/>
 					<property name="componentIndex" value="1"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="shield"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="shield"/>
 					<property name="componentIndex" value="2"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="cryostat"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="cryostat"/>
 					<property name="componentIndex" value="3"/>
 					<property name="units" value="K"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="heater"/>
 					<property name="componentIndex" value="4"/>
 					<property name="units" value="%"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater_range"/>
-					<property name="scannableName" value="ls336"/>
+					<property name="scannableName" value="lakeshore"/>
 					<property name="componentName" value="heater_range"/>
 					<property name="componentIndex" value="5"/>
 				</bean>
