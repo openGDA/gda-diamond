@@ -59,38 +59,18 @@
 					<property name="name" value="dddy"/>
 					<property name="scannableName" value="dddy"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="amp_1_gain"/>
-					<property name="expression" value="@ddiff_amp_1.getPosition()[0]"/>
+					<property name="scannableName" value="ddiff_amp_1"/>
+					<property name="componentName" value="scale"/>
+					<property name="componentIndex" value="0"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="amp_1_mode"/>
-					<property name="expression" value="@ddiff_amp_1.getPosition()[1]"/>
+					<property name="scannableName" value="ddiff_amp_1"/>
+					<property name="componentName" value="mode"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_2_gain"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_2.getPosition()[0]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_2_mode"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_2.getPosition()[1]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_3_gain"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_3.getPosition()[0]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_3_mode"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_3.getPosition()[1]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_4_gain"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_4.getPosition()[0]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_4_mode"/> -->
-<!-- 					<property name="expression" value="@ddiff_amp_4.getPosition()[1]"/> -->
-<!-- 				</bean> -->
 			</list>
 		</property>
 	</bean>
@@ -100,34 +80,46 @@
 		<property name="nexusClass" value="NXsensor"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="demand"/>
-					<property name="expression" value="@ls336.getPosition()[0]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="demand"/>
+					<property name="componentIndex" value="0"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="cryostat"/>
-					<property name="expression" value="@ls336.getPosition()[1]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="shield"/>
-					<property name="expression" value="@ls336.getPosition()[2]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sample"/>
-					<property name="expression" value="@ls336.getPosition()[3]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="sample"/>
+					<property name="componentIndex" value="1"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="shield"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="shield"/>
+					<property name="componentIndex" value="2"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="cryostat"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="cryostat"/>
+					<property name="componentIndex" value="3"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater"/>
-					<property name="expression" value="@ls336.getPosition()[4]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater"/>
+					<property name="componentIndex" value="4"/>
 					<property name="units" value="%"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater_range"/>
-					<property name="expression" value="@ls336.getPosition()[5]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater_range"/>
+					<property name="componentIndex" value="5"/>
 				</bean>
 			</list>
 		</property>
@@ -138,34 +130,46 @@
 		<property name="nexusClass" value="NXsensor"/>
 		<property name="childNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="demand"/>
-					<property name="expression" value="@ls336_2.getPosition()[0]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="demand"/>
+					<property name="componentIndex" value="0"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="cryostat"/>
-					<property name="expression" value="@ls336_2.getPosition()[1]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="shield"/>
-					<property name="expression" value="@ls336_2.getPosition()[2]"/>
-					<property name="units" value="K"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="sample"/>
-					<property name="expression" value="@ls336_2.getPosition()[3]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="sample"/>
+					<property name="componentIndex" value="1"/>
 					<property name="units" value="K"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="shield"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="shield"/>
+					<property name="componentIndex" value="2"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="cryostat"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="cryostat"/>
+					<property name="componentIndex" value="3"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater"/>
-					<property name="expression" value="@ls336_2.getPosition()[4]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater"/>
+					<property name="componentIndex" value="4"/>
 					<property name="units" value="%"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="heater_range"/>
-					<property name="expression" value="@ls336_2.getPosition()[5]"/>
+					<property name="scannableName" value="ls336"/>
+					<property name="componentName" value="heater_range"/>
+					<property name="componentIndex" value="5"/>
 				</bean>
 			</list>
 		</property>

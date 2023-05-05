@@ -3,11 +3,12 @@ Created on Sep 24, 2021
 
 @author: fy65
 '''
-from gda.device.scannable import ScannableMotionBase
-from gda.epics import CAClient
-from i06shared import installation
 import random
+
+from gda.device.scannable import ScannableMotionBase
 from gda.epics.connection import EpicsController
+from i06shared import installation
+
 
 GAIN_MODES = ["low noise", "high speed"]
 gain_map = {

@@ -63,9 +63,6 @@ profiles = System.getProperty("gda.spring.profiles.active")
 if "magnet" in profiles:
     from beam.magnetvalve import closebeam, openbeam  # @UnusedImport
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
-    # scm_amp_2 = AmplifierGainParser("scm_amp_2", "BL06I-DI-IAMP-21:SCM:GAIN")
-    # scm_amp_3 = AmplifierGainParser("scm_amp_3", "BL06I-DI-IAMP-22:SCM:GAIN")
-    # scm_amp_4 = AmplifierGainParser("scm_amp_4", "BL06I-DI-IAMP-23:SCM:GAIN")
     if installation.isLive():
         # from magnet.useMagnet import scmc,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
         try:
@@ -79,9 +76,6 @@ if "magnet" in profiles:
 if "DD" in profiles:
     from beam.DDvalve import closebeam, openbeam  # @UnusedImport
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
-    # ddiff_amp_2 = AmplifierGainParser("ddiff_amp_2", "BL06I-DI-IAMP-31:DDIFF:GAIN")
-    # ddiff_amp_3 = AmplifierGainParser("ddiff_amp_3", "BL06I-DI-IAMP-32:DDIFF:GAIN")
-    # ddiff_amp_4 = AmplifierGainParser("ddiff_amp_4", "BL06I-DI-IAMP-33:DDIFF:GAIN")
     print("*"*100)
     print("import DIFFCALC support for I06-1")
     try:
@@ -92,7 +86,6 @@ if "DD" in profiles:
 if "xabs" in profiles:
     from beam.xabsvalve import closebeam, openbeam  # @UnusedImport
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
-    # xabs_amp_2 = AmplifierGainParser("xabs_amp_2", "BL06I-DI-IAMP-41:XABS:GAIN")
     
 from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()  

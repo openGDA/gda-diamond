@@ -39,22 +39,18 @@
 					<property name="name" value="theta"/>
 					<property name="scannableName" value="xabsth"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="amp_1_gain"/>
-					<property name="expression" value="@xabs_amp_1.getPosition()[0]"/>
+					<property name="scannableName" value="xabs_amp_1"/>
+					<property name="componentName" value="scale"/>
+					<property name="componentIndex" value="0"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="amp_1_mode"/>
-					<property name="expression" value="@xabs_amp_1.getPosition()[1]"/>
+					<property name="scannableName" value="xabs_amp_1"/>
+					<property name="componentName" value="mode"/>
+					<property name="componentIndex" value="1"/>
 				</bean>
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_2_gain"/> -->
-<!-- 					<property name="expression" value="@xabs_amp_2.getPosition()[0]"/> -->
-<!-- 				</bean> -->
-<!-- 				<bean class="org.eclipse.scanning.device.SpringExpressionField"> -->
-<!-- 					<property name="name" value="amp_2_mode"/> -->
-<!-- 					<property name="expression" value="@xabs_amp_2.getPosition()[1]"/> -->
-<!-- 				</bean> -->
 			</list>
 		</property>
 	</bean>
