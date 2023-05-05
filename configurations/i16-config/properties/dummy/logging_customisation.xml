@@ -16,6 +16,9 @@
 	<logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
 	 -->
 	<logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
+	<logger name="gda.rcp.ApplicationWorkbenchAdvisor">									<level value="DEBUG"/></logger>
+	<logger name="gda.plots.UpdatePlotQueue">									        <level value="DEBUG"/></logger>
+
 	<!-- 
 	<logger name="org.eclipse.scanning.api.event.scan.ScanRequest">						<level value="DEBUG"/></logger>
 	 -->
