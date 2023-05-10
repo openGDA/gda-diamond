@@ -172,7 +172,6 @@
 	<context:component-scan	base-package="uk.ac.diamond.daq.experiment" />
 	<context:component-scan	base-package="uk.ac.diamond.daq.experiment.structure" />
 	<context:component-scan base-package="uk.ac.gda.core.tool.spring" />
-	<context:component-scan base-package="uk.ac.diamond.daq.web" />	
 
 	<bean class="uk.ac.diamond.daq.experiment.structure.NodeInsertionRequestResponder"  init-method="connect">
         <property name="broker" value="${gda.activemq.broker.uri}" />
