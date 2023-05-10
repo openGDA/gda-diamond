@@ -9,7 +9,6 @@ print("Initialisation Started")
 def ls_scannables():
     ls_names(Scannable)
 
-from gdascripts.mscanHandler import *
 from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm #@Unresolvedimport #@Unusedimport 
 alias("setTitle")
 alias("meta_add")
