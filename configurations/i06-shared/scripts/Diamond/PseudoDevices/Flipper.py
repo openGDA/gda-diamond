@@ -6,7 +6,7 @@ from gda.device.scannable import ScannableMotionBase
 from time import sleep
 import random
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 
 from Diamond.PseudoDevices.ID_Polarisation import ID_PolarisationClass;
 
@@ -15,7 +15,7 @@ logger=ScriptLoggerClass();
 
 #The Class for creating a device to calculate the XXX at two energy level
 class FlipperClass(ScannableMotionBase):
-	def __init__(self, name, magnetName, energyName, startEnergy, endEnergy, counterName1, counterName2, counterName3, integrationTime):
+	def __init__(self, name, magnetName, energyName, startEnergy, endEnergy, counterName1, counterName2, counterName3, integrationTime, keithley_scannable = None):
 		self.setName(name);
 		self.setInputNames([magnetName]);
 		self.setExtraNames([energyName+'A', energyName+'B', 'detector1_A','detector1_B',  'detector2_A','detector2_B', 'detector3_A','detector3_B', 'ridio', 'rifio']);
@@ -23,17 +23,20 @@ class FlipperClass(ScannableMotionBase):
 		self.setLevel(7);
 
 		self.field = None;
-		self.startEnergy=None;
-		self.endEnergy = None;
-		self.countTime = None;
+		self.startEnergy=startEnergy;
+		self.endEnergy = endEnergy;
+		self.countTime = integrationTime;
+		self.keithley_scannable = keithley_scannable
 
 		self.setMagnet(magnetName);
 		self.setEnergy(energyName, startEnergy, endEnergy);
 		self.setCounters(counterName1, counterName2, counterName3, integrationTime);
+		self.setKeithley(keithley_scannable)
 		
 		self.countsA = [0, 0, 0];
 		self.countsB = [0, 0, 0];
 		self.waitTime=0.0
+		
 
 	def ratioFunction(self, counts):
 		Id, I0, If = counts[0], counts[1], counts[2];
@@ -44,33 +47,55 @@ class FlipperClass(ScannableMotionBase):
 		ifi0 = float(If)/I0;
 		
 		return [idi0, ifi0];
+	
+	def setKeithley(self, keithley_scannable):
+		''' add keithley scannable to data collection of this object
+		'''
+		if keithley_scannable is None:
+			raise ValueError("Keithley Scannable object cannot be None")
+		self.keithley_scannable = keithley_scannable
+		input_names = []
+		for name in keithley_scannable.getInputNames():
+			input_names.append(str(name) + '_A')
+			input_names.append(str(name) + '_B')
+		extra_names =  self.getExtraNames()
+		for name in keithley_scannable.getExtraNames():
+			extra_names.append(str(name) + '_A')
+			extra_names.append(str(name) + '_B')
+		self.setExtraNames(input_names + extra_names)
+	
+	def removeKeithley(self):
+		''' remove keithley scannable from data collection of this object.
+		'''
+		self.keithley_scannable = None
+		self.setInputNames(self.getInputNames())
+		self.setExtraNames(self.getExtraNames())
 		
 	def setMagnet(self, magnetName):
 		self.magnet = vars(gdamain)[magnetName];
 		self.field = self.magnet.getPosition();
 		self.setInputNames([magnetName]);
-		return;
-
+		
 	def setEnergy(self, energyName, startEnergy, endEnergy):
 		self.energy = vars(gdamain)[energyName];
 		self.startEnergy = startEnergy;
 		self.endEnergy = endEnergy;
-		return;
-
+		
 	def setCounters(self, counterName1, counterName2, counterName3, integrationTime):
 		self.counter1 = vars(gdamain)[counterName1];
 		self.counter2 = vars(gdamain)[counterName2];
 		self.counter3 = vars(gdamain)[counterName3];
 		self.countTime = integrationTime;
-		return;
-
+		
 	def countOnce(self):
 		self.counter1.setCollectionTime(self.countTime);
 		self.counter1.collectData();
 		while self.counter1.isBusy():
 			sleep(0.1);
-
-		return [self.counter1.getPosition(), self.counter2.getPosition(), self.counter3.getPosition()];
+		if self.keithley_scannable is None:
+			return [self.counter1.getPosition(), self.counter2.getPosition(), self.counter3.getPosition()]
+		else:
+			return [self.counter1.getPosition(), self.counter2.getPosition(), self.counter3.getPosition()] + self.keithley_scannable.getPosition()
 #		return [100*random.random(),100*random.random(),100*random.random()];
 
 	def countMany(self, howmany):
@@ -106,25 +131,27 @@ class FlipperClass(ScannableMotionBase):
 
 		[ridio, rifio] = [idiob/(idioa+offset1), ifiob/(ifioa+offset2)];
 		
-		return [field, self.startEnergy, self.endEnergy, self.countsA[0], self.countsB[0], self.countsA[1], self.countsB[1], self.countsA[2], self.countsB[2], ridio, rifio];
+		if self.keithley_scannable is None:
+			return [field, self.startEnergy, self.endEnergy, self.countsA[0], self.countsB[0], self.countsA[1], self.countsB[1], self.countsA[2], self.countsB[2], ridio, rifio]
+		else:
+			return [field, self.startEnergy, self.endEnergy, self.countsA[0], self.countsB[0], self.countsA[1], self.countsB[1], self.countsA[2], self.countsB[2], ridio, rifio, self.countsA[3], self.countsB[3], self.countsA[4], self.countsB[4], self.countsA[5], self.countsB[5]]
 
-	def asynchronousMoveTo(self,newPos):
-		print 'move magnet...';
-		self.magnet.moveTo(newPos);
-		print "waiting for %f seconds ... " % (self.waitTime)
+	def asynchronousMoveTo(self,new_pos):
+		print('move magnet...')
+		self.magnet.moveTo(new_pos)
+		print("waiting for %f seconds ... " % (self.waitTime))
 		sleep(self.waitTime)
 
-		print 'move energy to starting point';
-		self.energy.moveTo(self.startEnergy);
-		print 'counting';
-		self.countsA = self.countOnce();
+		print('move energy to starting point %f' % self.startEnergy)
+		self.energy.moveTo(self.startEnergy)
+		print('counting')
+		self.countsA = self.countOnce()
 		
-		print 'move energy to end point';
-		self.energy.moveTo(self.endEnergy);
-		print 'counting';
-		self.countsB = self.countOnce();
-		
-		return;
+		print('move energy to end point %f' % self.endEnergy)
+		self.energy.moveTo(self.endEnergy)
+		print('counting')
+		self.countsB = self.countOnce()
+
 
 	def isBusy(self):
 		sleep(1);
