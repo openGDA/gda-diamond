@@ -891,9 +891,11 @@ if installation.isLive() and ENABLE_PCO4000:
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 
 if installation.isLive() :
-	dcam9 = ProcessingDetectorWrapper(
+	dcam9 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'dcam9',
 		_dcam9,  # @UndefinedVariable
+		None,
+		_dcam9,
 		[],
 		panel_name_rcp='dcam9',
 		returnPathAsImageNumberOnly=True,
