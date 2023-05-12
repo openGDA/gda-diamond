@@ -9,4 +9,5 @@
 	<import resource="shutters.xml"/>
 	<import resource="valves.xml"/>
 	<import resource="data_update.xml"/>
+	<import resource="pgm.xml"/>
 </beans>

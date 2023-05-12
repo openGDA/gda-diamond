@@ -39,5 +39,6 @@
 	<bean id="pgm_cff_motor_client" class="gda.device.motor.DummyMotor">
 		<property name="position" value="2.5" />
 	</bean>
+	
 </beans>
 
