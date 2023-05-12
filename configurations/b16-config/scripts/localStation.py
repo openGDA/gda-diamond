@@ -64,11 +64,14 @@ from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 from gda.device.scannable.scannablegroup import ScannableGroup
 from init.energy_chcut import energy_chcut
+from tomographyScan import tomoFlyScan, tomoScan
+
+separator = "=" * 80
 
 
-print "======================================================================"
+print separator
 print "Running B16 specific initialisation code"
-print "======================================================================"
+print separator
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = True
 ENABLE_PCO4000 = True
@@ -1084,9 +1087,9 @@ waves = ScannableGroup("waves",
 ###############################################################################
 
 visit_setter.setDetectorDirectories()
-print "======================================================================"
+print separator
 print visit_setter
-print "======================================================================"
+print separator
 
 
 #femtos are gone - Igor 27-06-18
@@ -1136,8 +1139,14 @@ dummy_peak2d = DetectorDataProcessor('dummy_peak2d', dummy_det, [TwodGaussianPea
 print "Attempting to run localStationUser.py for users script directory"
 try:
 	run("localStationUser")
+	print "localStationUser.py completed."
 except java.io.FileNotFoundException, e:
 	print "No localStationUser run"
+except:
+	print "Error running localStationUser"
+	print sys.exc_info()
+finally:
+	print separator
 
 #from scannable.performance import LogTimeSinceLastGetPositionLessConstant
 #twrite = LogTimeSinceLastGetPositionLessConstant('twrite', 'BL16B-EA-IOC-10:TWRITE')
@@ -1404,3 +1413,7 @@ waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStar
 waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
 waitForDetectorStop.setLevel(11)
 w.setLevel(12)
+
+print separator
+print "Initialisation complete"
+print separator
