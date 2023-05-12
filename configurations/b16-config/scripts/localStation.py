@@ -24,7 +24,7 @@ from gdascripts.scan.process.ScannableScan import ScannableScan #@UnusedImport
 from gdascripts.scan.process.tuner import Tuner #@UnusedImport
 from gdascripts.scannable.ScanFileHolderScannable import ScanFileHolderScannable
 from gdascripts.scannable.SelectableCollectionOfScannables import SelectableCollectionOfScannables #@UnusedImport
-from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+from det_wrapper.DetectorDataProcessorForNexus import DetectorDataProcessorWithRoiForNexus
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
@@ -183,9 +183,9 @@ if installation.isDummy():
 	# Set up ProcessingDetectorWrapper using simad (area detector simulation)
 	from gdaserver import _simad  # @UnresolvedImport
 	simad = SwitchableHardwareTriggerableProcessingDetectorWrapper("simad", _simad, None, None, [], panel_name_rcp='simad', returnPathAsImageNumberOnly=True)
-	simadpeak2d = DetectorDataProcessorWithRoi("simadpeak2d", simad, [TwodGaussianPeak()])
-	simadmax2d = DetectorDataProcessorWithRoi("simadmax2d", simad, [SumMaxPositionAndValue()])
-	simadintensity2d = DetectorDataProcessorWithRoi('simadintensity2d', simad, [PixelIntensity()])
+	simadpeak2d = DetectorDataProcessorWithRoiForNexus("simadpeak2d", simad, [TwodGaussianPeak()])
+	simadmax2d = DetectorDataProcessorWithRoiForNexus("simadmax2d", simad, [SumMaxPositionAndValue()])
+	simadintensity2d = DetectorDataProcessorWithRoiForNexus('simadintensity2d', simad, [PixelIntensity()])
 
 t2t=TwoCircle("t2t",fcTheta,fc2Theta) #@UndefinedVariable
 
@@ -527,21 +527,21 @@ if installation.isLive() and ENABLE_PILATUS:
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
+		#pil100k.processors=[DetectorDataProcessorWithRoiForNexus('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
 
 
-		pil.processors=[DetectorDataProcessorWithRoi('max', pil, [SumMaxPositionAndValue()], False)]
+		pil.processors=[DetectorDataProcessorWithRoiForNexus('max', pil, [SumMaxPositionAndValue()], False)]
 
 		pil.display_image = True
-		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
-		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
-		pilintensity2d = DetectorDataProcessorWithRoi('pilintensity2d', pil, [PixelIntensity()])
-		pilroi1 = DetectorDataProcessorWithRoi('pilroi1', pil, [SumMaxPositionAndValue()])
-		pilroi2 = DetectorDataProcessorWithRoi('pilroi2', pil, [SumMaxPositionAndValue()])
-		pilroi3 = DetectorDataProcessorWithRoi('pilroi3', pil, [SumMaxPositionAndValue()])
-		pilroi4 = DetectorDataProcessorWithRoi('pilroi4', pil, [SumMaxPositionAndValue()])
-		pilroi5 = DetectorDataProcessorWithRoi('pilroi5', pil, [SumMaxPositionAndValue()])
+		pilpeak2d = DetectorDataProcessorWithRoiForNexus('pilpeak2d', pil, [TwodGaussianPeak()])
+		pilmax2d = DetectorDataProcessorWithRoiForNexus('pilmax2d', pil, [SumMaxPositionAndValue()])
+		pilintensity2d = DetectorDataProcessorWithRoiForNexus('pilintensity2d', pil, [PixelIntensity()])
+		pilroi1 = DetectorDataProcessorWithRoiForNexus('pilroi1', pil, [SumMaxPositionAndValue()])
+		pilroi2 = DetectorDataProcessorWithRoiForNexus('pilroi2', pil, [SumMaxPositionAndValue()])
+		pilroi3 = DetectorDataProcessorWithRoiForNexus('pilroi3', pil, [SumMaxPositionAndValue()])
+		pilroi4 = DetectorDataProcessorWithRoiForNexus('pilroi4', pil, [SumMaxPositionAndValue()])
+		pilroi5 = DetectorDataProcessorWithRoiForNexus('pilroi5', pil, [SumMaxPositionAndValue()])
 
 		pilgain = pd_setPvAndWait.SetPvAndWait('pilgain', 'BL16B-EA-PILAT-01:Gain', delayAfterAskingToMove=0.5)
 		pilgain.setOutputFormat(['%.0f'])
@@ -549,7 +549,7 @@ if installation.isLive() and ENABLE_PILATUS:
 		pilsettings = pd_readManyPVs.ReadManyPVs('pilsettings','BL16B-EA-PILAT-01:READ',['VCMP','VRF','VTRM','VADJ','VCAL','VRFS','VDEL'])
 
 
-		roi1 = DetectorDataProcessorWithRoi('roi1', pil, [SumMaxPositionAndValue()])
+		roi1 = DetectorDataProcessorWithRoiForNexus('roi1', pil, [SumMaxPositionAndValue()])
 		#roi1.setRoi(0,0,50,50)
 
 
@@ -581,19 +581,19 @@ if installation.isLive():
 		medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0_RBV', 10)
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
+		#pil100k.processors=[DetectorDataProcessorWithRoiForNexus('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
 
-		medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
+		medipix.processors=[DetectorDataProcessorWithRoiForNexus('max', medipix, [SumMaxPositionAndValue()], False)]
 
 		# TODO: MBB Start - Rob, please check this
 		medipix.display_image = True
-		medipixpeak2d = DetectorDataProcessorWithRoi('medipixpeak2d', medipix, [TwodGaussianPeak()])
-		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
-		medipixintensity2d = DetectorDataProcessorWithRoi('medipixintensity2d', medipix, [PixelIntensity()])
-		medipixroi1 = DetectorDataProcessorWithRoi('medipixroi1', medipix, [SumMaxPositionAndValue()])
-		medipixroi2 = DetectorDataProcessorWithRoi('medipixroi2', medipix, [SumMaxPositionAndValue()])
-		medipixroi3 = DetectorDataProcessorWithRoi('medipixroi3', medipix, [SumMaxPositionAndValue()])
+		medipixpeak2d = DetectorDataProcessorWithRoiForNexus('medipixpeak2d', medipix, [TwodGaussianPeak()])
+		medipixmax2d = DetectorDataProcessorWithRoiForNexus('medipixmax2d', medipix, [SumMaxPositionAndValue()])
+		medipixintensity2d = DetectorDataProcessorWithRoiForNexus('medipixintensity2d', medipix, [PixelIntensity()])
+		medipixroi1 = DetectorDataProcessorWithRoiForNexus('medipixroi1', medipix, [SumMaxPositionAndValue()])
+		medipixroi2 = DetectorDataProcessorWithRoiForNexus('medipixroi2', medipix, [SumMaxPositionAndValue()])
+		medipixroi3 = DetectorDataProcessorWithRoiForNexus('medipixroi3', medipix, [SumMaxPositionAndValue()])
 		#medipixroi1.setRoi(0,0,50,50)
 		# TODO: MBB End
 
@@ -621,15 +621,15 @@ if installation.isLive():
 									returnPathAsImageNumberOnly=True)
 		medipix4.disable_operation_outside_scans = True
 		medipix4_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix4_threshold_kev', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0_RBV', 10)
-		medipix4.processors=[DetectorDataProcessorWithRoi('max', medipix4, [SumMaxPositionAndValue()], False)]
+		medipix4.processors=[DetectorDataProcessorWithRoiForNexus('max', medipix4, [SumMaxPositionAndValue()], False)]
 
 		medipix4.display_image = True
-		medipix4peak2d = DetectorDataProcessorWithRoi('medipix4peak2d', medipix4, [TwodGaussianPeak()])
-		medipix4max2d = DetectorDataProcessorWithRoi('medipix4max2d', medipix4, [SumMaxPositionAndValue()])
-		medipix4intensity2d = DetectorDataProcessorWithRoi('medipix4intensity2d', medipix4, [PixelIntensity()])
-		medipix4roi1 = DetectorDataProcessorWithRoi('medipix4roi1', medipix4, [SumMaxPositionAndValue()])
-		medipix4roi2 = DetectorDataProcessorWithRoi('medipix4roi2', medipix4, [SumMaxPositionAndValue()])
-		medipix4roi3 = DetectorDataProcessorWithRoi('medipix4roi3', medipix4, [SumMaxPositionAndValue()])
+		medipix4peak2d = DetectorDataProcessorWithRoiForNexus('medipix4peak2d', medipix4, [TwodGaussianPeak()])
+		medipix4max2d = DetectorDataProcessorWithRoiForNexus('medipix4max2d', medipix4, [SumMaxPositionAndValue()])
+		medipix4intensity2d = DetectorDataProcessorWithRoiForNexus('medipix4intensity2d', medipix4, [PixelIntensity()])
+		medipix4roi1 = DetectorDataProcessorWithRoiForNexus('medipix4roi1', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi2 = DetectorDataProcessorWithRoiForNexus('medipix4roi2', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi3 = DetectorDataProcessorWithRoiForNexus('medipix4roi3', medipix4, [SumMaxPositionAndValue()])
 		#medipix4roi1.setRoi(0,0,50,50)
 
 	except gda.factory.FactoryException:
@@ -668,15 +668,15 @@ if installation.isLive():
 			                                                       printNfsTimes=False,
 			                                                       returnPathAsImageNumberOnly=True)
 		psl.disable_operation_outside_scans = True
-		psl.processors=[DetectorDataProcessorWithRoi('max', psl, [SumMaxPositionAndValue()], False)]
+		psl.processors=[DetectorDataProcessorWithRoiForNexus('max', psl, [SumMaxPositionAndValue()], False)]
 		psl.display_image = True
-		pslpeak2d = DetectorDataProcessorWithRoi('pslpeak2d', psl, [TwodGaussianPeak()])
-		pslmax2d = DetectorDataProcessorWithRoi('pslmax2d', psl, [SumMaxPositionAndValue()])
-		pslitensity2d = DetectorDataProcessorWithRoi('pslintensity2d', psl, [PixelIntensity()])
+		pslpeak2d = DetectorDataProcessorWithRoiForNexus('pslpeak2d', psl, [TwodGaussianPeak()])
+		pslmax2d = DetectorDataProcessorWithRoiForNexus('pslmax2d', psl, [SumMaxPositionAndValue()])
+		pslitensity2d = DetectorDataProcessorWithRoiForNexus('pslintensity2d', psl, [PixelIntensity()])
 
-		pslroi1 = DetectorDataProcessorWithRoi('pslroi1', psl, [SumMaxPositionAndValue()])
-		pslroi2 = DetectorDataProcessorWithRoi('pslroi2', psl, [SumMaxPositionAndValue()])
-		pslroi3 = DetectorDataProcessorWithRoi('pslroi3', psl, [SumMaxPositionAndValue()])
+		pslroi1 = DetectorDataProcessorWithRoiForNexus('pslroi1', psl, [SumMaxPositionAndValue()])
+		pslroi2 = DetectorDataProcessorWithRoiForNexus('pslroi2', psl, [SumMaxPositionAndValue()])
+		pslroi3 = DetectorDataProcessorWithRoiForNexus('pslroi3', psl, [SumMaxPositionAndValue()])
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to PSL SCMOS (FactoryException)"
@@ -768,24 +768,24 @@ def configureScanPipeline(length = None, simultaneousPoints = None):
 		show()
 
 
-ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
-ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
-ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
+ipppeak2d = DetectorDataProcessorWithRoiForNexus('peak2d', ipp, [TwodGaussianPeak()])
+ippmax2d = DetectorDataProcessorWithRoiForNexus('max2d', ipp, [SumMaxPositionAndValue()])
+ippintensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', ipp, [PixelIntensity()])
 
 if installation.isLive():
-	ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
-	ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
-	ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
+	ipp2peak2d = DetectorDataProcessorWithRoiForNexus('ipp2peak2d', ipp2, [TwodGaussianPeak()])
+	ipp2max2d = DetectorDataProcessorWithRoiForNexus('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
+	ipp2intensity2d = DetectorDataProcessorWithRoiForNexus('ipp2intensity2d', ipp2, [PixelIntensity()])
 	
-	ipp2roi1 = DetectorDataProcessorWithRoi('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
-	ipp2roi2 = DetectorDataProcessorWithRoi('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
-	ipp2roi3 = DetectorDataProcessorWithRoi('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi1 = DetectorDataProcessorWithRoiForNexus('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi2 = DetectorDataProcessorWithRoiForNexus('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi3 = DetectorDataProcessorWithRoiForNexus('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
 	#ipp2roi1.setRoi(0,0,50,50)
 	
 	
-	ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
-	ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
-	ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
+	ipp3peak2d = DetectorDataProcessorWithRoiForNexus('ipp3peak2d', ipp3, [TwodGaussianPeak()])
+	ipp3max2d = DetectorDataProcessorWithRoiForNexus('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
+	ipp3intensity2d = DetectorDataProcessorWithRoiForNexus('ipp3intensity2d', ipp3, [PixelIntensity()])
 
 
 
@@ -830,9 +830,9 @@ if installation.isLive() and ENABLE_PCOEDGE:
 
 	pcoedge.poke_inactive_detector = False # TODO: set to True for temp hack - remove ASAP
 
-	pcoedgepeak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	pcoedgemax2d = DetectorDataProcessorWithRoi('max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pcoedgeintensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+	pcoedgepeak2d = DetectorDataProcessorWithRoiForNexus('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pcoedgemax2d = DetectorDataProcessorWithRoiForNexus('max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedgeintensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 
 	pcoedge_multi = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'pcoedge_multi',
@@ -844,9 +844,9 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
-	pcoedge_multi_peak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	pcoedge_multi_max2d = DetectorDataProcessorWithRoi('max2d', pcoedge_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pcoedge_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge_multi, [PixelIntensity()],prefix_name_to_extranames=False)
+	pcoedge_multi_peak2d = DetectorDataProcessorWithRoiForNexus('peak2d', pcoedge_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pcoedge_multi_max2d = DetectorDataProcessorWithRoiForNexus('max2d', pcoedge_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedge_multi_intensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', pcoedge_multi, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
 if installation.isLive():
@@ -861,9 +861,9 @@ if installation.isLive():
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
-	sydorpeak2d = DetectorDataProcessorWithRoi('peak2d', sydor, [TwodGaussianPeak()],prefix_name_to_extranames=True) 
-	sydormax2d = DetectorDataProcessorWithRoi('max2d', sydor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	sydorintensity2d = DetectorDataProcessorWithRoi('intensity2d', sydor, [PixelIntensity()],prefix_name_to_extranames=False)
+	sydorpeak2d = DetectorDataProcessorWithRoiForNexus('peak2d', sydor, [TwodGaussianPeak()],prefix_name_to_extranames=True) 
+	sydormax2d = DetectorDataProcessorWithRoiForNexus('max2d', sydor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	sydorintensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', sydor, [PixelIntensity()],prefix_name_to_extranames=False)
 	
 	
 if installation.isLive() and ENABLE_PCO4000:
@@ -878,17 +878,17 @@ if installation.isLive() and ENABLE_PCO4000:
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
-	pco4000peak2d = DetectorDataProcessorWithRoi('peak2d', pco4000, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	pco4000max2d = DetectorDataProcessorWithRoi('max2d', pco4000, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pco4000intensity2d = DetectorDataProcessorWithRoi('intensity2d', pco4000, [PixelIntensity()],prefix_name_to_extranames=False)
+	pco4000peak2d = DetectorDataProcessorWithRoiForNexus('peak2d', pco4000, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pco4000max2d = DetectorDataProcessorWithRoiForNexus('max2d', pco4000, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pco4000intensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', pco4000, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_pcoedge, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
 	#visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(pcoedge, report_path = False))
 	pcoedge.disable_operation_outside_scans = True
-	pcoedgepeak2d = DetectorDataProcessorWithRoi('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
-	pcoedgemax2d = DetectorDataProcessorWithRoi('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pcoedgeintensity2d = DetectorDataProcessorWithRoi('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+	pcoedgepeak2d = DetectorDataProcessorWithRoiForNexus('pcoedgepeak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=False)
+	pcoedgemax2d = DetectorDataProcessorWithRoiForNexus('pcoedgemax2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedgeintensity2d = DetectorDataProcessorWithRoiForNexus('pcoedgeintensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 
 if installation.isLive() :
 	dcam9 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
@@ -901,10 +901,10 @@ if installation.isLive() :
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
-	dcam9peak2d = DetectorDataProcessorWithRoi('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
-	dcam9max2d = DetectorDataProcessorWithRoi('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
-	dcam9intensity2d = DetectorDataProcessorWithRoi('dcam9intensity2d', dcam9, [PixelIntensity()])
-	dcam9roi = DetectorDataProcessorWithRoi('dcam9roi', dcam9, [SumMaxPositionAndValue()])
+	dcam9peak2d = DetectorDataProcessorWithRoiForNexus('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
+	dcam9max2d = DetectorDataProcessorWithRoiForNexus('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
+	dcam9intensity2d = DetectorDataProcessorWithRoiForNexus('dcam9intensity2d', dcam9, [PixelIntensity()])
+	dcam9roi = DetectorDataProcessorWithRoiForNexus('dcam9roi', dcam9, [SumMaxPositionAndValue()])
 
 if installation.isLive():
 	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
@@ -917,9 +917,9 @@ if installation.isLive():
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
-	pslv1peak2d = DetectorDataProcessorWithRoi('pslv1peak2d', pslv1, [TwodGaussianPeak()],prefix_name_to_extranames=False)
-	pslv1max2d = DetectorDataProcessorWithRoi('pslv1max2d', pslv1, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	pslv1intensity2d = DetectorDataProcessorWithRoi('pslv1intensity2d', pslv1, [PixelIntensity()],prefix_name_to_extranames=False)
+	pslv1peak2d = DetectorDataProcessorWithRoiForNexus('pslv1peak2d', pslv1, [TwodGaussianPeak()],prefix_name_to_extranames=False)
+	pslv1max2d = DetectorDataProcessorWithRoiForNexus('pslv1max2d', pslv1, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pslv1intensity2d = DetectorDataProcessorWithRoiForNexus('pslv1intensity2d', pslv1, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
 if installation.isLive():
@@ -936,9 +936,9 @@ if installation.isLive():
 
 	#balor.poke_inactive_detector = False # TODO: set to True for temp hack - remove ASAP
 
-	balorpeak2d = DetectorDataProcessorWithRoi('peak2d', balor, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	balormax2d = DetectorDataProcessorWithRoi('max2d', balor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	balorintensity2d = DetectorDataProcessorWithRoi('intensity2d', balor, [PixelIntensity()],prefix_name_to_extranames=False)
+	balorpeak2d = DetectorDataProcessorWithRoiForNexus('peak2d', balor, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	balormax2d = DetectorDataProcessorWithRoiForNexus('max2d', balor, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	balorintensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', balor, [PixelIntensity()],prefix_name_to_extranames=False)
 
 	"""balor_multi = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'balor_multi',
@@ -950,9 +950,9 @@ if installation.isLive():
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)"""
 
-	#balor_multi_peak2d = DetectorDataProcessorWithRoi('peak2d', balor_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	#balor_multi_max2d = DetectorDataProcessorWithRoi('max2d', balor_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	#balor_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', balor_multi, [PixelIntensity()],prefix_name_to_extranames=False)
+	#balor_multi_peak2d = DetectorDataProcessorWithRoiForNexus('peak2d', balor_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	#balor_multi_max2d = DetectorDataProcessorWithRoiForNexus('max2d', balor_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	#balor_multi_intensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', balor_multi, [PixelIntensity()],prefix_name_to_extranames=False)
 
 ###############################################################################
 ###                                   TEMPORARY                              ###
@@ -1319,17 +1319,17 @@ if installation.isLive():
 			returnPathAsImageNumberOnly=True)
 	
 	zyla.display_image = True
-	zylamax2d = DetectorDataProcessorWithRoi('zylamax2d', zyla, [SumMaxPositionAndValue()])
-	zylapeak2d = DetectorDataProcessorWithRoi('zylapeak2d', zyla, [TwodGaussianPeak()])
-	zylaintensity2d = DetectorDataProcessorWithRoi('zylaintensity2d', zyla, [PixelIntensity()])
+	zylamax2d = DetectorDataProcessorWithRoiForNexus('zylamax2d', zyla, [SumMaxPositionAndValue()])
+	zylapeak2d = DetectorDataProcessorWithRoiForNexus('zylapeak2d', zyla, [TwodGaussianPeak()])
+	zylaintensity2d = DetectorDataProcessorWithRoiForNexus('zylaintensity2d', zyla, [PixelIntensity()])
 	
-	#zyla.processors=[DetectorDataProcessorWithRoi('peak', zyla, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	#zyla.processors=[DetectorDataProcessorWithRoiForNexus('peak', zyla, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
 	#zyla needs scaling factors?
 	#zyla.processors[0].processors[1].setScalingFactors(1, 1)
 	
-	zylaroi1 = DetectorDataProcessorWithRoi('zylaroi1', zyla, [SumMaxPositionAndValue()])
-	zylaroi2 = DetectorDataProcessorWithRoi('zylaroi2', zyla, [SumMaxPositionAndValue()])
-	zylaroi3 = DetectorDataProcessorWithRoi('zylaroi3', zyla, [SumMaxPositionAndValue()])
+	zylaroi1 = DetectorDataProcessorWithRoiForNexus('zylaroi1', zyla, [SumMaxPositionAndValue()])
+	zylaroi2 = DetectorDataProcessorWithRoiForNexus('zylaroi2', zyla, [SumMaxPositionAndValue()])
+	zylaroi3 = DetectorDataProcessorWithRoiForNexus('zylaroi3', zyla, [SumMaxPositionAndValue()])
 	#zylaroi1.setRoi(0,0,50,50)
 	
 	print "zyla setup"
