@@ -95,15 +95,7 @@
 								<property name="submitScanButtonColour" value="GREEN"/>
 								<property name="scriptFilePath" value="scanning/submit_ptychography_scan.py"/>
 								<property name="detectorName" ref="ptychography_scan_detector" />
-								<property name="processingConfiguration">
-									<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
-										<property name="active" value="true" />
-										<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
-										<property name="appName" value="ptypyi14" />
-										<property name="name" value="i14_unknown_probe_dm.yaml"/>
-										<property name="pathToConfig" value="${gda.var}/i14_unknown_probe_dm.yaml"/>
-									</bean>
-								</property> 
+								<property name="processingConfiguration" ref="processing_configs" />
 								<property name="stateReporter">
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
