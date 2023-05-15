@@ -654,7 +654,7 @@ try:
 	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
 	run("localStationScripts/startup_cryocooler")
 except:
-	localStation_exception("running localStationScripts/pd_femto_adc_current2.py")
+	localStation_exception("running localStationScripts/startup_cryocooler.py")
 
 try:
 	localStation_print("   running pd_femto_adc_current2.py")
