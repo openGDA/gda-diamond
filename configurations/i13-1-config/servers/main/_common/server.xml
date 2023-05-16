@@ -89,7 +89,6 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/excalibur_addetector.xml"/>
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
@@ -176,7 +175,6 @@
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
 	<import resource="file:${gda.config}/devices/_common/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
-	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
 
 	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
