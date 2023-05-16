@@ -71,6 +71,9 @@ public class XesScan extends XasScanBase implements XasScan {
 	private String xesAxisLabel = "XESEnergy [eV]";
 	private List<IXesOffsets> xesOffsetsList;
 
+	private Map<Scannable, Scannable> energyTransferScannables = new HashMap<>();
+	private boolean scanEnergyTransfer;
+
 	// Scannable that move XESBraggUpper and XESBraggLower to the same position
 	private Scannable analyserAngleBoth;
 
@@ -233,19 +236,28 @@ public class XesScan extends XasScanBase implements XasScan {
 		Scannable xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
 		Scannable xesBraggScannable = getXesAngleScannable(xesEnergyScannable);
 
+		Scannable spectrometerScanAxis;
+		if (scanEnergyTransfer) {
+			spectrometerScanAxis = getEnergyTransferForXes(xesEnergyScannable);
+		} else {
+			spectrometerScanAxis = xesEnergyScannable;
+		}
 		Detector[] detList = getDetectors();
 
 		List<Object> xesScanArguments = new ArrayList<>();
 
 		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
-			List<Object> scanParams = Arrays.asList(xesEnergyScannable, specParameters.getInitialEnergy(),
+			List<Object> scanParams = Arrays.asList(spectrometerScanAxis, specParameters.getInitialEnergy(),
 					specParameters.getFinalEnergy(), specParameters.getStepSize(), mono_energy,
 					xesScanParameters.getMonoEnergy(), xesBraggScannable);
 			xesScanArguments.addAll(scanParams);
-			setXesEnergyAxisName(xesEnergyScannable);
+			if (scanEnergyTransfer) {
+				xesScanArguments.add(xesEnergyScannable);
+			}
+			setXesEnergyAxisName(spectrometerScanAxis);
 		} else if (innerScanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
-			List<Object> spectrometerScanParams = Arrays.asList(xesEnergyScannable, specParameters.getInitialEnergy(),
+			List<Object> spectrometerScanParams = Arrays.asList(spectrometerScanAxis, specParameters.getInitialEnergy(),
 					specParameters.getFinalEnergy(), specParameters.getStepSize());
 
 			List<Object> monoScanParams = Arrays.asList(mono_energy, xesScanParameters.getMonoInitialEnergy(),
@@ -259,7 +271,7 @@ public class XesScan extends XasScanBase implements XasScan {
 				twodplotter.setYArgs(specParameters.getInitialEnergy(), specParameters.getFinalEnergy(),
 						specParameters.getStepSize());
 				twodplotter.setXAxisName(monoAxisLabel);
-				twodplotter.setYAxisName(xesEnergyScannable.getName()+" [eV]");
+				twodplotter.setYAxisName(spectrometerScanAxis.getName()+" [eV]");
 				setXesEnergyAxisName(mono_energy);
 			} else {
 				xesScanArguments.addAll(monoScanParams);
@@ -268,12 +280,17 @@ public class XesScan extends XasScanBase implements XasScan {
 						specParameters.getStepSize());
 				twodplotter.setYArgs(xesScanParameters.getMonoInitialEnergy(), xesScanParameters.getMonoFinalEnergy(),
 						xesScanParameters.getMonoStepSize());
-				twodplotter.setXAxisName(xesEnergyScannable.getName()+" [eV]");
+				twodplotter.setXAxisName(spectrometerScanAxis.getName()+" [eV]");
 				twodplotter.setYAxisName(monoAxisLabel);
-				setXesEnergyAxisName(xesEnergyScannable);
+				setXesEnergyAxisName(spectrometerScanAxis);
 			}
 			// Add XESBragg angle
 			xesScanArguments.add(xesBraggScannable);
+
+			// add the spectrometer energy if doing scanning energy transfer
+			if (scanEnergyTransfer) {
+				xesScanArguments.add(xesEnergyScannable);
+			}
 
 			// Try to set the name of the z axis quantity automatically
 			// (the stream name from the ADROiCountsI0 plugin on the medipix detector)
@@ -488,5 +505,28 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	public void setTwoDPlotter(TwoDScanPlotter twodplotter) {
 		this.twodplotter = twodplotter;
+	}
+
+	private Scannable getEnergyTransferForXes(Scannable xesScannable) {
+		if (energyTransferScannables.containsKey(xesScannable)) {
+			return energyTransferScannables.get(xesScannable);
+		}
+		throw new IllegalArgumentException("Energy transfer scannable was not fround for "+xesScannable.getName());
+	}
+	public Map<Scannable, Scannable> getEnergyTransferScannables() {
+		return energyTransferScannables;
+	}
+
+	public void setEnergyTransferScannables(Map<Scannable, Scannable> energyTransferScannables) {
+		this.energyTransferScannables = energyTransferScannables;
+	}
+
+
+	public boolean isScanEnergyTransfer() {
+		return scanEnergyTransfer;
+	}
+
+	public void setScanEnergyTransfer(boolean scanEnergyTransfer) {
+		this.scanEnergyTransfer = scanEnergyTransfer;
 	}
 }
