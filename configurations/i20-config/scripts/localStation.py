@@ -54,6 +54,12 @@ run "spectrometer-setup.py"
 #  Run the detector setup functions
 run "detector-setup.py"
 
+# Create the 'energy transfer' scannables
+run "energy-transfer-scannable.py"
+
+# Create and setup topup checker with shutter
+run "topup-scannable.py"
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
@@ -88,8 +94,9 @@ xes = theFactory.createXesScan()
 xes.setTwoDPlotter(xes_2d_plotter)
 xes.setDetectorOrder([I1])
 
-XESBraggUpper.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
-XESBraggLower.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
+# Set the energy transfer scannables
+energyTransferScnMap = {XESEnergyLower:XESEnergyTransferLower, XESEnergyUpper:XESEnergyTransferUpper, XESEnergyBoth:XESEnergyTransferBoth}
+xes.setEnergyTransferScannables(energyTransferScnMap)
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -119,13 +126,6 @@ current_store_tracker = "none"
 
 scansReturnToOriginalPositions = 0
 
-print "Creating some scannables useful for recording time during scans..."
-print "Creating scannable 'w' which will delay scan points until a time has been reached during a scan."\
-+ "\nusage of 'w':    scan <motor> <start> <stop> <step> w 0 <delay between points in s>\n\n"
-
-w = showtimeClass("w")
-w.setLevel(10)
-
 def stopCryostat() :
     setpoint = cryostat.getController().getSetpoint()
     print "Stopping cryostat status thread and reapplying the original setpoint ("+str(setpoint)+" K)"
@@ -141,6 +141,7 @@ def machineMode() :
         return "Shutdown"
     
 if LocalProperties.isDummyModeEnabled() :
+    print("\nSetting default scannables for GDA 'dummy' mode")
     remove_default([topupChecker])
     remove_default([absorberChecker])
 else : 
@@ -149,7 +150,7 @@ else :
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
     
     noBeam = ["Shutdown", "No Beam", "Mach. Dev."]
-    print "Machine mode = ", machineModeMonitor.getPosition()
+    print("\nSetting default scannables for current machine mode (%s)"%(machineModeMonitor.getPosition()))
     if machineModeMonitor.getPosition() in noBeam :
         print "Removing absorber, shutter and topup checkers"        
         remove_default([topupChecker])
@@ -160,6 +161,7 @@ else :
         add_default([topupChecker])
         add_default([absorberChecker])
         add_default([shutterChecker])
+add_default(detectorMonitorDataProvider)
 
 # Make sure xes offset start at zero every time
 XesOffsetsLower.removeAll()
@@ -177,11 +179,6 @@ else :
     medipix1.setCollectionTime(0.5)
     medipix2.setCollectionTime(0.5)
 
-
-#if LocalProperties.isDummyModeEnabled() :
-#    setup_dummy_spectrometer(XESEnergyUpper)
-#    setup_dummy_spectrometer(XESEnergyLower)
-
 set_initial_crystal_values(XESEnergyLower)
 set_initial_crystal_values(XESEnergyUpper)
 XesMotorOffsetsLower = Finder.find("XesMotorOffsetsLower")
@@ -191,7 +188,6 @@ bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when mo
 
 LocalProperties.set("gda.exafs.mono.energy.rate", "0.01");
 LocalProperties.set("gda.exafs.read.out.time", "1000.0");
-add_default detectorMonitorDataProvider
 
 # cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
 
@@ -201,12 +197,12 @@ from gda.epics import CAClient
 xspress4.setOutputFormat(["%.6f"])
 xspress3X.setOutputFormat(["%.6f"])
 
-print "Setting Tfg veto options to normal values for output 0"
+print "\nSetting Tfg veto options to normal values for output 0"
 DAServer.sendCommand("tfg setup-veto veto0-inv 0")
 DAServer.sendCommand("tfg setup-veto veto0-drive 1")
 DAServer.sendCommand("tfg alternate-veto veto0-normal")
 
-print "Reconnect daserver command : reconnect_daserver() "
+print "\nReconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     print "Trying to reconnect to DAServer and rerun ~config..."
     DAServer.reconnect()
@@ -219,7 +215,7 @@ def reconnect_daserver() :
     ionchambers.getScaler().clear()
 
 
-print "\nNew reconnect daserver command : reconnect_daserver_new() "
+print "New reconnect daserver command : reconnect_daserver_new() "
 def reconnect_daserver_new() :
     print "Closing connection to DAServer..."
     mem = ionchambers.getScaler()
@@ -233,10 +229,7 @@ def reconnect_daserver_new() :
     sleep(1)
     mem.clear()
 
-run "topup-scannable.py"
-run "energy-transfer-scannable.py"
-
 # Increase speed of dummy test motor
 test.setSpeed(10000)
 
-print "****GDA startup script complete.****\n\n"
+print "\n****GDA startup script complete.****\n\n"

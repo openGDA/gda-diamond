@@ -1,3 +1,5 @@
+print("\nRunning 'spectrometer-setup.py")
+
 # Functions for setting up intial values on XES spectrometer objects
 from gda.device.scannable import ScannableUtils
 def set_initial_crystal_values(xesEnergyScannable):
@@ -23,7 +25,17 @@ def set_initial_crystal_values(xesEnergyScannable):
     if currentValue < radiusTooSmall :
         radiusScannable.moveTo(defaultRadius)
     
-
+def setAnalyserMoveTolerances(xesEnergyScannable, tolerances, numRetries = 1):
+    print("Setting up motors for %s : tolerances = %s, retries = %d"%(xesEnergyScannable.getName(), str(tolerances), numRetries))
+    for analyser in xesEnergyScannable.getXes().getCrystalsList() :
+            motors = analyser.getGroupMembers()
+            for count in range(len(motors)) :
+                if len(tolerances)>count :
+                    mot = motors.get(count)
+                    # print("  %s \t: %.4f, %d"%(mot.getName(), tolerances[count], numRetries))
+                    mot.setTolerance(tolerances[count])
+                    mot.setNumberTries(numRetries)
+    
 def setup_dummy_spectrometer(xesEnergyScannable) :
     """
         Setup initial values for dummy XES spectrometer :
@@ -74,3 +86,16 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
     xesEnergyScannable.moveTo(2000)
     
     print("Finished")
+    
+    
+# Set the demand value precisions in XES bragg objects
+XESBraggUpper.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
+XESBraggLower.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
+
+# Set the GDA tolerance and number of retries on each ScannableMotor
+setAnalyserMoveTolerances(XESEnergyLower, [0.005, 0.005, 0.005, 0.005], 3)
+setAnalyserMoveTolerances(XESEnergyUpper, [0.005, 0.005, 0.005, 0.005], 3)
+
+if LocalProperties.isDummyModeEnabled() :
+    setup_dummy_spectrometer(XESEnergyUpper)
+    setup_dummy_spectrometer(XESEnergyLower)
