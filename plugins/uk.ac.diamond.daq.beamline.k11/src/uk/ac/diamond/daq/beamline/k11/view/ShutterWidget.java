@@ -26,8 +26,12 @@ import static uk.ac.gda.ui.tool.ClientSWTElements.label;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.nebula.widgets.opal.switchbutton.SwitchButton;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -35,10 +39,14 @@ import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.commandqueue.SimpleCommandProgress;
 import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.device.EnumPositionerStatus;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
+import uk.ac.gda.ui.tool.WidgetUtilities;
 
 /**
  * Label and switch button to open/close a shutter. Control can be enabled/disabled
@@ -48,12 +56,19 @@ public class ShutterWidget {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShutterWidget.class);
 
-	private final Scannable shutter;
+	private final EnumPositioner shutter;
 	private final String shutterName;
 	private final Map<Scannable, String> enablingScannables;
 
 	private Label label;
 	private SwitchButton shutterControl;
+
+	private Color idleSelectedBg;
+	private Color idleSelectedFg;
+	private Color idleUnselectedBg;
+	private Color idleUnselectedFg;
+	private Color movingBg = Display.getDefault().getSystemColor(SWT.COLOR_YELLOW);
+	private Color movingFg = Display.getDefault().getSystemColor(SWT.COLOR_BLACK);
 
 	/** Results of evaluation of individual enabling scannable */
 	record EnablementResult(boolean enabled, String tooltip) {}
@@ -75,6 +90,11 @@ public class ShutterWidget {
 		shutterControl.setTextForUnselect("Closed");
 
 		shutterControl.addListener(SWT.Selection, select -> toggleShutter());
+
+		idleSelectedBg = shutterControl.getSelectedBackgroundColor();
+		idleSelectedFg = shutterControl.getSelectedForegroundColor();
+		idleUnselectedBg = shutterControl.getUnselectedBackgroundColor();
+		idleUnselectedFg = shutterControl.getUnselectedForegroundColor();
 
 		// update shutter control when scannable position changes
 		IObserver stateUpdater = (source, arg) -> updateShutterState();
@@ -98,13 +118,16 @@ public class ShutterWidget {
 		return composite;
 	}
 
+	private boolean enabledDueToInterlocks;
+
 	private void evaluateShutterEnablement() {
 		var results = enablingScannables.entrySet().stream()
 			.map(entry -> evaluateCondition(entry.getKey(), entry.getValue())).toList();
 
 		var enabled = results.stream().allMatch(EnablementResult::enabled);
+		enabledDueToInterlocks = enabled;
 		var tooltip = results.stream().map(EnablementResult::tooltip).filter(not(String::isBlank)).collect(joining("\n"));
-
+		logger.info("About to set enabled to {} due to interlocks", enabled);
 		Display.getDefault().asyncExec(() -> {
 			shutterControl.setEnabled(enabled);
 			shutterControl.getParent().setToolTipText(tooltip);
@@ -125,45 +148,138 @@ public class ShutterWidget {
 	}
 
 	private void toggleShutter() {
-		try {
-			var open = shutterControl.getSelection();
-			if (open) {
-				close();
-			} else {
-				open();
-			}
-		} catch (DeviceException e) {
-			logger.error("Error moving shutter", e);
+		var open = shutterControl.getSelection();
+		if (open) {
+			close();
+		} else {
+			open();
 		}
 	}
 
 	private void updateShutterState() {
 		try {
-			var position = shutter.getPosition().toString();
-			boolean open = position.equalsIgnoreCase("Open");
 
-			// https://github.com/eclipse/nebula/issues/300
-			// Fixed in Nebula 2.5
-			boolean counterIntuitiveSelection = !open;
+			var status = shutter.getStatus();
+			if (status == EnumPositionerStatus.MOVING) {
+				Display.getDefault().syncExec(() -> {
+					setTransitionState();
+					shutterControl.redraw(); // not needed from v 2.5
+					shutterControl.getParent().pack();
+				});
+			} else {
+				// https://github.com/eclipse/nebula/issues/300
+				// Fixed in Nebula 2.5
+				boolean counterIntuitiveSelection = !selectionFromScannable();
 
-			Display.getDefault().syncExec(() -> {
-				shutterControl.setSelection(counterIntuitiveSelection);
-				shutterControl.redraw(); // not needed from v 2.5
-			});
+				Display.getDefault().syncExec(() -> {
+					setSteadyState();
+					toggleDecoration(status);
+					shutterControl.setSelection(counterIntuitiveSelection);
+					shutterControl.getParent().pack(); // force refresh, sometimes needed
+				});
+			}
 
 		} catch (DeviceException e) {
 			logger.error("Error reading shutter position", e);
 		}
 	}
 
-
-	private void open() throws DeviceException {
-		shutter.moveTo("Reset"); // TODO this logic should be moved to the scannable that requires it
-		shutter.moveTo("Open");
+	private void setSteadyState() {
+		shutterControl.setTextForSelect("Open");
+		shutterControl.setTextForUnselect("Closed");
+		shutterControl.setSelectedBackgroundColor(idleSelectedBg);
+		shutterControl.setSelectedForegroundColor(idleSelectedFg);
+		shutterControl.setUnselectedBackgroundColor(idleUnselectedBg);
+		shutterControl.setUnselectedForegroundColor(idleUnselectedFg);
+		shutterControl.setEnabled(enabledDueToInterlocks);
 	}
 
-	private void close() throws DeviceException {
-		shutter.moveTo("Close");
+	private void setTransitionState() {
+		shutterControl.setTextForSelect("Opening");
+		shutterControl.setSelectedBackgroundColor(movingBg);
+		shutterControl.setSelectedForegroundColor(movingFg);
+		shutterControl.setTextForUnselect("Closing");
+		shutterControl.setUnselectedBackgroundColor(movingBg);
+		shutterControl.setUnselectedForegroundColor(movingFg);
+		shutterControl.setEnabled(false);
 	}
+
+	/** Shows or hides error decoration. No effect if {@code MOVING} */
+	private void toggleDecoration(EnumPositionerStatus status) {
+		if (status == EnumPositionerStatus.IDLE) {
+			WidgetUtilities.hideDecorator(shutterControl);
+		} else if (status == EnumPositionerStatus.ERROR) {
+			WidgetUtilities.addErrorDecorator(shutterControl, "Move did not complete normally - check logs");
+		}
+	}
+
+	/**
+	 * @return {@code true} if shutter is Open, else {@code false}
+	 */
+	private boolean selectionFromScannable() throws DeviceException {
+		var position = shutter.getPosition().toString();
+		return position.equalsIgnoreCase("Open");
+	}
+
+	private void open() {
+		move("Open");
+	}
+
+	private void close() {
+		move("Close");
+	}
+
+	/**
+	 * Starts the move as an interruptible Eclipse Job.
+	 * During execution, an observer is added to the scannable
+	 * which filters for {@link SimpleCommandProgress} args
+	 * and updates the {@link IProgressMonitor} with these
+	 * messages (percentage is ignored).
+	 */
+	private void move(String position) {
+		Job moveJob = Job.create("Moving " + shutterName, monitor -> {
+			monitor.beginTask("", IProgressMonitor.UNKNOWN);
+
+			IObserver observer = (source, argument) -> {
+				if (argument instanceof SimpleCommandProgress progress) {
+					monitor.subTask(progress.getMsg());
+				}
+			};
+
+			shutter.addIObserver(observer);
+			try {
+				shutter.asynchronousMoveTo(position);
+
+				// while busy, keep checking for user cancellation
+				do {
+					if (monitor.isCanceled()) {
+						shutter.stop();
+						return Status.CANCEL_STATUS;
+					}
+					Thread.sleep(100);
+				} while (shutter.isBusy());
+
+				shutter.deleteIObserver(observer);
+
+				if (shutter.getStatus() == EnumPositionerStatus.IDLE) {
+					monitor.done();
+					return Status.OK_STATUS;
+				} else {
+					return Status.error("Shutter move failed");
+				}
+			} catch (DeviceException e) {
+				return Status.error("Shutter move failed", e);
+			} catch (InterruptedException e) {
+				monitor.setCanceled(true);
+				Thread.currentThread().interrupt();
+				return Status.CANCEL_STATUS;
+			}
+
+		});
+
+		moveJob.schedule();
+	}
+
+
 
 }
