@@ -22,10 +22,14 @@ moveableImageDet.configure()
 nexusFilenameTemplate = "alignment/%d.nxs"
 asciiFilenameTemplate = "alignment/%d.dat"
 
-imageDetector = medipix1_addetector
+# medipix1 for upper, medipix2 for lower
+imageDetector = medipix2_addetector
+detectorMap = {XESEnergyLower:medipix2_addetector , XESEnergyUpper:medipix1_addetector}
+#imageDetector = playbackDet
+
 imageSize=[256, 1033] #'height', 'width'
 roiCentre=[128, 517]
-roiSize=[50,25]
+roiSize=[50,50]
 
 #imageDetector = moveableImageDet
 #imageSize = [1000, 500]
@@ -55,10 +59,10 @@ def getPitchScannable(analyserCrystal) :
     return analyserCrystal.getPitchMotor()
 
 def doPitchScan(pitchScannable, centralPitch) :
-    return runScanAndFindPeak(pitchScannable, centralPitch, 0.5, 0.05, "horizontalRoi")
+    return runScanAndFindPeak(pitchScannable, centralPitch, 0.5, 0.025, "horizontalRoi")
 
 def doYawScan(yawScannable, centralYaw) :
-    return runScanAndFindPeak(yawScannable, centralYaw, 1.0, 0.05, "verticalRoi")
+    return runScanAndFindPeak(yawScannable, centralYaw, 1.0, 0.025, "verticalRoi")
 
 def doEnergyScan(energyScannable, expectedEnergy) :
     return runScanAndFindPeak(energyScannable, expectedEnergy, 5.0, 0.3, "centreRoi")
@@ -95,6 +99,14 @@ def runScanAndFindPeak(scnToMove, scanCentre, scanRange=0.1, scanStepSize=0.01, 
     scanDataFilename = getLastScanFileName()
     return scanDataFilename, fitDataFromFile(scanDataFilename, hvRois.getName(), roiName, scnToMove.getName())
 
+def setEnableAllAnalysers(xesBraggScn, state):
+    print("Setting %s all crystals allowed to move = %s"%(xesBraggScn.getName(), state))
+    vals=[]
+    for cryst in xesBraggScn.getCrystalsList() :
+        vals.append(state)
+    print("Crystals allowed to move = %s"%(vals))
+    xesBraggScn.getCrystalsAllowedToMove().moveTo(vals)
+
 def disableAnalysers(xesBraggScn, index):
     print("Enabling analyser %d on %s (disabling all others)"%(index, xesBraggScn.getName()))
     vals=[]
@@ -105,6 +117,18 @@ def disableAnalysers(xesBraggScn, index):
             vals.append("false")
     print("Crystals allowed to move = %s"%(vals))
     xesBraggScn.getCrystalsAllowedToMove().moveTo(vals)
+
+def moveAllPitchStages(xesBraggScn, amount):
+    print("Moving all pitch stages for %s by %.4g degrees"%(xesBraggScn.getName(), amount))
+    for cryst in xesBraggScn.getCrystalsList() :
+        pitchMotor = cryst.getPitchMotor()
+        currentPos = pitchMotor.getPosition()
+        newPos = currentPos + amount
+        print("Moving %s from %.4g to %.4g"%(pitchMotor.getName(), currentPos, newPos))
+        pitchMotor.asynchronousMoveTo(newPos)
+
+    xesBraggScn.waitWhileBusy()
+    print("Finished")
 
 def moveAllXStages(xesBraggScn, position = 1.2):
     print("Moving all X stages for %s to %.4g"%(xesBraggScn.getName(), position))
@@ -117,32 +141,8 @@ def printInfo(info):
     marker = "----------"
     print("\n%s %s %s"%(marker,info, marker))
     
-# First move all analyser stages out of the way
-def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
-    """
-        Parameters 
-            XES energy scannable object
-            crystalIndex - index of the analyser crystal to be optimised (-3, -2, 1, 1, 2, 3)
-            expectedEnergy - energy value to use when calculating positions of the analyser motors.
-            
-        Method : 
-        1) Disable all analysers apart from the one being optimised. This means they are not moved when changing energy.
-        2) Move the analyser to the expectedEnergy using the XESEnergy scannable.
-        3) Scan the pitch and yaw about the centre values at the expected energy; find the pitch and yaw positions that best overlap
-        the diffracted image with the detector horizontal and vertical detector ROIs.
-        4) Set the pitch and yaw offsets (in Epics motor record) so that actual motor positions correspond to the best fit positions
-        from step 3) when they are moved to values for the expectedEnergy.
-        5) Do several scans of XESEnergy using several different pitch offsets. For each energy scan, find the energy where the peak
-        emission occurs. Use linear regression on the set of [peak emission energy, pitch offset] values to find the offset that puts
-        the peak emission at the expectedEnergy.
-        
-    """
-    
-    printInfo("Preparing to optimise analyser %d on %s. Expected energy = %.2f"%(crystalIndex, xesEnergyScn.getName(), expectedEnergy))
-
+def getAnalyserCrystal(xesEnergyScn, crystalIndex) :
     xesBraggScn = xesEnergyScn.getXes()
-    
-    # Get the analyser crystal object corresponding to the index
     analyserCrystal = None
     for cryst in xesBraggScn.getCrystalsList() :
         if cryst.getHorizontalIndex() == crystalIndex :
@@ -151,10 +151,68 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
     if analyserCrystal is None : 
         raise Exception("No analyser crystal with index = "+str(crystalIndex)+" was found in "+xesBraggScn.getName())
     
-    # Disable all the analysers except the one being optimised    
-    # disableAnalysers(xesBraggScn, analyserCrystal.getHorizontalIndex())   
+    return analyserCrystal
+    
+def setupDetectorToUse(xesEnergyScn) :
+    detectorForScan = detectorMap.get(xesEnergyScn)
+    if detectorForScan == None : 
+        raise Exception("No detector found to use for %s"%(xesEnergyScn.getName()))
+
+    global imageDetector
+    imageDetector = detectorForScan
+    
+    # Set the detector to be use on the ROIExtractor 
+    hvRois.setDetector(imageDetector)
+    
+    print("Using detector %s for %s scans"%(imageDetector.getName(), xesEnergyScn.getName()))
+    
+def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
+    """
+        Parameters 
+            XES energy scannable object
+            crystalIndex - index of the analyser crystal to be optimised (-3, -2, 1, 1, 2, 3)
+            expectedEnergy - energy value to use when calculating positions of the analyser motors.
+            
+        Method : 
+        1) Enable all analysers
+        2) Move to the expected energy
+        3) Move the pitch stages by a small amount so that the image from the analysers is not the detector
+        4) Disable all analysers apart from the one being optimised. This means they are not moved when changing energy.
+        5) Move the analyser to the expectedEnergy using the XESEnergy scannable.
+        6) Scan the pitch and yaw about the centre values at the expected energy; find the pitch and yaw positions that best overlap
+        the diffracted image with the detector horizontal and vertical detector ROIs.
+        7) Set the pitch and yaw offsets (in Epics motor record) so that actual motor positions correspond to the best fit positions
+        from step 3) when they are moved to values for the expectedEnergy)
+    """
+    
+    printInfo("Preparing to optimise analyser %d on %s. Expected energy = %.2f"%(crystalIndex, xesEnergyScn.getName(), expectedEnergy))
+
+    # Get the detector to use for the scan
+    setupDetectorToUse(xesEnergyScn)
+
+    xesBraggScn = xesEnergyScn.getXes()
+    
+    # Get the analyser crystal object corresponding to the index
+    analyserCrystal = getAnalyserCrystal(xesEnergyScn, crystalIndex)
+    
+    #Enable all analysers
+    print("Enabling all analysers for %s"%(xesBraggScn.getName()))
+    setEnableAllAnalysers(xesBraggScn, "true")
     
     # Move analyser motors to the expected energy
+    print("Moving %s to expected energy %.4g"%(xesEnergyScn.getName(), expectedEnergy))
+    xesEnergyScn.moveTo(expectedEnergy)
+
+    # Change the pitch of all the stages by a small amount, so the image from each
+    # analyser is moved off the detector
+    pitchMoveAmount=2.0
+    print("Moving pitch by %.2f"%(pitchMoveAmount))
+    moveAllPitchStages(xesBraggScn, pitchMoveAmount)
+    
+    # Disable all the analysers in XESBragg moves except the one being optimised
+    disableAnalysers(xesBraggScn, analyserCrystal.getHorizontalIndex())   
+    
+    # Move the analyser being aligned to the 'expected energy'.
     print("Moving %s to expected energy %.4g"%(xesEnergyScn.getName(), expectedEnergy))
     xesEnergyScn.moveTo(expectedEnergy)
     
@@ -187,7 +245,7 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
     printInfo("Running yaw scan using "+yawScannable.getName())
     yawScanResults = doYawScan(yawScannable, centreYaw)
     yawPeak = yawScanResults[1].getPosition()
-    print("Peak yaw position : %.4f\n"%(yawPeak))
+    print("Peak yaw position : %.4f"%(yawPeak))
 
     # Set the pitch and yaw values to to peak intensity position found during the scan
     #pitchPeak = pitchScanResults[1].getPosition()
@@ -195,33 +253,53 @@ def optimisePitchYaw(xesEnergyScn, crystalIndex, expectedEnergy) :
     setupOffsets(pitchScannable, centrePitch, pitchPeak, )    
     setupOffsets(yawScannable, centreYaw, yawPeak)
 
-def optimiseEnergy(xesEnergyScannable, expectedEnergy, pitchScannable, yawScannable) :
+def optimiseEnergy(xesEnergyScannable, crystalIndex, expectedEnergy, numRepetitions = 3) :
+    """
+        Perform XESEnergy scans to find the yaw and pitch offsets that put the peak emission at the 'expected' energy
+        
+        Parameters 
+            XES energy scannable object
+            crystalIndex - index of the analyser crystal to be optimised (-3, -2, 1, 1, 2, 3)
+            expectedEnergy - energy value to use when calculating positions of the analyser motors.
+            numRepetition - the number of times the energy scan should be repeated (optional, default = 3)
+            
+        Method :
+        1) Do scan of XESEnergy using. We assume that spectrometer has only one analyser stage active and that
+        other analysers have suitable pitch to put the focus off the detector (as done by optimiseYawPitch)
+        2) Find the energy of the peak of the emission profile. Move the XESEnergy scannable to the peak energy to set the pitch
+        and yaw scannables at peak position.
+        3) Set the pitch and yaw offsets to give the expected pitch and yaw values (i.e. pitch and yaw for expected energy)
+        
+        4) Repeat steps 1-3 until peak XESEnergy scan is close enough to expectedEnergy value
+        
+    """
+    printInfo("Running energy scans using %s, analyser %d"%(xesEnergyScannable.getName(), crystalIndex))
+
+    setupDetectorToUse(xesEnergyScannable)
+
+    analyserCrystal = getAnalyserCrystal(xesEnergyScannable, crystalIndex)
+    pitchScannable = getPitchScannable(analyserCrystal)
+    yawScannable = getYawScannable(analyserCrystal)
+    
     xesEnergyScannable.moveTo(expectedEnergy)
     expectedPitch = pitchScannable.getPosition()
     expectedYaw = yawScannable.getPosition();
-    for i in range(3) :  
+
+    for i in range(numRepetitions) :  
+        printInfo("Scan %d of %d"%(i+1, numRepetitions))
         fitResult = doEnergyScan(xesEnergyScannable, expectedEnergy)
         peakEnergy = fitResult[1].getPosition()
         print("Energy peak position : %.4f"%(peakEnergy))
         print("Moving %s to %.4f"%(xesEnergyScannable.getName(), peakEnergy))
         xesEnergyScannable.moveTo(peakEnergy)
+        
+        printInfo("Setting motor offsets using scan results")
         setupOffsets(pitchScannable, expectedPitch)    
         setupOffsets(yawScannable, expectedYaw)  
-        
-def fitOffsetPitchCurve(energyLoopResult, pitchOffsets) :
-    energyPeakValues = []
-    for res in energyLoopResult :
-        energyPeakValues.append(res[1].getPosition())
-    print("Offset values (x) : %s"%(pitchOffsets))
-    print("Energy peak positions (y) : %s"%(energyPeakValues))
     
-    fitResults = linearFit(pitchOffsets,energyPeakValues)
-    fitParams = fitResults.parameters
-    print("Linear regression results using y = ax + b : a = %.4g, b = %.4g"%(fitParams[0], fitParams[1]))
-    fitResults.plot()
-    return fitResults
-    
-import scisoftpy as dnp
+def optimiseAnalyser(xesEnergyScannable, crystalIndex, expectedEnergy) :
+    optimisePitchYaw(xesEnergyScannable, crystalIndex, expectedEnergy)
+    optimiseEnergy(xesEnergyScannable, crystalIndex, expectedEnergy)
  
 # Move motor to given peakPosition (peakPos); Call setPosition with calculatedPos - this adjusts
 # the motor offsets so that next time it moves to calculatedPos, the real position is peakPos.
@@ -232,60 +310,21 @@ def setupOffsets(scannableMotor, calculatedPos, peakPos=None):
     print("Current %s offset : %.6f"%(scannableMotor.getName(), scannableMotor.getUserOffset()))
     print("Setting offset on %s to give peak value at %.4f"%(scannableMotor.getName(), calculatedPos))
     scannableMotor.setPosition(calculatedPos)
-    print("New %s offset : %.6f"%(scannableMotor.getName(), scannableMotor.getUserOffset()))
-
-def linearFit(xvals, yvals) :
-    """
-        xvals - array of x values
-        yvals - array of y values
-        
-        See : https://alfred.diamond.ac.uk/documentation/manuals/Diamond_SciSoft_Python_Guide/trunk/fitting.html
-    """
-    initialParams=[0, 1]
-    results = dnp.fit.fit(dnp.fit.function.linear, dnp.array(xvals), dnp.array(yvals), initialParams, bounds=[], args=None, ptol=1e-4, optimizer='local')
-    # Use 'results.plot()' to plot data and the fitted line :-)
-    # results.parameterValues to get array of the fitted parameters (for straight line : 0 = gradient, 1=intercept)
-    return results
+    print("---> New %s offset : %.6f\n"%(scannableMotor.getName(), scannableMotor.getUserOffset()))
 
 def getLastScanFileName() :
     return lastScanDataPoint().getCurrentFilename()
-
-def testRoiProcessing(filename) :
-    return processRois(filename, "rois", "verticalRoi", moveableImageDet.getxScannable().getName(), moveableImageDet.getyScannable().getName(), 5)
 
 # Fit x y data from file to Gaussian profile
 def fitDataFromFile(nexusFileName, groupName, roiName, axisName) :
     data = dnp.io.load(nexusFileName)
     dataGroup = data['entry1'][groupName];
     return curveFitting.findPeakOutput(dataGroup[axisName][...], dataGroup[roiName][...])
-                                
-    
-def processRois(nexusFileName, groupName, roiName, xAxisName, yAxisName, numBestValues=10) :
-    
-    # load the x, y value datasets and the roi values
-    data = dnp.io.load(nexusFileName)
-    dataGroup = data['entry1'][groupName]
-    xValues = dataGroup[xAxisName][...]
-    yValues = dataGroup[yAxisName][...]
-    roiValues= dataGroup[roiName][...]
-    
-    numYVals = len(vals)
-    numXVals = len(vals[0])
-    
-    # Make list of tuples (roiValue, xPosition, yPosition)
-    combined = []
-    for i in range(numYVals) :
-        for j in range(numXVals) :
-            combined.append( (roiValues[i][j], xValues[i][j], yValues[i][j]) )
-    
-    # Sort into order of descending ROI count
-    sortedRois = sorted(vals, key=lambda s : s[0], reverse=True)
-    
-    return sortedRois
-    return combined
 
-def getAverage(intensityPosition) :
-    return [sum(x) for x in zip(*intensityPosition)]
+from gda.device.scannable import ScannableMotor
+def showOffsets(xesEnergyScannable) :
+    for scn in xesEnergyScannable.getXes().getScannables() :
+        if isinstance(scn, ScannableMotor) :
+            mot = scn.getMotor()
+            print("%s : %.4f"%(scn.getName(), mot.getUserOffset()))
 
-    # find the best N values
-    # find bounding box in x-y containing the best values

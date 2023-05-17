@@ -10,6 +10,7 @@
 		<property name="defaultSubdirectory" value="nexus" />
 		<property name="tfgFFI0" ref="xspress4FFI0" />
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
+		<property name="triggerModeForScans" value="3" /> <!-- TTLVetor triggermode -->
 	</bean>
 
 	<bean id="xspress4FFI0" class="gda.device.detector.TfgFFoverI0">

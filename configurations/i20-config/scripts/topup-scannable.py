@@ -3,6 +3,7 @@ from gda.device.scannable import TopupChecker
 from org.slf4j import LoggerFactory
 from gda.device.enumpositioner import ValvePosition
 
+print("\nRunning 'topup-scannable.py'")
 
 class TopupCheckerWithShutter(TopupChecker):
     
@@ -50,6 +51,7 @@ class TopupCheckerWithShutter(TopupChecker):
             self.moveShutter(ValvePosition.OPEN)
             
 
+print("Creating topup checker with shutter and adding it as default scannable")
 topupChecker2 = TopupCheckerWithShutter(topupChecker)
 topupChecker2.setName("topupChecker2")
 topupChecker2.setShutter(photonshutter)

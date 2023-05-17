@@ -7,32 +7,32 @@
     </detectorGroup>
     <detectorGroup>
         <name>Silicon</name>
+        <detector>ionchambers</detector>
         <detector>FFI0_vortex</detector>
         <detector>xmapMca</detector>
-        <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
         <name>Xspress4</name>
+        <detector>ionchambers</detector>
         <detector>xspress4</detector>
         <detector>xspress4FFI0</detector>
-        <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
         <name>Xspress3</name>
+        <detector>ionchambers</detector>
         <detector>xspress3</detector>
         <detector>xspress3FFI0</detector>
-        <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
         <name>Xspress3X</name>
+        <detector>ionchambers</detector>
         <detector>xspress3X</detector>
         <detector>xspress3XFFI0</detector>
-        <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
+        <detector>xmapMca</detector>
         <name>XES_xmap</name>
         <detector>FFI1</detector>
-        <detector>xmapMca</detector>
         <detector>I1</detector>
     </detectorGroup>
     <detectorGroup>
@@ -42,15 +42,15 @@
     </detectorGroup>
     <detectorGroup>
         <name>XES_xspress3</name>
+        <detector>I1</detector>
         <detector>xspress3</detector>
         <detector>xspress3FFI1</detector>
-        <detector>I1</detector>
     </detectorGroup>
     <detectorGroup>
         <name>XES_xspress3X</name>
+        <detector>I1</detector>
         <detector>xspress3X</detector>
         <detector>xspress3XFFI1</detector>
-        <detector>I1</detector>
     </detectorGroup>
     <experimentType>Transmission</experimentType>
     <transmission>

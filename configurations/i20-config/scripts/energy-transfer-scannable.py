@@ -1,8 +1,9 @@
 from gda.util import QuantityFactory
-from gda.device.scannable import ConvertorScannable
+from gda.device.scannable import ConvertorScannable, ScannableGroupSinglePosition
 from gda.util.converters import IQuantityConverter
-from __builtin__ import None
 
+
+print("\nRunning 'energy-transfer-scannable.py")
 # Convert values to/from position relative to current position of scannable
 ## toTarget converts from relative to absolute position :  absolute position = refScannable.getPosition() - sourcePosition
 ## toSource converts from absolute to relative position :  relative position = refScannable.getPosition() - targetPosition
@@ -54,13 +55,49 @@ class RelativePositionConverter(IQuantityConverter) :
     
     def setUnits(self, units):
         self.units = units
+
+
+class SinglePositionConvertorScannable(ConvertorScannable) :
+    """
+    Version of the ConvertorScannable class that overrides asynchronousMoveTo and checkPositionValid
+    to ensure only single number is passed to underlying functions 
+    (ConvertorScannable does not work if passed an array even if it has only 1-element).
+    """
+    def asynchronousMoveTo(self, demandPos) :
+        singlePos = self.getSinglePosition(demandPos)
+        super(SinglePositionConvertorScannable, self).asynchronousMoveTo(singlePos)
+
+    # Return first element in demandPosition
+    def getSinglePosition(self, demandPos) :
+        return ScannableUtils.objectToArray(demandPos)[0]
     
+    def checkPositionValid(self, demandPos) :
+        singlePos = self.getSinglePosition(demandPos)
+        return super(SinglePositionConvertorScannable, self).checkPositionValid(singlePos)
+
 converterRelativeToBragg = RelativePositionConverter()
 converterRelativeToBragg.setReferenceScannable(bragg1)
 
-energyTransfer = ConvertorScannable();
-energyTransfer.setName("energyTransfer")
-energyTransfer.setOutputFormat(XESEnergyLower.getOutputFormat())
-energyTransfer.setScannable(XESEnergyLower)
-energyTransfer.setConvertor(converterRelativeToBragg)
-energyTransfer.configure()
+# Reduce the level of the mono scannables. This ensures that they are moved initial
+# positions in scans first and are in place *before* energy transfer scannables are positioned.
+bragg1.setLevel(4)
+bragg1WithOffset.setLevel(4)
+
+def createEnergyTransferScannable(sourceScn, name):
+    energyTransfer = SinglePositionConvertorScannable();
+    energyTransfer.setName(name)
+    energyTransfer.setOutputFormat(sourceScn.getOutputFormat())
+    energyTransfer.setScannable(sourceScn)
+    energyTransfer.setConvertor(converterRelativeToBragg)
+    energyTransfer.configure()
+    return energyTransfer
+
+print("Creating energy transfer scannables : XESEnergyTransferLower, XESEnergyTransferUpper, XESEnergyTransferBoth")
+
+XESEnergyTransferLower = createEnergyTransferScannable(XESEnergyLower, "XESEnergyTransferLower");
+XESEnergyTransferUpper = createEnergyTransferScannable(XESEnergyUpper, "XESEnergyTransferUpper");
+
+XESEnergyTransferBoth = ScannableGroupSinglePosition()
+XESEnergyTransferBoth.setGroupMembers([XESEnergyTransferLower,XESEnergyTransferUpper])
+XESEnergyTransferBoth.setName("XESEnergyTransferBoth")
+XESEnergyTransferBoth.configure()
