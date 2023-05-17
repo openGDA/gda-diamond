@@ -106,31 +106,35 @@ class Keithley2400Current(ScannableMotionBase):
     def getPosition(self):
         returned_value = self.keithley.get_response()
         self.logger.debug("Keithley returns are %s" % returned_value)
-        data = [float(x) for x in str(returned_value).split(",")]
-
-        if self.count == 1:
-            current = data[0]
-            voltage = data[1]
-            resistance = voltage/current
-            self.logger.debug("Current value is %f, Voltage value is %f, Resistance is %f" % (current, voltage, resistance))
-            data = [current, voltage, resistance]
-        if self.count > 1:
-            input_data = []
-            extra_data = []
-            resistance_data = []
-            for i in range(len(data)):
-                if i % 2 == 0: #even index
-                    input_data.append(data[i])
-                if i % 2 == 1: #odd index
-                    extra_data.append(data[i])
-            for vol, cur in zip(extra_data,input_data):
-                resistance_data.append(vol/cur)
-            self.logger.debug("Current value is %s, Voltage value is %s, Resistance is %s" % (str(input_data), str(extra_data), str(resistance_data)))
-            data = []
-            #reorder data to match GDA input names and extra names order
-            for each in zip(input_data, extra_data, resistance_data):
-                [data.append(x) for x in each]
-        return data
+        try:
+            data = [float(x) for x in str(returned_value).split(",")]
+    
+            if self.count == 1:
+                current = data[0]
+                voltage = data[1]
+                resistance = voltage/current
+                self.logger.debug("Current value is %f, Voltage value is %f, Resistance is %f" % (current, voltage, resistance))
+                data = [current, voltage, resistance]
+            if self.count > 1:
+                input_data = []
+                extra_data = []
+                resistance_data = []
+                for i in range(len(data)):
+                    if i % 2 == 0: #even index
+                        input_data.append(data[i])
+                    if i % 2 == 1: #odd index
+                        extra_data.append(data[i])
+                for vol, cur in zip(extra_data,input_data):
+                    resistance_data.append(vol/cur)
+                self.logger.debug("Current value is %s, Voltage value is %s, Resistance is %s" % (str(input_data), str(extra_data), str(resistance_data)))
+                data = []
+                #reorder data to match GDA input names and extra names order
+                for each in zip(input_data, extra_data, resistance_data):
+                    [data.append(x) for x in each]
+            return data
+        except:
+            print("response from %s is %s" % (self.getName(), returned_value))            
+            raise
 
     def asynchronousMoveTo(self, value):
         if not self.inScan:

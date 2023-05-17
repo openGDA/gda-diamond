@@ -58,6 +58,7 @@ class EpicsKeithley2461(object):
         self.connect.configure()
         self.asyn_timeout.configure()
         self.configured = True
+        self.communication_wait = 0.1
         
     def send_command_no_reply(self, command, timeout = 1.0):
         self.configure()
@@ -65,8 +66,9 @@ class EpicsKeithley2461(object):
         if self.last_transfer_mode != 1:
             self.transfer_mode.caput(1)
             self.last_transfer_mode = 1
-        sleep(0.1)
+        sleep(self.communication_wait)
         self.command.caput([ord(c) for c in command + str('\0')])
+        sleep(self.communication_wait)
         
     def send_command(self, command, timeout = 1.0):
         self.configure()
@@ -74,8 +76,9 @@ class EpicsKeithley2461(object):
         if self.last_transfer_mode != 0:
             self.transfer_mode.caput(0)
             self.last_transfer_mode = 0
-        sleep(0.1)
+        sleep(self.communication_wait)
         self.command.caput([ord(c) for c in command + str('\0')])
+        sleep(self.communication_wait)
         
     def get_response(self, timeout = 1.0):
         self.configure()

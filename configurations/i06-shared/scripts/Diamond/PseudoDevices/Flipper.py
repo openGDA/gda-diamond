@@ -51,25 +51,25 @@ class FlipperClass(ScannableMotionBase):
 	def setKeithley(self, keithley_scannable):
 		''' add keithley scannable to data collection of this object
 		'''
-		if keithley_scannable is None:
-			raise ValueError("Keithley Scannable object cannot be None")
-		self.keithley_scannable = keithley_scannable
-		input_names = []
-		for name in keithley_scannable.getInputNames():
-			input_names.append(str(name) + '_A')
-			input_names.append(str(name) + '_B')
-		extra_names =  self.getExtraNames()
-		for name in keithley_scannable.getExtraNames():
-			extra_names.append(str(name) + '_A')
-			extra_names.append(str(name) + '_B')
-		self.setExtraNames(input_names + extra_names)
+		if keithley_scannable:
+			self.keithley_scannable = keithley_scannable
+			input_names = []
+			for name in keithley_scannable.getInputNames():
+				input_names.append(str(name) + '_A')
+				input_names.append(str(name) + '_B')
+			extra_names =  self.getExtraNames()
+			for name in keithley_scannable.getExtraNames():
+				extra_names.append(str(name) + '_A')
+				extra_names.append(str(name) + '_B')
+			self.setExtraNames(input_names + extra_names)
 	
 	def removeKeithley(self):
 		''' remove keithley scannable from data collection of this object.
 		'''
-		self.keithley_scannable = None
-		self.setInputNames(self.getInputNames())
-		self.setExtraNames(self.getExtraNames())
+		if self.keithley_scannable:
+			self.keithley_scannable = None
+			self.setInputNames(self.getInputNames())
+			self.setExtraNames(self.getExtraNames())
 		
 	def setMagnet(self, magnetName):
 		self.magnet = vars(gdamain)[magnetName];
