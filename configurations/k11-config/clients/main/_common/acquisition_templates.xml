@@ -267,7 +267,7 @@
 		
 		<property name="startPosition">
 			<list>
-				<ref bean="shutter_closed" />
+				<ref bean="no_beam" />
 			</list>
 		</property>
 		
@@ -337,6 +337,16 @@
 			</bean>
 		</property>
 		<property name="position" value="Imaging" />
+	</bean>
+	
+	<bean id="no_beam" class="uk.ac.gda.client.properties.stage.position.ScannablePropertiesValue">
+		<property name="scannableKeys">
+			<bean class="uk.ac.gda.client.properties.stage.position.ScannableKeys">
+				<property name="groupId" value="beam_selector" />
+				<property name="scannableId" value="selector" />
+			</bean>
+		</property>
+		<property name="position" value="No beam//" />
 	</bean>
 
 </beans>
