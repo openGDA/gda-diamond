@@ -49,7 +49,7 @@ class EpicsKeithley2400(object):
     def get_response(self):
         self.configure()
         response_string = self.response.caget()
-        return response_string.trim()
+        return response_string
 
     def reset(self):
         '''resets the instrument settings to their default values and clears the reading buffers.
