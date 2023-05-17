@@ -316,7 +316,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			}
 		} else {
 			// Scan using spectrometer : SCAN_XES_FIXED_MONO, (SCAN_XES_REGION?), or (2d) SCAN_XES_SCAN_MONO/
-			SpectrometerScanParameters scanParams = xesParams.getActiveSpectrometerParameters().values().iterator().next();
+			SpectrometerScanParameters scanParams = xesParams.getPrimarySpectrometerScanParams();
 			Double collectionTime = scanParams.getIntegrationTime();
 			int numStepsXes = getNumStepsXes(scanParams);
 			int numStepsMono = getNumStepsMono(xesParams);

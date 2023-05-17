@@ -26,7 +26,8 @@ import gda.exafs.xes.IXesOffsets;
 public class XesScanFactory extends XasScanFactory {
 
 
-	private Scannable analyserAngleBoth;
+	private Scannable xesBraggGroup;
+	private Scannable xesEnergyGroup;
 	private Scannable xesEnergyBoth;
 	private XesScan xesScan;
 	private List<IXesOffsets> xesOffsetsList;
@@ -38,14 +39,20 @@ public class XesScanFactory extends XasScanFactory {
 		}
 
 		checkSharedObjectsNonNull();
-
-		checkDefined(analyserAngleBoth, "analyserAngleBoth");
+		// Check all the scannables exist
+		checkDefined(xesBraggGroup, "analyserAngleBoth");
 		checkDefined(xesEnergyBoth, "xesEnergyBoth");
+		checkDefined(xesEnergyGroup, "xesEnergyGroup");
+		checkDefined(energyScannable, "energyScannable");
 
 		xesScan = new XesScan();
-		xesScan.setXesBraggBoth(analyserAngleBoth);
+
+		// Set the important energy and angle scannables
+		xesScan.setXesBraggGroup(xesBraggGroup);
+		xesScan.setXesEnergyGroup(xesEnergyGroup);
 		xesScan.setXesEnergyBoth(xesEnergyBoth);
 		xesScan.setMono_energy(energyScannable);
+
 		xesScan.setXas(createEnergyScan());
 		xesScan.setBeamlinePreparer(beamlinePreparer);
 		xesScan.setDetectorPreparer(detectorPreparer);
@@ -59,12 +66,12 @@ public class XesScanFactory extends XasScanFactory {
 		return xesScan;
 	}
 
-	public Scannable getXesBraggBoth() {
-		return analyserAngleBoth;
+	public Scannable getXesBraggGroup() {
+		return xesBraggGroup;
 	}
 
-	public void setXesBraggBoth(Scannable analyserAngleBoth) {
-		this.analyserAngleBoth = analyserAngleBoth;
+	public void setXesBraggGroup(Scannable xesBraggGroup) {
+		this.xesBraggGroup = xesBraggGroup;
 	}
 
 	public Scannable getXesEnergyBoth() {
@@ -73,6 +80,14 @@ public class XesScanFactory extends XasScanFactory {
 
 	public void setXesEnergyBoth(Scannable xesEnergyBoth) {
 		this.xesEnergyBoth = xesEnergyBoth;
+	}
+
+	public Scannable getXesEnergyGroup() {
+		return xesEnergyGroup;
+	}
+
+	public void setXesEnergyGroup(Scannable xesEnergyGroup) {
+		this.xesEnergyGroup = xesEnergyGroup;
 	}
 
 	public List<IXesOffsets> getXesOffsetsList() {

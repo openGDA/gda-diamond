@@ -61,7 +61,6 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	private static Logger logger = LoggerFactory.getLogger(XesScan.class);
 
-
 	private Scannable mono_energy;
 	private EnergyScan xas;
 	private XesScanParameters xesScanParameters;
@@ -74,8 +73,11 @@ public class XesScan extends XasScanBase implements XasScan {
 	private Map<Scannable, Scannable> energyTransferScannables = new HashMap<>();
 	private boolean scanEnergyTransfer;
 
-	// Scannable that move XESBraggUpper and XESBraggLower to the same position
-	private Scannable analyserAngleBoth;
+	// Scannable group containing XESBraggUpper and XESBraggLower
+	private Scannable xesBraggGroup;
+
+	// Scannable group containing XESEnergyUpper and XESEnergyLower
+	private Scannable xesEnergyGroup;
 
 	// Scannable that moves XESEnergyUpper and XESEnergyLower to the same position
 	private Scannable xesEnergyBoth;
@@ -115,14 +117,16 @@ public class XesScan extends XasScanBase implements XasScan {
 		// Generate default spectrometer settings list if not present
 		if (!xesScanParameters.hasSpectrometerList()) {
 			xesScanParameters.generateSpectrometerList();
-			xesScanParameters.getSpectrometerParamsForRow(0).setScannableName("XESEnergyUpper");
-			xesScanParameters.getSpectrometerParamsForRow(1).setScannableName("XESEnergyLower");
+			var params = xesScanParameters.getSpectrometerScanParameters();
+			params.get(0).setScannableName("XESEnergyUpper");
+			params.get(1).setScannableName("XESEnergyLower");
+			xesScanParameters.setScanColourType(ScanColourType.ONE_COLOUR);
 		}
 
 		applyOffsets();
 
-		if (analyserAngleBoth.isBusy()) {
-			analyserAngleBoth.waitWhileBusy();
+		if (xesBraggGroup.isBusy()) {
+			xesBraggGroup.waitWhileBusy();
 		}
 
 		// Set XES mode on detector preparer so appropriate setup can be done
@@ -150,10 +154,17 @@ public class XesScan extends XasScanBase implements XasScan {
 	private void applyOffsets() throws IOException {
 		appliedOffsets = new HashMap<>();
 		// Set the offsets for each row of the spectrometer
-		for(var entry : xesScanParameters.getActiveSpectrometerParameters().entrySet() ) {
-			SpectrometerScanParameters specParams = entry.getValue();
-			String scnName = xesScanParameters.getSpectrometerScannableForRow(entry.getKey());
+		for(int i=0; i<xesScanParameters.getSpectrometerScanParameters().size(); i++) {
 
+			SpectrometerScanParameters specParams = xesScanParameters.getSpectrometerScanParameters().get(i);
+			boolean useRow = xesScanParameters.getScanColourType() != null ? xesScanParameters.getScanColourType().useRow(i) : true;
+
+			if (!useRow) {
+				logger.info("Not applying offets to {} - it is not being used for the scan", specParams.getScannableName());
+				continue;
+			}
+
+			String scnName = specParams.getScannableName();
 			// Name of the offset store
 			String offsetStoreName = specParams.getOffsetsStoreName();
 			if (StringUtils.isEmpty(offsetStoreName)) {
@@ -200,39 +211,32 @@ public class XesScan extends XasScanBase implements XasScan {
 		throw new IllegalArgumentException("Could not find XESEnergy object "+scannableName+" required to run XES scan");
 	}
 
-	private SpectrometerScanParameters getSpectrometerScanParams(XesScanParameters scanParams) {
-		if (scanParams.getScanColourType() == ScanColourType.TWO_COLOUR) {
-			throw new IllegalArgumentException("Two colour scans are not not supported");
-		}
-		return scanParams.getActiveSpectrometerParameters().values().iterator().next();
-	}
-
 	private Scannable getXesEnergyScannable(XesScanParameters scanParams) throws Exception {
-		if (scanParams.getScanColourType() == ScanColourType.ONE_COLOUR) {
-			return xesEnergyBoth;
+		ScanColourType colour = scanParams.getScanColourType();
+		if (colour == ScanColourType.ONE_COLOUR || colour == ScanColourType.TWO_COLOUR) {
+			return xesEnergyGroup;
 		}
-		return getEnergyScannable(getSpectrometerScanParams(scanParams).getScannableName());
+
+		int index = colour == ScanColourType.ONE_COLOUR_ROW1 ? 0 : 1;
+		String scnName = scanParams.getScannableNameForRow(index);
+		return getEnergyScannable(scnName);
 	}
 
 	private Scannable getXesAngleScannable(Scannable s) {
 		if (s instanceof XESEnergyScannable xesScn) {
 			return xesScn.getXes();
 		}
-		return analyserAngleBoth;
+		return xesBraggGroup;
 	}
 
 	// args do run a single concurrentscan
 	@Override
 	public Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
 
-		int innerScanType = xesScanParameters.getScanType();
 
-		if (xesScanParameters.getScanColourType() == ScanColourType.TWO_COLOUR) {
-			throw new IllegalArgumentException("Two colour mode is not supported for 2-dimensional XES scans");
-		}
+		SpectrometerScanParameters specParameters = xesScanParameters.getPrimarySpectrometerScanParams();
+		SpectrometerScanParameters secondaryParams = xesScanParameters.getSecondarySpectrometerScanParams();
 
-		// This will change depending on colour type (1 colour, 1 colour row1, 1 colour row2)
-		SpectrometerScanParameters specParameters = getSpectrometerScanParams(xesScanParameters);
 		Scannable xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
 		Scannable xesBraggScannable = getXesAngleScannable(xesEnergyScannable);
 
@@ -242,13 +246,27 @@ public class XesScan extends XasScanBase implements XasScan {
 		} else {
 			spectrometerScanAxis = xesEnergyScannable;
 		}
-		Detector[] detList = getDetectors();
+
+		// Setup position provider that returns either single energy or two energy values
+		// for each point in the scan
+		XesScanPositionProvider positionProvider = new XesScanPositionProvider();
+		positionProvider.createPrimaryPoints(specParameters.getInitialEnergy(), specParameters.getFinalEnergy(), specParameters.getStepSize());
+		if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
+			// One colour : second secondary points match the primary ones
+			positionProvider.createSecondaryPoints(specParameters.getInitialEnergy(), specParameters.getStepSize());
+		} else if (secondaryParams != null) {
+			// Two colour : Secondary points set from secondary params
+			positionProvider.createSecondaryPoints(secondaryParams.getInitialEnergy(), secondaryParams.getStepSize());
+		}
 
 		List<Object> xesScanArguments = new ArrayList<>();
+		Detector[] detList = getDetectors();
+		detList = getOrderedDetectors(detList);
+
+		int innerScanType = xesScanParameters.getScanType();
 
 		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
-			List<Object> scanParams = Arrays.asList(spectrometerScanAxis, specParameters.getInitialEnergy(),
-					specParameters.getFinalEnergy(), specParameters.getStepSize(), mono_energy,
+			List<Object> scanParams = Arrays.asList(spectrometerScanAxis, positionProvider, mono_energy,
 					xesScanParameters.getMonoEnergy(), xesBraggScannable);
 			xesScanArguments.addAll(scanParams);
 			if (scanEnergyTransfer) {
@@ -257,8 +275,7 @@ public class XesScan extends XasScanBase implements XasScan {
 			setXesEnergyAxisName(spectrometerScanAxis);
 		} else if (innerScanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
-			List<Object> spectrometerScanParams = Arrays.asList(spectrometerScanAxis, specParameters.getInitialEnergy(),
-					specParameters.getFinalEnergy(), specParameters.getStepSize());
+			List<Object> spectrometerScanParams = Arrays.asList(spectrometerScanAxis, positionProvider);
 
 			List<Object> monoScanParams = Arrays.asList(mono_energy, xesScanParameters.getMonoInitialEnergy(),
 					xesScanParameters.getMonoFinalEnergy(), xesScanParameters.getMonoStepSize());
@@ -321,10 +338,10 @@ public class XesScan extends XasScanBase implements XasScan {
 	 */
 	private void setXesEnergyAxisName(Scannable scannable) {
 		if (getOutputPreparer() instanceof I20OutputPreparer prep) {
-			if (scannable == xesEnergyBoth) {
+			if (scannable.getExtraNames().length > 0) {
 				prep.setXesEnergyAxisName(scannable.getExtraNames()[0]);
 			} else {
-				prep.setXesEnergyAxisName(scannable.getName());
+				prep.setXesEnergyAxisName(scannable.getInputNames()[0]);
 			}
 		}
 	}
@@ -377,9 +394,11 @@ public class XesScan extends XasScanBase implements XasScan {
 		if (xesScanParameters.getScanType() == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
 			// TWO_COLOUR is not allowed for this type of scan!
 
-			SpectrometerScanParameters specParams = getSpectrometerScanParams(xesScanParameters);
+			SpectrometerScanParameters specParams = xesScanParameters.getPrimarySpectrometerScanParams();
 			xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
-
+			if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
+				xesEnergyScannable = xesEnergyBoth;
+			}
 			// Add the XES energy and Bragg angle as extra outputs
 			if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
 				for(var p : xesScanParameters.getSpectrometerScanParameters()) {
@@ -414,9 +433,14 @@ public class XesScan extends XasScanBase implements XasScan {
 			xasRegionFileName = xesScanParameters.getScanFileName();
 
 			// Move the spectrometer rows to the intitial position(s)
-			Map<Integer, SpectrometerScanParameters> activeSpecParams = xesScanParameters.getActiveSpectrometerParameters();
-			for(var params : activeSpecParams.entrySet()) {
-				String scnName = xesScanParameters.getSpectrometerScannableForRow(params.getKey());
+			for(var params : xesScanParameters.getActiveSpectrometerParameters().entrySet()) {
+				var specParams = xesScanParameters.getSpectrometerScanParameters();
+				int rowNum = params.getKey();
+				if (rowNum >= specParams.size()) {
+					logger.warn("Cannot move energy of spectrometer row {}. XesScanParameters only has settings for {} rows", rowNum+1, specParams.size());
+					continue;
+				}
+				String scnName = xesScanParameters.getScannableNameForRow(params.getKey());
 				double pos = params.getValue().getFixedEnergy();
 
 				Scannable energyScannable = getEnergyScannable(scnName);
@@ -459,16 +483,20 @@ public class XesScan extends XasScanBase implements XasScan {
 	private SignalParameters createSignal(String name) {
 		return new SignalParameters(name, name, 2, name, name);
 	}
-	public Scannable getAnalyserAngleBoth() {
-		return analyserAngleBoth;
+	public Scannable getBraggGroup() {
+		return xesBraggGroup;
 	}
 
-	public void setXesBraggBoth(Scannable analyserAngleBoth) {
-		this.analyserAngleBoth = analyserAngleBoth;
+	public void setXesBraggGroup(Scannable xesBraggGroup) {
+		this.xesBraggGroup = xesBraggGroup;
 	}
 
-	public Scannable getXesEnergyBoth() {
-		return xesEnergyBoth;
+	public Scannable getXesEnergyGroup() {
+		return xesEnergyGroup;
+	}
+
+	public void setXesEnergyGroup(Scannable xesEnergyGroup) {
+		this.xesEnergyGroup = xesEnergyGroup;
 	}
 
 	public void setXesEnergyBoth(Scannable xesEnergyBoth) {
