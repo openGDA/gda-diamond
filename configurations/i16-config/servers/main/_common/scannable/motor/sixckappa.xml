@@ -37,6 +37,7 @@
 				<bean id="kphi" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcKphiMotor" />
 					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.3f" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
 				<bean id="kap" class="gda.device.scannable.ScannableMotor">
@@ -54,16 +55,19 @@
 				<bean id="kmu" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcMuMotor" />
 					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.3f" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
 				<bean id="kdelta" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcDeltaMotor" />
 					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.3f" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
 				<bean id="kgam" class="gda.device.scannable.ScannableMotor">
 					<property name="motor" ref="sixcGammaMotor" />
 					<property name="returnDemandPosition" value="true" />
+					<property name="outputFormat" value="%.3f" />
 					<property name="logMoveRequestsWithInfo" value="true" />
 				</bean>
 			</list>
