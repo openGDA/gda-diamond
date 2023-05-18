@@ -26,5 +26,7 @@
  		<property name="refreshStubOnConnectFailure" value="true" />
  	</bean>
  	
+ 	<import resource="visualization.xml" />
  	<import resource="live_controls.xml" />
+ 	
 </beans>
