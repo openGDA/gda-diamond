@@ -8,8 +8,21 @@
 		<property name="name" value="pv_provider"/>
 		<property name="spectrumPV" value="BL09I-EA-DET-02:CAM:INT_SPECTRUM" />
 		<property name="imagePV" value="BL09I-EA-DET-02:CAM:IMAGE" />
+		<property name="totalIterations" value="BL09I-EA-DET-02:CAM:NumExposures_RBV" />
 		<property name="totalPointsIterationPV" value="BL09I-EA-DET-02:CAM:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="currentPointIterationPV" value="BL09I-EA-DET-02:CAM:CURRENT_POINT_RBV" />
+		<property name="totalPointsPV" value="BL09I-EA-DET-02:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentChannelPV" value="BL09I-EA-DET-02:CAM:CURRENT_CHANNEL_RBV" />
 		<property name="slicesPV" value="BL09I-EA-DET-02:CAM:SLICES_RBV" />
+		<property name="yStartPV" value="BL09I-EA-DET-02:CAM:Y_MIN_RBV" />
+		<property name="yEndPV" value="BL09I-EA-DET-02:CAM:Y_MAX_RBV" />
+		<property name="yUnitsPV" value="BL09I-EA-DET-02:CAM:Y_UNITS_RBV" />
+		<property name="photonEnergy" ref="dcmenergy" />
+		<property name="lowEnergyPV" value="BL09I-EA-DET-02:CAM:LOW_ENERGY_RBV" />
+		<property name="highEnergyPV" value="BL09I-EA-DET-02:CAM:HIGH_ENERGY_RBV" />
+		<property name="workFunction" value="0.0" />
+		<property name="imageDataNeeded" value="false" />
+		<property name="acquisitionModePV" value="BL09I-EA-DET-02:CAM:ACQ_MODE" />
 	</bean>
 	
 

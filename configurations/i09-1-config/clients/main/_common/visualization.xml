@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	
+	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy" />
+	</bean>
+	
+	<bean id="specs_live_data_dispatcher" class="uk.ac.diamond.daq.devices.specs.phoibos.ui.SpecsLiveDataDispatcher">
+		<property name="pvProvider" ref="pv_provider" />
+	</bean>
+	
+</beans>
