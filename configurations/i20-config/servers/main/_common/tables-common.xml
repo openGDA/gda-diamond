@@ -20,4 +20,10 @@
 	<gda:motor id="sample_rot" live-pvName="BL20I-MO-TABLE-03:ROT" />           
 	<gda:motor id="sample_fine_rot" live-pvName="BL20I-MO-TABLE-03:ROTF" />
 
+<!-- Motors for XES sample stage -->
+	<gda:motor id="xes_sample_x" live-pvName="BL20I-EA-TABLE-02:X" />
+	<gda:motor id="xes_sample_y" live-pvName="BL20I-EA-TABLE-02:Y" />
+	<gda:motor id="xes_sample_z" live-pvName="BL20I-EA-TABLE-02:Z" />
+	<gda:motor id="xes_sample_rot" live-pvName="BL20I-EA-TABLE-02:ROT" />
+
 </beans>

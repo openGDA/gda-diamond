@@ -42,7 +42,8 @@ public class LiveViewPerspective implements IPerspectiveFactory {
 		layout.addView(LiveStreamView.ID+":sample_front_cam_config", IPageLayout.BOTTOM, 0.5f, LIVE_STREAMS);
 
 		IFolderLayout rright = layout.createFolder(LIVE_STREAMS2, IPageLayout.RIGHT, 0.4f, editorArea); //$NON-NLS-1$
-		rright.addView(LiveControlsView.ID);
+		rright.addView(LiveControlsView.ID+":motorsControlSet");
+		rright.addView(LiveControlsView.ID+":robotControlSet");
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.7f,LIVE_STREAMS2);
 
 		IFolderLayout right = layout.createFolder(LIVE_CONTROLS, IPageLayout.RIGHT, 0.3f, editorArea); //$NON-NLS-1$

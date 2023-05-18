@@ -179,5 +179,13 @@
 		<property name="spectrometerGroup" ref="upper_spectrometer_all_scannables" />
 		<property name="xesEnergyScannable" ref="XESEnergyUpper" />
 	</bean>
+	
+	<bean id="upper_spectrometer_positions" class="gda.device.detector.ReadbackDemandDifference">
+		<property name="scannable" ref="upper_spectrometer_all_scannables" />
+	</bean>
+
+	<bean id="XesMotorOffsetsUpper" class="gda.device.scannable.MotorOffsetStore" >
+		<property name="xesEnergyScannable" ref="XESEnergyUpper" />
+	</bean>
 
 </beans>

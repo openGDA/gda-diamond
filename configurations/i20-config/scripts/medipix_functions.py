@@ -97,4 +97,4 @@ medipix2_roi = getMedipixMutableRoi(medipix2)
 print "Set Medipix to use ROI from GUI : 'setUseMedipixRoiFromGui(True)'. Set to False to use ROI from Jython"
 print "Set Medipix Jython ROI : 'setMedipixRoi(xstart, xsize, ystart, ysize)'"
 print "Show Medipix Jython ROI : showMedipixRoi()"
-print "Used medipix1 or medipix2 as the last parameter to choose a particular detector (e.g. showMedipixRoi(medipix2)) "
+print "Use medipix1 or medipix2 as the last parameter to choose a particular detector (e.g. showMedipixRoi(medipix2)) "

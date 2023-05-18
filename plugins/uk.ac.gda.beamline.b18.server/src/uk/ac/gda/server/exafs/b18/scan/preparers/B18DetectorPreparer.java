@@ -47,6 +47,7 @@ import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
+import uk.ac.gda.beans.exafs.MythenParameters;
 import uk.ac.gda.beans.exafs.OutputParameters;
 import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
@@ -231,8 +232,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	 */
 	public void collectMythenData() throws Exception {
 		IExperimentDetectorParameters detParams = getDetectorParameters();
-		if ( detParams != null && detParams.isCollectDiffractionImages() == true ){
-			control_mythen(detParams, outputBean, experimentFullPath);
+		if ( detParams != null && detParams.isCollectDiffractionImages() ) {
+			control_mythen(detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
 		}
 	}
 
@@ -256,14 +257,17 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private void beforeFirstRepetition() throws Exception {
 		if (useNewDetectorConfiguration()) {
-			Optional<DetectorConfig> mythenConfig = detectorBean.getDetectorConfigurations()
+			//Get the diffraction detector object to be used for the measurement
+			Scannable diffractionDetector = pilatusDetector != null ? pilatusDetector : mythen_scannable;
+			// Find the config that uses the detector
+			Optional<DetectorConfig> diffractionConfig = detectorBean.getDetectorConfigurations()
 					.stream()
-					.filter(conf -> conf.getDetectorName().equals(mythen_scannable.getName()))
+					.filter(conf -> conf.getDetectorName().equals(diffractionDetector.getName()))
 					.findFirst();
-			if (mythenConfig.isPresent() && mythenConfig.get().isUseDetectorInScan()) {
-				File mythenFile = Paths.get(experimentFullPath, mythenConfig.get().getConfigFileName()).toFile();
-				IExperimentDetectorParameters mythenBean = (IExperimentDetectorParameters) XMLHelpers.getBean(mythenFile);
-				control_mythen(mythenBean, outputBean, experimentFullPath);
+			if (diffractionConfig.isPresent() && diffractionConfig.get().isUseDetectorInScan()) {
+				File mythenFile = Paths.get(experimentFullPath, diffractionConfig.get().getConfigFileName()).toFile();
+				MythenParameters mythenBean = (MythenParameters) XMLHelpers.getBean(mythenFile);
+				control_mythen(mythenBean.getMythenEnergy(), mythenBean.getMythenTime(), outputBean, experimentFullPath);
 			}
 		} else {
 			collectMythenData();
@@ -347,7 +351,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 
-	protected void control_mythen(IExperimentDetectorParameters fluorescenceParameters, IOutputParameters outputBean,
+	protected void control_mythen(double energy, double collectionTime, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4,
@@ -361,7 +365,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		// Save currently set mythen subdirectory - so it can be set back to original value after the scan
 		String mythenSubdirectoryBeforeScan = mythen_scannable.getSubDirectory();
 
-		energy_scannable.moveTo(fluorescenceParameters.getMythenEnergy());
+		energy_scannable.moveTo(energy);
 
 		Detector diffractionDetector = mythen_scannable;
 		String filenameTemplate = "/%d-mythen";
@@ -371,7 +375,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			filenameTemplate = "/%d-pilatus";
 		}
 
-		diffractionDetector.setCollectionTime(fluorescenceParameters.getMythenTime());
+		diffractionDetector.setCollectionTime(collectionTime);
 
 		StaticScan staticscan = new StaticScan(new Scannable[] { diffractionDetector, energy_scannable});
 
