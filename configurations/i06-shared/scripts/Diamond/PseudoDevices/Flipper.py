@@ -27,11 +27,12 @@ class FlipperClass(ScannableMotionBase):
 		self.endEnergy = endEnergy;
 		self.countTime = integrationTime;
 		self.keithley_scannable = keithley_scannable
+		self.keithley_value = None
 
 		self.setMagnet(magnetName);
 		self.setEnergy(energyName, startEnergy, endEnergy);
 		self.setCounters(counterName1, counterName2, counterName3, integrationTime);
-		self.setKeithley(keithley_scannable)
+		self.setKeithley(keithley_scannable, self.keithley_value)
 		
 		self.countsA = [0, 0, 0];
 		self.countsB = [0, 0, 0];
@@ -48,28 +49,35 @@ class FlipperClass(ScannableMotionBase):
 		
 		return [idi0, ifi0];
 	
-	def setKeithley(self, keithley_scannable):
+	def setKeithley(self, keithley_scannable, value):
 		''' add keithley scannable to data collection of this object
 		'''
 		if keithley_scannable:
 			self.keithley_scannable = keithley_scannable
-			input_names = []
+			self.keithley_value = float(value)
+			extra_names = [name for name in self.getExtraNames()]
 			for name in keithley_scannable.getInputNames():
-				input_names.append(str(name) + '_A')
-				input_names.append(str(name) + '_B')
-			extra_names =  self.getExtraNames()
+				extra_names.append(str(name) + '_A')
+				extra_names.append(str(name) + '_B')
 			for name in keithley_scannable.getExtraNames():
 				extra_names.append(str(name) + '_A')
 				extra_names.append(str(name) + '_B')
-			self.setExtraNames(input_names + extra_names)
+			self.setExtraNames(extra_names)
+			output_formats = [ form for form in self.getOutputFormat()]
+			for form in keithley_scannable.getOutputFormat():
+				output_formats.append(form)
+				output_formats.append(form)
+			self.setOutputFormat(output_formats)
 	
 	def removeKeithley(self):
 		''' remove keithley scannable from data collection of this object.
 		'''
 		if self.keithley_scannable:
 			self.keithley_scannable = None
+			self.keithley_value = None
 			self.setInputNames(self.getInputNames())
 			self.setExtraNames(self.getExtraNames())
+			self.setOutputFormat(self.getOutputFormat())
 		
 	def setMagnet(self, magnetName):
 		self.magnet = vars(gdamain)[magnetName];
@@ -144,11 +152,17 @@ class FlipperClass(ScannableMotionBase):
 
 		print('move energy to starting point %f' % self.startEnergy)
 		self.energy.moveTo(self.startEnergy)
+		if self.keithley_scannable:
+			print("set %s to %f" % (self.keithley_scannable.getName(), self.keithley_value))
+			self.keithley_scannable.moveTo(self.keithley_value)
 		print('counting')
 		self.countsA = self.countOnce()
 		
 		print('move energy to end point %f' % self.endEnergy)
 		self.energy.moveTo(self.endEnergy)
+		if self.keithley_scannable:
+			print("set %s to %f" % (self.keithley_scannable.getName(), self.keithley_value))
+			self.keithley_scannable.moveTo(self.keithley_value)
 		print('counting')
 		self.countsB = self.countOnce()
 
