@@ -15,7 +15,7 @@
 		</property>
 	</bean>
 	<!-- Note: for the WatchdogControl control to work, ensure that localStation.py imports the watchdog functions it requires:
-		from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled
+		from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled, is_watchdog_pausing
 
 		>>> from org.eclipse.scanning.sequencer import ServiceHolder
 		>>> wdservice = ServiceHolder.getWatchdogService()
