@@ -1,8 +1,7 @@
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
-from i15x.j15 import beamline as j15
-from rigs.j15.arc_scanrequests import do_arc_datacollections
-#from rigs.j15.hybrid_scanrequests import do_hybrid_datacollections
+from rigs_local.j15 import j15
+from rigs_local.scanrequests.arc_scanrequests import do_arc_datacollections
 from rigs.ispyb.discovery import showMeTheSamples
 
 # Test based on testOldScanning() in /dls_sw/i15-1/scripts/Visits/arc_testing_01.py
