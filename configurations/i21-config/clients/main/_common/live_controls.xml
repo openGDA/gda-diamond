@@ -229,7 +229,7 @@
 	<!-- Spectrometer -->
 	<bean id="sgmr1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="sgmr1" />
-		<property name="group" value="Spectrometer" />
+		<property name="group" value="SGM" />
 		<property name="scannableName" value="sgmr1" />
 		<property name="increment" value="1" />
 		<property name="showIncrement" value="false"/>
@@ -240,7 +240,7 @@
 	</bean>
 	<bean id="sgmpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="sgmpitch" />
-		<property name="group" value="Spectrometer" />
+		<property name="group" value="SGM" />
 		<property name="scannableName" value="sgmpitch" />
 		<property name="increment" value="1" />
 		<property name="showIncrement" value="false"/>
