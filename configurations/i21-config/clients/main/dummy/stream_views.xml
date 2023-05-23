@@ -22,6 +22,7 @@
 	<import resource="../_common/andor2_controls.xml"/>
 	<bean id="andor2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Andor2" />
+		<property name="viewID" value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView"/>
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="andor2_roi" />
@@ -65,6 +66,7 @@
 	<import resource="../_common/andor_controls.xml"/>
 	<bean id="andor" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Andor" />
+		<property name="viewID" value="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView"/>
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="andor_roi" />
@@ -222,6 +224,7 @@
 	<import resource="../_common/smp_cam_3_live_controls.xml"/>
 	<bean id="smp_cam_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 3" />
+		<property name="viewID" value="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamView"/>
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam3_roi" />
