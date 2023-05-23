@@ -119,6 +119,8 @@
 	<bean id="energy" class="uk.ac.gda.arpes.scannable.EnergyScannable">
 		<property name="pgm" ref="pgm_energy" />
 		<property name="id" ref="id" />
+		<property name="user_llm" value="18"/>
+		<property name="user_hlm" value="240"/>
 		<property name="outputFormat" value="%5.5g eV" />
 	</bean>
 	<bean id="polarisation" class="uk.ac.gda.arpes.scannable.PolarisationScannable">
