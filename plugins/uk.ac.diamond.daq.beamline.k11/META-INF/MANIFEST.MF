@@ -73,6 +73,7 @@ Require-Bundle: org.eclipse.scanning.api;bundle-version="1.0.0",
  org.eclipse.scanning.device.ui,
  org.eclipse.dawnsci.analysis.dataset
 Export-Package: uk.ac.diamond.daq.beamline.k11,
+ uk.ac.diamond.daq.beamline.k11.command,
  uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan,
  uk.ac.diamond.daq.beamline.k11.view
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
