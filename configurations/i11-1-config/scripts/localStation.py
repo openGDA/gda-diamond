@@ -264,6 +264,7 @@ def pad_hdf(t,n=1.0):
 
 alias("pad_hdf")
 from lde.ldescan import *  # @UnusedWildImport
+from lde import wait_for_calibration
 alias("ldescan")
 
 NDR=0
@@ -279,21 +280,13 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
             meta['calibration_file'] = ''
             if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
                 raise Exception("Calibrant name is not defined.")
-            proc = calibration
+            
+            scan(ds, 1.0,n,1.0, det, t, calibration)  # @UndefinedVariable
+            wait_for_calibration()      
+        
         else:
-            proc = process
-        scan(ds, 1.0,n,1.0, det, t, proc)  # @UndefinedVariable
-        if collectionType == CAL:
-            print 'Waiting for calibration to complete'
-            start = time.time()
-            timeout = start + 300
-            while time.time() < timeout:
-                if meta['calibration_file']:
-                    break
-                time.sleep(2)
-            else:
-                print('WARNING: No calibration result received after 300s')
-
+            scan(ds, 1.0,n,1.0, det, t, process)  # @UndefinedVariable
+            
 alias("lde")
 
 def lde_slugs(duration):

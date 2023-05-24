@@ -9,7 +9,7 @@ from gda.factory import Finder
 from gda.jython.commands.ScannableCommands import scan
 
 from gdaserver import process, calibration, GDAMetadata as meta
-import time
+from lde import wait_for_calibration
 
 ds1=DummyScannable("ds1")
 NDR=0
@@ -33,13 +33,6 @@ def ldescan(*args):
             i=i+1
         scan(newargs)
     else:
-        if (args[i]==CAL):
-            if (str(calName.getPosition())=="Undefined"):  # @UndefinedVariable
-                raise Exception("Calibrant name is not defined.")
-            meta['calibration_file'] = ''
-            proc = calibration
-        else:
-            proc = process
         i=1
         if (isinstance(args[i], Detector)) :
             newargs.append(ds1)
@@ -52,18 +45,14 @@ def ldescan(*args):
             newargs.append(args[i])
             i=i+1
         if MUSTADDDATAREDUCTIONATEND:
-            newargs.append(ds1)
-
-        newargs.append(proc)
-        scan(newargs)
-        if args[0] == CAL:
-            print 'Waiting for calibration to complete'
-            start = time.time()
-            timeout = start + 300
-            while time.time() < timeout:
-                if meta['calibration_file']:
-                    break
-                time.sleep(2)
-            else:
-                print('WARNING: No calibration result received after 300s')
-
+            newargs.append(ds1)        
+        if (args[0]==CAL):
+            if (str(calName.getPosition())=="Undefined"):  # @UndefinedVariable
+                raise Exception("Calibrant name is not defined.")
+            meta['calibration_file'] = ''
+            newargs.append(calibration)
+            scan(newargs)
+            wait_for_calibration()
+        else:
+            newargs.append(process)
+            scan(newargs)
