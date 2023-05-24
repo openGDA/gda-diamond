@@ -20,10 +20,6 @@ package uk.ac.gda.dls.client.views;
 
 import java.util.Map;
 
-import gda.device.Scannable;
-import gda.device.monitor.DummyMonitor;
-import gda.rcp.views.CompositeFactory;
-
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -32,6 +28,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.springframework.beans.factory.InitializingBean;
 
+import gda.device.Scannable;
+import gda.device.monitor.DummyMonitor;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.ui.utils.SWTUtils;
 
@@ -69,11 +68,11 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 	public Integer getDecimalPlaces() {
 		return decimalPlaces;
 	}
-	
+
 	public void setDecimalPlaces(Integer decimalPlaces) {
 		this.decimalPlaces = decimalPlaces;
 	}
-	
+
 	Boolean forceLayoutOnLengthChange=true;
 
 	public Boolean getForceLayoutOnLengthChange() {
@@ -82,8 +81,8 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 
 	public void setForceLayoutOnLengthChange(Boolean forceLayoutOnLengthChange) {
 		this.forceLayoutOnLengthChange = forceLayoutOnLengthChange;
-	}	
-	
+	}
+
 	int preferredWidth = SWT.DEFAULT;
 
 	public void setPreferredWidth(int preferredWidth) {
@@ -91,17 +90,17 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 	}
 
 	private Integer minPeriodMS;
-	
 
-	
+
+
 	public Integer getMinPeriodMS() {
 		return minPeriodMS;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param minPeriodMS
-	 * 
+	 *
 	 * Is set the composite is updated at max once every minPeriodMS (ms)
 	 */
 	public void setMinPeriodMS(Integer minPeriodMS) {
@@ -116,27 +115,27 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 	}
 
 	/**
-	 * 
+	 *
 	 * @param colourMap map of ids to pass to Display.getSystemColor to allow setting of foreground based on value
 	 * Useful for enums
 	 */
 	public void setColourMap(Map<String, Integer> colourMap) {
 		this.colourMap = colourMap;
-	}	
-	
-	
+	}
+
+
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, scannable,
 				label, units, decimalPlaces, forceLayoutOnLengthChange);
 		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
 		readonlyScannableComposite.setColourMap(colourMap);
-		
+
 		if (preferredWidth != SWT.DEFAULT) {
 			final Control textField = readonlyScannableComposite.getChildren()[1];
 			GridDataFactory.swtDefaults().hint(preferredWidth, SWT.DEFAULT).applyTo(textField);
 		}
-		
+
 		return readonlyScannableComposite;
 	}
 

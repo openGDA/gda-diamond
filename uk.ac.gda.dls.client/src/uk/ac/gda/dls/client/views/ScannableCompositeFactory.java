@@ -18,15 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.DummyScannable;
-import gda.device.scannable.ScannableGetPositionWrapper;
-import gda.device.scannable.ScannablePositionChangeEvent;
-import gda.factory.FactoryException;
-import gda.observable.IObserver;
-import gda.rcp.views.CompositeFactory;
-
 import java.text.NumberFormat;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -51,6 +42,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.DummyScannable;
+import gda.device.scannable.ScannableGetPositionWrapper;
+import gda.device.scannable.ScannablePositionChangeEvent;
+import gda.factory.FactoryException;
+import gda.observable.IObserver;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
@@ -91,7 +90,7 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 	public Integer getDecimalPlaces() {
 		return decimalPlaces;
 	}
-	
+
 	public void setDecimalPlaces(Integer decimalPlaces) {
 		this.decimalPlaces = decimalPlaces;
 	}
@@ -114,7 +113,7 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 		this.labelWidth = labelWidth;
 	}
 
-	
+
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		return new ScannableComposite(parent, style, scannable,
@@ -151,9 +150,9 @@ public class ScannableCompositeFactory implements CompositeFactory, Initializing
 
 class AmountVerifyKeyListener implements VerifyListener, VerifyKeyListener             {
 
-    private static final String REGEX = "^[-+]?[0-9]*[,]?[0-9]{0,2}+$"; 
+    private static final String REGEX = "^[-+]?[0-9]*[,]?[0-9]{0,2}+$";
 
-    private static final Pattern pattern = Pattern.compile(REGEX);  
+    private static final Pattern pattern = Pattern.compile(REGEX);
 
     @Override
 	public void verifyText(VerifyEvent verifyevent) {
@@ -175,13 +174,13 @@ class AmountVerifyKeyListener implements VerifyListener, VerifyKeyListener      
         if ( ( ",".equals(string) || ".".equals(string) ) && text.getText().indexOf(',') >= 0 ) {
             e.doit = false;
             return;
-        } 
+        }
 
         for (int i = 0; i < chars.length; i++) {
             if (!(('0' <= chars[i] && chars[i] <= '9') || chars[i] == '.' ||  chars[i] == ',' || chars[i] == '-')) {
                 e.doit = false;
                 return;
-            } 
+            }
 
 
             if ( chars[i] == '.' ) {
@@ -215,7 +214,7 @@ class ScannableComposite extends Composite {
 	Integer labelWidth;
 	Integer contentWidth;
 
-	ScannableComposite(Composite parent, int style, Scannable scannable, String label, final String units, 
+	ScannableComposite(Composite parent, int style, Scannable scannable, String label, final String units,
 			Integer decimalPlaces, Integer labelWidth, Integer contentWidth ) {
 		super(parent, style);
 		this.display = parent.getDisplay();
@@ -223,12 +222,12 @@ class ScannableComposite extends Composite {
 		this.decimalPlaces = decimalPlaces;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
-	
-		
+
+
 		formats = scannable.getOutputFormat();
 		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(this);
-		GridDataFactory.fillDefaults().applyTo(this);		
-		
+		GridDataFactory.fillDefaults().applyTo(this);
+
 //		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
 //		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP | SWT.BORDER);
 		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP);
@@ -239,23 +238,23 @@ class ScannableComposite extends Composite {
 			labelGridData.widthHint = labelWidth.intValue();
         lbl.setLayoutData(labelGridData);
 
-		
+
 		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.CENTER;
 		text = new Text(this,textStyle);
 		text.setEditable(true);
 		text.setText("     ");
-		
+
 		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
 		textGridData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
 		if(contentWidth != null)
 			textGridData.widthHint = contentWidth.intValue();
 		text.setLayoutData(textGridData);
-		
+
 		Label lbUnit = new Label(this, SWT.LEFT);
 		lbUnit.setText(StringUtils.hasLength(units) ? units : " ");
 
 //		text.addVerifyListener(new AmountVerifyKeyListener());
-		
+
 		text.addListener(SWT.DefaultSelection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
@@ -263,8 +262,8 @@ class ScannableComposite extends Composite {
 				valueChanged( (Text)e.widget );
 		      }
 		    });
-		
-		
+
+
 		setTextRunnable = new Runnable() {
 			@Override
 			public void run() {
@@ -275,8 +274,8 @@ class ScannableComposite extends Composite {
 				if ( diff > 0 || diff < -3)
 					EclipseWidgetUtils.forceLayoutOfTopParent(ScannableComposite.this);
 			}
-		};		
-		
+		};
+
 		observer = new IObserver() {
 			@Override
 			public void update(Object source, Object arg) {
@@ -291,7 +290,7 @@ class ScannableComposite extends Composite {
 				}
 			}
 		};
-		
+
 		try {
 			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
 			val = wrapper.getStringFormattedValues()[0];
@@ -321,14 +320,14 @@ class ScannableComposite extends Composite {
 
 	/**
 	   * To change the scannable position when the input text fields changes.
-	   * 
+	   *
 	   * @param t
 	   *            the event source
 	   */
 	public void valueChanged(Text t) {
 		if (!t.isFocusControl())
 			return;
-		
+
 		try {
 			double newPosition = Double.parseDouble(t.getText());
 			this.scannable.asynchronousMoveTo(newPosition);
@@ -339,14 +338,14 @@ class ScannableComposite extends Composite {
 	      } catch (DeviceException e) {
 			logger.error("Scannable device " + scannable.getName() + " move failed", e);
 		}
-	    
+
 	  }
-	
+
 	@Override
 	public void dispose() {
 		scannable.deleteIObserver(observer);
 		super.dispose();
 	}
-	
+
 
 }
