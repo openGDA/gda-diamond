@@ -1894,6 +1894,10 @@ else:
 print("*"*80)
 protect_all_scannables()
 
+protected_commands=["pos","inc","peak","maxval","com","minval","rcen","lcen"]
+for to_protect in protected_commands :
+	overwriting.protect(to_protect)
+
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
 		len(localStation_warnings), "\n".join(localStation_warnings)))
