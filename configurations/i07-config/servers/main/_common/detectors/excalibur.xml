@@ -109,8 +109,6 @@
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="excalibur_mask" />
-		<property name="detectorWidth" value="2069" />
-		<property name="detectorHeight" value="515" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
@@ -129,8 +127,6 @@
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="excalibur_mask" />
-		<property name="detectorWidth" value="2069" />
-		<property name="detectorHeight" value="515" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 

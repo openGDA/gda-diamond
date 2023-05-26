@@ -84,8 +84,6 @@
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="pilatus3_mask" />
-		<property name="detectorWidth" value="487" />
-		<property name="detectorHeight" value="195" />
 	</bean>
 
 	<bean
@@ -102,8 +100,6 @@
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="pilatus3_mask" />
-		<property name="detectorWidth" value="487" />
-		<property name="detectorHeight" value="195" />
 	</bean>
 
 	<bean
