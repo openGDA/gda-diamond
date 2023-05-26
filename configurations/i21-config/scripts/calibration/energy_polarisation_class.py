@@ -92,6 +92,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.maxGap=self.idscannable.getController().getMaxGapPos()
             self.minGap=self.idscannable.getController().getMinGapPos()
             self.maxPhase=self.idscannable.getController().getMaxPhaseMotorPos()
+        self.addIObservers()
+        
         self.isConfigured=True
 
     def getIDPositions(self):
@@ -353,8 +355,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
         if not self.SCANNING:  #ensure ID hardware in sync in 'pos' command
             self.rawGetPosition()
-            #required for Live Control GUI update when 'pos'
-            self.addIObservers()
             
         energy, polarisation_angle, polarisation_mode = self.parse_arguments(new_position)
             
@@ -395,19 +395,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.idscannable.stop()
         if self.submit is not None:
             self.submit.cancel(self.isBusy())
-        self.removeIObservers()
+
             
     def atScanStart(self):
         self.rawGetPosition() #ensure ID hardware in sync at start of scan
         self.SCANNING=True
-        #setup IObserver (cannot be called in configure() method as reset_namespace will add them again
-        self.addIObservers()
 
-       
+                
     def atScanEnd(self):
         self.SCANNING=False
-        #remove IOberser when finished scan
-        self.removeIObservers()
+
     
     def updateValue(self):
         sleep(0.2) # wait for motor to start moving
@@ -415,15 +412,41 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             sleep(0.1)
             self.notifyIObservers(self, self.rawGetPosition())
     
+    def updatePolarisationValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.pgmenergy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[1])
+            
+    def updateEnergyValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.pgmenergy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[0])
+            
     def updatePolarisation(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
         if self.energyConstant and change == MotorStatus.BUSY:
-            self.logger.debug("source is %s, change is %s" % (source, change))
-            self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
+            self.logger.debug("%s: submit updating polarisation value thread ! " % self.getName())
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating polarisation value from %1$s", self.getName())
+            
+    def updatePolarisationField(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if not self.energyConstant and not self.polarisationConstant and change == MotorStatus.BUSY:
+            self.logger.debug("%s: submit updating polarisation field thread ! " % self.getName())
+            self.submit = Async.submit(lambda : self.updatePolarisationValue(), "Updating polarisation field from %1$s", self.getName())
         
     def updateEnergy(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
         if self.polarisationConstant and change == ScannableStatus.BUSY:
-            self.logger.debug("source is %s, change is %s" % (source, change))
-            self.submit = Async.submit(lambda : self.updateValue(), "Updating value from %1$s", self.getName())
+            self.logger.debug("%s: submit updating energy value thread !" % self.getName())
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating energy value from %1$s", self.getName())
+    
+    def updateEnergyField(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if not self.energyConstant and not self.polarisationConstant and change == ScannableStatus.BUSY:
+            self.logger.debug("%s: submit updating energy field thread !" % self.getName())
+            self.submit = Async.submit(lambda : self.updateEnergyValue(), "Updating energy field from %1$s", self.getName())
 
     def addIObservers(self):
         if self.energyConstant and self.polarisationObserver is None: # check required to stop multiple add
@@ -434,10 +457,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.pgmenergy.addIObserver(self.energyObserver)
         if not self.energyConstant and not self.polarisationConstant:
             if self.polarisationObserver is None:
-                self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisation)
+                self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisationField)
                 self.idscannable.addIObserver(self.polarisationObserver)
             if self.energyObserver is None:
-                self.energyObserver = GenericObserver("energyObserver", self.updateEnergy)
+                self.energyObserver = GenericObserver("energyObserver", self.updateEnergyField)
                 self.pgmenergy.addIObserver(self.energyObserver)
         
     def removeIObservers(self):
@@ -449,10 +472,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.pgmenergy.deleteIObserver(self.energyObserver)
             self.energyObserver = None
         if not self.energyConstant and not self.polarisationConstant:
-            if self.polarisationObserver is None:
+            if self.polarisationObserver is not None:
                 self.idscannable.deleteIObserver(self.polarisationObserver)
                 self.polarisationObserver = None
-            if self.energyObserver is None:
+            if self.energyObserver is not None:
                 self.pgmenergy.deleteIObserver(self.energyObserver)
                 self.energyObserver = None
         
