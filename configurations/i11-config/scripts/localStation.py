@@ -322,7 +322,7 @@ csb2_p_monitor = CsbPidMonitor(csb2, upper=251, lower=249, high_p=150, low_p=300
 csb2.addIObserver(csb2_p_monitor)
 add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
 
-from standardScan import *
+from standardScan import * #@UnusedWildImport
 
 def align_pitch(centre=None):
     if centre is not None: dcm_pitch(centre)
