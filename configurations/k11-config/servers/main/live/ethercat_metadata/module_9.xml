@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+           
+    <!-- 
+    
+    MODULE 9:
+    EL9505 | Power supply terminal 5 V DC
+    
+    -->
+	
+	<bean id="module_9" class="org.eclipse.scanning.device.GroupMetadataNode">
+		<property name="name" value="Module 9" />
+		<property name="nexusClass" value="NXnote" />
+		<property name="childNodes">
+			<util:list value-type="org.eclipse.scanning.device.MetadataField">
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="alias" />
+					<property name="pvName" value="BL11K-EA-ADC-01:M9:ALIAS" />
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="type" />
+					<property name="pvName" value="BL11K-EA-ADC-01:M9:TYPE" />
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="subtype" />
+					<property name="pvName" value="BL11K-EA-ADC-01:M9:SUBTYPE" />
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="power OK" />
+					<property name="pvName" value="BL11K-EA-ADC-01:M9:POWER_OK" />
+				</bean>
+				<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+					<property name="name" value="overload" />
+					<property name="pvName" value="BL11K-EA-ADC-01:M9:OVERLOAD" />
+				</bean>
+			</util:list>
+					
+		</property>
+	</bean>
+
+</beans>

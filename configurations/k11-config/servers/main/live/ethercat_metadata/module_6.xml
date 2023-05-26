@@ -1,0 +1,118 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+           
+    <!-- 
+    
+    MODULE 6:
+    EL4134 | EtherCAT Terminal, 4-channel analog output, voltage, ±10 V, 16 bit
+    
+    -->
+	
+	<bean id="module_6" class="org.eclipse.scanning.device.GroupMetadataNode">
+		<property name="name" value="Module 6" />
+		<property name="nexusClass" value="NXnote" />
+		<property name="childNodes">
+		
+			<util:list value-type="org.eclipse.scanning.device.MetadataField">
+				
+				<!-- Channel 1 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 1" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH1:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH1:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH1:SUBTYPE" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 2 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 2" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH2:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH2:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH2:SUBTYPE" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 3 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 3" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH3:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH3:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH3:SUBTYPE" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 4 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 4" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH4:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH4:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M6:CH4:SUBTYPE" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+			</util:list>
+		</property>
+	</bean>
+
+</beans>

@@ -611,5 +611,20 @@
 	
 	<!-- Diffraction and imaging child nodes have mode-specific definitions: -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
+	
+	<!-- 
+	Malcolm write EtherCAT data without labels and other configuration PVs.
+	These will be appended by GDA when the device is included in the scan.
+	 -->
+	<bean id="ethercat_context_appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register" >
+		<property name="name" value="EtherCAT" />
+		<property name="childNodes">
+			<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+				<property name="name" value="Configuration" />
+				<property name="nexusClass" value="NXnote" />
+				<property name="childNodes" ref="ethercat_child_nodes" /> <!-- mode-specific definitions -->
+			</bean>
+		</property>
+	</bean>
 
 </beans>
