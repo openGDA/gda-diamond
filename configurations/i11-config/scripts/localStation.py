@@ -322,23 +322,7 @@ csb2_p_monitor = CsbPidMonitor(csb2, upper=251, lower=249, high_p=150, low_p=300
 csb2.addIObserver(csb2_p_monitor)
 add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
 
-from gdascripts.scan import gdascans
-from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
-from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeakAndBackground
-from gda.scan import SortedScanDataPointCache
-from gda.jython import InterfaceProvider
-
-sdp_cache = SortedScanDataPointCache()
-_sdpp = InterfaceProvider.getScanDataPointProvider()
-_sdpp.addIObserver(sdp_cache)
-add_reset_hook(lambda x=_sdpp, o=sdp_cache: x.deleteIObserver(o))
-
-gpab = GaussianPeakAndBackground(plotPanel='Peak Fitting')
-scan_processor = ScanDataProcessor([gpab], globals(), sdp_cache)
-rscan = gdascans.Rscan([scan_processor])
-alias('rscan')
-go = scan_processor.go
-alias('go')
+from standardScan import * #@UnusedWildImport
 
 def align_pitch(centre=None):
     if centre is not None: dcm_pitch(centre)
