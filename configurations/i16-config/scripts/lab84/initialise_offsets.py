@@ -11,6 +11,8 @@ This is converted from /i16-config/scripts/dummy/essential_positions.py to use i
 @since: 6 April 2023
 '''
 #TODO need to understand why these specific positions are require in dummy.
+# MBB These values are representative of typical real beamline values, and they
+#     match the test scans usually used for regression testing
 
 def setup_scannables_offsets():
     '''initialise offset value of a number of scannables in dummy mode.
@@ -39,12 +41,17 @@ def setup_scannables_offsets():
     m2_coating_offset.asynchronousMoveTo(11)
     m2y_offset.asynchronousMoveTo(-22.340825459600758)
     ztable_offset.asynchronousMoveTo(-19.99470545960076)
-    
+
+PIL3_CENTRE_I_DEFAULT=239
+PIL3_CENTRE_J_DEFAULT=106
+
 def setup_pil3_centre():
     '''initialise detector centre position
     '''
     #TODO investigate why there are 2 version of localStationStaff.py - one in GDA config, they other in user scripts folder?
+    # MBB The dummy localStationStaff.py is representative of a typical live beamline localStationStaff.py without the
+    #     frequent churn and breaking changes associated with the live version, this makes regression testing more reliable
     from dummy.localStationStaff import pil3_centre_i, pil3_centre_j
-    pil3_centre_i.asynchronousMoveTo(239)
-    pil3_centre_j.asynchronousMoveTo(106)
+    pil3_centre_i.asynchronousMoveTo(PIL3_CENTRE_I_DEFAULT)
+    pil3_centre_j.asynchronousMoveTo(PIL3_CENTRE_J_DEFAULT)
     

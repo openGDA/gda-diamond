@@ -5,8 +5,9 @@ from detector_wrappers.pilatus_instances import pil3
 
 pil3_centre_i = pd_offset.Offset('pil3_centre_i')
 pil3_centre_j = pd_offset.Offset('pil3_centre_j')
-ci = pil3_centre_i()
-cj = pil3_centre_j()
+from lab84.initialise_offsets import PIL3_CENTRE_I_DEFAULT, PIL3_CENTRE_J_DEFAULT
+ci = pil3_centre_i() or PIL3_CENTRE_I_DEFAULT
+cj = pil3_centre_j() or PIL3_CENTRE_J_DEFAULT
 
 from gdascripts.scannable.detector.DetectorDataProcessor import HardwareTriggerableDetectorDataProcessor
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
