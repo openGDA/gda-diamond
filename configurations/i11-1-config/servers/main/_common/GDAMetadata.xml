@@ -33,6 +33,7 @@
 				<ref bean="fillMode" />
 				<ref bean="beamEnergy" />
                 <ref bean="calibration_file"/>
+                <ref bean="sample_name"/>
 
                 <bean class="gda.data.metadata.StoredMetadataEntry">
                     <property name="name" value="detector_distance" />
@@ -65,6 +66,10 @@
 	</bean>
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop" />
-	</bean>
+	</bean>	
+	<bean id="sample_name" class="gda.data.metadata.StoredScanMetadataEntry">
+        <property name="name" value="sample_name"/>
+        <property name="value" value=""/>
+    </bean>
 
 </beans>
