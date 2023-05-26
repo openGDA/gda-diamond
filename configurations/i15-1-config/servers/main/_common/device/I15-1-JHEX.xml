@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:motor id="hx" live-pvName="BL15J-MO-HEX-01:X" />
+	<gda:motor id="hy" live-pvName="BL15J-MO-HEX-01:Y" />
+	<gda:motor id="hz" live-pvName="BL15J-MO-HEX-01:Z" />
+	<gda:motor id="hrx" live-pvName="BL15J-MO-HEX-01:RX" />
+	<gda:motor id="hry" live-pvName="BL15J-MO-HEX-01:RY" />
+	<gda:motor id="hrz" live-pvName="BL15J-MO-HEX-01:RZ" />
+
+	<bean id="H" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hx" />
+				<ref bean="hy" />
+				<ref bean="hz" />
+				<ref bean="hrx" />
+				<ref bean="hry" />
+				<ref bean="hrz" />
+			</list>
+		</property>
+	</bean>
+</beans>
