@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <included>
+	<!-- Use the central Graylog appender definition
+	 -->
+	<include file="/dls_sw/dasc/graylog/graylog5_appender.xml" />
+
 	<!-- Classes for which INFO messages are excessive
 	 -->
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>

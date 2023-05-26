@@ -110,17 +110,13 @@ def d2in():
 	"""
 	setState("D2", "-DI-PHDGN-02:CON", CON_IN)
 
-def moveMotorsTogether(motor1, position1, motor2, position2):
-	motor1.asynchronousMoveTo(position1)
-	motor2.asynchronousMoveTo(position2)
-	motor1.waitWhileBusy()
-	motor2.waitWhileBusy()
-
 def d3in():
 	"""
-	move diode 3 in
+	move diode 3 in (to the beam)
 	"""
-	moveMotorsTogether(d3x, d3x_in, d3y, d3y_in)
+	setState("D3", "-DI-PHDGN-04:CON", CON_IN)
+	#						  ^^ Not 03 as valve 4 was reused for this.
+	#							 See https://jira.diamond.ac.uk/browse/I15-828
 
 def d4in():
 	"""
@@ -143,11 +139,11 @@ def d2out():
 
 def d3out():
 	"""
-	move diode 3 out and reset the brightness of the questar to zero
+	move diode 3 out (of the beam)
 	"""
-	#TODO: read these from the motor limits?
-	#      moveMotorsTogether(d3x, math.floor(d3x.upperMotorLimit), d3y, math.floor(d3y.upperMotorLimit)) ?
-	moveMotorsTogether(d3x, d3x_out, d3y, d3y_out)
+	setState("D3", "-DI-PHDGN-04:CON", CON_OUT)
+	#						  ^^ Not 03 as valve 4 was reused for this.
+	#							 See https://jira.diamond.ac.uk/browse/I15-828
 
 def d4out():
 	"""
