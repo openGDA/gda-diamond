@@ -18,6 +18,8 @@
 
 package uk.ac.gda.server.exafs.scan;
 
+import static org.junit.Assert.assertThrows;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +38,9 @@ public class XesScanFactoryTest {
 	private LoggingScriptController loggingScriptController;
 	private Scannable energyScannable;
 	private NXMetaDataProvider metashop;
-	private Scannable xesEnergyScannable;
-	private Scannable analyserAngle;
+	private Scannable xesEnergyBoth;
+	private Scannable xesEnergyGroup;
+	private Scannable braggrGroup;
 
 	@Before
 	public void setup() {
@@ -50,99 +53,62 @@ public class XesScanFactoryTest {
 		outputPreparer = Mockito.mock(OutputPreparer.class);
 		loggingScriptController = Mockito.mock(LoggingScriptController.class);
 		energyScannable = Mockito.mock(Scannable.class);
-		xesEnergyScannable = Mockito.mock(Scannable.class);
-		analyserAngle = Mockito.mock(Scannable.class);
+		xesEnergyBoth = Mockito.mock(Scannable.class);
+		xesEnergyGroup = Mockito.mock(Scannable.class);
+		braggrGroup = Mockito.mock(Scannable.class);
 		metashop = Mockito.mock(NXMetaDataProvider.class);
 
+	}
+
+	private XesScanFactory createScanFactory() {
+		XesScanFactory factory = new XesScanFactory();
+		factory.setBeamlinePreparer(beamlinePreparer);
+		factory.setDetectorPreparer(detectorPreparer);
+		factory.setSamplePreparer(samplePreparer);
+		factory.setOutputPreparer(outputPreparer);
+		factory.setLoggingScriptController(loggingScriptController);
+		factory.setMetashop(metashop);
+		factory.setIncludeSampleNameInNexusName(true);
+		factory.setScanName("xesscan");
+		factory.setEnergyScannable(energyScannable);
+		factory.setXesEnergyBoth(xesEnergyBoth);
+		factory.setXesEnergyGroup(xesEnergyGroup);
+		factory.setXesBraggGroup(braggrGroup);
+		return factory;
 	}
 
 	@Test
 	public void testCanCreateEnergyScan() {
 
-		XesScanFactory theFactory = new XesScanFactory();
-
-		theFactory.setBeamlinePreparer(beamlinePreparer);
-		theFactory.setDetectorPreparer(detectorPreparer);
-		theFactory.setSamplePreparer(samplePreparer);
-		theFactory.setOutputPreparer(outputPreparer);
-		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setEnergyScannable(energyScannable);
-		theFactory.setMetashop(metashop);
-		theFactory.setIncludeSampleNameInNexusName(true);
-		theFactory.setScanName("xesscan");
-		theFactory.setXesEnergyBoth(xesEnergyScannable);
-		theFactory.setXesBraggBoth(analyserAngle);
+		XesScanFactory theFactory = createScanFactory();
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
-
-		if (energyScan == null) {
-			Assert.fail("Null returned from factory");
-		}
+		Assert.assertNotNull("Null returned from createEnergyScan", energyScan);
 
 		XesScan xesscan = theFactory.createXesScan();
-
-		if (xesscan == null) {
-			Assert.fail("Null returned from factory");
-		}
-
+		Assert.assertNotNull("Null returned from createXesScan", xesscan);
 	}
 
 	@Test
 	public void testXesScanMissingEnergy() {
-		XesScanFactory theFactory = new XesScanFactory();
-
-		theFactory.setBeamlinePreparer(beamlinePreparer);
-		theFactory.setDetectorPreparer(detectorPreparer);
-		theFactory.setSamplePreparer(samplePreparer);
-		theFactory.setOutputPreparer(outputPreparer);
-		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setEnergyScannable(energyScannable);
-		theFactory.setMetashop(metashop);
-		theFactory.setIncludeSampleNameInNexusName(true);
-		theFactory.setScanName("xesscan");
-		theFactory.setXesBraggBoth(analyserAngle);
+		XesScanFactory theFactory = createScanFactory();
+		theFactory.setXesEnergyGroup(null); // set to null, so createXesScan fails
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
+		Assert.assertNotNull("Null returned from createEnergyScan", energyScan);
 
-		if (energyScan == null) {
-			Assert.fail("Null returned from factory");
-		}
-
-		try {
-			/* XesScan xesscan = */theFactory.createXesScan();
-		} catch (Exception e1) {
-			return;
-		}
-		Assert.fail("Expected exception was not caught.");
+		assertThrows(IllegalArgumentException.class, () -> theFactory.createXesScan());
 	}
 
 	@Test
 	public void testXesScanMissingAnalyser() {
-		XesScanFactory theFactory = new XesScanFactory();
-
-		theFactory.setBeamlinePreparer(beamlinePreparer);
-		theFactory.setDetectorPreparer(detectorPreparer);
-		theFactory.setSamplePreparer(samplePreparer);
-		theFactory.setOutputPreparer(outputPreparer);
-		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setEnergyScannable(energyScannable);
-		theFactory.setMetashop(metashop);
-		theFactory.setIncludeSampleNameInNexusName(true);
-		theFactory.setScanName("xesscan");
-		theFactory.setXesEnergyBoth(xesEnergyScannable);
+		XesScanFactory theFactory = createScanFactory();
+		theFactory.setXesBraggGroup(null); // set to null, so createXesScan fails
 
 		EnergyScan energyScan = theFactory.createEnergyScan();
+		Assert.assertNotNull("Null returned from createEnergyScan", energyScan);
 
-		if (energyScan == null) {
-			Assert.fail("Null returned from factory");
-		}
-
-		try {
-			/* XesScan xesscan = */theFactory.createXesScan();
-		} catch (Exception e1) {
-			return;
-		}
-		Assert.fail("Expected exception was not caught.");
+		assertThrows(IllegalArgumentException.class, () -> theFactory.createXesScan());
 	}
 
 }
