@@ -788,7 +788,7 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 		scan_params.extend(_rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures))
 	elif sweepMotor:
 		sweepMotorPosition = sweepMotor.getMotor().getTargetPosition()
-		if detector.name in ['pil3cbf']:
+		if detector.name in ['pil3cbf', 'pil3', 'pil3HWT']:
 			logger.info("Detector %s supports continuous sweep scans..." % (detector.name))
 			scan_params.extend(_sweepScanParams(detector, exposeTime, fileName,
 				sweepMotor, sweepStart, sweepEnd, sweepAngle, totalExposures))
