@@ -107,7 +107,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
         
     def atCommandFailure(self):
         self.stop()
-        
+       
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
         if self._operating_continuously:
@@ -115,6 +115,7 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
             self._binpointPgmEnergy.atScanLineStart()
             self._binpointIdGap.collectData()
             self._binpointPgmEnergy.collectData()
+            self._move_controller._energy.msg = None
             if installation.isDummy():
                 self._move_controller.pgm_energy_positions=[]
                 self._move_controller.id_gap_positions=[]
@@ -167,10 +168,15 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
     
     # We do need an atScanEnd() though, since unlike stop() and atCommandFailure(), stopAndReset() isn't called
     # when the scan line completes.
-    def atScanEnd(self):
-        if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
-        self._move_controller.atScanEnd()
     
+    def atScanStart(self):
+        if not self._operating_continuously and isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
+            self._move_controller._energy.atScanStart()
+            
+    def atScanEnd(self):
+        if self._operating_continuously and isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
+            self._move_controller._energy.atScanEnd()
+            
     # we have to implement following scannable interface for it to work outside continuous scanning
     def getExtraNames(self):
         if self._operating_continuously:
