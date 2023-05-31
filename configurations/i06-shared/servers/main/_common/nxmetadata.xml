@@ -28,10 +28,12 @@
 			 	<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="source_mode"/>
 					<property name="scannableName" value="smode"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 			 	<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="polarisation"/>
 					<property name="scannableName" value="pol"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="idd"/>
