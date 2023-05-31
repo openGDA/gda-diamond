@@ -89,7 +89,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI7:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT7:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -104,7 +104,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI8:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT8:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -119,7 +119,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI9:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT9:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -134,7 +134,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI10:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT10:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
