@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sampleMotorsViewConfig" class="uk.ac.gda.exafs.ui.SampleMotorViewConfig">
+		<property name="configurations">
+			<list>
+			
+<!-- 			Sample stages  -->
+				<bean id="group1" class="uk.ac.gda.exafs.ui.SampleMotorViewConfig.ConfigDetails">
+					<property name="groupName" value="Sample stages" />
+					<property name="columnNumber" value="1" />
+					<property name="scannableNames">
+						<list>
+							<value>sam2x</value>
+							<value>sam2y</value>
+							<value>sam2rot</value>
+							<value>frameX</value>
+							<value>frameY</value>
+							<value>sampleStageX</value>
+							<value>sampleStageY</value>
+							<value>hvdtyx</value>
+							<value>hvdtyy</value>
+							<value>sam1x</value>
+							<value>sam1y</value>
+							<value>sam1rot</value>
+						</list>
+					</property>
+				</bean>
+				
+<!-- 				Detector motors  -->
+				<bean id="group2" class="uk.ac.gda.exafs.ui.SampleMotorViewConfig.ConfigDetails">
+					<property name="groupName" value="Detector motors" />
+					<property name="columnNumber" value="2" />
+					<property name="scannableNames">
+						<list>
+							<value>fluoDist</value>
+							<value>vortexDist</value>
+						</list>
+					</property>
+				</bean>
+				
+<!-- 				Meca robot scannables  -->
+				<bean id="group3" class="uk.ac.gda.exafs.ui.SampleMotorViewConfig.ConfigDetails">
+					<property name="groupName" value="Meca robot" />
+					<property name="columnNumber" value="2" />
+					<property name="scannableNames">
+						<list>
+							<value>meca_sample_control</value>
+							<value>meca_move_pose_x</value>
+							<value>meca_move_pose_y</value>
+							<value>meca_move_pose_z</value>
+							<value>meca_move_pose_alpha</value>
+							<value>meca_move_pose_beta</value>
+							<value>meca_move_pose_gamma</value>
+							<value>meca_move_pose_x</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+
+	</bean>
+	
+</beans>
+	

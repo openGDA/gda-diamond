@@ -19,6 +19,7 @@
 	<import resource="pilatus.xml" />
 	<import resource="../${gda.mode}/epics-cameras.xml" />
 	<import resource="robot-controls.xml" />
+	<import resource="sample-parameters-view-config.xml" />
 	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
