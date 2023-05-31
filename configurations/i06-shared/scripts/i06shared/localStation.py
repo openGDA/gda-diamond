@@ -25,6 +25,7 @@ print("load nexus metadata object - 'meta'")
 from gdascripts.metadata.nexus_metadata_class import meta   # @UnusedImport
 
 ds=DummyScannable('ds')
+
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 from i06shared.commands.switchDataWriter import asciiformat, nexusformat,whichformat  # @UnusedImport
 from i06shared.commands.snapshot import snap  # @UnusedImport
@@ -44,25 +45,26 @@ from commands.beamline import beamline, beamlinefunction, getTitle,gettitle,getv
 #To eLog the scan
 fileHeader.setScanLogger(beamline)
 
-if installation.isLive() and beamline != "lab44" and beamline != "i06-2":
+if beamline != "lab44" and beamline != "i06-2":
     from i06shared.devices.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
     from i06shared.devices.ADC1Counters import ca91s,ca92s,ca93s,ca94s,ca101s,ca102s,ca103s,ca104s,adc1voltage,ca91,ca92,ca93,ca94,ca101,ca102,ca103,ca104,adc1current,ca91sr,ca92sr,ca93sr,ca94sr,ca101sr,ca102sr,ca103sr,ca104sr,adc1count  # @UnusedImport
     from i06shared.devices.ADC2Counters import ca111s,ca112s,ca113s,ca114s,ca121s,ca122s,ca123s,ca124s,adc2voltage,ca111,ca112,ca113,ca114,ca121,ca122,ca123,ca124,adc2current,ca111sr,ca112sr,ca113sr,ca114sr,ca121sr,ca122sr,ca123sr,ca124sr,adc2count  # @UnusedImport
     from i06shared.devices.ADC3Counters import ca131s,ca132s,ca133s,ca134s,ca141s,ca142s,ca143s,ca144s,adc3voltage,ca131,ca132,ca133,ca134,ca141,ca142,ca143,ca144,adc3current,ca131sr,ca132sr,ca133sr,ca134sr,ca141sr,ca142sr,ca143sr,ca144sr,adc3count  # @UnusedImport
-    from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
-    from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
-    from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
+    
+    if installation.isLive():
+        from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
+        from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
+        from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 
-    CC1temp=DisplayEpicsPVClass('CC1temp','SV06I-BM-CC-01:TEMP','C','%f')
-    CC3temp=DisplayEpicsPVClass('CC3temp','SV06I-BM-CC-03:TEMP','C','%f')
-    CC4temp=DisplayEpicsPVClass('CC4temp','SV06I-BM-CC-04:TEMP','C','%f')
-    CIAtemp=DisplayEpicsPVClass('CIAtemp','SV06I-BM-CIA-01:TEMP','C','%f')
-    EC1temp=DisplayEpicsPVClass('EC1temp','SV06I-BM-EC-01:TEMP','C','%f')
-    OH1temp=DisplayEpicsPVClass('OH1temp','SV06I-BM-OH-01:TEMP','C','%f')
-    M1temp1=DisplayEpicsPVClass('M1temp1','BL06I-OP-COLM-01:TEMP1','C','%f')
-    M2temp1=DisplayEpicsPVClass('M2temp1','BL06I-OP-COLM-01:TEMP2','C','%f')
+        CC1temp=DisplayEpicsPVClass('CC1temp','SV06I-BM-CC-01:TEMP','C','%f')
+        CC3temp=DisplayEpicsPVClass('CC3temp','SV06I-BM-CC-03:TEMP','C','%f')
+        CC4temp=DisplayEpicsPVClass('CC4temp','SV06I-BM-CC-04:TEMP','C','%f')
+        CIAtemp=DisplayEpicsPVClass('CIAtemp','SV06I-BM-CIA-01:TEMP','C','%f')
+        EC1temp=DisplayEpicsPVClass('EC1temp','SV06I-BM-EC-01:TEMP','C','%f')
+        OH1temp=DisplayEpicsPVClass('OH1temp','SV06I-BM-OH-01:TEMP','C','%f')
+        M1temp1=DisplayEpicsPVClass('M1temp1','BL06I-OP-COLM-01:TEMP1','C','%f')
+        M2temp1=DisplayEpicsPVClass('M2temp1','BL06I-OP-COLM-01:TEMP2','C','%f')
 
-if beamline != "lab44" and beamline != "i06-2": 
     from i06shared.constant import Close,CLOSE,cls,Open,OPEN,opn,Reset,RESET,ver,vertical,hor,horizontal,First,FIRST,Third,THIRD,FIFTH,Fifth,UNIAXIAL_X,UNIAXIAL_Y,UNIAXIAL_Z,SPHERICAL,PLANAR_XZ,QUADRANT_XY,CUBIC,uniaxialx,uniaxialy,uniaxialz,spherical,planar_xz,quadrant_xy,cubic,fixid,cvid,slaveid  # @UnusedImport
     from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
     from i06shared.devices.usePGM import grating  # @UnusedImport
