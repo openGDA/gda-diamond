@@ -99,4 +99,28 @@
 		</property>
 		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
 	</bean>
+
+	<bean id="medipixAcqMode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Single</value>
+				<value>Multiple</value>
+				<value>Continuous</value>
+				<value>Threshold</value>
+				<value>Background</value>
+			</list>
+		</property>
+	</bean>	
+	<bean id="medipixDriverMode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>12 bit</value>
+				<value>24 bit</value>
+				<value>Two Threshold</value>
+				<value>Continuous RW</value>
+				<value>Colour</value>
+				<value>Charge Summing</value>
+			</list>
+		</property>
+	</bean>	
 </beans>

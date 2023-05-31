@@ -96,5 +96,14 @@
 			</list>
 		</property>		
 		<property name="moveToExpression" value="#updateNumFilterInProc(@medipixProcEnableFilter, @medipixProcResetFilter, @medipixProcNumFilter, #input)"/>
-	</bean>	
+	</bean>
+	
+	<bean id="medipixAcqMode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL06I-EA-DET-02:CAM:ImageMode"/>
+		<property name="readOnly" value="false"/>
+	</bean>
+	<bean id="medipixDriveMode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode"/>
+		<property name="readOnly" value="false"/>
+	</bean>
 </beans>
