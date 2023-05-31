@@ -450,32 +450,40 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
     def addIObservers(self):
         if self.energyConstant and self.polarisationObserver is None: # check required to stop multiple add
+            self.logger.debug("%s: add polarisation observer to %s" % (self.getName(), self.idscannable.getName()))
             self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisation)
             self.idscannable.addIObserver(self.polarisationObserver)
         if self.polarisationConstant and self.energyObserver is None:
+            self.logger.debug("%s: add energy observer to %s" % (self.getName(), self.pgmenergy.getName()))
             self.energyObserver = GenericObserver("energyObserver", self.updateEnergy)
             self.pgmenergy.addIObserver(self.energyObserver)
         if not self.energyConstant and not self.polarisationConstant:
             if self.polarisationObserver is None:
+                self.logger.debug("%s: add polarisation observer to %s" % (self.getName(), self.idscannable.getName()))
                 self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisationField)
                 self.idscannable.addIObserver(self.polarisationObserver)
             if self.energyObserver is None:
+                self.logger.debug("%s: add energy observer to %s" % (self.getName(), self.pgmenergy.getName()))
                 self.energyObserver = GenericObserver("energyObserver", self.updateEnergyField)
                 self.pgmenergy.addIObserver(self.energyObserver)
         
     def removeIObservers(self):
         '''delete observer from observed object'''
         if self.energyConstant and self.polarisationObserver is not None:
+            self.logger.debug("%s: delete polarisation observer from %s" % (self.getName(), self.idscannable.getName()))
             self.idscannable.deleteIObserver(self.polarisationObserver)
             self.polarisationObserver = None
         if self.polarisationConstant and self.energyObserver is not None:
+            self.logger.debug("%s: delete energy observer from %s" % (self.getName(), self.pgmenergy.getName()))
             self.pgmenergy.deleteIObserver(self.energyObserver)
             self.energyObserver = None
         if not self.energyConstant and not self.polarisationConstant:
             if self.polarisationObserver is not None:
+                self.logger.debug("%s: delete polarisation observer from %s" % (self.getName(), self.idscannable.getName()))
                 self.idscannable.deleteIObserver(self.polarisationObserver)
                 self.polarisationObserver = None
             if self.energyObserver is not None:
+                self.logger.debug("%s: delete energy observer from %s" % (self.getName(), self.pgmenergy.getName()))
                 self.pgmenergy.deleteIObserver(self.energyObserver)
                 self.energyObserver = None
         
