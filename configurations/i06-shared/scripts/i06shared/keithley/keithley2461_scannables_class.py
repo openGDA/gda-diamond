@@ -23,7 +23,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class Keitlhey2461Current(ScannableMotionBase):
+class Keithley2461Current(ScannableMotionBase):
     '''Create a scannable to control source current and measure voltage from keithley 2461 source meter. Resistance is then calculated from measured voltage and current.
         The recorded current value is measured value, not the set value requested!
         The implementation is largely based on manual reference page 2-107 with modifications to make scannable works with scan and pos command.
@@ -169,7 +169,7 @@ class Keitlhey2461Current(ScannableMotionBase):
     def isBusy(self):
         return self._busy
 
-class Keitlhey2461Voltage(ScannableMotionBase):
+class Keithley2461Voltage(ScannableMotionBase):
     '''Create a scannable to control source voltage and measure current from keithley 2461 source meter. Resistance is then calculated from the measured voltage and current.
         The voltage recored is measured value, not the set value requested!
         This implementation is based on manual reference page 2-106.
