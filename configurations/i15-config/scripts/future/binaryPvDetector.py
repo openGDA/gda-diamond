@@ -6,10 +6,10 @@ from threading import Thread
 from time import sleep
 
 class BinaryPvDetector(DetectorBase):
-    """ 
-    Useful for triggering detectors which have been setup to record images on 
+    """
+    Useful for triggering detectors which have been setup to record images on
     hardware triggers.
-    
+
     When asked to move, toggles a binary PV from normalLevel to triggerLevel and
     then back to normalLevel. Remains busy until the single exposure+readout time
     is reached.
@@ -19,7 +19,7 @@ class BinaryPvDetector(DetectorBase):
         self.cli = CAClient(pvstring)
         self.setInputNames([name])
         self.setOutputFormat(['%5.5f'])
-        self.setLevel(9)        
+        self.setLevel(9)
         self.timer=tictoc()
         self.waitfortime=0
         self.cli.configure()
@@ -40,11 +40,11 @@ class BinaryPvDetector(DetectorBase):
             simpleLog("self.cli.caput(%r)" % self.normalLevel)
         self.cli.caput(self.normalLevel)
 
-    def setTrigger(self): 
+    def setTrigger(self):
         if self.verbose:
             simpleLog("self.cli.caput(%r)" % self.triggerLevel)
         self.cli.caput(self.triggerLevel)
-            
+
     def trigger(self, exposureTime):
         self.setTrigger()
         sleep(exposureTime)
@@ -71,7 +71,7 @@ class BinaryPvDetector(DetectorBase):
             Thread.__init__(self)
             self.trigger = trigger
             self.collectionTime = collectionTime
-        
+
         def run(self):
             self.trigger(self.collectionTime)
 
@@ -128,7 +128,7 @@ class BinaryPvDetector(DetectorBase):
             (return false) the readout() method will return the data directly. """
         if self.verbose:
             simpleLog("createsOwnFiles started...")
-        return False; 
+        return False;
 
     def getDescription(self):
         """ A description of the detector. """

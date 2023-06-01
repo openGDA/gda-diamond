@@ -28,6 +28,4 @@
 		<constructor-arg ref="jython_server_facade" />
 		<constructor-arg ref="terminal_logger"/>
 	</bean>
-	
-
 </beans>

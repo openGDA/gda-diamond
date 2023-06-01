@@ -19,9 +19,9 @@ class Simple_PD_Ratio(ScannableMotionBase):
 		try:
 			ratio = self.top()/self.bottom()
 		except:
-			ratio=0	
+			ratio=0
 			simpleLog("Warning: One of the diodes read zero")
 		return ratio
 
 	def asynchronousMoveTo(self,new_position):
-		pass	
+		pass

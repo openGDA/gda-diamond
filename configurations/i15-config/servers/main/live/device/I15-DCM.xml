@@ -23,7 +23,7 @@
 		<property name="pvName" value="BL15I-OP-DCM-01:X1" />
 	</bean>
 
-	<!-- 
+	<!--
 	<bean id="DcmpiezoMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:PIEZO" />
 	</bean>
@@ -52,7 +52,7 @@
 
 	<!-- Temperatures -->
 
-	<!-- 
+	<!--
 	<bean id="dcmx2t1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP1" />
 	</bean>

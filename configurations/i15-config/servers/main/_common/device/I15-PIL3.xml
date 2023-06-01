@@ -33,7 +33,7 @@
 		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.pil3AreaDetectorRunnableDeviceProxyInfo"/>
 		<property name="label"       value="Pilatus 3M Proxy (pil3AreaDetectorRunnableDeviceProxyInfo)"/>
 		<property name="description" value="Pilatus 3M collection running from a Jython class"/>
-		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/>
 	</bean>
 	<bean id="pil3AreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
 		<property name="name"        value="pil3AD"/>

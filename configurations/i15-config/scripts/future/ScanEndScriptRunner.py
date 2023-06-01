@@ -9,9 +9,9 @@ import os
 class ScanEndScriptRunner(ScannableBase):
     """
     Class that runs a script at scan end.
-    
+
     Example:
-    
+
       pixium_redux=ScanEndScriptRunner('pixium_redux', '/dls_sw/apps/dawn_autoprocessing/autoprocess')
     """
     def __init__(self, name, exepath, delay_sec=0):

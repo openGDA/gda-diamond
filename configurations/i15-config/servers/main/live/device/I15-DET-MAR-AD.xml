@@ -13,7 +13,7 @@
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-MAR-01:HDF5:" />
 				<property name="resetToInitialValues" value="false" />
-			</bean>	
+			</bean>
 		</property>
 		<property name="initialCompression" value="zlib" />
 	</bean>
@@ -36,7 +36,7 @@
 	<!-- We may need to make a Mar collection strategy which understands about Mar states -->
 
 	<!-- public SingleExposureStandard(ADBase adBase, double readoutTime) -->
-	<!-- 
+	<!--
 	<bean id="mar_SingleExposureStandardCollectionStrategy"
 			class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="marAD_config_base" />
@@ -45,9 +45,9 @@
 	 -->
 
 	<!-- Create collection strategy by composition -->
-	<!-- 
+	<!--
 	 -->
-	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy"
 			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
 		<property name="collectionExtensionTimeS" value="10" />
 		<property name="decoratee">
@@ -106,16 +106,16 @@
 
 	<!-- Ideally I would like to use HardwareTriggeredNXDetectorWithReadoutTime for both
 		expose and rockScan, but for some reason using it for the expose results in an error like:
-		2014-03-04 16:36:17,100 INFO  gda.jython.logger.RedirectableFileLogger -  | 
+		2014-03-04 16:36:17,100 INFO  gda.jython.logger.RedirectableFileLogger -  |
 			java.lang.Exception: during scan collection: DeviceException: java.lang.IllegalArgumentException:
 			This single exposure triggering strategy expects to expose only 1 image, asked to expose 0
-	
+
 	<bean id="mar" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 	 -->
 	<bean id="marHWT"
 			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mar"/>
-		<!-- 
+		<!--
 		<property name="readOutTime" value="240"/>
 		 -->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
@@ -123,7 +123,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
-				<!-- 
+				<!--
 				<ref bean="mar_tiff_SingleImagePerFileWriter" />
 				 -->
 				<ref bean="mar_mar_SingleImagePerFileWriter" />
@@ -152,7 +152,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
-				<!-- 
+				<!--
 				<ref bean="mar_tiff_SingleImagePerFileWriter" />
 				 -->
 				<ref bean="mar_mar_SingleImagePerFileWriter" />

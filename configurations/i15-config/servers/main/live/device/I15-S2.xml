@@ -5,17 +5,17 @@
 
 	<bean id="S2XGapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-02:X:SIZE" />
-	</bean>	
+	</bean>
 
 	<bean id="S2XPosMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-02:X:CENTER" />
-	</bean>	
+	</bean>
 
 	<bean id="S2YGapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-02:Y:SIZE" />
-	</bean>	
+	</bean>
 
 	<bean id="S2YPosMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-02:Y:CENTER" />
-	</bean>	
+	</bean>
 </beans>

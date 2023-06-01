@@ -22,7 +22,7 @@
 					<property name="group" value="Membrane" />
 					<property name="numColumns" value="1" />
 					<property name="controls">
-						<list> 
+						<list>
 							<!-- Initially shows position, but after first move it shows BUSY then IDLE -->
 							<bean class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
 								<property name="displayName" value="Membrane Pressure" />

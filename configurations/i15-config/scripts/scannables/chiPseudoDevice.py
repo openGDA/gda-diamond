@@ -17,36 +17,36 @@ class ChiPseudoDevice(ScannableMotionBase):
         self.hconv=H.EulerianKconversion(theta, kappa, phi, thoffset, phioffset)
         self.verbose = False
         self.vphi, self.vkappa, self.vtheta = (
-            phi.speed if phi.isConfigured() else 0, 
-            kappa.speed if kappa.isConfigured() else 0, 
+            phi.speed if phi.isConfigured() else 0,
+            kappa.speed if kappa.isConfigured() else 0,
             theta.speed if theta.isConfigured() else 0
         )
         self.speedsAdjusted=False
 
     def asynchronousMoveTo(self,new_chi):
-        Phi, _, Theta = self.hconv.KtoEulerian() 
+        Phi, _, Theta = self.hconv.KtoEulerian()
         kphi, kappa, ktheta = self.hconv.EuleriantoK([Theta, new_chi, Phi]) # theta_now chi_now phi_now > kphi, kappa, ktheta
-        
+
         if self.verbose:
             print "asynchronousMoveTo: kphi=%r, kappa=%r, ktheta=%r" % (kphi, kappa, ktheta)
-        
+
         kphi_now, kappa_now, ktheta_now = self.phi(), self.kappa(), self.theta()
         if self.verbose:
             print "asynchronousMoveTo: kphi_now=%r, kappa_now=%r, ktheta_now=%r" % (kphi_now, kappa_now, ktheta_now)
-        
+
         self.vphi, self.vkappa, self.vtheta = self.phi.speed, self.kappa.speed, self.theta.speed
         if self.verbose:
             print "asynchronousMoveTo: vphi=%r, vkappa=%r, vtheta=%r" % (self.vphi, self.vkappa, self.vtheta)
-        
+
         tphi   =   abs(kphi_now-kphi)/self.vphi
         tkappa =  abs(kappa_now-kappa)/self.vkappa
         ttheta = abs(ktheta_now-ktheta)/self.vtheta
-        
+
         t = (tphi, tkappa, ttheta)
         tmax = max(t)
         if self.verbose:
             print "asynchronousMoveTo: tphi=%r, tkappa=%r, ttheta=%r, tmax=%r" % (t+(tmax,))
-        
+
         sphi   =   self.vphi if   tphi <= 0 else self.vphi/(tmax/tphi)
         skappa = self.vkappa if tkappa <= 0 else self.vkappa/(tmax/tkappa)
         stheta = self.vtheta if ttheta <= 0 else self.vtheta/(tmax/ttheta)
@@ -54,23 +54,23 @@ class ChiPseudoDevice(ScannableMotionBase):
             print "asynchronousMoveTo: sphi=%r, skappa=%r, stheta=%r" % (sphi, skappa, stheta)
         self.speedsAdjusted = True
         self.phi.speed, self.kappa.speed, self.theta.speed = sphi, skappa, stheta
-        
+
         if self.verbose:
             print "asynchronousMoveTo: vphi=%r, vkappa=%r, vtheta=%r" % (self.phi.speed, self.kappa.speed, self.theta.speed)
-        
+
         self.phi.asynchronousMoveTo(kphi)
         self.theta.asynchronousMoveTo(ktheta)
         self.kappa.asynchronousMoveTo(kappa)
-        
+
         self.phi.waitWhileBusy()
         self.theta.waitWhileBusy()
         self.kappa.waitWhileBusy()
-        
+
         self.phi.speed, self.kappa.speed, self.theta.speed = self.vphi, self.vkappa, self.vtheta
         self.speedsAdjusted=False
         if self.verbose:
             print "asynchronousMoveTo: vphi=%r, vkappa=%r, vtheta=%r" % (self.phi.speed, self.kappa.speed, self.theta.speed)
-        
+
         #values=self.hconv.KtoEulerian() # Phi, Chi, Theta
         #listaval=[values[0],new_chi,values[2]]  # Phi,     Chi,    Theta
         #dempos=self.hconv.EuleriantoK(listaval) #theta_now chi_now phi_now

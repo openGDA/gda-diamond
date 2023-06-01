@@ -13,7 +13,7 @@ from math import pi, tan, cos, sin, atan, asin
 class EulerianKconversion:
 
     def __init__(self, dkth, dkap, dkphi, thoffset=2.2, phioffset=2.2):
-        self.Kalpha=50.*pi/180.0 # Value to have chi=90 
+        self.Kalpha=50.*pi/180.0 # Value to have chi=90
         self.K=dkap
         self.Kth=dkth
         self.Kphi=dkphi
@@ -25,7 +25,7 @@ class EulerianKconversion:
         """@sig public double[] EuleriantoK([theta_now chi_now phi_now])"""
         if euler_coord_list == None:
             (phi_now, chi_now, theta_now) = self.KtoEulerian()
-            
+
             #xxx=self.KtoEulerian()
             #theta_now=xxx[0] # Why theta_now = phi ?
             #chi_now=xxx[1]
@@ -35,7 +35,7 @@ class EulerianKconversion:
             #theta_now=x[0]
             #chi_now=x[1]
             #phi_now=x[2]
-        
+
         if abs(chi_now) <= self.Kalpha*180./pi*2:
             delta1=-asin(tan(pi/180.*chi_now/2.)/tan(self.Kalpha))
             K1=-asin(cos(delta1)*sin(pi/180*chi_now)/sin(self.Kalpha))*180/pi
@@ -63,12 +63,12 @@ class EulerianKconversion:
     def KtoEulerian(self): # return [Phi, Chi, Theta]
         """@sig public double[] KtoEulerian()"""
         kappa = self.K()
-        
+
         gamma = -atan(cos(self.Kalpha)*tan(kappa/2.*pi/180.))*180./pi
         Chi   = -2*asin(sin(kappa*pi/180/2)*sin(self.Kalpha))*180./pi
         Theta = self.thetaFromKtheta(self.Kth() - gamma)
         Phi   = self.phiFromKPhi(self.Kphi() - gamma)
-        
+
         Theta=self.setRange(Theta,-90.,270.)
         Chi=self.setRange(Chi)
         Phi=self.setRange(Phi,-90.,270.)

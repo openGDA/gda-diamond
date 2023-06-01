@@ -12,23 +12,23 @@ def configure(jythonNameMap, beamlineParameters):
 	"""
 	beamline = jythonNameMap.beamline
 	configured = True
-	
+
 def checkConfigured():
 	if not configured:
 		raise Exception, "ccdMechanics not configured"
-		
+
 ######################################################################################
 def scanGeometryCheck(axis, velocity, A, B):
 	correctedA = A
 	correctedB = B
 	suffix = ""
-	
+
 	velocityMinimumWithoutDebounce_DegPerSec = 0.1
 	velocityMinimumWithDebounce_DegPerSec = 0.0002
-	
+
 	if velocity >= velocityMinimumWithoutDebounce_DegPerSec:
 		debounce = 0 # False
-	
+
 	elif velocity >= velocityMinimumWithDebounce_DegPerSec:
 		debounce = 1 # True
 		# If the debounce circuit is enabled, then we need to shorten the
@@ -46,11 +46,11 @@ def scanGeometryCheck(axis, velocity, A, B):
 				correctedA, correctedB) + "with de-bounce correction! " + \
 				"Moves must take more than %f ms with velocities below %f." % (
 				stretchedPulseLengthMs, velocityMinimumWithoutDebounce_DegPerSec)
-	
+
 	else:
 		raise Exception, "Error: velocity (%f) is below minimum supported velocity (%f)" \
 			% (velocity, velocityMinimumWithDebounce_DegPerSec)
-	
+
 	return debounce, correctedA, correctedB, suffix
 
 def scanGeometryApply(axis, geometry, debounce, correctedA, correctedB, suffix):
@@ -62,15 +62,15 @@ def scanGeometryApply(axis, geometry, debounce, correctedA, correctedB, suffix):
 			If the next line doesn't start 'Activating position compare'
 			then try setting manually in Launcher, Beamlines, I15,
 			Experimental Hutch, SMPL2, Position Compare""")
-		
+
 		beamline.setValue("Top", "-EA-PCMP-01:STRETCH", debounce)
 		suffix += "(set debounce to %r)" % debounce
-	
+
 	simpleLog("Activating position compare: A, B, axis = %f %f %s %s" %
 			(correctedA, correctedB, axis.name, suffix))
-	
+
 	activatePositionCompare(correctedA, correctedB, axis)
-	
+
 	return geometry
 ######################################################################################
 def activatePositionCompare(start, stop, axis):
@@ -80,8 +80,8 @@ def activatePositionCompare(start, stop, axis):
 	"""
 	checkConfigured()
 	if axis.getName() == "testLinearDOF1":
-		return	
-	# Get offset value	
+		return
+	# Get offset value
 #	PCOOffset = 0
 	PCOOffset = beamline.getValue(None, "Top", getVelocityPvRoot(axis) + ".OFF")
 	if (PCOOffset > 0):
@@ -118,7 +118,7 @@ def setVelocity(axis, velocity):
 	checkConfigured()
 	pvRoot = getVelocityPvRoot(axis)
 	beamline.setValue("Top", pvRoot + ".VELO", velocity)
-	
+
 ######################################################################################
 def setMaxVelocity(axis):
 	"""
@@ -153,7 +153,7 @@ def getVelocityPvRoot(axis):
 	elif (axis.name == 'syaw'):
 		simpleLog("WARNING: the syaw motor ignores the velocity setting and always moves at full speed!")
 		return "-MO-SFAB-01:YAW"
-	
+
 	raise Exception, "Error: axis (%s) is not supported by velocity change script" % axis.name
 ######################################################################################
 def deactivatePositionCompare():
@@ -167,4 +167,4 @@ def deactivatePositionCompare():
 	beamline.setValue("Top","-MO-XPS-02:PCO6:ENABLE",0)			#Deactivate kphi position compare
 	beamline.setValue("Top","-MO-XPS-02:PCO3:ENABLE",0)
 	beamline.setValue("Top","-MO-XPS-02:PCO5:ENABLE",0)
-	
+

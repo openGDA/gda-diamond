@@ -11,4 +11,4 @@
 #   from gdascripts/feature import *
 
 # Changes to the local and gdascripts versions of these scripts can then
-# be reconciled and the local versions deleted. 
+# be reconciled and the local versions deleted.

@@ -65,7 +65,7 @@ class Anc150Axis(ScannableMotionBase):
             else:
                 self.logger.debug("asynchronousMoveTo({}) TWNEG={}", absPos, self.CATweakNegative.caget())
                 self.CATweakNegative.caput(1)
-            
+
             freq = float(self.CAFrequency.caget())
             sleepTime=(abs(diff)/freq)+self.delayAfterMove
             self.logger.debug("asynchronousMoveTo({}) sleepTime={}", absPos, sleepTime)
@@ -86,7 +86,7 @@ class Anc150Axis(ScannableMotionBase):
 
     def getFrequency(self):
         print "Frequency is " + str(self.CAFrequency.caget())
-    
+
     def getVoltage(self):
         print "Voltage is: " + str(self.CAVoltage.caget())
 
@@ -94,7 +94,7 @@ class Anc150Axis(ScannableMotionBase):
         print "Changing frequency from " + str(self.CAFrequency.caget()) + " to " + str(newFrequency) + "..."
         self.CAFrequency.caput(newFrequency)
         print "Done"
-    
+
     def setVoltage(self, newVoltage):
         print "Changing voltage from " + str(self.CAVoltage.caget()) + " to " + str(newVoltage) + "..."
         self.CAVoltage.caput(newVoltage)
@@ -106,7 +106,6 @@ class Anc150Axis(ScannableMotionBase):
         print "Done, position " + self.getPosition()
 
 def createAnc150Axis(name, pvname, delayAfterMove, forceEpicsRecordProcessingOnTweak=False, doZeroTweakSizeMoves=True):
-        
     try:
         result = Anc150Axis(name, pvname, delayAfterMove, forceEpicsRecordProcessingOnTweak, doZeroTweakSizeMoves)
     except Exception, e:

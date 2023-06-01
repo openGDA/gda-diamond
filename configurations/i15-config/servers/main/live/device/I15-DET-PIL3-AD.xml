@@ -13,7 +13,7 @@
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-PILAT-03:HDF5:" />
 				<property name="resetToInitialValues" value="false" />
-			</bean>	
+			</bean>
 		</property>
 		<property name="initialCompression" value="zlib" />
 	</bean>
@@ -29,8 +29,8 @@
 	<!-- NXDetector collection strategies -->
 
 	<!-- Should now apply UnsynchronisedExternalShutterDecorator to SingleExposureStandard -->
-	<!-- 
-	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+	<!--
+	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy"
 			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
 		<property name="decoratee" ref="pil3_SingleExposureStandardCollectionStrategy" />
 		<property name="collectionExtensionTimeS" value="10" />
@@ -38,7 +38,7 @@
 	 -->
 
 	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
-	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+	<bean id="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy"
 			class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
 		<constructor-arg ref="pil3AD_config_base" />
 		<constructor-arg value="0.003" />
@@ -74,7 +74,7 @@
 	<bean id="pil3HWT"
 			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="pil3"/>
-		<!-- 
+		<!--
 		<property name="readOutTime" value="240"/>
 		 -->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>

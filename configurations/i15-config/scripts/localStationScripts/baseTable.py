@@ -4,7 +4,7 @@ from gda.epics import CAClient
 
 class BaseTable(ScannableMotionBase):
 	'''
-	PD for moving all three base jacks of diffractometer together 
+	PD for moving all three base jacks of diffractometer together
 	'''
 	def __init__(self, name, beamline, root, j1, j2, j3, tol):
 		self.setName(name)
@@ -27,7 +27,7 @@ class BaseTable(ScannableMotionBase):
 		"""
 		self._calculateHeightAndOffsets()
 		error = self._checkPositionError()
-		
+
 		if not error is None:
 			print error
 
@@ -42,9 +42,9 @@ class BaseTable(ScannableMotionBase):
 
 		if not error is None:
 			raise DeviceException(error)
-		
+
 		self.setVelocities()
-		
+
 		self.j1.asynchronousMoveTo(newPos + self.j1offset)
 		self.j2.asynchronousMoveTo(newPos + self.j2offset)
 		self.j3.asynchronousMoveTo(newPos + self.j3offset)
@@ -53,11 +53,11 @@ class BaseTable(ScannableMotionBase):
 		j1 = self.j1.getPosition()
 		j2 = self.j2.getPosition()
 		j3 = self.j3.getPosition()
-		
+
 		# Note that j1 & j2 are at one end of the table, but j3 is at the other
 		# end, so the average height is not a simple average of the three.
 		self.averageHeight = ( (j1 + j2) / 2 + j3 ) / 2
-		
+
 		self.j1pos = j1
 		self.j2pos = j2
 		self.j3pos = j3
@@ -66,11 +66,11 @@ class BaseTable(ScannableMotionBase):
 		self.j3offset = self.j3pos - self.averageHeight
 
 	def _checkPositionError(self):
-		
+
 		if (abs(self.j1offset) <= self.tol and abs(self.j2offset) <= self.tol
 										   and abs(self.j3offset) <= self.tol ):
 			return None
-			
+
 		return("Error: %s, %s and %s (at %f, %f, %f) " %
 			(self.j1.getName(), self.j2.getName(), self.j3.getName(),
 			self.j1pos, self.j2pos, self.j3pos) +
@@ -81,10 +81,10 @@ class BaseTable(ScannableMotionBase):
 		"""
 		Ensure all velocities are the same by setting all to the minimum of the 3
 		"""
-		minVel = min( [self.beamline.getValue(None, "Top", self.pvRoot + "Y1.VELO"), 
-					   self.beamline.getValue(None, "Top", self.pvRoot + "Y2.VELO"), 
+		minVel = min( [self.beamline.getValue(None, "Top", self.pvRoot + "Y1.VELO"),
+					   self.beamline.getValue(None, "Top", self.pvRoot + "Y2.VELO"),
 					   self.beamline.getValue(None, "Top", self.pvRoot + "Y3.VELO")] )
-		
+
 		self.beamline.setValue("Top", self.pvRoot + "Y1.VELO", minVel)
 		self.beamline.setValue("Top", self.pvRoot + "Y2.VELO", minVel)
 		self.beamline.setValue("Top", self.pvRoot + "Y3.VELO", minVel)

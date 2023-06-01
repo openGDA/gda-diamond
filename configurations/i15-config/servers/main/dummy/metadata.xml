@@ -63,7 +63,7 @@
 					<property name="name" value="title" />
 					<property name="query" value="TITLE" />
 				</bean>
-				
+
 				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="user" />
 					<property name="query"

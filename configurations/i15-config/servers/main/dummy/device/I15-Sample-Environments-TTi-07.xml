@@ -20,7 +20,7 @@
 			class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="V" />
 		<property name="value" value="0.9564" />
-		<!-- 
+		<!--
 		<property name="lowerLimit" value="0" />
 		<property name="upperLimit" value="10" />
 		<property name="increment" value="0" />
@@ -41,7 +41,7 @@
 			class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="A" />
 		<property name="value" value="0.9564" />
-		<!-- 
+		<!--
 		<property name="lowerLimit" value="0" />
 		<property name="upperLimit" value="10" />
 		<property name="increment" value="0" />
@@ -62,7 +62,7 @@
 			class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="V" />
 		<property name="value" value="0.9564" />
-		<!-- 
+		<!--
 		<property name="lowerLimit" value="0" />
 		<property name="upperLimit" value="10" />
 		<property name="increment" value="0" />
@@ -82,7 +82,7 @@
 			class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="A" />
 		<property name="value" value="0.9564" />
-		<!-- 
+		<!--
 		<property name="lowerLimit" value="0" />
 		<property name="upperLimit" value="10" />
 		<property name="increment" value="0" />

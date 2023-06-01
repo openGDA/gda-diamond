@@ -46,8 +46,8 @@
 	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
 
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
+	<!--
+	      IMPORTANT: this will start processing the scanning queue.
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 -->

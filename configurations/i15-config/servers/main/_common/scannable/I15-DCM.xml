@@ -27,7 +27,7 @@
 		<property name="motor" ref="Dcmx1Motor" />
 	</bean>
 
-	<!-- 
+	<!--
 	<bean id="dcmpiezo" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DcmpiezoMotor" />
 	</bean>

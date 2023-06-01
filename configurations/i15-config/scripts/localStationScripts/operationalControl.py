@@ -27,10 +27,10 @@ def configure(jythonNameMap, beamlineParameters):
 	d4x = jythonNameMap.d4x
 	d4y = jythonNameMap.d4y
 	configured = True
-	
+
 def checkConfigured():
 	if not configured:
-		raise Exception, "operationalControl not configured"	
+		raise Exception, "operationalControl not configured"
 
 def shopen():
 	"""
@@ -79,9 +79,9 @@ def shcloseall():
 def cfs():
 	"""
 	Close Fast shutter
-	
+
 	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
-	
+
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
@@ -90,9 +90,9 @@ def cfs():
 def ofs():
 	"""
 	Open Fast shutter
-	
+
 	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
-	
+
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
@@ -164,7 +164,7 @@ def setState(name, pv, newState):
 	text = "IN"
 	if (newState == 0):
 		text = "OUT"
-	
+
 	currentState = beamline.getValue(None,"Top",pv)
 	if (newState == currentState):
 		print name + " position already: "  + text
@@ -193,8 +193,8 @@ def ready():
 
 def cscanChecks(motor, start, step, param1, param2=-1, param3=-1):
 	"""
-	Do align(), then a cscan 
-	e.g. 
+	Do align(), then a cscan
+	e.g.
 		cscanChecks( testLinearDOF1, 0.1, 0.02 ,dummyDiode)
 		cscanChecks( testLinearDOF1, 0.1, 0.02, w, 0.2 ,dummyDiode)
 	"""
@@ -203,7 +203,7 @@ def cscanChecks(motor, start, step, param1, param2=-1, param3=-1):
 def scanChecks(motor, start, stop, step, param1, param2=-1, param3=-1):
 	"""
 	Do align(), then a scan
-	e.g. 
+	e.g.
 		scanChecks( testLinearDOF1, 1, 10, 0.3 ,dummyDiode)
 		scanChecks( testLinearDOF1, 1, 10, 0.3 ,w, 0.2, dummyDiode)
 	"""
@@ -211,15 +211,15 @@ def scanChecks(motor, start, stop, step, param1, param2=-1, param3=-1):
 
 def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, param2, param3):
 	"""
-	Do align(), then a scan, returning motor to initial position if there's 
+	Do align(), then a scan, returning motor to initial position if there's
 	an interrupt
-	"""	
+	"""
 	if (alignFlag):
 		align()
-	
+
 	initialPosition = motor.getPosition()
-	
-	args = []	
+
+	args = []
 	try:
 		if (cscanFlag):
 			if (param2 == -1 and param3 == -1):
@@ -233,7 +233,7 @@ def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, pa
 			else:
 				args = [motor, start, stop, step, param1, param2, param3]
 			scan(args)
-	
+
 	except java.lang.InterruptedException:
 		response = InputCommands.requestInput("Return " + str(motor.name) + " to initial position: " + str(initialPosition) + " ? (y/n)")
 		if (response == 'y'):
@@ -243,7 +243,7 @@ def genericScanChecks(alignFlag, cscanFlag, motor, start, stop, step, param1, pa
 			return
 
 def homeToMinus():
-	""" 
+	"""
 	if dkappa and dktheta are at the home positions of 0 then move them to -134.76 and  -34.197 respectively
 	"""
 	if (not checkMotorsInPosition(0, 0)):
@@ -254,7 +254,7 @@ def homeToMinus():
 	simpleLog("Done")
 
 def minusToHome():
-	""" 
+	"""
 	if dkappa and dktheta are at -134.76 and -34.197 respectively then move them to the home position of 0
 	"""
 	if (not checkMotorsInPosition(-134.76, -34.197)):
@@ -265,7 +265,7 @@ def minusToHome():
 	simpleLog("Done")
 
 def homeToMinus57():
-	""" 
+	"""
 	if dkappa and dktheta are at the home positions of 0 then move them to 134.65 and  31.785 respectively
 	"""
 	if (not checkMotorsInPosition(0, 0)):
@@ -276,22 +276,22 @@ def homeToMinus57():
 	simpleLog("Done")
 
 def minus57ToMinus122():
-	""" 
+	"""
 	if dkappa and dktheta are at -134.76 and -34.197 respectively then move them to 134.65 and  31.785 respectively
 	"""
 	if (not checkMotorsInPosition(134.65, 31.785)):
 		return
-	
+
 	ret = InputCommands.requestInput("Ensure mu stage, etc. is clear..!!! Continue (y/n) ?")
 	if (ret != 'y'):
 		simpleLog("Motors not moved")
 		return
-	
+
 	ret = InputCommands.requestInput("ARE YOU REALLY SURE? (y/n) ?")
 	if (ret != 'y'):
 		simpleLog("Motors not moved")
 		return
-	
+
 	moveMotor(dkappa, 0)
 	moveMotor(dktheta, 0)
 	moveMotor(dkappa, -134.76)
@@ -306,7 +306,7 @@ def checkMotorsInPosition(pos1, pos2):
 	if (abs(dktheta.getPosition() - pos2) > tolerance):
 		simpleLog("Cannot home as dktheta not at " + str(pos2) +" (at " + str(dktheta.getPosition()) + ")")
 		return False
-	
+
 	return True
 
 def moveMotor(motor, newPos):
@@ -316,10 +316,10 @@ def moveMotor(motor, newPos):
 	"""
 	simpleLog( "Moving " + motor.name + " to " + str(newPos))
 	motor(newPos)
-	
+
 	tolerance = 0.1           # = motor.tolerance?
 	if (abs(motor.getPosition() - newPos) > tolerance):
 		raise Exception, "Error: motor has not moved to target position (currently at: " +  str(motor.getPosition()) + ") - SCRIPT TERMINATED"
-	
+
 	simpleLog( "Now at: " + str(motor.getPosition()) )
 

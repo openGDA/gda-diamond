@@ -12,7 +12,7 @@
 	<bean id="DcmenergyCalMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="Dcmx1Motor" class="gda.device.motor.DummyMotor"/>
-	<!-- 
+	<!--
 	<bean id="DcmpiezoMotor" class="gda.device.motor.DummyMotor"/>
 	 -->
 	<bean id="Dcmxtl1yMotor" class="gda.device.motor.DummyMotor"/>
@@ -23,7 +23,7 @@
 
 	<!-- Temperatures -->
 
-	<!-- 
+	<!--
 	<bean id="dcmx2t1" class="gda.device.monitor.EpicsMonitor"/>
 	<bean id="dcmx2t2" class="gda.device.monitor.EpicsMonitor"/>
 	<bean id="dcmx2t3" class="gda.device.monitor.EpicsMonitor"/>

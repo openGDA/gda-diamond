@@ -18,7 +18,7 @@ def configure(jythonNameMap, beamlineParameters):
 def checkConfigured():
 	if not configured:
 		raise RuntimeError("shutterCommands not configured")
-	
+
 def sh(cmd):
 	"""
 	sh('o')  - Reset and Open EH & Fast shutter.
@@ -30,7 +30,7 @@ def sh(cmd):
 	sh('status') - get Status
 
 	Note: The Fast Shutter should be switched to Ext. trigger rather than Atlas
-	
+
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
@@ -70,7 +70,7 @@ def sh(cmd):
 			return zebraFastShutter.isOpen()
 		else:
 			simpleLog( 'No habla ingles? Use "o", "c", "oa", or "oc". Versuchen noch einmal!')
-		
+
 		getShutterStatus()
 	except:
 		typ, exception, traceback = sys.exc_info()
@@ -189,6 +189,6 @@ def getShutterStatus(status):
 	checkConfigured()
 	if (status=="3"):
 		simpleLog( " -> Shutter Closed")
-	elif (status=="1"): 
+	elif (status=="1"):
 		simpleLog( " -> Shutter Open")
 	return

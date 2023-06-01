@@ -25,7 +25,7 @@ class ZebraPositionScannable(ScannableBase):
 
     def rawGetPosition(self):
         return self.zebraGetPosition()
-    
+
     def zebraGetPosition(self):
         last_encoder_pv = 'PC_ENC{}_LAST'.format(self.zebra_scannable.getPcEnc()+1)
         position = float(self.pvs[last_encoder_pv].caget())
@@ -40,7 +40,7 @@ class ZebraPositionScannable(ScannableBase):
             self.check_scannable.getName(), new_position))
         # Reset the zebra box before trying to set any parameters
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
-        
+
         while self.isBusy():
             if self.verbose: simpleLog("Waiting for zebra to disarm before...")
             sleep(0.5)
@@ -48,20 +48,20 @@ class ZebraPositionScannable(ScannableBase):
         pc_bit_cap = 960 | (1 << self.zebra_scannable.getPcEnc())
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, 'ms')
         self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, pc_bit_cap)      # Complex bitfield
-        
+
         self.pvs['PC_ARM_SEL'    ].caput(TIMEOUT, 'Soft')
         self.pvs['PC_GATE_SEL'   ].caput(TIMEOUT, 'Time')
         self.pvs['PC_GATE_START' ].caput(TIMEOUT, 0)
         self.pvs['PC_GATE_WID'   ].caput(TIMEOUT, 1)
         self.pvs['PC_GATE_NGATE' ].caput(TIMEOUT, 1)
-        
+
         self.pvs['PC_PULSE_SEL'  ].caput(TIMEOUT, 'Time')
         self.pvs['PC_PULSE_START'].caput(TIMEOUT, 0)
         self.pvs['PC_PULSE_WID'  ].caput(TIMEOUT, 1)
         self.pvs['PC_PULSE_STEP' ].caput(TIMEOUT, 1+0.0002) # PULSE_STEP *must* be bigger than PULSE_WID, maybe more than 0.0001 bigger
         self.pvs['PC_PULSE_DLY'  ].caput(TIMEOUT, 1)
         self.pvs['PC_PULSE_MAX'  ].caput(TIMEOUT, 1)
-        
+
         self.pvs['PC_ARM'].caput(TIMEOUT, 1)
         return
 
@@ -90,10 +90,10 @@ class ZebraCheckScannable(ZebraPositionScannable):
         self.setInputNames([])
         self.setExtraNames([]);
         self.setOutputFormat([])
-        
+
     def atScanStart(self):
         diff = 1
-        
+
         while abs(diff) > 0.0001:
             self.zebraRawAsynchronousMoveTo(1)
             while self.zebraIsBusy():

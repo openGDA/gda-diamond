@@ -127,7 +127,7 @@
 	<!-- We need to make a PE collection strategy which understands about PE states -->
 
 	<!-- Create collection strategy by composition -->
-	<bean id="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" 
+	<bean id="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy"
 			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
 		<property name="collectionExtensionTimeS" value="10" />
 		<property name="decoratee">
@@ -158,7 +158,7 @@
 		 are seen as huge positive values. -->
 
 	<!-- Create collection strategy by composition -->
-	<bean id="pe_Continuous" 
+	<bean id="pe_Continuous"
 			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
 		<property name="collectionExtensionTimeS" value="10" />
 		<property name="decoratee">
@@ -200,7 +200,7 @@
 		<property name="lazyOpen" value="true" />
 		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
 			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
-		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but
 			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
 			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
 		 -->
@@ -220,7 +220,7 @@
 		<property name="keyNameForMetadataPathTemplate" value="pe_path_template" />
 		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
 			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
-		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but
 			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
 			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
 		 -->

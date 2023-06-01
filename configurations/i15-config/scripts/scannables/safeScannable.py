@@ -18,11 +18,11 @@ class SafeScannable(ScannableBase):
         self.setInputNames([name])
         self.setExtraNames([self.check_scannable.name]);
         self.setOutputFormat(["%5.5g", "%5.5g"])
-        
+
     def rawGetPosition(self):
         return [self.control_scannable.getPosition(),
                 self.check_scannable.getPosition()]
-        
+
     def rawAsynchronousMoveTo(self, new_position):
         error = self.checkPositionValid(self)
         if not error is None:
@@ -51,8 +51,8 @@ class SafeScannable(ScannableBase):
                 error = "less"
 
         if error is None:
-            return None 
-        
+            return None
+
         return "position %s %5.5g is %s than %5.5g threshold" % (
                 self.check_scannable.name, check_scannable_position,
                 error, self.threshold )

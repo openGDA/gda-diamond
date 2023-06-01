@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Space fab motors -->
-	
+
 	<bean id="sxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:X" />
 	</bean>

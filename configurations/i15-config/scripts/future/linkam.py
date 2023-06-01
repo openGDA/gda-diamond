@@ -71,7 +71,7 @@ class Linkam(ScannableMotionBase):
 
     def start(self):
         self.rampctl.caput("Start")
-    
+
     def stop(self):
         self.rampctl.caput("Stop")
         self.state=0
@@ -111,7 +111,7 @@ class Linkam(ScannableMotionBase):
             raise IOError, "timeout reading log/dsc values from %s. DSC disabled for now. " % (self.name)
         else:
             return [float(self.temp.caget())]
-        
+
     def asynchronousMoveTo(self,p):
         if int(self.disable.caget()) == 1:
             raise DeviceException(self.getName()+" disabled in EPICS")
@@ -129,7 +129,7 @@ class Linkam(ScannableMotionBase):
             self.state=-1
             if (l>p):
                 self.setLimit(p)
-        self.start()            
+        self.start()
         return
 
     def isBusy(self):

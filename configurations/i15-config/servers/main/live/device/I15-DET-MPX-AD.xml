@@ -95,7 +95,7 @@
 	<!-- We need to make a Merlin collection strategy which understands about Merlin states -->
 
 	<!-- Create collection strategy by composition -->
-	<bean id="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" 
+	<bean id="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy"
 			class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
@@ -176,7 +176,7 @@
 				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
-		<!-- 
+		<!--
 		<property name="additionalPluginList" ref="mpx_additionalPluginList" />
 		 -->
 	</bean>

@@ -7,17 +7,17 @@ class MerlinColourModeThresholdsScannable(ScannableBase):
         self.name = name
         self.pvManager = PvManager() # Just to get PyDev completion
         self.pvManager = pvManager
-        
+
         self.setName(name);
         self.setInputNames(['OperatingEnergy', 'ThresholdEnergy0', 'ThresholdEnergy1', 'ThresholdEnergy2', 'ThresholdEnergy3',
                                                'ThresholdEnergy4', 'ThresholdEnergy5', 'ThresholdEnergy6', 'ThresholdEnergy7'])
         self.setExtraNames([]);
         self.setOutputFormat(['%6.3f'] * (len(self.getInputNames()) + len(self.getExtraNames())))
         self.setLevel(1)
-        
+
         self.verbose = False
         self.requestedEnergies = [0.0] * len(self.getInputNames())
-        
+
         self.TIMEOUT=5
 
     def __repr__(self):

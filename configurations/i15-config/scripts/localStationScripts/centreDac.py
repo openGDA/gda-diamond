@@ -9,11 +9,11 @@ class CentreDAC(ScanBase):
 	"""
 	CentreDAC(rotation_axis, perp2rot_axis, focus_axis,
 			  scanRange, scanStep, rockAngle, diode, autoFit, rotation_centre)
-	
+
 	Centers the sample (DAC) on the beam and the diffractometer center.
-	
+
 	Example: CentreDAC(dkphi, dx, dy, 0.4, 0.02, 10, d4, False, 58.)
-	
+
 	Firstly finds the sample position about axis=-10 deg scan around the
 	current position in dx +/- scanRange (mm) with a step size
 	scanStep (mm). Then the DAC is rotated +/- rockAngle (deg) about 10 degrees
@@ -26,10 +26,10 @@ class CentreDAC(ScanBase):
 		Example: CentreDAC(dkphi, dx, dy, 0.4, 0.02, 10, d4, False, 58.)
 		"""
 		self.beamline= beamline
-		
+
 		self.rotation_axis	= rotation_axis
 		# Axis perpendicular to axis of rotation
-		self.perp2rot_axis	= perp2rot_axis 
+		self.perp2rot_axis	= perp2rot_axis
 		self.focus_axis		= focus_axis
 		#self.dz = jythonNameMap.dz
 		self.scanRange	= scanRange
@@ -39,7 +39,7 @@ class CentreDAC(ScanBase):
 		self.autoFit	= autoFit
 		self.rotation_centre = rotation_centre
 		self.focus_axis_inverted = focus_axis_inverted
-		
+
 		self.perp2rot_axis_ref = self.perp2rot_axis()
 		self.focus_axis_ref = self.focus_axis()
 		#self.dz_ref = self.dz()
@@ -64,7 +64,7 @@ class CentreDAC(ScanBase):
 		else:
 			print "You have entered a peak centre of ", `yposx`, \
 				" for the positive "+self.perp2rot_axis.name+" x-axis scan."
-		
+
 		self.perp2rot_axis(self.perp2rot_axis_ref)
 		#self.dz(self.dz_ref)
 		print "=============== "+self.focus_axis.name+" negative ================="
@@ -81,7 +81,7 @@ class CentreDAC(ScanBase):
 		else:
 			print "You have entered a peak centre of ", `ynegx`, \
 				" for the negative "+self.perp2rot_axis.name+" x-axis scan."
-		
+
 		corrected_focus = self.calcdy(yposx,ynegx)
 		self.applydycorrection(corrected_focus)
 		print self.focus_axis.name+" now at corrected focal position: ", \
@@ -100,7 +100,7 @@ class CentreDAC(ScanBase):
 		print "Scanning "+self.perp2rot_axis.name+": ", \
 			str(self.perp2rot_axis_ref+self.scanRange),"->", \
 			str(self.perp2rot_axis_ref-self.scanRange)
-		
+
 		return self.scanAndGetCentre(self.perp2rot_axis,
 			self.perp2rot_axis_ref+self.scanRange,
 			self.perp2rot_axis_ref-self.scanRange, self.scanStep, self.diode)
