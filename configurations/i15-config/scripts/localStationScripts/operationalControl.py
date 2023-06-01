@@ -3,7 +3,7 @@ from localStationScripts.shutterCommands import sh, openEHShutter, closeEHShutte
 #import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
-from localStationConfiguration import d3x_in, d3y_in, d3x_out, d3y_out, d4x_in, d4y_in, d4x_out, d4y_out
+from localStationConfiguration import d4x_in, d4y_in, d4x_out, d4y_out
 from localStationScripts.scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 

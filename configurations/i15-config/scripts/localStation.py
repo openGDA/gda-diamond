@@ -36,6 +36,8 @@ from localStationScripts.user_commands import * # @UnusedWildImport
 from localStationScripts.centreProxy import * # @UnusedWildImport
 from mapping_scan_commands import *
 
+from dls_scripts.scannable.CryojetScannable import CryojetScannable
+
 from gda.epics import CAClient
 
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
@@ -43,6 +45,18 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.PixelIntensity import PixelIntensity
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+
+from localStationConfiguration import disableZebra2
+from localStationConfiguration import enableCryoMotors
+from localStationConfiguration import enableExposeProcessingRequests
+from localStationConfiguration import enablePatchX7triggers
+from localStationConfiguration import enablePerpendicularSampleMotionScannables
+from localStationConfiguration import enableSolsticeExamples
+from localStationConfiguration import enableWirescanner
+from localStationConfiguration import enableXps7out1trig
+from localStationConfiguration import useQbpm2eth
+
+from utilities.dataCollectionGroupUtils import dataCollectionGroup, getDataCollectionGroupIdFromScan # @UnusedImport
 
 global run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
@@ -133,8 +147,6 @@ def localStation_exception(exc_info, msg):
 try:
 	simpleLog("================ INITIALISING I15 GDA ================")
 
-	from utilities.dataCollectionGroupUtils import dataCollectionGroup, getDataCollectionGroupIdFromScan
-
 	try:
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		beamlineParameters = beamline_parameters.Parameters()
@@ -159,7 +171,6 @@ try:
 
 	zebraPositionScannable = dkphiZebraPositionScannable
 
-	from localStationConfiguration import disableZebra2
 	if disableZebra2:
 		simpleLog("Disabling zebra 2 by setting the move controller to have no triggered controllers.")
 		jythonNameMap.zebraContinuousMoveController.setTriggeredControllers([])
@@ -178,7 +189,7 @@ try:
 		baseTab = BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
 		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
 		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
-		from localStationConfiguration import useQbpm2eth
+
 		if not useQbpm2eth:
 			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN") # Original QBPM
 		else:
@@ -258,7 +269,6 @@ try:
 
 	#dummyDetector = SimpleDummyDetector()
 
-	from localStationConfiguration import enableCryoMotors
 	if enableCryoMotors:
 		print "Checking cryo motors are available"
 		if Finder.find("cryox") == None:
@@ -267,7 +277,6 @@ try:
 			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or restart the GDA servers without the cryo transient device")
 
 	try:
-		from dls_scripts.scannable.CryojetScannable import CryojetScannable
 		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
 									temp_tolerance=1, stable_time_sec=60)
 	except:
@@ -399,7 +408,6 @@ try:
 		from gdascripts.pd.pd_waitWhileScannableBelowThreshold import WaitWhileScannableBelowThreshold
 		checkbeam = WaitWhileScannableBelowThreshold('checkbeam', scannableToMonitor=prop, minimumThreshold=5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30)
 		checkbeam.setLevel(6)
-		#from checkbeam_pds import * #@UnusedWildImport
 		print "checkbeam level: %d" % checkbeam.getLevel()
 	except:
 		localStation_exception(sys.exc_info(), "creating checkbeam objects")
@@ -407,7 +415,7 @@ try:
 	from future.toggleBinaryPvAndWait import ToggleBinaryPvAndWait
 	from future.binaryPvDetector import BinaryPvDetector
 	from future.timeOverThresholdDetector import TimeOverThresholdDetector
-	from localStationConfiguration import enableXps7out1trig
+
 	if enableXps7out1trig:
 		try:
 			xps7out1trig = ToggleBinaryPvAndWait('xps7out1trig', 'BL15I-MO-XPS-07:GPIO:OUT1', normalLevel='1', triggerLevel='0')
@@ -415,9 +423,8 @@ try:
 			localStation_exception(sys.exc_info(), "creating xps7out1trig object")
 	else:
 		simpleLog("* Not creating xps7out1trig object *")
-	
-	from localStationConfiguration import enablePatchX7triggers
-	if enablePatchX7triggers:
+
+	if enablePatchX7triggers and not isDummy():
 		try:
 			patch12x7trig = ToggleBinaryPvAndWait('patch12x7trig', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
 			patch14x7trig = ToggleBinaryPvAndWait('patch14x7trig', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
@@ -467,7 +474,7 @@ try:
 		caput("BL15I-EA-MAR-01:CAM:EraseMode",			"None")
 		caput("BL15I-EA-MAR-01:ROI:EnableX",			"Disable")
 		caput("BL15I-EA-MAR-01:ROI:EnableY",			"Disable")
-		from localStationScripts.marErase import marErase
+		from localStationScripts.marErase import marErase # @UnusedImport
 		alias("marErase")
 	except:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
@@ -545,7 +552,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	if caget("BL15I-EA-IOC-22:STATUS") == u'0':
+	if not isDummy() and caget("BL15I-EA-IOC-22:STATUS") == u'0':
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
 		from future.anc150axis import createAnc150Axis
 		try:
@@ -605,6 +612,7 @@ try:
 
 	try:
 		if Finder.find("ippwsme07m") != None:
+			global ippwsme07m
 			from gdascripts.visit import VisitSetter, IPPAdapter #, ProcessingDetectorWrapperAdapter
 			ipp3rootPathForWindows = 'Z:/data'
 			ipp3rootPathForLinux = '/dls/i15/data'
@@ -645,7 +653,6 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating dcam9 devices")
 
-	from localStationConfiguration import enableWirescanner
 	if enableWirescanner:
 		print "Installing example wirescanner..."
 		try:
@@ -699,7 +706,6 @@ try:
 	else:
 		print "* Not installing example wirescanner *"
 
-	from localStationConfiguration import enablePerpendicularSampleMotionScannables
 	if enablePerpendicularSampleMotionScannables:
 		""" TODO: Verify functionality before enabling.
 
@@ -847,7 +853,6 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
-	from localStationConfiguration import enableSolsticeExamples
 	if enableSolsticeExamples:
 		try:
 			from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
@@ -874,7 +879,7 @@ try:
 	else:
 		print "* Not installing example solstice scanning devices *"
 
-	from gda.util.converters import JEPConverterHolder
+	from gda.util.converters import JEPConverterHolder # @UnusedImport
 	from gda.device.scannable import ConvertorScannable
 
 	def createConvertorScannable(name, theScannable, theConvertor):
@@ -920,37 +925,42 @@ try:
 
 	# Currently all of these tests fail as localStation is being run before devices are configured!
 	# TODO: Fix this and restore these tests
-	check_zebra(dkphiZebraPositionScannable, False)
-	#check_zebra(dkappaZebraPositionScannable, False)
-	#check_zebra(dkthetaZebraPositionScannable, False)
-	#check_zebra(sphiZebraPositionScannable, False)
+	if not isDummy():
+		check_zebra(dkphiZebraPositionScannable, False)
+		#check_zebra(dkappaZebraPositionScannable, False)
+		#check_zebra(dkthetaZebraPositionScannable, False)
+		#check_zebra(sphiZebraPositionScannable, False)
 
 	alias("check_zebra")
 	
 	def getCbfTemplateFile():
 		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
 		cli.configure()
-		return String(cli.cagetArrayByte())
+		return java.lang.String(cli.cagetArrayByte())
 
 	alias("getCbfTemplateFile")
 
 	def setCbfTemplateFile(path):
 		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
 		cli.configure()
-		cli.caput(String(path).getBytes())
+		cli.caput(java.lang.String(path).getBytes())
 
 	alias("setCbfTemplateFile")
 
-	from localStationConfiguration import enableExposeProcessingRequests # @UnusedImport
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
 def exposeConfigSummary():
 	from localStationScripts.user_commands import _horizMotor, _vertMotor, _rockMotor, _sweepMotor, _rockCentre, _exposeDetector
+	try:
+		exposeDetectorName = _exposeDetector().name
+	except:
+		exposeDetectorName = "UNDEFINED"
+		localStation_exception(sys.exc_info(), "checking exposeDetector is defined")
 	print "="*80+"\nExpose Configuration:\n\n"+\
-		"%10s for exposeDetector, %10s for rockMotor,  %10s for sweepMotor, \n" % (
-				 _exposeDetector().name,  _rockMotor().name,   _sweepMotor().name) + \
-		"%10.3f for rockCentre,     %10s for horizMotor, %10s for vertMotor" % (
+		"%9s for exposeDetector, %9s for rockMotor,  %9s for sweepMotor, \n" % (
+				 exposeDetectorName,  _rockMotor().name,   _sweepMotor().name) + \
+		"%9.3f for rockCentre,     %9s for horizMotor, %9s for vertMotor" % (
 				 _rockCentre(),             _horizMotor().name,  _vertMotor().name)
 
 print "*"*80
