@@ -24,7 +24,10 @@
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
 
-	<import resource="factoryBeans.xml"/>
+	<!-- Proportional Counter -->
+	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-DI-PROP-01:I" />
+	</bean>
 
 	<import resource="metadata.xml"/>
 

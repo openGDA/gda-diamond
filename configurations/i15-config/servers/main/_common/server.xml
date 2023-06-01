@@ -21,4 +21,5 @@
 	<import resource="nxmetadata/*.xml"/>
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
+	<import resource="factoryBeans.xml"/>
 </beans>
