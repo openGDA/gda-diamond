@@ -65,6 +65,10 @@ public class ReadonlyScannableComposite extends Composite {
 	}
 
 	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces, final boolean resize) {
+		this(parent, style, scannable, label, units, decimalPlaces, resize, (SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER));
+	}
+
+	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces, final boolean resize, int textStyle) {
 		super(parent, style);
 		this.parentDisplay = parent.getDisplay();
 		this.scannable = scannable;
@@ -85,7 +89,7 @@ public class ReadonlyScannableComposite extends Composite {
 		lbl.setText(StringUtils.hasLength(label) ? label : scannableName);
 		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
-		text = new Text(this, SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER);
+		text = new Text(this, textStyle);
 		text.setEditable(false);
 		text.setText("000000");
 		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
