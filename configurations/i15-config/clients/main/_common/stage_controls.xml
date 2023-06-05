@@ -37,7 +37,7 @@
 	</bean>
 
 	<bean id="centreStage" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pos stagex 0.1 stagey 0 stagez 0" />
+		<property name="command" value="pos stagex 0.1 stagey 0 stagez 0" />
 		<property name="buttonText" value="Centre Stage" />
 		<property name="group" value="Translations" />
 	</bean>

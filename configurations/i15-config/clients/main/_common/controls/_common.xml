@@ -11,11 +11,11 @@
 		<property name="controls">
 			<list>
 				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-					<property name="jythonCommand" value="shopen" />
+					<property name="command" value="shopen" />
 					<property name="buttonText" value="Open EH and Fast shutter (shopen)" />
 				</bean>
 				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-					<property name="jythonCommand" value="shclose" />
+					<property name="command" value="shclose" />
 					<property name="buttonText" value="Close EH and Fast Shutter (shclose)" />
 				</bean>
 			</list>
@@ -131,7 +131,7 @@
 
 <!-- Examples from other beamlines
 	<bean id="removeLens" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="sequences.remove_lens()" />
+		<property name="command" value="sequences.remove_lens()" />
 		<property name="buttonText" value="Remove Lens" />
 	</bean>
 
