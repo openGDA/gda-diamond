@@ -24,7 +24,9 @@
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
-	<!-- Since this is a camserver filewriter, we don't want a pluginBase, so create the raw bean rather than using the factory. -->
+	<!-- TODO: Suppress the "'ndPluginBase' is not declared" warning
+		 See pil3_camserver_ndfile for details.
+	 -->
 	<bean id="mar_NDFileMar"
 			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL15I-EA-MAR-01:CAM:" />
