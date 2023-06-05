@@ -1,45 +1,27 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="s4xpos" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S4xposMotor" />
-	</bean>
-
-	<bean id="s4xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S4xgapMotor" />
-	</bean>
-
-	<bean id="s4ypos" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S4yposMotor" />
-	</bean>
-
-	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S4ygapMotor" />
-	</bean>
-
-	<bean id="s4pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="S4pitchMotor" />
-	</bean>
-
-	<bean id="s4yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="S4yawMotor" />
-	</bean>
+	<gda:motor id="s4xpos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:X:CENTER"/>
+	<gda:motor id="s4xgap" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:X:SIZE"/>
+	<gda:motor id="s4ypos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:Y:CENTER"/>
+	<gda:motor id="s4ygap" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:Y:SIZE"/>
+	<gda:motor id="s4pitch" live-pvName="BL15I-AL-SLITS-04:PITCH"/>
+	<gda:motor id="s4yaw" live-pvName="BL15I-AL-SLITS-04:YAW"/>
 
 	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s4xpos" />
-				<ref bean="s4xgap" />
-				<ref bean="s4ypos" />
-				<ref bean="s4ygap" />
-				<ref bean="s4pitch" />
-				<ref bean="s4yaw" />
+				<ref bean="s4xpos"/>
+				<ref bean="s4xgap"/>
+				<ref bean="s4ypos"/>
+				<ref bean="s4ygap"/>
+				<ref bean="s4pitch"/>
+				<ref bean="s4yaw"/>
 			</list>
 		</property>
 	</bean>

@@ -1,11 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="fs2x" live-pvName="BL15I-EA-SHTR-02:X"/>
-	<gda:motor id="fs2y" live-pvName="BL15I-EA-SHTR-02:Y"/>
+	<gda:monitor id="linkam_temperature" live-pvName="BL15I-EA-FURNC-01:TEMP" dummy-unit="C" dummy-value="0" dummy-class="gda.device.monitor.DummyEpicsMonitorDouble"/>
 </beans>

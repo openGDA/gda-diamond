@@ -1,21 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="s6yup" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s6yup_motor" />
-	</bean>
-
-	<bean id="s6ydown" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s6ydown_motor" />
-	</bean>
-
-	<bean id="s6ypos" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s6ypos_motor" />
-	</bean>
-
-	<bean id="s6ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s6ygap_motor" />
-	</bean>
+	<gda:motor id="s6yup" live-pvName="BL15I-AL-SLITS-06:Y1"/>
+	<gda:motor id="s6ydown" live-pvName="BL15I-AL-SLITS-06:Y2"/>
+	<gda:motor id="s6ypos" live-pvName="BL15I-AL-SLITS-06:Y:CENTER"/>
+	<gda:motor id="s6ygap" live-pvName="BL15I-AL-SLITS-06:Y:SIZE"/>
 </beans>

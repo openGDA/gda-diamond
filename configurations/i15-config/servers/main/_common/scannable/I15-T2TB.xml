@@ -1,17 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="eht2dtx" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="Eht2dtxMotor" />
-	</bean>
+	<gda:motor id="eht2dtx" initialUserUnits="mm" live-pvName="BL15I-MO-TABLE-03:DETECTOR2:Z"/>
 
 	<bean id="eht2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="eht2dtx" />
+				<ref bean="eht2dtx"/>
 			</list>
 		</property>
 	</bean>

@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<gda:monitor id="TTi_I1_read" live-pvName="BL15I-EA-TTI-07:1:CURRENT_RBV" dummy-unit="A" dummy-value="0.9564" dummy-class="gda.device.monitor.DummyEpicsMonitorDouble"/>
+	<gda:monitor id="TTi_I2_read" live-pvName="BL15I-EA-TTI-07:2:CURRENT_RBV" dummy-unit="A" dummy-value="0.9564" dummy-class="gda.device.monitor.DummyEpicsMonitorDouble"/>
+	<gda:monitor id="TTi_V1_read" live-pvName="BL15I-EA-TTI-07:1:VOLTAGE_RBV" dummy-unit="V" dummy-value="0.9564" dummy-class="gda.device.monitor.DummyEpicsMonitorDouble"/>
+	<gda:monitor id="TTi_V2_read" live-pvName="BL15I-EA-TTI-07:2:VOLTAGE_RBV" dummy-unit="V" dummy-value="0.9564" dummy-class="gda.device.monitor.DummyEpicsMonitorDouble"/>
+</beans>
