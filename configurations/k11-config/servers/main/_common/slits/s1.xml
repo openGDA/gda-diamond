@@ -18,7 +18,7 @@
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_xcentre"
-		live-pvName="#{S1_PV_NAME}:XCENTRE"
+		live-pvName="#{S1_PV_NAME}:XCENTER"
 		dummy-minPosition="-7.0005"
 		dummy-maxPosition="6.9995"
 		dummy-position="-0.001"
@@ -32,7 +32,7 @@
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_ycentre"
-		live-pvName="#{S1_PV_NAME}:YCENTRE"
+		live-pvName="#{S1_PV_NAME}:YCENTER"
 		dummy-minPosition="-4.001"
 		dummy-maxPosition="3.999"
 		dummy-position="-0.0015"
