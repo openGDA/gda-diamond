@@ -54,19 +54,12 @@
 			<map>
 				<entry key="Sample transfer" value="Beamline/EndstationConfigurations/sample_transfer.py"/>
 				<entry key="Microscope" value="Beamline/EndstationConfigurations/microscope.py"/>
-				<entry key="Diode in" value="Beamline/EndstationConfigurations/in_diode.py"/>
 				<entry key="XRF/Imaging" value="Beamline/EndstationConfigurations/in_merlin.py"/>
 				<entry key="XRD/XRF" value="Beamline/EndstationConfigurations/in_xrd1.py"/>
-				<entry key="XRF only" value="Beamline/EndstationConfigurations/xrf_only.py"/>
-				<entry key="XRD2 in" value="Beamline/EndstationConfigurations/in_xrd2.py"/>
-				<entry key="Eiger in" value="Beamline/EndstationConfigurations/in_xreye.py"/>
+				<entry key="SAXS" value="Beamline/EndstationConfigurations/in_xrd2.py"/>
+				<entry key="XRF/Eiger" value="Beamline/EndstationConfigurations/in_xreye.py"/>
 				<entry key="Custom in" value="Beamline/EndstationConfigurations/custom.py"/>
-				<entry key="Safe position" value="Beamline/EndstationConfigurations/safe_position.py" />
-				<entry key="Run after restart" value="Beamline/EndstationConfigurations/run_after_restart.py"/>
 				<entry key="Reset stages" value="Beamline/EndstationConfigurations/reset_stages.py"/>
-				<entry key="Move to focus position" value="Beamline/EndstationConfigurations/move_to_focus_position.py"/>
-				<entry key="Store focus position" value="Beamline/EndstationConfigurations/store_focus_position.py"/>
-				<entry key="Differential Phase Contrast" value="Beamline/EndstationConfigurations/differential_phase_contrast.py"/>
 			</map>
 		</property>
 	</bean>
