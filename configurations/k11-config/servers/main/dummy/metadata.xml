@@ -54,4 +54,65 @@
 		</bean>
 	</util:list>
 	
+	<!-- EtherCAT: Lots more modules and channels per module in the real thing! -->
+	<util:list id="ethercat_child_nodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+			<property name="name" value="Module 4" />
+			<property name="nexusClass" value="NXnote" />
+			<property name="childNodes">
+				<util:list value-type="org.eclipse.scanning.device.MetadataField">
+					<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+						<property name="name" value="Channel 1" />
+						<property name="nexusClass" value="NXnote" />
+						<property name="childNodes">
+							<util:list value-type="org.eclipse.scanning.device.MetadataField">
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="alias" />
+									<property name="value" value="Photodiode" />
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="type" />
+									<property name="value" value="Voltage" />
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="subtype" />
+									<property name="value" value="None" />
+								</bean>
+							</util:list>
+						</property>
+					</bean>
+				</util:list>
+			</property>
+		</bean>
+		
+		<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+			<property name="name" value="Module 5" />
+			<property name="nexusClass" value="NXnote" />
+			<property name="childNodes">
+				<util:list value-type="org.eclipse.scanning.device.MetadataField">
+					<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+						<property name="name" value="Channel 1" />
+						<property name="nexusClass" value="NXnote" />
+						<property name="childNodes">
+							<util:list value-type="org.eclipse.scanning.device.MetadataField">
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="alias" />
+									<property name="value" value="Photodiode" />
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="type" />
+									<property name="value" value="Voltage" />
+								</bean>
+								<bean class="org.eclipse.scanning.device.ScalarField">
+									<property name="name" value="subtype" />
+									<property name="value" value="None" />
+								</bean>
+							</util:list>
+						</property>
+					</bean>
+				</util:list>
+			</property>
+		</bean>
+	</util:list>
+	
 </beans>

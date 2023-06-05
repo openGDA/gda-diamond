@@ -53,5 +53,8 @@
 			<property name="units" value="keV" />
 		</bean>
 	</util:list>
+	
+	<!-- Ethercat -->
+	<import resource="ethercat_metadata/metadata.xml" />
 
 </beans>

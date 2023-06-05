@@ -1,0 +1,246 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+           
+    <!-- 
+    
+    MODULE 5:
+    ELM3704-0000 | EtherCAT Terminal, 4-channel analog input, multi-function, 24 bit, 10 ksps
+    
+    -->
+	
+	<bean id="module_5" class="org.eclipse.scanning.device.GroupMetadataNode">
+		<property name="name" value="Module 5" />
+		<property name="nexusClass" value="NXnote" />
+		<property name="childNodes">
+		
+			<util:list value-type="org.eclipse.scanning.device.MetadataField">
+				
+				<!-- Channel 1 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 1" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:SUBTYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scale" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:SCALE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="offset" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:OFFSET" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scaler" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:SCALER_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="SG sensor supply" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:SENSOR_SUPPLY_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:RTD_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:RTD_ELEMENT_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:TC_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH1:TC_ELEMENT_RBV" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 2 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 2" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:SUBTYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scale" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:SCALE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="offset" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:OFFSET" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scaler" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:SCALER_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="SG sensor supply" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:SENSOR_SUPPLY_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:RTD_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:RTD_ELEMENT_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:TC_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH2:TC_ELEMENT_RBV" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 3 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 3" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:SUBTYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scale" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:SCALE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="offset" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:OFFSET" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scaler" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:SCALER_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="SG sensor supply" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:SENSOR_SUPPLY_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:RTD_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:RTD_ELEMENT_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:TC_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH3:TC_ELEMENT_RBV" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+				
+				<!-- Channel 4 -->
+				
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="Channel 4" />
+					<property name="nexusClass" value="NXnote" />
+					<property name="childNodes">
+						<util:list value-type="org.eclipse.scanning.device.MetadataField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="alias" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:ALIAS" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="type" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:TYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="subtype" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:SUBTYPE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scale" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:SCALE" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="offset" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:OFFSET" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="scaler" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:SCALER_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="SG sensor supply" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:SENSOR_SUPPLY_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:RTD_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="RTD element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:RTD_ELEMENT_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC page" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:TC_PAGE_RBV" />
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="TC element" />
+								<property name="pvName" value="BL11K-EA-ADC-01:M5:CH4:TC_ELEMENT_RBV" />
+							</bean>
+						</util:list>
+					</property>
+				</bean>
+			</util:list>
+		</property>
+	</bean>
+
+</beans>

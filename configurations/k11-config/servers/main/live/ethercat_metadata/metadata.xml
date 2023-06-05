@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <import resource="module_4.xml" />
+    <import resource="module_5.xml" />
+    <import resource="module_6.xml" />
+    <import resource="module_7.xml" />
+    <import resource="module_8.xml" />
+    <import resource="module_9.xml" />
+    <import resource="module_10.xml" />
+    <import resource="module_11.xml" />
+	
+	<util:list id="ethercat_child_nodes" value-type="org.eclipse.scanning.device.MetadataField">
+		<ref bean="module_6" />
+		<ref bean="module_7" />
+		<ref bean="module_10" />
+		<ref bean="module_8" />
+		<ref bean="module_11" />
+		<ref bean="module_9" />
+		<ref bean="module_4" />
+		<ref bean="module_5" />
+	</util:list>
+
+</beans>
