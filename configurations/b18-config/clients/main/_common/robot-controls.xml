@@ -137,15 +137,15 @@
 <!-- Reset, pause, resume controls -->
 	<bean id="meca_error_reset_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="buttonText" value="Reset error" />
-		<property name="jythonCommand" value="meca_pstop_error_reset.moveTo(1); meca_error_reset.moveTo(1)" />
+		<property name="command" value="meca_pstop_error_reset.moveTo(1); meca_error_reset.moveTo(1)" />
 	</bean>
 	<bean id="meca_motion_pause_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="buttonText" value="Pause motion" />
-		<property name="jythonCommand" value="meca_motion_pause.moveTo(1)" />
+		<property name="command" value="meca_motion_pause.moveTo(1)" />
 	</bean>
 	<bean id="meca_motion_resume_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="buttonText" value="Resume motion" />
-		<property name="jythonCommand" value="meca_motion_resume.moveTo(1)" />
+		<property name="command" value="meca_motion_resume.moveTo(1)" />
 	</bean>
 	<bean id="robot_motion_buttons_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
 		<property name="numColumns" value="3" />
@@ -167,11 +167,11 @@
 	</bean>
 	<bean id="meca_move_to_cassette_area_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="buttonText" value="Move to cassette area" />
-		<property name="jythonCommand" value="meca_move_to_cassette_area.moveTo(1)" />
+		<property name="command" value="meca_move_to_cassette_area.moveTo(1)" />
 	</bean>
 	<bean id="meca_move_to_scanning_area_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="buttonText" value="Move to scanning area" />
-		<property name="jythonCommand" value="meca_move_to_scanning_area.moveTo(1)" />
+		<property name="command" value="meca_move_to_scanning_area.moveTo(1)" />
 	</bean>
 	<bean id="robot_sample_holder_controls" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
 		<property name="group" value="Robot sample holder controls" />

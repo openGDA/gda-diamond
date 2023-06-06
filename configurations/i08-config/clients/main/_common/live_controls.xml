@@ -7,40 +7,40 @@
 
 	<!-- Andor detector -->
 	<bean id="andor_start" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
+		<property name="command" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
 		<property name="buttonText" value="Start" />
 		<property name="group" value="Andor" />
 	</bean>
 
 	<bean id="andor_stop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andor_addetector.stop()" />
+		<property name="command" value="andor_addetector.stop()" />
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="Andor" />
 	</bean>
 
 	<!-- Sample stage homing -->
 	<bean id="sample_stage_home" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="sample_stage_home()" />
+		<property name="command" value="sample_stage_home()" />
 		<property name="buttonText" value="Home" />
 		<property name="group" value="Sample stage" />
 	</bean>
 
 	<!-- Restart IOC -->
 	<bean id="restart_ioc" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="restart_ioc()" />
+		<property name="command" value="restart_ioc()" />
 		<property name="buttonText" value="Restart" />
 		<property name="group" value="IOC" />
 	</bean>
 
 	<!-- S2 shutter open/close -->
 	<bean id="open_s2_shutter" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pos(s2_shutter, 'Open')" />
+		<property name="command" value="pos(s2_shutter, 'Open')" />
 		<property name="buttonText" value="Open" />
 		<property name="group" value="S2 shutter" />
 	</bean>
 
 	<bean id="close_s2_shutter" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pos(s2_shutter, 'Closed')" />
+		<property name="command" value="pos(s2_shutter, 'Closed')" />
 		<property name="buttonText" value="Close" />
 		<property name="group" value="S2 shutter" />
 	</bean>
