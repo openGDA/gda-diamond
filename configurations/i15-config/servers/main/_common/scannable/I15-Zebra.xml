@@ -20,7 +20,7 @@
 			</list>
 		</property>
 	</bean>
-	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032 
+	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032
 		 Failed with 0.002 minimumAccelerationDistance
 		 Found instances where requested position differed by 0.007, so use 0.008
 		 Different failure with 0.032 minimumAccelerationDistance
@@ -75,7 +75,7 @@
 		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>
 
-<!-- 
+<!--
 	<bean id="etlZebraDetectorMonitor" class="gda.device.zebra.ZebraExternallyTriggeredDetector">
 		<property name="name" value="etlZebraScannableMonitor" />
 		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -8,93 +7,36 @@
 
 	<bean id="laserpowerus"
 			class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL15I-EA-LASER-01:OUTPUTPOWER" />
+		<property name="pvName" value="BL15I-EA-LASER-01:OUTPUTPOWER"/>
 	</bean>
 
-	<bean id="laserpowerds" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL15I-EA-LASER-02:OUTPUTPOWER" />
+	<bean id="laserpowerds"
+			class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL15I-EA-LASER-02:OUTPUTPOWER"/>
 	</bean>
 
 	<!-- Huber motion -->
 
-	<bean id="laserboardx_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:X" />
-	</bean>
-
-	<bean id="laserboardy_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:Y" />
-	</bean>
-
-	<bean id="laserboardz_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:Z" />
-	</bean>
-
 	<!-- Smaract Motion -->
 
 	<!-- Note, this is also on the Newport motors EDM -->
-	<bean id="laseryus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:US:Y" />
+	<bean id="laseryus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:US:Y"/>
 	</bean>
 
 	<!-- Note, this is also on the Newport motors EDM -->
-	<bean id="laseryds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:DS:Y" />
+	<bean id="laseryds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LAS:DS:Y"/>
 	</bean>
-
-	<bean id="armus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:ARM:US" />
-	</bean>
-
-	<bean id="armds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:ARM:DS" />
-	</bean>
-
 
 	<!-- Horiba Spectrum Analyser -->
 
 	<!-- See I15-214 & http://confluence.diamond.ac.uk/x/rgGwAg
 	 -->
-	<bean id="laserstartacqproc"
-			class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL15I-EA-HORIBA-01:STARTACQ.PROC" />
+	<bean id="laserstartacqproc" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL15I-EA-HORIBA-01:STARTACQ.PROC"/>
 	</bean>
 
 	<!-- Newport Motors -->
 
-	<bean id="opticxus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:US:X" />
-	</bean>
-
-	<bean id="opticyus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:US:Y" />
-	</bean>
-
-	<bean id="objus_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OBJ:US" />
-	</bean>
-
-	<bean id="opticxds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:DS:X" />
-	</bean>
-
-	<bean id="opticyds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OPTIC:DS:Y" />
-	</bean>
-
-	<bean id="objds_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:OBJ:DS" />
-	</bean>
 </beans>

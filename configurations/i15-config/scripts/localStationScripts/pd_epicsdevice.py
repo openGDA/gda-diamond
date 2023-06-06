@@ -12,4 +12,4 @@ class Simple_PD_EpicsDevice(ScannableMotionBase):
 		return self.chan.getValue()
 
 	def asynchronousMoveTo(self, newPos):
-		self.chan.setValue(newPos)		 	
+		self.chan.setValue(newPos)

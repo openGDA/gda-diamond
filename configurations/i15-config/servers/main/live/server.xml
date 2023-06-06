@@ -20,11 +20,9 @@
 
 	<import resource="../_common/server.xml"/>
 	<import resource="device/*.xml"/>
-	<import resource="mapping/*.xml" />
+	<import resource="mapping/*.xml"/>
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
-
-	<import resource="factoryBeans.xml"/>
 
 	<import resource="metadata.xml"/>
 
@@ -34,8 +32,8 @@
 	<!-- This gda.data.ObservablePathConstructor should only be in live -->
 	<bean id="terminallog_path_provider"
 			class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log"/>
+		<property name="gdaMetadata" ref="GDAMetadata"/>
 	</bean>
 
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
@@ -49,27 +47,27 @@
 	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
 
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
+	<!--
+	      IMPORTANT: this will start processing the scanning queue.
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
 
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml"/>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
-		<property name="name" value="DataWriterFactory" />
+		<property name="name" value="DataWriterFactory"/>
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="file_registrar" />
+				<ref bean="file_registrar"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter"/>
 
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor"/>
 </beans>

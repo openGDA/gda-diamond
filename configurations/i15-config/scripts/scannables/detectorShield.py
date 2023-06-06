@@ -12,27 +12,27 @@ class DetectorShield(ScannableBase):
         self.name = name
         self.pvManager = PvManager() # Just to get PyDev completion
         self.pvManager = pvManager
-        
+
         self.setName(name);
         self.setInputNames([])
         self.setExtraNames([]);
         self.setOutputFormat([])
         self.setLevel(1)
         self.state=-1
-        
+
         self.verbose = False
         self.ignoreFault = False
         self.suppressOpenDetectorShieldAtScanStart = False
         self.suppressCloseDetectorShieldAtScanEnd = False
-        
+
         self.TIMEOUT=10
-        
+
         self.FAULT=0
         self.OPEN=1
         self.OPENING=2
         self.CLOSED=3
         self.CLOSING=4
-        
+
         self.stateDescriptions = {
                 self.FAULT:     "Fault",
                 self.OPEN:      "Open",
@@ -118,7 +118,7 @@ class DetectorShield(ScannableBase):
 
     def _parameter(self, parameter, help_text):
         jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-    
+
         if jythonNameMap[parameter] == None:
             msg = "%s not defined, please add %s='xx' to localStationUser.py%s" % (
                 parameter, parameter, help_text)
@@ -131,7 +131,7 @@ class DetectorShield(ScannableBase):
                 raise Exception('Cannot find %s in the jython namespace when trying to lookup %s' % (jythonNameMap[parameter], parameter))
             self.logger.trace("Returning scannable defined by %s as '%s': %s" % (parameter, jythonNameMap[parameter], jythonNameMap[jythonNameMap[parameter]].name))
             return jythonNameMap[jythonNameMap[parameter]]
-    
+
         if isinstance(jythonNameMap[parameter], ScannableBase):
             self.logger.trace("Returning scannable defined by %s as %s" % (parameter, jythonNameMap[parameter].name))
         else:

@@ -8,14 +8,14 @@ from threading import Thread
 from time import sleep
 
 class TimeOverThresholdDetector(DetectorBase):
-    """ 
-    Useful for triggering detectors which have been setup to record images on 
+    """
+    Useful for triggering detectors which have been setup to record images on
     hardware triggers.
-    
+
     When asked to move, this arms the edge detector then toggles a binary PV
     from normalLevel to triggerLevel and then back to normalLevel. Remains
     busy until the edge callback is received.
-    
+
     The exposure time is treated as a timeout.
     """
     def __init__(self, name, pvstring, normalLevel='on', triggerLevel='off', edgeDetectorPvString=None, triggerPulseLength=0.1):
@@ -25,7 +25,7 @@ class TimeOverThresholdDetector(DetectorBase):
         self.triggerLevel = triggerLevel
         self.completed_cli = CAClient(edgeDetectorPvString)
         self.triggerPulseLength = triggerPulseLength
-        
+
         self.setInputNames([name])
         self.setOutputFormat(['%5.5f'])
         self.setLevel(9)
@@ -38,7 +38,7 @@ class TimeOverThresholdDetector(DetectorBase):
             self.completed_cli.configure();
         self.detectorStatus = self.IDLE
         self.putListener = TimeOverThresholdDetector.CaputCallbackListenerClass(self);
-        
+
         self.verbose=False
         self.setNormal()
 
@@ -46,7 +46,7 @@ class TimeOverThresholdDetector(DetectorBase):
     class CaputCallbackListenerClass(PutListener):
         def __init__ (self, detector):
             self.detector = detector
-            
+
         def putCompleted(self, event):
             if event.getStatus() != CAStatus.NORMAL:
                 print 'Completion trigger failed!'
@@ -76,11 +76,11 @@ class TimeOverThresholdDetector(DetectorBase):
             simpleLog("self.cli.caput(%r)" % self.normalLevel)
         self.cli.caput(self.normalLevel)
 
-    def setTrigger(self): 
+    def setTrigger(self):
         if self.verbose:
             simpleLog("self.cli.caput(%r)" % self.triggerLevel)
         self.cli.caput(self.triggerLevel)
-            
+
     def trigger(self, exposureTime):
         self.setTrigger()
         sleep(exposureTime)
@@ -92,17 +92,16 @@ class TimeOverThresholdDetector(DetectorBase):
         if self.verbose:
             simpleLog("TimeOverThresholdDetector.prepareForCollection started...")
         self.setNormal()
-        
 
     def collectData(self):
         """ Tells the detector to begin to collect a set of data, then returns
             immediately. """
         if self.verbose:
             simpleLog("TimeOverThresholdDetector.collectData started...")
-        
+
         self.timeouttime=self.timer()+self.collectionTime+self.triggerPulseLength
         self.detectorStatus = self.BUSY
-        
+
         self.completed_cli.getController().caput(self.completed_cli.getChannel(), 1, self.putListener);
         self.startTime=self.timer()
         self.CollectDataAsync(self.trigger, self.triggerPulseLength).start()
@@ -112,7 +111,7 @@ class TimeOverThresholdDetector(DetectorBase):
             Thread.__init__(self)
             self.trigger = trigger
             self.collectionTime = collectionTime
-        
+
         def run(self):
             self.trigger(self.collectionTime)
 
@@ -136,7 +135,7 @@ class TimeOverThresholdDetector(DetectorBase):
             self.detectorStatus = self.IDLE
             self.completed_cli.caput(0)
             print "WARNING: %s timed out! Continuing..." % self.name
-        
+
         return self.detectorStatus
 
     def readout(self):
@@ -171,7 +170,7 @@ class TimeOverThresholdDetector(DetectorBase):
             (return false) the readout() method will return the data directly. """
         if self.verbose:
             simpleLog("createsOwnFiles started...")
-        return False; 
+        return False;
 
     def getDescription(self):
         """ A description of the detector. """

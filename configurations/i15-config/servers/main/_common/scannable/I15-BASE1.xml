@@ -1,27 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="djack1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Dr1jack1Motor" />
-	</bean>
-
-	<bean id="djack2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Dr1jack2Motor" />
-	</bean>
-
-	<bean id="djack3" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Dr1jack3Motor" />
-	</bean>
-
-	<bean id="dtransx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Dr1TransXMotor" />
-	</bean>
-
-	<bean id="drotation" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Dr1RotationMotor" />
-	</bean>
+	<gda:motor id="djack1" live-pvName="BL15I-MO-DIFF-01:BASE:Y1" />
+	<gda:motor id="djack2" live-pvName="BL15I-MO-DIFF-01:BASE:Y2" />
+	<gda:motor id="djack3" live-pvName="BL15I-MO-DIFF-01:BASE:Y3" />
+	<gda:motor id="dtransx" live-pvName="BL15I-MO-DIFF-01:BASE:X" />
+	<gda:motor id="drotation" live-pvName="BL15I-MO-DIFF-01:BASE:Ry" />
 
 	<bean id="BASE1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

@@ -29,7 +29,7 @@ _exposeNHelp = """
 _lineHelp = """
 	lineMotor is the motor to scan (%r supported). stepNumber is the number of steps, so the number of points is this plus one.
 	""" % supportedLineMotorHelp
-	
+
 _rockHelp = """
 	exposeRockMotor is assumed (default) to be dkphi, rockCentre is assumed (default) to be 58.0.
 	"""
@@ -85,7 +85,7 @@ def exposeDark(exposeTime, fileName):
 	verification = verifyParameters(exposeTime=exposeTime, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_darkExpose(detector=_exposeDetector(),
 			exposeSuppressOpenDetectorShieldAtScanStart = _exposeSuppressOpenDetectorShieldAtScanStart(),
 			exposeSuppressCloseDetectorShieldAtScanEnd  = _exposeSuppressCloseDetectorShieldAtScanEnd(),
@@ -123,7 +123,7 @@ def exposeNLineAbs(exposeTime, exposeNumber, lineMotor, AbsoluteStartPos, Absolu
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, lineMotor=lineMotor, AbsoluteStartPos=AbsoluteStartPos, AbsoluteEndPos=AbsoluteEndPos, stepNumber=stepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStepNumber=stepNumber)
 
 exposeNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _lineHelp
@@ -138,9 +138,9 @@ def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, f
 		lineMotor=lineMotor, stepSize=stepSize, stepNumber=stepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber)
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStep=stepSize, horizStepNumber=stepNumber)
 
 exposeNLineStep.__doc__ += _exposeHelp + _exposeNHelp + _lineHelp
@@ -176,7 +176,7 @@ def exposeNGridAbs(exposeTime, exposeNumber, AbsoluteHorizStart, AbsoluteHorizEn
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, AbsoluteVertStart=AbsoluteVertStart, AbsoluteVertEnd=AbsoluteVertEnd, vertStepNumber=vertStepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStepNumber=vertStepNumber)
 
 exposeNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _gridHelp
@@ -190,10 +190,10 @@ def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertSt
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, horizStep=horizStep, horizStepNumber=horizStepNumber, vertStep=vertStep, vertStepNumber=vertStepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber)
 	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(),  stepSize=vertStep,  numSteps=vertStepNumber)
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
 exposeNGridStep.__doc__ += _exposeHelp + _exposeNHelp + _gridHelp
@@ -229,7 +229,7 @@ def exposeNRockN(exposeTime, exposeNumber, rockAngle, rockNumber, fileName, proc
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, rockAngle=rockAngle, rockNumber=rockNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber)
 
 exposeNRockN.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp
@@ -348,7 +348,7 @@ def exposeNRockNLineAbs(exposeTime, exposeNumber, rockAngle, rockNumber, lineMot
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, rockAngle=rockAngle, rockNumber=rockNumber, lineMotor=lineMotor, AbsoluteStartPos=AbsoluteStartPos, AbsoluteEndPos=AbsoluteEndPos, stepNumber=stepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStepNumber=stepNumber)
 
 exposeNRockNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _lineHelp
@@ -362,9 +362,9 @@ def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMo
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, rockAngle=rockAngle, rockNumber=rockNumber, lineMotor=lineMotor, stepSize=stepSize, stepNumber=stepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber)
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing,
 			rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber,
 			horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStep=stepSize, horizStepNumber=stepNumber)
@@ -380,7 +380,7 @@ def exposeNRockNGridAbs(exposeTime, exposeNumber, rockAngle, rockNumber, Absolut
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, rockAngle=rockAngle, rockNumber=rockNumber, AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, AbsoluteVertStart=AbsoluteVertStart, AbsoluteVertEnd=AbsoluteVertEnd, vertStepNumber=vertStepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStepNumber=vertStepNumber)
 
 exposeNRockNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _gridHelp
@@ -394,10 +394,10 @@ def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizS
 	verification = verifyParameters(exposeTime=exposeTime, exposeNumber=exposeNumber, rockAngle=rockAngle, rockNumber=rockNumber, horizStep=horizStep, horizStepNumber=horizStepNumber, vertStep=vertStep, vertStepNumber=vertStepNumber, fileName=fileName)
 	if len(verification)>0:
 		return verification
-	
+
 	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber)
 	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(), stepSize=vertStep,  numSteps=vertStepNumber)
-	
+
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
 exposeNRockNGridStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _gridHelp
@@ -454,7 +454,7 @@ def verifyParameters(exposeTime=None, exposeNumber=None, fileName=None,
 	if sweepEnd				and not (isfloat(sweepEnd)):								failures.append("sweepEnd should be a number: %r" % sweepEnd)
 	if sweepAngle			and not (isfloat(sweepAngle)):								failures.append("sweepAngle should be a number: %r" % sweepAngle)
 
-	if lineMotor			and not (hasattr(lineMotor, 'name') and 
+	if lineMotor			and not (hasattr(lineMotor, 'name') and
 									lineMotor.name in supported_line_motors):			failures.append("lineMotor `%r` invalid. Supported motors: %r" % (lineMotor, supportedLineMotorHelp))
 
 	if horizStep			and not (isfloat(horizStep)):								failures.append("horizStep should be a number: %r" % horizStep)
@@ -601,13 +601,13 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 		print "-"*80
 		print msg
 		print "-"*80
-		
+
 		rockMotor.moveTo(rockCentre-rockAngle) # Go to start position
 		rockscanMotor.setupScan(centre=rockCentre, rockSize=rockAngle, noOfRocksPerExposure=rockNumber)
 		scan_params=_staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark=False)
 		scan_params.extend([rockscanMotor, exposeTime])
 		return scan_params
-	
+
 	# TODO: There should also be feedback (error message of sorts) if the combination of exposure time and rock angle either requires the motor (dkphi) to move slower than it can or faster than it can.
 	"""
 	msg = "Note: There is currently no check that the combination of exposure time and rock angle either requires the motor (dkphi) to move slower than it can or faster than it can."
@@ -635,7 +635,7 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 		zebra2params = [                     i0Monitor,      fastShutterFeedback,      continuousMonitorController]
 	else:
 		zebra2info = ""
-		zebra2params = []	
+		zebra2params = []
 
 	logger.info("_rockScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r%s]" % (
 								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
@@ -648,28 +648,28 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
 								]+zebra2params)
-	
+
 	return [sc1]
 
 def _vertScanParams(vertMotor, AbsoluteVertStart, AbsoluteVertEnd, vertStep, vertStepNumber):
 	if vertMotor==None:
 		return []
-	
+
 	if  vertStep == None and vertStepNumber != None:
 		vertStep =  _calcStepSize(start=AbsoluteVertStart,  stop=AbsoluteVertEnd,  numPoints=vertStepNumber)
-	
+
 	if vertStepNumber != None: print "Number of vertical positions is vertStepNumber+1 (%r)" % (vertStepNumber+1.)
-	
+
 	# TODO: Do we need to check that vertMotor.level < numExposuresPD.level?
 	return [vertMotor,  AbsoluteVertStart,  AbsoluteVertEnd,  vertStep]
 
 def _horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep, horizStepNumber):
 	if horizMotor==None:
 		return []
-	
+
 	if horizStep == None and horizStepNumber != None:
 		horizStep = _calcStepSize(start=AbsoluteHorizStart, stop=AbsoluteHorizEnd, numPoints=horizStepNumber)
-	
+
 	if horizStepNumber != None: print "Number of horizontal points is horizStepNumber+1 (%r)" % (horizStepNumber+1.)
 
 	# TODO: Do we need to check that horizMotor.level < numExposuresPD.level?
@@ -679,7 +679,7 @@ def _sweepScanParams(detector, exposeTime, fileName, sweepMotor, sweepStart, swe
 	logger = LoggerFactory.getLogger("_sweepScanParams")
 	logger.info("Continuous sweep scan on {} using {}: start={}, stop={}, angle={}",
 				sweepMotor.name, detector.name, sweepStart, sweepEnd, sweepAngle)
-	logger.debug("detector.getCollectionStrategy()={} exposeTime={} fileName={} totalExposures={}", 
+	logger.debug("detector.getCollectionStrategy()={} exposeTime={} fileName={} totalExposures={}",
 				  detector.getCollectionStrategy(),   exposeTime,   fileName,   totalExposures)
 
 	totalExposures *= len(arange(sweepStart, sweepEnd, sweepAngle))
@@ -700,11 +700,11 @@ def _sweepScanParams(detector, exposeTime, fileName, sweepMotor, sweepStart, swe
 		zebra2params = [                     i0Monitor,      fastShutterFeedback,      continuousMonitorController]
 	else:
 		zebra2info = ""
-		zebra2params = []	
+		zebra2params = []
 
 	logger.info("_sweepScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r%s]" % (
 									continuouslyScannableViaController.name, sweepStart, sweepEnd, sweepAngle,
-									continuousMoveController.name, 
+									continuousMoveController.name,
 									hardwareTriggeredNXDetector.name, exposeTime,
 									zebra2info
 								))
@@ -713,7 +713,7 @@ def _sweepScanParams(detector, exposeTime, fileName, sweepMotor, sweepStart, swe
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
 								]+zebra2params)
-	
+
 	return [sc1]
 
 def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
@@ -752,7 +752,7 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 	"""
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	logger = LoggerFactory.getLogger("_exposeN")
-	
+
 	detector = _exposeDetector()
 	fileName = _sanitise(fileName, detector)
 
@@ -761,7 +761,7 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 	detectorShield.suppressCloseDetectorShieldAtScanEnd = _exposeSuppressCloseDetectorShieldAtScanEnd()
 
 	exposure = jythonNameMap.exposure # DummyPD("exposure")
-	
+
 	scan_params=[]
 	scan_params.extend(_vertScanParams(vertMotor, AbsoluteVertStart, AbsoluteVertEnd, vertStep, vertStepNumber))
 	scan_params.extend(_horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep, horizStepNumber))
@@ -774,12 +774,12 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 	if processing != None:
 		scan_params.extend([processing])
 		logger.info("Added %r to scan...", processing)
-	elif (jythonNameMap['enableExposeProcessingRequests'] and 
+	elif (jythonNameMap['enableExposeProcessingRequests'] and
 							jythonNameMap['processing']):
 		scan_params.extend([jythonNameMap['processing']])
 		logger.info("Added processing to scan...")
 
-	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 
+	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) *
 									 (1 if vertStepNumber == None else vertStepNumber + 1) )
 
 	if rockMotor:

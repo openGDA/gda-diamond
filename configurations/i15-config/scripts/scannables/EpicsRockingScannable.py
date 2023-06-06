@@ -5,18 +5,18 @@ from gdascripts.utils import caget, caput
 class EpicsRockingScannable(ScannableMotionBase):
     """ This scannable needs to be configured with a call to setupScan before
         being used:
-        
+
             <scn>.setupScan(centre, rockSize, noOfRocksPerExposure)
-        
+
         For example:
-        
+
             pos dkphi 58-4
             dphi_rockscan.setupScan(58, 4, 2)
             pos dphi_rockscan 10
-        
+
         will configure dphi_rockscan to make two rocks, first to 58+4 and then
         back to 58-4 at a speed such that the moves take 10 seconds.
-        
+
         This scannable expects the underlying motor to already be at the start
         position before it is asked to move, and will leave the motor at its
         final position. Thus if noOfRocksPerExposure is even then each move

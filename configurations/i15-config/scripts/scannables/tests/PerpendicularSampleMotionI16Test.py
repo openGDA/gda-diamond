@@ -16,13 +16,13 @@ class SampleMotionI16Test(unittest.TestCase):
         # as it will in localstation or a user script.
         (sx, sy, sz, mu, phi, kappa, theta) = self.setUpMocks()
 
-        #################### Start Example configuration ####################  
+        #################### Start Example configuration ####################
         from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion
 
         sperp=PerpendicularSampleMotion("sperp", sx, sy, sz, mu, phi, kappa, theta)
         spara=ParallelSampleMotion     ("spara", sx, sy, sz, mu, phi, kappa, theta)
 
-        #################### End Example configuration ####################  
+        #################### End Example configuration ####################
 
         self.sperp = sperp
         self.spara = spara
@@ -30,7 +30,7 @@ class SampleMotionI16Test(unittest.TestCase):
         self.spara.verbose=False
         self.sperp.no_move=False
         self.spara.no_move=False
-        
+
     def mockMotor(self, name):
         motor = Mock()
         motor.name = name
@@ -47,7 +47,7 @@ class SampleMotionI16Test(unittest.TestCase):
         self.theta = self.mockMotor("theta")
 
         return (self.sx, self.sy, self.sz, self.mu, self.phi, self.kappa, self.theta)
-        
+
     def tearDown(self):
         pass
 
@@ -62,7 +62,7 @@ class SampleMotionI16Test(unittest.TestCase):
            'P30a': {'mu':0, 'phi': 30, 'sx':0, 'sy':1, 'sperp': 0.8660254037844387,  'spara': 0.49999999999999994},
            'M45a': {'mu':0, 'phi':-45, 'sx':0, 'sy':1, 'sperp': 0.7071067811865476,  'spara':-0.7071067811865475},
            'P45a': {'mu':0, 'phi': 45, 'sx':0, 'sy':1, 'sperp': 0.7071067811865476,  'spara': 0.7071067811865475},
-           
+
              '0b': {'mu':0, 'phi':  0, 'sx':1, 'sy':0, 'sperp': 0,                   'spara': 1},
            'M30b': {'mu':0, 'phi':-30, 'sx':1, 'sy':0, 'sperp': 0.49999999999999994, 'spara': 0.8660254037844387},
            'P30b': {'mu':0, 'phi': 30, 'sx':1, 'sy':0, 'sperp':-0.49999999999999994, 'spara': 0.8660254037844387},
@@ -104,7 +104,7 @@ class SampleMotionI16Test(unittest.TestCase):
         self.phi.return_value = self.tests[test]['phi']
         self.sx.return_value = self.tests[test]['sx']
         self.sy.return_value = self.tests[test]['sy']
-        
+
         # Work around lack of almost equal
         diff=self.spara.getPosition()-self.tests[test]['spara']
         if abs(diff) > 0.001:

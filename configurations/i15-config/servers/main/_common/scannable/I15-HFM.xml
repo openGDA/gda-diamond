@@ -1,53 +1,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="hfm_x" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="HFMxMotor" />
-	</bean>
-
-	<bean id="hfm_y" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="HFMyMotor" />
-	</bean>
-
-	<bean id="hfm_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mrad"/>
-		<property name="motor" ref="HFMpitchMotor" />
-	</bean>
-
-	<bean id="hfm_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mrad"/>
-		<property name="motor" ref="HFMyawMotor" />
-	</bean>
-
-	<bean id="hfm_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mrad"/>
-		<property name="motor" ref="HFMrollMotor" />
-	</bean>
-
-	<bean id="hfm_curve" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="HFMcurveMotor" />
-	</bean>
-
-	<bean id="hfm_ellipticity" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="HFMellipticityMotor" />
-	</bean>
+	<gda:motor id="hfm_x" initialUserUnits="mm" live-pvName="BL15I-OP-HFM-01:X"/>
+	<gda:motor id="hfm_y" initialUserUnits="mm" live-pvName="BL15I-OP-HFM-01:Y"/>
+	<gda:motor id="hfm_pitch" initialUserUnits="mrad" live-pvName="BL15I-OP-HFM-01:PITCH"/>
+	<gda:motor id="hfm_yaw" initialUserUnits="mrad" live-pvName="BL15I-OP-HFM-01:YAW"/>
+	<gda:motor id="hfm_roll" initialUserUnits="mrad" live-pvName="BL15I-OP-HFM-01:ROLL"/>
+	<gda:motor id="hfm_curve" initialUserUnits="mm" live-pvName="BL15I-OP-HFM-01:CURVE"/>
+	<gda:motor id="hfm_ellipticity" initialUserUnits="mm" live-pvName="BL15I-OP-HFM-01:ELLIP"/>
 
 	<bean id="hfm_" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="hfm_x" />
-				<ref bean="hfm_y" />
-				<ref bean="hfm_pitch" />
-				<ref bean="hfm_yaw" />
-				<ref bean="hfm_roll" />
-				<ref bean="hfm_curve" />
-				<ref bean="hfm_ellipticity" />
+				<ref bean="hfm_x"/>
+				<ref bean="hfm_y"/>
+				<ref bean="hfm_pitch"/>
+				<ref bean="hfm_yaw"/>
+				<ref bean="hfm_roll"/>
+				<ref bean="hfm_curve"/>
+				<ref bean="hfm_ellipticity"/>
 			</list>
 		</property>
 	</bean>

@@ -5,7 +5,7 @@
 # On I15, calc_mode=None was tested using the following assumptions
 # * At the `zero` position, where sx=sperp and sy=spara, phi-phi_offset is 0 (58-58) and mu-mu_offset is 0 (0-0)
 # * The sample x and y stages are on the phi axis, so rotate with it.
-# * sx is +ve to the right (not the usual left) when looking along the beam at the `zero` position. 
+# * sx is +ve to the right (not the usual left) when looking along the beam at the `zero` position.
 # * sy is the sample stage, +ve is along the beam towards (as usual) from the detector at the `zero` position.
 # * mu is static and always returns 0
 # * phi is horizontal at with Kappa at -134.74 and theta @-34.05
@@ -75,7 +75,7 @@ class PerpendicularSampleMotion(ScannableMotionBase):
     def setCalcMode(self, calc_mode=None):
         """ Note that when mode=None then this class will work as it did originally, where the Phi axis should be
             pointing straight up.
-            
+
             When mode is jamaMode or scisoftpyMode, it will work according to the calculations in I15-207
             where the phi axis may be in any orientation. See http://jira.diamond.ac.uk/browse/I15-207
         """
@@ -145,7 +145,7 @@ class PerpendicularSampleMotion(ScannableMotionBase):
                 )
         if self.calc_mode == self.scisoftpyMode:
             self.T = lambda mu_rad, theta_rad, kappa_rad, phi_rad : \
-                dot(inv(S) , 
+                dot(inv(S) ,
                     inv(dot(Ttheta(theta_rad) , dot(Tkappa(kappa_rad) , Tphi(phi_rad))))
                 )
 
@@ -181,7 +181,7 @@ class PerpendicularSampleMotion(ScannableMotionBase):
         else:
 #     dx:     +DE  *COS(T)    + DA  *SIN(T)
             x=sperp*cos(angle)+spara*sin(angle)
-        
+
         # - DE11*SIN(T11)  + DA11*COS(T11)
         y=-sperp*sin(angle)+spara*cos(angle)
         return x, y
@@ -193,14 +193,14 @@ class PerpendicularSampleMotion(ScannableMotionBase):
             return
 
         murad, phirad = self.getPositions()
-        
+
         if self.i15mode: # sx inverted compared to i16
             clock_x, clock_y = self.xyFromPerpPara(value, self.getPositionParallel())
         else:
             anticlock_x=self.sy()*sin(phirad-murad)+self.sx()*cos(phirad-murad)
             clock_x=anticlock_x*cos(phirad-murad)-value*sin(phirad-murad)
             clock_y=value*cos(phirad-murad)+anticlock_x*sin(phirad-murad)
-        
+
         self.setPositions(value, clock_x, clock_y)
 
     def asynchronousMoveToParallel(self,value):
@@ -210,14 +210,14 @@ class PerpendicularSampleMotion(ScannableMotionBase):
             return
 
         murad, phirad = self.getPositions()
-        
+
         if self.i15mode: # sx inverted compared to i16
             clock_x, clock_y = self.xyFromPerpPara(self.getPositionPerpendicular(), value)
         else:
             anticlock_y=self.sy()*cos(phirad-murad)-self.sx()*sin(phirad-murad)
             clock_x=value*cos(phirad-murad)-anticlock_y*sin(phirad-murad)
             clock_y=anticlock_y*cos(phirad-murad)+value*sin(phirad-murad)
-        
+
         self.setPositions(value, clock_x, clock_y)
 
     def asynchronousMoveToHeight(self,value):

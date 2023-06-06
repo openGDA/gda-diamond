@@ -11,11 +11,11 @@
 		<property name="controls">
 			<list>
 				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-					<property name="jythonCommand" value="shopen" />
+					<property name="command" value="shopen" />
 					<property name="buttonText" value="Open EH and Fast shutter (shopen)" />
 				</bean>
 				<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-					<property name="jythonCommand" value="shclose" />
+					<property name="command" value="shclose" />
 					<property name="buttonText" value="Close EH and Fast Shutter (shclose)" />
 				</bean>
 			</list>
@@ -79,7 +79,7 @@
 					<property name="group" value="S1 slits" />
 					<property name="numColumns" value="1" />
 					<property name="controls">
-						<list> 
+						<list>
 							<!-- Shows and updates position, but readOnly doesn't lock the tweak buttons, only the position textbox -->
 							<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 								<property name="displayName" value="X Gap" />
@@ -99,7 +99,7 @@
 					<property name="group" value="Membrane Drive Combo/List Control" />
 					<property name="numColumns" value="1" />
 					<property name="controls">
-						<list> 
+						<list>
 							<bean class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
 								<property name="scripts"><map>
 										<entry key="Membrane Drive On"	value="/dls_sw/i15/scripts/procedures/MembDriveOn.py"/>
@@ -113,7 +113,7 @@
 					<property name="group" value="Membrane Drive Command Control" />
 					<property name="numColumns" value="2" />
 					<property name="controls">
-						<list> 
+						<list>
 							<bean class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 								<property name="command" value="run('/dls_sw/i15/scripts/procedures/MembDriveOn.py')" />
 								<property name="buttonText" value="Membrane Drive On" />
@@ -131,7 +131,7 @@
 
 <!-- Examples from other beamlines
 	<bean id="removeLens" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="sequences.remove_lens()" />
+		<property name="command" value="sequences.remove_lens()" />
 		<property name="buttonText" value="Remove Lens" />
 	</bean>
 

@@ -23,7 +23,7 @@ class UserCommandsTest(unittest.TestCase):
 		self.AbsoluteVertEnd=.1
 		self.AbsoluteStartPos=.1
 		self.AbsoluteEndPos=.1
-		
+
 		self.motorDx=Mock()
 		self.motorDx.name = "dx"
 		self.motorDx.getPosition.return_value = 10.
@@ -159,4 +159,4 @@ class UserCommandsTest(unittest.TestCase):
 	def testexposeNRockNGridStepFail(self):
 		self.assertEqual(exposeNRockNGridStep('fail', 'fail', 'fail', 'fail', 'fail', 'fail', 'fail', 'fail', 0),
 						["exposeTime should be a positive number: 'fail'", "exposeNumber should be a positive integer: 'fail'", "rockAngle should be a number: 'fail'", "rockNumber should be a positive integer: 'fail'", "horizStep should be a number: 'fail'", "horizStepNumber should be a positive integer: 'fail'", "vertStep should be a number: 'fail'", "vertStepNumber should be a positive integer: 'fail'"])
-	
+

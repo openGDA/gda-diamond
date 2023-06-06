@@ -1,5 +1,5 @@
 # detector_control_class copied from i11 config scripts, last modified r27825 18/06/10 fy65
-from gda.epics import CAClient 
+from gda.epics import CAClient
 from gda.device.scannable import ScannableMotionBase
 
 class DetectorControlClass(ScannableMotionBase):
@@ -12,13 +12,13 @@ class DetectorControlClass(ScannableMotionBase):
         self.setLevel(3)
         self.incli=CAClient(pvinstring)
         self.outcli=CAClient(pvoutstring)
-        
+
     def atStart(self):
         if not self.incli.isConfigured():
             self.incli.configure()
         if not self.outcli.isConfigured():
             self.outcli.configure()
-         
+
     def getPosition(self):
         try:
             if not self.outcli.isConfigured():
@@ -44,7 +44,7 @@ class DetectorControlClass(ScannableMotionBase):
         except:
             print "Error returning target position"
             return 0
-       
+
     def asynchronousMoveTo(self,new_position):
         try:
             if not self.incli.isConfigured():
@@ -65,7 +65,7 @@ class DetectorControlClass(ScannableMotionBase):
             self.incli.clearup()
         if self.outcli.isConfigured():
             self.outcli.clearup()
-            
+
     def toString(self):
         return self.name + " : " + str(self.getPosition())
-              
+

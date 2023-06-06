@@ -1,77 +1,47 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!-- Energy -->
 
-	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="eV"/>
-		<property name="motor" ref="DcmenergyMotor" />
-	</bean>
+	<gda:motor id="dcmenergy" initialUserUnits="eV" live-pvName="BL15I-OP-DCM-01:ENERGY"/>
 
 	<!-- Mixture -->
 
-	<bean id="dcmenergy_cal" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="eV"/>
-		<property name="motor" ref="DcmenergyCalMotor" />
-	</bean>
-
-	<bean id="dcmxtl1roll" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="deg"/>
-		<property name="motor" ref="Dcmxtl1rollMotor" />
-	</bean>
-
-	<bean id="dcmx1" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="Dcmx1Motor" />
-	</bean>
-
-	<!-- 
+	<gda:motor id="dcmenergy_cal" initialUserUnits="eV" live-pvName="BL15I-OP-DCM-01:CAL"/>
+	<gda:motor id="dcmxtl1roll" initialUserUnits="deg" live-pvName="BL15I-OP-DCM-01:XTAL1:ROLL"/>
+	<gda:motor id="dcmx1" initialUserUnits="mm" live-pvName="BL15I-OP-DCM-01:X1"/>
+	<!--
 	<bean id="dcmpiezo" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DcmpiezoMotor" />
 	</bean>
 	 -->
-
-	<bean id="dcmxtl1y" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="Dcmxtl1yMotor" />
-	</bean>
-
-	<bean id="dcmxtl2y" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="Dcmxtl2yMotor" />
-	</bean>
-
-	<bean id="dcmbragg1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Bragg1Motor" />
-	</bean>
-
-	<bean id="dcmbragg2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Bragg2Motor" />
-	</bean>
-
-	<bean id="dcmxtl1z" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="Dcmxtl1zMotor" />
-	</bean>
+	<gda:motor id="dcmxtl1y" initialUserUnits="mm" live-pvName="BL15I-OP-DCM-01:XTAL1:Y"/>
+	<gda:motor id="dcmxtl2y" initialUserUnits="mm" live-pvName="BL15I-OP-DCM-01:XTAL2:Y"/>
+	<gda:motor id="dcmbragg1" live-pvName="BL15I-OP-DCM-01:XTAL1:THETA"/>
+	<gda:motor id="dcmbragg2" live-pvName="BL15I-OP-DCM-01:XTAL2:THETA"/>
+	<gda:motor id="dcmxtl1z" initialUserUnits="mm" live-pvName="BL15I-OP-DCM-01:XTAL1:Z"/>
 
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="dcmbragg1" />
-				<ref bean="dcmbragg2" />
-				<ref bean="dcmxtl1y" />
-				<ref bean="dcmxtl1z" />
-				<ref bean="dcmxtl1roll" />
-				<ref bean="dcmxtl2y" />
-				<ref bean="dcmx1" />
-				<ref bean="dcmenergy" />
+				<ref bean="dcmbragg1"/>
+				<ref bean="dcmbragg2"/>
+				<ref bean="dcmxtl1y"/>
+				<ref bean="dcmxtl1z"/>
+				<ref bean="dcmxtl1roll"/>
+				<ref bean="dcmxtl2y"/>
+				<ref bean="dcmx1"/>
+				<ref bean="dcmenergy"/>
 				<!--<ref bean="dcmpiezo" />-->
 			</list>
 		</property>
 	</bean>
 
 	<!-- Temperatures -->
-
+	
 </beans>

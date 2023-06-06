@@ -14,7 +14,7 @@ from gda.device import DeviceException
 import math
 
 class BusyThread(Runnable):
-    
+
     def __init__(self, master, period):
         self.master = master
         self.period = period
@@ -26,7 +26,7 @@ class BusyThread(Runnable):
             sleep(self.period)
 
 class RampWaitThread(Runnable):
-    
+
     def __init__(self, master, duration):
         self.master = master
         self.duration = duration
@@ -34,9 +34,9 @@ class RampWaitThread(Runnable):
     def run(self):
         sleep(self.duration)
         self.master.nextRamp()
-            
+
 class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanPositionProvider):
-    
+
     def __init__(self, name, linkam):
         self.setName(name)
         self.setInputNames(["time"])
@@ -60,7 +60,7 @@ class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanP
         else:
             self.setExtraNames(["temp"])
             self.setOutputFormat(["%4.1f", "%3.1f"])
-            
+
     def atScanStart(self):
         self.fixOutput()
         self.tictoc.reset()
@@ -81,13 +81,13 @@ class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanP
         if not self.monitor == None:
             self.outcli.removeMonitor(self.monitor)
             self.monitor=None
-        if self.outcli.isConfigured():    
+        if self.outcli.isConfigured():
             self.outcli.clearup()
         if not self.thread == None:
             self.thread=None
         self.scanRunning=False
         self.currentramp = -1
-          
+
     def getPosition(self):
         li = self.linkam.getPosition()
         if self.linkam.dscenabled:
@@ -132,7 +132,7 @@ class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanP
         self.linkam.setRate(rate)
         self.linkam.setLimit(targettemp)
         self.linkam.start()
-        
+
     def setRamps(self, ramps):
         self.ramps = ramps
         self.calculateTime()
@@ -142,11 +142,11 @@ class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanP
             self.interval = interval
         else:
             print "Collection interval too short %3.1f s" % interval
-        
+
     def calculateTime(self):
         temp = self.linkam.getPosition()[0]
         rampno = 0
-        totaltime = 0 
+        totaltime = 0
         for ramp in self.ramps:
             rate = ramp[0]
             target = ramp[1]
@@ -157,11 +157,11 @@ class LinkamRampMaster4000(ScannableMotionBase, MonitorListener, Runnable, ScanP
             temp = target
             rampno += 1
         self.time = totaltime
-            
+
     def size(self):
         if self.time == 0:
             self.calculateTime()
         return int(self.time / self.interval) + 1
 
     def get(self, index):
-        return index  
+        return index

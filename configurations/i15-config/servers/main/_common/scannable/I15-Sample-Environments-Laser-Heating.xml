@@ -1,71 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!-- Fiber Laser -->
 
 	<!-- Huber motion -->
 
-	<bean id="laserboardx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laserboardx_motor" />
-	</bean>
-
-	<bean id="laserboardy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laserboardy_motor" />
-	</bean>
-
-	<bean id="laserboardz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="laserboardz_motor" />
-	</bean>
+	<gda:motor id="laserboardx" live-pvName="BL15I-MO-LHEAT-01:X"/>
+	<gda:motor id="laserboardy" live-pvName="BL15I-MO-LHEAT-01:Y"/>
+	<gda:motor id="laserboardz" live-pvName="BL15I-MO-LHEAT-01:Z"/>
 
 	<!-- Smaract Motion -->
 
-	<bean id="armus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="armus_motor" />
-	</bean>
-
-	<bean id="armds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="armds_motor" />
-	</bean>
+	<gda:motor id="armus" live-pvName="BL15I-MO-LHEAT-01:ARM:US"/>
+	<gda:motor id="armds" live-pvName="BL15I-MO-LHEAT-01:ARM:DS"/>
 
 	<!-- Horiba Spectrum Analyser -->
 
 	<!-- Newport Motors -->
 
-	<bean id="opticxus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="opticxus_motor" />
-	</bean>
-
-	<bean id="opticyus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="opticyus_motor" />
-	</bean>
-
-	<bean id="objus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="objus_motor" />
-	</bean>
-
-	<bean id="opticxds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="opticxds_motor" />
-	</bean>
-
-	<bean id="opticyds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="opticyds_motor" />
-	</bean>
-
-	<bean id="objds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="objds_motor" />
-	</bean>
+	<gda:motor id="opticxus" live-pvName="BL15I-MO-LHEAT-01:OPTIC:US:X"/>
+	<gda:motor id="opticyus" live-pvName="BL15I-MO-LHEAT-01:OPTIC:US:Y"/>
+	<gda:motor id="objus" live-pvName="BL15I-MO-LHEAT-01:OBJ:US"/>
+	<gda:motor id="opticxds" live-pvName="BL15I-MO-LHEAT-01:OPTIC:DS:X"/>
+	<gda:motor id="opticyds" live-pvName="BL15I-MO-LHEAT-01:OPTIC:DS:Y"/>
+	<gda:motor id="objds" live-pvName="BL15I-MO-LHEAT-01:OBJ:DS"/>
 
 	<!-- Scannable groups -->
-
 	<bean id="laserboard" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="laserboardx" />
-				<ref bean="laserboardy" />
-				<ref bean="laserboardz" />
+				<ref bean="laserboardx"/>
+				<ref bean="laserboardy"/>
+				<ref bean="laserboardz"/>
 			</list>
 		</property>
 	</bean>
@@ -73,14 +44,14 @@
 	<bean id="laser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="armus" />
-				<ref bean="armds" />
-				<ref bean="opticxus" />
-				<ref bean="opticyus" />
-				<ref bean="objus" />
-				<ref bean="opticxds" />
-				<ref bean="opticyds" />
-				<ref bean="objds" />
+				<ref bean="armus"/>
+				<ref bean="armds"/>
+				<ref bean="opticxus"/>
+				<ref bean="opticyus"/>
+				<ref bean="objus"/>
+				<ref bean="opticxds"/>
+				<ref bean="opticyds"/>
+				<ref bean="objds"/>
 			</list>
 		</property>
 	</bean>
@@ -88,12 +59,12 @@
 	<bean id="laserimageposition" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="opticxus" />
-				<ref bean="opticyus" />
-				<ref bean="objus" />
-				<ref bean="opticxds" />
-				<ref bean="opticyds" />
-				<ref bean="objds" />
+				<ref bean="opticxus"/>
+				<ref bean="opticyus"/>
+				<ref bean="objus"/>
+				<ref bean="opticxds"/>
+				<ref bean="opticyds"/>
+				<ref bean="objds"/>
 			</list>
 		</property>
 	</bean>

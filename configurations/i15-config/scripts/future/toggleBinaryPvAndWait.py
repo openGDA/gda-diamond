@@ -1,17 +1,17 @@
 """ Based on b16/scripts/pd_toggleBinaryPvAndWait.py r15228
 """
 from gda.device.scannable import ScannableMotionBase
-from gda.epics import CAClient 
+from gda.epics import CAClient
 from gdascripts.pd.time_pds import tictoc
 from gdascripts.messages.handle_messages import simpleLog
 from time import sleep
 
 
 class ToggleBinaryPvAndWait(ScannableMotionBase):
-    """ 
-    Useful for triggering detectors which have been setup to record images on 
+    """
+    Useful for triggering detectors which have been setup to record images on
     hardware triggers.
-    
+
     When asked to move, toggles a binary PV from normalLevel to !normalLevel and
     then back to normalLevel. Remains busy until the single exposure+readout time
     is reached.
@@ -21,7 +21,7 @@ class ToggleBinaryPvAndWait(ScannableMotionBase):
         self.cli = CAClient(pvstring)
         self.setInputNames(['t'])
         self.setOutputFormat(['%5.5f'])
-        self.setLevel(9)        
+        self.setLevel(9)
         self.timer=tictoc()
         self.waitfortime=0
         self.cli.configure()
@@ -36,11 +36,11 @@ class ToggleBinaryPvAndWait(ScannableMotionBase):
             simpleLog("self.cli.caput(%r)" % self.normalLevel)
         self.cli.caput(self.normalLevel)
 
-    def setTrigger(self): 
+    def setTrigger(self):
         if self.verbose:
             simpleLog("self.cli.caput(%r)" % self.triggerLevel)
         self.cli.caput(self.triggerLevel)
-            
+
     def trigger(self, exposureTime):
         self.setTrigger()
         sleep(exposureTime)
@@ -55,7 +55,7 @@ class ToggleBinaryPvAndWait(ScannableMotionBase):
         else:
             return 0
 
-    def getState(self):    
+    def getState(self):
         # If the CA client has already had a channel configured by atStart())
         
         val=self.cli.caget()
@@ -74,7 +74,7 @@ class ToggleBinaryPvAndWait(ScannableMotionBase):
             #               the problem of return to start no wait toggles.
             if self.verbose:
                 simpleLog("ToggleBinaryPvAndWait return move ignored.")
-            return        
+            return
         if self.verbose:
             simpleLog("ToggleBinaryPvAndWait.asynchronousMoveTo(%r)" % waittime)
         self.lastExposureTime = waittime

@@ -39,7 +39,7 @@
 		<property name="motor" ref="sszMotor" />
 	</bean>
 
-<!-- 
+<!--
 	<bean id="srot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="srotMotor" />
 	</bean>
@@ -57,7 +57,7 @@
 				<ref bean="sphi" />
 				<ref bean="ssx" />
 				<ref bean="ssz" />
-<!-- 
+<!--
 				<ref bean="srot" />
  -->
 			</list>

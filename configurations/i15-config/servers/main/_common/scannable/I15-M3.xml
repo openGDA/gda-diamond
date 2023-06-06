@@ -1,62 +1,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<!-- Vertical Small KB mirror scannables -->
 
-	<bean id="svfmcurve" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="svfmcurve_motor" />
-	</bean>
-
-	<bean id="svfmellip" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="svfmellip_motor" />
-	</bean>
-
-	<bean id="svfmy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="svfmy_motor" />
-	</bean>
-
-	<bean id="svfmpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="svfmpitch_motor" />
-	</bean>
+	<gda:motor id="svfmcurve" live-pvName="BL15I-OP-MIRR-03:VFM:CURVE"/>
+	<gda:motor id="svfmellip" live-pvName="BL15I-OP-MIRR-03:VFM:ELLIP"/>
+	<gda:motor id="svfmy" live-pvName="BL15I-OP-MIRR-03:VFM:Y"/>
+	<gda:motor id="svfmpitch" live-pvName="BL15I-OP-MIRR-03:VFM:PITCH"/>
 
 	<bean id="svfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="svfmcurve" />
-				<ref bean="svfmellip" />
-				<ref bean="svfmy" />
-				<ref bean="svfmpitch" />
+				<ref bean="svfmcurve"/>
+				<ref bean="svfmellip"/>
+				<ref bean="svfmy"/>
+				<ref bean="svfmpitch"/>
 			</list>
 		</property>
 	</bean>
 
 	<!-- Horizontal Small KB mirror scannables -->
 
-	<bean id="shfmcurve" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="shfmcurve_motor" />
-	</bean>
-
-	<bean id="shfmellip" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="shfmellip_motor" />
-	</bean>
-
-	<bean id="shfmx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="shfmx_motor" />
-	</bean>
-
-	<bean id="shfmpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="shfmpitch_motor" />
-	</bean>
+	<gda:motor id="shfmcurve" live-pvName="BL15I-OP-MIRR-03:HFM:CURVE"/>
+	<gda:motor id="shfmellip" live-pvName="BL15I-OP-MIRR-03:HFM:ELLIP"/>
+	<gda:motor id="shfmx" live-pvName="BL15I-OP-MIRR-03:HFM:X"/>
+	<gda:motor id="shfmpitch" live-pvName="BL15I-OP-MIRR-03:HFM:PITCH"/>
 
 	<bean id="shfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="shfmcurve" />
-				<ref bean="shfmellip" />
-				<ref bean="shfmx" />
-				<ref bean="shfmpitch" />
+				<ref bean="shfmcurve"/>
+				<ref bean="shfmellip"/>
+				<ref bean="shfmx"/>
+				<ref bean="shfmpitch"/>
 			</list>
 		</property>
 	</bean>
@@ -66,8 +47,8 @@
 	<bean id="M3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="svfm" />
-				<ref bean="shfm" />
+				<ref bean="svfm"/>
+				<ref bean="shfm"/>
 			</list>
 		</property>
 	</bean>

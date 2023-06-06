@@ -10,7 +10,7 @@ from org.slf4j import LoggerFactory
 TIMEOUT=5
 
 class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, DetectorWithReadoutTime):
-    
+
     def __init__(self, name, rootPV, continuousMoveController):
         self.logger = LoggerFactory.getLogger("FastShutterZebraDetector:%s" % name)
         self.name = name
@@ -133,13 +133,13 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
 
         # Note that max gate width is 214881.9984, so max collection time is 214s at ms resolution, or 59d at s resolution.
-        if self.collectionTime > 20: # Using 20 rather 214 makes it easier to test the switchover. 
+        if self.collectionTime > 20: # Using 20 rather 214 makes it easier to test the switchover.
             self.timeunit='s'
             self.timeconvert=1
         else:
             self.timeunit='ms'
             self.timeconvert=1000
-        
+
         pc_arm_out = self.pvs['PC_ARM_OUT'].caget()
         msg="%s:%s() ... PC_ARM_OUT=%r (type=%r)" % (self.name, self.pfuncname(), pc_arm_out, type(pc_arm_out))
         if pc_arm_out == '1.0': # Watch out for Zebra already being armed.
@@ -189,7 +189,7 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
             the name of the latest file created as a string. If it does not
             (return false) the readout() method will return the data directly. """
         self.logger.trace("%s:%s() started..." % (self.name, self.pfuncname()))
-        return False; 
+        return False;
 
     def getDescription(self):
         """ A description of the detector. """

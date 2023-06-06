@@ -27,7 +27,7 @@
 		<property name="motor" ref="zebraTestMotor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraTestContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value=".5"/>
-	</bean>	
+	</bean>
 
 	<bean id="zebraTestContinuousMoveController"
 			class="gda.device.zebra.ZebraConstantVelocityMoveController">
@@ -39,13 +39,13 @@
 			class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
 		<constructor-arg ref="zebraTestAD_config_base" />	<!-- ADBase adBase -->
 		<constructor-arg value=".0" />						<!-- double readoutTime -->
-	</bean>	
+	</bean>
 
 	<bean id="zebraTestNDFileHDF5_base"
 			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="TESTZEBRA:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
-	</bean>	
+	</bean>
 
 	<bean id="zebraTestNDFileHDF5"
 			class="gda.spring.V17NDFileHDF5FactoryBean">
@@ -68,7 +68,7 @@
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="setChunking" value="false"/>
 		<property name="blocking" value="true"/>
-	</bean>	
+	</bean>
 
 	<bean id="zebraTestDetector"
 			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">

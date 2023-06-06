@@ -31,7 +31,7 @@
 		<property name="motor" ref="Dr1muMotor" />
 	</bean>
 
-	<!-- 
+	<!--
 	<bean id="dv" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DVMotor" />
 	</bean>
@@ -43,7 +43,7 @@
 				<ref bean="dx" />
 				<ref bean="dy" />
 				<ref bean="dz" />
-				<!-- 
+				<!--
 				<ref bean="dv" />
 				 -->
 				<ref bean="dkphi" />
@@ -68,7 +68,7 @@
 				<ref bean="dx" />
 				<ref bean="dy" />
 				<ref bean="dz" />
-				<!-- 
+				<!--
 				<ref bean="dv" />
 				 -->
 				<ref bean="dkphi" />
@@ -113,7 +113,7 @@
 	</bean>
 
 	These results in the following:
-	
+
 >>>diffractometer1
 diffractometer1::
  dx       : :

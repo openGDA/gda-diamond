@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
 	<import resource="required_at_start.xml"/>
 
@@ -9,16 +12,19 @@
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="common_script_paths"/>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+		<property name="stopJythonScannablesOnStopAll" value="false"/>
+		<property name="disableBatonControlOverVisitMetadataEntry" value="false"/>
 	</bean>
 
-	<import resource="terminal_logger.xml" />
+	<import resource="terminal_logger.xml"/>
 
-	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml"/>
 
 	<import resource="device/*.xml"/>
 	<import resource="nxmetadata/*.xml"/>
 	<import resource="scannable/*.xml"/>
 	<import resource="transient/*.xml"/>
+	<import resource="factoryBeans.xml"/>
+
+	<gda:monitor id="prop" live-pvName="BL15I-DI-PROP-01:I"/>
 </beans>

@@ -14,7 +14,7 @@
 				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="Beamline"
@@ -24,7 +24,7 @@
 				<entry key="Top" value="BL15I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"></property>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<!--
@@ -38,7 +38,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-01:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN2"
@@ -48,7 +48,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-02:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN3"
@@ -58,7 +58,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-03:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN4"
@@ -68,7 +68,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-04:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN5"
@@ -78,7 +78,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-05:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN6"
@@ -88,7 +88,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-06:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN8"
@@ -98,7 +98,7 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-08:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 
 	<bean id="PHDGN9"
@@ -108,11 +108,6 @@
 				<entry key="RECORD" value="BL15I-DI-PHDGN-09:I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<!-- Proportional Counter -->
-	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL15I-DI-PROP-01:I" />
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
 	</bean>
 </beans>

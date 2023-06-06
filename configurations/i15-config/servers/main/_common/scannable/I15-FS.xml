@@ -1,23 +1,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="fsx" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="FsxMotor" />
-	</bean>
-
-	<bean id="fsy" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="FsyMotor" />
-	</bean>
+	<gda:motor id="fsx" initialUserUnits="mm" live-pvName="BL15I-EA-SHTR-01:X"/>
+	<gda:motor id="fsy" initialUserUnits="mm" live-pvName="BL15I-EA-SHTR-01:Y"/>
 
 	<bean id="fs" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="fsx" />
-				<ref bean="fsy" />
+				<ref bean="fsx"/>
+				<ref bean="fsy"/>
 			</list>
 		</property>
 	</bean>

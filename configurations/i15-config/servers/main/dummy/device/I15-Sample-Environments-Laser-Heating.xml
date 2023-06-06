@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -8,24 +7,15 @@
 
 	<bean id="laserpowerus"
 			class="gda.device.scannable.DummyScannable">
-		<property name="name" value="laserpowerus" />
+		<property name="name" value="laserpowerus"/>
 	</bean>
 
 	<bean id="laserpowerds"
 			class="gda.device.scannable.DummyScannable">
-		<property name="name" value="laserpowerds" />
+		<property name="name" value="laserpowerds"/>
 	</bean>
 
 	<!-- Huber motion -->
-
-	<bean id="laserboardx_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="laserboardy_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="laserboardz_motor"
-			class="gda.device.motor.DummyMotor"/>
 
 	<!-- Smaract Motion -->
 
@@ -37,39 +27,15 @@
 	<bean id="laseryds_motor"
 			class="gda.device.motor.DummyMotor"/>
 
-	<bean id="armus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="armds_motor"
-			class="gda.device.motor.DummyMotor"/>
-
 	<!-- Horiba Spectrum Analyser -->
 
 	<!-- See I15-214 & http://confluence.diamond.ac.uk/x/rgGwAg
 	 -->
 	<bean id="laserstartacqproc"
 			class="gda.device.scannable.DummyScannable">
-		<property name="name" value="laserstartacqproc" />
+		<property name="name" value="laserstartacqproc"/>
 	</bean>
 
 	<!-- Newport Motors -->
-
-	<bean id="opticxus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="opticyus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="objus_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="opticxds_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="opticyds_motor"
-			class="gda.device.motor.DummyMotor"/>
-
-	<bean id="objds_motor"
-			class="gda.device.motor.DummyMotor"/>
 
 </beans>

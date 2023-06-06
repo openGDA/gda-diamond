@@ -121,7 +121,7 @@ class IspybDataCollectionApiConnector(IspybDataCollectionApiUtils):
 	def upsertDataCollectionGroup(self, dataCollectionGroup):
 		self.logger.debug("upsertDataCollectionGroup({})", dataCollectionGroup)
 		self.dbs.upsertDataCollectionGroup(dataCollectionGroup)
-		return 
+		return
 
 	def closeDataCollectionGroup(self, dataCollectionGroup):
 		self.logger.debug("closeDataCollectionGroup({})", dataCollectionGroup)

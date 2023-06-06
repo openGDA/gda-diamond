@@ -35,7 +35,7 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 
 	focus_axis_inverted = False
 	print "Axis %s" % rotation_axis.name,
-	
+
 	if   rotation_axis == jythonNameMap.dkphi:
 		perp2rot_axis	= jythonNameMap.dx
 		focus_axis		= jythonNameMap.dy
@@ -85,7 +85,7 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		focus_axis.name, perp2rot_axis.name)
 	print "  rotation_centre=%.4f & focus_axis_inverted = %r" % (
 			 rotation_centre, 		focus_axis_inverted)
-	
+
 	cn = CentreDAC(rotation_axis, perp2rot_axis, focus_axis, beamline,
 				   scanRange, scanStep, rockAngle, diode, auto_fit,
 				   rotation_centre, focus_axis_inverted)
@@ -99,7 +99,7 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 def centrePeak(rotation_axis, perp2rot_axis, focus_axis, beamline,
 		scanRange, scanStep, rockAngle, diode, rotation_centre,
 		focus_axis_inverted):
-	
+
 	cn = CentreDAC(rotation_axis, perp2rot_axis, focus_axis, beamline,
 				   scanRange, scanStep, rockAngle, diode, True,
 				   rotation_centre, focus_axis_inverted)
