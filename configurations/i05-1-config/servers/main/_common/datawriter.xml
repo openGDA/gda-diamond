@@ -12,12 +12,9 @@
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap
-								</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label
-								</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/phase
-								</value>
+								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
+								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label</value>
+								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/phase</value>
 							</list>
 						</property>
 						<property name="units">
