@@ -9,9 +9,7 @@
 		<property name="tfgFFI0" ref="xspress4OdinFFI0" />
 		<property name="configFileName" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 		<property name="defaultSubdirectory" value="xspress4Odin" />
-		<property name="triggerMode" value="Software" /> <!--  software trigger mode -->
-<!-- 		<property name="zeroMqStreamAddress" value="tcp://172.23.88.200" /> -->
-<!-- 		<property name="zeroMqTimeOutsetSecs" value="10" /> -->
+		<property name="triggerModeForScans" value="3" /> <!--  0 = software trigger mode, 3 = TTL veto -->
 	</bean>
 	
 	<bean id="qexafs_xspress4Odin" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
@@ -20,6 +18,7 @@
 		<property name="pathToAttributeDataGroup" value="/" />
 		<property name="dtcFactorDataNameFormat" value="dtc" />
 		<property name="scalerDataNameFormat" value="scalar_%d" />
+<!-- 		<property name="triggerModeForContinuousScan" value="3" /> -->
 		<property name="twoDHdfData" value="true" />
 	</bean>
 

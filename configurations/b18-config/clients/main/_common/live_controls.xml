@@ -186,15 +186,15 @@
 		<property name="horizontalLayout" value="true" />
 	</bean>
 
-	<bean id="sxRot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="SxRot" />
-		<property name="scannableName" value="sxRot" />
+	<bean id="chamberRot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Chamber rotation" />
+		<property name="scannableName" value="chamberRot" />
 		<property name="displayNameWidth" value="160" />
 		<property name="horizontalLayout" value="true" />
 	</bean>
-	<bean id="sxY_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="SxY" />
-		<property name="scannableName" value="sxY" />
+	<bean id="chamberY_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Chamber y" />
+		<property name="scannableName" value="chamberY" />
 		<property name="displayNameWidth" value="160" />
 		<property name="horizontalLayout" value="true" />
 	</bean>
@@ -217,8 +217,8 @@
 				<ref bean="frameY_control" />
 				<ref bean="gasX_control" />
 				<ref bean="gasY_control" />
-				<ref bean="sxRot_control" />
-				<ref bean="sxY_control" />
+				<ref bean="chamberRot_control" />
+				<ref bean="chamberY_control" />
 				<ref bean="sam1x_control" />
 			</list>
 		</property>

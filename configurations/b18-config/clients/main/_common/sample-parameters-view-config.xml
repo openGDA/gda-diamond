@@ -18,13 +18,17 @@
 							<value>sam2rot</value>
 							<value>frameX</value>
 							<value>frameY</value>
-							<value>sampleStageX</value>
-							<value>sampleStageY</value>
+							<value>longX</value>
+							<value>longY</value>
+							<value>gasX</value>
+							<value>gasY</value>			
 							<value>hvdtyx</value>
 							<value>hvdtyy</value>
 							<value>sam1x</value>
 							<value>sam1y</value>
 							<value>sam1rot</value>
+							<value>chamberY</value>
+							<value>chamberRot</value>
 						</list>
 					</property>
 				</bean>
@@ -37,6 +41,7 @@
 						<list>
 							<value>fluoDist</value>
 							<value>vortexDist</value>
+							<value>pilatusAngle</value>
 						</list>
 					</property>
 				</bean>
@@ -54,7 +59,6 @@
 							<value>meca_move_pose_alpha</value>
 							<value>meca_move_pose_beta</value>
 							<value>meca_move_pose_gamma</value>
-							<value>meca_move_pose_x</value>
 						</list>
 					</property>
 				</bean>
