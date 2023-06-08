@@ -5,11 +5,6 @@ Bundle-SymbolicName: uk.ac.gda.dls;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Bundle-NativeCode: lib/linux-x86/libJavaToUnix.so;
- osname=linux; processor=x86,
- lib/linux-x86_64/libJavaToUnix.so;
- osname=linux; processor=x86_64,
- *
 Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
  javax.measure.unit-api;bundle-version="1.0.0",
