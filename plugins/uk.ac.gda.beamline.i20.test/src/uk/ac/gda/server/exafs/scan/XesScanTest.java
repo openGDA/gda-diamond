@@ -182,7 +182,6 @@ public class XesScanTest {
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
 		theFactory.setEnergyScannable(monoEnergy);
-		theFactory.setScanName("energyScan");
 		xasscan = theFactory.createEnergyScan();
 
 		// create the beans and give to the XasScan

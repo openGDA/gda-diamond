@@ -69,7 +69,6 @@ public class XesScanFactoryTest {
 		factory.setLoggingScriptController(loggingScriptController);
 		factory.setMetashop(metashop);
 		factory.setIncludeSampleNameInNexusName(true);
-		factory.setScanName("xesscan");
 		factory.setEnergyScannable(energyScannable);
 		factory.setXesEnergyBoth(xesEnergyBoth);
 		factory.setXesEnergyGroup(xesEnergyGroup);
