@@ -86,7 +86,6 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-theFactory.setScanName("xas")
 theFactory.setXesBraggBoth(XESBraggBoth)
 theFactory.setXesEnergyBoth(XESEnergyBoth)
 theFactory.setXesOffsetsList([XesOffsetsUpper, XesOffsetsLower])
@@ -107,7 +106,6 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xas.setDetectorOrder([ionchambers])

@@ -106,7 +106,6 @@ def setup_factories():
     theFactory.setEnergyScannable(energy_scannable_for_scans);
     theFactory.setMetashop(Finder.find("metashop"));
     theFactory.setIncludeSampleNameInNexusName(True);
-    theFactory.setScanName("energyScan")
     
     
     global xas
@@ -133,7 +132,6 @@ def setup_factories():
     mapFactory.setyScan(t1y); # @UndefinedVariable
     mapFactory.setzScan(t1z); # @UndefinedVariable
     mapFactory.setElementListScriptController(elementListScriptController);
-    mapFactory.setScanName("step map")
 
     non_raster_map = mapFactory.createStepMap()
     

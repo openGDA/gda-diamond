@@ -86,7 +86,6 @@ theFactory.setMetashop(Finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
-theFactory.setScanName("energyScan")
 
 # qexafs_energy.setPcEncType(0) # set zebra encoder to use when capturing pulses (0..3 for enc1..3, 4 for the avg)
 
