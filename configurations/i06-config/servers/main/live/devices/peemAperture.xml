@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="esz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-MO-PEEM-01:ES:TRANS" />
+	</bean>
+	<bean id="caz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-MO-PEEM-01:CA:Z" />
+	</bean>
+	<bean id="catilt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-MO-PEEM-01:CA:TILT" />
+	</bean>
+	
+	<bean id="ES" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL06I-MO-PEEM-01:MP2" />
+	</bean>
+	<bean id="CA" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL06I-MO-PEEM-01:MP" />
+	</bean>
+
+</beans>
