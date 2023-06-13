@@ -5,5 +5,9 @@
 	<bean id="cryoTemp" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL16B-EA-CSTRM-01:TEMP" />
 	</bean>
+	
+	<bean id="cryo2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL16B-EA-CSTRM-02:TEMP" />
+	</bean>
 
 </beans>
