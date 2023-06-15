@@ -120,6 +120,170 @@
 		</property>
 	</bean>
 
+	<!-- Sample transform chain: . < kmu < kth < kap < kphi < cryophi -->
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="cryophi" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kphi" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0.567744</value>
+						<value>-0.0003651</value>
+						<value>0.82389</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kphi" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kap" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kap" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kth" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>0.64278761</value>
+						<value>-0.76604443</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kth" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kmu" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kmu" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="." />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Detector transform chain: . < kgam < kdelta < delta_axis_offset -->
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="delta_axis_offset" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kdelta" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>-1</value> <!-- rotation is in opposite direction to delta -->
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kdelta" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="entry1/instrument/kgam" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0</value>
+						<value>1</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="kgam" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type">
+					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
+				</property>
+				<property name="dependsOn" value="." />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>1</value>
+						<value>0</value>
+						<value>0</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
@@ -156,6 +320,7 @@
 				<value>${gda.config}/yaml/compatibility.yaml</value>
 				<!-- 
 				<value>${gda.config}/yaml/locationMap.yaml</value>
+				<value>${gda.config}/yaml/temp.yaml</value>
 				 -->
 				<value>${gda.config}/yaml/NXdetector_merlin.yaml</value>
 				<value>${gda.config}/yaml/NXdetector_merlins.yaml</value>
@@ -175,134 +340,6 @@
 						</property>
 					</bean>
 				</entry>
-				<entry key="delta_axis_offset">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/transformations:NXtransformations/offsetdelta" />
-						<property name="depends_on"
-							value="entry1/instrument/transformations/delta" />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>0</value>
-								<value>-1</value> <!-- rotation is in opposite direction to delta -->
-								<value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="kdelta">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
-						<property name="depends_on"
-							value="entry1/instrument/transformations/gamma" />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>0</value>
-								<value>1</value>
-								<value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="kgam">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/transformations:NXtransformations/gamma" />
-						<property name="depends_on" value="." />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>1</value>
-								<value>0</value>
-								<value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				<!-- Comment out kphi when USE_CRYO_GEOMETRY = True  -->
-				<entry key="kphi">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="sample:NXsample/transformations:NXtransformations/phi" />
-						<property name="depends_on"
-							value="entry1/sample/transformations/kappa" />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>0</value><value>1</value><value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="kap">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="sample:NXsample/transformations:NXtransformations/kappa" />
-						<property name="depends_on"
-							value="entry1/sample/transformations/theta" />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>0</value><value>0.64278761</value><value>-0.76604443</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="kth">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="sample:NXsample/transformations:NXtransformations/theta" />
-						<property name="depends_on"
-							value="entry1/sample/transformations/mu" />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list>
-								<list><value>0</value><value>1</value><value>0</value></list>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="kmu">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="sample:NXsample/transformations:NXtransformations/mu" />
-						<property name="depends_on"
-							value="." />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list>
-								<list><value>1</value><value>0</value><value>0</value></list>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				<!-- Comment out cryophi when USE_CRYO_GEOMETRY = False -->
-				<!-- uncomment when the NXMeta thing is fixed or cryophi is online
-				<entry key="cryophi">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-								value="sample:NXsample/transformations:NXtransformations/cryophi" />
-						<property name="depends_on"
-								value="entry1/sample/transformations/phi" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list>
-								<list><value>0.567744</value><value>-0.0003651</value><value>0.82389</value></list>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				-->
 				<entry key="x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -323,70 +360,6 @@
 			</set>
 		</property>
 	</bean>
-
-	<!-- Transform to test
-	<bean id="kgam_transform" class="org.eclipse.scanning.device.PositionerTransformationsAppender">
-		<property name="name" value="delta" />
-		<property name="transformation">
-			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="axisName" value="gamma" />
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
-				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
-				<property name="size" value="0" />
-				<property name="vector">
-					<list>
-						<value>0</value>
-						<value>1</value>
-						<value>0</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	 -->
-				<!-- 
-				<entry key="kgam">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-							value="instrument:NXinstrument/transformations:NXtransformations/gamma" />
-						<property name="depends_on" value="." />
-						<property name="transformation" value="rotation" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list><list>
-								<value>1</value>
-								<value>0</value>
-								<value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-				 -->
-
-	<!-- Transform to test
-	<bean id="kdelta_transform" class="org.eclipse.scanning.device.PositionerTransformationsAppender">
-		<property name="name" value="delta" />
-		<property name="transformation">
-			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="axisName" value="kdelta" />
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
-				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
-				<property name="size" value="0" />
-				<property name="vector">
-					<list>
-						<value>0</value>
-						<value>1</value>
-						<value>0</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	 -->
 
 	<!-- Not used
 				<property name="offset">
@@ -426,4 +399,155 @@
 					</bean>
 				</entry>
 	 -->
+	 
+<!-- 
+
+	private Set<String> metadataScannables;
+	private Map<String, ScannableWriter> locationMap;
+	private Map<String, Set<String>> metadataScannablesPerDetectorMap;
+	private List<String> nexusTemplateFiles;
+
+	private Map<String, String> metadata;
+
+		<property name="metadataScannablesPerDetectorMap">
+			<map>
+				<entry key="pil100k">
+					<set>
+						<value>pil100k</value>
+					</set>
+				</entry>
+				<entry key="pil3_100k">
+					<set>
+						<value>scannable</value>
+					</set>
+				</entry>
+				<entry key="merlin">
+					<set>
+					</set>
+				</entry>
+				<entry key="merlins">
+					<set>
+					</set>
+				</entry>
+			</map>
+		</property>
+							Add metadataScannablesPerDetectorMap and create a MetasataScannable?
+							Or just create and register a NexusMetadataAppender?
+							Maybe we can just link one node per detector & replace all of the template?
+							Maybe we can use locationMap to just put it in the correct place to start with?
+Example from i08
+		<property name="metadataScannablesPerDetectorMap">
+			<map>
+				<entry key="andor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+					</set>
+				</entry>
+				<entry key="_andorrastor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+					</set>
+				</entry>
+			</map>
+		</property>
+		<property name="locationMap">
+			<map>
+				<entry key="andorAccumulatePeriod">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/AccumulatePeriod" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorShutterMode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ShutterMode" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorExtShutterTrigger">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ExtShutterMode" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorPreampGain">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/PreampGain" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorADCSpeed">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ADCSpeed" />
+						<property name="units" value="MHz" />
+					</bean>
+				</entry>
+				<entry key="andorVerticalShiftSpeed">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftSpeed" />
+						<property name="units" value="us" />
+					</bean>
+				</entry>
+				<entry key="andorVerticalShiftAmplitude">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftAmplitude" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorEMCCDGain">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/EMCCDGain" />
+						<property name="units" value="" />
+					</bean>
+				</entry> 
+				<entry key="andorCoolerTemperature">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerTemperature" />
+						<property name="units" value="C" />
+					</bean>
+				</entry>
+				<entry key="andorCoolerControl">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerControl" />
+						<property name="units" value="" />
+					</bean>
+				</entry> 
+				<entry key="andorBinningSizeX">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeX" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorBinningSizeY">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeY" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+ -->
 </beans>

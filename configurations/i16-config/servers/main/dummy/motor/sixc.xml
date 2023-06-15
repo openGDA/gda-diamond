@@ -6,31 +6,37 @@
 	<bean id="sixcKphiMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcKappaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcKthMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcMuMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcDeltaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcGammaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="unitString" value="deg" />
 	</bean>
 
 	<bean id="sixcKthEpicsMotor"

@@ -16,7 +16,7 @@ entry1/: # A trailing / indicates that this is a group with an NX_class, but
         NX_class@: NXtransformations
         origin_offset:
           value: [1.0] # TRANSFORMATION_SIZE
-          depends_on@: entry1/instrument/transformations/offsetdelta
+          depends_on@: entry1/instrument/delta_axis_offset
           offset@: [0., 0., 0.] # TRANSFORMATION_OFFSET
           offset_units@: mm # TRANSFORMATION_OFFSET_UNITS
           transformation_type@: translation # TRANSFORMATION_TYPE
