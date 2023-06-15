@@ -72,11 +72,13 @@ def enable_arm_motion():
         caput("BL21I-MO-ARM-01:VERT", spech_val + 0.001)
 
 
-def check_armtth_and_move_sgmr1_if_required(motor, new_position):
-    if not move_within_limits(float(motor.getPosition()), float(new_position)):
-        raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), float(motor.getPosition()), new_position))
-    else:
-        found_range = find_range(float(motor.getPosition()), float(new_position))
+def check_armtth_and_move_sgmr1_if_required(motor, new_position):    
+    current_position = float(motor.getPosition())
+    demand_position = float(new_position)
+    if not move_within_limits(current_position, demand_position):
+        raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), current_position, demand_position))
+    elif not ((current_position < 60 and demand_position < 60) or (current_position > 80 and demand_position > 80)):
+        found_range = find_range(current_position, demand_position)
         if found_range is None:
             raise IllegalMoveException("Your requested move is outside the legal range limits %s" % (sorted(lookuptable.keys())))
         # check if sgmr1 is at safe position
@@ -97,19 +99,21 @@ def check_if_move_legal(motor, new_position):
     if motor is alltth:
         motor = motor.armtth # Only need to check armtth motor in the group alltth motor
         
-    if math.fabs(float(motor.getPosition()) - float(new_position)) <= MOTOR_POSITION_TOLERANCE:
+    current_position = float(motor.getPosition())
+    demand_position = float(new_position)
+    if math.fabs(current_position - demand_position) <= MOTOR_POSITION_TOLERANCE:
         print("Motor '%s' is already in position." % (motor.getName()))
         return True
     
     if motor is armtth:
         check_armtth_and_move_sgmr1_if_required(motor, new_position)    
-        if math.fabs(float(motor.getPosition()) - float(new_position)) > MOTOR_POSITION_TOLERANCE:
+        if math.fabs(current_position - demand_position) > MOTOR_POSITION_TOLERANCE:
             return False
         else:
             print("Motor '%s' is already in position." % (motor.getName()))
             return True
     elif motor is sgmr1:
-        if math.fabs(float(motor.getPosition()) - float(new_position)) > MOTOR_POSITION_TOLERANCE:
+        if math.fabs(current_position - demand_position) > MOTOR_POSITION_TOLERANCE:
             return False
         else:
             print("Motor '%s' is already in position." % (motor.getName()))
