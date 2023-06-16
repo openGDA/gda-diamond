@@ -190,7 +190,7 @@ print(" To manually switch off scan processor, run 'scan_processing_off()' funct
 scan_processing_off()
 
 #check beam scannables
-from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
+from scannabledevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 
 # from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport #this is reverted to before not monitor the scanner light
 

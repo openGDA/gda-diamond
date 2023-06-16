@@ -114,7 +114,7 @@ go(E_initial, pol_val)
 #########################################################
 
 from scannable.continuous.continuous_energy_scannables import draincurrent_c, diff1_c, fy2_c, m4c1_c, energy
-from scannabledevices.checkbeanscannables import checkbeamcv
+from scannabledevices.checkbeamscannables import checkbeamcv
 from scan.cvscan import cvscan
 
 for j in range(z_sample_iteration_number):

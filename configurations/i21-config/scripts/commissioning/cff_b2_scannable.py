@@ -27,7 +27,7 @@ class CoupledScannable(ScannableMotionBase):
         self.event = threading.Event()
 
         
-    def asynchrouoseMoveTo(self, cffval):        
+    def asynchronousMoveTo(self, cffval):        
         # use thread to not block this method
         th = threading.Thread(target=self.move_cff_update_b2shadow, args=(cffval,))
         #use threading event to share boolean status

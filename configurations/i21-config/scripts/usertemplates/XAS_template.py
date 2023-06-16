@@ -88,7 +88,7 @@ print("Data collections are order in list of (th, pol): %r" % collection_orders)
 #########  define fast XAS scan function (on the fly) ##################
 ########################################################################
 def fast_energy_scan_collection(thval, polval):
-    from scannabledevices.checkbeanscannables import checkbeamcv
+    from scannabledevices.checkbeamscannables import checkbeamcv
     from gdaserver import th # @UnresolvedImport
     from scannable.continuous.continuous_energy_scannables import draincurrent_c, diff1_c, fy2_c, m4c1_c, energy
     from scan.cvscan import cvscan
@@ -105,7 +105,7 @@ def fast_energy_scan_collection(thval, polval):
 #########  define slow XAS scan function (step mode)  ##################
 ########################################################################
 def slow_energy_scan_collection(thval, polval):
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from gdaserver import th, m4c1 # @UnresolvedImport
     from scannable.continuous.continuous_energy_scannables import energy
     from gdascripts.scan.installStandardScansWithProcessing import scan

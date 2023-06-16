@@ -270,7 +270,7 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
     from i21commands.checkedMotion import move
     from gdascripts.metadata.nexus_metadata_class import meta
     from acquisition.acquire_images import acquireRIXS
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from acquisition.darkImageAcqusition import remove_dark_image_link, add_dark_image_link
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
 

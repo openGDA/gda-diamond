@@ -229,7 +229,7 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 ##########################################################################
 def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time):
     from gdaserver import xyz_stage, m4c1  # @UnresolvedImport
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image   
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected
     
@@ -249,7 +249,7 @@ def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time)
 
 def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_time, dark_image_filename):
     from gdaserver import xyz_stage, m4c1  # @UnresolvedImport
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from acquisition.acquire_images import acquireRIXS
     from acquisition.darkImageAcqusition import add_dark_image_link
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected

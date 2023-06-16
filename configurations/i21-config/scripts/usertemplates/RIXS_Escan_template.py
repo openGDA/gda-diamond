@@ -172,7 +172,7 @@ def collect_data(ctape, sample, point_list, det, dark_image_filename):
     '''
     from acquisition.acquire_images import acquireRIXS
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from utils.ScriptLogger import SinglePrint
     from time import sleep
     from gdaserver import th, m4c1, xyz_stage, pgmEnergy, spech  # @UnresolvedImport

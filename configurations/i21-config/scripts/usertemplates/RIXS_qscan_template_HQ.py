@@ -253,7 +253,7 @@ number_of_images_to_be_collected = total_number_of_images_to_be_collected
 def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, det, dark_image_filename):
     from acquisition.acquire_images import acquireRIXS
     from acquisition.acquireCarbonTapeImages import acquire_ctape_image, remove_ctape_image
-    from scannabledevices.checkbeanscannables import checkbeam
+    from scannabledevices.checkbeamscannables import checkbeam
     from gdascripts.metadata.nexus_metadata_class import meta
     from gdaserver import xyz_stage, th, m4c1, phi, chi  # @UnresolvedImport
     from acquisition.darkImageAcqusition import add_dark_image_link, remove_dark_image_link

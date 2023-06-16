@@ -6,5 +6,6 @@
 	<bean id="gv17" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL21I-VA-VALVE-17" />
 	</bean>
-
+	<bean id="gv16" class="gda.device.enumpositioner.DummyValve">
+	</bean>
 </beans>
