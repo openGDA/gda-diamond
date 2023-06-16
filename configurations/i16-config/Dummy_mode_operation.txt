@@ -1,12 +1,14 @@
 --------------------------------------------------------------------------------
 Running GDA in dummy mode on i16
 --------------------------------------------------------------------------------
+1) Activemq
+
 To run in dummy mode from the IDE, you need to use:
 
 activemq-for-dummy
 
 --------------------------------------------------------------------------------
-#### To run up the Simulated Area Detector ####
+2) Simulated Area Detector
 
 Diamond Launcher > Utilities > GDA AreaDetector Simulation
 
@@ -15,6 +17,26 @@ Then click on "Start IOC".
 Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
 
 --------------------------------------------------------------------------------
+3) Simulation ports
+
+Make sure that the dummy JCALibrary.properties has server_port = 6064 and 
+repeater_port = 6065 rather than 5064 & 5065, which are the ports for live
+beamline pVs.
+
+Dummy mode is also used for the lab, where live PVs are needed, so in order to
+run in a real simulation dummy mode, we need to switch to it explicitly on i16.
+
+--------------------------------------------------------------------------------
+4) Nexus Data Writer
+
+Depending on the tests to be run, check the gda.data.scan.datawriter.dataFormat
+property in the dummy_instance_java.properties file.
+
+Select NexusDataWriter or NexusScanDataWriter and this will cause the correct
+profile to be selected via the gda.spring.profiles.active property.
+
+--------------------------------------------------------------------------------
+
 Run a few scans to check basic operation
 
 scan stokes 1 2 1	# Check out a standard GDA scannable dummy motor
