@@ -97,3 +97,5 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
                 raise #this is getting silly
             return self.lastReadout
 
+    def setHardwareTriggeredDetector(self, b):
+        self.hardware_triggered_detector = b

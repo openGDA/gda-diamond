@@ -20,9 +20,10 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from scannable.pilatus import PilatusThreshold, PilatusGain
 from gdaserver import pilatus3, pilatus3_for_snaps, kphiZebraPil3  # @UnresolvedImport
+import localStationConfiguration  # @UnresolvedImport #at /dls_sw/i16/scripts/
 
 if installation.isLive():
-    from gdaserver import kthZebraPil3, smargonZebraPil3  # @UnresolvedImport
+    from gdaserver import kthZebraPil3  # @UnresolvedImport #this object is not defined in dummy Spring bean
 
 if installation.isLive():
     from localStationScripts.startup_epics_positioners import x1
@@ -31,6 +32,8 @@ else:
     x1=x1_ttl=DummyScannable("x1_ttl", 0)
 
 localStation_print("Configuring pilatus 3 (100k)")
+from org.slf4j import LoggerFactory
+logger = LoggerFactory.getLogger(__name__)
 
 try:
     _pilatus3_counter_monitor = Finder.find("pilatus3_plugins").get('pilatus3_counter_monitor')
@@ -39,7 +42,6 @@ try:
         pilatus3,
         kphiZebraPil3, # Switch to kthZebraPil3 if needed
         #kthZebraPil3, # Should normally be kphiZebraPil3
-        #smargonZebraPil3, # Should normally be kphiZebraPil3
         pilatus3_for_snaps,
         [],
         panel_name_rcp='Pilatus',
@@ -49,7 +51,14 @@ try:
         fileLoadTimout=60,
         returnPathAsImageNumberOnly=True,
         array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
-
+    
+    if localStationConfiguration.USE_SMARGON:
+        smargonZebraPil3 = Finder.find("smargonZebraPil3")
+        if smargonZebraPil3:
+            pil3_100k.setHardwareTriggeredDetector(smargonZebraPil3)
+        else:
+            logger.error("Cannot find 'smargonZebraPil3' in GDA server")
+            raise NameError("Cannot find object named 'smargonZebraPil3' in GDA server")
     #pil3_100ks = DetectorWithShutter(pil3_100k, x1, X1_DELAY, nameSuffix="")
     # With ^ the Nexus file ends up with a pil3_100ks node but the link writer inside NxProcessingDetectorWrapper fails with
     #   KeyError: "Unable to open object (object 'pil3_100k' doesn't exist)"
