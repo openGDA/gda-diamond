@@ -72,26 +72,34 @@ def enable_arm_motion():
         caput("BL21I-MO-ARM-01:VERT", spech_val + 0.001)
 
 
+def move_sgmr1(current_position, demand_position):
+    found_range = find_range(current_position, demand_position)
+    if found_range is None:
+        raise IllegalMoveException("Your requested move is outside the legal range limits %s" % (sorted(lookuptable.keys())))
+    # check if sgmr1 is at safe position
+    sgmr1_current = float(sgmr1.getPosition())
+    if not is_sgmr1_in_range(sgmr1_current, found_range):
+        if (math.fabs(sgmr1_current - lookuptable[found_range][0]) < math.fabs(sgmr1_current - lookuptable[found_range][1])):
+            sgmr1.moveTo(lookuptable[found_range][0] + 1.0)
+            print('sleep 1 second after sgmr1 move')
+            sleep(1)
+        else:
+            sgmr1.moveTo(lookuptable[found_range][1] - 1.0)
+            print('sleep 1 second after sgmr1 move')
+            sleep(1)
+
+
 def check_armtth_and_move_sgmr1_if_required(motor, new_position):    
     current_position = float(motor.getPosition())
     demand_position = float(new_position)
     if not move_within_limits(current_position, demand_position):
         raise IllegalMoveException("Cannot move across region limits %s from %f to %f" % (sorted(lookuptable.keys()), current_position, demand_position))
-    elif not ((current_position < 60 and demand_position < 60) or (current_position > 80 and demand_position > 80)):
-        found_range = find_range(current_position, demand_position)
-        if found_range is None:
-            raise IllegalMoveException("Your requested move is outside the legal range limits %s" % (sorted(lookuptable.keys())))
-        # check if sgmr1 is at safe position
-        sgmr1_current = float(sgmr1.getPosition())
-        if not is_sgmr1_in_range(sgmr1_current, found_range):
-            if (math.fabs(sgmr1_current - lookuptable[found_range][0]) < math.fabs(sgmr1_current - lookuptable[found_range][1])):
-                sgmr1.moveTo(lookuptable[found_range][0] + 1.0)
-                print('sleep 1 second after sgmr1 move')
-                sleep(1)
-            else:
-                sgmr1.moveTo(lookuptable[found_range][1] - 1.0)
-                print('sleep 1 second after sgmr1 move')
-                sleep(1)
+    elif (current_position < 60 and demand_position < 60) or (current_position > 80 and demand_position > 80):
+        return
+    elif (current_position < 60 and demand_position > 80) or (current_position > 80 and demand_position < 60):
+        move_sgmr1(current_position, demand_position)
+    elif (current_position >= 60 and current_position <= 80) or (demand_position >= 60 and demand_position <= 80):
+        move_sgmr1(current_position, demand_position)
 
 def check_if_move_legal(motor, new_position):
     '''check motor limits using lookup table data. this is to work around the issues related to motion stuck problems
