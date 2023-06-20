@@ -37,8 +37,6 @@ try:
     ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
     d1locum = DisplayEpicsPVClass("d1locum", "BL15J-EA-IAMP-02:CHA:PEAK", "mV", "%f")
     d2locum = DisplayEpicsPVClass("d2locum", "BL15J-EA-IAMP-02:CHB:PEAK", "mV", "%f")
-    d1 = DisplayEpicsPVClass("d1", "BL15J-EA-ADC-01:STAT4:MeanValue_RBV", "V", "%f")
-    d2 = DisplayEpicsPVClass("d2", "BL15J-EA-ADC-01:STAT5:MeanValue_RBV", "V", "%f")
 
     from mapping_scan_commands import *
     print "Imported mapping_scan_commands"
@@ -225,17 +223,6 @@ try:
         print "*"*80
 
         pass
-
-        from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
-
-        testRunnableDeviceProxyFinder = Finder.find("testRunnableDeviceProxyFinder")
-        testRunnableDeviceProxy = testRunnableDeviceProxyFinder.getRunnableDevice()
-
-        testJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(testRunnableDeviceProxy)
-        testRunnableDeviceProxy.setDelegate(testJythonRunnableDeviceDelegate)
-        testRunnableDeviceProxy.register()
-
-        print "Configured test runnable device"
 
         print "*"*80
         print "Dummy mode specific setup - End"
