@@ -1849,6 +1849,7 @@ if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_DIFFCALC")
 	add_constraints_metadata_handler(dscan.scanListeners)
 	add_constraints_metadata_handler(d2scan.scanListeners)
 	add_constraints_metadata_handler(d3scan.scanListeners)
+	add_constraints_metadata_handler(scancn.scanListeners)	
 	update_constraints_in_metadata()
 	alias("update_constraints_in_metadata")
 
