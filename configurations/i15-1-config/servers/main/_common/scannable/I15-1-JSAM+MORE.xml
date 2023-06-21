@@ -1,23 +1,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd"
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"
 	profile="trans">
 
-	<bean id="transX" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="transX_motor" />
-	</bean>
-
-	<bean id="transPhi" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="deg"/>
-		<property name="motor" ref="transPhi_motor" />
-	</bean>
+	<gda:motor id="transX"   live-pvName="BL15J-MO-TABLE-01:TRANS:X" />
+	<gda:motor id="transY"   live-pvName="BL15J-MO-TABLE-01:TRANS:Y" />
+	<gda:motor id="transPhi" live-pvName="BL15J-MO-TABLE-01:TRANS:PHI" />
 
 	<bean id="trans" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="transX" />
+				<ref bean="transY" />
 				<ref bean="transPhi" />
 			</list>
 		</property>
