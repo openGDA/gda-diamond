@@ -2,6 +2,7 @@ import java, sys, time, subprocess
 
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
+from gdascripts.installation import isDummy
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
@@ -9,6 +10,7 @@ from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildIm
 from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled, is_watchdog_pausing # @UnusedImport
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
+from gda.configuration.properties import LocalProperties
 from gda.factory import Finder
 
 global run
@@ -21,10 +23,8 @@ def localStation_exception(exc_info, msg):
     localStation_exceptions.append("    %s" % msg)
     log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
-from gda.configuration.properties import LocalProperties
-dummy_mode = (LocalProperties.get('gda.mode') == u'dummy')
-print "dummy_mode=%r" % dummy_mode
-    
+print "dummy_mode=%r" % isDummy()
+
 try:
     simpleLog("%s ================ INITIALISING I15-1 GDA ================" % time.strftime("%Y-%m-%d %H:%M"))
 
@@ -217,7 +217,7 @@ try:
 
     print "Configured blower runnable device"
 
-    if dummy_mode:
+    if isDummy():
         print "*"*80
         print "Dummy mode specific setup - Start"
         print "*"*80
@@ -238,7 +238,7 @@ try:
         """
         print subprocess.check_output(['bash','-c', 'ps huxH | wc -l'])
 
-    alias checkthreads
+    alias(checkthreads)
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
