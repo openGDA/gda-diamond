@@ -18,17 +18,6 @@
 		<property name="motor" ref="idenergy_motor" />
 	</bean>
 
-	<!-- Phase motors -->
-	<bean id="phase_top" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="phase_top_motor" />
-	</bean>
-
-	<bean id="phase_bottom" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="phase_bottom_motor" />
-	</bean>
-
 	<!-- Move both phase motors to the same position -->
 	<bean id="phase" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">

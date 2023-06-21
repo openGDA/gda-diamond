@@ -23,20 +23,12 @@
 	</bean>
 
 	<!-- Phase motors -->
-	<bean id="phase_top_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-30.0" />
-		<property name="maxPosition" value="30.0" />
-		<property name="position" value="0.003" />
-	 	<property name="unitString" value="mm"/>
-	 	<property name="speed" value="10"/>
+	<bean id="phase_top" class="gda.device.scannable.DummyScannable">
+	 	<property name="name" value="phase_top" />
 	 </bean>
 
-	<bean id="phase_bottom_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-30.0" />
-		<property name="maxPosition" value="30.0" />
-		<property name="position" value="0.002" />
-	 	<property name="unitString" value="mm"/>
-	 	<property name="speed" value="10"/>
+	<bean id="phase_bottom" class="gda.device.scannable.DummyScannable">
+	 	<property name="name" value="phase_bottom" />
 	 </bean>
 
 	<bean id="bda_x_motor" class="gda.device.motor.DummyMotor">
