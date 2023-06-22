@@ -126,9 +126,7 @@
 		<property name="name" value="cryophi" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kphi" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -146,9 +144,7 @@
 		<property name="name" value="kphi" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kap" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -166,9 +162,7 @@
 		<property name="name" value="kap" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kth" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -186,9 +180,7 @@
 		<property name="name" value="kth" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kmu" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -206,9 +198,7 @@
 		<property name="name" value="kmu" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="." />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -228,9 +218,7 @@
 		<property name="name" value="delta_axis_offset" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kdelta" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -248,9 +236,7 @@
 		<property name="name" value="kdelta" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="entry1/instrument/kgam" />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -268,9 +254,7 @@
 		<property name="name" value="kgam" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type">
-					<value type="org.eclipse.scanning.device.Transformation.TransformationType">ROTATION</value>
-				</property>
+				<property name="type" value="ROTATION" />
 				<property name="dependsOn" value="." />
 				<property name="size" value="0" />
 				<property name="vector">
@@ -361,45 +345,6 @@
 		</property>
 	</bean>
 
-	<!-- Not used
-				<property name="offset">
-					<list>
-						<value>0</value>
-						<value>1</value>
-						<value>0</value>
-					</list>
-				</property>
-				<property name="offsetUnits" value="deg" />
-
-	Example Transformation from unit test
-		Transformation(String axisName, TransformationType type, String dependsOn,
-			double size, double[] vector, double[] offset, String offsetUnits) {
-
-		private static final Transformation POSITIONER_TRANSFORMATION = new Transformation(
-			"theta", ROTATION, "phi", 0.0, new double[] { 0.67, 0, -0.33 },
-			new double[] { 1.23, 4.56, 7.89  }, "mm");
-	
-	Original TransformationWriter bean
-			Y	<entry key="kdelta">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-			N			<property name="paths"
-							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
-																							Transformations get added to the scannable, not a specific place
-			Y			<property name="depends_on"
-							value="entry1/instrument/transformations/gamma" />
-			Y			<property name="transformation" value="rotation" />
-			N			<property name="units" value="deg" />					This is the unit of the scannable, not the offset units of the transformation
-			Y			<property name="vector">
-							<list><list>
-								<value>0</value>
-								<value>1</value>
-								<value>0</value>
-							</list></list>
-						</property>
-					</bean>
-				</entry>
-	 -->
-	 
 <!-- 
 
 	private Set<String> metadataScannables;
