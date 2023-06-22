@@ -58,16 +58,10 @@
 		<property name="xspress3Controller" ref="xspress3Controller" />
 		<property name="detectorNames" ref="xspress3DetectorNames"/>
 	</bean>
-
-	<bean id="vmaSnapshotCollector" class="uk.ac.diamond.daq.scanning.CalibrationFrameCollector" init-method="register">
+	
+	<bean id="vmaSnapshotCollector" class="uk.ac.diamond.daq.scanning.DetectorCollectionScannable" init-method="register">
 		<property name="name" value="vmaSnapshotCollector" />
-		<property name="snapshotDetectors" ref="snapshotDetectors" >
-		</property>
-		<property name="beamlineConfiguration">
-			<map>
-			</map>
-		</property>
-		<property name="nexusFieldName" value="snapshot" />
+		<property name="detector" ref="VMA"/>
 	</bean>
 
 </beans>
