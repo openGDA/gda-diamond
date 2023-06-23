@@ -6,52 +6,52 @@
 
 <!-- Left Mirror -->
 	<bean id="m5hqxt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:X" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:X" />
 	</bean>
 
 	<bean id="m5hqyt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:Y" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:Y" />
 	</bean>
 
 	<bean id="m5hqzt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:Z" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:Z" />
 	</bean>
 
 	<bean id="m5hqrxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:RX" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:RX" />
 	</bean>
 
 	<bean id="m5hqryMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:RY" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:RY" />
 	</bean>
 
 	<bean id="m5hqrzMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-03:M5HQ:RZ" />
+		<property name="pvName" value="BL21I-MO-POD-02:M5HQ:RZ" />
 	</bean>
 
 <!-- Right Mirror -->
 	<bean id="m5lqxt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:X" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:X" />
 	</bean>
 
 	<bean id="m5lqyt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:Y" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:Y" />
 	</bean>
 
 	<bean id="m5lqzt" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:Z" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:Z" />
 	</bean>
 
 	<bean id="m5lqrxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:RX" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:RX" />
 	</bean>
 
 	<bean id="m5lqryMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:RY" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:RY" />
 	</bean>
 
 	<bean id="m5lqrzMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-POD-02:M5LQ:RZ" />
+		<property name="pvName" value="BL21I-MO-POD-03:M5LQ:RZ" />
 	</bean>
 
 	<!-- M5 stage -->
