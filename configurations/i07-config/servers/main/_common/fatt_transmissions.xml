@@ -5,7 +5,7 @@
 
 	<bean id="transmissions_lookup_table" class="gda.function.lookup.LookupTable">
 		<property name="name" value="transmissions_lookup_table" />
-		<property name="filename" value="/dls_sw/i07/var/fastAttenuatorFilterTable.txt" />
+		<property name="filename" value="${gda.var}/fastAttenuatorFilterTable.txt" />
 		<property name="columnHead" value="Column" />
 		<property name="columnUnit" value="Units" />
 	</bean>
