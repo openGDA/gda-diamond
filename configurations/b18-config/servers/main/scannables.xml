@@ -12,14 +12,14 @@
     <gda:motor id="fluoDist" live-pvName="BL18B-EA-GEDET-01:DIST" />
     <gda:motor id="vortexDist" live-pvName="BL18B-EA-SIDET-01:DIST" />
     <gda:motor id="pilatusAngle" live-pvName="BL18B-EA-PILAT-01:DIST" />
-    <gda:motor id="sampleStageX" live-pvName="BL18B-EA-USER-11:LONGX" />
-    <gda:motor id="sampleStageY" live-pvName="BL18B-EA-USER-11:LONGY" />
+    <gda:motor id="longX" live-pvName="BL18B-EA-USER-11:LONGX" />
+    <gda:motor id="longY" live-pvName="BL18B-EA-USER-11:LONGY" />
     <gda:motor id="frameX" live-pvName="BL18B-EA-USER-11:FRAMEX" />
     <gda:motor id="frameY" live-pvName="BL18B-EA-USER-11:FRAMEY" />
     <gda:motor id="gasX" live-pvName="BL18B-EA-USER-07:GASX" />
     <gda:motor id="gasY" live-pvName="BL18B-EA-USER-07:GASY" />
-    <gda:motor id="sxRot" live-pvName="BL18B-EA-USER-07:ANGLE" />
-    <gda:motor id="sxY" live-pvName="BL18B-EA-USER-07:Y" />
+    <gda:motor id="chamberRot" live-pvName="BL18B-EA-USER-07:ANGLE" />
+    <gda:motor id="chamberY" live-pvName="BL18B-EA-USER-07:Y" />
     <gda:motor id="sam1x" live-pvName="BL18B-EA-SAMPL-01:X" />
     
 <!-- s5 slit scannables  -->
@@ -639,12 +639,11 @@
 		<property name="control" ref="A3" />
 	</bean>
 
-	<bean id="dummy_energy_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000" />
-	</bean>
+
+	<gda:motor id="dummy_energy_motor" live-class="#dummy" />
 
 	<bean id="dummy_qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="dummy_energy_motor" />
+		<property name="delegateScannable" ref="dummy_energy_motor" />
 		<property name="lowerGdaLimits" value="-100000" />
 		<property name="upperGdaLimits" value="100000" />
 		<property name="outputFormat">

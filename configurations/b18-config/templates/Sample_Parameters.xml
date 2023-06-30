@@ -102,14 +102,14 @@
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>sxRot</scannableName>
-        <description>Soft x-ray Rotation</description>
+        <scannableName>chamberRot</scannableName>
+        <description>Chamber Rotation</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>sxY</scannableName>
-        <description>Soft x-ray Y</description>
+        <scannableName>chamberY</scannableName>
+        <description>Chamber Y</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
@@ -144,14 +144,14 @@
         <demandPosition>3.00001</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>sampleStageX</scannableName>
-        <description>Sample stage X</description>
+        <scannableName>longX</scannableName>
+        <description>Long range X</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>sampleStageY</scannableName>
-        <description>Sample stage Y</description>
+        <scannableName>longY</scannableName>
+        <description>Long range Y</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
@@ -178,6 +178,12 @@
         <description>Si detector distance</description>
         <doMove>false</doMove>
         <demandPosition>-150.0</demandPosition>
+    </sampleParameterMotorPosition>
+        <sampleParameterMotorPosition>
+        <scannableName>pilatusAngle</scannableName>
+        <description>Pilatus angle</description>
+        <doMove>false</doMove>
+        <demandPosition>0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>meca_sample_control</scannableName>

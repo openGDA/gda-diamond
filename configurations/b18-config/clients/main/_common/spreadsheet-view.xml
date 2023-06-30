@@ -51,7 +51,7 @@
 				Selection should match name of one of the detectorGroups in DetectorParameters XML file.
 				-->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Detector selection (Xspress2, XMap etc)" />
+					<property name="description" value="Detector selection (Xspress3, XMap etc)" />
 					<property name="fullPathToGetter" value="getFluorescenceParameters.getDetectorType" />
 					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
 					<property name="allowedValues">
@@ -60,7 +60,8 @@
 							<value>XMap</value>
 							<value>Xspress2</value>
 							<value>Xspress3</value>
-							<value>Xspress4</value>
+							<value>Xspress3X</value>
+							<value>Xspress4Odin</value>
 							<value>Medipix</value>
 						</list>
 					</property>
