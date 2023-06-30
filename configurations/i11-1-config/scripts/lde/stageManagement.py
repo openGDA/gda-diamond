@@ -12,13 +12,13 @@ ALL_STAGES = [ms1, ms2, ms3, ms4, ss1, ss2, ss3, ss4, ss5, rs]
 
 def parkStages(*stages):
     logger.debug('Parking stages: %s', ', '.join(s.name for s in stages))
-    moves = [Async.submit(lambda s=stage:s.XMotor(s.parkPosition)) for stage in stages]
+    moves = [Async.submit(lambda s=stage:s.XMotor(s.parkPosition)) for stage in stages if not stage.isParked()]
     waitForAll(moves)
     logger.debug('Stages parked')
 
 def engageStages(*stages):
     logger.debug('Engaging stages: %s', ', '.join(s.name for s in stages))
-    moves = [Async.submit(lambda s=stage:s.XMotor(s.engagePosition)) for stage in stages]
+    moves = [Async.submit(lambda s=stage:s.XMotor(s.engagePosition)) for stage in stages if not stage.isEngaged()]
     waitForAll(moves)
     logger.debug('Stages engaged')
 
@@ -31,7 +31,7 @@ def engageUpTo(stage):
         raise ValueError('stage is not recognised')
     logger.debug('Engaging up to stage %s', stage.name)
     idx = ALL_STAGES.index(stage) + 1
-    stages_to_park = [st for st in ALL_STAGES[idx:] if not st.isParked()]
+    stages_to_park = [st for st in ALL_STAGES[idx:]]
     parkStages(*stages_to_park)
 
     logger.debug('Moving detector to %d', stage.detectorPosition)
