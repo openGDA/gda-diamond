@@ -66,7 +66,7 @@ public class I18Validator extends ExafsValidator {
 		}
 
 		if (s.getName().compareTo("name") == 0) {
-			errors.add(new InvalidBeanMessage(WarningType.HIGH, "Sample Name has not been set in " + bean.getSampleFileName()));
+			errors.add(new InvalidBeanMessage(WarningType.LOW, "Sample Name has not been set in " + bean.getSampleFileName()));
 		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())) {
 			errors.add(new InvalidBeanMessage(WarningType.HIGH, "The given Sample Name in " + bean.getSampleFileName()
 					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
