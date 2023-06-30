@@ -132,7 +132,7 @@
 		<property name="detectorGroup" ref="upper_detectorMotors" />
 		<property name="crystalsGroup" ref="upper_spectrometerCrystals" />
 		<property name="crystalsAllowedToMove" ref="upper_crystalsAllowedToMove" />
-		<property name="trajectoryStepSize" value="0.1" />
+		<property name="trajectoryStepSize" value="0.02" />
 		<property name="horizontalCrystalOffset" value="130" />
 		<property name="absoluteXPos" value="true" />
 		<property name="detectorAxisAngle" value="-20" />
