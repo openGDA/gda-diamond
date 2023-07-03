@@ -13,5 +13,17 @@
 		<property name="name" value="beam" />
 		<property name="beamSize" value="50" />
 	</bean>
+	
+	
+	<!-- Watchdogs -->
+	<bean id="fe_shutter_open" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate" >
+		<property name="name" value="fe_checker" />
+		<property name="model">
+			<bean class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
+				<property name="expression" value="fe_shutter.equalsIgnoreCase('Open')" />
+				<property name="message" value="Front end shutter is closed" />
+			</bean>
+		</property>
+	</bean>
 
 </beans>

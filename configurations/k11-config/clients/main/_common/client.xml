@@ -41,4 +41,7 @@
 	<import resource="mapping.xml"/>
 
 	<import resource="experiment.xml" />
+	
+	<bean class="uk.ac.diamond.daq.beamline.k11.command.ToggleWatchdogsOnTestModeToggled" init-method="attachListener" />
+	
 </beans>

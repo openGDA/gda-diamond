@@ -33,7 +33,7 @@ else:
     pco_gas_controller = DummyValveController("PCO gas")
     kb_gas_controller = DummyValveController("KB gas")
     
-    waiter = DummyWaiter(60)
+    waiter = DummyWaiter(0)
 
 
 pco_gas_controller.configure()
