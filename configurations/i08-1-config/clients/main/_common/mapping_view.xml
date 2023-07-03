@@ -49,8 +49,10 @@
  							</bean>
  							<bean class="uk.ac.diamond.daq.mapping.ui.PolarisationSubmitScanSection">
  								<constructor-arg name="scriptFilePath" value="polarisation/run_polarisation.py" />
+ 								<constructor-arg name="energyName" value="energyFocus" />
 							 	<property name="description" value="Polarisation scan" />
  								<property name="buttonText" value="Submit Polarisation scan" />
+ 								<property name="mappingSection" ref="polarisationSection" />
  							</bean>
 						</list>
 					</property>
