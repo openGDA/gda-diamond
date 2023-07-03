@@ -4,6 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="file://${gda.facility.dir}/clients/_common/mapping_controllers.xml" />
+	
+	<bean id="polarisationSection" class="uk.ac.diamond.daq.mapping.ui.xanes.PolarisationSection">
+		<property name="edgeToPhase" ref="edgeToPhasePosition" />
+		<property name="polarisationToPhase" ref="polarisationToPhasePosition" />
+	</bean>
 
 	<!-- Mapping view for I08-1 -->
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
@@ -20,6 +25,7 @@
 					<property name="collectDarkByDefault" value="true" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
+				<ref bean="polarisationSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.NexusTemplatesSection" />
@@ -40,6 +46,11 @@
  								<property name="submitScanButtonColour" value="BLUE" />
  								<property name="scriptFilePath" value="scanning/submit_energy_scan.py" />
  								<property name="outerScannableName" value="energyFocus" />
+ 							</bean>
+ 							<bean class="uk.ac.diamond.daq.mapping.ui.PolarisationSubmitScanSection">
+ 								<constructor-arg name="scriptFilePath" value="polarisation/run_polarisation.py" />
+							 	<property name="description" value="Polarisation scan" />
+ 								<property name="buttonText" value="Submit Polarisation scan" />
  							</bean>
 						</list>
 					</property>
