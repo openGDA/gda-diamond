@@ -10,7 +10,7 @@
 	<!-- Beans referenced in the mapping view configurations for I08 & I08-1 -->
 
 	<!-- Mapping of absorption edge (as configured in elementAndEdgesList above) to required phase motor position -->
-	<util:map id="edgeToPhasePosition"
+	<util:map id="edgeToPhase"
 		map-class="java.util.HashMap" key-type="java.lang.String"
 		value-type="java.lang.Double">
 		<entry key="O-K" value="17.8" />
@@ -20,7 +20,7 @@
 		<entry key="Cu-L" value="18.8" />
 	</util:map>
 	
-	<util:map id="polarisationToPhasePosition"
+	<util:map id="polarisationToPhase"
 		map-class="java.util.HashMap"
 		key-type="uk.ac.diamond.daq.mapping.api.PolarisationParameters.Polarisation"
 		value-type="java.lang.Double">
