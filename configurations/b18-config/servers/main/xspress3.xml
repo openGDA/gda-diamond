@@ -41,6 +41,7 @@
 		<property name="tfgFFI0" ref="xspress3XFFI0" />
 		<property name="configFileName" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 		<property name="deadtimeFileName" value="${gda.config}/templates/Xspress3X_DTC_params_ME7.xml" />
+		<property name="triggerModeForScans" value="3" /> <!--  0 = software trigger mode, 3 = TTL veto -->
 	</bean>
 
 	<bean id="xspress3XFFI0" class="gda.device.detector.TfgFFoverI0">

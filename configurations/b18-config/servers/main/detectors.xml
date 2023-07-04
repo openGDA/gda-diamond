@@ -168,7 +168,7 @@
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>
-				<value>%6.5g</value>
+				<value>%g</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -187,21 +187,21 @@
 				<!-- I0 -->
 				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
 					<property name="label" value="I0" />
-					<property name="format" value="%6.5g" />
+					<property name="format" value="%.0f" />
 					<property name="channel1" value="0" />
 				</bean>
 
 				<!-- It -->
 				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
 					<property name="label" value="It" />
-					<property name="format" value="%9d" />
+					<property name="format" value="%.0f" />
 					<property name="channel1" value="1" />
 				</bean>
 
 				<!-- IRef -->
 				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
 					<property name="label" value="IRef" />
-					<property name="format" value="%9d" />
+					<property name="format" value="%.0f" />
 					<property name="channel1" value="2" />
 				</bean>
 
@@ -226,7 +226,7 @@
 				<!-- Iapd -->
 				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
 					<property name="label" value="Iapd" />
-					<property name="format" value="%9d" />
+					<property name="format" value="%.0f" />
 					<property name="channel1" value="3" />
 				</bean>
 				

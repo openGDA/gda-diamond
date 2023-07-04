@@ -10,6 +10,22 @@
 		<property name="gripperStatus" ref="meca_gripper_status_word"/>
 	</bean>
 
+	<bean id="meca_pose_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="meca_pose_x" />
+				<ref bean="meca_pose_y" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="meca_move_pose_xy" class="gda.device.robot.MecaRobotMover">
+		<property name="robotSetpointScannable" ref="meca_pose_xy" />
+		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
+		<property name="startMoveScannable" ref="meca_move_linear" />
+		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+
 	<bean id="meca_move_pose_x" class="gda.device.robot.MecaRobotMover">
 		<property name="robotSetpointScannable" ref="meca_pose_x" />
 		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
