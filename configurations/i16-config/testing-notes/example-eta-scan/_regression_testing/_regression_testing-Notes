@@ -16,7 +16,7 @@ Scan		Configuration	Dummy	Det.	Notes
 2023030131	NSD				Dummy	pil3	pil3_100k nodes confirmed
 2023030132	NSD				Dummy	merlin	merlins nodes confirmed, but merlinroi2 no longer exists
 2023030134	NSD				Dummy	merlins	merlins noes confirmed
-
+2023060051	nsd				Dummy	pil3	Use PositionerTransformationsAppender not TransformationWriter
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	DWE	DataWriterExtender			T	Template

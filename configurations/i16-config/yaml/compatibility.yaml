@@ -15,7 +15,7 @@ entry1/:
   # depends_on in sample.
   sample/:
     NX_class@: NXsample
-    depends_on: /entry1/sample/transformations/phi
+    depends_on: /entry1/instrument/kphi/value
 
   # The primary location of before_scan moved to /entry1/classic_scan from
   # /entry1/ so temporarily link it back to it's original location.
