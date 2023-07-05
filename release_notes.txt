@@ -1,2 +1,0 @@
-I10-624 Scan Data file not close properly when missing one data point (2023-03-29)
-I10-624 Scan Data file not close properly when missing one data point (2023-03-28)
