@@ -12,7 +12,7 @@ from time import sleep
 from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
-from gdaserver import ebe
+from gdaserver import ebe, pilatus2_mask, pilatus3_mask, excalibur_mask
 
 
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
