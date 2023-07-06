@@ -1,5 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
@@ -24,6 +25,25 @@
 		<property name="copyPositionsScannable" ref="meca_copy_readbacks" />
 		<property name="startMoveScannable" ref="meca_move_linear" />
 		<property name="statusChecker" ref="meca_status_checker" />
+	</bean>
+	
+	<util:list id="origin_vals">
+		<value>-186.875</value>
+		<value>73.583</value>
+	</util:list>
+
+	<bean id="meca_move_pose_lab_x" class="gda.device.robot.RotatedXyScannable">
+		<property name="xYScannable" ref="meca_move_pose_xy" />
+		<property name="componentNumber" value="0" />
+		<property name="angle" value="26" />
+		<property name="origin" ref="origin_vals" />
+	</bean>
+
+	<bean id="meca_move_pose_lab_y" class="gda.device.robot.RotatedXyScannable">
+		<property name="xYScannable" ref="meca_move_pose_xy" />
+		<property name="componentNumber" value="1" />
+		<property name="angle" value="26" />
+		<property name="origin" ref="origin_vals" />
 	</bean>
 
 	<bean id="meca_move_pose_x" class="gda.device.robot.MecaRobotMover">
