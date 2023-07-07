@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="cryoi16_controller" class="gda.device.temperature.CryoController">
+		<property name="configureAtStartup" value="true" />
+		<property name="pvRoot" value="BL16B-EA-CSTRM-02" />
+	</bean>
+
+	<bean id="cryoi16" class="gda.device.temperature.OxfordCryostream700">
+		<property name="configureAtStartup" value="true"/>
+		<property name="probeNames">
+			<list>
+				<value>ocs_probe</value>
+			</list>
+		</property>
+		<property name="accuracy" value="0.2"/>
+		<property name="polltime" value="1000"/>
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="500.0"/>
+		<property name="lowerTemp" value="80.0"/>
+		
+		<property name="cryoController" ref="cryoi16_controller"/>
+	</bean>
+
+</beans>
