@@ -85,6 +85,7 @@
 	<import resource="epics/detector/zyla.xml" />
 	<import resource="epics/detector/xmap_new.xml" /> <!-- transient -->
 	<import resource="epics/detector/xmap2.xml" />
+	<import resource="epics/cryo.xml" />
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="10000" />
