@@ -11,28 +11,28 @@
 
 	<!-- COMBINED MOTION -->
 	<gda:motor id="s1_xsize"
-		live-pvName="#{S1_PV_NAME}:XSIZE"
+		live-pvName="#{S1_PV_NAME}:X:SIZE"
 		dummy-minPosition="-1.4996"
 		dummy-maxPosition="15.0004"
 		dummy-position="4.0014"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_xcentre"
-		live-pvName="#{S1_PV_NAME}:XCENTER"
+		live-pvName="#{S1_PV_NAME}:X:CENTER"
 		dummy-minPosition="-7.0005"
 		dummy-maxPosition="6.9995"
 		dummy-position="-0.001"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_ysize"
-		live-pvName="#{S1_PV_NAME}:YSIZE"
+		live-pvName="#{S1_PV_NAME}:Y:SIZE"
 		dummy-minPosition="-0.9314"
 		dummy-maxPosition="7.0686"
 		dummy-position="1.0706"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_ycentre"
-		live-pvName="#{S1_PV_NAME}:YCENTER"
+		live-pvName="#{S1_PV_NAME}:Y:CENTER"
 		dummy-minPosition="-4.001"
 		dummy-maxPosition="3.999"
 		dummy-position="-0.0015"
@@ -41,28 +41,28 @@
 
 	<!-- RAW MOTION -->
 	<gda:motor id="s1_xplus"
-		live-pvName="#{S1_PV_NAME}:XPLUS"
+		live-pvName="#{S1_PV_NAME}:X:PLUS"
 		dummy-minPosition="-7.307"
 		dummy-maxPosition="6.193"
 		dummy-position="2.0"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_xminus"
-		live-pvName="#{S1_PV_NAME}:XMINUS"
+		live-pvName="#{S1_PV_NAME}:X:MINUS"
 		dummy-minPosition="-6.126"
 		dummy-maxPosition="6.974"
 		dummy-position="-2.0"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_yplus"
-		live-pvName="#{S1_PV_NAME}:YPLUS"
+		live-pvName="#{S1_PV_NAME}:Y:PLUS"
 		dummy-minPosition="-4.8618"
 		dummy-maxPosition="3.4382"
 		dummy-position="0.5"
 		dummy-unitString="mm"/>
 
 	<gda:motor id="s1_yminus"
-		live-pvName="#{S1_PV_NAME}:YMINUS"
+		live-pvName="#{S1_PV_NAME}:Y:MINUS"
 		dummy-minPosition="-3.4417"
 		dummy-maxPosition="5.4583"
 		dummy-position="-0.5"
