@@ -138,6 +138,7 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 			// create plot with null action bar to stop this plot's action items being added to this plot's view's toolbar
 			spectrumPlot.createPlotPart(client, "LiveSpectrum", null, PlotType.XY, null);
 			spectrumPlot.setShowLegend(false);
+			spectrumPlot.autoscaleAxes();
 			spectrumPlot.getPlotComposite().setLayoutData(GridDataFactory.fillDefaults().grab(true, true).hint(xSizeHint, ySizeHint).create());
 			frameCounter.set(0);
 		} catch (Exception e) {
