@@ -55,11 +55,6 @@
 				</bean>
 
 				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="investigation" />
-					<property name="query" value="id:investigation:id" />
-				</bean>
-
-				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="proposal" />
 					<property name="query" value="INV_NUMBER:investigation:id" />
 				</bean>
