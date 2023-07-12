@@ -200,24 +200,6 @@
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pe"
-            name="PE Array View"
-            category="uk.ac.gda.beamline.i15.category"
-            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pe"
-            name="PE MJPeg View"
-            category="uk.ac.gda.beamline.i15.category"
-            icon="platform:/plugin/uk.ac.gda.epics.adviewer/icons/picture.png"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//psl//BL15I-EA-PSL-01@"
             name="PSL Array View"
             category="uk.ac.gda.beamline.i15.category"
@@ -359,24 +341,6 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Perkin Elmer (pe) Array View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pe">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Perkin Elmer (pe) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pe">
                </parameter>
             </command>
             <command

@@ -58,6 +58,9 @@ from localStationConfiguration import useQbpm2eth
 
 from utilities.dataCollectionGroupUtils import dataCollectionGroup, getDataCollectionGroupIdFromScan # @UnusedImport
 
+def isFindable(deviceName):
+	return Finder.find(deviceName) != None
+
 global run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
@@ -282,18 +285,21 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
-	try:
-		global pe
-		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
-		pe1.processors=[DetectorDataProcessorWithRoi(
-						'max', pe1, [SumMaxPositionAndValue()], False)]
-
-		pe1peak2d = DetectorDataProcessorWithRoi(
-			'pe1peak2d', pe1, [TwodGaussianPeak()])
-		pe1max2d = DetectorDataProcessorWithRoi(
-			'pe1max2d', pe1, [SumMaxPositionAndValue()])
-	except:
-		localStation_exception(sys.exc_info(), "creating pe1...")
+	if isFindable('pe'):
+		try:
+			global pe
+			pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
+			pe1.processors=[DetectorDataProcessorWithRoi(
+							'max', pe1, [SumMaxPositionAndValue()], False)]
+	
+			pe1peak2d = DetectorDataProcessorWithRoi(
+				'pe1peak2d', pe1, [TwodGaussianPeak()])
+			pe1max2d = DetectorDataProcessorWithRoi(
+				'pe1max2d', pe1, [SumMaxPositionAndValue()])
+		except:
+			localStation_exception(sys.exc_info(), "creating pe1...")
+	else:
+		print "* Perkin Elmer (pe1) detector not enabled, restart GDA server with transient Perkin Elmer Detector to enable. *"
 
 	def gigeFactory(camdet_name, cam_name, peak2d_name, max2d_name, cam_pv):
 		from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
@@ -450,19 +456,20 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 
-	try:
-		pe.hdfwriter.getNdFileHDF5().reset()
-		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
-		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
-		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
-		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
-		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
-		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
-	except:
-		localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
+	if isFindable("pe"):
+		try:
+			pe.hdfwriter.getNdFileHDF5().reset()
+			caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
+			caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
+			caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
+			caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
+			caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
+			caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
+		except:
+			localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
 
 	global mar, pil3, mpx, psl
 
@@ -853,10 +860,10 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
-	if enableSolsticeExamples:
-		try:
-			from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
+	from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
 
+	if enableSolsticeExamples and isFindable("pe1AreaDetectorRunnableDeviceProxyFinder"):
+		try:
 			pe1AreaDetectorRunnableDeviceProxyFinder = Finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
 			pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
@@ -864,8 +871,14 @@ try:
 			pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
 			pe1AreaDetectorRunnableDeviceProxy.register()
 
-			print "Configured pe1AD detector"
+			print "Configured example pe1AD solstice scanning device"
+		except:
+			localStation_exception(sys.exc_info(), "creating example pe1AD solstice scanning device")
+	else:
+		print "* Not installing example pe1AD solstice scanning device *"
 
+	if enableSolsticeExamples and isFindable("pil3AreaDetectorRunnableDeviceProxyFinder"):
+		try:
 			pil3AreaDetectorRunnableDeviceProxyFinder = Finder.find("pil3AreaDetectorRunnableDeviceProxyFinder")
 			pil3AreaDetectorRunnableDeviceProxy = pil3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
@@ -873,11 +886,11 @@ try:
 			pil3AreaDetectorRunnableDeviceProxy.setDelegate(pil3JythonAreaDetectorRunnableDeviceDelegate)
 			pil3AreaDetectorRunnableDeviceProxy.register()
 
-			print "Configured pil3AD detector"
+			print "Configured example pil3AD solstice scanning device"
 		except:
-			localStation_exception(sys.exc_info(), "creating example solstice scanning devices")
+			localStation_exception(sys.exc_info(), "creating example pil3AD solstice scanning device")
 	else:
-		print "* Not installing example solstice scanning devices *"
+		print "* Not installing example pil3AD solstice scanning device *"
 
 	from gda.util.converters import JEPConverterHolder # @UnusedImport
 	from gda.device.scannable import ConvertorScannable
