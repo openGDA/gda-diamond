@@ -1,0 +1,1117 @@
+/dls/i15/data/2023/cm33896-3/381043.nxs:
+/
+  @file_name='/dls/i15/data/2023/cm33896-3/381043.nxs'
+    entry:NXentry/
+                   @default='pil3'
+    entry/diamond_scan:NXcollection/
+    entry/diamond_scan/duration=410 units=ms
+                                 @target='/entry/diamond_scan/duration'
+    entry/diamond_scan/end_time='2023-07-04T23:12:27.978'
+                                 @target='/entry/diamond_scan/end_time'
+    entry/diamond_scan/keys:NXcollection/
+    entry/diamond_scan/keys/uniqueKeys: (1,)
+    entry/diamond_scan/point_end_times: (1,)
+    entry/diamond_scan/point_start_times: (1,)
+    entry/diamond_scan/scan_command='scan exposure 1 1 1 ds diodes mimas pil3 1.2 zebraFastShutter 1.2'
+                                     @target='/entry/diamond_scan/scan_command'
+    entry/diamond_scan/scan_dead_time=411 units=ms
+    entry/diamond_scan/scan_dead_time_percent=100.243904
+    entry/diamond_scan/scan_estimated_duration=-1 units=ms
+    entry/diamond_scan/scan_fields: (4,)
+                                    @target='/entry/diamond_scan/scan_fields'
+    entry/diamond_scan/scan_finished: (1,)
+    entry/diamond_scan/scan_rank=1
+    entry/diamond_scan/scan_shape: (1,)
+                                   @target='/entry/diamond_scan/scan_shape'
+    entry/diamond_scan/start_time='2023-07-04T23:12:27.568'
+                                   @target='/entry/diamond_scan/start_time'
+    entry/duration=410 units=ms
+                    @target='/entry/diamond_scan/duration'
+    entry/end_time='2023-07-04T23:12:27.978'
+                    @target='/entry/diamond_scan/end_time'
+    entry/instrument:NXinstrument/
+    entry/instrument/beamline='i15'
+    entry/instrument/bs2x:NXpositioner/
+                                        @local_name='bs2x'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/bs2x/controller_record='BL15I-RS-ABSB-08:X'
+    entry/instrument/bs2x/name='bs2x'
+    entry/instrument/bs2x/value=2.001803739306 units=mm
+                                 @local_name='bs2x.bs2x'
+    entry/instrument/bs2y:NXpositioner/
+                                        @local_name='bs2y'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/bs2y/controller_record='BL15I-RS-ABSB-08:Y'
+    entry/instrument/bs2y/name='bs2y'
+    entry/instrument/bs2y/value=2.835667552365 units=mm
+                                 @local_name='bs2y.bs2y'
+    entry/instrument/bs3x:NXpositioner/
+                                        @local_name='bs3x'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/bs3x/controller_record='BL15I-RS-ABSB-09:X'
+    entry/instrument/bs3x/name='bs3x'
+    entry/instrument/bs3x/value=-15.639762106218 units=µm
+                                 @local_name='bs3x.bs3x'
+    entry/instrument/bs3y:NXpositioner/
+                                        @local_name='bs3y'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/bs3y/controller_record='BL15I-RS-ABSB-09:Y'
+    entry/instrument/bs3y/name='bs3y'
+    entry/instrument/bs3y/value=105.978174800161 units=µm
+                                 @local_name='bs3y.bs3y'
+    entry/instrument/bs3z:NXpositioner/
+                                        @local_name='bs3z'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/bs3z/controller_record='BL15I-RS-ABSB-09:Z'
+    entry/instrument/bs3z/name='bs3z'
+    entry/instrument/bs3z/value=-20.268 units=µm
+                                 @local_name='bs3z.bs3z'
+    entry/instrument/bsx:NXpositioner/
+                                       @local_name='bsx'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/bsx/controller_record='BL15I-RS-ABSB-04:X'
+    entry/instrument/bsx/name='bsx'
+    entry/instrument/bsx/value=-12.018957621759 units=mm
+                                @local_name='bsx.bsx'
+    entry/instrument/bsy:NXpositioner/
+                                       @local_name='bsy'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/bsy/controller_record='BL15I-RS-ABSB-04:Y'
+    entry/instrument/bsy/name='bsy'
+    entry/instrument/bsy/value=-0.999988724684 units=mm
+                                @local_name='bsy.bsy'
+    entry/instrument/d1:NXpositioner/
+                                      @local_name='d1'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d1/name='d1'
+    entry/instrument/d1/value=1.2517762002900543
+                               @local_name='d1.d1'
+    entry/instrument/d1sum:NXpositioner/
+                                         @local_name='d1sum'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/d1sum/name='d1sum'
+    entry/instrument/d1sum/value=0.0
+                                  @local_name='d1sum.d1sum'
+    entry/instrument/d2:NXpositioner/
+                                      @local_name='d2'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d2/name='d2'
+    entry/instrument/d2/value=5.318537181249046
+                               @local_name='d2.d2'
+    entry/instrument/d2sum:NXpositioner/
+                                         @local_name='d2sum'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/d2sum/name='d2sum'
+    entry/instrument/d2sum/value=0.0
+                                  @local_name='d2sum.d2sum'
+    entry/instrument/d3:NXpositioner/
+                                      @local_name='d3'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d3/name='d3'
+    entry/instrument/d3/value=0.09815939684380828
+                               @local_name='d3.d3'
+    entry/instrument/d3sum:NXpositioner/
+                                         @local_name='d3sum'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/d3sum/name='d3sum'
+    entry/instrument/d3sum/value=0.0
+                                  @local_name='d3sum.d3sum'
+    entry/instrument/d4:NXpositioner/
+                                      @local_name='d4'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d4/name='d4'
+    entry/instrument/d4/value=10.002136915210258
+                               @local_name='d4.d4'
+    entry/instrument/d4sum:NXpositioner/
+                                         @local_name='d4sum'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/d4sum/name='d4sum'
+    entry/instrument/d4sum/value=0.0
+                                  @local_name='d4sum.d4sum'
+    entry/instrument/d5:NXpositioner/
+                                      @local_name='d5'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d5/name='d5'
+    entry/instrument/d5/value=1.0068971837008984
+                               @local_name='d5.d5'
+    entry/instrument/d5sum:NXpositioner/
+                                         @local_name='d5sum'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/d5sum/name='d5sum'
+    entry/instrument/d5sum/value=0.0
+                                  @local_name='d5sum.d5sum'
+    entry/instrument/d6:NXpositioner/
+                                      @local_name='d6'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d6/name='d6'
+    entry/instrument/d6/value=0.06467921417777152
+                               @local_name='d6.d6'
+    entry/instrument/d6x:NXpositioner/
+                                       @local_name='d6x'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/d6x/controller_record='BL15I-DI-PHDGN-06:X'
+    entry/instrument/d6x/name='d6x'
+    entry/instrument/d6x/value=49.994201523504 units=mm
+                                @local_name='d6x.d6x'
+    entry/instrument/d8:NXpositioner/
+                                      @local_name='d8'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d8/name='d8'
+    entry/instrument/d8/value=0.6690262784199361
+                               @local_name='d8.d8'
+    entry/instrument/d9:NXpositioner/
+                                      @local_name='d9'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/d9/name='d9'
+    entry/instrument/d9/value=0.0003389571723031892
+                               @local_name='d9.d9'
+    entry/instrument/dataCollectionGroupId:NXpositioner/
+                                                         @local_name='dataCollectionGroupId'
+                                                         @scan_role='monitor_per_scan'
+    entry/instrument/dataCollectionGroupId/name='dataCollectionGroupId'
+    entry/instrument/dataCollectionGroupId/value=9664629
+                                                  @local_name='dataCollectionGroupId.value'
+    entry/instrument/dcmbragg1:NXpositioner/
+                                             @local_name='dcmbragg1'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/dcmbragg1/controller_record='BL15I-OP-DCM-01:XTAL1:THETA'
+    entry/instrument/dcmbragg1/name='dcmbragg1'
+    entry/instrument/dcmbragg1/value=1.57386064 units=deg
+                                      @local_name='dcmbragg1.dcmbragg1'
+    entry/instrument/dcmbragg2:NXpositioner/
+                                             @local_name='dcmbragg2'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/dcmbragg2/controller_record='BL15I-OP-DCM-01:XTAL2:THETA'
+    entry/instrument/dcmbragg2/name='dcmbragg2'
+    entry/instrument/dcmbragg2/value=1.57390255 units=deg
+                                      @local_name='dcmbragg2.dcmbragg2'
+    entry/instrument/dcmenergy:NXpositioner/
+                                             @local_name='dcmenergy'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/dcmenergy/controller_record='BL15I-OP-DCM-01:ENERGY'
+    entry/instrument/dcmenergy/name='dcmenergy'
+    entry/instrument/dcmenergy/value=72028.72 units=eV
+                                      @local_name='dcmenergy.dcmenergy'
+    entry/instrument/dcmxtl1roll:NXpositioner/
+                                               @local_name='dcmxtl1roll'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/dcmxtl1roll/controller_record='BL15I-OP-DCM-01:XTAL1:ROLL'
+    entry/instrument/dcmxtl1roll/name='dcmxtl1roll'
+    entry/instrument/dcmxtl1roll/value=0.0935 units=deg
+                                        @local_name='dcmxtl1roll.dcmxtl1roll'
+    entry/instrument/dcmxtl1y:NXpositioner/
+                                            @local_name='dcmxtl1y'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/dcmxtl1y/controller_record='BL15I-OP-DCM-01:XTAL1:Y'
+    entry/instrument/dcmxtl1y/name='dcmxtl1y'
+    entry/instrument/dcmxtl1y/value=0.0 units=mm
+                                     @local_name='dcmxtl1y.dcmxtl1y'
+    entry/instrument/dcmxtl1z:NXpositioner/
+                                            @local_name='dcmxtl1z'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/dcmxtl1z/controller_record='BL15I-OP-DCM-01:XTAL1:Z'
+    entry/instrument/dcmxtl1z/name='dcmxtl1z'
+    entry/instrument/dcmxtl1z/value=363.6724 units=mm
+                                     @local_name='dcmxtl1z.dcmxtl1z'
+    entry/instrument/dcmxtl2y:NXpositioner/
+                                            @local_name='dcmxtl2y'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/dcmxtl2y/controller_record='BL15I-OP-DCM-01:XTAL2:Y'
+    entry/instrument/dcmxtl2y/name='dcmxtl2y'
+    entry/instrument/dcmxtl2y/value=20.19 units=mm
+                                     @local_name='dcmxtl2y.dcmxtl2y'
+    entry/instrument/ddelta:NXpositioner/
+                                          @local_name='ddelta'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/ddelta/controller_record='BL15I-MO-DIFF-01:ARM:DELTA'
+    entry/instrument/ddelta/name='ddelta'
+    entry/instrument/ddelta/value=93.000092 units=deg
+                                   @local_name='ddelta.ddelta'
+    entry/instrument/det1z:NXpositioner/
+                                         @local_name='det1z'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/det1z/controller_record='BL15I-MO-DIFF-01:ARM:DETECTOR:Z'
+    entry/instrument/det1z/name='det1z'
+    entry/instrument/det1z/value=245.0 units=mm
+                                  @local_name='det1z.det1z'
+    entry/instrument/det2z:NXpositioner/
+                                         @local_name='det2z'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/det2z/controller_record='BL15I-MO-TABLE-03:DETECTOR2:Z'
+    entry/instrument/det2z/name='det2z'
+    entry/instrument/det2z/value=446.9999 units=mm
+                                  @local_name='det2z.det2z'
+    entry/instrument/djack1:NXpositioner/
+                                          @local_name='djack1'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/djack1/controller_record='BL15I-MO-DIFF-01:BASE:Y1'
+    entry/instrument/djack1/name='djack1'
+    entry/instrument/djack1/value=-15.07815575 units=mm
+                                   @local_name='djack1.djack1'
+    entry/instrument/djack2:NXpositioner/
+                                          @local_name='djack2'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/djack2/controller_record='BL15I-MO-DIFF-01:BASE:Y2'
+    entry/instrument/djack2/name='djack2'
+    entry/instrument/djack2/value=-15.07795225 units=mm
+                                   @local_name='djack2.djack2'
+    entry/instrument/djack3:NXpositioner/
+                                          @local_name='djack3'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/djack3/controller_record='BL15I-MO-DIFF-01:BASE:Y3'
+    entry/instrument/djack3/name='djack3'
+    entry/instrument/djack3/value=-17.38221975 units=mm
+                                   @local_name='djack3.djack3'
+    entry/instrument/dkappa:NXpositioner/
+                                          @local_name='dkappa'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/dkappa/controller_record='BL15I-MO-DIFF-01:SAMPLE:KAPPA'
+    entry/instrument/dkappa/name='dkappa'
+    entry/instrument/dkappa/value=-130.127272 units=deg
+                                   @local_name='dkappa.dkappa'
+    entry/instrument/dkphi:NXpositioner/
+                                         @local_name='dkphi'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/dkphi/controller_record='BL15I-MO-DIFF-01:SAMPLE:KPHI'
+    entry/instrument/dkphi/name='dkphi'
+    entry/instrument/dkphi/value=57.9982 units=deg
+                                  @local_name='dkphi.dkphi'
+    entry/instrument/dktheta:NXpositioner/
+                                           @local_name='dktheta'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/dktheta/controller_record='BL15I-MO-DIFF-01:SAMPLE:KTHETA'
+    entry/instrument/dktheta/name='dktheta'
+    entry/instrument/dktheta/value=-35.322356 units=deg
+                                    @local_name='dktheta.dktheta'
+    entry/instrument/drotation:NXpositioner/
+                                             @local_name='drotation'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/drotation/controller_record='BL15I-MO-DIFF-01:BASE:Ry'
+    entry/instrument/drotation/name='drotation'
+    entry/instrument/drotation/value=-0.1137 units=deg
+                                      @local_name='drotation.drotation'
+    entry/instrument/dtransx:NXpositioner/
+                                           @local_name='dtransx'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/dtransx/controller_record='BL15I-MO-DIFF-01:BASE:X'
+    entry/instrument/dtransx/name='dtransx'
+    entry/instrument/dtransx/value=24.6751 units=mm
+                                    @local_name='dtransx.dtransx'
+    entry/instrument/dx:NXpositioner/
+                                      @local_name='dx'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/dx/controller_record='BL15I-MO-DIFF-01:SAMPLE:X'
+    entry/instrument/dx/name='dx'
+    entry/instrument/dx/value=-0.000729728185 units=mm
+                               @local_name='dx.dx'
+    entry/instrument/dy:NXpositioner/
+                                      @local_name='dy'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/dy/controller_record='BL15I-MO-DIFF-01:SAMPLE:Y'
+    entry/instrument/dy/name='dy'
+    entry/instrument/dy/value=-0.000476 units=mm
+                               @local_name='dy.dy'
+    entry/instrument/dz:NXpositioner/
+                                      @local_name='dz'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/dz/controller_record='BL15I-MO-DIFF-01:SAMPLE:Z'
+    entry/instrument/dz/name='dz'
+    entry/instrument/dz/value=-5e-05 units=mm
+                               @local_name='dz.dz'
+    entry/instrument/exposure:NXpositioner/
+                                            @local_name='exposure'
+                                            @scan_role='scannable'
+    entry/instrument/exposure/name='exposure'
+    entry/instrument/exposure/soft_limit_max=1.7976931348623157e+308
+    entry/instrument/exposure/soft_limit_min=-1.7976931348623157e+308
+    entry/instrument/exposure/value: (1,)
+                                     @local_name='exposure.exposure'
+                                     @target='/entry/instrument/exposure/value'
+    entry/instrument/f2x:NXpositioner/
+                                       @local_name='f2x'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/f2x/controller_record='BL15I-RS-ABSB-10:X'
+    entry/instrument/f2x/name='f2x'
+    entry/instrument/f2x/value=150.005 units=mm
+                                @local_name='f2x.f2x'
+    entry/instrument/fs2x:NXpositioner/
+                                        @local_name='fs2x'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/fs2x/controller_record='BL15I-EA-SHTR-02:X'
+    entry/instrument/fs2x/name='fs2x'
+    entry/instrument/fs2x/value=0.075285 units=mm
+                                 @local_name='fs2x.fs2x'
+    entry/instrument/fs2y:NXpositioner/
+                                        @local_name='fs2y'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/fs2y/controller_record='BL15I-EA-SHTR-02:Y'
+    entry/instrument/fs2y/name='fs2y'
+    entry/instrument/fs2y/value=0.074715 units=mm
+                                 @local_name='fs2y.fs2y'
+    entry/instrument/fsx:NXpositioner/
+                                       @local_name='fsx'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/fsx/controller_record='BL15I-EA-SHTR-01:X'
+    entry/instrument/fsx/name='fsx'
+    entry/instrument/fsx/value=-1.3528721e-05 units=mm
+                                @local_name='fsx.fsx'
+    entry/instrument/fsy:NXpositioner/
+                                       @local_name='fsy'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/fsy/controller_record='BL15I-EA-SHTR-01:Y'
+    entry/instrument/fsy/name='fsy'
+    entry/instrument/fsy/value=-1.7077007e-05 units=mm
+                                @local_name='fsy.fsy'
+    entry/instrument/hfm_curve:NXpositioner/
+                                             @local_name='hfm_curve'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/hfm_curve/controller_record='BL15I-OP-HFM-01:CURVE'
+    entry/instrument/hfm_curve/name='hfm_curve'
+    entry/instrument/hfm_curve/value=2.65 units=mm
+                                      @local_name='hfm_curve.hfm_curve'
+    entry/instrument/hfm_ellipticity:NXpositioner/
+                                                   @local_name='hfm_ellipticity'
+                                                   @scan_role='monitor_per_scan'
+    entry/instrument/hfm_ellipticity/controller_record='BL15I-OP-HFM-01:ELLIP'
+    entry/instrument/hfm_ellipticity/name='hfm_ellipticity'
+    entry/instrument/hfm_ellipticity/value=0.8 units=mm
+                                            @local_name='hfm_ellipticity.hfm_ellipticity'
+    entry/instrument/hfm_pitch:NXpositioner/
+                                             @local_name='hfm_pitch'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/hfm_pitch/controller_record='BL15I-OP-HFM-01:PITCH'
+    entry/instrument/hfm_pitch/name='hfm_pitch'
+    entry/instrument/hfm_pitch/value=0.9989 units=mrad
+                                      @local_name='hfm_pitch.hfm_pitch'
+    entry/instrument/hfm_roll:NXpositioner/
+                                            @local_name='hfm_roll'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/hfm_roll/controller_record='BL15I-OP-HFM-01:ROLL'
+    entry/instrument/hfm_roll/name='hfm_roll'
+    entry/instrument/hfm_roll/value=0.0 units=mrad
+                                     @local_name='hfm_roll.hfm_roll'
+    entry/instrument/hfm_x:NXpositioner/
+                                         @local_name='hfm_x'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/hfm_x/controller_record='BL15I-OP-HFM-01:X'
+    entry/instrument/hfm_x/name='hfm_x'
+    entry/instrument/hfm_x/value=0.0003 units=mm
+                                  @local_name='hfm_x.hfm_x'
+    entry/instrument/hfm_y:NXpositioner/
+                                         @local_name='hfm_y'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/hfm_y/controller_record='BL15I-OP-HFM-01:Y'
+    entry/instrument/hfm_y/name='hfm_y'
+    entry/instrument/hfm_y/value=11.2052 units=mm
+                                  @local_name='hfm_y.hfm_y'
+    entry/instrument/hfm_yaw:NXpositioner/
+                                           @local_name='hfm_yaw'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/hfm_yaw/controller_record='BL15I-OP-HFM-01:YAW'
+    entry/instrument/hfm_yaw/name='hfm_yaw'
+    entry/instrument/hfm_yaw/value=0.0 units=mrad
+                                    @local_name='hfm_yaw.hfm_yaw'
+    entry/instrument/idNexusDevice:NXinsertion_device/
+    entry/instrument/idNexusDevice/type='wiggler'
+    entry/instrument/monochromatorNexusDevice:NXmonochromator/
+    entry/instrument/name='i15'
+    entry/instrument/pil3:NXdetector/
+                                      @local_name='pil3'
+                                      @scan_role='detector'
+    entry/instrument/pil3/count_time: (1,)
+                                      @local_name='pil3.count_time'
+    entry/instrument/pil3/data (external link to 381043-pil3-NexusScanDataWriter+pil3+expose+1.2.hdf5#/entry/instrument/detector/data): (1, 1679, 1475)
+                                @NDArrayDimBinning=array([1, 1], dtype=int32)
+                                @NDArrayDimOffset=array([0, 0], dtype=int32)
+                                @NDArrayDimReverse=array([0, 0], dtype=int32)
+                                @NDArrayNumDims=2
+                                @signal=1
+    entry/instrument/pil3/data_file:NXnote/
+    entry/instrument/pil3/data_file/file_name: (1,)
+                                               @data_filename=array([1], dtype=int32)
+    entry/instrument/pil3/image_data: (1,)
+                                      @data_filename=array([1], dtype=int32)
+                                      @signal=array([1], dtype=int32)
+                                      @target='/entry/instrument/pil3/image_data'
+    entry/instrument/pil3/local_name='pil3'
+    entry/instrument/pin3x:NXpositioner/
+                                         @local_name='pin3x'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/pin3x/controller_record='BL15I-AL-APTR-03:X'
+    entry/instrument/pin3x/name='pin3x'
+    entry/instrument/pin3x/value=-0.022708012324 units=mm
+                                  @local_name='pin3x.pin3x'
+    entry/instrument/pin3y:NXpositioner/
+                                         @local_name='pin3y'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/pin3y/controller_record='BL15I-AL-APTR-03:Y'
+    entry/instrument/pin3y/name='pin3y'
+    entry/instrument/pin3y/value=0.011551426571 units=mm
+                                  @local_name='pin3y.pin3y'
+    entry/instrument/pinpitch:NXpositioner/
+                                            @local_name='pinpitch'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/pinpitch/controller_record='BL15I-AL-APTR-02:PITCH'
+    entry/instrument/pinpitch/name='pinpitch'
+    entry/instrument/pinpitch/value=-3.6273389e-05 units=deg
+                                     @local_name='pinpitch.pinpitch'
+    entry/instrument/pinx:NXpositioner/
+                                        @local_name='pinx'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/pinx/controller_record='BL15I-AL-APTR-02:X'
+    entry/instrument/pinx/name='pinx'
+    entry/instrument/pinx/value=0.000326868109 units=mm
+                                 @local_name='pinx.pinx'
+    entry/instrument/piny:NXpositioner/
+                                        @local_name='piny'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/piny/controller_record='BL15I-AL-APTR-02:Y'
+    entry/instrument/piny/name='piny'
+    entry/instrument/piny/value=-0.000450561853 units=mm
+                                 @local_name='piny.piny'
+    entry/instrument/pinyaw:NXpositioner/
+                                          @local_name='pinyaw'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/pinyaw/controller_record='BL15I-AL-APTR-02:YAW'
+    entry/instrument/pinyaw/name='pinyaw'
+    entry/instrument/pinyaw/value=0.0 units=deg
+                                   @local_name='pinyaw.pinyaw'
+    entry/instrument/pinz:NXpositioner/
+                                        @local_name='pinz'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/pinz/controller_record='BL15I-AL-APTR-02:Z'
+    entry/instrument/pinz/name='pinz'
+    entry/instrument/pinz/value=-30.002 units=mm
+                                 @local_name='pinz.pinz'
+    entry/instrument/pt100_1:NXpositioner/
+                                           @local_name='pt100_1'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/pt100_1/name='pt100_1'
+    entry/instrument/pt100_1/value=3167.5
+                                    @local_name='pt100_1.pt100_1'
+    entry/instrument/qbpm1A:NXpositioner/
+                                          @local_name='qbpm1A'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1A/name='qbpm1A'
+    entry/instrument/qbpm1A/value=0.05132640129479488
+                                   @local_name='qbpm1A.value'
+    entry/instrument/qbpm1B:NXpositioner/
+                                          @local_name='qbpm1B'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1B/name='qbpm1B'
+    entry/instrument/qbpm1B/value=0.029806987539701953
+                                   @local_name='qbpm1B.value'
+    entry/instrument/qbpm1C:NXpositioner/
+                                          @local_name='qbpm1C'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1C/name='qbpm1C'
+    entry/instrument/qbpm1C/value=0.0203095616070338
+                                   @local_name='qbpm1C.value'
+    entry/instrument/qbpm1D:NXpositioner/
+                                          @local_name='qbpm1D'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1D/name='qbpm1D'
+    entry/instrument/qbpm1D/value=0.010795822390520947
+                                   @local_name='qbpm1D.value'
+    entry/instrument/qbpm1_x:NXpositioner/
+                                           @local_name='qbpm1_x'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1_x/controller_record='BL15I-DI-QBPM-01:X'
+    entry/instrument/qbpm1_x/name='qbpm1_x'
+    entry/instrument/qbpm1_x/value=0.0004 units=mm
+                                    @local_name='qbpm1_x.qbpm1_x'
+    entry/instrument/qbpm1_y:NXpositioner/
+                                           @local_name='qbpm1_y'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1_y/controller_record='BL15I-DI-QBPM-01:Y'
+    entry/instrument/qbpm1_y/name='qbpm1_y'
+    entry/instrument/qbpm1_y/value=0.0003 units=mm
+                                    @local_name='qbpm1_y.qbpm1_y'
+    entry/instrument/qbpm1total:NXpositioner/
+                                              @local_name='qbpm1total'
+                                              @scan_role='monitor_per_scan'
+    entry/instrument/qbpm1total/name='qbpm1total'
+    entry/instrument/qbpm1total/value=0.11286955869177077
+                                       @local_name='qbpm1total.value'
+    entry/instrument/qbpm2A:NXpositioner/
+                                          @local_name='qbpm2A'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2A/name='qbpm2A'
+    entry/instrument/qbpm2A/value=0.09895563360744986
+                                   @local_name='qbpm2A.value'
+    entry/instrument/qbpm2B:NXpositioner/
+                                          @local_name='qbpm2B'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2B/name='qbpm2B'
+    entry/instrument/qbpm2B/value=0.10835528609071748
+                                   @local_name='qbpm2B.value'
+    entry/instrument/qbpm2C:NXpositioner/
+                                          @local_name='qbpm2C'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2C/name='qbpm2C'
+    entry/instrument/qbpm2C/value=0.11554956671678218
+                                   @local_name='qbpm2C.value'
+    entry/instrument/qbpm2D:NXpositioner/
+                                          @local_name='qbpm2D'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2D/name='qbpm2D'
+    entry/instrument/qbpm2D/value=0.11598348853084806
+                                   @local_name='qbpm2D.value'
+    entry/instrument/qbpm2_x:NXpositioner/
+                                           @local_name='qbpm2_x'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2_x/controller_record='BL15I-DI-QBPM-02:X'
+    entry/instrument/qbpm2_x/name='qbpm2_x'
+    entry/instrument/qbpm2_x/value=14.584 units=mm
+                                    @local_name='qbpm2_x.qbpm2_x'
+    entry/instrument/qbpm2_y:NXpositioner/
+                                           @local_name='qbpm2_y'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2_y/controller_record='BL15I-DI-QBPM-02:Y'
+    entry/instrument/qbpm2_y/name='qbpm2_y'
+    entry/instrument/qbpm2_y/value=49.0 units=mm
+                                    @local_name='qbpm2_y.qbpm2_y'
+    entry/instrument/qbpm2total:NXpositioner/
+                                              @local_name='qbpm2total'
+                                              @scan_role='monitor_per_scan'
+    entry/instrument/qbpm2total/name='qbpm2total'
+    entry/instrument/qbpm2total/value=0.4377174471592804
+                                       @local_name='qbpm2total.value'
+    entry/instrument/ringCurrent:NXpositioner/
+                                               @local_name='ringCurrent'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/ringCurrent/name='ringCurrent'
+    entry/instrument/ringCurrent/value=118.807527
+                                        @local_name='ringCurrent.ringCurrent'
+    entry/instrument/s1xgap:NXpositioner/
+                                          @local_name='s1xgap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s1xgap/controller_record='BL15I-AL-SLITS-01:X:SIZE'
+    entry/instrument/s1xgap/name='s1xgap'
+    entry/instrument/s1xgap/value=1.421 units=mm
+                                   @local_name='s1xgap.s1xgap'
+    entry/instrument/s1xminus:NXpositioner/
+                                            @local_name='s1xminus'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/s1xminus/controller_record='BL15I-AL-SLITS-01:X:MINUS'
+    entry/instrument/s1xminus/name='s1xminus'
+    entry/instrument/s1xminus/value=-0.71 units=mm
+                                     @local_name='s1xminus.s1xminus'
+    entry/instrument/s1xplus:NXpositioner/
+                                           @local_name='s1xplus'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/s1xplus/controller_record='BL15I-AL-SLITS-01:X:PLUS'
+    entry/instrument/s1xplus/name='s1xplus'
+    entry/instrument/s1xplus/value=0.71 units=mm
+                                    @local_name='s1xplus.s1xplus'
+    entry/instrument/s1xpos:NXpositioner/
+                                          @local_name='s1xpos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s1xpos/controller_record='BL15I-AL-SLITS-01:X:CENTER'
+    entry/instrument/s1xpos/name='s1xpos'
+    entry/instrument/s1xpos/value=0.0 units=mm
+                                   @local_name='s1xpos.s1xpos'
+    entry/instrument/s1ygap:NXpositioner/
+                                          @local_name='s1ygap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s1ygap/controller_record='BL15I-AL-SLITS-01:Y:SIZE'
+    entry/instrument/s1ygap/name='s1ygap'
+    entry/instrument/s1ygap/value=1.654 units=mm
+                                   @local_name='s1ygap.s1ygap'
+    entry/instrument/s1yminus:NXpositioner/
+                                            @local_name='s1yminus'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/s1yminus/controller_record='BL15I-AL-SLITS-01:Y:MINUS'
+    entry/instrument/s1yminus/name='s1yminus'
+    entry/instrument/s1yminus/value=-0.827 units=mm
+                                     @local_name='s1yminus.s1yminus'
+    entry/instrument/s1yplus:NXpositioner/
+                                           @local_name='s1yplus'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/s1yplus/controller_record='BL15I-AL-SLITS-01:Y:PLUS'
+    entry/instrument/s1yplus/name='s1yplus'
+    entry/instrument/s1yplus/value=0.823 units=mm
+                                    @local_name='s1yplus.s1yplus'
+    entry/instrument/s1ypos:NXpositioner/
+                                          @local_name='s1ypos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s1ypos/controller_record='BL15I-AL-SLITS-01:Y:CENTER'
+    entry/instrument/s1ypos/name='s1ypos'
+    entry/instrument/s1ypos/value=-0.004 units=mm
+                                   @local_name='s1ypos.s1ypos'
+    entry/instrument/s2ygap:NXpositioner/
+                                          @local_name='s2ygap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s2ygap/controller_record='BL15I-AL-SLITS-02:Y:SIZE'
+    entry/instrument/s2ygap/name='s2ygap'
+    entry/instrument/s2ygap/value=77.0015 units=mm
+                                   @local_name='s2ygap.s2ygap'
+    entry/instrument/s2ypos:NXpositioner/
+                                          @local_name='s2ypos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s2ypos/controller_record='BL15I-AL-SLITS-02:Y:CENTER'
+    entry/instrument/s2ypos/name='s2ypos'
+    entry/instrument/s2ypos/value=2.5 units=mm
+                                   @local_name='s2ypos.s2ypos'
+    entry/instrument/s4pitch:NXpositioner/
+                                           @local_name='s4pitch'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/s4pitch/controller_record='BL15I-AL-SLITS-04:PITCH'
+    entry/instrument/s4pitch/name='s4pitch'
+    entry/instrument/s4pitch/value=0.0 units=deg
+                                    @local_name='s4pitch.s4pitch'
+    entry/instrument/s4xgap:NXpositioner/
+                                          @local_name='s4xgap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s4xgap/controller_record='BL15I-AL-SLITS-04:X:SIZE'
+    entry/instrument/s4xgap/name='s4xgap'
+    entry/instrument/s4xgap/value=0.600043 units=mm
+                                   @local_name='s4xgap.s4xgap'
+    entry/instrument/s4xpos:NXpositioner/
+                                          @local_name='s4xpos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s4xpos/controller_record='BL15I-AL-SLITS-04:X:CENTER'
+    entry/instrument/s4xpos/name='s4xpos'
+    entry/instrument/s4xpos/value=2.7514136e-05 units=mm
+                                   @local_name='s4xpos.s4xpos'
+    entry/instrument/s4yaw:NXpositioner/
+                                         @local_name='s4yaw'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/s4yaw/controller_record='BL15I-AL-SLITS-04:YAW'
+    entry/instrument/s4yaw/name='s4yaw'
+    entry/instrument/s4yaw/value=0.0 units=deg
+                                  @local_name='s4yaw.s4yaw'
+    entry/instrument/s4ygap:NXpositioner/
+                                          @local_name='s4ygap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s4ygap/controller_record='BL15I-AL-SLITS-04:Y:SIZE'
+    entry/instrument/s4ygap/name='s4ygap'
+    entry/instrument/s4ygap/value=0.500081 units=mm
+                                   @local_name='s4ygap.s4ygap'
+    entry/instrument/s4ypos:NXpositioner/
+                                          @local_name='s4ypos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s4ypos/controller_record='BL15I-AL-SLITS-04:Y:CENTER'
+    entry/instrument/s4ypos/name='s4ypos'
+    entry/instrument/s4ypos/value=1.32109e-06 units=mm
+                                   @local_name='s4ypos.s4ypos'
+    entry/instrument/s6ydown:NXpositioner/
+                                           @local_name='s6ydown'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/s6ydown/controller_record='BL15I-AL-SLITS-06:Y2'
+    entry/instrument/s6ydown/name='s6ydown'
+    entry/instrument/s6ydown/value=19.4 units=mm
+                                    @local_name='s6ydown.s6ydown'
+    entry/instrument/s6ygap:NXpositioner/
+                                          @local_name='s6ygap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s6ygap/controller_record='BL15I-AL-SLITS-06:Y:SIZE'
+    entry/instrument/s6ygap/name='s6ygap'
+    entry/instrument/s6ygap/value=1.2 units=mm
+                                   @local_name='s6ygap.s6ygap'
+    entry/instrument/s6ypos:NXpositioner/
+                                          @local_name='s6ypos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s6ypos/controller_record='BL15I-AL-SLITS-06:Y:CENTER'
+    entry/instrument/s6ypos/name='s6ypos'
+    entry/instrument/s6ypos/value=19.9998 units=mm
+                                   @local_name='s6ypos.s6ypos'
+    entry/instrument/s6yup:NXpositioner/
+                                         @local_name='s6yup'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/s6yup/controller_record='BL15I-AL-SLITS-06:Y1'
+    entry/instrument/s6yup/name='s6yup'
+    entry/instrument/s6yup/value=20.6 units=mm
+                                  @local_name='s6yup.s6yup'
+    entry/instrument/s7xgap:NXpositioner/
+                                          @local_name='s7xgap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s7xgap/controller_record='BL15I-AL-SLITS-07:X:SIZE'
+    entry/instrument/s7xgap/name='s7xgap'
+    entry/instrument/s7xgap/value=0.400183 units=mm
+                                   @local_name='s7xgap.s7xgap'
+    entry/instrument/s7xpos:NXpositioner/
+                                          @local_name='s7xpos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s7xpos/controller_record='BL15I-AL-SLITS-07:X:CENTER'
+    entry/instrument/s7xpos/name='s7xpos'
+    entry/instrument/s7xpos/value=0.979996600026 units=mm
+                                   @local_name='s7xpos.s7xpos'
+    entry/instrument/s7ygap:NXpositioner/
+                                          @local_name='s7ygap'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s7ygap/controller_record='BL15I-AL-SLITS-07:Y:SIZE'
+    entry/instrument/s7ygap/name='s7ygap'
+    entry/instrument/s7ygap/value=0.400184 units=mm
+                                   @local_name='s7ygap.s7ygap'
+    entry/instrument/s7ypos:NXpositioner/
+                                          @local_name='s7ypos'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/s7ypos/controller_record='BL15I-AL-SLITS-07:Y:CENTER'
+    entry/instrument/s7ypos/name='s7ypos'
+    entry/instrument/s7ypos/value=1.463269012992 units=mm
+                                   @local_name='s7ypos.s7ypos'
+    entry/instrument/shdx:NXpositioner/
+                                        @local_name='shdx'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/shdx/controller_record='BL15I-MO-SHEAD-01:X'
+    entry/instrument/shdx/name='shdx'
+    entry/instrument/shdx/value=0.0 units=mm
+                                 @local_name='shdx.shdx'
+    entry/instrument/shdy:NXpositioner/
+                                        @local_name='shdy'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/shdy/controller_record='BL15I-MO-SHEAD-01:Y'
+    entry/instrument/shdy/name='shdy'
+    entry/instrument/shdy/value=0.001 units=mm
+                                 @local_name='shdy.shdy'
+    entry/instrument/shdz:NXpositioner/
+                                        @local_name='shdz'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/shdz/controller_record='BL15I-MO-SHEAD-01:Z'
+    entry/instrument/shdz/name='shdz'
+    entry/instrument/shdz/value=0.0 units=mm
+                                 @local_name='shdz.shdz'
+    entry/instrument/shfmcurve:NXpositioner/
+                                             @local_name='shfmcurve'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/shfmcurve/controller_record='BL15I-OP-MIRR-03:HFM:CURVE'
+    entry/instrument/shfmcurve/name='shfmcurve'
+    entry/instrument/shfmcurve/value=0.0 units=mm
+                                      @local_name='shfmcurve.shfmcurve'
+    entry/instrument/shfmellip:NXpositioner/
+                                             @local_name='shfmellip'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/shfmellip/controller_record='BL15I-OP-MIRR-03:HFM:ELLIP'
+    entry/instrument/shfmellip/name='shfmellip'
+    entry/instrument/shfmellip/value=0.0 units=mm
+                                      @local_name='shfmellip.shfmellip'
+    entry/instrument/shfmpitch:NXpositioner/
+                                             @local_name='shfmpitch'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/shfmpitch/controller_record='BL15I-OP-MIRR-03:HFM:PITCH'
+    entry/instrument/shfmpitch/name='shfmpitch'
+    entry/instrument/shfmpitch/value=0.0007 units=mrad
+                                      @local_name='shfmpitch.shfmpitch'
+    entry/instrument/shfmx:NXpositioner/
+                                         @local_name='shfmx'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/shfmx/controller_record='BL15I-OP-MIRR-03:HFM:X'
+    entry/instrument/shfmx/name='shfmx'
+    entry/instrument/shfmx/value=0.0007 units=mm
+                                  @local_name='shfmx.shfmx'
+    entry/instrument/skbjack1:NXpositioner/
+                                            @local_name='skbjack1'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/skbjack1/controller_record='BL15I-OP-MIRR-03:BASE:J1'
+    entry/instrument/skbjack1/name='skbjack1'
+    entry/instrument/skbjack1/value=0.000151 units=mm
+                                     @local_name='skbjack1.skbjack1'
+    entry/instrument/skbjack2:NXpositioner/
+                                            @local_name='skbjack2'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/skbjack2/controller_record='BL15I-OP-MIRR-03:BASE:J2'
+    entry/instrument/skbjack2/name='skbjack2'
+    entry/instrument/skbjack2/value=4.2e-05 units=mm
+                                     @local_name='skbjack2.skbjack2'
+    entry/instrument/skbjack3:NXpositioner/
+                                            @local_name='skbjack3'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/skbjack3/controller_record='BL15I-OP-MIRR-03:BASE:J3'
+    entry/instrument/skbjack3/name='skbjack3'
+    entry/instrument/skbjack3/value=0.000159 units=mm
+                                     @local_name='skbjack3.skbjack3'
+    entry/instrument/skbpitch:NXpositioner/
+                                            @local_name='skbpitch'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/skbpitch/controller_record='BL15I-OP-MIRR-03:BASE:PITCH'
+    entry/instrument/skbpitch/name='skbpitch'
+    entry/instrument/skbpitch/value=0.0 units=deg
+                                     @local_name='skbpitch.skbpitch'
+    entry/instrument/skbroll:NXpositioner/
+                                           @local_name='skbroll'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/skbroll/controller_record='BL15I-OP-MIRR-03:BASE:ROLL'
+    entry/instrument/skbroll/name='skbroll'
+    entry/instrument/skbroll/value=0.0 units=deg
+                                    @local_name='skbroll.skbroll'
+    entry/instrument/skby:NXpositioner/
+                                        @local_name='skby'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/skby/controller_record='BL15I-OP-MIRR-03:BASE:Y'
+    entry/instrument/skby/name='skby'
+    entry/instrument/skby/value=0.0001 units=mm
+                                 @local_name='skby.skby'
+    entry/instrument/sourceNexusDevice:NXsource/
+    entry/instrument/sourceNexusDevice/current=118.80752700571445 units=mA
+                                                @local_name='ring_current.ring_current'
+    entry/instrument/sourceNexusDevice/name='Diamond Light Source'
+    entry/instrument/sourceNexusDevice/probe='x-ray'
+    entry/instrument/sourceNexusDevice/type='Synchrotron X-ray Source'
+    entry/instrument/sphi:NXpositioner/
+                                        @local_name='sphi'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/sphi/controller_record='BL15I-MO-SFAB-01:SAMPLE:PHI'
+    entry/instrument/sphi/name='sphi'
+    entry/instrument/sphi/value=89.991 units=deg
+                                 @local_name='sphi.sphi'
+    entry/instrument/spitch:NXpositioner/
+                                          @local_name='spitch'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/spitch/controller_record='BL15I-MO-SFAB-01:PITCH'
+    entry/instrument/spitch/name='spitch'
+    entry/instrument/spitch/value=-0.0006 units=deg
+                                   @local_name='spitch.spitch'
+    entry/instrument/spivotx:NXpositioner/
+                                           @local_name='spivotx'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/spivotx/name='spivotx'
+    entry/instrument/spivotx/value=0.0
+                                    @local_name='spivotx.value'
+    entry/instrument/spivoty:NXpositioner/
+                                           @local_name='spivoty'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/spivoty/name='spivoty'
+    entry/instrument/spivoty/value=0.0
+                                    @local_name='spivoty.value'
+    entry/instrument/spivotz:NXpositioner/
+                                           @local_name='spivotz'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/spivotz/name='spivotz'
+    entry/instrument/spivotz/value=0.0
+                                    @local_name='spivotz.value'
+    entry/instrument/sroll:NXpositioner/
+                                         @local_name='sroll'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/sroll/controller_record='BL15I-MO-SFAB-01:ROLL'
+    entry/instrument/sroll/name='sroll'
+    entry/instrument/sroll/value=0.0 units=deg
+                                  @local_name='sroll.sroll'
+    entry/instrument/ssx:NXpositioner/
+                                       @local_name='ssx'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/ssx/controller_record='BL15I-MO-SFAB-01:SAMPLE:X'
+    entry/instrument/ssx/name='ssx'
+    entry/instrument/ssx/value=-0.0004 units=mm
+                                @local_name='ssx.ssx'
+    entry/instrument/ssz:NXpositioner/
+                                       @local_name='ssz'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/ssz/controller_record='BL15I-MO-SFAB-01:SAMPLE:Z'
+    entry/instrument/ssz/name='ssz'
+    entry/instrument/ssz/value=-0.0008 units=mm
+                                @local_name='ssz.ssz'
+    entry/instrument/svfmcurve:NXpositioner/
+                                             @local_name='svfmcurve'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/svfmcurve/controller_record='BL15I-OP-MIRR-03:VFM:CURVE'
+    entry/instrument/svfmcurve/name='svfmcurve'
+    entry/instrument/svfmcurve/value=0.0 units=mm
+                                      @local_name='svfmcurve.svfmcurve'
+    entry/instrument/svfmellip:NXpositioner/
+                                             @local_name='svfmellip'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/svfmellip/controller_record='BL15I-OP-MIRR-03:VFM:ELLIP'
+    entry/instrument/svfmellip/name='svfmellip'
+    entry/instrument/svfmellip/value=0.0 units=mm
+                                      @local_name='svfmellip.svfmellip'
+    entry/instrument/svfmpitch:NXpositioner/
+                                             @local_name='svfmpitch'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/svfmpitch/controller_record='BL15I-OP-MIRR-03:VFM:PITCH'
+    entry/instrument/svfmpitch/name='svfmpitch'
+    entry/instrument/svfmpitch/value=-0.00035 units=mrad
+                                      @local_name='svfmpitch.svfmpitch'
+    entry/instrument/svfmy:NXpositioner/
+                                         @local_name='svfmy'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/svfmy/controller_record='BL15I-OP-MIRR-03:VFM:Y'
+    entry/instrument/svfmy/name='svfmy'
+    entry/instrument/svfmy/value=0.148 units=mm
+                                  @local_name='svfmy.svfmy'
+    entry/instrument/sx:NXpositioner/
+                                      @local_name='sx'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/sx/controller_record='BL15I-MO-SFAB-01:X'
+    entry/instrument/sx/name='sx'
+    entry/instrument/sx/value=27.0 units=mm
+                               @local_name='sx.sx'
+    entry/instrument/sy:NXpositioner/
+                                      @local_name='sy'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/sy/controller_record='BL15I-MO-SFAB-01:Y'
+    entry/instrument/sy/name='sy'
+    entry/instrument/sy/value=-8.0005 units=mm
+                               @local_name='sy.sy'
+    entry/instrument/syaw:NXpositioner/
+                                        @local_name='syaw'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/syaw/controller_record='BL15I-MO-SFAB-01:YAW'
+    entry/instrument/syaw/name='syaw'
+    entry/instrument/syaw/value=-0.0002 units=deg
+                                 @local_name='syaw.syaw'
+    entry/instrument/sz:NXpositioner/
+                                      @local_name='sz'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/sz/controller_record='BL15I-MO-SFAB-01:Z'
+    entry/instrument/sz/name='sz'
+    entry/instrument/sz/value=-0.0008 units=mm
+                               @local_name='sz.sz'
+    entry/instrument/tab2jack1:NXpositioner/
+                                             @local_name='tab2jack1'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/tab2jack1/controller_record='BL15I-MO-TABLE-03:BASE:Y1'
+    entry/instrument/tab2jack1/name='tab2jack1'
+    entry/instrument/tab2jack1/value=-102.421952 units=mm
+                                      @local_name='tab2jack1.tab2jack1'
+    entry/instrument/tab2jack2:NXpositioner/
+                                             @local_name='tab2jack2'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/tab2jack2/controller_record='BL15I-MO-TABLE-03:BASE:Y2'
+    entry/instrument/tab2jack2/name='tab2jack2'
+    entry/instrument/tab2jack2/value=-105.0000105 units=mm
+                                      @local_name='tab2jack2.tab2jack2'
+    entry/instrument/tab2jack3:NXpositioner/
+                                             @local_name='tab2jack3'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/tab2jack3/controller_record='BL15I-MO-TABLE-03:BASE:Y3'
+    entry/instrument/tab2jack3/name='tab2jack3'
+    entry/instrument/tab2jack3/value=-105.0000105 units=mm
+                                      @local_name='tab2jack3.tab2jack3'
+    entry/instrument/tab2rotation:NXpositioner/
+                                                @local_name='tab2rotation'
+                                                @scan_role='monitor_per_scan'
+    entry/instrument/tab2rotation/controller_record='BL15I-MO-TABLE-03:BASE:Ry'
+    entry/instrument/tab2rotation/name='tab2rotation'
+    entry/instrument/tab2rotation/value=0.0 units=deg
+                                         @local_name='tab2rotation.tab2rotation'
+    entry/instrument/tab2transx:NXpositioner/
+                                              @local_name='tab2transx'
+                                              @scan_role='monitor_per_scan'
+    entry/instrument/tab2transx/controller_record='BL15I-MO-TABLE-03:BASE:X'
+    entry/instrument/tab2transx/name='tab2transx'
+    entry/instrument/tab2transx/value=-0.2739 units=mm
+                                       @local_name='tab2transx.tab2transx'
+    entry/instrument/thermo1:NXpositioner/
+                                           @local_name='thermo1'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/thermo1/name='thermo1'
+    entry/instrument/thermo1/value=3167.5
+                                    @local_name='thermo1.thermo1'
+    entry/instrument/thermo2:NXpositioner/
+                                           @local_name='thermo2'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/thermo2/name='thermo2'
+    entry/instrument/thermo2/value=3167.5
+                                    @local_name='thermo2.thermo2'
+    entry/instrument/thermo3:NXpositioner/
+                                           @local_name='thermo3'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/thermo3/name='thermo3'
+    entry/instrument/thermo3/value=3167.5
+                                    @local_name='thermo3.thermo3'
+    entry/instrument/vfm_curve:NXpositioner/
+                                             @local_name='vfm_curve'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/vfm_curve/controller_record='BL15I-OP-VFM-01:CURVE'
+    entry/instrument/vfm_curve/name='vfm_curve'
+    entry/instrument/vfm_curve/value=12.738 units=mm
+                                      @local_name='vfm_curve.vfm_curve'
+    entry/instrument/vfm_ellipticity:NXpositioner/
+                                                   @local_name='vfm_ellipticity'
+                                                   @scan_role='monitor_per_scan'
+    entry/instrument/vfm_ellipticity/controller_record='BL15I-OP-VFM-01:ELLIP'
+    entry/instrument/vfm_ellipticity/name='vfm_ellipticity'
+    entry/instrument/vfm_ellipticity/value=1.327 units=mm
+                                            @local_name='vfm_ellipticity.vfm_ellipticity'
+    entry/instrument/vfm_gravsag:NXpositioner/
+                                               @local_name='vfm_gravsag'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/vfm_gravsag/name='vfm_gravsag'
+    entry/instrument/vfm_gravsag/value=13.8
+                                        @local_name='vfm_gravsag.value'
+    entry/instrument/vfm_pitch:NXpositioner/
+                                             @local_name='vfm_pitch'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/vfm_pitch/controller_record='BL15I-OP-VFM-01:PITCH'
+    entry/instrument/vfm_pitch/name='vfm_pitch'
+    entry/instrument/vfm_pitch/value=1.0017055 units=mrad
+                                      @local_name='vfm_pitch.vfm_pitch'
+    entry/instrument/vfm_x:NXpositioner/
+                                         @local_name='vfm_x'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/vfm_x/controller_record='BL15I-OP-VFM-01:X'
+    entry/instrument/vfm_x/name='vfm_x'
+    entry/instrument/vfm_x/value=0.0 units=mm
+                                  @local_name='vfm_x.vfm_x'
+    entry/instrument/vfm_y:NXpositioner/
+                                         @local_name='vfm_y'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/vfm_y/controller_record='BL15I-OP-VFM-01:Y'
+    entry/instrument/vfm_y/name='vfm_y'
+    entry/instrument/vfm_y/value=20.0016 units=mm
+                                  @local_name='vfm_y.vfm_y'
+    entry/instrument/wigglerField:NXpositioner/
+                                                @local_name='wigglerField'
+                                                @scan_role='monitor_per_scan'
+    entry/instrument/wigglerField/name='wigglerField'
+    entry/instrument/wigglerField/value=3.499779
+                                         @local_name='wigglerField.wigglerField'
+    entry/instrument/zebraFastShutter:NXdetector/
+                                                  @local_name='zebraFastShutter'
+                                                  @scan_role='detector'
+    entry/instrument/zebraFastShutter/data: (1,)
+                                            @local_name='zebraFastShutter.zebraFastShutter'
+                                            @target='/entry/instrument/zebraFastShutter/data'
+    entry/instrument/zebraFastShutter/description='Generic Binary PV Detector'
+    entry/instrument/zebraFastShutter/id='zebraFastShutter'
+    entry/instrument/zebraFastShutter/type='FastShutterDetector'
+    entry/pil3:NXdata/
+                       @axes=['exposure', '.', '.']
+                       @exposure_indices=array([0], dtype=int32)
+                       @signal='data'
+    entry/pil3/data (external link to 381043-pil3-NexusScanDataWriter+pil3+expose+1.2.hdf5#/entry/instrument/detector/data): (1, 1679, 1475)
+                     @NDArrayDimBinning=array([1, 1], dtype=int32)
+                     @NDArrayDimOffset=array([0, 0], dtype=int32)
+                     @NDArrayDimReverse=array([0, 0], dtype=int32)
+                     @NDArrayNumDims=2
+                     @signal=1
+    entry/pil3/exposure: (1,)
+                         @local_name='exposure.exposure'
+                         @target='/entry/instrument/exposure/value'
+    entry/pil3_image_data:NXdata/
+                                  @axes='exposure'
+                                  @exposure_indices=array([0], dtype=int32)
+                                  @signal='image_data'
+    entry/pil3_image_data/exposure: (1,)
+                                    @local_name='exposure.exposure'
+                                    @target='/entry/instrument/exposure/value'
+    entry/pil3_image_data/image_data: (1,)
+                                      @data_filename=array([1], dtype=int32)
+                                      @signal=array([1], dtype=int32)
+                                      @target='/entry/instrument/pil3/image_data'
+    entry/program_name='GDA 9.30.0'
+    entry/sample:NXsample/
+    entry/sample/beamNexusDevice:NXbeam/
+    entry/sample/beamNexusDevice/distance=0.0 units=mm
+    entry/scan_command='scan exposure 1 1 1 ds diodes mimas pil3 1.2 zebraFastShutter 1.2'
+                        @target='/entry/diamond_scan/scan_command'
+    entry/scan_fields: (4,)
+                       @target='/entry/diamond_scan/scan_fields'
+    entry/scan_shape: (1,)
+                      @target='/entry/diamond_scan/scan_shape'
+    entry/start_time='2023-07-04T23:12:27.568'
+                      @target='/entry/diamond_scan/start_time'
+    entry/user01:NXuser/
+    entry/user01/facility_user_id='i15user'
+    entry/user01/name='I15 User'
+    entry/zebraFastShutter:NXdata/
+                                   @axes='exposure'
+                                   @exposure_indices=array([0], dtype=int32)
+                                   @signal='data'
+    entry/zebraFastShutter/data: (1,)
+                                 @local_name='zebraFastShutter.zebraFastShutter'
+                                 @target='/entry/instrument/zebraFastShutter/data'
+    entry/zebraFastShutter/exposure: (1,)
+                                     @local_name='exposure.exposure'
+                                     @target='/entry/instrument/exposure/value'

@@ -28,6 +28,21 @@
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
 
+				<!-- Live beamCurrent, facilityMode and fillMode PVs are inacessible to
+					 dummy mode servers, since they require live mode jca properties. -->
+				<!-- TODO: Work out if visit and defVisit are needed here too, since they
+					 are created on demand in live mode. -->
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="defVisit" />
+					<property name="propertyName" value="gda.defVisit" />
+				</bean>
+
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="defEntryName" value="defVisit" />
+				</bean>
+
 				<!-- Metadata entry userid is not a StoredMetadataEntry, so its value cannot be set
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="userid" />
@@ -37,21 +52,6 @@
 
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="defVisit" />
-					<property name="propertyName" value="gda.defVisit" />
-				</bean>
-
-				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="investigation" />
-					<property name="query" value="id:investigation:id" />
-				</bean>
-
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="visit" />
-					<property name="defEntryName" value="defVisit" />
 				</bean>
 
 				<bean class="gda.data.metadata.IcatMetadataEntry">
