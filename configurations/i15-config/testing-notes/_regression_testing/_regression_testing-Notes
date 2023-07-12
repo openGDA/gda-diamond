@@ -5,14 +5,31 @@ Scan		Config	Dummy	Det.	Notes
 			NDW	T	/Live						Baseline scan command
 ----------- --- -	-----	------	------------------------------------
 ../380135	NDW		Live	pil3cbf	expose(1.2,                 "NexusDataWriter.test1.2", processing)
+381037		NDW		Live	pil3cbf	expose(1.2,                 'NexusDataWriter+'+exposeDetector+'+expose+1.2', processing)
+381038		NDW		Live	pil3cbf	exposeSweep(1.5, 56, 60, 1, 'NexusDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
+381039		NDW		Live	pil3	expose(1.2,                 'NexusDataWriter+'+exposeDetector+'+expose+1.2', processing)
+381040		NDW		Live	pil3	exposeSweep(1.5, 56, 60, 1, 'NexusDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
 ----------- --- --- -----	-----	------	------------------------------------
-380137		NSD		Live	pil3cbf	expose(1.2, "NexusScanDataWriter.test1.2", processing)
+380137		NSD		Live	pil3cbf	expose(1.2,                 "NexusScanDataWriter.test1.2", processing)
+381041		NSD		Live	pil3cbf	expose(1.2,                 'NexusScanDataWriter+'+exposeDetector+'+expose+1.2', processing)
+381042		NSD		Live	pil3cbf	exposeSweep(1.5, 56, 60, 1, 'NexusScanDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
+381043		NSD		Live	pil3	expose(1.2,                 'NexusScanDataWriter+'+exposeDetector+'+expose+1.2', processing)
+381044		NSD		Live	pil3	exposeSweep(1.5, 56, 60, 1, 'NexusScanDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW	NexusDataWriter				NSD	NexusScanDataWriter
 	T	Template
 
 	See testing-notes/_Preparing_a_scan_for_archiving for process
 ================================================================================
+To also test dataCollectionGroups, these tests are also grouped using a context:
+
+with dataCollectionGroup(experimentTypeDAC=True) as processing:
+  expose(1.2,                 'NexusDataWriter+'+exposeDetector+'+expose+1.2', processing)
+  exposeSweep(1.5, 56, 60, 1, 'NexusDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
+
+with dataCollectionGroup(experimentTypeDAC=True) as processing:
+  expose(1.2,                 'NexusScanDataWriter+'+exposeDetector+'+expose+1.2', processing)
+  exposeSweep(1.5, 56, 60, 1, 'NexusScanDataWriter+'+exposeDetector+'+exposeSweep+1.5+56+60+1', processing)
 
 --------------------------------------------------------------------------------
 
