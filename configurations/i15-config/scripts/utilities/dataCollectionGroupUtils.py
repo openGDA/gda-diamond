@@ -18,6 +18,22 @@ import scisoftpy as dnp
 class IspybDataCollectionApiUtils(object):
 
 	@staticmethod
+	def exposeDetectorCheck(expectedDetector): # https://jira.diamond.ac.uk/browse/I15-846
+		from localStationScripts.user_commands import _exposeDetector
+		try:
+			det = _exposeDetector().name
+			if det == expectedDetector:
+				return
+			raise ValueError("exposeDetector {} is not the expected detector {}\n{}\n{}".format(
+				det, expectedDetector,
+				"Single crystal experiments require cbf data, without it, processing will fail.",
+				"To use the expected detector run exposeDetector='{}' and add it to localStationUser.py"))
+		except Exception as e:
+			logger = LoggerFactory.getLogger("exposeDetectorCheck")
+			logger.warn(e.message, e)
+			print e.message
+
+	@staticmethod
 	def isDummy():
 		mode = str(LocalProperties.get(LocalProperties.GDA_MODE))
 		if mode not in ("live", "dummy"):
@@ -199,10 +215,12 @@ For example:
 	"""
 	#print "dataCollectionGroup(%r, %r, %r)" % (dataCollectionGroupId, dataCollectionGroupIdScannable, processingScannable)
 
+	IspybDataCollectionApiUtils.exposeDetectorCheck('pil3cbf')
+
 	dbc = IspybDataCollectionApiConnector.instance()
 
 	if not dataCollectionGroupId:
-		dcg = dbc.newDataCollectionGroup(ExperimentType.DLS_ANVIL_HP if experimentTypeDAC else None)
+		dcg = dbc.newDataCollectionGroup(ExperimentType.DLS_ANVIL_HP.toString() if experimentTypeDAC else ExperimentType.OSC.toString())
 		dataCollectionGroupId = dcg.getId()
 		msg = "Created with Id  "
 	else:
@@ -220,6 +238,7 @@ For example:
 
 	dbc.closeDataCollectionGroup(dcg)
 
+	IspybDataCollectionApiUtils.exposeDetectorCheck('pil3cbf')
 	print "The %r metadata scanable used Id %r " % (dataCollectionGroupIdScannable, dataCollectionGroupId)
 
 
