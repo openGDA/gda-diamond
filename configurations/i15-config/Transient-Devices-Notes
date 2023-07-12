@@ -26,7 +26,7 @@ device or scannable defined in that profile is available in the Finder.
 For example:
 
 --------------------------------------------------------------------------------
-		if Finder.find("ippwsme07m"):
+		if isFindable("ippwsme07m"):
 			ipp3=...
 --------------------------------------------------------------------------------
 
