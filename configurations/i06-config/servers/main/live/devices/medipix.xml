@@ -86,10 +86,10 @@
 	<!-- ROI-STAT pairs for Live Stream View -->
 	<bean id="medipix_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats1" />
-		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI7:" />
-		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT7:" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI1:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT1:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
+		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -101,10 +101,10 @@
 	</bean>
 	<bean id="medipix_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats2" />
-		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI8:" />
-		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT8:" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI2:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT2:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
+		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -116,10 +116,10 @@
 	</bean>
 	<bean id="medipix_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats3" />
-		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI9:" />
-		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT9:" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI3:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT3:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
+		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -131,10 +131,10 @@
 	</bean>
 	<bean id="medipix_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats4" />
-		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI10:" />
-		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT10:" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI4:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT4:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpxview.ROT" />
+		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
