@@ -253,21 +253,6 @@ except java.io.FileNotFoundException, e:
 except:
     localStation_exception(sys.exc_info(), "running localStationStaff user script")
 
-print "*"*80
-print "Attempting to run localStationUser.py from users script directory"
-print "*"*80
-try:
-    run("localStationUser")
-    print "localStationUser.py completed."
-except java.io.FileNotFoundException, e:
-    print "No localStationUser.py found in user scripts directory"
-except:
-    localStation_exception(sys.exc_info(), "running localStationUser user script")
-
-print "*"*80
-print "Active profiles %s (gda.spring.profiles.active)" % ",".join(LocalProperties.getStringArray("gda.spring.profiles.active"))
-
-
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
