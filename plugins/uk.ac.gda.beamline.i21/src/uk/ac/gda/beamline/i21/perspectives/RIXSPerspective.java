@@ -75,6 +75,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		
 		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.BOTTOM, (float)0.6, TOOLPAGE_FOLDER); //$NON-NLS-1$
 		liveControlFolder.addView(LiveControlsView.ID + ":controlSet");
+		liveControlFolder.addView(LiveControlsView.ID + ":controlSet2");
 		liveControlFolder.addView("uk.ac.gda.rcp.views.dashboardView");
 		liveControlFolder.addPlaceholder(LiveControlsView.ID + ":*");
 		liveControlFolder.addPlaceholder(LiveControlsView.ID);
