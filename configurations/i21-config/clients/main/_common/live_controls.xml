@@ -310,6 +310,7 @@
 	</bean>
 	
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Live Controls"/>
 		<property name="controls">
 			<list>
 				<ref bean="ringCurrent_control" />
@@ -346,4 +347,23 @@
 		</property>
 	</bean>
 
+	<bean id="sample_vessel_valves_open" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="sample_vessel_valves.asynchronousMoveTo(1)" />
+		<property name="buttonText" value="Open" />
+		<property name="group" value="Sample Vessel Valves" />
+	</bean>
+	<bean id="sample_vessel_valves_close" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="sample_vessel_valves.asynchronousMoveTo(0)" />
+		<property name="buttonText" value="Close" />
+		<property name="group" value="Sample Vessel Valves" />
+	</bean>
+	<bean name="controlSet2" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Live Controls 2"/>
+		<property name="controls">
+			<list>
+				<ref bean="sample_vessel_valves_open" />
+				<ref bean="sample_vessel_valves_close" />
+			</list>
+		</property>
+	</bean>	
 </beans>
