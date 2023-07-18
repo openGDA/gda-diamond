@@ -86,8 +86,10 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-theFactory.setXesBraggBoth(XESBraggBoth)
+theFactory.setScanName("")
+theFactory.setXesBraggGroup(XESBraggGroup)
 theFactory.setXesEnergyBoth(XESEnergyBoth)
+theFactory.setXesEnergyGroup(XESEnergyGroup)
 theFactory.setXesOffsetsList([XesOffsetsUpper, XesOffsetsLower])
 xes = theFactory.createXesScan()
 xes.setTwoDPlotter(xes_2d_plotter)
@@ -106,9 +108,11 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
+theFactory.setScanName("")
 
 xas = theFactory.createEnergyScan();
 xas.setDetectorOrder([ionchambers])
+xas.setNexusTemplateFiles(["/dls_sw/i20/software/gda/config/yaml/xspress4-energy-link.yaml"])
 xanes = xas
 
 vararg_alias("xas")

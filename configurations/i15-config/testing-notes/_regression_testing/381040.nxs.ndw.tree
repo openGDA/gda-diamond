@@ -1,0 +1,351 @@
+/dls/i15/data/2023/cm33896-3/381040.nxs:
+root:NXroot
+  entry1:NXentry
+    before_scan:NXcollection
+      bs2x:NXcollection
+        bs2x = 2.001803739306
+      bs2y:NXcollection
+        bs2y = 2.835667552365
+      bs3x:NXcollection
+        bs3x = -15.641762106218
+      bs3y:NXcollection
+        bs3y = 105.978174800161
+      bs3z:NXcollection
+        bs3z = -20.268
+      bsx:NXcollection
+        bsx = -12.018957621759
+      bsy:NXcollection
+        bsy = -0.999988724684
+      d1:NXcollection
+        d1 = 1.251422028852759
+      d1sum:NXcollection
+        d1sum = 0.0
+      d2:NXcollection
+        d2 = 5.3177737059093
+      d2sum:NXcollection
+        d2sum = 0.0
+      d3:NXcollection
+        d3 = 0.0982418119105034
+      d3sum:NXcollection
+        d3sum = 0.0
+      d4:NXcollection
+        d4 = 10.002136915210258
+      d4sum:NXcollection
+        d4sum = 0.0
+      d5:NXcollection
+        d5 = 1.006884965483536
+      d5sum:NXcollection
+        d5sum = 0.0
+      d6:NXcollection
+        d6 = 0.0646364732640319
+      d6x:NXcollection
+        d6x = 49.994201523504
+      d8:NXcollection
+        d8 = 0.6688766395382576
+      d9:NXcollection
+        d9 = 0.00033284983586536756
+      dataCollectionGroupId:NXcollection
+        value = 9664617.0
+      dcmbragg1:NXcollection
+        dcmbragg1 = 1.57386064
+      dcmbragg2:NXcollection
+        dcmbragg2 = 1.57390255
+      dcmenergy:NXcollection
+        dcmenergy = 72028.77
+      dcmxtl1roll:NXcollection
+        dcmxtl1roll = 0.0935
+      dcmxtl1y:NXcollection
+        dcmxtl1y = 0.0
+      dcmxtl1z:NXcollection
+        dcmxtl1z = 363.6724
+      dcmxtl2y:NXcollection
+        dcmxtl2y = 20.19
+      ddelta:NXcollection
+        ddelta = 93.000092
+      det1z:NXcollection
+        det1z = 245.0
+      det2z:NXcollection
+        det2z = 447.0
+      djack1:NXcollection
+        djack1 = -15.07815575
+      djack2:NXcollection
+        djack2 = -15.07795225
+      djack3:NXcollection
+        djack3 = -17.38221975
+      dkappa:NXcollection
+        dkappa = -130.127261
+      dkphi:NXcollection
+        dkphi = 56.8272
+      dktheta:NXcollection
+        dktheta = -35.322358
+      drotation:NXcollection
+        drotation = -0.1137
+      dtransx:NXcollection
+        dtransx = 24.6751
+      dx:NXcollection
+        dx = -0.000749728185
+      dy:NXcollection
+        dy = -0.000476
+      dz:NXcollection
+        dz = -5e-05
+      f2x:NXcollection
+        f2x = 150.005
+      fs2x:NXcollection
+        fs2x = 0.075285
+      fs2y:NXcollection
+        fs2y = 0.074715
+      fsx:NXcollection
+        fsx = -1.3528721e-05
+      fsy:NXcollection
+        fsy = -1.7077007e-05
+      hfm_curve:NXcollection
+        hfm_curve = 2.65
+      hfm_ellipticity:NXcollection
+        hfm_ellipticity = 0.8
+      hfm_pitch:NXcollection
+        hfm_pitch = 0.9989
+      hfm_roll:NXcollection
+        hfm_roll = 0.0
+      hfm_x:NXcollection
+        hfm_x = 0.0003
+      hfm_y:NXcollection
+        hfm_y = 11.2052
+      hfm_yaw:NXcollection
+        hfm_yaw = 0.0
+      pin3x:NXcollection
+        pin3x = -0.022708012324
+      pin3y:NXcollection
+        pin3y = 0.011551426571
+      pinpitch:NXcollection
+        pinpitch = -3.6273389e-05
+      pinx:NXcollection
+        pinx = 0.000326868109
+      piny:NXcollection
+        piny = -0.000450561853
+      pinyaw:NXcollection
+        pinyaw = 0.0
+      pinz:NXcollection
+        pinz = -30.002
+      pt100_1:NXcollection
+        pt100_1 = 3167.5
+      qbpm1A:NXcollection
+        value = 0.05125005725802747
+      qbpm1B:NXcollection
+        value = 0.029810041534326943
+      qbpm1C:NXcollection
+        value = 0.020666748076688227
+      qbpm1D:NXcollection
+        value = 0.011382764307090915
+      qbpm1_x:NXcollection
+        qbpm1_x = 0.0004
+      qbpm1_y:NXcollection
+        qbpm1_y = 0.0003
+      qbpm1total:NXcollection
+        value = 0.11310961117613355
+      qbpm2A:NXcollection
+        value = 0.09870529409933493
+      qbpm2B:NXcollection
+        value = 0.10879039999767914
+      qbpm2C:NXcollection
+        value = 0.1155400299736159
+      qbpm2D:NXcollection
+        value = 0.11572599646535842
+      qbpm2_x:NXcollection
+        qbpm2_x = 14.584
+      qbpm2_y:NXcollection
+        qbpm2_y = 49.0
+      qbpm2total:NXcollection
+        value = 0.43870688426278226
+      ringCurrent:NXcollection
+        ringCurrent = 119.265623
+      s1xgap:NXcollection
+        s1xgap = 1.421
+      s1xminus:NXcollection
+        s1xminus = -0.71
+      s1xplus:NXcollection
+        s1xplus = 0.71
+      s1xpos:NXcollection
+        s1xpos = 0.0
+      s1ygap:NXcollection
+        s1ygap = 1.654
+      s1yminus:NXcollection
+        s1yminus = -0.827
+      s1yplus:NXcollection
+        s1yplus = 0.823
+      s1ypos:NXcollection
+        s1ypos = -0.004
+      s2ygap:NXcollection
+        s2ygap = 77.0016
+      s2ypos:NXcollection
+        s2ypos = 2.4999
+      s4pitch:NXcollection
+        s4pitch = 0.0
+      s4xgap:NXcollection
+        s4xgap = 0.600043
+      s4xpos:NXcollection
+        s4xpos = 2.7514136e-05
+      s4yaw:NXcollection
+        s4yaw = 0.0
+      s4ygap:NXcollection
+        s4ygap = 0.500081
+      s4ypos:NXcollection
+        s4ypos = 1.32109e-06
+      s6ydown:NXcollection
+        s6ydown = 19.4
+      s6ygap:NXcollection
+        s6ygap = 1.2
+      s6ypos:NXcollection
+        s6ypos = 19.9998
+      s6yup:NXcollection
+        s6yup = 20.6
+      s7xgap:NXcollection
+        s7xgap = 0.400183
+      s7xpos:NXcollection
+        s7xpos = 0.979996600026
+      s7ygap:NXcollection
+        s7ygap = 0.400184
+      s7ypos:NXcollection
+        s7ypos = 1.463269012992
+      shdx:NXcollection
+        shdx = 0.0
+      shdy:NXcollection
+        shdy = 0.001
+      shdz:NXcollection
+        shdz = 0.0
+      shfmcurve:NXcollection
+        shfmcurve = 0.0
+      shfmellip:NXcollection
+        shfmellip = 0.0
+      shfmpitch:NXcollection
+        shfmpitch = 0.0007
+      shfmx:NXcollection
+        shfmx = 0.0007
+      skbjack1:NXcollection
+        skbjack1 = 0.000151
+      skbjack2:NXcollection
+        skbjack2 = 4.2e-05
+      skbjack3:NXcollection
+        skbjack3 = 0.000159
+      skbpitch:NXcollection
+        skbpitch = 0.0
+      skbroll:NXcollection
+        skbroll = 0.0
+      skby:NXcollection
+        skby = 0.0001
+      sphi:NXcollection
+        sphi = 89.991
+      spitch:NXcollection
+        spitch = -0.0006
+      spivotx:NXcollection
+        value = 0.0
+      spivoty:NXcollection
+        value = 0.0
+      spivotz:NXcollection
+        value = 0.0
+      sroll:NXcollection
+        sroll = 0.0
+      ssx:NXcollection
+        ssx = -0.0004
+      ssz:NXcollection
+        ssz = -0.0008
+      svfmcurve:NXcollection
+        svfmcurve = 0.0
+      svfmellip:NXcollection
+        svfmellip = 0.0
+      svfmpitch:NXcollection
+        svfmpitch = -0.00035
+      svfmy:NXcollection
+        svfmy = 0.148
+      sx:NXcollection
+        sx = 27.0
+      sy:NXcollection
+        sy = -8.0005
+      syaw:NXcollection
+        syaw = -0.0002
+      sz:NXcollection
+        sz = -0.0008
+      tab2jack1:NXcollection
+        tab2jack1 = -102.421952
+      tab2jack2:NXcollection
+        tab2jack2 = -105.0000105
+      tab2jack3:NXcollection
+        tab2jack3 = -105.0000105
+      tab2rotation:NXcollection
+        tab2rotation = 0.0
+      tab2transx:NXcollection
+        tab2transx = -0.2739
+      thermo1:NXcollection
+        thermo1 = 3167.5
+      thermo2:NXcollection
+        thermo2 = 3167.5
+      thermo3:NXcollection
+        thermo3 = 3167.5
+      vfm_curve:NXcollection
+        vfm_curve = 12.738
+      vfm_ellipticity:NXcollection
+        vfm_ellipticity = 1.327
+      vfm_gravsag:NXcollection
+        value = 13.8
+      vfm_pitch:NXcollection
+        vfm_pitch = 1.0017055
+      vfm_x:NXcollection
+        vfm_x = 0.0
+      vfm_y:NXcollection
+        vfm_y = 20.0016
+      wigglerField:NXcollection
+        wigglerField = 3.499787
+    end_time = 2023-07-04T23:06:15.185+01
+    entry_identifier = 381040
+    experiment_identifier = cm33896-3
+    instrument:NXinstrument
+      dkphiZebraScannableMotor:NXpositioner
+        dkphiZebraScannableMotor = [[55.9902 56.9872 57.9902 58.9872 59.9892]]
+          @axis = '1,2'
+          @label = '2'
+          @local_name = 'dkphiZebraScannableMotor.dkphiZebraScannableMotor'
+          @primary = '1'
+          @target = '/entry1/instrument/dkphiZebraScannableMotor/dk...'
+      exposure:NXpositioner
+        exposure = [[1. 1. 1. 1. 1.]]
+          @axis = '1,2'
+          @label = '1'
+          @local_name = 'exposure.exposure'
+          @primary = '1'
+          @target = '/entry1/instrument/exposure/exposure'
+        soft_limit_max = 1.7976931348623157e+308
+        soft_limit_min = -1.7976931348623157e+308
+      name = i15
+      pil3:NXdetector
+        count_time = [[1.497 1.497 1.497 1.497 1.497]]
+          @local_name = 'pil3.count_time'
+        data -> 381040-pil3-NexusDataWriter+pil3+exposeSweep+1.5+56+60+1.hdf5['/entry/instrument/detector/data']
+        data_file:NXnote
+          file_name = '["[b'/dls/i15/data/2023/cm33896-3/381040-pil3-files-Nexu...'
+            @data_filename = 1
+        image_data = '["[b'/dls/i15/data/2023/cm33896-3/381040-pil3-files-Nexu...'
+          @data_filename = 1
+          @signal = 1
+          @target = '/entry1/instrument/pil3/image_data'
+        local_name = pil3
+      source:NXsource
+        name = DLS
+        probe = x-ray
+        type = Synchrotron X-Ray Source
+      zebraContinuousMoveController:NXpositioner
+        CaptureTime = [[1486.7663 2986.7663 4486.7663 5986.7663 7486.7663]]
+          @local_name = 'zebraContinuousMoveController.CaptureTime'
+          @target = '/entry1/instrument/zebraContinuousMoveControll...'
+    pil3:NXdata
+      CaptureTime -> /entry1/instrument/zebraContinuousMoveController/CaptureTime
+      data -> 381040-pil3-NexusDataWriter+pil3+exposeSweep+1.5+56+60+1.hdf5['/entry/instrument/detector/data']
+      dkphiZebraScannableMotor -> /entry1/instrument/dkphiZebraScannableMotor/dkphiZebraScannableMotor
+      exposure -> /entry1/instrument/exposure/exposure
+      image_data -> /entry1/instrument/pil3/image_data
+    program_name = GDA 9.30.0
+    scan_command = scan exposure 1 1 1 ds diodes mimas scan dkphiZebraScann...
+    scan_dimensions = [1 5]
+    scan_identifier = 6663e4c7-1d4e-42f2-a7ce-b5b1f2693e6a
+    start_time = 2023-07-04T23:05:49.008+01
+    title = I15 Commissioning Directory 2023
+    user01:NXuser
+      username = i15user

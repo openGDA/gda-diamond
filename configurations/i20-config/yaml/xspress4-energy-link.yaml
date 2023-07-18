@@ -1,0 +1,9 @@
+entry1/:
+  NX_class@: NXentry
+  xspress4/:
+    NX_class@: NXdata
+    Energy: /entry1/xspress4/bragg1WithOffset
+  NX_class@: NXentry
+  xspress4FFI0/:
+    NX_class@: NXdata
+    Energy: /entry1/xspress4FFI0/bragg1WithOffset

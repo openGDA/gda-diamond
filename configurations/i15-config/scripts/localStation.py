@@ -47,7 +47,6 @@ from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import Sum
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
 from localStationConfiguration import disableZebra2
-from localStationConfiguration import enableCryoMotors
 from localStationConfiguration import enableExposeProcessingRequests
 from localStationConfiguration import enablePatchX7triggers
 from localStationConfiguration import enablePerpendicularSampleMotionScannables
@@ -57,6 +56,9 @@ from localStationConfiguration import enableXps7out1trig
 from localStationConfiguration import useQbpm2eth
 
 from utilities.dataCollectionGroupUtils import dataCollectionGroup, getDataCollectionGroupIdFromScan # @UnusedImport
+
+def isFindable(deviceName):
+	return Finder.find(deviceName) != None
 
 global run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
@@ -91,7 +93,7 @@ global run, etl, prop, add_default, vararg_alias, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9
 
-if Finder.find("cryox") != None:
+if isFindable("cryox"):
 	global cryox, cryoy, cryoz, cryorot
 
 #	det2z,
@@ -101,6 +103,9 @@ def isDummy():
 	if mode not in ("live", "dummy"):
 		raise ValueError("gda.mode LocalProperty (perhaps via a System property) must be 'live' or 'dummy' not:", mode)
 	return mode=="dummy"
+
+def isLive():
+	return not isDummy()
 
 def peakFinder():
 	"""
@@ -190,10 +195,10 @@ try:
 		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
 		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
 
-		if not useQbpm2eth:
-			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN") # Original QBPM
-		else:
+		if useQbpm2eth:
 			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-EA-QBPM-02:INTEN") # New ethercat based QBPM
+		else:
+			qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN") # Original QBPM
 		#s4pitch = Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
 		#s4yaw = Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
 		#pin2x = Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
@@ -218,16 +223,16 @@ try:
 		qbpm1C = Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
 		qbpm1D = Simple_PD_EpicsDevice("qbpm1D", beamline, "-DI-QBPM-01:D")
 
-		if not useQbpm2eth:
-			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
-			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
-			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
-			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
-		else:
+		if useQbpm2eth:
 			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-EA-QBPM-02:A")
 			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-EA-QBPM-02:B")
 			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-EA-QBPM-02:C")
 			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-EA-QBPM-02:D")
+		else:
+			qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
+			qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
+			qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
+			qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
 
 		vfm_gravsag = Simple_PD_EpicsDevice("vfm_gravsag", beamline, "-OP-VFM-01:SAG.VAL")
 
@@ -267,33 +272,27 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating devices")
 
-	#dummyDetector = SimpleDummyDetector()
-
-	if enableCryoMotors:
-		print "Checking cryo motors are available"
-		if Finder.find("cryox") == None:
-			localStation_exception(sys.exc_info(), "checking that cryo motors are in live mode. Please set enableCryoMotors=False or restart the GDA servers with the cryo transient device enabled")
-	elif Finder.find("cryox") != None:
-			localStation_exception(sys.exc_info(), "checking that cryo motors are in dummy mode. Please set enableCryoMotors=True or restart the GDA servers without the cryo transient device")
-
 	try:
 		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:',
 									temp_tolerance=1, stable_time_sec=60)
 	except:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
-	try:
-		global pe
-		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
-		pe1.processors=[DetectorDataProcessorWithRoi(
-						'max', pe1, [SumMaxPositionAndValue()], False)]
-
-		pe1peak2d = DetectorDataProcessorWithRoi(
-			'pe1peak2d', pe1, [TwodGaussianPeak()])
-		pe1max2d = DetectorDataProcessorWithRoi(
-			'pe1max2d', pe1, [SumMaxPositionAndValue()])
-	except:
-		localStation_exception(sys.exc_info(), "creating pe1...")
+	if isFindable('pe'):
+		try:
+			global pe
+			pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
+			pe1.processors=[DetectorDataProcessorWithRoi(
+							'max', pe1, [SumMaxPositionAndValue()], False)]
+	
+			pe1peak2d = DetectorDataProcessorWithRoi(
+				'pe1peak2d', pe1, [TwodGaussianPeak()])
+			pe1max2d = DetectorDataProcessorWithRoi(
+				'pe1max2d', pe1, [SumMaxPositionAndValue()])
+		except:
+			localStation_exception(sys.exc_info(), "creating pe1...")
+	else:
+		print "* Perkin Elmer (pe1) detector not enabled, restart GDA server with transient Perkin Elmer Detector to enable. *"
 
 	def gigeFactory(camdet_name, cam_name, peak2d_name, max2d_name, cam_pv):
 		from gdascripts.scannable.detector.epics.EpicsGigECamera import EpicsGigECamera
@@ -424,7 +423,7 @@ try:
 	else:
 		simpleLog("* Not creating xps7out1trig object *")
 
-	if enablePatchX7triggers and not isDummy():
+	if enablePatchX7triggers and isLive():
 		try:
 			patch12x7trig = ToggleBinaryPvAndWait('patch12x7trig', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
 			patch14x7trig = ToggleBinaryPvAndWait('patch14x7trig', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
@@ -450,19 +449,20 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 
-	try:
-		pe.hdfwriter.getNdFileHDF5().reset()
-		caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
-		caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
-		caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
-		caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
-		caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
-		caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
-		caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
-	except:
-		localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
+	if isFindable("pe"):
+		try:
+			pe.hdfwriter.getNdFileHDF5().reset()
+			caput("BL15I-EA-DET-01:PROC4:DataTypeOut",		"Int32")
+			caput("BL15I-EA-DET-01:PROC4:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:PROC3:NDArrayPort",		"pe1.proc.proc2")
+			caput("BL15I-EA-DET-01:PROC3:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:PROC:NDArrayPort",		"pe1.proc.proc4")
+			caput("BL15I-EA-DET-01:ARR:NDArrayPort",		"pe1.proc.proc3")
+			caput("BL15I-EA-DET-01:ARR:EnableCallbacks",	"Enable")
+			caput("BL15I-EA-DET-01:MJPG:NDArrayPort",		"pe1.proc") # Greyed out!
+			caput("BL15I-EA-DET-01:MJPG:EnableCallbacks",	"Enable") # Greyed out when enabled!
+		except:
+			localStation_exception(sys.exc_info(), "configuring pe compression & correcting pe area detector pipeline")
 
 	global mar, pil3, mpx, psl
 
@@ -552,7 +552,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	if not isDummy() and caget("BL15I-EA-IOC-22:STATUS") == u'0':
+	if isLive() and caget("BL15I-EA-IOC-22:STATUS") == u'0':
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
 		from future.anc150axis import createAnc150Axis
 		try:
@@ -611,7 +611,7 @@ try:
 		print "* Not installing atto devices *"
 
 	try:
-		if Finder.find("ippwsme07m") != None:
+		if isFindable("ippwsme07m"):
 			global ippwsme07m
 			from gdascripts.visit import VisitSetter, IPPAdapter #, ProcessingDetectorWrapperAdapter
 			ipp3rootPathForWindows = 'Z:/data'
@@ -637,7 +637,7 @@ try:
 		localStation_exception(sys.exc_info(), "creating ipp3 devices")
 
 	try:
-		if Finder.find("dcam9_tiff") != None:
+		if isFindable("dcam9_tiff"):
 			global dcam9_tiff
 			dcam9 = ProcessingDetectorWrapper(
 				'dcam9',
@@ -806,7 +806,7 @@ try:
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				)
-			if enableCryoMotors and Finder.find("cryox") != None:
+			if isFindable("cryox"):
 				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
@@ -853,10 +853,10 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
-	if enableSolsticeExamples:
-		try:
-			from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
+	from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
 
+	if enableSolsticeExamples and isFindable("pe1AreaDetectorRunnableDeviceProxyFinder"):
+		try:
 			pe1AreaDetectorRunnableDeviceProxyFinder = Finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
 			pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
@@ -864,8 +864,14 @@ try:
 			pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
 			pe1AreaDetectorRunnableDeviceProxy.register()
 
-			print "Configured pe1AD detector"
+			print "Configured example pe1AD solstice scanning device"
+		except:
+			localStation_exception(sys.exc_info(), "creating example pe1AD solstice scanning device")
+	else:
+		print "* Not installing example pe1AD solstice scanning device *"
 
+	if enableSolsticeExamples and isFindable("pil3AreaDetectorRunnableDeviceProxyFinder"):
+		try:
 			pil3AreaDetectorRunnableDeviceProxyFinder = Finder.find("pil3AreaDetectorRunnableDeviceProxyFinder")
 			pil3AreaDetectorRunnableDeviceProxy = pil3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
@@ -873,11 +879,11 @@ try:
 			pil3AreaDetectorRunnableDeviceProxy.setDelegate(pil3JythonAreaDetectorRunnableDeviceDelegate)
 			pil3AreaDetectorRunnableDeviceProxy.register()
 
-			print "Configured pil3AD detector"
+			print "Configured example pil3AD solstice scanning device"
 		except:
-			localStation_exception(sys.exc_info(), "creating example solstice scanning devices")
+			localStation_exception(sys.exc_info(), "creating example pil3AD solstice scanning device")
 	else:
-		print "* Not installing example solstice scanning devices *"
+		print "* Not installing example pil3AD solstice scanning device *"
 
 	from gda.util.converters import JEPConverterHolder # @UnusedImport
 	from gda.device.scannable import ConvertorScannable
@@ -896,7 +902,7 @@ try:
 		return scannable
 
 	def check_zebra(zebraPositionScannable, reportOk=True):
-		position_mismatch = "    Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
+		position_mismatch = "    WARNING: Mismatch between {} motor position and zebra encoder - Rocking it will probably fail!\n" + \
 			"     * To fix, run '{}.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n" + \
 			"     * Then run 'pos {} 1' to check that the reported diff is now small or re-run `check_zebra {}` again.\n" + \
 			"     * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details."
@@ -913,7 +919,7 @@ try:
 				print msg
 				print "*"*80
 			elif reportOk:
-				msg = "    No significant mismatch between {} motor position and zebra encoder\n".format(zebraPositionScannable.getName()) + \
+				msg = "    OK: No significant mismatch between {} motor position and zebra encoder\n".format(zebraPositionScannable.getName()) + \
 					"     * Run 'pos {} 1' to check how big the reported diff is now.\n".format(zebraPositionScannable.getName()) + \
 					"     * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details."
 				print msg
@@ -921,17 +927,17 @@ try:
 			localStation_exception(sys.exc_info(), position_error.format(
 				zebraPositionScannable.check_scannable.getName(), zebraPositionScannable.getName()))
 
+	alias("check_zebra")
+
 	print "*"*80
 
 	# Currently all of these tests fail as localStation is being run before devices are configured!
 	# TODO: Fix this and restore these tests
-	if not isDummy():
+	if isLive():
 		check_zebra(dkphiZebraPositionScannable, False)
 		#check_zebra(dkappaZebraPositionScannable, False)
 		#check_zebra(dkthetaZebraPositionScannable, False)
 		#check_zebra(sphiZebraPositionScannable, False)
-
-	alias("check_zebra")
 
 	def getCbfTemplateFile():
 		cli=CAClient('BL15I-EA-PILAT-03:CAM:CbfTemplateFile')
@@ -960,7 +966,7 @@ def exposeConfigSummary():
 	print "="*80+"\nExpose Configuration:\n\n"+\
 		"%9s for exposeDetector, %9s for rockMotor,  %9s for sweepMotor, \n" % (
 				 exposeDetectorName,  _rockMotor().name,   _sweepMotor().name) + \
-		"%9.3f for rockCentre,     %9s for horizMotor, %9s for vertMotor" % (
+		"%9.3f for rockCentre,     %9s for horizMotor, %9s for vertMotor\n" % (
 				 _rockCentre(),             _horizMotor().name,  _vertMotor().name)
 
 print "*"*80

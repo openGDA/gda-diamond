@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"
+	profile="hexapod">
 
 	<gda:motor id="hx" live-pvName="BL15J-MO-HEX-01:X" />
 	<gda:motor id="hy" live-pvName="BL15J-MO-HEX-01:Y" />

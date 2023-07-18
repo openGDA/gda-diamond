@@ -1,10 +1,15 @@
 from gda.epics import CAClient
 from org.slf4j import LoggerFactory
 import traceback
+from uk.ac.gda.devices.detector.xspress4 import XspressPvProviderBase
 
 print "Running detector_setup_functions.py"
 
 run("xspress_functions.py")
+
+def checkXspressPvsExist(baseName):
+    testPv=":TriggerMode"
+    return XspressPvProviderBase.pvExists(baseName+testPv)
 
 # Set some scannables for Mythen, so they are added to header of output file
 def setupMythen() :
@@ -25,18 +30,31 @@ def setupXspress3() :
     
     if LocalProperties.isDummyModeEnabled() :
         return
+    
     basePv = xspress3.getController().getEpicsTemplate()
+    if checkXspressPvsExist(basePv) == False :
+        print("Not setting up Xspress3 detector- PVs do not exist (IOC is not running)")
+        return
+    
+    print("\nSetting up Xspress3 detector")
+    
     setup_xspress_detector(basePv)
     # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
     CAClient.put(basePv+":CTRL_DTC", 1)
 
 def setupXspress3X() :
+    basePvName = xspress3X.getController().getBasePv()
+    if checkXspressPvsExist(basePvName) == False :
+        print("Not setting up Xspress3X detector - PVs do not exist (IOC is not running)")
+        return
+    
+    print("\nSetting up Xspress3X detector")
     # This fix is also set in spring - can be removed after server restart (9/9/2022)
     controller = xspress3X.getController()
     controller.setPvNameMap({"ROI_RES_GRADE_BIN":":ROI1:BinY"})
     controller.afterPropertiesSet()
 
-    basePvName = xspress3X.getController().getBasePv()
+    
     setup_xspress_detector(basePvName)
     
     setupResGrades(basePvName, False)
@@ -72,6 +90,7 @@ def caputXspress4Elements(format, value):
 def setupXspress4() :
     if LocalProperties.isDummyModeEnabled() :
         return
+    
     if globals().has_key("xspress4") == False :
         print "Not running setupXspress4 - xspress4 detector not present"
         return
@@ -92,11 +111,11 @@ def setupXspress4() :
         caputXspress4(":ROI"+str(num)+":EnableCallbacks", 0)
         caputXspress4(":ARR"+str(num)+":EnableCallbacks", 0)
     # xspress4.setTriggerMode(0) # software trigger mode
-    xspress4.setTriggerMode(3) # TTL veto only trigger mode
+    xspress4.setTriggerModeForScans(3) # TTL veto only trigger mode
 
-    from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
+    #from uk.ac.gda.devices.detector.xspress4.Xspress4Detector import TriggerMode
     #qexafs_xspress4.setTriggerModeForContinuousScan(TriggerMode.Burst) # for testing without Tfg
-    qexafs_xspress4.setTriggerModeForContinuousScan(TriggerMode.TtlVeto)
+    qexafs_xspress4.setTriggerModeForContinuousScan(3)
     
     qexafs_xspress4.setUseNexusTreeWriter(True)
     

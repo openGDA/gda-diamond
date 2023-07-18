@@ -2,6 +2,7 @@ import java, sys, time, subprocess
 
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
+from gdascripts.installation import isDummy
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
@@ -9,6 +10,7 @@ from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildIm
 from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled, is_watchdog_pausing # @UnusedImport
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
+from gda.configuration.properties import LocalProperties
 from gda.factory import Finder
 
 global run
@@ -21,10 +23,8 @@ def localStation_exception(exc_info, msg):
     localStation_exceptions.append("    %s" % msg)
     log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
-from gda.configuration.properties import LocalProperties
-dummy_mode = (LocalProperties.get('gda.mode') == u'dummy')
-print "dummy_mode=%r" % dummy_mode
-    
+print "dummy_mode=%r" % isDummy()
+
 try:
     simpleLog("%s ================ INITIALISING I15-1 GDA ================" % time.strftime("%Y-%m-%d %H:%M"))
 
@@ -37,8 +37,6 @@ try:
     ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
     d1locum = DisplayEpicsPVClass("d1locum", "BL15J-EA-IAMP-02:CHA:PEAK", "mV", "%f")
     d2locum = DisplayEpicsPVClass("d2locum", "BL15J-EA-IAMP-02:CHB:PEAK", "mV", "%f")
-    d1 = DisplayEpicsPVClass("d1", "BL15J-EA-ADC-01:STAT4:MeanValue_RBV", "V", "%f")
-    d2 = DisplayEpicsPVClass("d2", "BL15J-EA-ADC-01:STAT5:MeanValue_RBV", "V", "%f")
 
     from mapping_scan_commands import *
     print "Imported mapping_scan_commands"
@@ -219,23 +217,12 @@ try:
 
     print "Configured blower runnable device"
 
-    if dummy_mode:
+    if isDummy():
         print "*"*80
         print "Dummy mode specific setup - Start"
         print "*"*80
 
         pass
-
-        from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
-
-        testRunnableDeviceProxyFinder = Finder.find("testRunnableDeviceProxyFinder")
-        testRunnableDeviceProxy = testRunnableDeviceProxyFinder.getRunnableDevice()
-
-        testJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(testRunnableDeviceProxy)
-        testRunnableDeviceProxy.setDelegate(testJythonRunnableDeviceDelegate)
-        testRunnableDeviceProxy.register()
-
-        print "Configured test runnable device"
 
         print "*"*80
         print "Dummy mode specific setup - End"
@@ -251,7 +238,7 @@ try:
         """
         print subprocess.check_output(['bash','-c', 'ps huxH | wc -l'])
 
-    alias checkthreads
+    alias(checkthreads)
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
@@ -265,21 +252,6 @@ except java.io.FileNotFoundException, e:
     print "No localStationStaff.py found in user scripts directory"
 except:
     localStation_exception(sys.exc_info(), "running localStationStaff user script")
-
-print "*"*80
-print "Attempting to run localStationUser.py from users script directory"
-print "*"*80
-try:
-    run("localStationUser")
-    print "localStationUser.py completed."
-except java.io.FileNotFoundException, e:
-    print "No localStationUser.py found in user scripts directory"
-except:
-    localStation_exception(sys.exc_info(), "running localStationUser user script")
-
-print "*"*80
-print "Active profiles %s (gda.spring.profiles.active)" % ",".join(LocalProperties.getStringArray("gda.spring.profiles.active"))
-
 
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
