@@ -19,9 +19,6 @@ def xas(start, stop, step = 0.05, exposure_time = 0.1):
     erio()
     lightOff()
     cvscan(energy, start, stop, step, diff1_c, exposure_time, fy2_c, exposure_time, draincurrent_c, exposure_time, m4c1_c, exposure_time)
-    primary()
-    gv17('Reset')
-    gv17('Open')
     
     
 def repeat_xas(start, stop, number, step = 0.05, exposure_time = 0.1):
@@ -31,9 +28,7 @@ def repeat_xas(start, stop, number, step = 0.05, exposure_time = 0.1):
     lightOff()
     for i in range(number):
         cvscan(energy, start, stop, step, diff1_c, exposure_time, fy2_c, exposure_time, draincurrent_c, exposure_time, m4c1_c, exposure_time)
-    primary()
-    gv17('Reset')
-    gv17('Open')
+
    
     
 
