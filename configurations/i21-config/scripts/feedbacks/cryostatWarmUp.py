@@ -67,7 +67,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
         self.firstTime=False
         self.temperatutePrintIntervalInSeconds=10.0
         self.warmup=True
-        self.CRYO_SAMPLE_DIFFERENCE=8.0
+        self.CRYO_SAMPLE_DIFFERENCE=0.0
         
     def setSleepTime(self, t):
         self.sleepTime=t
