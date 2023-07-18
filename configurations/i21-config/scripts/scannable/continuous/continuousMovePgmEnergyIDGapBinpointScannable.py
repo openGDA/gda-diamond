@@ -174,9 +174,9 @@ class ContinuousMovePgmEnergyIDGapBinpointScannable(ContinuouslyScannableViaCont
             self._move_controller._energy.atScanStart()
             
     def atScanEnd(self):
-        if self._operating_continuously and isinstance(self._move_controller, ContinuousPgmEnergyIDGapMoveController):
-            self._move_controller._energy.atScanEnd()
-            
+        if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
+        self._move_controller.atScanEnd()
+                    
     # we have to implement following scannable interface for it to work outside continuous scanning
     def getExtraNames(self):
         if self._operating_continuously:
