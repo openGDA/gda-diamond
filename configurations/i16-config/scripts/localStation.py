@@ -1201,6 +1201,15 @@ try:
 except:
 	localStation_exception("configuring wrapped auto detectors")
 
+global camlab84b_for_scans, camlab84b_for_snaps, camlab84bExpTime
+
+try:
+	camlab84b, camlab84b_peak2d, camlab84b_max2d, camlab84bAuto, camlab84bAutopeak2d, camlab84bAutomax2d = wrappedAutoDetector(
+		"camlab84", camlab84b_for_scans, camlab84b_for_snaps, "LA84R-DI-DCAM-03:")
+	camlab84bExpTime.level=10
+except:
+	localStation_exception("configuring wrapped auto detectors - camlab84b")
+	
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
