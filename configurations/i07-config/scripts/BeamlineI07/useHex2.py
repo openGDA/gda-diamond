@@ -67,5 +67,7 @@ def hex2reset():
     print "hex2 reset complete";
     print HEX2.toFormattedString();
 
+overwriting.protect("hex2pivotx","hex2pivoty","hex2pivotz")
+
 alias("hex2pivot");
 alias("hex2reset");
