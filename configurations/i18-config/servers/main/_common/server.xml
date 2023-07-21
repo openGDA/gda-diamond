@@ -61,7 +61,11 @@
 	
 	<bean id="vmaSnapshotCollector" class="uk.ac.diamond.daq.scanning.DetectorCollectionScannable" init-method="register">
 		<property name="name" value="vmaSnapshotCollector" />
-		<property name="detector" ref="VMA"/>
+		<property name="detector" ref="mjpegVmaDetector"/>
+	</bean>
+	
+	<bean id="mjpegVmaDetector" class="gda.device.detector.MjpegDetector">
+		<property name="urlString" value="http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.mjpg.mjpg"/>
 	</bean>
 
 </beans>
