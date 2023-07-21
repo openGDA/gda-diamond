@@ -43,10 +43,10 @@
 	<bean id="dcm_y" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-DCM-01:Y" />
 	</bean>
-	<bean id="dcm_fpitch" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_fpitch" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL09I-MO-DCM-01:FPITCH" />
 	</bean>
-	<bean id="dcm_froll" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_froll" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL09I-MO-DCM-01:FROLL" />
 	</bean>
 
