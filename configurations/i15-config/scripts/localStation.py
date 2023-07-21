@@ -316,8 +316,6 @@ try:
 		'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
 	cam4det, cam4, peak2d4, max2d4 = gigeFactory(
 		'cam4det', 'cam4', 'peak2d4', 'max2d4', 'BL15I-DI-GIGE-04:')
-	cam5det, cam5, peak2d5, max2d5 = gigeFactory(
-		'cam5det', 'cam5', 'peak2d5', 'max2d5', 'BL15I-DI-GIGE-05:')
 
 	try:
 		simpleLog("Create diodes")
