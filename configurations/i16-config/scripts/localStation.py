@@ -1004,7 +1004,7 @@ else:
 	localStation_print("Not configuring pilatus 1 (100k)")
 
 if USE_PIL3:
-	from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100ksNPDW, pil3_100kthresh, pil3s, pils
+	from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
 
@@ -1277,47 +1277,7 @@ localStation_print("-------------------------------MEDIPIX INIT COMPLETE--------
 
 
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
-try:
-	#merlin = NxProcessingDetectorWrapper('merlin',
-	merlin = SwitchableHardwareTriggerableProcessingDetectorWrapper('merlin',
-																	_merlin,
-																	None,
-																	_merlin_for_snaps,
-																	[],
-																	panel_name_rcp='Merlin',
-																	iFileLoader=PilatusTiffLoader,
-																	fileLoadTimout=60,
-																	printNfsTimes=False,
-																	returnPathAsImageNumberOnly=True)
-	merlin.disable_operation_outside_scans = False
-	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
-	merlins = DetectorWithShutter(merlin, x1, X1_DELAY)
-	"""
-	# As with pil3, we can't just use merlin, we have to wrap a merlins to get the processing to work.
-	merlins = DetectorWithShutter(NxProcessingDetectorWrapper('merlins',
-			merlin.detector,
-			merlin.hardware_triggered_detector,
-			merlin.detector_for_snaps,
-			merlin.processors,
-			merlin.panel_name,
-			merlin.toreplace,
-			merlin.replacement,
-			merlin.iFileLoader,
-			merlin.root_datadir,
-			merlin.fileLoadTimout,
-			merlin.printNfsTimes,
-			merlin.returnPathAsImageNumberOnly,
-			merlin.panel_name_rcp,
-			merlin.return_performance_metrics,
-			merlin.array_monitor_for_hardware_triggering),
-		x1, X1_DELAY, nameSuffix="")
-	"""
-except gda.factory.FactoryException as e:
-	localStation_exception("connecting to merlin (FactoryException)", e)
-except java.lang.IllegalStateException as e:
-	localStation_exception("connecting to merlin (IllegalStateException)", e)
-except:
-	localStation_exception("connecting to merlin (Other)")
+from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
 localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
 ###############################################################################
 ###                              Configure Xmap                            ###
