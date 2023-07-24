@@ -71,6 +71,78 @@
 				<value>%.6g</value>
 			</list>
 		</property>
+		<property name="scalerOutputConfig">
+			<list>
+			
+				<!-- liveTime -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="liveTime" />
+					<property name="format" value="%6.4g" />
+					<property name="channel1" value="-1" />
+				</bean>
+				
+				<!-- I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+				</bean>
+
+				<!-- I0/Time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0Time" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- It -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="It" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+				</bean>
+
+				<!-- It / time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="ItTime" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- Iother -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="Iother" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+				</bean>
+
+				<!-- lnI0It -->
+				<bean
+					class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="lnI0It" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+					<property name="channel2" value="1" />
+					<property name="operationType" value="2" />
+				</bean>
+
+				<!-- lnItIref -->
+				<bean
+					class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="lnItIref" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="2" />
+					<property name="operationType" value="2" />
+				</bean>
+			</list>
+		</property>
+		<property name="timeChannelName" value="frame_time" />
+		<property name="useCustomisedOutput" value="true" />
 	</bean>
 
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
