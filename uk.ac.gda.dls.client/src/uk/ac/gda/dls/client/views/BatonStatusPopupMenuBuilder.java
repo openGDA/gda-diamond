@@ -19,9 +19,11 @@
 package uk.ac.gda.dls.client.views;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -127,14 +129,30 @@ final class BatonStatusPopupMenuBuilder {
 		new MenuItem(menu, SWT.SEPARATOR);
 	}
 
-	private static int getUdcClientIndex(IBatonStateProvider batonStateProvider) {
+	private static boolean containsUdcClientDetails(ClientDetails[] otherClientDetails) {
+		if(ArrayUtils.isEmpty(otherClientDetails)) {
+			return false;
+		}
+		return Arrays.stream(otherClientDetails)
+						.filter(Objects::nonNull)
+						.anyMatch(ClientDetails::isAutomatedUser);
+	}
+
+	static int getUdcClientIndex(IBatonStateProvider batonStateProvider) {
 		var noClient = 0;
-		if(!udcClientExists(batonStateProvider)) return noClient;
-		return Arrays.stream(batonStateProvider.getOtherClientInformation())
-				.filter(ClientDetails::isAutomatedUser)
-				.findFirst()
-				.map(ClientDetails::getIndex)
-				.orElse(noClient);
+		if(batonStateProvider == null) {
+			return noClient;
+		}
+		var otherClientDetails = batonStateProvider.getOtherClientInformation();
+		if (!containsUdcClientDetails(otherClientDetails)) {
+			return noClient;
+		}
+		return Arrays.stream(otherClientDetails)
+					.filter(Objects::nonNull)
+					.filter(ClientDetails::isAutomatedUser)
+					.findFirst()
+					.map(ClientDetails::getIndex)
+					.orElse(noClient);
 	}
 
 	static void preparePopUpMenu(Composite parent, Consumer<Menu> canvasMenuUsage, IBatonStateProvider batonStateProvider) {
@@ -143,9 +161,11 @@ final class BatonStatusPopupMenuBuilder {
 	}
 
 	static boolean udcClientExists(IBatonStateProvider batonStateProvider) {
-		if(batonStateProvider == null) return false;
-		return Arrays.stream(batonStateProvider.getOtherClientInformation())
-						.anyMatch(ClientDetails::isAutomatedUser);
+		if(batonStateProvider == null) {
+			return false;
+		}
+		var otherClientDetails = batonStateProvider.getOtherClientInformation();
+		return containsUdcClientDetails(otherClientDetails);
 	}
 
 	static IWorkbenchWindow getActiveWorkBenchWindow() {
