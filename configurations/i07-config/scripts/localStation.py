@@ -183,6 +183,8 @@ def checkHkl(position):
 		return(str(err))
 
 hkl.checkPositionValid = checkHkl
+overwriting.protect("betain", "betaout", "bin_eq_bout")
+
 run "BeamlineI07/devices/ivium.py"
 
 if "live"==LocalProperties.get("gda.mode") :
