@@ -22,6 +22,10 @@
 		<property name="pvName" value="BL07B-EA-SM-52:ROTY" />
 	</bean>
 	
+	<bean id="sm52b_rotz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-EA-SM-52:ROTZ" />
+	</bean>
+	
 	<!-- compound motors -->
 	
 	<bean id="sm52b_xp_motor" class="gda.device.motor.EpicsMotor">
