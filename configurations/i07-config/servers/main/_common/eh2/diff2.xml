@@ -66,6 +66,7 @@
 			</list>
 		</property>
 		<property name="deferredControlPoint" ref="diff2DeferMoves" />
+		<property name="demandAllScannablePositions" value="true" />
 	</bean>
 
 	<!-- Create references to wrapped group members -->
