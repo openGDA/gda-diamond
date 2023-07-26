@@ -7,12 +7,11 @@
 		<property name="epicsTemplate" value="BL07B-EA-XSP3-01" />
 	</bean>
 
-	<bean id="xspress3Mini" class="uk.ac.gda.devices.detector.xspress3.Xspress3MiniSingleChannelDetector">
+	<bean id="xspress" class="uk.ac.gda.devices.detector.xspress3.Xspress3MiniSingleChannelDetector">
 		<property name="controller" ref="xspress3MiniController" />
 		<property name="writeHDF5Files" value="false" />
 		<property name="maxNumberOfRois" value="1" />
 		<property name="useParentClassMethods" value="false" />
-
 	</bean>
 
 </beans>
