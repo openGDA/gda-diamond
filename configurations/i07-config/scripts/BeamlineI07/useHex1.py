@@ -66,6 +66,8 @@ def hex1reset():
 
     print "hex1 reset complete";
     print HEX1.toFormattedString();
+    
+overwriting.protect("hex1pivotx","hex1pivoty","hex1pivotz")
 
 alias("hex1pivot");
 alias("hex1reset");
