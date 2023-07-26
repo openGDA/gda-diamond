@@ -46,6 +46,16 @@
 		</property>
 	</bean>
 	
+	<bean id="sm52b_rotz" class="gda.device.scannable.TweakableScannableMotor">
+		<property name="motor" ref="sm52b_rotz_motor" />
+		<property name="userUnits" value="deg" />
+		<property name="tweaker">
+			<bean class="gda.device.motor.MotorPositionTweakControl">
+				<property name="motor" ref="sm52b_rotz_motor"/>
+			</bean>
+		</property>
+	</bean>
+	
 	<!-- Compound -->
 	
 	<bean id="sm52b_xp" class="gda.device.scannable.TweakableScannableMotor">
