@@ -3,58 +3,77 @@
 	xmlns:c="http://www.springframework.org/schema/c"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<description>
 		Configuration for DIFF2 (Diffractometer 2) in EH2
 	</description>
-	<bean id="diff2omega" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorOMEGA_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
+
+	<bean id="diff2group"
+		class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+		<property name="groupMembers">
 			<list>
-				<value>%9.5f</value>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff2omega" />
+					<property name="motor" ref="MotorOMEGA_DIFF2" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<!-- Alpha in Vertical mode -->
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff2alpha" />
+					<property name="motor" ref="MotorALPHA_DIFF2" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+				<!-- Delta in Vertical mode / Gamma in Horizental mode -->
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff2delta" />
+					<property name="motor" ref="MotorDELTA_DIFF2" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
+
+				<!-- Gamma in Vertical mode / Delta in Horizental mode -->
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="diff2gamma" />
+					<property name="motor" ref="MotorGAMMA_DIFF2" />
+					<property name="protectionLevel" value="0" />
+					<property name="initialUserUnits" value="Deg" />
+					<property name="hardwareUnitString" value="Deg" />
+					<property name="outputFormat">
+						<list>
+							<value>%9.5f</value>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
-	</bean>
-	<!-- Alpha in Vertical mode -->
-	<bean id="diff2alpha" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorALPHA_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-	<!-- Delta in Vertical mode / Gamma in Horizental mode -->
-	<bean id="diff2delta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorDELTA_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
+		<property name="deferredControlPoint" ref="diff2DeferMoves" />
+		<property name="demandAllScannablePositions" value="true" />
 	</bean>
 
-	<!-- Gamma in Vertical mode / Delta in Horizental mode -->
-	<bean id="diff2gamma" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorGAMMA_DIFF2" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
+	<!-- Create references to wrapped group members -->
+	<bean id="diff2omega" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2omega" />
+	<bean id="diff2alpha" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2alpha" />
+	<bean id="diff2delta" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2delta" />
+	<bean id="diff2gamma" factory-bean="diff2group" factory-method="getGroupMember" c:name="diff2gamma" />
 
 	<!-- Pilatus Rotation -->
 	<bean id="diff2prot" class="gda.device.scannable.ScannableMotor">
