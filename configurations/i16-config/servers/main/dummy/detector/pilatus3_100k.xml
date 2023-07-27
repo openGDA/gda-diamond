@@ -26,7 +26,7 @@
 	</bean>
 
 	<!-- In dummy mode we have to use the standard tiff filewriter rather than the pilatus cam tiff writer -->
-	<bean id="pilatus3_dummy_ndfile"
+	<bean id="pilatus3_ndfile"
 			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="#{ADSIM_HOST}-AD-SIM-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
@@ -74,7 +74,7 @@
 	<bean id="pilatus3_nxfilewriter_for_scans"
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus3_100k" />
-		<property name="ndFile" ref="pilatus3_dummy_ndfile" />
+		<property name="ndFile" ref="pilatus3_ndfile" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="alwaysPrepare" value="true" />
@@ -108,7 +108,7 @@
 	<bean id="pilatus3_nxfilewriter_for_snaps"
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pilatus3_100k" />
-		<property name="ndFile" ref="pilatus3_dummy_ndfile" />
+		<property name="ndFile" ref="pilatus3_ndfile" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="alwaysPrepare" value="true" />
