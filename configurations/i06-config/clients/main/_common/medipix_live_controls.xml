@@ -46,7 +46,7 @@
 	</bean>
 
 	<bean id="leem_calc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="leem" />
+		<property name="displayName" value="Image Rotation" />
 		<property name="group" value="medipix Rotation" />
 		<property name="scannableName" value="leem_calc" />
 		<property name="horizontalLayout" value="true"/>
@@ -83,14 +83,14 @@
 			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
 				<property name="liveControls">
 					<list>
-						<ref bean="medipix_expsure_time_control" />
+						<ref bean="medipix_expsure_time_control"/>
 						<ref bean="medipix_idle_time_control"/>
-						<ref bean="medipix_proc_num_filter_control" />
-						<ref bean="medipix_acq_mode_control" />
+						<ref bean="medipix_proc_num_filter_control"/>
+						<ref bean="medipix_acq_mode_control"/>
 						<ref bean="medipix_driver_mode_control"/>
-						<ref bean="medipix_image_rotation_angle_control" />
+						<ref bean="medipix_image_rotation_angle_control"/>
 						<ref bean="kb_raster_period_control"/>
-						<ref bean="medipixpreview" />
+						<ref bean="medipixpreview"/>
 						<ref bean="leem_calc_control"/>
 					</list>
 				</property>

@@ -133,4 +133,5 @@
 				<value>%.1f</value>
 			</list>
 		</property>	
-	</bean></beans>
+	</bean>
+</beans>
