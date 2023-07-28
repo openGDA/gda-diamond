@@ -27,6 +27,10 @@
 	<bean id="SampleY" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_y_motor" />
 	</bean>
+	
+	<bean id="sample_rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_rotation_motor" />
+	</bean>
 
 	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -37,6 +41,7 @@
 				<ref bean="sample_y_coarse" />
 				<ref bean="sample_x_fine" />
 				<ref bean="sample_y_fine" />
+				<ref bean="sample_rotation" />
 			</list>
 		</property>
 	</bean>

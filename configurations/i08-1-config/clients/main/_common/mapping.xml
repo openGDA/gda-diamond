@@ -51,6 +51,7 @@
 						<value>ZonePlateZ</value>
 						<value>pgm_energy</value>
 						<value>IDEnergy</value>
+						<value>sample_rotation</value>
 					</list>
 				</property>
 			</bean>
