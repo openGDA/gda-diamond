@@ -89,6 +89,9 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 
 	private ReadinessState state = ReadinessState.UNKNOWN;
 
+	private IObserver intensityHandler;
+	private IObserver handler;
+
 	public BeamlineReadinessDisplay(Composite parent) {
 		super(parent, "Ready", "Low intensity", "No beam", "State unknown");
 
@@ -102,8 +105,8 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		}
 
 		// observers to handle updates
-		IObserver intensityHandler = (source, arg) -> handleIntensityUpdate();
-		IObserver handler = (source, arg) -> handleUpdate();
+		intensityHandler = (source, arg) -> handleIntensityUpdate();
+		handler = (source, arg) -> handleUpdate();
 
 		// Get scannables for the various values we are monitoring
 		intensity = Finder.find(displayParams.getIntensity());
@@ -251,6 +254,13 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 				break;
 		}
 		setToolTipText(state.getMessage());
+	}
+
+	public void dispose() {
+		intensity.deleteIObserver(intensityHandler);
+		energy.deleteIObserver(handler);
+		ringCurrent.deleteIObserver(handler);
+		shutters.stream().forEach(s -> s.deleteIObserver(handler));
 	}
 
 }
