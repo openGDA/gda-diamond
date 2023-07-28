@@ -21,6 +21,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <module>uk.ac.gda.dls</module>
     <module>uk.ac.gda.dls.client</module>
     <module>uk.ac.gda.dls.test</module>
+    <module>uk.ac.gda.dls.client.test</module>
     <module>plugins</module>
     <module>features</module>
     <module>products</module>
