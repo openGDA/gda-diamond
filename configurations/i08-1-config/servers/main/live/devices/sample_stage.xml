@@ -26,5 +26,9 @@
 	<bean id="sample_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-EA-TABLE-01:Y" />
 	</bean>
+	
+	<bean id="sample_rotation_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-TABLE-01:ROTN" />
+	</bean>
 
 </beans>

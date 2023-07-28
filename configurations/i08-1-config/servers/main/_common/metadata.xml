@@ -62,6 +62,7 @@
 				<value>pgm_energy</value>
 				<value>energyFocus</value>
 				<value>phase</value>
+				<value>sample_rotation</value>
 			</set>
 		</property>
 	</bean>
