@@ -101,7 +101,6 @@
          <view
                id="uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView"
                minimized="false"
-               visible="false"
                closeable="true"
                relationship="stack"
                relative="org.dawnsci.mapping.ui.mapview">
