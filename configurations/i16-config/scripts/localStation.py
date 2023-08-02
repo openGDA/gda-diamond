@@ -1331,9 +1331,9 @@ run('localStationScripts/Sample_perpMotion')
 try:
 	diffractometer_sample_scannables = [delta, eta, chi, phi, gam, mu, hkl]
 	if not USE_DIFFCALC:
-		diffractometer_sample_scannables += [psi]
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
 
+	diffractometer_sample_scannables += [hklverbose.psi, hklverbose.alpha, hklverbose.beta, hklverbose.betain, hklverbose.betaout]
 	diffractometer_sample_scannables += [en]
 
 	if USE_CRYO_GEOMETRY:
