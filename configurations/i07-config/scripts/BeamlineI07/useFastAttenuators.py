@@ -13,7 +13,7 @@ def att(attenuation=None):
 def autofon():
     exr.setDetector(excalibur_atten)
     exv.setDetector(excalibur_atten)
-    LocalProperties.set("gda.beamline.auto.attenuation", "true")
+    LocalProperties.set("gda.beamline.auto.attenuation", True)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
     procs = exc_scan.getProcessing().getProcessorMap()
     atten = [conf for conf in procs if conf.detFileNameSuffix() == "-attenuation.h5"]
@@ -25,7 +25,7 @@ def autofon():
 def autofoff():
     exr.setDetector(excalibur)
     exv.setDetector(excalibur)
-    LocalProperties.set("gda.beamline.auto.attenuation", "false")
+    LocalProperties.set("gda.beamline.auto.attenuation", False)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
     procs = exc_scan.getProcessing().getProcessorMap()
     atten = [conf for conf in procs if conf.detFileNameSuffix() == "-attenuation.h5"]
