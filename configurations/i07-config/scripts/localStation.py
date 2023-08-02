@@ -66,8 +66,9 @@ print "		 To plot image: dnp.plot.image(data)"
 
 try_execfile("BeamlineI07/useMotors.py", "Motor Support")
 
-fs = fastshutter
-ffs = fastshutter_fatt
+from gdaserver import fastshutter as fs, fastshutter_fatt as ffs, fastshutterScan
+add_default(fastshutterScan)
+from BeamlineI07.useFastShutter import emergency_stopper, setShutterDelay
 
 try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
 
@@ -161,12 +162,6 @@ dummygp = GasPanelScannable("dummygp", _dummygp)
 from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadoutDummy
 #lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
 dummyLakeshore = LakeshoreDoubleReadoutDummy("dummyLakeshore")
-
-
-from scannable.emergency_beamstop import StopOnFaultScannable
-emergency_stopper = StopOnFaultScannable("emergency_stopper",
-		["BL07I-MO-FLITE-01:BEAMSTOP:Y2.SEVR", "BL07I-MO-FLITE-01:BEAMSTOP:Y1.SEVR"],
-		fastshutter, 0)
 
 print "==================================================================="
 print
