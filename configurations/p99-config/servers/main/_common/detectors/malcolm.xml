@@ -52,4 +52,10 @@
 		<property name="icon" value=""/>
 	</bean>
 	
+	<bean id="malcolmInfoXSPOdin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XSP Odin" />
+		<property name="description" value="Malcolm scan with XSP Odin" />
+		<property name="icon" value=""/>
+	</bean>
+	
 </beans>
