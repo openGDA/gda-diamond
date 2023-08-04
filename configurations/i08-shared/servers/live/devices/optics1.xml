@@ -17,16 +17,11 @@
 	</bean>
 
 	<!-- Phase motors -->
-	<bean id="phase_top" class="gda.device.scannable.EpicsScannable">
-		<property name="protectionLevel" value="3" />
-		<property name="pvName" value="SR08I-MO-SERVC-01:BLPUSET" />
-		<property name="useNameAsInputName" value="true" />
+	<bean id="phase_top_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPUMTR" />
 	</bean>
-
-	<bean id="phase_bottom" class="gda.device.scannable.EpicsScannable">
-		<property name="protectionLevel" value="3" />
-		<property name="pvName" value="SR08I-MO-SERVC-01:BLPLSET" />
-		<property name="useNameAsInputName" value="true" />
+	<bean id="phase_bottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLPLMTR" />
 	</bean>
 
 	<!-- Frontend: Customized Aperture -->
