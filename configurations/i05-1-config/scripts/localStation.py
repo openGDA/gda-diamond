@@ -74,6 +74,8 @@ setXFieldInScanPlot(0)
 from checkBeamlineHealth import *
 checkForBeamlineProblems()
 
+run "beamline/resolutionEstimator.py"
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
     print "==================================================================="
