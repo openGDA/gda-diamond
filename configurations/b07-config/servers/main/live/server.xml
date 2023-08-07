@@ -60,6 +60,7 @@
 	
 	<!-- Heater output -->
 	<import resource="heaterES2.xml" />
+	<import resource="heaterES1.xml" />
 	
 	
 	<!-- do not remove anything below here -->

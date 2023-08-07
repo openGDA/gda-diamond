@@ -40,8 +40,8 @@ extraDetectors = ""
 if installation.isLive():    
     from scannables.detector_output_processing import BekhoffAdcOutputProcessing
     #dummy_quotient = BekhoffAdcOutputProcessing('dummy_quotient', ds1, ds2, 'divide_detector_output')
-    ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')
-    ca36b_ca18b_quotient = BekhoffAdcOutputProcessing('ca36b_ca18b_quotient', ca36b, ca18b, 'divide_detector_output')
+    ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')  # @UndefinedVariable
+    ca36b_ca18b_quotient = BekhoffAdcOutputProcessing('ca36b_ca18b_quotient', ca36b, ca18b, 'divide_detector_output')  # @UndefinedVariable
 
 #check beam scannables
 from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
@@ -87,7 +87,8 @@ ring_list = [ring_current] # @UndefinedVariable
 pgm_list = [pgm_energy,pgm_cff,pgm_grating_pitch,pgm_grating_x,pgm_mirror_pitch,pgm_mirror_x,pgm_grating,pgm_mirror,pgm_override] # @UndefinedVariable
 shutter_list = [expt_shutter,pss_shutter1_con,pss_shutter2_con,fast_shutter_con] # @UndefinedVariable
 other_list = [img22b,img23b,cap21b,cap22b,ES2_sample_temperature,ES2_heater_output] # @UndefinedVariable
-metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list
+es1_list = [ES1_temperature_51,ES1_temperature_52]  # @UndefinedVariable
+metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list + es1_list
 meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4
 for each in meta_data_list:
     meta_add(each)
