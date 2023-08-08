@@ -28,6 +28,8 @@ alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
 
+disable_watchdogs()
+
 # Andor information
 try:
     run("ptycho/ptycho_setup.py")
