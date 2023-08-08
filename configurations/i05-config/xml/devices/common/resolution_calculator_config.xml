@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="calculator_config" class="uk.ac.gda.arpes.calculator.ResolutionCalculatorConfigurationHR">
+		<property name="name" value="calculator_config" />
+		<property name="photonEnergyName" value="pgm_energy" />
+		<property name="gratingName" value="pgm_grating" />
+		<property name="exitSlitName" value="exit_slit" />
+		<property name="analyserName" value="analyser"/>
+		<property name="analyserSlits">
+			<list>
+				<value>50</value>
+				<value>100</value>
+				<value>200</value>
+				<value>400</value>
+			</list>
+		</property>
+		<property name="defaultSlitPosition" value="2"/>
+		<property name="workFunctionFilePath" value="/dls_sw/i05/scripts/beamline/work_function_lookup_new.csv"/>
+		<property name="blResolutionParamsFilePath" value="/dls_sw/i05/scripts/beamline/beamline_resolution_lookup.csv"/>
+	</bean>
+	
+</beans>
