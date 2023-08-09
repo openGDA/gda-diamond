@@ -182,13 +182,6 @@
 					</bean>
 				</entry>
 				<!-- Sample information here -->
-				<entry key="sampleName">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="sample:NXsample/name" />
-						<property name="units" value="none" />
-					</bean>
-				</entry>
 				<entry key="s7xgap">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -222,7 +215,6 @@
 				<value>pixium_TotalCount</value>
 				<value>s7xgap</value>
 				<value>s7ygap</value>
-				<value>sampleName</value>
 				<value>calibrationScannable</value>
 			</set>
 		</property>
@@ -230,6 +222,7 @@
 			<map>
 				<entry key="detector_distance" value="sample:NXsample/detector_distance"/>
 				<entry key="calibration_file" value="poni"/>
+				<entry key="sample_name" value="sample:NXsample/name"/>
 			</map>
 		</property>
 	</bean>
