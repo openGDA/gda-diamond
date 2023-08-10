@@ -80,4 +80,22 @@ public class XesScanPositionProvider implements ScanPositionProvider {
 		return primaryPoints.size();
 	}
 
+	@Override
+	public String toString() {
+		String infoString = "";
+		if (!primaryPoints.isEmpty()) {
+			infoString += "[Range1 : "+generateRangeString(primaryPoints);
+		}
+		if (!secondaryPoints.isEmpty()) {
+			infoString += ", Range2 : "+generateRangeString(secondaryPoints)+"]";
+		} else {
+			infoString += "]";
+		}
+		return infoString;
+	}
+
+	private String generateRangeString(List<Double> values) {
+		return String.format("%.2f, %.2f, %.2f", values.get(0), values.get(values.size()-1), values.get(1)-values.get(0));
+	}
+
 }

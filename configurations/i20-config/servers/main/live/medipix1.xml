@@ -10,7 +10,7 @@
 	</bean>
 
 	<bean id="medipixCamPort" class="java.lang.String">
-		<constructor-arg value="MPX1.DET" />
+		<constructor-arg value="MPX1.cam" />
 	</bean>
 
 	<bean id="medipixRoiPort" class="java.lang.String">
@@ -18,11 +18,11 @@
 	</bean>
 
 	<bean id="medipixBaseRoiPv" class="java.lang.String">
-		<constructor-arg value="#{medipixBasePv}:ROI1:" />
+		<constructor-arg value="#{medipixBasePv}:ROI:" />
 	</bean>
 
 	<bean id="medipixBaseStatPv" class="java.lang.String">
-		<constructor-arg value="#{medipixBasePv}:STAT1:" />
+		<constructor-arg value="#{medipixBasePv}:STAT:" />
 	</bean>
 
 	<bean id="legacyTSPvs" class="java.lang.Boolean">

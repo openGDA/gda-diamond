@@ -19,12 +19,6 @@
 		<property name="displayNameWidth" value="#{motorWidth}" />
 	</bean>
 
- 	<bean id="sample_fine_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="scannableName" value="sample_fine_rot" />
-		<property name="displayName" value="Fine rotation" />
-		<property name="displayNameWidth" value="#{motorWidth}" />
-	</bean>
-
  	<bean id="sample_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="scannableName" value="sample_x" />
 		<property name="displayName" value="Translation (X)" />
@@ -47,13 +41,7 @@
 	</bean>
 	
 
-<!-- Arrow images  -->
-	 <bean id="sample_fine_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
-		<property name="imageName" value="#{arrowImageDirectory}/yaw.png" />
-		<property name="generateBusyImage" value="true" />
-		<property name="scannableToObserve"  value="sample_fine_rot"/>
-	</bean>	
-		
+<!-- Arrow images  -->		
 	<bean id="sample_rot_arrow" class="uk.ac.gda.ui.views.synoptic.LiveControlsImage">
 		<property name="imageName" value="#{arrowImageDirectory}/yaw.png" />
 		<property name="generateBusyImage" value="true" />

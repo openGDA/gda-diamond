@@ -18,7 +18,6 @@
 	<gda:motor id="sample_pitch" live-pvName="BL20I-MO-TABLE-03:PITCH" />  
 	<gda:motor id="sample_roll" live-pvName="BL20I-MO-TABLE-03:ROLL" />           
 	<gda:motor id="sample_rot" live-pvName="BL20I-MO-TABLE-03:ROT" />           
-	<gda:motor id="sample_fine_rot" live-pvName="BL20I-MO-TABLE-03:ROTF" />
 
 <!-- Motors for XES sample stage -->
 	<gda:motor id="xes_sample_x" live-pvName="BL20I-EA-TABLE-02:X" />
