@@ -16,7 +16,7 @@ from gda.device.scannable import DummyScannable
 from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.jython.commands.ScannableCommands import scan
-from gdascripts.metadata.nexus_metadata_class import meta
+# from gdascripts.metadata.nexus_metadata_class import meta
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
@@ -194,6 +194,7 @@ def miscan(*args):
     if PRINTTIME: print("=== Scan started: " + starttime)
     newargs = []
     i = 0;
+    CACHE_PARAMETER_TOBE_CHANGED = False 
     while i < len(args):
         arg = args[i]
         if i == 0 and isinstance(arg, NXDetector):
@@ -209,7 +210,7 @@ def miscan(*args):
             newargs.append(arg)
             command = parse_other_arguments(command, arg)
         i = i + 1
-        CACHE_PARAMETER_TOBE_CHANGED = False 
+
         from org.opengda.detector.electronanalyser.nxdetector import EW4000
         if isinstance(arg, NXDetector) and not isinstance(arg, EW4000):
             adbase, image_mode, num_images = save_detector_settings_before_scan(arg)
@@ -218,14 +219,14 @@ def miscan(*args):
             command, newargs = parse_detector_arguments(command, newargs, args, i, arg)
             i = i + 1
     
-    meta.addScalar("user_input", "command", command)
+    # meta.addScalar("user_input", "command", command)
     try:
         scan([e for e in newargs])
     finally:
         if CACHE_PARAMETER_TOBE_CHANGED:
             restore_detector_setting_after_scan(adbase, image_mode, num_images)
             
-        meta.rm("user_input", "command")    
+        # meta.rm("user_input", "command")    
 
     if PRINTTIME: print("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time() - start))
 
