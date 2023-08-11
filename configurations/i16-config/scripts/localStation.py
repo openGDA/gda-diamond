@@ -1850,6 +1850,10 @@ protected_commands=["pos","inc","peak","maxval","com","minval","rcen","lcen"]
 for to_protect in protected_commands :
 	overwriting.protect(to_protect)
 
+print("-"*100)
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
 		len(localStation_warnings), "\n".join(localStation_warnings)))
