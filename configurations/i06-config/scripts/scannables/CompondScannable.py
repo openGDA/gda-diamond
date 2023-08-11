@@ -53,7 +53,8 @@ class CompoundScannable(ScannableMotionBase):
             input_targets.append(newpos[input_start_index:(input_length + input_start_index)])
             input_start_index += input_length
         
-        #calculate new positions for each scannable from the input targets    
+        #calculate new positions for each scannable from the input targets 
+        # please note the data in input_targets is list of lists - 1st list is for 1st scannable, etc...   
         positions_4_scannables = self.func(input_targets)
         
         for s, p in zip(self.scannables, positions_4_scannables):

@@ -19,9 +19,9 @@ def calculate_target_for_scannables(input_targets):
     rad = deg*math.pi/180.0
     s = math.sin(rad)
     c = math.cos(rad)
-    
-    Xmum = input_targets[0]
-    Ymum = input_targets[1]
+
+    Xmum = input_targets[0][0]
+    Ymum = input_targets[1][0]
     V5 = -1.0/920*( -Xmum*c + Ymum*s ) # motion of of M5fpitch in Volts
     V4 = -1.0/500*( Xmum*s + Ymum*c ) # motion of M4fpitch in Volts
     return [V5,V4]
