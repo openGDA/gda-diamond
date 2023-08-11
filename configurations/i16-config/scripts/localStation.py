@@ -1805,24 +1805,6 @@ def protect_all_scannables():
 
 alias("protect_all_scannables")
 
-if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_DIFFCALC"):
-	# inject constraints metadata handler into every scan definitions
-	from metadata.diffcalc_constraints_metadata import add_constraints_metadata_handler, update_constraints_in_metadata
-	add_constraints_metadata_handler(scan.scanListeners)
-	add_constraints_metadata_handler(rscan.scanListeners)
-	add_constraints_metadata_handler(cscan.scanListeners)
-	add_constraints_metadata_handler(ascan.scanListeners)
-	add_constraints_metadata_handler(a2scan.scanListeners)
-	add_constraints_metadata_handler(a3scan.scanListeners)
-	add_constraints_metadata_handler(mesh.scanListeners)
-	add_constraints_metadata_handler(dscan.scanListeners)
-	add_constraints_metadata_handler(d2scan.scanListeners)
-	add_constraints_metadata_handler(d3scan.scanListeners)
-	add_constraints_metadata_handler(scancn.scanListeners)	
-	update_constraints_in_metadata()
-	alias("update_constraints_in_metadata")
-
-
 if installation.isLive():
 	print "*"*80
 	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
