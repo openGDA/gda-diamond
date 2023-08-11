@@ -1,5 +1,6 @@
 #localStation.py - For beamline specific initialisation code.
 from utils.ExceptionLogs import localStation_exception
+from gda.factory import Finder
 
 print("="*100)
 print("Performing Beamline I06-1 specific initialisation code (localStation.py).")
@@ -11,6 +12,9 @@ print("      >>>scansReturnToOriginalPositions=1")
 scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
+if installation.isDummy():
+    pgm_controller = Finder.find("pgmController")
+    pgm_controller.setPosition("BRANCHLINE")
 
 #End Station Section
 import sys
