@@ -321,9 +321,6 @@
 				<ref bean="m4c1_control" />
 				<ref bean="s5v1gap_control" />
 				<ref bean="feedback_state" />
-<!-- 				<ref bean="screws_position" /> -->
-<!-- 				<ref bean="transfer_position" /> -->
-<!-- 				<ref bean="rixs_position" /> -->
 				<ref bean="sample_temperature_display" />
 				<ref bean="cryo_temperature_display" />
 				<ref bean="fastshutter_control"/>
@@ -363,6 +360,9 @@
 			<list>
 				<ref bean="sample_vessel_valves_open" />
 				<ref bean="sample_vessel_valves_close" />
+				<ref bean="screws_position" />
+				<ref bean="transfer_position" />
+				<ref bean="rixs_position" />
 			</list>
 		</property>
 	</bean>	
