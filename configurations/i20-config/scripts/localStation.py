@@ -45,6 +45,8 @@ run 'xspress4_dtc_energy_scannable.py'
 # Create and setup the monoOptimiser scannable
 run "mono_optimisation.py"
 
+run "test-ionchamber-output.py"
+
 # Create some functions useful for setting up and controlling the medipix ROIs
 run "medipix_functions.py"
 
@@ -69,6 +71,8 @@ detectorPreparer.setPluginsForMutableRoi(medipix1, getMedipixMutableRoiPlugins(m
 detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
 detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(medipix2))
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
+detectorPreparer.setIonchamberChecker(ionchamberChecker)
+detectorPreparer.setRunIonchamberChecker(True)
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
@@ -216,22 +220,11 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
 
-
-print "New reconnect daserver command : reconnect_daserver_new() "
-def reconnect_daserver_new() :
-    print "Closing connection to DAServer..."
-    mem = ionchambers.getScaler()
-    mem.close()
-    sleep(1)
-    DAServer.close()
-    sleep(1)
-    
-    print "Trying to reconnect to DAServer..."
-    DAServer.reconfigure()
-    sleep(1)
-    mem.clear()
-
 # Increase speed of dummy test motor
 test.setSpeed(10000)
+
+# Sometimes the script logging controls does not connect to database initially -
+# run 'reconfigure' to try connect again.
+XASLoggingScriptController.reconfigure()
 
 print "\n****GDA startup script complete.****\n\n"

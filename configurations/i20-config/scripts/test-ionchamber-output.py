@@ -9,10 +9,27 @@ from gda.jython import InterfaceProvider
 
 print("\nRunning 'test-ionchamber-output.py")
 
+
+print "New reconnect daserver command : reconnect_daserver_new() "
+def reconnect_daserver_new() :
+    print "Closing connection to DAServer..."
+    mem = ionchambers.getScaler()
+    mem.close()
+    sleep(1)
+    DAServer.close()
+    sleep(1)
+    
+    print "Trying to reconnect to DAServer..."
+    DAServer.reconfigure()
+    sleep(1)
+    mem.clear()
+    sleep(1)
+    print "Finished"
+
+
 """ Scannable to be used as base that can be used in a scan but doesn't produce any output data.
     Override atScanStart atScanEnd etc with suitable implementations. atScanEnd is called if an exception is thrown during the scan
 """
-
 class DefaultScannable(ScannableBase):
  
     def __init__(self, name):
@@ -49,6 +66,7 @@ class TestIonchamberReadout(DefaultScannable):
         self.testResultString = "Not run yet"
         self.timeLastRun = "Not run yet"
         self.setExtraNames(["status"])
+        self.fixIonchamberFunction = None
         
     def setTfg(self, tfg) :
         self.tfg = tfg
@@ -68,9 +86,25 @@ class TestIonchamberReadout(DefaultScannable):
     def setFirstPointCollectionTime(self, firstPointCollectionTime):
         self.timeForFirstPoint = firstPointCollectionTime
     
+    def setfixIonchamberFunction(self, function) :
+        self.fixIonchamberFunction = function
+        
     def atScanStart(self):
-        self.runCheck()
+        self.runCheckAndTryToFix()
     
+    def runCheckAndTryToFix(self):
+        stateOk = self.runCheck()
+        if not stateOk and self.fixIonchamberFunction != None :
+            firstTestResult = self.testResultString
+            funcName = self.fixIonchamberFunction.__name__
+            self.printAndLog("Ionchamber state was not ok - running "+str(funcName)+" to try and fix the problem")
+            self.fixIonchamberFunction()
+            self.printAndLog("Running ion chamber check again...")
+            self.runCheck()
+            secondTestResult = self.testResultString
+            self.testResultString = "Test result 1 : "+firstTestResult + ". Reconnected to DAServer. Test result 2 : "+secondTestResult
+            
+
     def runCheck(self):
         """
         Run data consistency check.
@@ -90,9 +124,10 @@ class TestIonchamberReadout(DefaultScannable):
             dataToCheck.append(d[dataIndex])
         
         self.timeLastRun = self.getTimeDateString()
-        self.checkData(dataToCheck)
+        stateOk = self.checkData(dataToCheck)
         self.testResultString = self.appendTimeString(self.testResultString, self.timeLastRun)
-
+        return stateOk
+    
     
     def collectData(self):
         """ Collect 'numPoints' frames of data on tfg. Frames have duration = timePerPoint apart
@@ -223,6 +258,7 @@ ionchamberChecker.setTfg(ionchambers)
 ionchamberChecker.setCollectionTime(0.5)
 ionchamberChecker.setFirstPointCollectionTime(0.25)
 ionchamberChecker.setNumPoints(10);
+ionchamberChecker.setfixIonchamberFunction(reconnect_daserver_new)
 
 ## Generate new metadata entry to show the results of the ion chamber checker
 print("Adding metadata entry for ionchamberChecker test results to Ascii writer and Nexus configuration")

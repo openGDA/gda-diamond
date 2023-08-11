@@ -7,6 +7,7 @@
         <configFileName></configFileName>
         <scriptCommand></scriptCommand>
         <useDetectorInScan>true</useDetectorInScan>
+        <alwaysUseDetectorInScan>true</alwaysUseDetectorInScan>
         <useConfigFile>false</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>

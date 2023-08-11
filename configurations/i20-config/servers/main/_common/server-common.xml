@@ -99,6 +99,7 @@
 		<value>7</value>
 		<value>8</value>
 		<value>9</value>
+		<value>10</value>
 	</util:list>
 
 	<util:list id="trueFalseList">

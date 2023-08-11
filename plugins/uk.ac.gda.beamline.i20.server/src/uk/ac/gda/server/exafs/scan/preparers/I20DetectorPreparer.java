@@ -87,6 +87,12 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 
+	private boolean correctForDarkCurrent = true;
+
+	private Scannable ionchamberChecker = null;
+
+	private boolean runIonchamberChecker;
+
 	public I20DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
 			Xmap vortex, NXDetector medipix, TopupChecker topupChecker) {
@@ -221,10 +227,29 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
+		try {
+			runIonchamberChecker();
+		} catch (Exception e) {
+			// catch any exceptions so we can attempt the rest of the setup
+			logger.warn("Problem encountered running ion chamber checker {}. Continuing with the rest of the setup as normal.", e.getMessage(), e);
+		}
+
 		doMonoOptimisation();
 
 		// Make sure timeframes, dark current collection time are set on ionchambers before each rep. of main scan
 		setUpIonChambers();
+	}
+
+	public void runIonchamberChecker() throws DeviceException {
+		if (!isRunIonchamberChecker()) {
+			return;
+		}
+		if (ionchamberChecker == null) {
+			logger.warn("Cannot run ionchamber checker - the checker object has not been set");
+			return;
+		}
+		logger.info("Running ionchamber check using {} object", ionchamberChecker.getName());
+		ionchamberChecker.atScanStart();
 	}
 
 	@Override
@@ -355,8 +380,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		// Determine max collection time
 		double maxTime = Stream.of(tfgFrameTimes).mapToDouble(d->d).max().orElse(0.0);
 
-		ionchambers.setDarkCurrentRequired(true);
-		i1.setDarkCurrentRequired(true);
+		ionchambers.setDarkCurrentRequired(correctForDarkCurrent);
+		i1.setDarkCurrentRequired(correctForDarkCurrent);
 
 		// set dark current time and handle any errors here
 		if (maxTime > 0) {
@@ -616,5 +641,29 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public void setMutableRoi(NXDetector detector, MutableRectangularIntegerROI mutableRoi) {
 		detectorPreparerFunctions.setMutableRoiForMedipix(detector, mutableRoi);
+	}
+
+	public boolean isCorrectForDarkCurrent() {
+		return correctForDarkCurrent;
+	}
+
+	public void setCorrectForDarkCurrent(boolean correctForDarkCurrent) {
+		this.correctForDarkCurrent = correctForDarkCurrent;
+	}
+
+	public Scannable getIonchamberChecker() {
+		return ionchamberChecker;
+	}
+
+	public void setIonchamberChecker(Scannable ionchamberChecker) {
+		this.ionchamberChecker = ionchamberChecker;
+	}
+
+	public boolean isRunIonchamberChecker() {
+		return runIonchamberChecker;
+	}
+
+	public void setRunIonchamberChecker(boolean runIonchamberChecker) {
+		this.runIonchamberChecker = runIonchamberChecker;
 	}
 }

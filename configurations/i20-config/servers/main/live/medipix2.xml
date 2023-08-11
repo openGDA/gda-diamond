@@ -18,11 +18,11 @@
 	</bean>
 
 	<bean id="medipix2BaseRoiPv" class="java.lang.String">
-		<constructor-arg value="#{medipix2BasePv}:ROI1:" />
+		<constructor-arg value="#{medipix2BasePv}:ROI:" />
 	</bean>
 
 	<bean id="medipix2BaseStatPv" class="java.lang.String">
-		<constructor-arg value="#{medipix2BasePv}:STAT1:" />
+		<constructor-arg value="#{medipix2BasePv}:STAT:" />
 	</bean>
 
 <!-- 	<bean id="legacyTSPvs" class="java.lang.Boolean"> -->

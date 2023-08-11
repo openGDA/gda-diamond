@@ -28,6 +28,7 @@
 	</bean>
 
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="name" value="datawriterconfig" />
 		<property name="commentMarker" value="#"></property>
 		<property name="header">
 			<list>
@@ -129,6 +130,14 @@
 					<property name="labelValues">
 						<list>
 							<ref bean="crystalcut" />
+						</list>
+					</property>
+				</bean>
+				<bean id="monoEnergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Monochromator energy : %.4f eV" />
+					<property name="labelValues">
+						<list>
+							<ref bean="bragg1" />
 						</list>
 					</property>
 				</bean>
@@ -280,6 +289,7 @@
 
 
 	<bean id="datawriterconfig_xes" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="name" value="datawriterconfig_xes" />
 		<property name="commentMarker" value="#"></property>
 		<property name="header">
 			<list>
@@ -384,6 +394,14 @@
 						</list>
 					</property>
 				</bean>
+				<bean id="monoEnergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Monochromator energy : %.4f eV" />
+					<property name="labelValues">
+						<list>
+							<ref bean="bragg1" />
+						</list>
+					</property>
+				</bean>
 				<bean id="incidenceAngle2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
 						value="Incident angle for Harmonic Rejection Mirrors: %.2f mrad" />
@@ -481,14 +499,13 @@
 				</bean>
 				<bean id="sample_xas" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
-						value="XAS Sample stage: x: %.2f mm y: %.2f mm z: %.2f mm rot: %.2f deg fine_rot: %.2f deg" />
+						value="XAS Sample stage: x: %.2f mm y: %.2f mm z: %.2f mm rot: %.2f deg" />
 					<property name="labelValues">
 						<list>
 							<ref bean="sample_x" />
 							<ref bean="sample_y" />
 							<ref bean="sample_z" />
 							<ref bean="sample_rot" />
-							<ref bean="sample_fine_rot" />
 						</list>
 					</property>
 				</bean>
@@ -1316,6 +1333,13 @@
 						<property name="paths"
 							value="before_scan:NXinstrument/XesSpectrometer:NXsample/XesLowerCystalsAllowedToMove" />
 						<property name="units" value="boolean" />
+					</bean>
+				</entry>
+				<entry key="ionchamberChecker">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXinstrument/ionchamberChecker:NXinstrument/status" />
 					</bean>
 				</entry>			
 			</map>
