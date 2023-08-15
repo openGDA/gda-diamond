@@ -4,12 +4,18 @@ from gda.factory import Finder
 
 # Excalibur
 exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
+# Excalibur for static malcolm scans (i.e. "mscan static [parameters]") - avoids bug I07-569 but cannot move motors
+exs = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
 # Pilatus 2M
 p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
+# Pilatus 2M for static malcolm scans
+p2s = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-12")
 # Exc and p2m
 m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
 # Pilatus 3
 p3c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-33")
+# Pilatus 3 for static malcolm scans
+p3s = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-32")
 
 from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan
 alias(fscan)
@@ -31,8 +37,11 @@ class DCHklAdapter(HklAdapter):
 try:
     hkl_prov = DCHklAdapter()
     exc.setHklProvider(hkl_prov)
+    exs.setHklProvider(hkl_prov)
     p2c.setHklProvider(hkl_prov)
+    p2s.setHklProvider(hkl_prov)
     p3c.setHklProvider(hkl_prov)
+    p3s.setHklProvider(hkl_prov)
 except Exception as e:
     print("Error setting up hkl providers", e)
 
