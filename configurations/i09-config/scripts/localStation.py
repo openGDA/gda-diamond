@@ -286,7 +286,7 @@ print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\
 
 # the following requires new NexusScanDataWriter to work!
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
-# from scan.miscan import miscan  # @UnusedImport
+from scan.miscan import miscan  # @UnusedImport
 
 print
 print "="*100;
