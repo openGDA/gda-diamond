@@ -670,6 +670,13 @@ try:
 except:
 	localStation_exception("configuring epics ds & ss scannables")
 
+if installation.isLive():
+	localStation_print( "   creating attocube devices")
+	try:
+		from scannable.ecc100axis import attoltilt, attoutilt, attorot, attox, attoy, attoz
+	except:
+		localStation_exception("creating attocube devices")
+
 try:
 	localStation_print("   creating ion pump scannables")
 	run("localStationScripts/startup_ionpumps")
