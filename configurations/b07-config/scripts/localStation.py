@@ -94,6 +94,9 @@ for each in meta_data_list:
     meta_add(each)
 
 from scan.miscan import miscan  # @UnusedImport
+print("-"*100)
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 print("-"*100)
 
