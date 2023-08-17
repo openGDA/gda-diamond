@@ -3,18 +3,18 @@ define scannables that interact with Keithley 2400 source meter using SCPI (Stan
 
 SCPI Command execution rules are as follows:
 
-Commands execute in the order that they are presented in the command message. 
-An invalid command generates an event message and is not executed.
-Valid commands that precede an invalid command in a command message are executed.
-Valid commands that follow an invalid command in a command message are ignored.
+    - Commands execute in the order that they are presented in the command message. 
+    - An invalid command generates an event message and is not executed.
+    - Valid commands that precede an invalid command in a command message are executed.
+    - Valid commands that follow an invalid command in a command message are ignored.
 
 Source and measure order
-When you are using a remote interface, you should set the measure function first, then set the source
-function, because setting the measure function may change the source function. 
-Once you have set the source and measure functions, you can change other measure and source
-settings as needed.
-When setting range, you should first set the limit (compliance) to a value higher than the measure
-range you intend to set.
+    - When you are using a remote interface, you should set the measure function first, then set the source
+    function, because setting the measure function may change the source function. 
+    - Once you have set the source and measure functions, you can change other measure and source
+    settings as needed.
+    - When setting range, you should first set the limit (compliance) to a value higher than the measure
+    range you intend to set.
 
 '''
 from gda.device.scannable import ScannableMotionBase
@@ -33,6 +33,7 @@ class Keithley2400Current(ScannableMotionBase):
         self.setInputNames(["Current"])
         self.setExtraNames(["Voltage", "Resistance"])
         self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
+        self.timeout = 1.0 # EPICS Asyn communication timeout
         self.setLevel(5)
         self.NPLC = 0.5 #the number of power line cycles range from 0.01 to 10 with 0.01 resulting in the fastest reading rates and 10 resulting in the lowest reading noise.
         self._busy = False
@@ -41,29 +42,29 @@ class Keithley2400Current(ScannableMotionBase):
         self.use4wire = True
         self.read_wait = 0.2
         self.config_wait = 2.0
+        self._epics_wait = 0.1
         self.voltage_limit = 10
         self.logger = logger.getChild(self.__class__.__name__)
         
     def configure(self):
-        self.keithley.send_command_no_reply("*RST")
-        self.keithley.send_command_no_reply('SENSe:FUNCtion "VOLT"')
-        self.keithley.send_command_no_reply('SENSe:VOLTage:RANGe:AUTO ON')
+        self.keithley.reset() #Both *RST and :SYSTem:PREset enables source auto range
+        self.keithley.senseFunction("VOLT")
+        self.keithley.senseAutoRange('VOLT', 'ON')
         if self.use4wire:
             self.set4Wire()
         else:
             self.set2Wire()
-        self.keithley.send_command_no_reply('SOURce:FUNCtion CURR')
-        self.keithley.send_command_no_reply('SOURce:CURRent:VLIM ' + str(self.voltage_limit))
-        self.keithley.send_command_no_reply(":SOUR:CURR:READ:BACK ON")
-        self.keithley.send_command_no_reply('SENSe:COUNT ' +  str(self.count))
-        self.keithley.send_command_no_reply(":SENS:VOLT:NPLC " + str(self.NPLC))
+        self.keithley.sourceFunction('CURR')
+        # self.keithley.source_mode('CURR', 'FIXed')
+        self.keithley.senseFunctionNPLC("VOLT",self.NPLC)
+        self.keithley.specify_data_elements("CURR", "VOLT")
         sleep(self.config_wait)
         
     def set4Wire(self):
-        self.keithley.send_command_no_reply(':SENSe:VOLTage:RSENse ON')
+        self.keithley.senseRsense('VOLT', 'ON')
         
     def set2Wire(self):
-        self.keithley.send_command_no_reply(':SENSe:VOLTage:RSENse OFF')        
+        self.keithley.senseRsense('VOLT', 'OFF')        
         
     def atScanStart(self):
         self.configure()
@@ -72,6 +73,15 @@ class Keithley2400Current(ScannableMotionBase):
     def atScanEnd(self):
         self.inScan = False
             
+    @property
+    def epics_wait(self):
+        return self._epics_wait 
+    
+    @epics_wait.setter
+    def epics_wait(self, value):
+        self._epics_wait = float(value)
+        self.keithley.communication_wait = self._epics_wait
+        
     @property
     def count(self):
         return self._count
@@ -104,7 +114,7 @@ class Keithley2400Current(ScannableMotionBase):
             self.setExtraNames(extra_names)
            
     def getPosition(self):
-        returned_value = self.keithley.get_response()
+        returned_value = self.keithley.get_response(self.timeout)
         self.logger.debug("Keithley returns are %s" % returned_value)
         try:
             data = [float(x) for x in str(returned_value).split(",")]
@@ -141,16 +151,9 @@ class Keithley2400Current(ScannableMotionBase):
             self.configure()
         try:
             self._busy = True
-            self.keithley.send_command_no_reply(":SOUR:CURR " + str(value))
-            self.keithley.send_command_no_reply('TRACe:CLEar "defbuffer1"')
-            while not self.keithley.isBufferClear("defbuffer1"):
-                sleep(0.1)
-            self.keithley.outputOn()
-            self.keithley.send_command_no_reply('TRACe:TRIGger "defbuffer1"')
-            while self.keithley.numberOfReadingInBuffer("defbuffer1") < self.count: # should be self.count*2, but keithley does not fill buffer with sour, read as pair at the same time.
-                sleep(self.read_wait)
-            self.keithley.send_command_no_reply('TRACe:DATA? 1, ' + str(self.count) + ', "defbuffer1", SOUR, READ')
-            self.keithley.outputOff()
+            self.keithley.sourceFunction("CURR", value)
+            self.keithley.prepare_trace_buffer()
+            self.keithley.acquire_data(self.count)
         finally:
             self._busy = False
         
@@ -169,6 +172,7 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.setExtraNames(["Current", "Resistance"])
         self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
         self.setLevel(5)
+        self.timeout = 1.0 # EPICS Asyn communication timeout
         self.NPLC = 0.5 #the number of power line cycles range from 0.01 to 10 with 0.01 resulting in the fastest reading rates and 10 resulting in the lowest reading noise.
         self._busy = False
         self.inScan = False
@@ -176,29 +180,29 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.use4wire = True
         self.read_wait = 0.2
         self.config_wait = 2.0
+        self._epics_wait = 0.1
         self.current_limit = 1.0
         self.logger = logger.getChild(self.__class__.__name__)
         
     def configure(self):
-        self.keithley.send_command_no_reply("*RST")
-        self.keithley.send_command_no_reply('SENSe:FUNCtion "CURR"')
-        self.keithley.send_command_no_reply('SENSe:CURRent:RANGe:AUTO ON')
+        self.keithley.reset()
+        self.keithley.senseFunction("CURR")
+        self.keithley.senseAutoRange('CURR', 'ON')
         if self.use4wire:
             self.set4Wire()
         else:
             self.set2Wire()
-        self.keithley.send_command_no_reply('SOURce:FUNCtion VOLT')
-        self.keithley.send_command_no_reply('SOURce:VOLT:ILIM ' + str(self.current_limit))
-        self.keithley.send_command_no_reply(":SOUR:VOLT:READ:BACK ON")
-        self.keithley.send_command_no_reply('SENSe:COUNT ' + str(self.count))
-        self.keithley.send_command_no_reply(":SENS:CURR:NPLC " + str(self.NPLC))
+        self.keithley.sourceFunction('VOLT')
+        # self.keithley.source_mode('VOLT', 'FIXed')
+        self.keithley.senseFunctionNPLC("CURR", self.NPLC)
+        self.keithley.specify_data_elements("VOLT", "CURR")
         sleep(self.config_wait)
         
     def set4Wire(self):
-        self.keithley.send_command_no_reply(':SENSe:CURRent:RSENse ON')
+        self.keithley.senseRsense('CURR', 'ON')
         
     def set2Wire(self):
-        self.keithley.send_command_no_reply(':SENSe:CURRent:RSENse OFF')        
+        self.keithley.senseRsense('CURR', 'OFF')        
 
     def atScanStart(self):
         self.configure()
@@ -211,6 +215,15 @@ class Keithley2400Voltage(ScannableMotionBase):
     def count(self):
         return self._count
     
+    @property
+    def epics_wait(self):
+        return self._epics_wait 
+    
+    @epics_wait.setter
+    def epics_wait(self, value):
+        self._epics_wait = float(value)
+        self.keithley.communication_wait = self._epics_wait
+
     @count.setter
     def count(self, value):
         self._count = int(value)
@@ -239,7 +252,7 @@ class Keithley2400Voltage(ScannableMotionBase):
             self.setExtraNames(extra_names)
                       
     def getPosition(self):
-        returned_value = self.keithley.get_response()
+        returned_value = self.keithley.get_response(self.timeout)
         self.logger.debug("Keithley returns are %s" % returned_value)
         data = [float(x) for x in str(returned_value).split(",")]
         
@@ -273,16 +286,9 @@ class Keithley2400Voltage(ScannableMotionBase):
             self.configure()
         try:
             self._busy = True
-            self.keithley.send_command_no_reply(":SOUR:VOLT " + str(value))
-            self.keithley.send_command_no_reply('TRACe:CLEar "defbuffer1"')
-            while not self.keithley.isBufferClear("defbuffer1"):
-                sleep(0.1)
-            self.keithley.outputOn()
-            self.keithley.send_command_no_reply('TRACe:TRIGger "defbuffer1"')
-            while self.keithley.numberOfReadingInBuffer("defbuffer1") < self.count: # should be self.count*2, but keithley does not fill buffer with sour, read as pair at the same time.
-                sleep(self.read_wait)
-            self.keithley.send_command_no_reply('TRACe:DATA? 1, ' + str(self.count) + ', "defbuffer1", SOUR, READ')
-            self.keithley.outputOff()
+            self.keithley.sourceValue("VOLT", value)
+            self.keithley.prepare_trace_buffer(self.count)
+            self.keithley.acquire_data(self.count)()
         finally:
             self._busy = False
         

@@ -1,7 +1,39 @@
 '''
-control Keithley 2461 source meter using EPICS Asyn record
+Support Keithley source meter via EPICS Asyn connection - model 2461 supported first. model 2400 added later
+
+SCPI Command execution rules are as follows:
+
+    - Commands execute in the order that they are presented in the command message. 
+    - An invalid command generates an event message and is not executed.
+    - Valid commands that precede an invalid command in a command message are executed.
+    - Valid commands that follow an invalid command in a command message are ignored.
+
+From Model 2461
+    Source and measure order
+        - When you are using a remote interface, you should set the measure function first, then set the source
+        function, because setting the measure function may change the source function. 
+        - Once you have set the source and measure functions, you can change other measure and source
+        settings as needed.
+        - When setting range, you should first set the limit (compliance) to a value higher than the measure
+        range you intend to set.
+    
+From Model 2400
+    Using :TRACe commands to store data
+        Use :TRAC:POIN <n> and :TRIG:COUN <n> followed by :TRAC:FEED:CONT NEXT
+        to store data. (n = number of readings; 2500 maximum.) Turn on the output with :OUTP
+        ON and then send :INIT to take the unit out of idle and store readings. After data is stored,
+        send :TRAC:DATA? to access it. See Table 9-1 in this section for a summary of these
+        commands and Section 18, “TRACe subsystem,” for more details.
+    Using :READ? to store data
+        Use :TRIG:COUN <n> to set the number of readings to be stored. (n = number of read-
+        ings; 2500 maximum.) Turn on the output with :OUTP ON and then send the :READ?
+        command to trigger and access readings. (Once you access these readings, you will still be
+        able to access previously stored :TRACe buffer readings using :TRAC:DATA?.) See
+        Section 11 and Section 18, “TRIGger subsystem,” for triggering details, and Section 17
+        for information on the :READ? command.
 
 Created on 22 Feb 2022
+16 Aug 2023 - added support for model 2400
 
 @author: fy65
 '''
@@ -22,13 +54,13 @@ connect = "ASYN.CNCT"   #DBF_ENUM [0,1] or ["Disconnect", "Connect"]
 transfer_mode = "ASYN.TMOD" #DBF_ENUM [ 0] Write/Read [ 1] Write [ 2] Read [ 3] Flush [ 4] NoI/O
 asyn_timeout = "ASYN.TMOT" #DBF_DOUBLE
 
-class EpicsKeithley2461(object):
+class EpicsKeithleySourceMeter(object):
     '''
-    support source meter Keithley 2461 model.
+    support Keithley source meter 2461 model and 2400 model.
     Only limited SCPL commands are implemented here!
     '''
 
-    def __init__(self, name, pv_root):
+    def __init__(self, name, pv_root, model=2461):
         '''
         Constructor
         '''
@@ -42,10 +74,16 @@ class EpicsKeithley2461(object):
         self.error_clear = CAClient(pv_root + error_clear)
         self.connect = CAClient(pv_root + connect)
         self.asyn_timeout = CAClient(pv_root + asyn_timeout)
+        self.model = model
         self.configured = False
         self.last_transfer_mode = 1 #WRITE
+        self.use_trace_buffer = True
+        self.communication_wait = 0.1
         
     def configure(self):
+        '''
+        configure EPICS connections
+        '''
         if self.configured:
             return
         self.command.configure()
@@ -57,10 +95,13 @@ class EpicsKeithley2461(object):
         self.error_clear.configure()
         self.connect.configure()
         self.asyn_timeout.configure()
-        self.configured = True
         self.communication_wait = 0.1
+        self.configured = True
         
     def send_command_no_reply(self, command, timeout = 1.0):
+        '''
+        send command to device in Write mode - no reply
+        '''
         self.configure()
         self.asyn_timeout.caput(timeout)
         if self.last_transfer_mode != 1:
@@ -71,6 +112,9 @@ class EpicsKeithley2461(object):
         sleep(self.communication_wait)
         
     def send_command(self, command, timeout = 1.0):
+        '''
+        send command in Write/Read mode, expect reply in response
+        '''
         self.configure()
         self.asyn_timeout.caput(timeout)
         if self.last_transfer_mode != 0:
@@ -81,6 +125,9 @@ class EpicsKeithley2461(object):
         sleep(self.communication_wait)
         
     def get_response(self, timeout = 1.0):
+        '''
+        retrieve data from device and convert byte array to String
+        '''
         self.configure()
         import time
         timeout_time = time.time() + timeout
@@ -101,15 +148,24 @@ class EpicsKeithley2461(object):
         return ''.join(chr(i) for i in asynerror if i != 0)
     
     def get_errors(self):
+        '''
+        get error text from device
+        '''
         self.configure()
         error_in_char_code = self.error.caget()
         return ''.join(chr(i) for i in error_in_char_code if i != 0)
     
     def get_error_count(self):
+        '''
+        get the number of errors in the device
+        '''
         self.configure()
         return float(self.error_count.caget())
     
     def clear_error(self):
+        '''
+        clear errors from the device
+        '''
         self.configure()
         self.error_clear.caput(1)
         
@@ -119,20 +175,98 @@ class EpicsKeithley2461(object):
         self.send_command_no_reply('*RST')
         
     def outputOn(self):
+        '''
+        switch on output before acquiring data or do measurements
+        '''
         self.send_command_no_reply("OUTP ON")
         
     def outputOff(self):
-        self.send_command_no_reply("OUTP OFF")
-        
-    def isBufferClear(self, buffer_name):
-        '''check if buffer is cleared, i.e. the number of readings in buffer is 0
         '''
-        self.send_command('TRACe:ACTual? "' + str(buffer_name) + '"')
+        switch off output after acquiring data or do measurements
+        '''
+        self.send_command_no_reply("OUTP OFF")
+    
+    def clearBuffer(self, buffer_name=None):
+        '''
+        clear the named buffer 
+        - model 2461 supports buffer named as  "defbuffer1", 
+        - model 2400 doesn't not supported named buffer, so should be None
+        '''
+        if self.model == 2461:
+            self.send_command_no_reply('TRACe:CLEar "' + str(buffer_name) + '"')
+        if self.model == 2400:
+            self.send_command_no_reply('TRACe:CLEar')
+        
+    def isBufferClear(self, buffer_name=None):
+        '''check if buffer is cleared, i.e. the number of readings in buffer is 0
+        - model 2461 supports buffer named as  "defbuffer1", 
+        - model 2400 doesn't not supported named buffer, so should be None
+        '''
+        if self.model == 2461:
+            self.send_command('TRACe:ACTual? "' + str(buffer_name) + '"')
+        if self.model == 2400:
+            self.send_command('TRACe:POINts:ACTual?')
         return int(self.get_response()) == 0
     
     def numberOfReadingInBuffer(self, buffer_name):
-        self.send_command('TRACe:ACTual:END? "' + str(buffer_name) + '"')
+        if self.model == 2641:
+            self.send_command('TRACe:ACTual:END? "' + str(buffer_name) + '"')
+        if self.model == 2400:
+            raise AttributeError("Command  'TRACe:ACTual:END? 'is not supported in model 2400")
         return int(self.get_response())
+    
+    def specify_data_elements(self, *args):
+        '''
+        specify the elements to be included in the data string. You can specify one to five elements. Valid elements are VOLT, CURR, RES,TIME, STAT 
+        '''
+        if self.model == 2400:
+            valid_inputs = ["VOLT", "CURR", "RES", "TIME", "STAT"]
+            arg = ""
+            for each in args:
+                if each in valid_inputs:
+                    arg += ", " + str(each)
+                else:
+                    raise ValueError("input value '%s' not valid. Valid value must be in %s" % (each, valid_inputs))
+            command = ":FORMat:ELEMents" + arg   
+            self.send_command_no_reply(command)
+        if self.model == 2461:
+            raise AttributeError("Command '%s' is not supported in model 2461" % command)
+    
+    def acquire_data(self, count):
+        '''
+        trigger measurement and read data
+        '''
+        self.outputOn()
+        if self.model == 2461:
+            self.send_command_no_reply('TRACe:TRIGger "defbuffer1"')
+            while self.numberOfReadingInBuffer("defbuffer1") < count: # should be self.count*2, but keithley does not fill buffer with sour, read as pair at the same time.
+                sleep(self.read_wait)
+            self.send_command('TRACe:DATA? 1, ' + str(count) + ', "defbuffer1", SOUR, READ')
+        if self.model == 2400:
+            if not self.use_trace_buffer:
+                self.send_command("READ?")
+            if self.use_trace_buffer:
+                self.send_command_no_reply(":INIT")
+                self.send_command(":TRACE:DATA?")
+        self.outputOff()
+                
+    def prepare_trace_buffer(self, count):
+        '''
+        configure trace buffer
+        '''
+        if self.model == 2400:
+            self.clearBuffer()
+            while not self.isBufferClear():
+                sleep(0.1)
+            if self.use_trace_buffer:
+                self.send_command_no_reply(":TRAC:FEED SENS") #Store raw readings in buffer.
+                self.send_command_no_reply(":TRAC:POIN " + str(count)) #Store count readings in buffer.
+                self.send_command_no_reply(":TRAC:FEED:CONT NEXT") #Enable buffer.
+            self.send_command_no_reply(":TRIG:COUN " + str(count)) #Trigger count number.
+        if self.model == 2461:
+            self.clearBuffer("defbuffer1")
+            while not self.isBufferClear("defbuffer1"):
+                sleep(0.1)
         
     def sourceFunction(self, function):
         '''Set the source function
@@ -144,10 +278,21 @@ class EpicsKeithley2461(object):
         '''
         self.send_command_no_reply("SOUR:" + str(function) + " " + str(val))
          
-    def sourceVoltageLimit(self, limit):
+    def sourceLimit(self, func, limit):
         '''set voltage limit in source current mode
         '''
-        self.send_command_no_reply("SOUR:CURR:VLIM " + str(limit))
+        command = "SOUR:"+ str(func) + ":VLIM " + str(limit)
+        if self.model == 2461:
+            self.send_command_no_reply(command)
+        if self.model == 2400:
+            raise AttributeError("Command '%s' is not supported in model %d" % (command,self.model))
+    
+    def source_mode(self, func, mode):
+        command = "SOUR:"+ str(func) + ":MODE " + str(mode)
+        if self.model == 2400:
+            self.send_command_no_reply(command)
+        if self.model == 2461:
+            raise AttributeError("Command '%s' is not supported in model 2461" % command)
        
     def senseFunction(self, function):
         '''Set the measure function
@@ -170,13 +315,20 @@ class EpicsKeithley2461(object):
         '''set measurement range for the specified function
         '''
         self.send_command_no_reply("SENS:" + str(function) + ":RANG " + str(val))
+    
+    def senseCount(self, count):
+        command = 'SENSe:COUNT ' +  str(count)
+        if self.model == 2461:
+            self.send_command_no_reply(command)
+        if self.model == 2400:
+            raise AttributeError("Command '%s' is not supported in model %d" % (command, self.model))
            
-    def senseVoltRsen(self, state):
+    def senseRsense(self, func, state):
         ''' set 4-wire remote sense
         '''
         if not (state in ['ON', 'OFF']):
             raise ValueError("state must be in ['ON', 'OFF']")
-        self.send_command_no_reply("SENS:VOLT:RSEN " + str(state))
+        self.send_command_no_reply("SENS:" + str(func) + ":RSEN " + str(state))
         
     def sourcePulseTrain(self, function, pulseLevel, pulseWidth, numberOfPulses, measEnable, timeDelay):
         '''sets up a pulse train for a fixed number of pulse points.
@@ -195,7 +347,10 @@ class EpicsKeithley2461(object):
         '''
         cmd = 'SOUR:PULS:TR:' + str(function) + ' 0, ' + str(pulseLevel) + ', ' + str(pulseWidth) + ', ' + str(numberOfPulses) + ', ' + str(measEnable) + ', "defbuffer1", ' + str(timeDelay) + ', ' + str(timeDelay) + ', 100, 100, off'
         print(cmd)
-        self.send_command_no_reply(cmd) 
+        if self.model == 2461:
+            self.send_command_no_reply(cmd)
+        if self.model == 2400:
+            raise AttributeError("Method is not yet implemented for model 2400!") 
         
     def sourcePulseLinearSweep(self, function, stop, pulseWidth, timeDelay, numberOfPulses):
         '''sets up a linear pulse sweep for a fixed number of pulse points.
@@ -217,7 +372,10 @@ class EpicsKeithley2461(object):
         '''
         cmd = 'SOUR:PULS:SWE:' + str(function) + ':LIN 0, 0, ' + str(stop) + ', 2, ' + str(pulseWidth) + ', off, "defbuffer1", ' + str(timeDelay) + ', ' + str(timeDelay) + ', ' + str(numberOfPulses) + ', 100, 100, off, off'
         print(cmd)
-        self.send_command_no_reply(cmd) 
+        if self.model == 2461:
+            self.send_command_no_reply(cmd) 
+        if self.model == 2400:
+            raise AttributeError("Method is not yet implemented for model 2400!") 
         
     def startPulse(self):
         '''start pulses
@@ -244,37 +402,46 @@ class EpicsKeithley2461(object):
     def readVoltage(self, nplc, timeout = 1.0):
         ''' read voltage after the number of power line cycles (NPLC)
         '''
-        self.send_command_no_reply("SENS:VOLT:NPLC " + str(nplc))
-        self.send_command_no_reply("OUTP ON")
-        self.send_command(":READ? 'defbuffer1', sour, read", timeout)
-        if self.get_error_count() > 0:
-            print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
-        respose = self.get_response(timeout)            
-        self.send_command_no_reply("OUTP OFF")
+        if self.model == 2461:
+            self.send_command_no_reply("SENS:VOLT:NPLC " + str(nplc))
+            self.send_command_no_reply("OUTP ON")
+            self.send_command(":READ? 'defbuffer1', sour, read", timeout)
+            if self.get_error_count() > 0:
+                print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
+            respose = self.get_response(timeout)            
+            self.send_command_no_reply("OUTP OFF")
+        if self.model == 2400:
+            raise AttributeError("This method is not yet implemented in model 2400")
         return respose
         
     def readResistance(self, count, timeout = 1.0):
         '''read resistance for the given number of count
         '''
-        self.send_command_no_reply("SENS:COUN " + str(count))
-        self.send_command_no_reply("OUTP ON")
-        self.send_command_no_reply("TRAC:TRIG 'defbuffer1'")
-        self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ", timeout)
-        if self.get_error_count() > 0:
-            print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
-        respose = self.get_response(timeout)            
-        self.send_command_no_reply("OUTP OFF")
+        if self.model == 2461:
+            self.send_command_no_reply("SENS:COUN " + str(count))
+            self.send_command_no_reply("OUTP ON")
+            self.send_command_no_reply("TRAC:TRIG 'defbuffer1'")
+            self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ", timeout)
+            if self.get_error_count() > 0:
+                print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
+            respose = self.get_response(timeout)            
+            self.send_command_no_reply("OUTP OFF")
+        if self.model == 2400:
+            raise AttributeError("This method is not yet implemented in model 2400")
         return respose
     
     def readTraceData(self, count, timeout = 1.0):
         '''get data from source, measured reading and relative time of the measurements for a given number of pulses after pulse train.
         '''
-        self.send_command_no_reply("OUTP ON")
-        self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ, REL", timeout)
-        if self.get_error_count() > 0:
-            print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
-        respose = self.get_response(timeout)            
-        self.send_command_no_reply("OUTP OFF")
+        if self.model == 2461:
+            self.send_command_no_reply("OUTP ON")
+            self.send_command("TRAC:DATA? 1, " + str(count) + ", 'defbuffer1', SOUR, READ, REL", timeout)
+            if self.get_error_count() > 0:
+                print("Error count is not zero, please clear the error count in EPICS before use the last command again!")
+            respose = self.get_response(timeout)            
+            self.send_command_no_reply("OUTP OFF")
+        if self.model == 2400:
+            raise AttributeError("This method is not yet implemented in model 2400")
         return respose
         
     def sourceReadback(self, function, state):
@@ -284,7 +451,11 @@ class EpicsKeithley2461(object):
             raise ValueError("function must be in ['VOLT', 'CURR']")
         if state not in ['ON', 'OFF']:
             raise ValueError("state must be in ['ON', 'OFF']")
-        self.send_command_no_reply("SOUR:" + str(function) + ":READ:BACK " + str(state))
+        command = "SOUR:" + str(function) + ":READ:BACK " + str(state)
+        if self.model == 2461:
+            self.send_command_no_reply(command)
+        if self.model == 2400:
+            raise AttributeError("Command '%s' is not supported in model 2400" % command)
     
     def connect(self):
         '''connect to Keithley device
