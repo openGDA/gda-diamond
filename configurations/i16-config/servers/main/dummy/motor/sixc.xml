@@ -49,6 +49,21 @@
 		<property name="speed" value="360000000" />
 	</bean>
 
+	<bean id="sixcGammaEpicsMotor"
+			class="gda.device.motor.DummyMotor">
+		<property name="speed" value="360000000" />
+	</bean>
+
+	<bean id="sixcDeltaEpicsMotor"
+			class="gda.device.motor.DummyMotor">
+		<property name="speed" value="360000000" />
+	</bean>
+
+	<bean id="sixcMuEpicsMotor"
+			class="gda.device.motor.DummyMotor">
+		<property name="speed" value="360000000" />
+	</bean>
+
 	<bean id="sixcCryoPhiMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
