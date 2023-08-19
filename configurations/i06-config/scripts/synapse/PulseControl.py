@@ -45,7 +45,7 @@ def generateCurrentPulseFromKeithley(pulse_level, pulse_width, time_delay, numbe
     except Exception as e:
         raise e
     finally:
-        if not Keithley2461.isConnectionClosed():
+        if not Keithley2461.isDisconnected():
             keithley.closeConnection()
 
 def pulse2(*args):
@@ -129,7 +129,7 @@ def generatePulseAndMeasureFromKeithley(pulse_level, pulse_width, time_delay, nu
     except Exception as e:
         raise e
     finally:
-        if not Keithley2461.isConnectionClosed():
+        if not Keithley2461.isDisconnected():
             keithley.closeConnection()
         
 def pulseAndMeas2(*args):
@@ -211,7 +211,7 @@ def measureResistance(count):
     except Exception as e:
         raise e
     finally:
-        if not Keithley2461.isConnectionClosed():
+        if not Keithley2461.isDisconnected():
             keithley.closeConnection()
         
 def measureVoltage(val, comp_voltage, auto_range, range_value, state, nplc):
@@ -235,7 +235,7 @@ def measureVoltage(val, comp_voltage, auto_range, range_value, state, nplc):
     except Exception as e:
         raise e
     finally:
-        if not Keithley2461.isConnectionClosed():
+        if not Keithley2461.isDisconnected():
             keithley.closeConnection()
         
 def probeRes2(*args):

@@ -8,7 +8,7 @@ Created on 22 Feb 2022
 from synapse.SynapseSwitchBox import synapse_s1, synapse_s2, synapse_s3, synapse_s4, synapse_setall, \
     synapse_cg
 from time import sleep
-from i06shared.keithley.epics_keithley_2461_class import EpicsKeithley2461
+from i06shared.keithley.epics_keithley_source_meter_class import EpicsKeithleySourceMeter
 from gda.jython import JythonServerFacade
 
 curr, volt = ['Current', 'Voltage']
@@ -38,7 +38,7 @@ def whichSynapseTerminal(arg):
 
 
 # create keithley object
-keithley = EpicsKeithley2461("keithley", "BL06I-EA-SRCM-01:")
+keithley = EpicsKeithleySourceMeter("keithley", "BL06I-EA-SRCM-01:", model=2461)
 keithley.configure()
 
 
