@@ -4,6 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="bs3diode" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="pvName" value="BL22I-EA-TTRM-02:Cur3:MeanValue_RBV"/>
+		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
+	</bean>
+
 	<bean id="bs2diode" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
