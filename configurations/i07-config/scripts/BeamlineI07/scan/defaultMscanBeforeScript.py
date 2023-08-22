@@ -2,12 +2,13 @@ from gdaserver import fatt
 from gda.configuration.properties import LocalProperties
 
 EXCALIBUR_RD_NAME = "BL07I-ML-SCAN-01"
+EXCALIBUR_STATIC_NAME = "BL07I-ML-SCAN-11"
 
 # Set of Strings of runnable device names
 detectors = scanRequest.getDetectors().keySet()
 
 
-if LocalProperties.check("gda.beamline.auto.attenuation", False) and EXCALIBUR_RD_NAME in detectors:
+if LocalProperties.check("gda.beamline.auto.attenuation", False) and ( EXCALIBUR_RD_NAME in detectors or EXCALIBUR_STATIC_NAME in detectors ):
     print("Setting auto attenuation for continuous scan")
     fatt.continuousMode()
 else:

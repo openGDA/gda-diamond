@@ -265,11 +265,12 @@
 		<property name="name" value="BL07I-ML-SCAN-11" />
 		<property name="exposureTime" value="1.0" />
 	</bean>
-	<bean id="malcolm_device_scan11" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolm_device_scan11" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
 		<property name="name" value="BL07I-ML-SCAN-11" />
 		<property name="model" ref="malcolm_model_scan11" />
 		<property name="deviceInformation" ref="malcolm_info_scan11" />
 		<property name="activated" value="false" />
+		<property name="processing" ref="excalibur_processing" />
 	</bean>
 
 	<!-- scan 12 -->
@@ -281,11 +282,12 @@
 		<property name="name" value="BL07I-ML-SCAN-12" />
 		<property name="exposureTime" value="1.0" />
 	</bean>
-	<bean id="malcolm_device_scan12" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolm_device_scan12" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
 		<property name="name" value="BL07I-ML-SCAN-12" />
 		<property name="model" ref="malcolm_model_scan12" />
 		<property name="deviceInformation" ref="malcolm_info_scan12" />
 		<property name="activated" value="false" />
+		<property name="processing" ref="pilatus2_processing" />
 	</bean>
 
 	<!-- scan 13 -->
@@ -473,11 +475,12 @@
 		<property name="name" value="BL07I-ML-SCAN-32" />
 		<property name="exposureTime" value="1.0" />
 	</bean>
-	<bean id="malcolm_device_scan32" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolm_device_scan32" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
 		<property name="name" value="BL07I-ML-SCAN-32" />
 		<property name="model" ref="malcolm_model_scan32" />
 		<property name="deviceInformation" ref="malcolm_info_scan32" />
 		<property name="activated" value="false" />
+		<property name="processing" ref="pilatus3_processing" />
 	</bean>
 
 	<!-- scan 33 -->

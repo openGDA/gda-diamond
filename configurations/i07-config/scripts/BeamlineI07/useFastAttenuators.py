@@ -15,25 +15,27 @@ def autofon():
     exv.setDetector(excalibur_atten)
     LocalProperties.set("gda.beamline.auto.attenuation", True)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
-    procs = exc_scan.getProcessing().getProcessorMap()
-    atten = [conf for conf in procs if conf.detFileNameSuffix() == "-attenuation.h5"]
-    for a in atten:
-        for proc in procs[a]:
-            proc.setEnabled(True)
-    print("Automatic attenuation enabled for exr, exv and exc")
+    setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), True)
+    exs_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
+    setProcessingEnabled(exs_scan.getProcessing().getProcessorMap(), True)
+    print("Automatic attenuation enabled for exr, exv, exc and exs")
 
 def autofoff():
     exr.setDetector(excalibur)
     exv.setDetector(excalibur)
     LocalProperties.set("gda.beamline.auto.attenuation", False)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
-    procs = exc_scan.getProcessing().getProcessorMap()
+    setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), False)
+    exs_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
+    setProcessingEnabled(exs_scan.getProcessing().getProcessorMap(), False)
+    fatt.manualMode()
+    print("Automatic attenuation disabled for exr, exv, exc and exs")
+
+def setProcessingEnabled(procs, enabled):
     atten = [conf for conf in procs if conf.detFileNameSuffix() == "-attenuation.h5"]
     for a in atten:
         for proc in procs[a]:
-            proc.setEnabled(False)
-    fatt.manualMode()
-    print("Automatic attenuation disabled for exr, exv and exc")
+            proc.setEnabled(enabled)
 
 def exc_fast_exp_time(time=None):
     if time==None:
