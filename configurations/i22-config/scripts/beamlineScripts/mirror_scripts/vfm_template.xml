@@ -4,7 +4,7 @@
     <mirrorType>vfm</mirrorType>
     <numberOfElectrodes>8</numberOfElectrodes>
     <mirrorLength>1.2</mirrorLength>
-    <voltageIncrement>0.0</voltageIncrement>
+    <voltageIncrement>400.0</voltageIncrement>
     <slitSizeScannable>s2_ygap</slitSizeScannable>
     <slitPosScannable>s2_ycentre</slitPosScannable>
     <slitSize>0.02</slitSize>
@@ -19,16 +19,16 @@
     <exposureTime>0.0</exposureTime>
     <settleTime>0.0</settleTime>
     <scanDirectory>/dls/ixx/users/</scanDirectory>
-    <scanNumberInputs>550881:550913</scanNumberInputs>
-    <errorFile>551113</errorFile>
+    <scanNumberInputs>687537:687569</scanNumberInputs>
+    <errorFile>687630</errorFile>
     <beamOffset>0.0</beamOffset>
     <bimorphScannableName>vfm_v</bimorphScannableName>
-    <bimorphVoltages>384, 500, 250, -250, 250, 239, 98, 143, -103, -80, -82, -350, 150, 164, -15, -137, 67, -2, 397, 88, -412, 62, -15, -60, 440, 146, 194, 365, -116, 384, -116, 384</bimorphVoltages>
+    <bimorphVoltages>240.2,-251.4,-500.0,-245.3,246.4,194.4,33.8,70.2,-289.0,-126.6,-243.3,-470.3,-40.9,55.7,-110.9,-199.1,-90.9,-123.4,209.3,200.0,-300.0,-206.2,-105.9,-234.2,256.3,121.9,186.6,340.5,-155.0,144.0,63.5,204.4</bimorphVoltages>
     <pixelSize>1.93</pixelSize>
     <detectorDistance>19.625</detectorDistance>
     <iSign>downstream</iSign>
     <inv>-1</inv>
-    <method>2</method>
+    <method>1</method>
     <presentSourceMirrorDistance>27.725</presentSourceMirrorDistance>
     <presentMirrorFocusDistance>14.775</presentMirrorFocusDistance>
     <presentAngleOfIncidence>2.6</presentAngleOfIncidence>
@@ -41,7 +41,7 @@
     <autoOffset>true</autoOffset>
     <autoDist>true</autoDist>
     <slitScanDetDist>14.775</slitScanDetDist>
-    <presentDetDist>29.325</presentDetDist>
+    <presentDetDist>19.625</presentDetDist>
     <bimorphGroups></bimorphGroups>
     <btnGroupElectrodesTogether>false</btnGroupElectrodesTogether>
     <minSlitPos>-0.55</minSlitPos>
