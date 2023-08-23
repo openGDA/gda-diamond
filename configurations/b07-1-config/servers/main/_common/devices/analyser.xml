@@ -15,6 +15,8 @@
 <!-- 		<property name="photonEnergyProvider" ref="pgm_energy" /> -->
 		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="experimentalShutter" ref="expt_shutter" />
+		<property name="shouldCheckPrelensValve" value="false"/>
+		<property name="shouldCheckExperimentalShutter" value="false"/>
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
 		<!-- Real value for detectorEnergyWidth will be read from EPICS. This will be used if EPICS can't be accessed. -->
 		<property name="detectorEnergyWidth" value="0.13" />
