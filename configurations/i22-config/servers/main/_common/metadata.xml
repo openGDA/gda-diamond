@@ -74,4 +74,9 @@
         <property name="userUnits" value="mm"/>
         <property name="resetValue" value="NaN"/>
     </bean>
+
+    <!-- org.eclipse.dawnsci.nexus.scan.IDefaultDataGroupCalculator -->
+    <bean id="nexusDefaultDataGroupName" class="org.eclipse.scanning.sequencer.nexus.DefaultDataGroupConfiguration">
+        <property name="defaultDataGroupName" value="SAXS" />
+    </bean>
 </beans>
