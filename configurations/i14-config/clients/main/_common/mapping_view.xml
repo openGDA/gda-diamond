@@ -76,12 +76,7 @@
 								</property> 
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySubmitScanSection">
-								<constructor-arg name="xMotor" value="SampleX" />
-								<constructor-arg name="yMotor" value="SampleY" />
-								<constructor-arg name="zMotor" value="SampleZ" />
-								<constructor-arg name="rotationMotor" value="stage1_rotation" />
-								<constructor-arg name="tomoScanScript" value="scanning/submit_tomography_scan.py" />
-								<constructor-arg name="tomoDryRunScript" value="scanning/submit_tomography_dry_run.py" />
+								<constructor-arg name="fileDirectory" value="/dls_sw/i14/scripts/tomography" />
 								<property name="description" value="Tomography scan" />
 								<property name="buttonText" value="Submit tomography scan" />
 								<property name="submitScanButtonColour" value="YELLOW"/>
