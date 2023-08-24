@@ -124,11 +124,11 @@
 		</property>
 		<property name="dataUpdatedListener" ref="pulsedone"/>
 		<property name="finalDataListener">
-			<bean class="uk.ac.gda.client.hrpd.views.EpicsLivePlotViewConfiguration">
-				<constructor-arg index="0" ref="allx"/>
-				<constructor-arg index="1" ref="ally"/>
-				<constructor-arg index="2" ref="allye"/>
-			</bean>
+            <list>
+				<ref bean="allx"/>
+				<ref bean="ally"/>
+				<ref bean="allye"/>
+            </list>
 		</property>
 		<property name="detectorStateListener" ref="state"/>
 		<property name="detectorStateToPlotReducedData" value="Flyback"/>
