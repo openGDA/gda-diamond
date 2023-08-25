@@ -88,6 +88,7 @@ pgm_list = [pgm_energy,pgm_cff,pgm_grating_pitch,pgm_grating_x,pgm_mirror_pitch,
 shutter_list = [expt_shutter,pss_shutter1_con,pss_shutter2_con,fast_shutter_con] # @UndefinedVariable
 other_list = [img22b,img23b,cap21b,cap22b,ES2_sample_temperature,ES2_heater_output] # @UndefinedVariable
 es1_list = [ES1_temperature_51,ES1_temperature_52]  # @UndefinedVariable
+mfc_list = [mfc1, mfc2, mfc3, mfc4, mfc5, mfc6, mfc7, mfc8] # @UndefinedVariable
 metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list + es1_list
 meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4
 for each in meta_data_list:
