@@ -9,30 +9,31 @@ from detector.iseg_voltage_controller import ISegVoltageControl
 from detector.total_image_count import IntegratedSpectrum
 from gdascripts.utils import caput
 
-dldv = ISegVoltageControl('dldv',3,7,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); dldv.configure()
-mcp_b = ISegVoltageControl('mcp_b',2,0,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); mcp_b.configure()
-sample_bias = ISegVoltageControl('sample_bias',1,6,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.008, ramp_speed = 1.0); sample_bias.configure()
+dldv = ISegVoltageControl('dldv',3,6,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); dldv.configure()
+mcp_b = ISegVoltageControl('mcp_b',3,5,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); mcp_b.configure()
+sample_bias = ISegVoltageControl('sample_bias',1,6,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.002, ramp_speed = 8.0); sample_bias.configure()
 int_spec = IntegratedSpectrum("int_spec", "BL09K-EA-D-01:")
-caput("BL09K-EA-D-01:Stats1:NDArrayPort", "ROI1")
+#caput("BL09K-EA-D-01:Stats1:NDArrayPort", "ROI1")
+'''Sample_IRamp=EpicsReadWritePVClass("Sample_IRamp","BL09K-EA-PSU-01:0:1:CurrentRampSpeed","%/s*I_nom","%f")'''
 
 def DLD_start(MCPB):
-    dldv.rawAsynchronousMoveTo(0)
-    mcp_b.rawAsynchronousMoveTo(0)
+#    dldv.rawAsynchronousMoveTo(0)
+#    mcp_b.rawAsynchronousMoveTo(0)
 
-    mcp_b.waitWhileBusy()
-    dldv.waitWhileBusy()
+#    mcp_b.waitWhileBusy()
+#    dldv.waitWhileBusy()
      
-    dldv.on()
-    mcp_b.on()
+#    dldv.on()
+#    mcp_b.on()
     
-    dldv.setRampSpeed(1)
+#    dldv.setRampSpeed(1)
     
-    dldv.rawAsynchronousMoveTo(400)
+#   dldv.rawAsynchronousMoveTo(400)
 
-    dldv.waitWhileBusy()
+#    dldv.waitWhileBusy()
     
-    mcp_b.setRampSpeed(0.36)
-    dldv.setRampSpeed(0.18)
+    mcp_b.setRampSpeed(0.5)
+    dldv.setRampSpeed(0.5)
     
     mcp_b.rawAsynchronousMoveTo(MCPB)
     dldv.rawAsynchronousMoveTo(MCPB+400)
@@ -41,8 +42,8 @@ def DLD_start(MCPB):
     dldv.waitWhileBusy()
     
 def DLD_stop():
-    mcp_b.setRampSpeed(0.36)
-    dldv.setRampSpeed(0.18)
+    mcp_b.setRampSpeed(0.5)
+    dldv.setRampSpeed(0.5)
 
     mcp_b.rawAsynchronousMoveTo(0)
     dldv.rawAsynchronousMoveTo(400)

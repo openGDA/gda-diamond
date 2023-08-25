@@ -64,7 +64,7 @@
 	</bean>	
 
 	<bean id="count_rate" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
-		<property name="displayName" value="Counts" />
+		<property name="displayName" value="Intensity (cps)" />
 		<property name="group" value="DLD" />
 		<property name="scannableName" value="count_rate_monitor" />
 		<property name="textWidth" value="170" />

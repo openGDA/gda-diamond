@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="x_gaussian_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-EA-APTR-01:X" />
+	</bean>
+	<bean id="y_gaussian_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-EA-APTR-01:Y" />
+	</bean>
+	<bean id="x_fourier_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-EA-APTR-02:X" />
+	</bean>
+	<bean id="y_fourier_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-EA-APTR-02:Y" />
+	</bean>
+
+	<bean id="gaussian_select" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09K-EA-APTR-01:MP" />
+	</bean>
+	<bean id="fourier_select" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09K-EA-APTR-02:MP" />
+	</bean>
+
+</beans>

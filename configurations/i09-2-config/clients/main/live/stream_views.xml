@@ -54,11 +54,12 @@
 				<property name="liveControls">
 					<list>
 						<ref bean="dld_expsure_time_control" />
+						<ref bean="dld_acquire_period_control"/>
+						<ref bean="count_rate" />
 						<ref bean="dld_state_control" />
 						<ref bean="dld_time_start_control"/>
-						<ref bean="dld_hist_length_control"/>
-						<ref bean="dld_acquire_period_control"/>
 						<ref bean="dld_time_length_control" />
+						<ref bean="dld_hist_length_control"/>
 					</list>				
 				</property>
 				<property name="cameraState">
