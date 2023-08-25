@@ -9,5 +9,5 @@ if [ -z $GDA_LOG ] ; then
 	fi
 fi
 
-export SPRING_PROFILES=ascattering,windows7,bsorption,em,hfm
+export SPRING_PROFILES=scattering,windows7,absorption,em,hfm
 gda --start client --springprofiles $SPRING_PROFILES "$@"

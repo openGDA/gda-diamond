@@ -9,6 +9,7 @@
 	
 	<!-- for all end stations -->
 	<import resource="RASOR-SCALER1.xml"/>
+	<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
 	
 	<beans profile="scattering">
 		<import resource="Shutter1.xml"/>
@@ -36,7 +37,6 @@
 		<import resource="UI1_SCALER1.xml"/>
 		<import resource="LakeShore340.xml"/>
 		<import resource="RASOR_stanfords.xml"/>
-		<import resource="vortex.xml"/>
 	</beans>
 	<!-- J Absorption -->
 	<beans profile="absorption">
@@ -63,7 +63,6 @@
 		<import resource="HFM.xml"/>
 		<import resource="MES_SCALERJ2.xml"/>
 		<import resource="MES_stanfords.xml"/>
-		<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
 <!-- 	<import resource="xmap_detector.xml"/> --> <!-- xmapMca and _xmap for MCA mapping mode requires Hardware trigger -->
 	</beans>	
 	
