@@ -45,6 +45,7 @@
 				<value>m4</value>
 				<value>dcm1</value>
 				<value>dcm2</value>
+				<value>s1</value>
 				<value>s2</value>
 				<value>s3</value>
 				<value>s4</value>
@@ -66,6 +67,8 @@
 				<value>kinematic_transform_20</value>
 				<value>kinematic_transform_21</value>
 				<value>kinematic_transform_22</value>
+				<value>a2_selector</value>
+				<value>a3_selector</value>
 			</set>
 		</property>
 		<property name="locationMap">
@@ -376,6 +379,31 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="s1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXInstrument/s1:NXslit/s1_xsize
+								</value>
+								<value>instrument:NXInstrument/s1:NXslit/s1_xcentre
+								</value>
+								<value>instrument:NXInstrument/s1:NXslit/s1_ysize
+								</value>
+								<value>instrument:NXInstrument/s1:NXslit/s1_ycentre
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
 				<entry key="s2">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -387,7 +415,7 @@
 								</value>
 								<value>instrument:NXInstrument/s2:NXslit/s2_ysize
 								</value>
-								<value>instrument:NXInstrument/s2:NXslit/s1_ycentre
+								<value>instrument:NXInstrument/s2:NXslit/s2_ycentre
 								</value>
 							</list>
 						</property>
