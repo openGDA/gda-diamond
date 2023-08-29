@@ -77,6 +77,7 @@
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySubmitScanSection">
 								<constructor-arg name="fileDirectory" value="/dls_sw/i14/scripts/tomography" />
+								<constructor-arg name="calibrateDataFile" value="scanning/tomography/calibrate_data.py" />
 								<property name="description" value="Tomography scan" />
 								<property name="buttonText" value="Submit tomography scan" />
 								<property name="submitScanButtonColour" value="YELLOW"/>
@@ -88,7 +89,7 @@
 								<property name="description" value="Ptychography scan" />
 								<property name="buttonText" value="Submit ptychography scan" />
 								<property name="submitScanButtonColour" value="GREEN"/>
-								<property name="scriptFilePath" value="scanning/submit_ptychography_scan.py"/>
+								<property name="scriptFilePath" value="scanning/calibrate_data.py"/>
 								<property name="detectorName" ref="ptychography_scan_detector" />
 								<property name="processingConfiguration" ref="processing_configs" />
 								<property name="stateReporter">
