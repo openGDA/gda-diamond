@@ -10,6 +10,8 @@ detectors = scanRequest.getDetectors().keySet()
 
 if LocalProperties.check("gda.beamline.auto.attenuation", False) and ( EXCALIBUR_RD_NAME in detectors or EXCALIBUR_STATIC_NAME in detectors ):
     print("Setting auto attenuation for continuous scan")
+    fatt.manualMode()
+    sleep(0.2)
     fatt.continuousMode()
 else:
     print("Setting manual attenuation")
