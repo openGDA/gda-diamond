@@ -31,6 +31,7 @@
 	<import resource="dummy_endstation.xml" />
 	<import resource="DLD.xml"/>
 	<import resource="DLD_SUMMED.xml"/>
+	<import resource="Microscope.xml"/>
 
 
 	<import resource="../servers_common.xml" />

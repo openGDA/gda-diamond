@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="x_gaussian_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="y_gaussian_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="x_fourier_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="y_fourier_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<bean id="gaussian_select" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="3.5 mm" value="6.4000"/>
+				<entry key="Gauss grid" value="0.3000"/>
+				<entry key="1.5 mm" value="-5.7000"/>
+				<entry key="800 um" value="6.5000"/>
+				<entry key="500 um" value="0.5400"/>
+				<entry key="300 um" value="-5.4800"/>
+				<entry key="150 um" value="6.4500"/>
+				<entry key="100 um" value="0.4800"/>
+				<entry key="40 um" value="-5.4600"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="3.5 mm"/>
+	</bean>
+	<bean id="fourier_select" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="open" value="10.0000"/>
+				<entry key="k grid" value="3.8000"/>
+				<entry key="PEEM 1" value="-0.5600"/>
+				<entry key="PEEM 2" value="-5.1000"/>
+				<entry key="PEEM 3" value="0.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="open"/>
+	</bean>
+
+</beans>
