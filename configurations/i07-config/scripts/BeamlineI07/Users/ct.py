@@ -36,6 +36,8 @@ def ct(ct_time = 0):
 	def ct_select_atten():
 		caput("BL07I-EA-EXCBR-01:CAM:PausePolling", "1")
 		# set single shot mode	
+		caput('BL07I-OP-FILT-01:MODE', 'MANUAL')
+		sleep(0.2)
 		caput('BL07I-OP-FILT-01:MODE', 'SINGLESHOT')
 		# set timeout to 10s
 		caput('BL07I-OP-FILT-01:TIMEOUT', '10')
