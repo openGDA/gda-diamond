@@ -53,6 +53,9 @@ run "medipix_functions.py"
 #  Make the spectrometer setup functions available
 run "spectrometer-setup.py"
 
+# Setup the deferred moves and direct demand PVs for the spectrometer
+run 'setup-spectrometer-deferred-move-scannables.py'
+
 #  Run the detector setup functions
 run "detector-setup.py"
 
