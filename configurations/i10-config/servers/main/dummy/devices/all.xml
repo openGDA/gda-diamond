@@ -32,6 +32,7 @@
 		<import resource="RASOR-Cam3.xml"/>
 		<import resource="RASOR.xml"/>
 		<import resource="RASOR-SCALER1.xml"/>
+		<import resource="SCALER2.xml"/>
 		<import resource="RASOR_diff_sim_motors.xml"/>
 		<import resource="UI1_SCALER1.xml"/>
 		<import resource="LakeShore340.xml"/>

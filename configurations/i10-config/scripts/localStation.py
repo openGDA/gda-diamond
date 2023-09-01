@@ -75,6 +75,7 @@ spring_profiles = System.getProperty("gda.spring.profiles.active")
 # objects available for all 3 end-stations
 from scannable.continuous.energy_move_controller import energy_controller  # @UnusedImport
 from scannable.continuous.continuous_energy_scannables_scattering import energy, mcs16,mcs17,mcs18,mcs19,mcs20,mcs21,mcs22,mcs23 # @UnusedImport
+from scannable.continuous.continuous_energy_scannables_diagnose import energyd, mcsd16,mcsd17,mcsd18,mcsd19,mcsd20,mcsd21,mcsd22,mcsd23 # @UnusedImport
 
 if "scattering" in spring_profiles:
     ###Save and reload positions of a given scannable group and/or a list of scannables

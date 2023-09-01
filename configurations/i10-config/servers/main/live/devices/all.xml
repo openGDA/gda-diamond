@@ -9,6 +9,7 @@
 	
 	<!-- for all end stations -->
 	<import resource="RASOR-SCALER1.xml"/>
+	<import resource="SCALER2.xml"/>
 	<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
 	
 	<beans profile="scattering">

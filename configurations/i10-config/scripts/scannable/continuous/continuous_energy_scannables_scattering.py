@@ -38,8 +38,8 @@ mcs23 = WaveformChannelScannable('mcs23', mcs_controller, 24); mcs23.setHardware
 binpoint_GrtPitch = WaveformChannelScannable('binpoint_GrtPitch', binpoint_controller, 'GRT:PITCH:');       binpoint_GrtPitch.setHardwareTriggerProvider(energy_controller);  binpoint_GrtPitch.verbose = True
 binpoint_MirPitch = WaveformChannelScannable('binpoint_MirPitch', binpoint_controller, 'MIR:PITCH:');       binpoint_MirPitch.setHardwareTriggerProvider(energy_controller);  binpoint_MirPitch.verbose = True
 binpoint_PgmEnergy = WaveformChannelScannable('binpoint_PgmEnergy', binpoint_controller, 'PGM:ENERGY:');      binpoint_PgmEnergy.setHardwareTriggerProvider(energy_controller); binpoint_PgmEnergy.verbose = True
-binpoint_ID1Jawphase = WaveformChannelScannable('binpoint_em_ID1Jawphase', binpoint_controller, 'ID1:JAWPHASE:');      binpoint_ID1Jawphase.setHardwareTriggerProvider(energy_controller); binpoint_ID1Jawphase.verbose = True
-binpoint_ID2Jawphase = WaveformChannelScannable('binpoint_em_ID2Jawphase', binpoint_controller, 'ID2:JAWPHASE:');      binpoint_ID2Jawphase.setHardwareTriggerProvider(energy_controller); binpoint_ID2Jawphase.verbose = True
+binpoint_ID1Jawphase = WaveformChannelScannable('binpoint_ID1Jawphase', binpoint_controller, 'ID1:JAWPHASE:');      binpoint_ID1Jawphase.setHardwareTriggerProvider(energy_controller); binpoint_ID1Jawphase.verbose = True
+binpoint_ID2Jawphase = WaveformChannelScannable('binpoint_ID2Jawphase', binpoint_controller, 'ID2:JAWPHASE:');      binpoint_ID2Jawphase.setHardwareTriggerProvider(energy_controller); binpoint_ID2Jawphase.verbose = True
 binpoint_McaTime = WaveformChannelScannable('binpoint_McaTime', binpoint_controller, 'MCA:ELAPSEDTIME:'); binpoint_McaTime.setHardwareTriggerProvider(energy_controller);   binpoint_McaTime.verbose = True
 # binpoint_Custom1   = WaveformChannelScannable('binpoint_Custom1',   binpoint_controller, 'CUSTOM1:');         binpoint_Custom1.setHardwareTriggerProvider(energy_controller);   binpoint_Custom1.verbose=True
 
