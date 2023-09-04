@@ -45,10 +45,6 @@ def exc_fast_exp_time(time=None):
     else:
         excalibur_atten.getCollectionStrategy().setFastExpTime(time)
 
-# Default to off
-if LocalProperties.get("gda.mode")=="live":
-    autofoff()
-
 alias(att)
 alias(autofon)
 alias(autofoff)
@@ -127,3 +123,7 @@ alias(load_transmissions)
 alias(save_current_transmissions)
 alias(add_transmissions)
 alias(remove_transmissions)
+
+# Default to off
+if LocalProperties.get("gda.mode")=="live":
+    autofoff()
