@@ -109,6 +109,7 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="amp_gain"/>
 					<property name="scannableName" value="iamp12_gain"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 			</list>
 		</property>
