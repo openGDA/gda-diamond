@@ -19,19 +19,17 @@ From Model 2461
     
 From Model 2400
     Using :TRACe commands to store data
-        Use :TRAC:POIN <n> and :TRIG:COUN <n> followed by :TRAC:FEED:CONT NEXT
-        to store data. (n = number of readings; 2500 maximum.) Turn on the output with :OUTP
-        ON and then send :INIT to take the unit out of idle and store readings. After data is stored,
-        send :TRAC:DATA? to access it. See Table 9-1 in this section for a summary of these
-        commands and Section 18, “TRACe subsystem,” for more details.
+        Use :TRAC:POIN <n> and :TRAG:COUN <n> followed by :TRAC:FEED:CONT NEXT to store data.
+        (n = number of readings; 2500 maximum.) Turn on the output with :OUTP ON and
+        then send :INIT to take the unit out of idle and store readings. After data is stored,
+        send :TRAC:DATA? to access it.
     Using :READ? to store data
-        Use :TRIG:COUN <n> to set the number of readings to be stored. (n = number of read-
-        ings; 2500 maximum.) Turn on the output with :OUTP ON and then send the :READ?
-        command to trigger and access readings. (Once you access these readings, you will still be
-        able to access previously stored :TRACe buffer readings using :TRAC:DATA?.) See
-        Section 11 and Section 18, “TRIGger subsystem,” for triggering details, and Section 17
-        for information on the :READ? command.
-
+        USE :TRAG:COUN <n> to set the number of readings to be stored.
+        (n = number of readings, 2500 maximum.) Turn on the output with :OUTP ON and
+        then send the :READ? command to trigger and access readings.
+        (Once you access these readings, you will still be able to access previously 
+        stored :TRACe buffer readings using :TRAC:DATA?.) 
+        
 Created on 22 Feb 2022
 16 Aug 2023 - added support for model 2400
 
