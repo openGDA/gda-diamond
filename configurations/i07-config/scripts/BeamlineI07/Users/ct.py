@@ -5,33 +5,40 @@ from gdascripts.utils import caget, caput
 def ct(ct_time = 0):
 	if ct_time == 0 :
 		ct_time = ct.defaultTime
-	if not ( ct.use_pilatus or ct.use_excalibur) :
-		print "No detectors enabled, please set ct.use_pilatus and/or ct.use_excalibur to true."
+	if not ( ct.p2 or ct.ex or ct.p3 ) :
+		print "No detectors enabled, please set ct.p2, ct.p3 and/or ct.ex to True."
 		return
 	if ct.specWarning:
 		print "This is not SPEC!"
 		
-	if ct.use_excalibur and LocalProperties.check("gda.beamline.auto.attenuation"):
+	if ct.ex and LocalProperties.check("gda.beamline.auto.attenuation"):
 		ct_select_atten()
 	
 	pos(ct.fastshutter, 1)
-	if ct.use_excalibur :
+	if ct.ex :
 		pos(exc_snap, ct_time)
 	else :
 		#Not needed if using exc as it's slow anyway
 		sleep(ct.fsSleep)
-	if ct.use_pilatus :
-		pos(ct.pilatus_detector, ct_time)
+	if ct.p2 :
+		pos(pil2stats, ct_time)
+	if ct.p3 :
+		pos(pil3stats, ct_time)
 	pos(ct.fastshutter, 0)
 	
-	if ct.use_excalibur :
+	if ct.ex :
 		stats = dict(zip(exc_snap.getExtraNames(), exc_snap.readout()))
 		print "Excalibur Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
-	if ct.use_pilatus :
-		detectorReadout = ct.pilatus_detector.readout()
-		if isinstance(detectorReadout, NXDetectorDataWithFilepathForSrs):
-			detectorReadout = detectorReadout.toString().split('\t')
-		print "Pilatus Total: " + str(detectorReadout[10]) + "  Max: " + str(detectorReadout[7]) + " (" + str(detectorReadout[5]) + "," + str(detectorReadout[6]) + ") Filename: " + ct.pilatus_detector.filename
+	if ct.p2 :
+		readout_pilatus(pil2stats, "Pilatus 2M")
+	if ct.p3 :
+		readout_pilatus(pil3stats, "Pilatus 100K")
+
+	def readout_pilatus(detector, name):
+		readout = detector.readout()
+		if isinstance(readout, NXDetectorDataWithFilepathForSrs):
+			readout = readout.toString().split('\t')
+		print name + " Total: " + str(readout[10]) + "  Max: " + str(readout[7]) + " (" + str(readout[5]) + "," + str(readout[6]) + ") Filename: " + detector.filename
 
 	def ct_select_atten():
 		caput("BL07I-EA-EXCBR-01:CAM:PausePolling", "1")
@@ -76,13 +83,45 @@ def ct(ct_time = 0):
 		final_att = caget('BL07I-OP-FILT-01:ATTENUATION_RBV')
 		print "Attenuation: " + final_att
 
+ct.p2, ct.p3, ct.ex = False, False, True
+
+def ct_detectors(detector_list=None):	#Need to make it interpret this as a list however many entries there are.
+	def print_detectors() :
+		printout = "Detectors enabled for ct: "
+		if ct.p2 : printout += "pilatus 2, "
+		if ct.p3 : printout += "pilatus 3, "
+		if ct.ex : printout += "excalibur"
+		if not (ct.p2 or ct.p3 or ct.ex) : printout += "none"
+		print printout
+
+	if detector_list == None :
+		print_detectors()
+		return
+
+	available_detectors = ["p2", "p3", "ex"]
+	found=False
+	
+	for det in detector_list :
+		if det in available_detectors :
+			found=True
+			break
+	
+	if found :
+		ct.p2 = "p2" in detector_list
+		ct.p3 = "p3" in detector_list
+		ct.ex = "ex" in detector_list
+		print_detectors()
+	else :
+		print "Only exc_snap, pil2stats and pil3stats are compatible with ct command."
+
+alias("ct")
+alias("ct_detectors")
+
 ct.specWarning = False
 ct.defaultTime = 1
 ct.fsSleep = 0.5
 ct.fastshutter = fs
 
-ct.use_pilatus = False
-ct.use_excalibur = True
-ct.pilatus_detector = pil2stats
-
-alias("ct")
+if LocalProperties.get("gda.mode") == "live" and LocalProperties.get("gda.active.diffractometer.mode") == "eh2" :
+	ct.p3=True
+	ct.ex=False
