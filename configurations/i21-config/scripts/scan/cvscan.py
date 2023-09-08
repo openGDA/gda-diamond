@@ -90,7 +90,7 @@ print("-"*100)
 print("Creating I21 GDA 'cvscan' commands. ")
 
 def cvscan(c_energy, start, stop, step, *args):
-    ''' cvscan that checks if there is enough time to collect data before topup when 'checkbeamcv' is used.
+    ''' cvscan that checks if there is enough time to collect data before topup when 'checkbeam_cv' is used.
     '''
     command = "cvscan "
     wfs=[]
@@ -104,7 +104,7 @@ def cvscan(c_energy, start, stop, step, *args):
             wfs.append(arg)
         elif isinstance(arg, Number):
             dwell.append(arg)
-        elif isinstance(arg, ScannableGroup) and arg.getName() == "checkbeamcv":
+        elif isinstance(arg, ScannableGroup) and arg.getName() == "checkbeam_cv":
             beam_checker=arg
         else:
             others.append(arg)
@@ -127,7 +127,6 @@ def cvscan(c_energy, start, stop, step, *args):
         topup_checker=beam_checker.getGroupMember("checktopup_time_cv")
         topup_checker.setOperatingContinuously(True) #only check at scan start
         topup_checker.minimumThreshold=scan_time + 5
-        newargs.append(beam_checker)
         command += beam_checker.getName()
         
         first_time = True
