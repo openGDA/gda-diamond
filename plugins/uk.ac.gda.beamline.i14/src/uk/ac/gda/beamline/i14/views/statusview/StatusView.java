@@ -74,6 +74,7 @@ public abstract class StatusView extends ViewPart {
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
 	private boolean showBeamlineReadiness = true;
+	private BeamlineReadinessDisplay beamlineReadinessDisplay;
 
 	//private
 
@@ -114,7 +115,7 @@ public abstract class StatusView extends ViewPart {
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
 		if (showBeamlineReadiness) {
-			new BeamlineReadinessDisplay(grpBeamline);
+			beamlineReadinessDisplay = new BeamlineReadinessDisplay(grpBeamline);
 		}
 
 		// Shutter controls - user-dependent
@@ -300,6 +301,11 @@ public abstract class StatusView extends ViewPart {
 		protected void afterUpdateText(Text text, String value) {
 			text.setForeground(value.equals(RUNNING) ? RUNNING_TEXT_COLOUR : STOPPED_TEXT_COLOUR);
 		}
+	}
+
+	@Override
+	public void dispose() {
+		beamlineReadinessDisplay.dispose();
 	}
 
 }
