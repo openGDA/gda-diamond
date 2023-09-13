@@ -4,21 +4,15 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="polariserstick" class="gda.device.scannable.ScannableMotor">
+	<bean id="polstick" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="polariserStickMotor" />
 		<property name="userUnits" value="mm" />
-	</bean>
-
-	<bean id="polarisergamma" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="polariserGammaMotor" />
-		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="Polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="polariserstick" />
-				<ref bean="polarisergamma" />
+				<ref bean="polstick" />
 			</list>
 		</property>
 	</bean>

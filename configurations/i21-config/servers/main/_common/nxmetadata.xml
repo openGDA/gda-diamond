@@ -707,11 +707,7 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="stick"/>
-					<property name="scannableName" value="polariserstick"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="gamma"/>
-					<property name="scannableName" value="polarisergamma"/>
+					<property name="scannableName" value="polstick"/>
 				</bean>
 			</list>
 		</property>

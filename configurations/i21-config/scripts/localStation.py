@@ -5,7 +5,7 @@ from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.degas.degas import Degas  # @UnusedImport
 from gda.jython.commands.GeneralCommands import alias
 from gda.jython.commands import GeneralCommands
-from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnusedImport @UnresolvedImport
+from gdaserver import lakeshore, b2, x, sgmpitch, polstick, fastshutter  # @UnusedImport @UnresolvedImport
 import gdascripts
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gda.device.scannable import DummyScannable

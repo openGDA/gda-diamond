@@ -283,14 +283,14 @@
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 		<property name="horizontalLayout" value="true"/>
 	</bean>
-	<bean id="polarisergamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Polariser Gamma" />
+	<bean id="polstick_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="polstick" />
 		<property name="group" value="Detector" />
-		<property name="scannableName" value="polarisergamma" />
+		<property name="scannableName" value="polstick" />
 		<property name="increment" value="1" />
 		<property name="showIncrement" value="false"/>
 		<property name="showStop" value="false"/>
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="mm"/>
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 		<property name="horizontalLayout" value="true"/>
 	</bean>	
@@ -338,7 +338,7 @@
 				<ref bean="spech_control" />
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
-				<ref bean="polarisergamma_control" />
+				<ref bean="polstick_control" />
 				<ref bean="uvw_control" />
 			</list>
 		</property>
