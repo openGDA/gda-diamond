@@ -9,7 +9,7 @@
 	<include file="${gda.facility.dir}/properties/_common/jython_class_loading_logging.xml" />
 
 	<!-- Use the central Graylog appender definition -->
-	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
+	<include file="/dls_sw/dasc/graylog/graylog25_appender.xml" />
 
 	<!-- Wrap the included GrayLog appender to apply a filter
 		this is done here because the central version is used by all GDA versions
