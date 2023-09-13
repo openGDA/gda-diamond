@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="zxDiodeScanModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL15I-ML-SCAN-01"/>
+		<property name="exposureTime" value="0.1"/>
+	</bean>
+
+	<bean id="zxDiodeScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Diodes zx"/>
+		<property name="description" value="Hardware mapping scanning using the ZX stages"/>
+		<property name="shownByDefault" value="true"/>
+	</bean>
+
+	<bean id="zxDiodeScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL15I-ML-SCAN-01"/>
+		<property name="model" ref="zxDiodeScanModel"/>
+		<property name="deviceInformation" ref="zxDiodeScanInfo"/>
+	</bean>
+</beans>
+
