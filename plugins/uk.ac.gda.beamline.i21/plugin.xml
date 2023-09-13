@@ -113,7 +113,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView?before=uk.ac.gda.client.live.stream.view.reset ">
+            locationURI="toolbar:uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView?before=uk.ac.gda.client.live.stream.view.reset ">
          <command
                commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
@@ -123,7 +123,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.andor2.live.stream.active">
+                     variable="i21.Polandor_H.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
@@ -139,7 +139,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.andor2.live.stream.active">
+                     variable="i21.Polandor_H.live.stream.active">
                   <equals
                         value="STOPPED">
                   </equals>
@@ -155,7 +155,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i21.andor2.live.stream.active">
+                     variable="i21.Polandor_H.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
@@ -172,7 +172,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView">
+                        value="uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView">
                   </equals>
                </with>
             </visibleWhen>
@@ -180,7 +180,7 @@
          <command
                commandId="uk.ac.gda.client.live.stream.controls.crosshair"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/crosshairs.png"
-               id="uk.ac.gda.beamline.i21.andor2.live.stream.view.crosshair.toolbar.command"
+               id="uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.crosshair.toolbar.command"
                label="Crosshair"
                style="pulldown"
                tooltip="Enable/Disable crosshair">
@@ -249,7 +249,7 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="menu:uk.ac.gda.beamline.i21.andor2.live.stream.view.crosshair.toolbar.command">
+            locationURI="menu:uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.crosshair.toolbar.command">
          <command
                commandId="uk.ac.gda.client.live.stream.controls.crosshair"
                icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/add.png"
@@ -599,8 +599,8 @@
       </view>
       <view
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
-            id="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView"
-            name="Andor2"
+            id="uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView"
+            name="Polandor_H"
             restorable="true">
       </view>
       <view
@@ -667,7 +667,7 @@
                priorityLevel="workbench">
          </variable>
          <variable
-               name="i21.andor2.live.stream.active"
+               name="i21.Polandor_H.live.stream.active"
                priorityLevel="workbench">
          </variable>
          <variable

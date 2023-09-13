@@ -9,38 +9,38 @@
 
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 
-	<bean id="andor2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}andor2Roi" />
+	<bean id="Polandor_H_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}Polandor_HRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<import resource="../_common/andor2_controls.xml"/>
-	<bean id="andor2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Andor2" />
-		<property name="viewID" value="uk.ac.gda.beamline.i21.andor2.live.stream.view.LiveStreamView"/>
-		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/ANDOR2.mjpg.mjpg" />
+	<import resource="../_common/Polandor_H_controls.xml"/>
+	<bean id="Polandor_H" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Polandor_H" />
+		<property name="viewID" value="uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView"/>
+		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/Polandor_H.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-02:ARR" />
-		<property name="roiProvider" ref="andor2_roi" />
+		<property name="roiProvider" ref="Polandor_H_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
 				<property name="liveControls">
 					<list>
-						<ref bean="andor2_expsure_time_control" />
-						<ref bean="andor2_acquire_period_control"/>
-						<ref bean="andor2ShutterOpen" />
-						<ref bean="andor2ShutterClose" />
-						<ref bean="andor2_time_remaining" />
-						<ref bean="andor2_time_remaining_progress" />
-						<ref bean="andor2_stick_control" />
-						<ref bean="andor2_gamma_control" />
+						<ref bean="Polandor_H_expsure_time_control" />
+						<ref bean="Polandor_H_acquire_period_control"/>
+						<ref bean="Polandor_HShutterOpen" />
+						<ref bean="Polandor_HShutterClose" />
+						<ref bean="Polandor_H_time_remaining" />
+						<ref bean="Polandor_H_time_remaining_progress" />
+						<ref bean="Polandor_H_stick_control" />
+
 					</list>
 				</property>
 				<property name="cameraState">
 					<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 						<property name="pvName" value="BL21I-EA-DET-02:CAM:Acquire"/>
-						<property name="stateVariableName" value="i21.andor2.live.stream.active"/>
+						<property name="stateVariableName" value="i21.Polandor_H.live.stream.active"/>
 					</bean>
 				</property>
 			</bean>

@@ -47,7 +47,7 @@ Created on 27th Mar 2019
 
 from gdascripts.utils import frange
 from functions.momentumTransferFunctions import thLscan, tthLscan
-from gdaserver import andor, andor2, xcam  # @UnresolvedImport
+from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
 
 ###########################################################################################
 ######################## SAMPLE PARAMETERS ################################################
@@ -393,7 +393,7 @@ if answer == "y":
     # shutter control based on detector to use for data collection
     if detector_to_use in [andor, xcam]:
         primary()
-    if detector_to_use is andor2:
+    if detector_to_use is Polandor_H:
         polarimeter()
     fastshutter('Open')   
 

@@ -122,8 +122,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="andor2Appender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
-		<property name="name" value="andor2" />
+	<bean id="Polandor_HAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="Polandor_H" />
 		<property name="childNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">

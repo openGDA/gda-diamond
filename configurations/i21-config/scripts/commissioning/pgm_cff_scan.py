@@ -11,7 +11,7 @@ Created on Sep 15, 2022
 
 from gdaserver import  fastshutter, s5v1gap, d7gascell, d8stick  # @UnresolvedImport
 from shutters.detectorShutterControl import primary, polarimeter
-from gdaserver import andor, andor2, xcam # @UnresolvedImport
+from gdaserver import andor, Polandor_H, xcam # @UnresolvedImport
 
 ######### user-defined parameter section ###########################################
 ### Only one of VPG should be True ###
@@ -59,7 +59,7 @@ d8stick.moveTo(d8stick_val)
 
 if detector_to_use in [andor, xcam]:
     primary()
-elif detector_to_use is andor2:
+elif detector_to_use is Polandor_H:
     polarimeter()
 fastshutter('Open')
 
