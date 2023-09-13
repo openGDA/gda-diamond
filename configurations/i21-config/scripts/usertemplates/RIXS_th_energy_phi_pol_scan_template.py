@@ -59,7 +59,7 @@ Created on 12th Oct 2021
 '''
 
 import math as mh
-from gdaserver import andor, andor2, xcam # @UnresolvedImport
+from gdaserver import andor, Polandor_H, xcam # @UnresolvedImport
 from gdascripts.utils import frange
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 
@@ -318,7 +318,7 @@ if answer == "y":
     
     if detector_to_use in [andor, xcam]:
         primary()
-    if detector_to_use is andor2:
+    if detector_to_use is Polandor_H:
         polarimeter()
     fastshutter('Open')    
     

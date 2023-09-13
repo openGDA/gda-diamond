@@ -1,0 +1,111 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="Polandor_HCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="Polandor_H_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- use EPICS HDF5 plugin to write data to file -->
+	<bean id="Polandor_HHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="Polandor_H_hdf5"/>
+		<property name="fileNameTemplate" value="Polandor_H"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<!-- used with live stream view -->
+ 	<bean id="Polandor_H" class="gda.device.detector.NXDetector">
+		<property name="name" value="Polandor_H" />
+		<property name="collectionStrategy" ref="Polandor_HCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="Polandor_H_RoiStats1" />
+				<ref bean="Polandor_H_RoiStats2" />
+				<ref bean="Polandor_H_RoiStats3" />
+				<ref bean="Polandor_H_RoiStats4" />
+				<ref bean="Polandor_H_RoiStats5" />
+				<ref bean="Polandor_H_RoiStats6" />
+				<ref bean="Polandor_HHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ADDetector used in new scanning -->
+	<bean id="Polandor_H_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="Polandor_HCollectionStrategy"/>
+		<property name="adBase" ref="Polandor_H_adbase" />
+		<property name="ndFile" ref="Polandor_H_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="Polandor_H_ndarray" />
+		<property name="ndStats" ref="Polandor_H_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="Polandor_HHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="Polandor_HModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="Polandor_H_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="Polandor_HInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i21.Polandor_H.DeviceInformation" />
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<bean id="Polandor_H_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="Polandor_H_addetector" />
+		<property name="model" ref="Polandor_HModel" />
+		<property name="deviceInformation" ref="Polandor_HInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+	<!-- Scannable group -->
+<!-- 	<bean id="Polandor_H_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 		<property name="groupMembers"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="Polandor_H" /> -->
+<!-- 				<ref bean="Polandor_H_addetector" /> -->
+<!-- 				<ref bean="Polandor_HADCSpeed" /> -->
+<!-- 				<ref bean="Polandor_HAccumulatePeriod" /> -->
+<!-- 				<ref bean="Polandor_HBinningSizeX" /> -->
+<!-- 				<ref bean="Polandor_HBinningSizeY" /> -->
+<!-- 				<ref bean="Polandor_HCoolerControl" /> -->
+<!-- 				<ref bean="Polandor_HCoolerTemperature" /> -->
+<!-- 				<ref bean="Polandor_HEMCCDGain" /> -->
+<!-- 				<ref bean="Polandor_HExtShutterTrigger" /> -->
+<!-- 				<ref bean="Polandor_HPreampGain" /> -->
+<!-- 				<ref bean="Polandor_HShutterMode" /> -->
+<!-- 				<ref bean="Polandor_HVerticalShiftAmplitude" /> -->
+<!-- 				<ref bean="Polandor_HVerticalShiftSpeed" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+</beans>

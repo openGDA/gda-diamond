@@ -9,8 +9,8 @@
 		<property name="readOnly" value="false"/>
 		<property name="level" value="6" />
 	</bean>
-	<bean id="andor2shutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="name" value="andor2shutter" />
+	<bean id="Polandor_Hshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="name" value="Polandor_Hshutter" />
 		<property name="recordName" value="BL21I-EA-DET-02:CAM:AndorShutterMode"/>
 		<property name="readOnly" value="false"/>
 		<property name="level" value="6" />

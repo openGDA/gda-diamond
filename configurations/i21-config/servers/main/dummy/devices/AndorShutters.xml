@@ -11,7 +11,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="andor2shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="Polandor_Hshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>

@@ -17,15 +17,15 @@ import os
 from gda.jython.commands.GeneralCommands import alias   
 from acquisition.acquire_images import acquireImages
 from shutters.detectorShutterControl import primary, polarimeter
-from gdaserver import fastshutter  # @UnresolvedImport
+from gdaserver import fastshutter, andor, Polandor_H # @UnresolvedImport
 
 def acquire_flat_field(num_images, detector, acquire_time, *args):
     '''collect number of images from detector under flat field condition, and then set up flat_field link metadata device to be used in subsequent scans.
     '''
     print("\nAcquire flat field data ...")
-    if det is andor:  # @UndefinedVariable
+    if detector is andor:
         primary()
-    elif det is andor2:  # @UndefinedVariable
+    elif detector is Polandor_H:
         polarimeter()
     fastshutter("Open")
     acquireImages(num_images, detector, acquire_time, *args)
