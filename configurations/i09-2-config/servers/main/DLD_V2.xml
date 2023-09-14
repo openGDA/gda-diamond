@@ -3,19 +3,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="dldCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-		<property name="restoreAcquireTime" value="true" />
+	<bean  id="dldCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="liveimagexy"/>
+		<property name="arrayPortName" value="dld.proc"/>
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true"/>
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+				<property name="restoreAcquireTime" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-						<property name="restoreTriggerMode" value="true" />
+					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
+						<property name="imageMode" value="0"/>
+						<property name="numberOfImagesPerCollection" value="1"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="dld_adbase" />
-								<property name="restoreAcquireState" value="true"/>
-								<property name="readAcquisitionTime" value="true"/>
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="dld_adbase" />
+										<property name="restoreAcquireState" value="true"/>
+									</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
@@ -23,6 +30,7 @@
 			</bean>
 		</property>
 	</bean>
+
 	<!-- use EPICS HDF5 plugin to write data to file -->
 	<bean id="dldHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="dld_hdf5"/>
@@ -42,24 +50,26 @@
 		<property name="attrByDim" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="SwmrModeEnabled" value="false"/>
+		<property name="ndArrayPortVal" value="dld.proc"/>
 	</bean>
+	
 	<!-- used with live stream view -->
  	<bean id="dld" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld" />
 		<property name="collectionStrategy" ref="dldCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dldImageStats" />
-<!-- 				<ref bean="dld_RoiStats2" /> -->
+				<ref bean="dld_RoiStats1" />
+				<ref bean="dld_RoiStats2" />
 <!-- 				<ref bean="dld_RoiStats3" /> -->
-<!-- 				<ref bean="dld_RoiStats4" /> -->
+				<ref bean="dldImageStats" />
 				<ref bean="dldHdf5Filewriter"/>
 			</list>
 		</property>
 	</bean>
 
  	<bean id="dld_total" class="gda.device.detector.NXDetector">
-		<property name="name" value="dld" />
+		<property name="name" value="dld_total" />
 		<property name="collectionStrategy" ref="dldCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -84,10 +94,10 @@
 		<property name="level" value="7"/>
 		<property name="additionalPluginList">
 			<list>
-<!-- 				<ref bean="dld_RoiStats1" /> -->
-<!-- 				<ref bean="dld_RoiStats2" /> -->
+				<ref bean="dld_RoiStats1" />
+				<ref bean="dld_RoiStats2" />
 <!-- 				<ref bean="dld_RoiStats3" /> -->
-<!-- 				<ref bean="dld_RoiStats4" /> -->
+				<ref bean="dldImageStats" />
 				<ref bean="dldTiffFileWriter" />
 			</list>
 		</property>

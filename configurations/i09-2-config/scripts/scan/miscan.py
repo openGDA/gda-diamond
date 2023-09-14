@@ -18,9 +18,10 @@ print "-"*100
 print "Creating 'miscan' - multiple image per scan data point"
 print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.1 10"
 
-def clear_accumulated_data():
+def clear_summed_data():
     if installation.isLive():
-        caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
+        # caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
+        caput("BL09K-EA-DET-01:PROC1:ResetFilter", 1)
     else:
         print("Clear accumulated data")
         
@@ -108,11 +109,11 @@ def miscan(*args):
             decoratee = arg.getCollectionStrategy().getDecoratee()
             if isinstance(decoratee, AutoSummingProcessDecorator):
                 #in dummy mode, AutoSummingProcessDecorator is 1st child
-                clear_accumulated_data()
+                clear_summed_data()
                 decoratee.setAcquireTime(args[i])
             elif isinstance(decoratee.getDecoratee(), AutoSummingProcessDecorator):
                 #in live mode AutoSummingProcessDecorator is child's child
-                clear_accumulated_data()
+                clear_summed_data()
                 decoratee.getDecoratee().setAcquireTime(args[i])
             else: #exposure time is the last one in the scan command
                 newargs.append(args[i]) #single image per data point

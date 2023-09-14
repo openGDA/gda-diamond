@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Area Detector EPICS Plugins -->
+	<bean id="dld_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL09K-EA-DET-01:CAM:" />
+	</bean>
+
+	<bean id="dld_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL09K-EA-DET-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-DET-01:HDF5:" />
+				<property name="initialArrayPort" value="dld.proc" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="DLD" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="dld_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL09K-EA-DET-01:HDF5:" />
+		<property name="file" ref="dld_ndfile" />
+		<property name="attrByDimPVsAvailable" value="false"/>
+		<property name="swmrModePVsAvailable" value="false"/>
+	</bean>
+
+	<bean id="dld_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL09K-EA-DET-01:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-DET-01:TIFF:" />
+				<property name="initialArrayPort" value="dld.proc" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="DLD" />
+		<property name="initialFileTemplate" value="%s%s_%05d.tif" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="dld_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/dldRoi" />
+		<property name="service" ref="dld_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	
+	<bean id="mcp_roi"
+		class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="1212" />
+		<property name="ysize" value="1212" />
+	</bean>
+	
+	<bean id="dldImageStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dldImageStats" />
+		<property name="baseRoiPVName" value="BL09K-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL09K-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="dld.proc" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider" ref="mcp_roi" />
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="dld_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dld_RoiStats1" />
+		<property name="baseRoiPVName" value="BL09K-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL09K-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="dld.proc" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="dld_roi" />
+	            <property name="index" value="0" />
+	        </bean>
+	    </property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="dld_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dld_RoiStats2" />
+		<property name="baseRoiPVName" value="BL09K-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL09K-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="dld.proc" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="dld_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+	<bean id="liveimagexy_adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="liveimagexy" />
+		<property name="enabled" value="true" />
+		<property name="name" value="liveimagexy" />
+	</bean>
+	
+	<bean id="liveimagexy" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL09K-EA-DET-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-DET-01:ARR:" />
+				<property name="initialArrayPort" value="dld.proc" />
+			</bean>
+		</property>
+	</bean>
+<!-- 	<bean id="liveimagext" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl"> -->
+<!-- 		<property name="basePVName" value="BL09K-EA-DET-01:LiveImageXT:" /> -->
+<!-- 		<property name="pluginBase"> -->
+<!-- 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl"> -->
+<!-- 				<property name="basePVName" value="BL09K-EA-DET-01:LiveImageXT:" /> -->
+<!-- 				<property name="initialArrayPort" value="DEV1" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="liveimageyt" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl"> -->
+<!-- 		<property name="basePVName" value="BL09K-EA-DET-01:LiveImageYT:" /> -->
+<!-- 		<property name="pluginBase"> -->
+<!-- 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl"> -->
+<!-- 				<property name="basePVName" value="BL09K-EA-DET-01:LiveImageYT:" /> -->
+<!-- 				<property name="initialArrayPort" value="DEV1" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+
+<!-- This is most probably wrong - there must be a separate PV for Accumulated stream not using chains of plugins! -->
+	<bean id="accumimagexy_adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="accumimagexy" />
+		<property name="enabled" value="true" />
+		<property name="name" value="accumimagexy" />
+	</bean>
+	
+	<bean id="accumimagexy" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL09K-EA-DET-01:ARR1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-DET-01:ARR1:" />
+				<property name="initialArrayPort" value="dld.procs.proc1" />
+			</bean>
+		</property>
+	</bean>
+<!-- 	<bean id="accumimagext" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl"> -->
+<!-- 		<property name="basePVName" value="BL09K-EA-DET-01:AccumImageXT:" /> -->
+<!-- 		<property name="pluginBase"> -->
+<!-- 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl"> -->
+<!-- 				<property name="basePVName" value="BL09K-EA-DET-01:AccumImageXT:" /> -->
+<!-- 				<property name="initialArrayPort" value="DEV1" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="accumimageyt" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl"> -->
+<!-- 		<property name="basePVName" value="BL09K-EA-DET-01:AccumImageYT:" /> -->
+<!-- 		<property name="pluginBase"> -->
+<!-- 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl"> -->
+<!-- 				<property name="basePVName" value="BL09K-EA-DET-01:AccumImageYT:" /> -->
+<!-- 				<property name="initialArrayPort" value="DEV1" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+</beans>

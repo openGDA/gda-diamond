@@ -206,7 +206,7 @@ if installation.isLive():
     from detector.iseg_instances import dldv, mcp_b, sample_bias, int_spec, DLD_start, DLD_stop  # @UnusedImport
 
 
-from scan.miscan import miscan, clear_accumulated_data  # @UnusedImport
+from scan.miscan import miscan, clear_summed_data  # @UnusedImport
    
 print
 print "=================================================================================================================";

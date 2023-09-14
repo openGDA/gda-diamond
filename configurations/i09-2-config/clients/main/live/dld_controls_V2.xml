@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DLD controls -->
+	<bean id="dldExposureTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:CAM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="dldAcquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:CAM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+
+	<bean id="dldTimeStart" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:CAM:MinTSI"/>
+		<property name="outputFormat">
+			<list>
+				<value>%12.1f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="dldTimeLength" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:CAM:SizeT"/>
+		<property name="outputFormat">
+			<list>
+				<value>%12.1f</value>
+			</list>
+		</property>	
+	</bean>
+<!-- 	<bean id="dldHistogramLength" class="gda.device.scannable.PVScannable"> -->
+<!-- 		<property name="pvName" value="BL09K-EA-D-01:cam1:HistorySize"/> -->
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%10d</value> -->
+<!-- 			</list> -->
+<!-- 		</property>	 -->
+<!-- 	</bean> -->
+	<bean id="dldState" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09K-EA-DET-01:CAM:DetectorState_RBV"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="count_rate_monitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09K-EA-DET-01:CAM:RatemeterMax"/>
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="summ_time_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:PROC1:NumFilter"/>
+
+	</bean>
+	
+</beans>

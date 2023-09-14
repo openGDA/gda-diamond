@@ -35,6 +35,10 @@
                name="startupMessageRect"
                value="4,195,598,20">
          </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
       </product>
    </extension>
    <extension
@@ -84,7 +88,7 @@
             </visibleWhen>
             <parameter
                   name="uk.ac.gda.client.live.stream.controls.start.PVname"
-                  value="BL09K-EA-D-01:cam1:Acquire">
+                  value="BL09K-EA-D-01:CAM:Acquire">
             </parameter>
          </command>
          <command
@@ -104,7 +108,7 @@
             </visibleWhen>
             <parameter
                   name="uk.ac.gda.client.live.stream.controls.stop.PVname"
-                  value="BL09K-EA-D-01:cam1:Acquire">
+                  value="BL09K-EA-D-01:CAM:Acquire">
             </parameter>
          </command>
          <command
@@ -151,7 +155,7 @@
             </visibleWhen>
             <parameter
                   name="uk.ac.gda.client.live.stream.controls.start.PVname"
-                  value="BL09K-EA-D-01:cam1:Acquire">
+                  value="BL09K-EA-D-01:CAM:Acquire">
             </parameter>
          </command>
          <command
@@ -171,7 +175,7 @@
             </visibleWhen>
             <parameter
                   name="uk.ac.gda.client.live.stream.controls.stop.PVname"
-                  value="BL09K-EA-D-01:cam1:Acquire">
+                  value="BL09K-EA-D-01:CAM:Acquire">
             </parameter>
          </command>
          <command

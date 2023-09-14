@@ -54,11 +54,11 @@ m4c5 = ISegChannelControlScannable("m4c5", 4, 5, pv_root = ISEG_DEVICE_PV, toler
 m4c6 = ISegChannelControlScannable("m4c6", 4, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m4c6.configure()
 m4c7 = ISegChannelControlScannable("m4c7", 4, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m4c7.configure()
 
-hda_group = [m1c0, m0c2,m0c3, m0c4, m0c5, m0c6, m0c7]
+hda_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
 main_lenses_group = [m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1]
 stig_group = [m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7]
 downstream_group = [m1c1, m1c2, m1c3, m1c4, m1c7]
-MM_group = [m1c0, m0c2,m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c7]
+MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c6, m1c7]
 
 hda = ISegGroup("hda", hda_group)
 mainlenses = ISegGroup("mainlenses", main_lenses_group)
