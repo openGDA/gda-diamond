@@ -7,46 +7,54 @@
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcKappaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcKthMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcMuMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcDeltaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcGammaMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 		<property name="unitString" value="deg" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcKthEpicsMotor"
 			class="gda.device.motor.DummyMotor">
 		<property name="speed" value="360000000" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcKphiEpicsMotor"
 			class="gda.device.motor.DummyMotor">
 		<property name="speed" value="360000000" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="sixcGammaEpicsMotor"
@@ -67,6 +75,7 @@
 	<bean id="sixcCryoPhiMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
+		<property name="retryDeadband" value="0.01" />
 	</bean>
 
 	<bean id="deferFlag"
