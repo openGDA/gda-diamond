@@ -1011,7 +1011,14 @@ else:
 	localStation_print("Not configuring pilatus 1 (100k)")
 
 if USE_PIL3:
-	from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
+	if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
+		global pil3_100k
+		with overwriting:
+			pil3 = pil3_100k
+		localStation_warning("pil3 = NXDetector")
+	else:
+		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
+		localStation_warning("pil3 = NXProcessingDetectorWrapper")
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
 

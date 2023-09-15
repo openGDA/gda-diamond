@@ -8,6 +8,7 @@
 	<import resource="nxmetadata_NexusDataWriter.xml" />
 	<import resource="nxmetadata_NexusScanDataWriter.xml" />
 
+	<import resource="detector/*.xml"/>
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/smargon.xml"/>
 

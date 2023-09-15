@@ -103,6 +103,11 @@
 		<property name="enabled" value="true" />
 		 -->
 		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
+		<!-- 
+		<property name="clearXmlLayoutFile" value="true" />
+		<property name="ndArrayPortVal" ref="pilatus1_cam_plugin_name"/>
+		 -->
 	</bean>
 
 	<bean id="pilatus3_nxfilewriter_for_snaps"
