@@ -42,7 +42,6 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-				     -->
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Perkin Elmer" />
 					<constructor-arg name="model">
@@ -53,16 +52,7 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="true" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Perkin Elmer" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="pil3AD" />
-							<property name="exposureTime" value="0.002" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="true" />
-				</bean>
+					-->
 			</list>
 		</property>
 
@@ -74,26 +64,6 @@
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
 				<property name="outerScannables">
 					<list>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="dx" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="dz" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="dkphi" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="stagez" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
 					</list>
 				</property>
 				<property name="mappingScanRegion">

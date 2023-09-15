@@ -483,6 +483,7 @@ try:
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
+		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 

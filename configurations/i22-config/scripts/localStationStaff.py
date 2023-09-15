@@ -14,6 +14,14 @@
 #diode_y = SingleEpicsPositionerClass('diode_y', 'BL22I-MO-TABLE-05:Y', 'BL22I-MO-TABLE-05:Y.RBV' , 'BL22I-MO-TABLE-05:Y.DMOV' , 'BL22I-MO-TABLE-05:Y.STOP','mm', '%.4f')
 #diode_x = SingleEpicsPositionerClass('diode_x', 'BL22I-MO-TABLE-05:X', 'BL22I-MO-TABLE-05:X.RBV' , 'BL22I-MO-TABLE-05:X.DMOV' , 'BL22I-MO-TABLE-05:X.STOP','mm', '%.4f')
 
+from gdascripts.mscanHandler import *
+from gdascripts import mscanHandler
+
+rds = mscanHandler.getRunnableDeviceService()
+p1xy_fly = rds.getRunnableDevice("BL22I-ML-SCAN-01")
+base_fly = rds.getRunnableDevice("BL22I-ML-SCAN-02")
+time_fly = rds.getRunnableDevice("BL22I-ML-SCAN-03")
+
 def feedback_SS():
     caput("BL22I-OP-KBM-01:HFM:FBS4.INP","BL22I-EA-XBPM-01:PosX:MeanValue_RBV")
     caput("BL22I-OP-KBM-01:VFM:FBS4.INP","BL22I-EA-XBPM-01:PosY:MeanValue_RBV")

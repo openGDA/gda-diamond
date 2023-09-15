@@ -60,6 +60,7 @@
 		<property name="writeErrorStatusSupported" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="lazyOpen" value="true" />
+		<property name="ndArrayPortVal" value="pilatus3.cam" />
 	</bean>
 
 	<bean id="pil3_tiff_SingleImagePerFileWriter"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="zxPilatusScanModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL15I-ML-SCAN-02"/>
+		<property name="exposureTime" value="0.1"/>
+	</bean>
+
+	<bean id="zxPilatusScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Pilatus zx"/>
+		<property name="description" value="Hardware mapping scanning using the ZX stages"/>
+		<property name="shownByDefault" value="false"/>
+	</bean>
+
+	<bean id="zxPilatusScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL15I-ML-SCAN-02"/>
+		<property name="model" ref="zxPilatusScanModel"/>
+		<property name="deviceInformation" ref="zxPilatusScanInfo"/>
+	</bean>
+</beans>
+
