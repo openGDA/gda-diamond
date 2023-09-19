@@ -49,5 +49,16 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="gts_y_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="gts_y" />
+		<constructor-arg name="quantityName" value="Y" />
+		<constructor-arg name="quantityUnits" value="mm" />
+		<property name="readouts">
+			<map>
+				<entry key="Y" value-ref="gts_y" />
+			</map>
+		</property>
+	</bean>
 
 </beans>
