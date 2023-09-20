@@ -48,11 +48,11 @@ echo $VISIT/$SCAN.nxs.n*
 	To compare the current scan with a beamline ndw or nsd baseline
 
 [ -e $BASELINE.nxs.ndw.nxlsa ] && [ -e $VISIT/$SCAN.nxs.ndw.nxlsa ] && \
-		kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.ndw.nxlsa & \
+  kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.ndw.nxlsa & \
 [ -e $BASELINE.nxs.ndw.nxlsa ] && [ -e $VISIT/$SCAN.nxs.nsd.nxlsa ] && \
-		kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa & \
+  kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa & \
 [ -e $BASELINE.nxs.nsd.nxlsa ] && [ -e $VISIT/$SCAN.nxs.nsd.nxlsa ] && \
-		kdiff3 $BASELINE.nxs.nsd.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa &
+  kdiff3 $BASELINE.nxs.nsd.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa &
 # or
 [ -e $VISIT/$SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $VISIT/$SCAN.nxs.ndw.tree  ; \
 [ -e $VISIT/$SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $VISIT/$SCAN.nxs.nsd.tree 

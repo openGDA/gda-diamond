@@ -3,6 +3,7 @@
 ================================================================================
 The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
 `pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.
+Also, use `loadub('CoCO3_11Oct_21')` to maintain consistency going forward.
 
 Scan		Configuration	Dummy	Detector		Notes
 			NDW	DWE	LF	T	/Live						Baseline scan command
@@ -21,6 +22,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023090004	NSD				Dummy	NXPDW	pil3	NSD baseline: scancn eta 0.02 5 pil3_100k 1
 2023090086	NDW	DWE	LF		Dummy	NXPDW	pil3	NDW baseline: scancn eta 0.02 5 pil3_100k 1 roi1
 2023090092	NSD				Dummy	NXD/NDP	pil3	Switch pil3_100k to NexusDetectorProcessor
+2023110003	NSD				Dummy	NXD/NDP	pil3	Add rois as standard & switch to 'CoCO3_11Oct_21'
 
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW		NexusDataWriter				T		Template

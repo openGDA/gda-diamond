@@ -947,6 +947,8 @@ if USE_PIL3:
 		with overwriting:  # @UndefinedVariable
 			pil3 = pil3_100k  # @UnusedVariable
 		localStation_warning("pil3 = NXDetector")
+		from analysis.RequiredRoiManager import RequiredRoiManager
+		pil3_required = RequiredRoiManager(pil3_100k)
 	else:
 		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
 		localStation_warning("pil3 = NXProcessingDetectorWrapper")
