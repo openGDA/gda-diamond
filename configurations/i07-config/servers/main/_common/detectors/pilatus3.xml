@@ -105,6 +105,13 @@
 	<bean
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
 		id="pilatus3_mask">
+		<property name="minThreshold">
+			<value type="java.lang.Integer">0</value>
+		</property>
+		<property name="maxThreshold" >
+			<value type="java.lang.Integer">1000</value>
+		</property>
+		<property name="enabled" value="False" />
 	</bean>
 
 	<bean
