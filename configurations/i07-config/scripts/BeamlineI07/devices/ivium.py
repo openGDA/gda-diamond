@@ -373,7 +373,8 @@ from gda.device.detector import NXDetectorData
 from gda.device.detector import NexusDetector
 
 from org.eclipse.scanning.api.device import AbstractRunnableDevice
-from uk.ac.diamond.daq.detectors.addetector import  ServiceHolder
+from uk.ac.diamond.osgi.services import ServiceProvider
+from org.eclipse.scanning.api.device import IRunnableDeviceService
 from uk.ac.diamond.daq.detectors.addetector.api import AreaDetectorRunnableDeviceModel
 from org.eclipse.dawnsci.nexus import NexusNodeFactory
 from org.eclipse.dawnsci.nexus.builder import NexusObjectWrapper
@@ -392,7 +393,7 @@ class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
 
 
     def __init__(self, name, fileWriter, methodScannable, pathInDatafile="#entry/instrument/detector/data"):
-        super(IviumMethodRunner, self).__init__(ServiceHolder.getRunnableDeviceService())
+        super(IviumMethodRunner, self).__init__(ServiceProvider.getService(IRunnableDeviceService.class))
         self.fileWriter = fileWriter
         self.lastReadout = None
         self.pathInDatafile = pathInDatafile
