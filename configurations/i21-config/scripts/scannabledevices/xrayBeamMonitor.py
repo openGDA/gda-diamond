@@ -4,7 +4,8 @@ Created on 3 Jul 2017
 @author: fy65
 '''
 from gda.device.scannable import ScannableBase
-from org.eclipse.scanning.sequencer import ServiceHolder
+from uk.ac.diamond.osgi.services import ServiceProvider
+from org.eclipse.scanning.api.device import IDeviceWatchdogService
 
 class XRayBeamMonitor(ScannableBase):
     '''
@@ -20,7 +21,7 @@ class XRayBeamMonitor(ScannableBase):
         self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat(["%s"])
-        self.watchdog=ServiceHolder.getWatchdogService().getWatchdog(xraywatchdog)
+        self.watchdog=ServiceProvider.getService(IDeviceWatchdogService).getWatchdog(xraywatchdog)
         self.model=self.watchdog.getModel()
         
     def setExpression(self, expressions):
