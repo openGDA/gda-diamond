@@ -81,6 +81,7 @@
 				<ref bean="pilatus3_stats_standard" />
 				<ref bean="pilatus3_roistats_standard" />
 				<ref bean="pilatus3_plotter" />
+				<ref bean="pilatus3_norm" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="pilatus3_mask" />
@@ -97,6 +98,7 @@
 				<ref bean="pilatus3_stats_verbose" />
 				<ref bean="pilatus3_roistats_verbose" />
 				<ref bean="pilatus3_plotter" />
+				<ref bean="pilatus3_norm" />
 			</list>
 		</constructor-arg>
 		<constructor-arg index="4" ref="pilatus3_mask" />
@@ -159,6 +161,14 @@
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
 
+	<bean
+		class="gda.device.detector.nexusprocessor.roistats.NormalisingRegionProcessor"
+		id="pilatus3_norm">
+		<property name="attenuatorScannableName" value="fatt" />
+		<property name="transmissionFieldName" value="transmission" />
+		<property name="roiStats" ref="pilatus3_roistats_standard" />
+		<property name="enable" value="false" />
+	</bean>
 
 	<!-- Objects for Solstice Scanning -->
 
