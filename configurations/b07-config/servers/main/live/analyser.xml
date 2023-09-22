@@ -12,5 +12,13 @@
 		<property name="collectionStrategy" ref="collection_strategy"/>
 		<property name="pvName" value="BL07B-EA-DET-01:CAM:DetectorState_RBV" />
 	</bean>
+	
+	<bean id="analyser_connection" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-DET-01:CAM:CONNECT" />
+	</bean>
+	
+	<bean id="analyser_connection_state" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07B-EA-DET-01:CAM:CONNECTED_RBV" />
+	</bean>
 
 </beans>

@@ -193,6 +193,14 @@
 		<property name="increment" value="5" />
 	</bean>
 	
+	<bean id="sm52b_rotz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM52b_RotZ " />
+		<property name="group" value=".." />
+		<property name="scannableName" value="sm52b_rotz" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="5" />
+	</bean>
+	
  	<bean id="sm21b_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="SM21b_Rot " />
 		<property name="group" value=".." />
@@ -342,6 +350,20 @@
 		<property name="increment" value="0.0001" />
 	</bean>
 	
+	<bean id="an_reconnect" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="pos analyser_connection 1" />
+		<property name="buttonText" value="Connect" />
+		<property name="group" value="Analyser Connection" />
+	</bean>
+	
+	<bean id="an_connection_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Analyser Connection" />
+		<property name="scannableName" value="analyser_connection_state" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="150" />
+	</bean>
+	
 	<bean id="es1_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -358,6 +380,7 @@
 				<ref bean="sm52b_yp_control" />
 				<ref bean="sm52b_zp_control" />
 				<ref bean="sm52b_roty_control" />
+				<ref bean="sm52b_rotz_control" />
 				<ref bean="ca16b_sensitivity_control" />
 				<ref bean="ca16b_sensitivity_units_control" />
 				<ref bean="ca16b_adc_output_control" />
@@ -366,6 +389,8 @@
 				<ref bean="fast_shutter_status" />
 				<ref bean="led_control" />
 				<ref bean="led_status" />
+				<ref bean="an_reconnect" />
+				<ref bean="an_connection_status" />
 			</list>
 		</property>
 	</bean>

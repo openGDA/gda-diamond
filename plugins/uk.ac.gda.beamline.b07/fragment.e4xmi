@@ -14,6 +14,7 @@
       <children xsi:type="basic:Part" xmi:id="_TaXEALSGEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.part.alignmentcontrol" contributionURI="bundleclass://uk.ac.diamond.daq.devices.specs.phoibos.ui/uk.ac.diamond.daq.devices.specs.phoibos.ui.control.SpecsAlignmentView" label="Alignment Controls" closeable="true">
         <properties key="default_lens_mode" value="9"/>
       </children>
+      <children xsi:type="basic:Part" xmi:id="_0ALF8GjrEe6HM5NvenjEZQ" elementId="gda.rcp.jythonterminalview" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console"/>
     </elements>
     <elements xsi:type="basic:PartStack" xmi:id="_7GP1ULSEEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5" toBeRendered="false" visible="false"/>
   </fragments>

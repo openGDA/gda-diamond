@@ -12,5 +12,13 @@
 		<property name="collectionStrategy" ref="collection_strategy"/>
 		<property name="pvName" value="TEST-SPECS-02:DetectorState_RBV" />
 	</bean>
+	
+	<bean id="analyser_connection" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="TEST-SPECS-02:CONNECT" />
+	</bean>
+	
+	<bean id="analyser_connection_state" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="TEST-SPECS-02:CONNECTED_RBV" />
+	</bean>
 
 </beans>
