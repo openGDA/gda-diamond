@@ -173,6 +173,7 @@
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
 						<property name="ndProcess" ref="eav_proc_NX"/>
+						<property name="autoResetFilter" value="0"/>
 						<property name="filterType" value="1" />
 						<property name="processDataTypeOut" value="10"/>
 						<property name="enableOffsetScale" value="1"/>
@@ -181,8 +182,9 @@
 							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
 											<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
+												<property name="ndProcess" ref="eav_proc_NX"/>
 												<property name="adBase" ref="analyser_eav_CamBase" />
-												<property name="procMonitorPV" value="BL09I-DI-EAN-01:PROC1:ResetFilter_RBV" />
+												<property name="procMonitorPV" value="BL09I-DI-EAN-01:ROI1:ArrayCounter_RBV" />
 											</bean>
 										</property>
 									</bean>
