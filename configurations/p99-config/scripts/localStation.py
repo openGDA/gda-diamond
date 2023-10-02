@@ -14,4 +14,4 @@ from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, 
 alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
-disable_watchdogs()
+enable_watchdogs()
