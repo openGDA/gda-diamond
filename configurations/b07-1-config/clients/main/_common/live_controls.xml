@@ -3,6 +3,30 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="endstation_configurations_control_1" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="group" value="PGM Control"/>
+		<property name="displayName" value="Script Runner"/>
+		<property name="horizontalLayout" value="false"/>
+		<property name="scripts">
+			<map>
+				<entry key="Open Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_ready_GDA.py"/>
+				<entry key="Close Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_close_GDA.py"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="endstation_configurations_control_2" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="group" value="PGM Control"/>
+		<property name="displayName" value="Script Runner"/>
+		<property name="horizontalLayout" value="false"/>
+		<property name="scripts">
+			<map>
+				<entry key="Open Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_ready_GDA.py"/>
+				<entry key="Close Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_close_GDA.py"/>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Photon Energy " />
 		<property name="group" value="PGM Control" />
@@ -11,7 +35,7 @@
 		<property name="userUnits" value="eV" />
 		<property name="increment" value="50" />
 		<property name="unitDisplayOutsideTextBox" value="true"/>
-<!-- 		<property name="horizontalLayout" value="true"/> -->
+		<property name="horizontalLayout" value="false"/>
 	</bean>
 
 	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -21,7 +45,7 @@
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0.2" />
 		<property name="unitDisplayOutsideTextBox" value="true"/>
-<!-- 		<property name="horizontalLayout" value="true"/> -->
+		<property name="horizontalLayout" value="false"/>
 	</bean>
 
 	<bean id="exit_slit_x_gap" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -188,11 +212,41 @@
 		<property name="textInput" value="true" />
 	</bean>	
 
-	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<bean id="pgm_control_set_1" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
-			<list>
-				<ref bean="photon_energy_control" />
+			<list>	
+				<ref bean="photon_energy_control"/>
 				<ref bean="cff_control" />
+				<ref bean="endstation_configurations_control_1"/>
+				
+				<ref bean="exit_slit_x_gap" />
+				<ref bean="exit_slit_y_gap" />
+				<ref bean="m4c_pitch_control" />
+				<ref bean="m5c_pitch_control" />
+				<ref bean="sm_x_axis"/>
+				<ref bean="sm_y_axis"/>
+				<ref bean="sm_z_axis"/>
+				<ref bean="sm_polar_axis"/>
+				<ref bean="sm_azimuth_axis"/>
+				<ref bean="expt_shutter_control"/>
+				<ref bean="expt_shutter_status"/>
+				<ref bean="fast_shutter_control"/>
+				<ref bean="fast_shutter_status"/>
+				<ref bean="valve_25_control"/>
+				<ref bean="valve_25_status"/>
+				<ref bean="valve_22_control"/>
+				<ref bean="valve_22_status"/>
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="pgm_control_set_2" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>	
+				<ref bean="photon_energy_control"/>
+				<ref bean="cff_control" />
+				<ref bean="endstation_configurations_control_2"/>
+				
 				<ref bean="exit_slit_x_gap" />
 				<ref bean="exit_slit_y_gap" />
 				<ref bean="m4c_pitch_control" />
