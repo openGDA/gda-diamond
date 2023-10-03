@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Watchdogs -->
+	<bean id="watchdog_control" class="uk.ac.gda.client.livecontrol.WatchdogControl">
+		<property name="group" value="Watchdogs" />
+		<property name="watchdogNames">
+			<list>
+				<value>beam_available_watchdog</value>
+				<value>topup_watchdog</value>
+				<value>topup_watchdog_dummy</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Overall control set -->
+	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="watchdog_control" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
