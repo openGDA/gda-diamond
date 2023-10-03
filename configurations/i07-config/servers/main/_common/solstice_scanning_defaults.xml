@@ -3,13 +3,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean
-		class="org.eclipse.scanning.server.servlet.DefaultScanConfiguration">
+	<bean class="org.eclipse.scanning.server.servlet.DefaultScanConfiguration">
 		<property name="beforeScript">
 			<bean class="org.eclipse.scanning.api.script.ScriptRequest">
-			<constructor-arg index="0" value="BeamlineI07/scan/defaultMscanBeforeScript"/>
+				<constructor-arg index="0" value="BeamlineI07/scan/defaultMscanBeforeScript"/>
 			</bean>
 		</property>
+		<property name="afterScript">
+			<bean class="org.eclipse.scanning.api.script.ScriptRequest">
+				<constructor-arg index="0" value="BeamlineI07/scan/defaultMscanAfterScript"/>
+			</bean>
+		</property>
+		<property name="alwaysRunAfterScript" value="True"/>
 	</bean>
 
 </beans>
