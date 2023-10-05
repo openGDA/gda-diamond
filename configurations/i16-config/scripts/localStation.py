@@ -1858,7 +1858,7 @@ for to_protect in protected_commands :
 	overwriting.protect(to_protect)
 
 print("-"*100)
-from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime  # @UnusedImport
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 if localStation_warnings:
