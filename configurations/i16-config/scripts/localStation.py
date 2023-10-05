@@ -326,7 +326,7 @@ def set_sixc_returns_demand_position(b):
 
 ### Dummy IDGAP
 if USE_DUMMY_IDGAP_MOTOR:
-	with overwriting:
+	with overwriting:  # @UndefinedVariable
 		exec("idgap=dummyClass('idgap')")
 
 # TODO: This shouldn't be necessary, try removing it.
@@ -339,7 +339,7 @@ localStation_print("Wrapping Monitors...")
 for objname in dir():
 	if isinstance(eval(objname),EpicsMonitor):
 		toPrint+= objname + " "
-		with overwriting:
+		with overwriting:  # @UndefinedVariable
 			exec(objname + " = MonitorWrapper(" + objname + ")")
 localStation_print("Wrapped the monitors: " + toPrint)
 
@@ -444,7 +444,7 @@ scan_processor.processors.append(Rcen())
 # Create diffractometer base scannable
 localStation_print("Creating diffractometer base scannable base_z")
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
-base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
+base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15 @UndefinedVariable
 
 if USE_CRYO_GEOMETRY:
 	# u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'
@@ -665,8 +665,8 @@ except:
 try:
 	localStation_print("   running pd_xyslit.py")
 	from pd_xyslit import pd_xyslit
-	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
-	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
+	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
+	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
 except:
 	localStation_exception("configuring epics ds & ss scannables")
 
@@ -735,7 +735,7 @@ try:
 	### Polarization analyser ###
 	localStation_print("   creating polarisation analyser scannable: pol")
 #	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
-	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
+	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)  # @UndefinedVariable
 
 
 	### TCA  ###
@@ -810,7 +810,7 @@ try:
 
 	### Wait for beam ###
 	localStation_print("   creating checkbeam scannables")
-	checkbeamcurrent=WaitForBeamPDClass('BeamOK',rc,10)
+	checkbeamcurrent=WaitForBeamPDClass('BeamOK',rc,10)  # @UndefinedVariable
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='fill_if_needed()'	#fill cryocooler vessel while waiting for beam
 	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'
 	timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
@@ -830,8 +830,8 @@ except:
 
 ### Homebrew positioners
 localStation_print('Creating positioners with preset values: mono_screens, mono_diode')
-mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')
-mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[90,76.3,20,33,20,35],[90,33,20,75.5,20,35],[90,33,20,33,20,76.5]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')
+mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')  # @UndefinedVariable
+mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[90,76.3,20,33,20,35],[90,33,20,75.5,20,35],[90,33,20,33,20,76.5]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')  # @UndefinedVariable
 
 ### Homebrew groups
 localStation_print("Creating OD current amplifier monitors")
@@ -868,9 +868,9 @@ if installation.isLive():
 ###                      Monitor kth, delta, kappa                          ###
 ###############################################################################
 localStation_print("Creating more scannables to monitor kth, delta and kap.")
-kthshow=ReadPDGroupClass('kthshow',[kth]); kthshow.setLevel(8); #kthshow.setExtraNames(['kthshow']);kthshow.setOutputFormat(['%.6f'])
+kthshow=ReadPDGroupClass('kthshow',[kth]); kthshow.setLevel(8); #kthshow.setExtraNames(['kthshow']);kthshow.setOutputFormat(['%.6f']) @UndefinedVariable
 delshow=ReadPDGroupClass('delshow',[delta]); delshow.setLevel(8); #delshow.setExtraNames(['delshow']);delshow.setOutputFormat(['%.6f'])
-kapshow=ReadPDGroupClass('kapshow',[kap]); kapshow.setLevel(8); #kapshow.setExtraNames(['kapshow']);kapshow.setOutputFormat(['%.6f'])
+kapshow=ReadPDGroupClass('kapshow',[kap]); kapshow.setLevel(8); #kapshow.setExtraNames(['kapshow']);kapshow.setOutputFormat(['%.6f']) @UndefinedVariable
 
 if installation.isLive():
 	localStation_print("Creating kth_read and delta_read")
@@ -1199,23 +1199,25 @@ def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, 
 	except:
 		localStation_exception("configuring %s" % name+"Auto")
 
-global camlab84_for_scans, camlab84_for_snaps, camlab84ExpTime
+global camlab84_for_scans, camlab84_for_snaps, camlab84ExpTime, camlab84b_for_scans, camlab84b_for_snaps, camlab84bExpTime
 
-try:
-	camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
-		"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:", panel_name_rcp='Plot 1')
-	camlab84ExpTime.level=10
-except:
-	localStation_exception("configuring wrapped auto detectors")
+with overwriting:  # @UndefinedVariable
 
-global camlab84b_for_scans, camlab84b_for_snaps, camlab84bExpTime
-
-try:
-	camlab84b, camlab84b_peak2d, camlab84b_max2d, camlab84bAuto, camlab84bAutopeak2d, camlab84bAutomax2d = wrappedAutoDetector(
-		"camlab84", camlab84b_for_scans, camlab84b_for_snaps, "LA84R-DI-DCAM-03:", panel_name_rcp='Plot 2')
-	camlab84bExpTime.level=10
-except:
-	localStation_exception("configuring wrapped auto detectors - camlab84b")
+	try:
+		camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
+			"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:", panel_name_rcp='Plot 1')
+		camlab84ExpTime.level=10
+	except:
+		localStation_exception("configuring wrapped auto detectors - camlab84")
+	
+	global camlab84b_for_scans, camlab84b_for_snaps, camlab84bExpTime
+	
+	try:
+		camlab84b, camlab84b_peak2d, camlab84b_max2d, camlab84bAuto, camlab84bAutopeak2d, camlab84bAutomax2d = wrappedAutoDetector(
+			"camlab84", camlab84b_for_scans, camlab84b_for_snaps, "LA84R-DI-DCAM-03:", panel_name_rcp='Plot 2')
+		camlab84bExpTime.level=10
+	except:
+		localStation_exception("configuring wrapped auto detectors - camlab84b")
 	
 ###############################################################################
 ###                              Configure andor                            ###
@@ -1346,28 +1348,28 @@ try:
 	if USE_CRYO_GEOMETRY:
 		diffractometer_sample_scannables += [cryophi]
 	else:
-		diffractometer_sample_scannables += [kphi]
+		diffractometer_sample_scannables += [kphi]  # @UndefinedVariable
 
 	diffractometer_sample_scannables += [azihkl, beta]
 	diffractometer_sample_scannables += [delta_axis_offset]
 
 	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
 
-	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
-	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])
-	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
-	mirror1=ReadPDGroupClass('mirror1',[m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo])
-	mirror2=ReadPDGroupClass('mirror2',[m2pitch, m2x, m2y, m2roll, m2yaw,m2bender])
+	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])  # @UndefinedVariable
+	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])  # @UndefinedVariable
+	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])  # @UndefinedVariable
+	mirror1=ReadPDGroupClass('mirror1',[m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo])  # @UndefinedVariable
+	mirror2=ReadPDGroupClass('mirror2',[m2pitch, m2x, m2y, m2roll, m2yaw,m2bender])  # @UndefinedVariable
 	mirror3=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch])
 	mirrors=ReadPDGroupClass('mirrors',[mirror1, mirror2,mirror3])
 	###temporarilily remove cryolevel due to controls problem - go back to original when working
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
-	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
+	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])  # @UndefinedVariable
 	###
-	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])
+	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])  # @UndefinedVariable
 	#pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
-	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
+	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12 @UndefinedVariable
 	#xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
 	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
 	kbm_offsets=ReadPDGroupClass('kbm_offsets',[vmtrans_offset, hmtrans_offset, vmpitch_offset, hmpitch_offset, kbmx_offset, kbmroll_offset])
@@ -1606,7 +1608,7 @@ add_default(meta)
 add_default(atime)
 add_default(atimetwo)
 add_default(ic1monitor)
-add_default(rc)
+add_default(rc)  # @UndefinedVariable
 if installation.isLive():
 	add_default(waitforinjection)
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
@@ -1693,12 +1695,12 @@ else:
 
 if USE_ROCKING_SCANNABLES:
 	try:
-		from dls_scripts.scannable.RockerScannable import RockerScannable
+		from dls_scripts.scannable.RockerScannable import RockerScannable  # @UnresolvedImport
 		rocker = RockerScannable('rocker')
 		localStation_print("Configured rocker scannable")
 
-		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable
-		kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
+		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable  # @UnresolvedImport
+		kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)  # @UndefinedVariable
 		kphirock.verbose = False
 
 		chirock = ContinuouslyRockingScannable('chirock', scannable = chi)
@@ -1725,7 +1727,7 @@ try:
 				,'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]
 				,'4K22':[-4.946860907921413e-13, 4.204591199936939e-10, -1.215261111328385e-07, 9.803917323445766e-06, -0.0004902951460550646, 14.225861061835865]
 				}
-	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example "+
+	szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example "+  # @UndefinedVariable
 		"szc.calibrate('4K22',Ta) \nto calibrate using the 2022 commissioned 4K cryo and channel Ta,\n"+
 		"szc.calibrate('4K',Ta) \nto calibrate using the older 4K cryo and channel Ta or\n"+
 		"szc.calibrate('800K',Tc) \nfor the cryofurnace.")
@@ -1751,7 +1753,7 @@ if USE_SMARGON and Finder.find("sgphi"):
 		BLobjects.my_smarchi =chi
 		BLobjects.my_smaromega = eta
 		BLobjects.my_smarphi =phi
-		euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)
+		euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)  # @UndefinedVariable
 		hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az)
 
 		localStation_print("Smargon script was successful")
@@ -1802,10 +1804,10 @@ meta_std()
 
 def protect_all_scannables():
 	def unprotected_scannables():
-		return [i for i in InterfaceProvider.getJythonNamespace().getAllNamesForType(Scannable) if not overwriting.isProtected(i)]
+		return [i for i in InterfaceProvider.getJythonNamespace().getAllNamesForType(Scannable) if not overwriting.isProtected(i)]  # @UndefinedVariable
 
 	scannables_to_protect = unprotected_scannables()
-	[overwriting.protect(i) for i in scannables_to_protect]
+	[overwriting.protect(i) for i in scannables_to_protect]  # @UndefinedVariable
 
 	if scannables_to_protect:
 		print "Scannables now protected: %r" % scannables_to_protect
@@ -1855,7 +1857,7 @@ protect_all_scannables()
 
 protected_commands=["pos","inc","peak","maxval","com","minval","rcen","lcen"]
 for to_protect in protected_commands :
-	overwriting.protect(to_protect)
+	overwriting.protect(to_protect)  # @UndefinedVariable
 
 print("-"*100)
 from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime  # @UnusedImport
