@@ -6,11 +6,11 @@ A scan that moves a scannable from start position to stop position non-stop or o
 :Usage:
 
 To perform a flyscan of scannable 'tx' over range (start, stop, step) and measure detector 'det' at each step of 'tx'
-    >>>flyscan tx start stop step det [exposure_time] [optional_scannables_to_collect_data_from]
+    >>>flyscan sx start stop step det [exposure_time] [dead_time] [optional_scannables_to_collect_data_from]
     
 To perform a flyscan as the inner most scan of a nested scan
     e.g. perform a scan of 'ty' over range (ystart, ystop, ystep) and at each value of 'ty' perform the above flyscan of 'tx'
-    >>>scan ty ystart ystop ystep flyscannable(tx) FlyScanPositionsProvider(tx, start, stop, step) det [exposure_time]
+    >>>scan sy ystart ystop ystep flyscannable(tx) FlyScanPositionsProvider(sx, start, stop, step) det [exposure_time] [dead_time]
 '''
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.scan import ScanPositionProvider, ScanBase
@@ -22,6 +22,8 @@ from types import IntType, FloatType
 import sys
 from time import sleep
 from gda.configuration.properties import LocalProperties
+from gdascripts.metadata.metadata_commands import meta_add, meta_rm
+from gda.jython import InterfaceProvider
 
 if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
     from gdascripts.metadata.nexus_metadata_class import meta
@@ -214,13 +216,23 @@ class FlyScannable(ScannableBase):
         else:
             return self.scannable.getPosition()
 
+#define a global variable for detector dead time - see I16-757
+detector_dead_time = 0.0
+
+def setflyscandeadtime(arg):
+    '''set global variable 'detector_dead_time' for 'flyscan' function to use - see I16-757 for the reason
+    '''
+    globals()["detector_dead_time"] = float(arg)
+    
+def getflyscandeadtime():
+    return globals()["detector_dead_time"]
 
 def flyscan(*args):
     ''' A scan that moves a scannable from start position to stop position non-stop or on the fly and collecting data 
     at specified step points.
     
     :usage: 
-        flyscan scannable start stop step det [exposure_time] [other_scannables]
+        flyscan scannable start stop step det [exposure_time] [dead_time] [other_scannables]
     '''
     if len(args) < 4:
         raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <start> <stop> <step>' and may be followed by other optional scannables!")
@@ -259,11 +271,19 @@ def flyscan(*args):
             if type(arg)==IntType or type(arg)== FloatType:
                 command += str(arg) + " "  
             i=i+1
-            if isinstance(arg, Detector) and i<len(args) and (type(args[i])==IntType or type(args[i])==FloatType):
-                #detector has exposure time set so need to adjust motor speed to match number of of points
-                total_time=float(args[i])*number_steps
-                motor_speed=math.fabs((float(stoppos-startpos))/float(total_time))
-                max_speed=flyscannablewraper.getScannableMaxSpeed()
+            if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
+                #adjust motor speed based on total detector exposure time over the flying range
+                if (i+1) < len(args) and (type(args[i+1]) == IntType or type(args[i+1]) == FloatType):
+                    # calculate detector total time including dead time given
+                    total_time = (float(args[i]) + float(args[i+1])) * number_steps
+                elif globals()['detector_dead_time'] != 0:
+                    # I personally don't like this way adding detector dead time but see I16-757 for the reason!
+                    total_time = (float(args[i]) + globals()['detector_dead_time']) * number_steps
+                else:
+                    # calculate detector total time without dead times
+                    total_time = float(args[i]) * number_steps
+                motor_speed = math.fabs((float(stoppos-startpos))/float(total_time))
+                max_speed = flyscannablewraper.getScannableMaxSpeed()
                 if motor_speed>0 and motor_speed<=max_speed:
                     #when exposure time is too large, change motor speed to roughly match
                     flyscannablewraper.setSpeed(motor_speed)
@@ -272,12 +292,25 @@ def flyscan(*args):
                     flyscannablewraper.setSpeed(max_speed)
 
     if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-        meta.addScalar("user_input", "command", command)
+        meta.addScalar("user_input", "cmd", command)
+    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
+        meta_add("cmd", command)
+    cmd_string = "cmd='" + str(command) + "'"
+    jython_namespace = InterfaceProvider.getJythonNamespace();
+    existing_info = jython_namespace.getFromJythonNamespace("SRSWriteAtFileCreation")
+    if existing_info:
+        ascii_info = str(existing_info) + "/n" + cmd_string
+    else:
+        ascii_info = cmd_string
+    jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", ascii_info)
     try:
         gda.jython.commands.ScannableCommands.scan([e for e in newargs])
     finally:
         if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-            meta.rm("user_input", "command")
+            meta.rm("user_input", "cmd")
+        if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
+            meta_rm("cmd")
+        jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", existing_info)
 
 def flyscannable(scannable, timeout_secs=1.):
     return FlyScannable(scannable, timeout_secs)
