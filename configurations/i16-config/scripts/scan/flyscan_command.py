@@ -10,11 +10,11 @@ To perform a flyscan of scannable 'tx' over range (start, stop, step) and measur
     
 To perform a flyscan as the inner most scan of a nested scan
     e.g. perform a scan of 'ty' over range (ystart, ystop, ystep) and at each value of 'ty' perform the above flyscan of 'tx'
-    >>>scan sy ystart ystop ystep flyscannable(tx) FlyScanPositionsProvider(sx, start, stop, step) det [exposure_time] [dead_time]
+    >>>scan sy ystart ystop ystep flyscannable(sx) FlyScanPositionsProvider(sx, start, stop, step) det [exposure_time] [dead_time]
+
 '''
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.scan import ScanPositionProvider, ScanBase
-import gda.jython.commands.ScannableCommands.scan
 import time
 import math
 from gda.device import Scannable, Detector
@@ -24,6 +24,7 @@ from time import sleep
 from gda.configuration.properties import LocalProperties
 from gdascripts.metadata.metadata_commands import meta_add, meta_rm
 from gda.jython import InterfaceProvider
+from gdascripts.scan.installStandardScansWithProcessing import scan
 
 if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
     from gdascripts.metadata.nexus_metadata_class import meta
@@ -295,16 +296,16 @@ def flyscan(*args):
         meta.addScalar("user_input", "cmd", command)
     if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
         meta_add("cmd", command)
-    cmd_string = "cmd='" + str(command) + "'"
+    cmd_string = "cmd='" + str(command).strip() + "'\n"
     jython_namespace = InterfaceProvider.getJythonNamespace();
     existing_info = jython_namespace.getFromJythonNamespace("SRSWriteAtFileCreation")
     if existing_info:
-        ascii_info = str(existing_info) + "/n" + cmd_string
+        ascii_info = str(existing_info) + "\n" + cmd_string
     else:
         ascii_info = cmd_string
     jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", ascii_info)
     try:
-        gda.jython.commands.ScannableCommands.scan([e for e in newargs])
+        scan([e for e in newargs])
     finally:
         if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
             meta.rm("user_input", "cmd")
