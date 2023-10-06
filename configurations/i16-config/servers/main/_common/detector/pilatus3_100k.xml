@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="NexusScanDataWriter">
+
+	<!-- NXDetectors -->
+
+	<!-- Sadly NXDetectorSnappingDecorator doesn't allow you to use the same detector for snaps and scans,
+		 like ProcessingDetectorWrapper does.
+	 -->
+
+	<!-- Add support for gda.device.detector.HardwareTriggeredNXDetector later -->
+
+	<!-- Objects for Processing -->
+
+	<bean id="pil3_100k" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor" >
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="pil3_100k" />
+				<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_scans_and_snaps"/>
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="pilatus3_nxfilewriter_for_scans" />
+						<ref bean="pilatus3_hdf5filewriter_for_scans" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="processor">
+			<bean class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
+				<property name="detName" value="pil3_100k" />
+				<property name="className" value="SDS" />
+				<property name="processors">
+					<list>
+						<bean class="gda.device.detector.nexusprocessor.DatasetStats">
+							<property name="enabledStats">
+								<list>
+									<value>MAX_VAL</value>
+									<value>MAX_X</value>
+									<value>MAX_Y</value>
+									<value>SUM</value>
+								</list>
+							</property>
+						</bean>
+						<bean class="gda.device.detector.nexusprocessor.DatasetPlotter">
+							<property name="plotName" value="Pilatus 3" />
+						</bean>
+					</list>
+				</property>
+				<property name="datasetCreator" >
+					<bean id="pilatus3_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

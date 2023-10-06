@@ -4,27 +4,54 @@
 The `scancn eta` tests assume `pos eta 12.5345` beforehand. Possibly also
 `pos euler [0, 90, 12.5345, 0, 100, 0]` if far from this position & safe to do so.
 
-Scan		Configuration	Dummy	Det.	Notes
+Scan		Configuration	Dummy	Detector		Notes
 			NDW	DWE	LF	T	/Live						Baseline scan command
+----------- --- --- --	-	-----	-------	-------	----------------------------
+../971324	NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.02 21 BeamOK pil3_100k 1 roi1 roi2
+../979681	NDW	DWE	LF		Live	NXPDW	merlin	scancn eta 0.01 21 merlin 1 merlinroi2
+../985494	NDW	DWE	LF		Live	NXPDW	merlins	scancn eta 0.001 31 merlins 1
+----------- --- --- --	-	-----	-------	-------	----------------------------
+2023030040	NSD				Dummy	NXPDW	pil3	Make NSD easier to compare to NDW
+2023030053	NSD				Dummy	NXPDW	pil3	I16-644 Add NXmx definition
+2023030131	NSD				Dummy	NXPDW	pil3	pil3_100k nodes confirmed
+2023030132	NSD				Dummy	NXPDW	merlin	merlins nodes confirmed, but merlinroi2 no longer exists
+2023030134	NSD				Dummy	NXPDW	merlins	merlins noes confirmed
+2023060051	NSD				Dummy	NXPDW	pil3	Use PositionerTransformationsAppender not TransformationWriter
+----------- --- --- --	-	-----	-------	-------	----------------------------
+2023090004	NSD				Dummy	NXPDW	pil3	NSD baseline: scancn eta 0.02 5 pil3_100k 1
+2023090086	NDW	DWE	LF		Dummy	NXPDW	pil3	NDW baseline: scancn eta 0.02 5 pil3_100k 1 roi1
+2023090092	NSD				Dummy	NXD/NDP	pil3	Switch pil3_100k to NexusDetectorProcessor
+
 ----------- --- --- --	-	-----	------	------------------------------------
-../971324	NDW	DWE	LF		Live	pil3	scancn eta 0.02 21 BeamOK pil3_100k 1 roi1 roi2
-../979681	NDW	DWE	LF		Live	merlin	scancn eta 0.01 21 merlin 1 merlinroi2
-../985494	NDW	DWE	LF		Live	merlins	scancn eta 0.001 31 merlins 1
------------ --- --- --	-	-----	------	------------------------------------
-2023030040	NSD				Dummy	pil3	Make NSD easier to compare to NDW
-2023030053	NSD				Dummy	pil3	I16-644 Add NXmx definition
-2023030131	NSD				Dummy	pil3	pil3_100k nodes confirmed
-2023030132	NSD				Dummy	merlin	merlins nodes confirmed, but merlinroi2 no longer exists
-2023030134	NSD				Dummy	merlins	merlins noes confirmed
-2023060051	nsd				Dummy	pil3	Use PositionerTransformationsAppender not TransformationWriter
------------ --- --- --	-	-----	------	------------------------------------
-	NDW	NexusDataWriter				NSD	NexusScanDataWriter
-	DWE	DataWriterExtender			T	Template
-	LF	Link Files
+	NDW		NexusDataWriter				T		Template
+	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
+	DWE		DataWriterExtender			NXD		NXDetector
+	LF		Link Files					NDP		NexusDetectorProcessor
 
 	See testing-notes/_Preparing_a_scan_for_archiving for process
 ================================================================================
+2023090004 vs 2023090069:			Before	After
+	Duration						4527ms	2652ms
+											entry1/instrument/pil3_100k/data
+											entry1/instrument/pil3_100k/data_file
+											entry1/instrument/pil3_100k/image_data
+		entry1/instrument/pil3_100k/maxval	entry1/instrument/pil3_100k/max_val
+		entry1/instrument/pil3_100k/maxx	entry1/instrument/pil3_100k/max_x
+		entry1/instrument/pil3_100k/maxy	entry1/instrument/pil3_100k/max_y
+		entry1/instrument/pil3_100k/path	
+		entry1/instrument/pil3_100k/sum		entry1/instrument/pil3_100k/total
 
+
+
+
+Switches measurement @signal from sum to rc
+							Adds a pil3_100k_data:NXdata
+
+
+2023090004 vs 2023090005:	Adds pil3_100k/data, data_file and image_data
+							Removed maxval, maxx, maxy, path and sum
+							Switches measurement @signal from sum to rc
+							Adds a pil3_100k_data:NXdata
 --------------------------------------------------------------------------------
 
 ================================================================================
