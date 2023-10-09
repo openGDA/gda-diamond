@@ -25,8 +25,8 @@ def peak(*args):
 
     print "Moving to:"
     moveString = ""
-    busyString = "while "
     motorPos = []
+    execString = "pos("
     for i in range(0, len(peakFindMotors)):
         if nexus:
             motorPos.append( findNxMotor(data, detectorName, peakFindMotors[i])[peakPos] )
@@ -37,15 +37,13 @@ def peak(*args):
         if not dispOnly:
             if nexus:
                 mt = motorNames[i].split('_', 1)[0]
-                exec mt+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-                busyString+=mt+".isBusy() or "
+                execString += mt + "," + str(motorPos[i]) + ","
             else:
-                exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-                busyString+=motorNames[i]+".isBusy() or "
+                execString += motorNames[i] + "," + str(motorPos[i]) + ","
 
     if not dispOnly:
-        busyString+=" False: \n\tsleep(0.2)"
-        exec busyString
+        execString += ")"
+        exec execString
 
 def com(*args):
     global peakFindMotors, peakFindDetector
@@ -133,8 +131,8 @@ def peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, disp
     # will move to fractionally in between two adjacent data points
     print "Moving to:"
     moveString = ""
-    busyString = "while "
     motorPos = []
+    execString = "pos("
     for i in range(0, len(peakFindMotors)):
         if nexus:
             motorPos.append( findNxMotor(data, detectorName, peakFindMotors[i])[int(index)] * (1-frac) + \
@@ -147,15 +145,13 @@ def peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, disp
         if not dispOnly:
             if nexus:
                 mt = motorNames[i].split('_', 1)[0]
-                exec mt+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-                busyString+=mt+".isBusy() or "
+                execString += mt + "," + str(motorPos[i]) + ","
             else:
-                exec motorNames[i]+".asynchronousMoveTo(" + str(motorPos[i]) + ")"
-                busyString+=motorNames[i]+".isBusy() or "
+                execString += motorNames[i] + "," + str(motorPos[i]) + ","
 
     if not dispOnly:
-        busyString+=" False: \n\tsleep(0.2)"
-        exec busyString
+        execString += ")"
+        exec execString
 
 def parseNx(scanfile):
     detlist = []
@@ -167,7 +163,7 @@ def parseNx(scanfile):
             detlist.append(i[0])
 
     for i in scanfile['/entry'][detlist[0]].items():
-        if i[0].endswith('_value') or i[0].endswith('_value_set'):
+        if i[0].endswith('_value') or i[0].endswith('_value_set') or i[0].startswith('diff1'):
             motorlist2.append(i[0])
 
     # as remove method appears to be broken
@@ -185,7 +181,7 @@ def parseNx(scanfile):
 
 def findNxCounts(scanfile, detname):
     s = scanfile['entry'][detname][detname.split('_', 1)[1]]
-    return s[0:s.shape[0]]
+    return s[0:s.shape[0]].squeeze()
 
 def findNxMotor(scanfile, detname, motorname):
     if motorname == 'h' or motorname == 'k' or motorname == 'l':
