@@ -407,8 +407,21 @@ aliasList.append("exposeNRockNGridStep")
 # User input verification functions
 
 def _sanitise(fileName, detector):
+	try:
+		fileNameCheck = filter(lambda char: char.isalnum() or char in ['-','_'], fileName)
+		if fileName != fileNameCheck:
+			msg = "Filenames should be alphanumeric strings plus underscores (except for the Mar detector) or dashes. Using %s rather than %s" % (fileNameCheck, fileName)
+			print "-"*80
+			print msg
+			print "-"*80
+			LoggerFactory.getLogger("_sanitise").warn(msg)
+			fileName = fileNameCheck
+	except Exception, e:
+		LoggerFactory.getLogger("_sanitise").error("Failure checking {}", fileName, e)
+
 	if fileName == None or not "_" in fileName:
 		return fileName
+
 	if ('mar' in detector.name):
 		sanitised = fileName.replace("_", "-")
 		msg = "Underscores not supported in fileName for %s detector. Using %s rather than %s" % (detector.name, sanitised, fileName)
