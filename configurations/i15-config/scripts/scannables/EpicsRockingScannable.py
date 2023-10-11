@@ -1,6 +1,7 @@
 from gda.device.scannable import ScannableMotionBase
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.utils import caget, caput
+from org.slf4j import LoggerFactory
 
 class EpicsRockingScannable(ScannableMotionBase):
     """ This scannable needs to be configured with a call to setupScan before
@@ -26,6 +27,7 @@ class EpicsRockingScannable(ScannableMotionBase):
     """
 
     def __init__(self, name, scannable, check_cs_pv_base, check_cs_raw_value, check_cs_axis_value):
+        self.logger = LoggerFactory.getLogger("EpicsRockingScannable:%s" % name)
         self.name=name
         self.scannable=ScannableMotionBase()
         self.setName(name)
@@ -92,9 +94,14 @@ class EpicsRockingScannable(ScannableMotionBase):
         return [self.exposureTime, caget(self.scannable.getMotor().getPvName()+":ROCK:CURRENTROCK_RBV")]
 
     def asynchronousMoveTo(self, exposureTime):
-        self.exposureTime = exposureTime
-        caput(self.scannable.getMotor().getPvName()+":ROCK:TIME", exposureTime) # s
+        self.logger.debug("asynchronousMoveTo({})", exposureTime)
+        try:
+            caput(self.scannable.getMotor().getPvName()+":ROCK:TIME", exposureTime) # s
+        except Exception, e:
+            caput(self.scannable.getMotor().getPvName()+":ROCK:TIME", exposureTime[0]) # s
+            self.logger.error("Move to {} failed, trying {}", exposureTime, exposureTime[0], e)
         caput(self.scannable.getMotor().getPvName()+":ROCK:START", 1) # Degrees/s/s
+        self.exposureTime = exposureTime
 
     def isBusy(self):
         mode_rbv = caget(self.scannable.getMotor().getPvName()+":ROCK:MODE_RBV")
