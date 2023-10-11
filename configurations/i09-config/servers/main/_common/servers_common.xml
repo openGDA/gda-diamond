@@ -77,8 +77,13 @@
 		<property name="dataWriterExtenders">
 			<list>
 				<ref bean="file_registrar" />
+				<ref bean="twodplot" />
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
+		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
 
 	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
