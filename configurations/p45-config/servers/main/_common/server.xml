@@ -11,6 +11,9 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
+	<!-- GDA REST Server -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
+
 	<!--  object to provide recording of metadata in Nexus files -->
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop"/>
