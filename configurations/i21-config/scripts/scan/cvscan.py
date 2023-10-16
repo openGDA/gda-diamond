@@ -127,6 +127,7 @@ def cvscan(c_energy, start, stop, step, *args):
         topup_checker=beam_checker.getGroupMember("checktopup_time_cv")
         topup_checker.setOperatingContinuously(True) #only check at scan start
         topup_checker.minimumThreshold=scan_time + 5
+        newargs.append(beam_checker)
         command += beam_checker.getName()
         
         first_time = True
