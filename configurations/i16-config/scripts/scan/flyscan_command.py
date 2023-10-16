@@ -171,7 +171,15 @@ class FlyScannable(ScannableBase):
     def restoreMotorSpeed(self):
         if self.origionalSpeed is not None:
             print("Restore motor speed from %r to %r" % (self.speed, self.origionalSpeed))
-            self.scannable.setSpeed(self.origionalSpeed)
+            if self.scannable.isBusy():
+                self.scannable.stop()
+                sleep(2)
+            try:
+                self.scannable.setSpeed(self.origionalSpeed)
+            except:
+                print("Restore motor speed failed with Exception, try again after 5 second sleep")
+                sleep(5)
+                self.scannable.setSpeed(self.origionalSpeed)
             self.origionalSpeed=None
         self.speed=None
         self.alreadyStarted=False
