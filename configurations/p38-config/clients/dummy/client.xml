@@ -2,6 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        This file does nothing and exists only to allow the equivalent live
+        version be imported in live mode. In future the configuration may
+        allow for mode specific files to be specified in config.toml.
+    -->
 
-	<import resource="../_common/client.xml"/>
 </beans>

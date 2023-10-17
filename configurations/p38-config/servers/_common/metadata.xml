@@ -4,28 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean class="gda.data.metadata.GdaMetadata" id="GDAMetadata">
-        <property name="metadataEntries">
-            <list>
-                <ref bean="subdirectory"/>
-                <ref bean="title"/>
-                <ref bean="visit"/>
-                <ref bean="sample_background"/>
-                <ref bean="sample_name"/>
-                <bean class="gda.data.metadata.PropertyMetadataEntry">
-                    <property name="name" value="instrument"/>
-                    <property name="propertyName" value="gda.instrument"/>
-                </bean>
-                <bean class="gda.data.metadata.StoredMetadataEntry">
-                    <property name="name" value="federalid"/>
-                    <property name="value" value=""/>
-                </bean>
-                <bean class="gda.data.metadata.StoredMetadataEntry">
-                    <property name="name" value="note"/>
-                    <property name="value" value="undefined"/>
-                </bean>
-            </list>
-        </property>
+    <bean class="gda.data.metadata.PropertyMetadataEntry">
+        <property name="name" value="instrument"/>
+        <property name="propertyName" value="gda.instrument"/>
+    </bean>
+    <bean class="gda.data.metadata.StoredMetadataEntry">
+        <property name="name" value="federalid"/>
+        <property name="value" value=""/>
+    </bean>
+    <bean class="gda.data.metadata.StoredMetadataEntry">
+        <property name="name" value="note"/>
+        <property name="value" value="undefined"/>
     </bean>
 
     <bean id="visit" class="gda.data.metadata.StoredMetadataEntry">

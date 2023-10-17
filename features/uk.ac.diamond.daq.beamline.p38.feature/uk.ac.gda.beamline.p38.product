@@ -11,16 +11,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.config=${workspace_loc:p38-config}
--Dgda.mode=dummy
--Dgda.propertiesFile=${workspace_loc:p38-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:p38-config}/properties/dummy/JCALibrary.properties
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${workspace_loc:p38-config}
--Dgda.facility.dir=${workspace_loc:dls-config}
--Dgda.core.dir=${workspace_loc:core-config}
+      <vmArgs>-Dgda.config=${project_loc:p38-config}
 -Xms1g
 -Xmx4g
 -XX:-UseCompressedOops
