@@ -40,7 +40,7 @@ class Keithley2400Current(ScannableMotionBase):
         self.inScan = False
         self._count = 1
         self.use4wire = True
-        self.read_wait = 0.2
+        self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.voltage_limit = 10
@@ -81,6 +81,15 @@ class Keithley2400Current(ScannableMotionBase):
     def epics_wait(self, value):
         self._epics_wait = float(value)
         self.keithley.communication_wait = self._epics_wait
+    
+    @property
+    def read_wait(self):
+        return self._read_wait
+    
+    @read_wait.setter
+    def read_wait(self, value):
+        self._read_wait = float(value)
+        self.keithley.read_wait =  self._read_wait
         
     @property
     def count(self):
@@ -151,8 +160,9 @@ class Keithley2400Current(ScannableMotionBase):
             self.configure()
         try:
             self._busy = True
-            self.keithley.sourceFunction("CURR", value)
-            self.keithley.prepare_trace_buffer()
+            self.keithley.sourceValue("CURR", value)
+            self.keithley.prepare_trace_buffer(self.count)
+            sleep(0.5)
             self.keithley.acquire_data(self.count)
         finally:
             self._busy = False
@@ -178,7 +188,7 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.inScan = False
         self._count = 1
         self.use4wire = True
-        self.read_wait = 0.2
+        self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.current_limit = 1.0
@@ -210,11 +220,7 @@ class Keithley2400Voltage(ScannableMotionBase):
         
     def atScanEnd(self):
         self.inScan = False
-    
-    @property      
-    def count(self):
-        return self._count
-    
+
     @property
     def epics_wait(self):
         return self._epics_wait 
@@ -223,6 +229,20 @@ class Keithley2400Voltage(ScannableMotionBase):
     def epics_wait(self, value):
         self._epics_wait = float(value)
         self.keithley.communication_wait = self._epics_wait
+    
+    @property
+    def read_wait(self):
+        return self._read_wait
+    
+    @read_wait.setter
+    def read_wait(self, value):
+        self._read_wait = float(value)
+        self.keithley.read_wait =  self._read_wait
+        
+    
+    @property      
+    def count(self):
+        return self._count
 
     @count.setter
     def count(self, value):
@@ -288,7 +308,8 @@ class Keithley2400Voltage(ScannableMotionBase):
             self._busy = True
             self.keithley.sourceValue("VOLT", value)
             self.keithley.prepare_trace_buffer(self.count)
-            self.keithley.acquire_data(self.count)()
+            sleep(0.5)
+            self.keithley.acquire_data(self.count)
         finally:
             self._busy = False
         

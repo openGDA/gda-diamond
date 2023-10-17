@@ -77,6 +77,7 @@ class EpicsKeithleySourceMeter(object):
         self.last_transfer_mode = 1 #WRITE
         self.use_trace_buffer = True
         self.communication_wait = 0.1
+        self.read_wait = 0.1
         
     def configure(self):
         '''
