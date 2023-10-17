@@ -84,8 +84,8 @@
 	<!-- ROI-STAT pairs for Live Stream View -->
 	<bean id="medipix_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats1" />
-		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI7:" />
-		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT7:" />
+		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT1:" />
 		<property name="legacyTSpvs" value="false"/>
 		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
@@ -99,8 +99,8 @@
 	</bean>
 	<bean id="medipix_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats2" />
-		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI8:" />
-		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT8:" />
+		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT2:" />
 		<property name="legacyTSpvs" value="false"/>
 		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
@@ -114,8 +114,8 @@
 	</bean>
 	<bean id="medipix_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats3" />
-		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI9:" />
-		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT9:" />
+		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT3:" />
 		<property name="legacyTSpvs" value="false"/>
 		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
@@ -129,8 +129,8 @@
 	</bean>
 	<bean id="medipix_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="medipix_RoiStats4" />
-		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI10:" />
-		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT10:" />
+		<property name="baseRoiPVName" value="BL06K-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="BL06K-EA-DET-01:STAT4:" />
 		<property name="legacyTSpvs" value="false"/>
 		<property name="roiInputNdArrayPort" value="mpx.CAM" />
 		<property name="enabledBasicStats" value="MeanValue" />
