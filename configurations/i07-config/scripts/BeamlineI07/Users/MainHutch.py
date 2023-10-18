@@ -73,9 +73,6 @@ try_execfile("BeamlineI07/Users/plotchoose.py")
 # add restorerois command
 try_execfile("BeamlineI07/Users/restorerois.py")
 
-# set ion chamber output to more useful format
-ionc1.setOutputFormat([u'%20.12e'])
-
 # set diffractometer motor GDA limits to +/- 1000
 for m in DIFF.getGroupMembers():
     try:

@@ -7,6 +7,7 @@ pvRootScaler   = "BL07I-EA-ADC-01";
 
 adc = AdcScalerClass('adc',pvRootScaler);
 ionc1 = AdcScalerChannelClass('ionc1',pvRootScaler, channel=0);
+ionc2 = AdcScalerChannelClass('ionc2',"BL07I-EA-ADC-02", channel=0);
 ionsc1=ionc1;
 
 adc2 = AdcScalerChannelClass('adc2',pvRootScaler, channel=1);
@@ -20,6 +21,7 @@ adc8 = AdcScalerChannelClass('adc8',pvRootScaler, channel=7);
 DEFAULT_LEVEL = 100
 
 ionc1.setLevel(DEFAULT_LEVEL)
+ionc2.setLevel(DEFAULT_LEVEL)
 adc2.setLevel(DEFAULT_LEVEL)
 adc3.setLevel(DEFAULT_LEVEL)
 adc4.setLevel(DEFAULT_LEVEL)
@@ -28,7 +30,9 @@ adc6.setLevel(DEFAULT_LEVEL)
 adc7.setLevel(DEFAULT_LEVEL)
 adc8.setLevel(DEFAULT_LEVEL)
 
-
+# set ion chamber output to more useful format
+ionc1.setOutputFormat([u'%20.12e'])
+ionc2.setOutputFormat([u'%20.12e'])
 
 #The Struct Scaler Card
 from Diamond.PseudoDevices.StruckScaler import StructScalerGdaClass, StructScalerGdaChannelClass;
