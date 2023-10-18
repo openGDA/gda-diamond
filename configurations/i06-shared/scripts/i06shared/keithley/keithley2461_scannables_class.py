@@ -41,7 +41,7 @@ class Keithley2461Current(ScannableMotionBase):
         self.inScan = False
         self._count = 1
         self.use4wire = True
-        self.read_wait = 0.2
+        self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.voltage_limit = 10
@@ -63,10 +63,10 @@ class Keithley2461Current(ScannableMotionBase):
         sleep(self.config_wait)
         
     def set4Wire(self):
-        self.keithley.senseVoltRsen("VOLT", "ON")
+        self.keithley.senseRsense("VOLT", "ON")
         
     def set2Wire(self):
-        self.keithley.senseVoltRsen("VOLT", "OFF")        
+        self.keithley.senseRsense("VOLT", "OFF")
         
     def atScanStart(self):
         self.configure()
@@ -83,6 +83,15 @@ class Keithley2461Current(ScannableMotionBase):
     def epics_wait(self, value):
         self._epics_wait = float(value)
         self.keithley.communication_wait = self._epics_wait
+    
+    @property
+    def read_wait(self):
+        return self._read_wait
+    
+    @read_wait.setter
+    def read_wait(self, value):
+        self._read_wait = float(value)
+        self.keithley.read_wait =  self._read_wait
         
     @property
     def count(self):
@@ -180,7 +189,7 @@ class Keithley2461Voltage(ScannableMotionBase):
         self.inScan = False
         self._count = 1
         self.use4wire = True
-        self.read_wait = 0.2
+        self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.current_limit = 1.0
@@ -205,7 +214,7 @@ class Keithley2461Voltage(ScannableMotionBase):
         self.keithley.senseRsense("CURR", "ON")
         
     def set2Wire(self):
-        self.keithley.senseRsense("CURR", "OFF")        
+        self.keithley.senseRsense("CURR", "OFF")
 
     def atScanStart(self):
         self.configure()
@@ -222,7 +231,16 @@ class Keithley2461Voltage(ScannableMotionBase):
     def epics_wait(self, value):
         self._epics_wait = float(value)
         self.keithley.communication_wait = self._epics_wait
-
+    
+    @property
+    def read_wait(self):
+        return self._read_wait
+    
+    @read_wait.setter
+    def read_wait(self, value):
+        self._read_wait = float(value)
+        self.keithley.read_wait =  self._read_wait
+        
     @property      
     def count(self):
         return self._count
