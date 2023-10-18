@@ -1862,7 +1862,7 @@ else:
 print("*"*80)
 protect_all_scannables()
 
-protected_commands=["pos","inc","peak","maxval","com","minval","rcen","lcen"]
+protected_commands=["pos","inc","peak","maxval","com","minval","rcen","lcen","range"]
 for to_protect in protected_commands :
 	overwriting.protect(to_protect)  # @UndefinedVariable
 
