@@ -58,6 +58,7 @@
 	<!-- detectors -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/pco_nxdetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/ethercat.xml" />
 
 	<!-- shutters -->
 	<import	resource="file:${gda.config}/servers/main/${gda.mode}/shutters/fe_shutter.xml" />
@@ -120,6 +121,8 @@
 
 	<!-- detectors - diffraction -->
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diffraction/diffraction.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/_common/detectors/ethercat.xml" />
 
 	<import	resource="file:${gda.config}/servers/main/_common/detectors/diagnostics/diagnostics.xml" />
 
