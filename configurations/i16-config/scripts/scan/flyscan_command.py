@@ -259,19 +259,10 @@ def flyscan(*args):
                 stoppos=args[i+2]
                 stepsize=args[i+3]
                 number_steps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
-                flyscannablewraper = FlyScannable(arg)
-                flyscannablewraper.startVal=startpos
-                newargs.append( flyscannablewraper )
-                command += arg.getName() + " "
-                newargs.append( FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize) )
+                
+                newargs, command, flyscannablewraper = create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize)
                 command += " ".join(map(str, [startpos, stoppos, stepsize])) + " "
-                flyscannablewraper.showDemandValue=SHOW_DEMAND_VALUE
-                if SHOW_DEMAND_VALUE:
-                    flyscannablewraper.setExtraNames([arg.getInputNames() [0]+"_demand"])
-                    flyscannablewraper.setOutputFormat([ "%.5g", "%.5g"])
-                else:
-                    flyscannablewraper.setExtraNames([])
-                    flyscannablewraper.setOutputFormat([ "%.5g"])
+                configure_fly_scannable_extraname(arg, flyscannablewraper)
                 i=i+4
         else:
             newargs.append(arg)
@@ -281,48 +272,134 @@ def flyscan(*args):
                 command += str(arg) + " "  
             i=i+1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                #adjust motor speed based on total detector exposure time over the flying range
-                if (i+1) < len(args) and (type(args[i+1]) == IntType or type(args[i+1]) == FloatType):
-                    # calculate detector total time including dead time given
-                    total_time = (float(args[i]) + float(args[i+1])) * number_steps
-                elif globals()['detector_dead_time'] != 0:
-                    # I personally don't like this way adding detector dead time but see I16-757 for the reason!
-                    total_time = (float(args[i]) + globals()['detector_dead_time']) * number_steps
-                else:
-                    # calculate detector total time without dead times
-                    total_time = float(args[i]) * number_steps
-                motor_speed = math.fabs((float(stoppos-startpos))/float(total_time))
-                max_speed = flyscannablewraper.getScannableMaxSpeed()
-                if motor_speed>0 and motor_speed<=max_speed:
-                    #when exposure time is too large, change motor speed to roughly match
-                    flyscannablewraper.setSpeed(motor_speed)
-                elif motor_speed>max_speed:
-                    #when exposure time is small enough use maximum speed of the motor
-                    flyscannablewraper.setSpeed(max_speed)
+                i = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
 
-    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-        meta.addScalar("user_input", "cmd", command)
-    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
-        meta_add("cmd", command)
-    cmd_string = "cmd='" + str(command).strip() + "'\n"
-    jython_namespace = InterfaceProvider.getJythonNamespace();
-    existing_info = jython_namespace.getFromJythonNamespace("SRSWriteAtFileCreation")
-    if existing_info:
-        ascii_info = str(existing_info) + "\n" + cmd_string
-    else:
-        ascii_info = cmd_string
-    jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", ascii_info)
+    jython_namespace, existing_info = add_command_metadata(command)
     try:
         scan([e for e in newargs])
     finally:
-        if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-            meta.rm("user_input", "cmd")
-        if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
-            meta_rm("cmd")
-        jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", existing_info)
+        remove_command_metadata(jython_namespace, existing_info)
 
 def flyscannable(scannable, timeout_secs=1.):
     return FlyScannable(scannable, timeout_secs)
 
 from gda.jython.commands.GeneralCommands import alias
 alias('flyscan')
+
+
+def create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize):
+    flyscannablewraper = FlyScannable(arg)
+    flyscannablewraper.startVal = startpos
+    newargs.append(flyscannablewraper)
+    command += arg.getName() + " "
+    newargs.append(FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize))
+    return newargs, command, flyscannablewraper
+
+
+def configure_fly_scannable_extraname(arg, flyscannablewraper):
+    flyscannablewraper.showDemandValue = SHOW_DEMAND_VALUE
+    if SHOW_DEMAND_VALUE:
+        flyscannablewraper.setExtraNames([arg.getInputNames()[0] + "_demand"])
+        flyscannablewraper.setOutputFormat(["%.5g", "%.5g"])
+    else:
+        flyscannablewraper.setExtraNames([])
+        flyscannablewraper.setOutputFormat(["%.5g"])
+
+
+def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper):
+#adjust motor speed based on total detector exposure time over the flying range
+    if (i + 1) < len(args) and (type(args[i + 1]) == IntType or type(args[i + 1]) == FloatType): # calculate detector total time including dead time given
+        total_time = (float(args[i]) + float(args[i + 1])) * numpoints
+        i = i + 1
+    elif globals()['detector_dead_time'] != 0: # I personally don't like this way adding detector dead time but see I16-757 for the reason!
+        total_time = (float(args[i]) + globals()['detector_dead_time']) * numpoints
+    else:
+        total_time = float(args[i]) * numpoints # calculate detector total time without dead times
+    motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
+    max_speed = flyscannablewraper.getScannableMaxSpeed()
+    if motor_speed > 0 and motor_speed <= max_speed: #when exposure time is too large, change motor speed to roughly match
+        flyscannablewraper.setSpeed(motor_speed)
+    elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
+        flyscannablewraper.setSpeed(max_speed)
+    return i
+
+
+def add_command_metadata(command):
+    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
+        meta.addScalar("user_input", "cmd", command)
+    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
+        meta_add("cmd", command)
+    cmd_string = "cmd='" + str(command).strip() + "'\n"
+    jython_namespace = InterfaceProvider.getJythonNamespace()
+    existing_info = jython_namespace.getFromJythonNamespace("SRSWriteAtFileCreation")
+    if existing_info:
+        ascii_info = str(existing_info) + "\n" + cmd_string
+    else:
+        ascii_info = cmd_string
+    jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", ascii_info)
+    return jython_namespace, existing_info
+
+
+def remove_command_metadata(jython_namespace, existing_info):
+    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
+        meta.rm("user_input", "cmd")
+    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
+        meta_rm("cmd")
+    jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", existing_info)
+
+
+def flyscancn(*args):
+    ''' 
+    USAGE:
+    
+    flyscancn scn stepsize numpoints det [exposure_time] [dead_time] [other_scannables]
+  
+    Performs a scan with specified stepsize and numpoints centred on the current scn position, and returns to original position.
+    scn scannable is moving continuousely from start position to stop position non-stop or on the fly and collecting data 
+    at specified step points.
+    '''
+    if len(args) < 3:
+        raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <step_size> <number_of_points>' and may be followed by other optional scannables!")
+    
+    command = "flyscancn "
+    newargs=[]
+    i=0;
+    while i< len(args):
+        arg = args[i]
+        if i==0 :
+            if not isinstance(arg, Scannable):
+                raise SyntaxError("The first argument is not a Scannable!")
+            else:
+                current_position = float(arg.getPosition())
+                stepsize = float(args[i + 1])
+                numpoints = float(args[i + 2])
+                intervals = float(numpoints - 1)
+                halfwidth = stepsize * intervals/2.
+                neg_halfwidth =  stepsize * (-intervals/2.)
+                startpos =  current_position + neg_halfwidth
+                stoppos = current_position + halfwidth
+                
+                newargs, command, flyscannablewraper = create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize)
+                command += " ".join(map(str, [stepsize, numpoints])) + " "
+                configure_fly_scannable_extraname(arg, flyscannablewraper)
+                i=i+3
+        else:
+            newargs.append(arg)
+            if isinstance(arg, Scannable):
+                command += arg.getName() + " "
+            if type(arg) == IntType or type(arg) == FloatType:
+                command += str(arg) + " "  
+            i = i + 1
+            if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
+                i = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
+
+    jython_namespace, existing_info = add_command_metadata(command)
+    try:
+        scan([e for e in newargs])
+    finally:
+        remove_command_metadata(jython_namespace, existing_info)
+        # return to original position
+        flyscannablewraper.scannable.moveTo(current_position)
+        
+alias('flyscancn')
+    
