@@ -19,7 +19,7 @@
     <elements xsi:type="basic:PartStack" xmi:id="_7GP1ULSEEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5" toBeRendered="false" visible="false"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_53c0YLwuEe2bJo8Iq2iPPg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspectivestack.0">
-    <elements xsi:type="advanced:Perspective" xmi:id="_AfKHYM12Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/sequence_editor/run_exc.gif" tooltip="ES-2">
+    <elements xsi:type="advanced:Perspective" xmi:id="_AfKHYM12Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/bold_2.png" tooltip="ES-2">
       <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
       <children xsi:type="basic:PartSashContainer" xmi:id="_AfKHYc12Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_AfKHYs12Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
@@ -44,7 +44,7 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_CAGyMM11Ee2rDLwMcifEKQ" featurename="snippets" parentElementId="org.eclipse.e4.legacy.ide.application">
-    <elements xsi:type="advanced:Perspective" xmi:id="_Ev-RwM11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/sequence_editor/run_exc.gif" tooltip="ES-2">
+    <elements xsi:type="advanced:Perspective" xmi:id="_Ev-RwM11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/bold_2.png" tooltip="ES-2">
       <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
       <children xsi:type="basic:PartSashContainer" xmi:id="_Ev-Rwc11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_Ev-Rws11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
