@@ -890,7 +890,7 @@ if installation.isLive():
 ###############################################################################
 ###                                 Energy                                  ###
 ###############################################################################
-import beamline_info as BLi #contains energy and wavelength
+import beamline_info as BLi #@UnusedImport - contains energy and wavelength
 run("localStationScripts/startup_energy_related")
 #defaults changed by SPC on 29/6/11 comment out next two lines to go back to previous settings
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
@@ -1013,8 +1013,8 @@ else:
 if USE_PIL3:
 	if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
 		global pil3_100k
-		with overwriting:
-			pil3 = pil3_100k
+		with overwriting:  # @UndefinedVariable
+			pil3 = pil3_100k  # @UnusedVariable
 		localStation_warning("pil3 = NXDetector")
 	else:
 		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
@@ -1867,10 +1867,8 @@ for to_protect in protected_commands :
 	overwriting.protect(to_protect)  # @UndefinedVariable
 
 print("-"*100)
-from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime  # @UnusedImport
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn  # @UnusedImport
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
-from scan.miscan import miscan  # @UnusedImport
-
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
