@@ -108,7 +108,7 @@
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
 		id="pilatus3_mask">
 		<property name="minThreshold">
-			<value type="java.lang.Integer">0</value>
+			<value type="java.lang.Integer">-1</value>
 		</property>
 		<property name="maxThreshold" >
 			<value type="java.lang.Integer">1000</value>
@@ -167,7 +167,8 @@
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiStats" ref="pilatus3_roistats_standard" />
-		<property name="enable" value="false" />
+		<property name="enable" value="true" />
+		<property name="backgroundSubtractionEnabled" value="false" />
 	</bean>
 
 	<!-- Objects for Solstice Scanning -->
