@@ -3,36 +3,6 @@ from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
 
 def ct(ct_time = 0):
-	if ct_time == 0 :
-		ct_time = ct.defaultTime
-	if not ( ct.p2 or ct.ex or ct.p3 ) :
-		print "No detectors enabled, please set ct.p2, ct.p3 and/or ct.ex to True."
-		return
-	if ct.specWarning:
-		print "This is not SPEC!"
-		
-	if ct.ex and LocalProperties.check("gda.beamline.auto.attenuation"):
-		ct_select_atten()
-	
-	pos(ct.fastshutter, 1)
-	if ct.ex :
-		pos(exc_snap, ct_time)
-	else :
-		#Not needed if using exc as it's slow anyway
-		sleep(ct.fsSleep)
-	if ct.p2 :
-		pos(pil2stats, ct_time)
-	if ct.p3 :
-		pos(pil3stats, ct_time)
-	pos(ct.fastshutter, 0)
-	
-	if ct.ex :
-		stats = dict(zip(exc_snap.getExtraNames(), exc_snap.readout()))
-		print "Excalibur Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
-	if ct.p2 :
-		readout_pilatus(pil2stats, "Pilatus 2M")
-	if ct.p3 :
-		readout_pilatus(pil3stats, "Pilatus 100K")
 
 	def readout_pilatus(detector, name):
 		readout = detector.readout()
@@ -82,10 +52,41 @@ def ct(ct_time = 0):
 	
 		final_att = caget('BL07I-OP-FILT-01:ATTENUATION_RBV')
 		print "Attenuation: " + final_att
+	
+	if ct_time == 0 :
+		ct_time = ct.defaultTime
+	if not ( ct.p2 or ct.ex or ct.p3 ) :
+		print "No detectors enabled, please set ct.p2, ct.p3 and/or ct.ex to True."
+		return
+	if ct.specWarning:
+		print "This is not SPEC!"
+		
+	if ct.ex and LocalProperties.check("gda.beamline.auto.attenuation"):
+		ct_select_atten()
+	
+	pos(ct.fastshutter, 1)
+	if ct.ex :
+		pos(exc_snap, ct_time)
+	else :
+		#Not needed if using exc as it's slow anyway
+		sleep(ct.fsSleep)
+	if ct.p2 :
+		pos(pil2stats, ct_time)
+	if ct.p3 :
+		pos(pil3stats, ct_time)
+	pos(ct.fastshutter, 0)
+	
+	if ct.ex :
+		stats = dict(zip(exc_snap.getExtraNames(), exc_snap.readout()))
+		print "Excalibur Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
+	if ct.p2 :
+		readout_pilatus(pil2stats, "Pilatus 2M")
+	if ct.p3 :
+		readout_pilatus(pil3stats, "Pilatus 100K")
 
 ct.p2, ct.p3, ct.ex = False, False, True
 
-def ct_detectors(detector_list=None):	#Need to make it interpret this as a list however many entries there are.
+def ct_detectors(*detector_list):	#Need to make it interpret this as a list however many entries there are.
 	def print_detectors() :
 		printout = "Detectors enabled for ct: "
 		if ct.p2 : printout += "pilatus 2, "
@@ -94,11 +95,11 @@ def ct_detectors(detector_list=None):	#Need to make it interpret this as a list 
 		if not (ct.p2 or ct.p3 or ct.ex) : printout += "none"
 		print printout
 
-	if detector_list == None :
+	if len(detector_list) == 0 :
 		print_detectors()
 		return
 
-	available_detectors = ["p2", "p3", "ex"]
+	available_detectors = ["p2", "p3", "ex", "pil2stats", "pil3stats", "exc_snap"]
 	found=False
 	
 	for det in detector_list :
@@ -107,12 +108,12 @@ def ct_detectors(detector_list=None):	#Need to make it interpret this as a list 
 			break
 	
 	if found :
-		ct.p2 = "p2" in detector_list
-		ct.p3 = "p3" in detector_list
-		ct.ex = "ex" in detector_list
+		ct.p2 = "p2" in detector_list or  "pil2stats" in detector_list
+		ct.p3 = "p3" in detector_list or  "pil3stats" in detector_list
+		ct.ex = "ex" in detector_list or  "exc_snap" in detector_list
 		print_detectors()
 	else :
-		print "Only exc_snap, pil2stats and pil3stats are compatible with ct command."
+		print "Only ex (exc_snap), p2 (pil2stats) and p3 (pil3stats) are compatible with ct command."
 
 alias("ct")
 alias("ct_detectors")
