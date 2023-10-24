@@ -292,13 +292,21 @@
 		</bean> -->
 	<!-- ==================== Quadra Current Amplifier definition section ===================== -->
 	<!-- Ion Chamber Quadra Current Amplifier -->
-	<bean id="adcqca" class="gda.device.enumpositioner.EpicsLocum4Controller">
+	<bean id="adcqca1" class="gda.device.enumpositioner.EpicsLocum4Controller">
 		<property name="rangePv" value="BL07I-OP-IONC-01:SETRANGE" />
 		<property name="rangeRbvPv" value="BL07I-OP-IONC-01:MRREADBACK" />
 		<property name="current1Pv" value="BL07I-OP-IONC-01:I1" />
 		<property name="current2Pv" value="BL07I-OP-IONC-01:I1" />
 		<property name="current3Pv" value="BL07I-OP-IONC-01:I1" />
 		<property name="current4Pv" value="BL07I-OP-IONC-01:I1" />
+	</bean>
+	<bean id="adcqca2" class="gda.device.enumpositioner.EpicsLocum4Controller">
+		<property name="rangePv" value="BL07I-OP-IONC-02:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-OP-IONC-02:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-OP-IONC-02:I1" />
+		<property name="current2Pv" value="BL07I-OP-IONC-02:I1" />
+		<property name="current3Pv" value="BL07I-OP-IONC-02:I1" />
+		<property name="current4Pv" value="BL07I-OP-IONC-02:I1" />
 	</bean>
 
 	<!-- TODO Why is this the same pvs as bpm1? In the interface xml there is comment referring to this as fake -->
@@ -309,11 +317,14 @@
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="currAmpController" ref="adcqca" />
+		<property name="currAmpController" ref="adcqca1" />
 		<property name="bpmController" ref="adcbpm" />
 	</bean>
-	<bean id="ioncrange" class="gda.device.monitor.EpicsMonitor">
+	<bean id="ionc1range" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-OP-IONC-01:MRREADBACK" />
+	</bean>
+	<bean id="ionc2range" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-OP-IONC-02:MRREADBACK" />
 	</bean>
 
 	<!-- ============================== Epics Enum Positioner definition section 

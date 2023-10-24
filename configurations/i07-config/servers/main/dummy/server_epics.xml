@@ -215,16 +215,18 @@
 -->    
     <!--  ==================== Quadra Current Amplifier definition section ===================== -->
     <!-- Ion Chamber Quadra Current Amplifier-->
-    <bean id="adcqca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+    <bean id="adcqca1" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+    <bean id="adcqca2" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="adcbpm" class="gda.device.monitor.DummyMonitor"/>
 
 	<bean id="adcqbpm" class="gda.device.monitor.DummyQbpm">
-        <property name="currAmpQuadName" value="adcqca"/>
+        <property name="currAmpQuadName" value="adcqca1"/>
         <property name="bpmName" value="adcbpm"/>
     </bean>
 
-    <bean id="ioncrange" class="gda.device.monitor.DummyMonitor" />
+    <bean id="ionc1range" class="gda.device.monitor.DummyMonitor" />
+    <bean id="ionc2range" class="gda.device.monitor.DummyMonitor" />
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
 
