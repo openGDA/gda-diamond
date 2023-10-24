@@ -246,6 +246,7 @@ def flyscan(*args):
     if len(args) < 4:
         raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <start> <stop> <step>' and may be followed by other optional scannables!")
     
+    deadtime_index = -1
     command = "flyscan "
     newargs=[]
     i=0;
@@ -265,14 +266,15 @@ def flyscan(*args):
                 configure_fly_scannable_extraname(arg, flyscannablewraper)
                 i=i+4
         else:
-            newargs.append(arg)
+            if i != deadtime_index:
+                newargs.append(arg)
             if isinstance(arg, Scannable):
                 command += arg.getName() + " "
             if type(arg)==IntType or type(arg)== FloatType:
                 command += str(arg) + " "  
             i=i+1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
+                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
 
     jython_namespace, existing_info = add_command_metadata(command)
     try:
@@ -310,18 +312,20 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
 #adjust motor speed based on total detector exposure time over the flying range
     if (i + 1) < len(args) and (type(args[i + 1]) == IntType or type(args[i + 1]) == FloatType): # calculate detector total time including dead time given
         total_time = (float(args[i]) + float(args[i + 1])) * numpoints
-        i = i + 1
+        deadtime_index = i + 1
     elif globals()['detector_dead_time'] != 0: # I personally don't like this way adding detector dead time but see I16-757 for the reason!
         total_time = (float(args[i]) + globals()['detector_dead_time']) * numpoints
+        deadtime_index = -1 # no dead time input
     else:
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
+        deadtime_index = -1 # no dead time input
     motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
     max_speed = flyscannablewraper.getScannableMaxSpeed()
     if motor_speed > 0 and motor_speed <= max_speed: #when exposure time is too large, change motor speed to roughly match
         flyscannablewraper.setSpeed(motor_speed)
     elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
         flyscannablewraper.setSpeed(max_speed)
-    return i
+    return i, deadtime_index
 
 
 def add_command_metadata(command):
@@ -361,6 +365,7 @@ def flyscancn(*args):
     if len(args) < 3:
         raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <step_size> <number_of_points>' and may be followed by other optional scannables!")
     
+    deadtime_index = -1 # signify no dead time input
     command = "flyscancn "
     newargs=[]
     i=0;
@@ -384,14 +389,15 @@ def flyscancn(*args):
                 configure_fly_scannable_extraname(arg, flyscannablewraper)
                 i=i+3
         else:
-            newargs.append(arg)
+            if i != deadtime_index:
+                newargs.append(arg)
             if isinstance(arg, Scannable):
                 command += arg.getName() + " "
             if type(arg) == IntType or type(arg) == FloatType:
                 command += str(arg) + " "  
             i = i + 1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
+                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
 
     jython_namespace, existing_info = add_command_metadata(command)
     try:
