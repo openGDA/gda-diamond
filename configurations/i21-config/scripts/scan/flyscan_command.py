@@ -6,21 +6,22 @@ A scan that moves a scannable from start position to stop position non-stop or o
 :Usage:
 
 To perform a flyscan of scannable 'tx' over range (start, stop, step) and measure detector 'det' at each step of 'tx'
-    >>>flyscan tx start stop step det [exposure_time] [optional_scannables_to_collect_data_from]
+    >>>flyscan sx start stop step det [exposure_time] [dead_time] [optional_scannables_to_collect_data_from]
     
 To perform a flyscan as the inner most scan of a nested scan
     e.g. perform a scan of 'ty' over range (ystart, ystop, ystep) and at each value of 'ty' perform the above flyscan of 'tx'
-    >>>scan ty ystart ystop ystep flyscannable(tx) FlyScanPositionsProvider(tx, start, stop, step) det [exposure_time]
+    >>>scan sy ystart ystop ystep flyscannable(sx) FlyScanPositionsProvider(sx, start, stop, step) det [exposure_time] [dead_time]
+
 '''
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.scan import ScanPositionProvider, ScanBase
-import gda.jython.commands.ScannableCommands.scan
 import time
 import math
 from gda.device import Scannable, Detector
 from types import IntType, FloatType
 import sys
 from time import sleep
+from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
 
 SHOW_DEMAND_VALUE=False
@@ -166,7 +167,15 @@ class FlyScannable(ScannableBase):
     def restoreMotorSpeed(self):
         if self.origionalSpeed is not None:
             print("Restore motor speed from %r to %r" % (self.speed, self.origionalSpeed))
-            self.scannable.setSpeed(self.origionalSpeed)
+            if self.scannable.isBusy():
+                self.scannable.stop()
+                sleep(2)
+            try:
+                self.scannable.setSpeed(self.origionalSpeed)
+            except:
+                print("Restore motor speed failed with Exception, try again after 5 second sleep")
+                sleep(5)
+                self.scannable.setSpeed(self.origionalSpeed)
             self.origionalSpeed=None
         self.speed=None
         self.alreadyStarted=False
@@ -211,17 +220,28 @@ class FlyScannable(ScannableBase):
         else:
             return self.scannable.getPosition()
 
+#define a global variable for detector dead time - see I16-757
+detector_dead_time = 0.0
+
+def setflyscandeadtime(arg):
+    '''set global variable 'detector_dead_time' for 'flyscan' function to use - see I16-757 for the reason
+    '''
+    globals()["detector_dead_time"] = float(arg)
+    
+def getflyscandeadtime():
+    return globals()["detector_dead_time"]
 
 def flyscan(*args):
     ''' A scan that moves a scannable from start position to stop position non-stop or on the fly and collecting data 
     at specified step points.
     
     :usage: 
-        flyscan scannable start stop step det [exposure_time] [other_scannables]
+        flyscan scannable start stop step det [exposure_time] [dead_time] [other_scannables]
     '''
     if len(args) < 4:
         raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <start> <stop> <step>' and may be followed by other optional scannables!")
     
+    deadtime_index = -1
     command = "flyscan "
     newargs=[]
     i=0;
@@ -235,47 +255,127 @@ def flyscan(*args):
                 stoppos=args[i+2]
                 stepsize=args[i+3]
                 number_steps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
-                flyscannablewraper = FlyScannable(arg)
-                flyscannablewraper.startVal=startpos
-                newargs.append( flyscannablewraper )
-                command += arg.getName() + " "
-                newargs.append( FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize) )
+                
+                newargs, command, flyscannablewraper = create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize)
                 command += " ".join(map(str, [startpos, stoppos, stepsize])) + " "
-                flyscannablewraper.showDemandValue=SHOW_DEMAND_VALUE
-                if SHOW_DEMAND_VALUE:
-                    flyscannablewraper.setExtraNames([arg.getInputNames() [0]+"_demand"])
-                    flyscannablewraper.setOutputFormat([ "%.5g", "%.5g"])
-                else:
-                    flyscannablewraper.setExtraNames([])
-                    flyscannablewraper.setOutputFormat([ "%.5g"])
+                configure_fly_scannable_extraname(arg, flyscannablewraper)
                 i=i+4
         else:
-            newargs.append(arg)
+            if i != deadtime_index:
+                newargs.append(arg)
             if isinstance(arg, Scannable):
                 command += arg.getName() + " "
             if type(arg)==IntType or type(arg)== FloatType:
                 command += str(arg) + " "  
             i=i+1
-            if isinstance(arg, Detector) and i<len(args) and (type(args[i])==IntType or type(args[i])==FloatType):
-                #detector has exposure time set so need to adjust motor speed to match number of of points
-                total_time=float(args[i])*number_steps
-                motor_speed=math.fabs((float(stoppos-startpos))/float(total_time))
-                max_speed=flyscannablewraper.getScannableMaxSpeed()
-                if motor_speed>0 and motor_speed<=max_speed:
-                    #when exposure time is too large, change motor speed to roughly match
-                    flyscannablewraper.setSpeed(motor_speed)
-                elif motor_speed>max_speed:
-                    #when exposure time is small enough use maximum speed of the motor
-                    flyscannablewraper.setSpeed(max_speed)
-        
-    meta.addScalar("user_input", "command", command)
+            if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
+                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
+
+    meta.addScalar("user_input", "cmd", command)
     try:
-        gda.jython.commands.ScannableCommands.scan([e for e in newargs])
+        scan([e for e in newargs])
     finally:
-        meta.rm("user_input", "command")
+        meta.rm("user_input", "cmd")
 
 def flyscannable(scannable, timeout_secs=1.):
     return FlyScannable(scannable, timeout_secs)
 
 from gda.jython.commands.GeneralCommands import alias
 alias('flyscan')
+
+
+def create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize):
+    flyscannablewraper = FlyScannable(arg)
+    flyscannablewraper.startVal = startpos
+    newargs.append(flyscannablewraper)
+    command += arg.getName() + " "
+    newargs.append(FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize))
+    return newargs, command, flyscannablewraper
+
+
+def configure_fly_scannable_extraname(arg, flyscannablewraper):
+    flyscannablewraper.showDemandValue = SHOW_DEMAND_VALUE
+    if SHOW_DEMAND_VALUE:
+        flyscannablewraper.setExtraNames([arg.getInputNames()[0] + "_demand"])
+        flyscannablewraper.setOutputFormat(["%.5g", "%.5g"])
+    else:
+        flyscannablewraper.setExtraNames([])
+        flyscannablewraper.setOutputFormat(["%.5g"])
+
+
+def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper):
+#adjust motor speed based on total detector exposure time over the flying range
+    if (i + 1) < len(args) and (type(args[i + 1]) == IntType or type(args[i + 1]) == FloatType): # calculate detector total time including dead time given
+        total_time = (float(args[i]) + float(args[i + 1])) * numpoints
+        deadtime_index = i + 1
+    elif globals()['detector_dead_time'] != 0: # I personally don't like this way adding detector dead time but see I16-757 for the reason!
+        total_time = (float(args[i]) + globals()['detector_dead_time']) * numpoints
+        deadtime_index = -1 # no dead time input
+    else:
+        total_time = float(args[i]) * numpoints # calculate detector total time without dead times
+        deadtime_index = -1 # no dead time input
+    motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
+    max_speed = flyscannablewraper.getScannableMaxSpeed()
+    if motor_speed > 0 and motor_speed <= max_speed: #when exposure time is too large, change motor speed to roughly match
+        flyscannablewraper.setSpeed(motor_speed)
+    elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
+        flyscannablewraper.setSpeed(max_speed)
+    return i, deadtime_index
+
+def flyscancn(*args):
+    ''' 
+    USAGE:
+    
+    flyscancn scn stepsize numpoints det [exposure_time] [dead_time] [other_scannables]
+  
+    Performs a scan with specified stepsize and numpoints centred on the current scn position, and returns to original position.
+    scn scannable is moving continuousely from start position to stop position non-stop or on the fly and collecting data 
+    at specified step points.
+    '''
+    if len(args) < 3:
+        raise SyntaxError("Not enough parameters provided: You must provide '<scannable> <step_size> <number_of_points>' and may be followed by other optional scannables!")
+    
+    deadtime_index = -1 # signify no dead time input
+    command = "flyscancn "
+    newargs=[]
+    i=0;
+    while i< len(args):
+        arg = args[i]
+        if i==0 :
+            if not isinstance(arg, Scannable):
+                raise SyntaxError("The first argument is not a Scannable!")
+            else:
+                current_position = float(arg.getPosition())
+                stepsize = float(args[i + 1])
+                numpoints = float(args[i + 2])
+                intervals = float(numpoints - 1)
+                halfwidth = stepsize * intervals/2.
+                neg_halfwidth =  stepsize * (-intervals/2.)
+                startpos =  current_position + neg_halfwidth
+                stoppos = current_position + halfwidth
+                
+                newargs, command, flyscannablewraper = create_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize)
+                command += " ".join(map(str, [stepsize, numpoints])) + " "
+                configure_fly_scannable_extraname(arg, flyscannablewraper)
+                i=i+3
+        else:
+            if i != deadtime_index:
+                newargs.append(arg)
+            if isinstance(arg, Scannable):
+                command += arg.getName() + " "
+            if type(arg) == IntType or type(arg) == FloatType:
+                command += str(arg) + " "  
+            i = i + 1
+            if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
+                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
+
+    meta.addScalar("user_input", "cmd", command)
+    try:
+        scan([e for e in newargs])
+    finally:
+        meta.rm("user_input", "cmd")
+        # return to original position
+        flyscannablewraper.scannable.moveTo(current_position)
+        
+alias('flyscancn')
+    

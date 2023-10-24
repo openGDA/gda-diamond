@@ -151,4 +151,4 @@ def checkContentEqual(lst):
     return lst[1:] == lst[:-1]
 
 #cvscan testing 
-# cvscan energy 695 705 1 draincurrent_c 0.1 diff1_c 0.1 m4c1_c 0.1 fy2_c 0.1
+# cvscan energy 600 700 1 draincurrent_c 0.1 diff1_c 0.1 m4c1_c 0.1 fy2_c 0.1
