@@ -149,7 +149,7 @@ from scannable.continuous.continuous_energy_scannables import energy, energy_mov
 from scan.cvscan import cvscan  # @UnusedImport
 from scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
 print("-"*100)
-from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, flyscancn  # @UnusedImport
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
 
