@@ -393,7 +393,7 @@ class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
 
 
     def __init__(self, name, fileWriter, methodScannable, pathInDatafile="#entry/instrument/detector/data"):
-        super(IviumMethodRunner, self).__init__(ServiceProvider.getService(IRunnableDeviceService.class))
+        super(IviumMethodRunner, self).__init__(ServiceProvider.getService(IRunnableDeviceService))
         self.fileWriter = fileWriter
         self.lastReadout = None
         self.pathInDatafile = pathInDatafile
