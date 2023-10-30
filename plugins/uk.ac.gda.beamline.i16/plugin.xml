@@ -164,6 +164,10 @@
                relationship="stack"
                relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
          <view
+               id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:CAM1"
+               relationship="stack"
+               relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
+         <view
                id="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Merlin"
                relationship="stack"
                relative="org.dawb.workbench.plotting.views.toolPageView.2D"/>
