@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans profile="spectrometer">
+		<import resource="file:${gda.config}/servers/main/${gda.mode}/spectrometer/xes-row-motors.xml" />
+		<import resource="xes-constants.xml" />
+		<import resource="xes-row.xml" />
+	</beans>
+
+</beans>

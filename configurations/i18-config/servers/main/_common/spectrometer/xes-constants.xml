@@ -12,12 +12,6 @@
            http://www.springframework.org/schema/context 
            http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="xes_2d_plotter" class="gda.device.scannable.TwoDScanPlotter" >
-		<property name="plotViewname" value="2d XES Scan plot" />
-		<property name="rcpController" ref="RCPController" />
-		<property name="openPlotViewAtScanStart" value="true" />
-	</bean>
-
 	<util:list id="crystalCutList">
 		<value>0</value>
 		<value>1</value>

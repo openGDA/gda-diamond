@@ -6,8 +6,8 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-<!-- Dummy motors for XES lower row analysers  
-(force dummy mode, so they can be used as dummy motors in 'live' mode)-->
+<!-- Dummy motors for XES analyser and detector stages  
+(force dummy mode, so they can be used as dummy motors in 'live' mode) -->
 
 	<gda:motor id="minus1_x" live-class="#dummy" />
 	<gda:motor id="minus1_y" live-class="#dummy" />

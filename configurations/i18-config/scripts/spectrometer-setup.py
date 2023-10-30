@@ -1,6 +1,6 @@
 # Functions for setting up intial values on XES spectrometer objects
 
-def set_initial_crystal_values(xesEnergyScannable):
+def set_initial_crystal_values(xesEnergyScannable, initialRadius=500.0):
     """ 
         Set initial values of allowedToMove scannables for XES spectrometer crystals
     """
@@ -14,17 +14,17 @@ def set_initial_crystal_values(xesEnergyScannable):
             print "Setting initial value of {0} to 1".format(scn.getName())
             scn.moveTo(1)
 
-    xesEnergyScannable.getXes().getRadiusScannable().moveTo(1000.)
+    xesEnergyScannable.getXes().getRadiusScannable().moveTo(initialRadius)
     
 
-def setup_dummy_spectrometer(xesEnergyScannable) :
+def setup_dummy_spectrometer(xesEnergyScannable, radiusValue=500.0) :
     """
         Setup initial values for dummy XES spectrometer :
         - Crystal type = Si (if not set),
-        - Radius = 1000, 
+        - Radius = radiusValue (default = 500), 
         - Crystal cuts to 1, all crystals allowed to move
         - Fast motor speeds
-        - Initial energy = 2000eV
+        - Initial Bragg angle = 0.5*(mintheta + maxTheta)
         
     """
     print("Setting up XESEnergyScannable %s ..."%(xesEnergyScannable.getName()))
@@ -32,11 +32,7 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
         xesEnergyScannable.getMaterial().moveTo("Si")
 
     defSpeed = 10000.0
-    radiusValue = 1000.0
     spectrometerScannable = xesEnergyScannable.getXes()
-    
-    # Set the trajector size so a large detector move doesn't take too long
-    spectrometerScannable.setTrajectoryStepSize(2.0)
     
     # Set the speed of all the scannables
     for scn in spectrometerScannable.getScannables() :
@@ -45,11 +41,7 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
 
     # Set some positions so Bragg calculation can work correctly
     spectrometerScannable.getRadiusScannable().moveTo(radiusValue)
-    if spectrometerScannable.getSpectrometerX() != None : 
-        spectrometerScannable.getSpectrometerX().moveTo(radiusValue)
-         
-    spectrometerScannable.getDetYScannable().moveTo(475.0)
-
+    
     # Set the crystal cuts
     print("Setting crystal cut values to 1")
     xesEnergyScannable.getCut1().moveTo(1)
@@ -63,7 +55,8 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
         for allowedToMove in allowedToMoveGrp.getGroupMembers() :
             allowedToMove.moveTo("true")
         
-    print "Moving to 2000 eV"
-    xesEnergyScannable.moveTo(2000)
+    mid_theta = (spectrometerScannable.getMinTheta() + spectrometerScannable.getMaxTheta())*0.5
+    print "Moving to mid Bragg angle ("+str(mid_theta)+" degrees)"
+    spectrometerScannable.moveTo(mid_theta)
     
     print("Finished")
