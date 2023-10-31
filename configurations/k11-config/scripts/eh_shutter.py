@@ -12,7 +12,8 @@ from interlocks import eh_non_critical_jy, eh1_searched_locked_jy
 
 if is_live():
     from gda.device.enumpositioner import EpicsValve # @UnresolvedImport
-    from gas_saving.live import EpicsValveController, WaitForGas
+    from gas_saving.live import EpicsValveController
+    from gas_saving.wait_for_gas import WaitForGas
     
     shutter = EpicsValve()
     shutter.setEpicsRecordName("BL11K-PS-SHTR-01")
