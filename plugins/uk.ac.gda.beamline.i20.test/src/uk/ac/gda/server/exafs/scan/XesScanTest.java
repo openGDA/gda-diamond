@@ -325,7 +325,7 @@ public class XesScanTest {
 		Mockito.when(mockScan.getScanPlotSettings()).thenReturn(mockPlotSettings);
 
 		// then stub the factory method and make sure that it always retruns the stub
-		Mockito.when(ScannableCommands.createConcurrentScan(any())).thenReturn(mockScan);
+		Mockito.when(ScannableCommands.createConcurrentScan(any(Object[].class))).thenReturn(mockScan);
 
 	}
 
