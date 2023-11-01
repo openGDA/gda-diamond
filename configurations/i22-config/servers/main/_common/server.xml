@@ -24,6 +24,9 @@
 
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
+	<!-- GDA REST Server -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
+
     <import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
     <import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
     <import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
