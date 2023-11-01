@@ -4,10 +4,10 @@
     <detectorConfiguration>
         <description>Ionchambers (I1)</description>
         <detectorName>I1</detectorName>
+        <alwaysUseDetectorInScan>true</alwaysUseDetectorInScan>
         <configFileName></configFileName>
         <scriptCommand></scriptCommand>
         <useDetectorInScan>true</useDetectorInScan>
-        <alwaysUseDetectorInScan>true</alwaysUseDetectorInScan>
         <useConfigFile>false</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>
