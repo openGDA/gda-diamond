@@ -309,7 +309,7 @@ class Keithley2461Voltage(ScannableMotionBase):
             self._busy = True
             self.keithley.sourceValue("VOLT", value)
             self.keithley.prepare_trace_buffer(self.count)
-            self.keithley.acquire_data(self.count)()
+            self.keithley.acquire_data(self.count)
         finally:
             self._busy = False
         
