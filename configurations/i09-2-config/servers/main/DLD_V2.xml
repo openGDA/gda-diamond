@@ -59,10 +59,8 @@
 		<property name="collectionStrategy" ref="dldCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dld_RoiStats1" />
-				<ref bean="dld_RoiStats2" />
-<!-- 				<ref bean="dld_RoiStats3" /> -->
 				<ref bean="dldImageStats" />
+				<ref bean="dld_RoiStats1" />
 				<ref bean="dldHdf5Filewriter"/>
 			</list>
 		</property>

@@ -12,6 +12,8 @@
 				<property name="ndProcess" ref="dld_proc_summed"/>
 				<property name="processDataTypeOut" value="8"/>
 				<property name="restoreState" value="true"/>
+				<property name="applyFlatFieldSettings"	value="false"/>
+				<property name="applyProcessDataTypeOutSettings" value="false"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
@@ -68,10 +70,8 @@
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dld_summed_RoiStats1" />
-<!-- 				<ref bean="dld_summed_RoiStats2" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats3" /> -->
 				<ref bean="dldImageStats_summed" />
+				<ref bean="dld_summed_RoiStats1" />
 				<ref bean="dldSummedHdf5Filewriter" />
 			</list>
 		</property>
