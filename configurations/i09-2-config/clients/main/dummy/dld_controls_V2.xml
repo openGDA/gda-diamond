@@ -63,4 +63,12 @@
 
 	</bean>
 	
+	<bean id="numFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
+	</bean>
+	
+	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFiltered_RBV"/>
+	</bean>
+	
 </beans>

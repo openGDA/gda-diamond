@@ -58,9 +58,13 @@
 			</list>
 		</property>	
 	</bean>
-	<bean id="summ_time_monitor" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09K-EA-DET-01:PROC1:NumFilter"/>
 
+	<bean id="numFilter" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:PROC1:NumFilter"/>
+	</bean>
+	
+	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:PROC1:NumFiltered_RBV"/>
 	</bean>
 	
 </beans>
