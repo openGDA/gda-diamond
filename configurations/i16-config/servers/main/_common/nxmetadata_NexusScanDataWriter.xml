@@ -39,10 +39,25 @@
 		 -->
 	</bean>
 
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="sample" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXsample"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="surface_vector"/>
+					<property name="scannableName" value="ubMeta"/>
+					<property name="componentIndex" value="1"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="beam" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
 		<property name="name" value="beam" />
-		<property name="incidentEnergyScannableName" value="en" />
-		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
+		<property name="incidentEnergyScannableName" value="en" /> <!-- incident_energy -->
+		<!-- 
 		<property name="incidentBeamDivergenceScannableName" value="dummy1" />
 		<property name="incidentPolarizationScannableName" value="dummy1" />
 		<property name="beamExtentScannableName" value="dummy1" />
@@ -265,6 +280,7 @@
 				<value>metadata</value>
 				<value>attenuator</value>
 				<value>compatibility</value>
+				<value>sample</value>
 			</set>
 		</property>
 	</bean>
@@ -281,12 +297,13 @@
 		<!-- Clear the nexusTemplateFiles if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter' as
 			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
-			<list>
+			<list> <!-- Order here matters. If compatibility is earlier than NXclassic_scan, for instance,
+						then before_scan doesn't get created before it is 
+			 -->
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
 				<value>${gda.config}/yaml/compatibility.yaml</value>
 				<!-- 
 				<value>${gda.config}/yaml/locationMap.yaml</value>
-				<value>${gda.config}/yaml/temp.yaml</value>
 				 -->
 				<value>${gda.config}/yaml/NXdetector_merlin.yaml</value>
 				<value>${gda.config}/yaml/NXdetector_merlins.yaml</value>

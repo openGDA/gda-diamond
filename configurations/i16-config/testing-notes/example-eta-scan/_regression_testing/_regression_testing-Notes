@@ -23,7 +23,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023090086	NDW	DWE	LF		Dummy	NXPDW	pil3	NDW baseline: scancn eta 0.02 5 pil3_100k 1 roi1
 2023090092	NSD				Dummy	NXD/NDP	pil3	Switch pil3_100k to NexusDetectorProcessor
 2023110003	NSD				Dummy	NXD/NDP	pil3	Add rois as standard & switch to 'CoCO3_11Oct_21'
-
+2023110077	NSD				Dummy	NXD/NDP	pil3	Add surface vector normal
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper

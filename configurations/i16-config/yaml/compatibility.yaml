@@ -11,9 +11,8 @@ entry1/:
   # it more obvious when things are missing from NSD nexus files.  
   # -----------------------------------------------------------------------
 
-  # Since this causes validation to fail, with I16-653 unresolved, add in a
-  # depends_on in sample.
   sample/:
+    # Since a missing depends_on in sample causes validation to fail, add it
     NX_class@: NXsample
     depends_on: /entry1/instrument/kphi/value
 

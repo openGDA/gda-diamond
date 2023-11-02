@@ -72,6 +72,6 @@ echo SCAN=$SCAN BASELINE=$BASELINE VISIT=$VISIT
 
 	To copy the structure files to the archive
 
-cp $VISIT/$SCAN.dat $VISIT/$SCAN.nxs.* . ;
+cp $VISIT/$SCAN.dat $VISIT/$SCAN.nxs.* .
 
 ================================================================================
