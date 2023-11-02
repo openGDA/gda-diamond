@@ -1661,31 +1661,8 @@ else:
 
 localStation_print("Setting diffcalc ubmeta scannable")
 try:
-	from gda.device.scannable import ScannableBase
-	from __builtin__ import False
-	try:
-		import json
-	except ImportError:
-		import simplejson as json
-
-	from diffcalc.ub.calcstate import UBCalcStateEncoder
-
-	class UBCalcMetadata (ScannableBase):
-		def __init__(self, name):
-			self.name = name
-
-		def getPosition(self):
-			if ubcalc is not None or ubcalc._state is not None:
-				return json.dumps(ubcalc._state, cls=UBCalcStateEncoder)
-			return None
-
-		def rawAsynchronousMoveTo(self, position):
-			pass
-
-		def isBusy(self):
-			return False
-
-	ubMeta = UBCalcMetadata("ubMeta")
+	from localStationScripts.UBCalcMetadata import UBCalcMetadata
+	ubMeta = UBCalcMetadata("ubMeta", ubcalc)
 except:
 	localStation_exception("setting diffcalc ubmeta scannable")
 
