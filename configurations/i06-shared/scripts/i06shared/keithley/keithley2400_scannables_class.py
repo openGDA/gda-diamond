@@ -32,39 +32,29 @@ class Keithley2400Current(ScannableMotionBase):
         self.keithley = keithley
         self.setInputNames(["Current"])
         self.setExtraNames(["Voltage", "Resistance"])
-        self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
+        self.setOutputFormat(['%10.6f','%10.6f','%10.6e'])
         self.timeout = 1.0 # EPICS Asyn communication timeout
         self.setLevel(5)
         self.NPLC = 0.5 #the number of power line cycles range from 0.01 to 10 with 0.01 resulting in the fastest reading rates and 10 resulting in the lowest reading noise.
         self._busy = False
         self.inScan = False
         self._count = 1
-        self.use4wire = True
         self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
-        self.voltage_limit = 10
         self.logger = logger.getChild(self.__class__.__name__)
         
     def configure(self):
         self.keithley.reset() #Both *RST and :SYSTem:PREset enables source auto range
         self.keithley.senseFunction("VOLT")
         self.keithley.senseAutoRange('VOLT', 'ON')
-        if self.use4wire:
-            self.set4Wire()
-        else:
-            self.set2Wire()
+        self.keithley.set_compliance('VOLT', 'MAX')
+
         self.keithley.sourceFunction('CURR')
-        # self.keithley.source_mode('CURR', 'FIXed')
+        self.keithley.source_mode('CURR', 'FIXed')
         self.keithley.senseFunctionNPLC("VOLT",self.NPLC)
-        self.keithley.specify_data_elements("CURR", "VOLT")
+        # self.keithley.specify_data_elements("CURR", "VOLT")
         sleep(self.config_wait)
-        
-    def set4Wire(self):
-        self.keithley.senseRsense('VOLT', 'ON')
-        
-    def set2Wire(self):
-        self.keithley.senseRsense('VOLT', 'OFF')        
         
     def atScanStart(self):
         self.configure()
@@ -103,7 +93,7 @@ class Keithley2400Current(ScannableMotionBase):
         if self.count == 1:
             self.setInputNames(["Current"])
             self.setExtraNames(["Voltage", "Resistance"])
-            self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
+            self.setOutputFormat(['%10.6f','%10.6f','%10.6e'])
         if self.count > 1:
             input_names = []
             extra_names = []
@@ -117,7 +107,7 @@ class Keithley2400Current(ScannableMotionBase):
                 extra_names.append("Resistance_" + str(i))
                 output_formats.append("%10.6f")
                 output_formats.append("%10.6f")
-                output_formats.append("%10.6f")
+                output_formats.append("%10.6e")
             self.setOutputFormat(output_formats)
             self.setInputNames(input_names)
             self.setExtraNames(extra_names)
@@ -129,23 +119,18 @@ class Keithley2400Current(ScannableMotionBase):
             data = [float(x) for x in str(returned_value).split(",")]
     
             if self.count == 1:
-                current = data[0]
-                voltage = data[1]
-                resistance = voltage/current
-                self.logger.debug("Current value is %f, Voltage value is %f, Resistance is %f" % (current, voltage, resistance))
+                voltage = data[0]
+                current = data[1]
+                resistance = voltage / current
+                timestamp = data[3]
+                status = data[4]
+                self.logger.debug("Current value is %f, Voltage value is %f, Resistance is %f, Time at %f, Status is %f" % (current, voltage, resistance, timestamp, status))
                 data = [current, voltage, resistance]
             if self.count > 1:
-                input_data = []
-                extra_data = []
-                resistance_data = []
-                for i in range(len(data)):
-                    if i % 2 == 0: #even index
-                        input_data.append(data[i])
-                    if i % 2 == 1: #odd index
-                        extra_data.append(data[i])
-                for vol, cur in zip(extra_data,input_data):
-                    resistance_data.append(vol/cur)
-                self.logger.debug("Current value is %s, Voltage value is %s, Resistance is %s" % (str(input_data), str(extra_data), str(resistance_data)))
+                sliced_data = [data[x:x+5] for x in range(0,len(data),5)]
+                extra_data, input_data, resistance_data, time_data, status_data = zip(*sliced_data)
+                resistance_data = [voltage / current for voltage, current in zip(extra_data, input_data)]
+                self.logger.debug("Current value is %s, Voltage value is %s, Resistance is %s, Time at %s, Status is %s" % (str(input_data), str(extra_data), str(resistance_data), str(time_data), str(status_data)))
                 data = []
                 #reorder data to match GDA input names and extra names order
                 for each in zip(input_data, extra_data, resistance_data):
@@ -162,7 +147,6 @@ class Keithley2400Current(ScannableMotionBase):
             self._busy = True
             self.keithley.sourceValue("CURR", value)
             self.keithley.prepare_trace_buffer(self.count)
-            sleep(0.5)
             self.keithley.acquire_data(self.count)
         finally:
             self._busy = False
@@ -180,40 +164,30 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.keithley = keithley
         self.setInputNames(["Voltage"])
         self.setExtraNames(["Current", "Resistance"])
-        self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
+        self.setOutputFormat(['%10.6f','%10.6f','%10.6e'])
         self.setLevel(5)
         self.timeout = 1.0 # EPICS Asyn communication timeout
         self.NPLC = 0.5 #the number of power line cycles range from 0.01 to 10 with 0.01 resulting in the fastest reading rates and 10 resulting in the lowest reading noise.
         self._busy = False
         self.inScan = False
         self._count = 1
-        self.use4wire = True
         self._read_wait = 0.2
         self.config_wait = 2.0
         self._epics_wait = 0.1
-        self.current_limit = 1.0
         self.logger = logger.getChild(self.__class__.__name__)
         
     def configure(self):
         self.keithley.reset()
         self.keithley.senseFunction("CURR")
         self.keithley.senseAutoRange('CURR', 'ON')
-        if self.use4wire:
-            self.set4Wire()
-        else:
-            self.set2Wire()
+        self.keithley.set_compliance('CURR', 'MAX')
+
         self.keithley.sourceFunction('VOLT')
-        # self.keithley.source_mode('VOLT', 'FIXed')
+        self.keithley.source_mode('VOLT', 'FIXed')
         self.keithley.senseFunctionNPLC("CURR", self.NPLC)
-        self.keithley.specify_data_elements("VOLT", "CURR")
+        # self.keithley.specify_data_elements("VOLT", "CURR")
         sleep(self.config_wait)
         
-    def set4Wire(self):
-        self.keithley.senseRsense('CURR', 'ON')
-        
-    def set2Wire(self):
-        self.keithley.senseRsense('CURR', 'OFF')        
-
     def atScanStart(self):
         self.configure()
         self.inScan = True
@@ -252,7 +226,7 @@ class Keithley2400Voltage(ScannableMotionBase):
         if self.count == 1:
             self.setInputNames(["Voltage"])
             self.setExtraNames(["Current", "Resistance"])
-            self.setOutputFormat(['%10.6f','%10.6f','%10.6f'])
+            self.setOutputFormat(['%10.6f','%10.6f','%10.6e'])
         if self.count > 1:
             input_names = []
             extra_names = []
@@ -266,7 +240,7 @@ class Keithley2400Voltage(ScannableMotionBase):
                 extra_names.append("Resistance_" + str(i))
                 output_formats.append("%10.6f")
                 output_formats.append("%10.6f")
-                output_formats.append("%10.6f")
+                output_formats.append("%10.6e")
             self.setOutputFormat(output_formats)
             self.setInputNames(input_names)
             self.setExtraNames(extra_names)
@@ -274,32 +248,30 @@ class Keithley2400Voltage(ScannableMotionBase):
     def getPosition(self):
         returned_value = self.keithley.get_response(self.timeout)
         self.logger.debug("Keithley returns are %s" % returned_value)
-        data = [float(x) for x in str(returned_value).split(",")]
-        
-        if self.count == 1:
-            voltage = data[0]
-            current = data[1]
-            resistance = voltage/current
-            self.logger.debug("Voltage value is %f, Current value is %f, Resistance is %f" % (voltage, current, resistance))
-            data = [voltage, current, resistance]
-        if self.count > 1:
-            #parse the returned data
-            input_data = []
-            extra_data = []
-            resistance_data = []
-            for i in range(len(data)):
-                if i % 2 == 0: #even index
-                    input_data.append(data[i])
-                if i % 2 == 1: #odd index
-                    extra_data.append(data[i])
-            for vol, cur in zip(input_data,extra_data):
-                resistance_data.append(vol/cur)
-            self.logger.debug("Voltage value is %s, Current value is %s, Resistance is %s" % (str(input_data), str(extra_data), str(resistance_data)))
-            data = []
-            #reorder data to match GDA input names and extra names order
-            for each in zip(input_data, extra_data, resistance_data):
-                [data.append(x) for x in each]          
-        return data
+        try:
+            data = [float(x) for x in str(returned_value).split(",")]
+            
+            if self.count == 1:
+                voltage = data[0]
+                current = data[1]
+                resistance = voltage / current
+                timestamp = data[3]
+                status = data[4]
+                self.logger.debug("Voltage value is %f, Current value is %f, Resistance is %f, Time at %f, Status is %f" % (voltage, current, resistance, timestamp, status))
+                data = [voltage, current, resistance]
+            if self.count > 1:
+                sliced_data = [data[x:x+5] for x in range(0,len(data),5)]
+                input_data, extra_data, resistance_data, time_data, status_data = zip(*sliced_data)
+                resistance_data = [voltage / current for voltage, current in zip(input_data, extra_data)]
+                self.logger.debug("Voltage value is %s, Current value is %s, Resistance is %s, Time at %s, Status is %s" % (str(input_data), str(extra_data), str(resistance_data), str(time_data), str(status_data)))
+                data = []
+                #reorder data to match GDA input names and extra names order
+                for each in zip(input_data, extra_data, resistance_data):
+                    [data.append(x) for x in each]
+            return data
+        except:
+            print("response from %s is %s" % (self.getName(), returned_value))            
+            raise
 
     def asynchronousMoveTo(self, value):
         if not self.inScan:
@@ -308,7 +280,6 @@ class Keithley2400Voltage(ScannableMotionBase):
             self._busy = True
             self.keithley.sourceValue("VOLT", value)
             self.keithley.prepare_trace_buffer(self.count)
-            sleep(0.5)
             self.keithley.acquire_data(self.count)
         finally:
             self._busy = False

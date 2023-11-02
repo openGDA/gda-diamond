@@ -171,7 +171,7 @@ class EpicsKeithleySourceMeter(object):
     def reset(self):
         '''resets the instrument settings to their default values and clears the reading buffers.
         '''
-        self.send_command_no_reply('*RST')
+        self.send_command_no_reply("*RST")
         
     def outputOn(self):
         '''
@@ -205,6 +205,9 @@ class EpicsKeithleySourceMeter(object):
             self.send_command('TRACe:ACTual? "' + str(buffer_name) + '"')
         if self.model == 2400:
             self.send_command('TRACe:POINts:ACTual?')
+            # sleep required otherwise get_response() returns '?'
+            while self.get_response() == '?':
+                sleep(self.read_wait) 
         return int(self.get_response()) == 0
     
     def numberOfReadingInBuffer(self, buffer_name):
@@ -214,19 +217,22 @@ class EpicsKeithleySourceMeter(object):
             raise AttributeError("Command  'TRACe:ACTual:END? 'is not supported in model 2400")
         return int(self.get_response())
     
+    def set_compliance(self, func, level):
+        if self.model == 2400:
+            self.send_command_no_reply(":SENSe:" + str(func) + ":PROT " + str(level))
+            
     def specify_data_elements(self, *args):
         '''
         specify the elements to be included in the data string. You can specify one to five elements. Valid elements are VOLT, CURR, RES,TIME, STAT 
         '''
         if self.model == 2400:
             valid_inputs = ["VOLT", "CURR", "RES", "TIME", "STAT"]
-            arg = ""
-            for each in args:
-                if each in valid_inputs:
-                    arg += ", " + str(each)
-                else:
-                    raise ValueError("input value '%s' not valid. Valid value must be in %s" % (each, valid_inputs))
-            command = ":FORMat:ELEMents" + arg   
+            separator = ","
+            if set(args).issubset(valid_inputs):
+                arg = separator.join(args)
+            else:
+                raise ValueError("input value '%s' not valid. Valid value must be in %s" % (args, valid_inputs))
+            command = ":FORMat:ELEMents " + arg   
             self.send_command_no_reply(command)
         if self.model == 2461:
             raise AttributeError("Command '%s' is not supported in model 2461" % command)
@@ -238,7 +244,7 @@ class EpicsKeithleySourceMeter(object):
         self.outputOn()
         if self.model == 2461:
             self.send_command_no_reply('TRACe:TRIGger "defbuffer1"')
-            while self.numberOfReadingInBuffer("defbuffer1") < count: # should be self.count*2, but keithley does not fill buffer with sour, read as pair at the same time.
+            while self.isBufferClear("defbuffer1"):
                 sleep(self.read_wait)
             self.send_command('TRACe:DATA? 1, ' + str(count) + ', "defbuffer1", SOUR, READ')
         if self.model == 2400:
@@ -247,6 +253,9 @@ class EpicsKeithleySourceMeter(object):
             if self.use_trace_buffer:
                 self.send_command_no_reply(":INIT")
                 self.send_command(":TRACE:DATA?")
+                # sleep required otherwise get_response() returns '+'
+                while self.get_response() == '+':
+                    sleep(self.read_wait)
         self.outputOff()
                 
     def prepare_trace_buffer(self, count):
@@ -256,7 +265,7 @@ class EpicsKeithleySourceMeter(object):
         if self.model == 2400:
             self.clearBuffer()
             while not self.isBufferClear():
-                sleep(0.1)
+                sleep(self.read_wait)
             if self.use_trace_buffer:
                 self.send_command_no_reply(":TRAC:FEED SENS") #Store raw readings in buffer.
                 self.send_command_no_reply(":TRAC:POIN " + str(count)) #Store count readings in buffer.
@@ -280,7 +289,10 @@ class EpicsKeithleySourceMeter(object):
     def sourceLimit(self, func, limit):
         '''set voltage limit in source current mode
         '''
-        command = "SOUR:"+ str(func) + ":VLIM " + str(limit)
+        if str(func) in ['VOLT', 'VOLTage']:
+            command = "SOUR:"+ str(func) + ":ILIM " + str(limit)
+        if str(func) in ['CURR', 'CURRent']:
+            command = "SOUR:"+ str(func) + ":VLIM " + str(limit)
         if self.model == 2461:
             self.send_command_no_reply(command)
         if self.model == 2400:
