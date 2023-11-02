@@ -6,22 +6,19 @@
 
 	<bean id="dldSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 		<property name="ndArray" ref="dld_summed_ndarray"/>
-		<property name="arrayPortName" value="DEV1"/>
+		<property name="arrayPortName" value="#{dld_proc_summed.getPortName_RBV()}"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
-				<property name="ndProcess" ref="dld_proc"/>
-				<property name="processDataTypeOut" value="5"/>
+				<property name="ndProcess" ref="dld_proc_summed"/>
+				<property name="processDataTypeOut" value="8"/>
+				<property name="restoreState" value="true"/>
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
-						<property name="restoreNumImagesAndImageMode" value="true"/>
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-								<property name="decoratee">
-									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-										<property name="adBase" ref="dld_adbase" />
-										<property name="restoreAcquireState" value="true"/>
-									</bean>
-								</property>
+							<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
+								<property name="ndProcess" ref="dld_proc_summed"/>
+								<property name="adBase" ref="dld_adbase" />
+								<property name="procMonitorPV" value="#{dld_summed_stats.getBasePVName()}ArrayCounter_RBV" />
 							</bean>
 						</property>
 					</bean>
@@ -48,7 +45,7 @@
 		<property name="attrByDim" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="SwmrModeEnabled" value="false"/>
-		<property name="ndArrayPortVal" value="PROC1"/>
+ 		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
 	</bean>
 	
 	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
@@ -62,7 +59,7 @@
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="keyNameForMetadataPathTemplate" value="dld_path_template" />
-		<property name="ndArrayPortVal" value="PROC1"/>
+ 		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
 	</bean>
 
 	<!-- NXDetector -->
@@ -71,12 +68,9 @@
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-<!-- 				<ref bean="dld_summed_RoiStats1" /> -->
+				<ref bean="dld_summed_RoiStats1" />
 <!-- 				<ref bean="dld_summed_RoiStats2" /> -->
 <!-- 				<ref bean="dld_summed_RoiStats3" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats4" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats5" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats6" /> -->
 				<ref bean="dldImageStats_summed" />
 				<ref bean="dldSummedHdf5Filewriter" />
 			</list>
@@ -87,12 +81,9 @@
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-<!-- 				<ref bean="dld_summed_RoiStats1" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats2" /> -->
+				<ref bean="dld_summed_RoiStats1" />
+				<ref bean="dld_summed_RoiStats2" />
 <!-- 				<ref bean="dld_summed_RoiStats3" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats4" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats5" /> -->
-<!-- 				<ref bean="dld_summed_RoiStats6" /> -->
 				<ref bean="dldImageStats_summed" />
 				<ref bean="dldSummedTiffFileWriter" />
 			</list>

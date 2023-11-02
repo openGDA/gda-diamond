@@ -45,8 +45,8 @@
 	<import resource="shutters.xml"/>
 	
 	<import resource="dummy_endstation.xml" />
-	<import resource="DLD.xml"/>
-	<import resource="DLD_SUMMED.xml"/>
+	<import resource="DLD_V2.xml"/>
+	<import resource="DLD_SUMMED_V2.xml"/>
 	<import resource="Microscope.xml"/>
 
 	<import resource="../main_common.xml" />

@@ -42,25 +42,24 @@
 		<property name="textWidth" value="85"/>
 		<property name="userUnits" value="ns" />
 	</bean>
-	<bean id="dld_hist_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="hist. length" />
+<!-- 	<bean id="dld_hist_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl"> -->
+<!-- 		<property name="displayName" value="hist. length" /> -->
+<!-- 		<property name="group" value="DLD" /> -->
+<!-- 		<property name="scannableName" value="dldHistogramLength"/> -->
+<!-- 		<property name="textWidth" value="85"/> -->
+<!-- 		<property name="userUnits" value="s" /> -->
+<!-- 	</bean> -->
+	<bean id="dld_summ_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value=" Sum frames number " />
 		<property name="group" value="DLD" />
-		<property name="scannableName" value="dldHistogramLength"/>
+		<property name="scannableName" value="summ_time_monitor"/>
 		<property name="textWidth" value="85"/>
-		<property name="userUnits" value="s" />
 	</bean>
-	<bean id="dld_accum_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Accum. time " />
+	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="clear_summed_data()" />
+		<property name="buttonText" value="Clear Summed Data" />
 		<property name="group" value="DLD" />
-		<property name="scannableName" value="accum_time_monitor"/>
-		<property name="textWidth" value="85"/>
-		<property name="userUnits" value="s" />
-	</bean>
-	<bean id="dld_clear_accumulation" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="clear_accumulated_data()" />
-		<property name="buttonText" value="Clear Acc.Data" />
-		<property name="group" value="DLD" />
-		<property name="buttonTooltip" value="Clear accumulated data"/>
+		<property name="buttonTooltip" value="Clear summed data"/>
 	</bean>	
 
 	<bean id="count_rate" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">

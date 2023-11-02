@@ -25,8 +25,8 @@
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
 		<property name="useNameAsExtraName" value="true" />
 	</bean>
-	<import resource="dld_controls.xml"/>
-	<import resource="stream_views.xml"/>
+	<import resource="dld_controls_V2.xml"/>
+	<import resource="stream_views_V2.xml"/>
 
 	<import resource="../_common/client.xml" />
 </beans>
