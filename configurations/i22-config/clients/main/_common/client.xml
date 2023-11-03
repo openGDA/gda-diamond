@@ -17,11 +17,9 @@
     <import resource="mapping/mapping_view.xml"/>
     <import resource="mapping/tomo_scan.xml"/>
 
-    <bean id="bragg_calibration_service" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-    <bean class="gda.util.osgi.OSGiServiceRegister">
-        <property name="class" value="uk.ac.gda.server.ncd.calibration.BraggCalibrationService" />
-        <property name="service" ref="bragg_calibration_service" />
-    </bean>
+    <gda:proxy id="bragg_calibration_service" >
+        <gda:service interface="uk.ac.gda.server.ncd.calibration.BraggCalibrationService" />
+    </gda:proxy>
 
     <gda:proxy id="sampleRackService">
         <gda:service interface="uk.ac.gda.server.ncd.samplerack.SampleRackService" />
