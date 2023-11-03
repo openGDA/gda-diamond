@@ -58,12 +58,14 @@ hda_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
 main_lenses_group = [m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1]
 stig_group = [m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7]
 downstream_group = [m1c1, m1c2, m1c3, m1c4, m1c7]
+HDA_PEEM_group = [m1c0, m0c2, m0c3, m0c5, m0c6, m1c7]
 MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c6, m1c7]
 
 hda = ISegGroup("hda", hda_group)
 mainlenses = ISegGroup("mainlenses", main_lenses_group)
 stig = ISegGroup("stig", stig_group)
 downstream = ISegGroup("downstream", downstream_group)
+hda_peem = ISegGroup("hda_peem", HDA_PEEM_group)
 MM = ISegGroup("MM", MM_group)
 
 
@@ -94,6 +96,15 @@ def downstream_off(group = downstream_group):
     [each.off() for each in group]
 alias("downstream_on")
 alias("downstream_off")
+
+def hda_peem_on(group=HDA_PEEM_group):
+    [each.on() for each in group]
+def hda_peem_off(group=HDA_PEEM_group):
+    [each.off() for each in group]
+def hda_peem_set(voltage, group=HDA_PEEM_group):
+    [each.rawAsynchronousMoveTo(voltage) for each in group]
+alias("hda_peem_on")
+alias("hda_peem_off")
 
 def MM_on(group=MM_group):
     [each.on() for each in group]

@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- DLD Controls in Live Stream Views-->
+	<bean id="dld_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure " />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dldExposureTime"/>
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="dld_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period " />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dldAcquirePeriod" />
+		<property name="textWidth" value="85"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="dld_state_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="State" />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dldState" />
+		<property name="textWidth" value="50"/>
+	</bean>
+
+	<bean id="dld_time_start_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="time start" />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dldTimeStart"/>
+		<property name="textWidth" value="51"/>
+		<property name="userUnits" value="ns" />
+	</bean>
+	<bean id="dld_time_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="length " />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dldTimeLength"/>
+		<property name="textWidth" value="85"/>
+		<property name="userUnits" value="ns" />
+	</bean>
+<!-- 	<bean id="dld_hist_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl"> -->
+<!-- 		<property name="displayName" value="hist. length" /> -->
+<!-- 		<property name="group" value="DLD" /> -->
+<!-- 		<property name="scannableName" value="dldHistogramLength"/> -->
+<!-- 		<property name="textWidth" value="85"/> -->
+<!-- 		<property name="userUnits" value="s" /> -->
+<!-- 	</bean> -->
+	<bean id="dld_frames_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value=" Set sum frames " />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="numFilter"/>
+		<property name="textWidth" value="85"/>
+	</bean>
+	
+	<bean id="dld_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+		<property name="displayName" value=" Frames acquired " />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="numFilter_monitor"/>
+		<property name="textWidth" value="80"/>
+		<property name="valueColour" value="9" />
+		<property name="valueTextSize" value="12" />
+		<property name="labelTextSize" value="12"/>
+		<property name="boldValue" value="true"/>
+		<property name="valueThreshold" value="1000"/>
+		<property name="aboveThresholdColour" value="3"/>
+	</bean>
+	
+	<bean id="dld_frames_monitor_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="dld_frames_monitor" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="clear_summed_data()" />
+		<property name="buttonText" value="Clear Summed Data" />
+		<property name="group" value="DLD" />
+		<property name="buttonTooltip" value="Clear summed data"/>
+	</bean>	
+
+	<bean id="count_rate" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+		<property name="displayName" value="Intensity (cps)" />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="count_rate_monitor" />
+		<property name="textWidth" value="170" />
+		<property name="valueColour" value="6" />
+		<property name="valueTextSize" value="28" />
+		<property name="labelTextSize" value="16"/>
+		<property name="boldValue" value="true"/>
+		<property name="valueThreshold" value="1000000"/>
+		<property name="aboveThresholdColour" value="3"/>
+	</bean>
+
+	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="count_rate" />
+			</list>
+		</property>
+	</bean>
+</beans>
