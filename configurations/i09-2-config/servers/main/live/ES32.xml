@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="es32_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL09K-EA-ES-03:DCAM2:CAM:" />
+	</bean>
+	
+	<bean  id="es32CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="es32_ndArray"/>
+		<property name="arrayPortName" value="ES3-2.roi"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+				<property name="ndProcess" ref="es32_proc_summed"/>
+				<property name="processDataTypeOut" value="8"/>
+				<property name="restoreState" value="true"/>
+				<property name="applyFlatFieldSettings"	value="false"/>
+				<property name="applyProcessDataTypeOutSettings" value="false"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
+								<property name="ndProcess" ref="es32_proc_summed"/>
+								<property name="adBase" ref="es32_adbase" />
+								<property name="procMonitorPV" value="BL09K-EA-ES-03:DCAM2:STAT:ArrayCounter_RBV" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="es32_proc_summed" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:PROC:" /> 
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:PROC:" />
+				<property name="initialArrayPort" value="ES3-2.CAM"/>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="es32_ndArray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:ARR:" />
+				<property name="initialArrayPort" value="ES3-2.roi" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="es32_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:HDF5:" />
+		<property name="file" ref="es32_ndfile" />
+		<property name="attrByDimPVsAvailable" value="false"/>
+		<property name="swmrModePVsAvailable" value="false"/>
+	</bean>
+	
+	<bean id="es32_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL09K-EA-ES-03:DCAM2:HDF5:" />
+				<property name="initialArrayPort" value="ES3-2.proc" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="es32" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
+	</bean>
+	
+	<!-- use EPICS HDF5 plugin to write data to file -->
+	<bean id="es32_Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="es32_hdf5"/>
+		<property name="fileNameTemplate" value="ES3-2"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="SwmrModeEnabled" value="false"/>
+		<property name="ndArrayPortVal" value="ES3-2.proc"/>
+	</bean>
+	
+	<!-- used with live stream view -->
+ 	<bean id="es32" class="gda.device.detector.NXDetector">
+		<property name="name" value="es32" />
+		<property name="collectionStrategy" ref="es32CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="es32_ImageStats" />
+				<ref bean="es32_Hdf5Filewriter"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- ROI-STAT pairs -->
+	<bean id="es32_ImageStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="es32_ImageStats" />
+		<property name="baseRoiPVName" value="BL09K-EA-ES-03:DCAM2:ROI:" />
+		<property name="baseStatsPVName" value="BL09K-EA-ES-03:DCAM2:STAT:" />
+		<property name="roiInputNdArrayPort" value="ES3-2.proc" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider" ref="es32_roi" />
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	
+	<bean id="es32_roi"	class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="1292" />
+		<property name="ysize" value="964" />
+	</bean>
+	
+</beans>
