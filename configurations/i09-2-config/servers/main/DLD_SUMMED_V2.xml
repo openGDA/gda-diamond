@@ -65,8 +65,8 @@
 	</bean>
 
 	<!-- NXDetector -->
- 	<bean id="dld_summed" class="gda.device.detector.NXDetector">
-		<property name="name" value="dld_summed" />
+ 	<bean id="dld" class="gda.device.detector.NXDetector">
+		<property name="name" value="dld" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -76,16 +76,15 @@
 			</list>
 		</property>
 	</bean>
- 	<bean id="dldtiff_summed" class="gda.device.detector.NXDetector">
-		<property name="name" value="dldtiff_summed" />
+	
+		<!-- NXDetector -->
+ 	<bean id="dld_total" class="gda.device.detector.NXDetector">
+		<property name="name" value="dld_total" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dld_summed_RoiStats1" />
-				<ref bean="dld_summed_RoiStats2" />
-<!-- 				<ref bean="dld_summed_RoiStats3" /> -->
 				<ref bean="dldImageStats_summed" />
-				<ref bean="dldSummedTiffFileWriter" />
+				<ref bean="dld_summed_RoiStats1" />
 			</list>
 		</property>
 	</bean>

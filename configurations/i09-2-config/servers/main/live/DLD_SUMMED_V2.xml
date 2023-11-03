@@ -4,6 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- Area Detector EPICS Plugins -->
+	<bean id="dld_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL09K-EA-DET-01:CAM:" />
+	</bean>
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="dld_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/dldRoi" />
+		<property name="service" ref="dld_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	
+	<bean id="mcp_roi"
+		class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="1212" />
+		<property name="ysize" value="1212" />
+	</bean>
+	
 <!-- 	This configuration requires beans from DLD.XML -->
 	<bean id="dld_proc_summed" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
 		<property name="basePVName" value="BL09K-EA-DET-01:PROC1:" /> 
