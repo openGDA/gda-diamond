@@ -36,6 +36,18 @@ def setAnalyserMoveTolerances(xesEnergyScannable, tolerances, numRetries = 1):
                     mot.setTolerance(tolerances[count])
                     mot.setNumberTries(numRetries)
     
+from gda.device.motor import EpicsMotor
+from gda.device.motor.EpicsMotor import MissedTargetLevel
+
+def setMotorMoveMissedTargetAction(xesEnergyScannable, missedTargetLevel):
+    print("Setting up motors for %s : missed target = %s"%(xesEnergyScannable.getName(), str(missedTargetLevel)))
+    allScannables = xesEnergyScannable.getXes().getScannables()
+    for scn in allScannables :
+        if isinstance(scn, gda.device.IScannableMotor) and isinstance(scn.getMotor(), EpicsMotor) :
+            #print("%s"%(scn.getName()))
+            mot = scn.getMotor()
+            mot.setMissedTargetLevel(missedTargetLevel)
+        
 def setup_dummy_spectrometer(xesEnergyScannable) :
     """
         Setup initial values for dummy XES spectrometer :
@@ -95,6 +107,9 @@ XESBraggLower.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
 # Set the GDA tolerance and number of retries on each ScannableMotor
 setAnalyserMoveTolerances(XESEnergyLower, [0.005, 0.005, 0.005, 0.005], 3)
 setAnalyserMoveTolerances(XESEnergyUpper, [0.005, 0.005, 0.005, 0.005], 3)
+
+setMotorMoveMissedTargetAction(XESEnergyLower, MissedTargetLevel.IGNORE)
+setMotorMoveMissedTargetAction(XESEnergyUpper, MissedTargetLevel.IGNORE)
 
 if LocalProperties.isDummyModeEnabled() :
     setup_dummy_spectrometer(XESEnergyUpper)
