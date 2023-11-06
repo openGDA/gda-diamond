@@ -50,6 +50,20 @@
 					<property name="scannableName" value="ubMeta"/>
 					<property name="componentIndex" value="1"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="unit_cell"/>
+					<property name="scannableName" value="ubMeta"/>
+					<property name="componentIndex" value="2"/>
+					<property name="units" value="angstrom"/>
+					<!-- 
+					<property name="angle_units" value="deg"/>
+					 -->
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="ub_matrix"/>
+					<property name="scannableName" value="ubMeta"/>
+					<property name="componentIndex" value="3"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

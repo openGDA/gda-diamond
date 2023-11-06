@@ -24,6 +24,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023090092	NSD				Dummy	NXD/NDP	pil3	Switch pil3_100k to NexusDetectorProcessor
 2023110003	NSD				Dummy	NXD/NDP	pil3	Add rois as standard & switch to 'CoCO3_11Oct_21'
 2023110077	NSD				Dummy	NXD/NDP	pil3	Add surface vector normal
+2023110105	NSD				Dummy	NXD/NDP	pil3	Add unit cell and ub matrix
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
