@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ethercat_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL11K-EA-UIO-01:PVADET:" />
+	</bean>
+
+	<bean id="ethercat_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL11K-EA-UIO-01:CONT:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL11K-EA-UIO-01:CONT:HDF5:" />
+				<property name="initialArrayPort" value="ETH.CONT.SCALE" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="0" />
+		<property name="initialFileName" value="EtherCAT" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+			
+	<bean id="ethercat_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL11K-EA-UIO-01:CONT:HDF5:" />
+		<property name="file" ref="ethercat_ndfile" />
+	</bean>
+	
+	<bean id="start_reframe_pv" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-EA-UIO-01:CONT:REFR:Capture" />
+	</bean>
+	
+</beans>
