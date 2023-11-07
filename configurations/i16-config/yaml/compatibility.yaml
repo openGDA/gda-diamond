@@ -11,11 +11,6 @@ entry1/:
   # it more obvious when things are missing from NSD nexus files.  
   # -----------------------------------------------------------------------
 
-  sample/:
-    # Since a missing depends_on in sample causes validation to fail, add it
-    NX_class@: NXsample
-    depends_on: /entry1/instrument/kphi/value
-
   # The primary location of before_scan moved to /entry1/classic_scan from
   # /entry1/ so temporarily link it back to it's original location.
   before_scan: /entry1/classic_scan/before_scan

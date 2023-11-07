@@ -45,6 +45,10 @@
 		<property name="nexusClass" value="NXsample"/>
 		<property name="childNodes">
 			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="/entry1/instrument/kphi/value"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="surface_vector"/>
 					<property name="scannableName" value="ubMeta"/>
