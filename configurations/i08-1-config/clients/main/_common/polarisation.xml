@@ -7,13 +7,14 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<!-- Beans referenced in the mapping view configurations for I08 & I08-1 -->
+	<!-- Beans referenced in the mapping view configurations for I08-1 -->
 
 	<!-- Mapping of absorption edge (as configured in elementAndEdgesList above) to required phase motor position -->
 	<util:map id="edgeToPhase"
 		map-class="java.util.HashMap" key-type="java.lang.String"
 		value-type="java.lang.Double">
 		<entry key="O-K" value="17.8" />
+		<entry key="Mn-L" value="18" />
 		<entry key="Fe-L" value="18.2" />
 		<entry key="Co-L" value="18.4" />
 		<entry key="Ni-L" value="18.6" />
