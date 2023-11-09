@@ -88,8 +88,6 @@ public class MonoOptimisation extends FindableBase {
 	private Double tfgDarkCurrentCollectionTime;
 	private boolean tfgDarkCurrentRequired;
 
-	private EnumPositioner photonShutter;
-
 	private DAServer daServerForTfg;
 
 	/** Normal output on Veto 0 */
@@ -177,7 +175,7 @@ public class MonoOptimisation extends FindableBase {
 	 */
 	private Gaussian runAndFitOffsetScan(Scannable bragg, double energy) throws Exception {
 		logger.info("Running offset scan : {} = {}", bragg.getName(), energy);
-		InterfaceProvider.getTerminalPrinter().print("Running bragg offset optimisation scan : "+bragg.getName()+" = "+energy+" eV");
+		printTerminalMessage("Running bragg offset optimisation scan : "+bragg.getName()+" = "+energy+" eV");
 
 		moveEnergyScannable(bragg, energy);
 		String filename = runOffsetScan();
@@ -248,18 +246,24 @@ public class MonoOptimisation extends FindableBase {
 		// Switch off Veto output trigger signal, so medipix, xspress detectors are not triggered by the offset scan
 		setProduceVetoOutput(false);
 
-		Dataset combinedData = doManualScan();
-		fittedGaussianLowEnergy = curveFitter.findPeakOutput(combinedData);
-		this.lowEnergy = braggEnergy;
-		this.highEnergy = braggEnergy;
+		scanPreparer.beforeCollection();
+		try {
+			Dataset combinedData = doManualScan();
 
-		// Try to setup the offset parameters for the scannable
-		if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
-			configureOffsetParameters(monoWithOffset);
+
+			fittedGaussianLowEnergy = curveFitter.findPeakOutput(combinedData);
+			this.lowEnergy = braggEnergy;
+			this.highEnergy = braggEnergy;
+
+			// Try to setup the offset parameters for the scannable
+			if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
+				configureOffsetParameters(monoWithOffset);
+			}
+		} finally {
+			// Switch veto output back on
+			setProduceVetoOutput(true);
+			scanPreparer.afterCollection();
 		}
-
-		// Switch veto output back on
-		setProduceVetoOutput(true);
 	}
 
 	/**
@@ -311,7 +315,7 @@ public class MonoOptimisation extends FindableBase {
 		}
 
 		// Try to open shutter before starting the scan
-		moveShutter(ValvePosition.OPEN);
+		scanPreparer.beforeCollection();
 
 		ConcurrentScan scan = new ConcurrentScan(getScanParamsList().toArray());
 		scan.setSendUpdateEvents(true);
@@ -323,12 +327,15 @@ public class MonoOptimisation extends FindableBase {
 			scan.setScanPlotSettings(scanPlotSettings);
 		}
 
-		scan.runScan();
+		try {
+			scan.runScan();
 
-		// wait here until finished
-		scan.waitForDetectorReadoutAndPublishCompletion();
-
-		applySavedTfgSettings();
+			// wait here until finished
+			scan.waitForDetectorReadoutAndPublishCompletion();
+		} finally {
+			applySavedTfgSettings();
+			scanPreparer.afterCollection();
+		}
 
 		return scan.getDataWriter().getCurrentFileName();
 	}
@@ -383,8 +390,8 @@ public class MonoOptimisation extends FindableBase {
 	 */
 	public Dataset doManualScan() throws DeviceException {
 
-		InterfaceProvider.getTerminalPrinter().print("Running bragg offset optimisation scan");
-		InterfaceProvider.getTerminalPrinter().print(String.format("%15s\t%15s", scannableToMove.getName(), scannableToMonitor.getName()));
+		printTerminalMessage("Running bragg offset optimisation scan");
+		printTerminalMessage(String.format("%15s\t%15s", scannableToMove.getName(), scannableToMonitor.getName()));
 		Dataset dataFromScan =  DatasetFactory.zeros(offsetNumPoints, 2);
 		double offsetStepsize = (offsetEnd - offsetStart)/(offsetNumPoints - 1);
 		for(int i=0; i<offsetNumPoints; i++) {
@@ -393,12 +400,16 @@ public class MonoOptimisation extends FindableBase {
 			Double[] detectorReadout = readoutDetector(scannableToMonitor);
 
 			dataFromScan.set(pos, i, 0);
-			dataFromScan.set(detectorReadout[1], i, 1);
-			InterfaceProvider.getTerminalPrinter().print(String.format("%15.4f\t%15.4f", dataFromScan.getDouble(i,0), dataFromScan.getDouble(i,1)));
+			int index = Math.min(1, detectorReadout.length-1);
+			dataFromScan.set(detectorReadout[index], i, 1);
+			printTerminalMessage(String.format("%15.4f\t%15.4f", dataFromScan.getDouble(i,0), dataFromScan.getDouble(i,1)));
 		}
 		return dataFromScan;
 	}
 
+	private static void printTerminalMessage(String message) {
+		InterfaceProvider.getTerminalPrinter().print(message);
+	}
 	/**
 	 * Setup the offset parameters in a {@link MonoMoveWithOffsetScannable} object from the Gaussians fitted during {@link #optimise}.
 	 * @param braggWithOffset
@@ -667,25 +678,93 @@ public class MonoOptimisation extends FindableBase {
 		}
 	}
 
-	/**
-	 * Move the photon shutter to the given position.
-	 * @param shutterPosition one of {@link ValvePosition#OPEN} , {@link ValvePosition#CLOSE};
-	 * @throws DeviceException
-	 */
-	private void moveShutter(String shutterPosition) throws DeviceException {
-		if (photonShutter != null) {
-			logger.info("Moving {} to {} position", photonShutter, shutterPosition);
-			photonShutter.moveTo(shutterPosition);
-		} else {
-			logger.warn("Not moving photon shutter to {} position - no photon shutter object has been set", shutterPosition);
-		}
-	}
-
 	public EnumPositioner getPhotonShutter() {
-		return photonShutter;
+		return scanPreparer.photonShutter;
 	}
 
 	public void setPhotonShutter(EnumPositioner photonShutter) {
-		this.photonShutter = photonShutter;
+		scanPreparer.photonShutter = photonShutter;
+	}
+
+	public EnumPositioner getDiagnosticPositioner() {
+		return scanPreparer.diagnosticPositioner;
+	}
+
+	public void setDiagnosticPositioner(EnumPositioner diagnosticPositioner) {
+		scanPreparer.diagnosticPositioner = diagnosticPositioner;
+	}
+
+	public boolean isUseDiagnosticDetector() {
+		return scanPreparer.useDiagnosticDetector;
+	}
+
+	public void setUseDiagnosticDetector(boolean useDiagnosticDetector) {
+		scanPreparer.useDiagnosticDetector = useDiagnosticDetector;
+	}
+
+	private OptimisationScanPreparer scanPreparer = new OptimisationScanPreparer();
+
+	/**
+	 * Simple class used to prepare for offset optimisation scan :
+	 * Before collection : Open photon shutter; move diagnostic to 'in beam' position (if it's to be used), or move it out the beam
+	 * After collection : Remove diagnostic from beam
+	 */
+	private static class OptimisationScanPreparer {
+		private EnumPositioner photonShutter;
+		private EnumPositioner diagnosticPositioner;
+		private boolean useDiagnosticDetector;
+
+		private String[] diagnosticPositions = {"In", "Out"};
+		private enum DiagnosticPosition {IN, OUT}
+
+		/**
+		 * Steps to take before collecting data :
+		 * <li> Open photon shutter
+		 * <li> Move diagnostic into the beam (if using); otherwise move it out the way
+		 * @throws DeviceException
+		 */
+		public void beforeCollection() throws DeviceException {
+			moveShutter(ValvePosition.OPEN);
+			DiagnosticPosition diagnosticPosition = useDiagnosticDetector ? DiagnosticPosition.IN : DiagnosticPosition.OUT;
+			moveDiagnostic(diagnosticPosition);
+		}
+
+		/**
+		 * Steps to take ater collecting data :
+		 * <li> Always remove the diagnostic out of the beam
+		 * @throws DeviceException
+		 */
+		public void afterCollection() throws DeviceException {
+			moveDiagnostic(DiagnosticPosition.OUT);
+		}
+
+		/**
+		 * Move {@link #diagnosticValve} scannable to specified position (normally 'In' or 'Out')
+		 * The scannable is only moved if {@link #useDiagnosticDetector} is set to 'true'.
+		 *
+		 * @param position
+		 * @throws DeviceException
+		 */
+		private void moveDiagnostic(DiagnosticPosition position) throws DeviceException {
+			String pos = position == DiagnosticPosition.IN ? diagnosticPositions[0] : diagnosticPositions[1];
+			moveScannable(diagnosticPositioner, pos);
+		}
+
+		/**
+		 * Move the photon shutter to the given position.
+		 * @param shutterPosition one of {@link ValvePosition#OPEN} , {@link ValvePosition#CLOSE};
+		 * @throws DeviceException
+		 */
+		private void moveShutter(String shutterPosition) throws DeviceException {
+			moveScannable(photonShutter, shutterPosition);
+		}
+
+		private void moveScannable(EnumPositioner positioner, String position) throws DeviceException {
+			InterfaceProvider.getTerminalPrinter().print("Moving "+positioner.getName()+" to "+position);
+			logger.info("Moving {} to {} position", positioner.getName(), position);
+			positioner.moveTo(position);
+			logger.debug("{} move finished, final position = {}", positioner.getName(), positioner.getPosition());
+		}
+
 	}
 }

@@ -33,7 +33,9 @@ import gda.MockFactory;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
+import gda.device.EnumPositioner;
 import gda.device.Scannable;
+import gda.device.enumpositioner.ValvePosition;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 import uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable;
 import uk.ac.gda.beamline.i20.scannable.MonoOptimisation;
@@ -53,6 +55,11 @@ public class MonoOptimisationTest {
 	private double numericalTolerance = 1e-5;
 	private final double lowMonoEnergy = 0;
 	private final double highMonoEnergy = 5;
+	private EnumPositioner photonShutter;
+	private EnumPositioner diodePositioner;
+
+	private static final String IN = "In";
+	private static final String OUT = "Out";
 
 	public void prepareScannables() {
 		offsetMotor = new DummyScannableMotor();
@@ -69,6 +76,20 @@ public class MonoOptimisationTest {
 		optimisation.setOffsetEnd(1);
 		optimisation.setOffsetNumPoints(21);
 		optimisation.setFitToPeakPointsOnly(true);
+
+		photonShutter = createMock(EnumPositioner.class, "photonShutter");
+		diodePositioner = createMock(EnumPositioner.class, "diodePositioner");
+
+		optimisation.setPhotonShutter(photonShutter);
+		optimisation.setDiagnosticPositioner(diodePositioner);
+		optimisation.setUseDiagnosticDetector(false);
+
+	}
+
+	private <T extends Scannable> T createMock(Class<T> clazz, String name) {
+		T newMock = Mockito.mock(clazz);
+		Mockito.when(newMock.getName()).thenReturn(name);
+		return newMock;
 	}
 
 	@Before
@@ -78,9 +99,16 @@ public class MonoOptimisationTest {
 		LocalProperties.set(LocalProperties.GDA_SCAN_CONCURRENTSCAN_READOUT_CONCURRENTLY, "false"); // default as interpreted by ConcurrentScan
 	}
 
+	private void intialShutterPositions() throws DeviceException {
+		photonShutter.moveTo(ValvePosition.CLOSE);
+		diodePositioner.moveTo(IN);
+	}
+
 	@Test
 	public void testMonoOptimisationCurveFittingIsAccurate() throws Exception {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testMonoOptimisationFitting", true);
+
+		intialShutterPositions();
 
 		optimisation.setBraggScannable(braggMotor);
 		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
@@ -200,6 +228,47 @@ public class MonoOptimisationTest {
 		}
 	}
 
+	@Test
+	public void testPositionersForIonchambers() throws Exception {
+
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testShuttersIonchambers", true);
+
+		intialShutterPositions();
+
+		optimisation.setBraggScannable(braggMotor);
+		optimisation.setUseDiagnosticDetector(false);
+		optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
+
+		InOrder inorder = Mockito.inOrder(photonShutter, diodePositioner);
+
+		// offset scan with ionchambers : photon shutter should be 'open' and diode must be 'out' for the scan
+		inorder.verify(photonShutter).moveTo(ValvePosition.OPEN);
+		inorder.verify(diodePositioner).moveTo(OUT);
+
+		// diode position must be 'out' after the scan
+		inorder.verify(diodePositioner).moveTo(OUT);
+	}
+
+	@Test
+	public void testPositionersForDiode() throws Exception {
+
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testShuttersDiagnostic", true);
+
+		intialShutterPositions();
+
+		optimisation.setBraggScannable(braggMotor);
+		optimisation.setUseDiagnosticDetector(true);
+		optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
+
+		InOrder inorder = Mockito.inOrder(photonShutter, diodePositioner);
+
+		// offset scan with diagnostic : photon shutter should be 'open' and diode must be 'out' for the scan
+		inorder.verify(photonShutter).moveTo(ValvePosition.OPEN);
+		inorder.verify(diodePositioner).moveTo(IN);
+
+		// diode position must be 'out' after the scan
+		inorder.verify(diodePositioner).moveTo(OUT);
+	}
 
 
 }

@@ -13,10 +13,11 @@ else :
     scannableGaussian.setScannableToMonitorForPosition(braggoffset) # position of braggoffset determines value returned by scannable
     monoOptimiser = MonoOptimisation( braggoffset, scannableGaussian )
 
+
 monoOptimiser.setBraggScannable(bragg1WithOffset)
 monoOptimiser.setDaServer(DAServer)
 monoOptimiser.setPhotonShutter(photonshutter)
-bragg1WithOffset.setMonoOptimiser(monoOptimiser)
+monoOptimiser.setDiagnosticPositioner(d9_diode)
 
 #Set up monoOptimiser for bragg offset adjustment
 monoOptimiser.setAllowOptimisation(True)
@@ -27,6 +28,8 @@ monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new brag
 
 monoOptimiser.setFitToPeakPointsOnly(True)
 monoOptimiser.setPeakPointRange(4)
+
+bragg1WithOffset.setMonoOptimiser(monoOptimiser)
 
 # set these back to zero, in case fitting went wrong. 23/1/2019
 bragg1WithOffset.setOffsetStartValue(0)
