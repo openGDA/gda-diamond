@@ -12,7 +12,7 @@
 	
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="dld_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	<bean id="dld_roi_rmi" class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/dldRoi" />
 		<property name="service" ref="dld_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />

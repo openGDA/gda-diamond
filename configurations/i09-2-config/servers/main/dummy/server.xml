@@ -48,6 +48,7 @@
 <!-- 	<import resource="DLD_V2.xml"/> -->
 	<import resource="DLD_SUMMED_V2.xml"/>
 	<import resource="Microscope.xml"/>
+	<import resource="ES32.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

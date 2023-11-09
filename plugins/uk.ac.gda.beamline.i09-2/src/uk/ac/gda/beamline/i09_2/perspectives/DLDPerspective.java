@@ -91,6 +91,7 @@ public class DLDPerspective implements IPerspectiveFactory {
 
 		IFolderLayout accumPlotFolder=layout.createFolder(ACCUM_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
 		accumPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_accumimagexy#EPICS_ARRAY");
+		accumPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.ES32AccumImageXY:es32_liveview#EPICS_ARRAY");
 	}
 
 	private void defineActions(IPageLayout layout) {

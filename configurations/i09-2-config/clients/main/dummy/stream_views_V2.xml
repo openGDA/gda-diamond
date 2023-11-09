@@ -18,6 +18,12 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	
+	<bean id="es32_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}es32Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 
 	<import resource="../_common/dld_controls_V2.xml"/>
 	
@@ -82,5 +88,12 @@
 <!-- 			</bean> -->
 <!-- 		</property> -->
 	</bean>	
-	
+
+	<bean id="es32_liveview" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ES32AccumImageXY"/>
+		<property name="displayName" value="ES32 Accum Image XY" />
+		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="es32_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+	</bean>
 </beans>
