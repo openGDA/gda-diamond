@@ -4,11 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="qexafs_sam2x" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="SAM2X_motor" />
+		<property name="delegateScannable" ref="sam2x" />
 		<property name="maxMotorSpeed" value="0.7" />
 	</bean>
     <bean id="qexafs_sam2y" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="SAM2Y_motor" />
+		<property name="delegateScannable" ref="sam2y" />
 		<property name="maxMotorSpeed" value="7.0" />
 	</bean>
 </beans>

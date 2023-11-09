@@ -126,14 +126,14 @@ def createContinuousScannable(scn, name=None):
     if name == None :
         name = "qexafs_"+scn.getName()
     
-    motor = scn.getMotor()
     newScannable = QexafsTestingScannable()
-    newScannable.setMotor(motor)
+    newScannable.setDelegateScannable(scn)
     newScannable.setName(name)
     newScannable.setOutputFormat(scn.getOutputFormat())
     
+    motor = scn.getMotor()
     maxSpeed = motor.getMaxSpeed()
-    newScannable.setSpeed(motor.getSpeed())
+    # newScannable.setSpeed(motor.getSpeed())
     newScannable.setMaxMotorSpeed(maxSpeed*0.5)
     newScannable.configure()
     return newScannable
