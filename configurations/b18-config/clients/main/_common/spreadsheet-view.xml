@@ -18,6 +18,13 @@
 			</list>
 		</property>
 
+		<property name="generators">
+			<list>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.DetectorConfigGenerator" />
+				<bean class="uk.ac.gda.exafs.ui.dialogs.MotorParameterGenerator" />
+			</list>
+		</property>
+
 		<property name="parameters">
 			<list>
 				<!-- Output file name -->
@@ -90,7 +97,7 @@
 				</bean>
 
 				<!-- Don't include user sample stages here (e.g. sam2x, sam2y, user2, user3...); 
-				     spreadsheet view will pick up 'generic sample parameter motors' at runtime from sample parameters.xml file -->
+				     MotorParameterGenerator will pick up 'generic sample parameter motors' at runtime from sample parameters.xml file -->
 
 				<!-- 'Before first repetition' script -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">

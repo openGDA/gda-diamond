@@ -4,6 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
+		<property name="name" value="datawriterconfig" />
 		<property name="includeDefaultVariables" value="false" />
 		<property name="commentMarker" value="#"></property>
 		<property name="header">
@@ -632,6 +633,13 @@
 						<property name="units" value="mBar" />
 					</bean>
 				</entry>
+				<entry key="ionchamberChecker">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXinstrument/ionchamberChecker:NXinstrument/status" />
+					</bean>
+				</entry>	
 			</map>
 		</property>
 		<property name="metadataScannables">
