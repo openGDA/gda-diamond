@@ -58,6 +58,30 @@
 		</property>
 	</bean>
 
+<!-- Motor controls for controlling combined motion 'lab x' and 'lab y' -->
+  	<bean id="robot_lab_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot lab X" />
+		<property name="scannableName" value="meca_move_pose_lab_x" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	  <bean id="robot_lab_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Robot lab Y" />
+		<property name="scannableName" value="meca_move_pose_lab_y" />
+		<property name="displayNameWidth" value="160" />
+		<property name="horizontalLayout" value="true" />
+	</bean>
+	<bean id="robot_lab_xy_controls_group" class="uk.ac.gda.client.livecontrol.LiveControlGroup">
+		<property name="group" value="Robot lab X Y position controls" />
+		<property name="numColumns" value="1" />
+		<property name="controls">
+			<list>
+				<ref bean="robot_lab_x_control" />
+				<ref bean="robot_lab_y_control" />
+			</list>
+		</property>
+	</bean>
+
 <!--  Cassette and scanning area position indicators -->
 	<bean id="meca_in_cassette_area_control" class="uk.ac.gda.beamline.b18.LiveControlBitField">
 		<property name="scannableName" value="meca_in_cassette_area" />	
@@ -189,6 +213,7 @@
 	<bean name="robotControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
+				<ref bean="robot_lab_xy_controls_group" />
 				<ref bean="robot_pose_controls_group" />
 				<ref bean="robot_status_group" />
 				<ref bean="robot_status_bitfield" />
