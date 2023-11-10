@@ -55,6 +55,12 @@
             name="DLD accum image XY"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ES32AccumImageXY"
+            name="ES32 accum image"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.services">
