@@ -794,7 +794,6 @@ try:
 				's6ypos', 's6ygap', 's6yup', 's6ydown',
 				'vfm_x', 'vfm_y', 'vfm_pitch', 'vfm_curve', 'vfm_ellipticity', 'vfm_gravsag',
 				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
-				's2ygap', 's2ypos',
 				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
 				'f2x',
 				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
@@ -822,6 +821,8 @@ try:
 				)
 			if isFindable("cryox"):
 				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
+			if isFindable('s2ygap'):
+				stdmetadatascannables += ('s2ygap', 's2ypos')
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
 			errors=[]
