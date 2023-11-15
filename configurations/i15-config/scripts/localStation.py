@@ -554,8 +554,8 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	attoAvailable = isLive() and caget("BL15I-EA-IOC-22:STATUS") == u'0'
-	if attoAvailable:
+	attoAvailable = caget("BL15I-EA-IOC-22:STATUS") == u'0'
+	if isLive() and attoAvailable:
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
 		from future.anc150axis import createAnc150Axis
 		try:
@@ -575,7 +575,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating atto1-6 devices, ignoring remaining atto motors")
 			attoAvailable = False
-	if attoAvailable:
+	if isLive() and attoAvailable:
 		try:
 			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
 			atto7 = createAnc150Axis("atto7", "BL15I-EA-ATTO-05:PIEZO1:", 0.25, True, False)
@@ -586,7 +586,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating atto7-9 devices, ignoring remaining atto motors")
 			attoAvailable = False
-	if attoAvailable:
+	if isLive() and attoAvailable:
 		try:
 			from future.ecc100axis import createEcc100Axis
 			# BL15I > Experimental Hutch > Sample Environments > B16 Attocubes and Geobrick
@@ -597,7 +597,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attol1-3 devices, ignoring remaining atto motors")
 			attoAvailable = False
-	if attoAvailable:
+	if isLive() and attoAvailable:
 		try:
 			attoltilt1 = createEcc100Axis("attoltilt1", "BL15I-EA-ECC-02:ACT0:")
 			attoutilt1 = createEcc100Axis("attoutilt1", "BL15I-EA-ECC-02:ACT1:")
@@ -605,7 +605,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attoltilt1, attoutilt1 & attorot1 devices, ignoring remaining atto motors")
 			attoAvailable = False
-	if attoAvailable:
+	if isLive() and attoAvailable:
 		try:
 			attoltilt2 = createEcc100Axis("attoltilt2", "BL15I-EA-ECC-01:ACT0:")
 			attoutilt2 = createEcc100Axis("attoutilt2", "BL15I-EA-ECC-01:ACT1:")
@@ -613,7 +613,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attoltilt2, attoutilt2 & attorot2 devices, ignoring remaining atto motors")
 			attoAvailable = False
-	if attoAvailable:
+	if isLive() and attoAvailable:
 		try:
 			attol4 = createEcc100Axis("attol4", "BL15I-EA-ECC-04:ACT0:")
 			attol5 = createEcc100Axis("attol5", "BL15I-EA-ECC-04:ACT1:")
