@@ -6,9 +6,9 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="s4xpos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:X:CENTER"/>
+	<gda:motor id="s4xpos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:X:CENTRE"/>
 	<gda:motor id="s4xgap" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:X:SIZE"/>
-	<gda:motor id="s4ypos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:Y:CENTER"/>
+	<gda:motor id="s4ypos" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:Y:CENTRE"/>
 	<gda:motor id="s4ygap" initialUserUnits="mm" live-pvName="BL15I-AL-SLITS-04:Y:SIZE"/>
 	<gda:motor id="s4pitch" live-pvName="BL15I-AL-SLITS-04:PITCH"/>
 	<gda:motor id="s4yaw" live-pvName="BL15I-AL-SLITS-04:YAW"/>

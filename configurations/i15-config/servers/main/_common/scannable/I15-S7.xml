@@ -6,9 +6,9 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="s7xpos" live-pvName="BL15I-AL-SLITS-07:X:CENTER"/>
+	<gda:motor id="s7xpos" live-pvName="BL15I-AL-SLITS-07:X:CENTRE"/>
 	<gda:motor id="s7xgap" live-pvName="BL15I-AL-SLITS-07:X:SIZE"/>
-	<gda:motor id="s7ypos" live-pvName="BL15I-AL-SLITS-07:Y:CENTER"/>
+	<gda:motor id="s7ypos" live-pvName="BL15I-AL-SLITS-07:Y:CENTRE"/>
 	<gda:motor id="s7ygap" live-pvName="BL15I-AL-SLITS-07:Y:SIZE"/>
 
 	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
