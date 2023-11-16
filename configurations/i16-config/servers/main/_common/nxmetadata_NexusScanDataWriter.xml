@@ -316,7 +316,7 @@
 			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
 			<list> <!-- Order here matters. If compatibility is earlier than NXclassic_scan, for instance,
-						then before_scan doesn't get created before it is 
+						then before_scan doesn't get created before it is referenced.
 			 -->
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
 				<value>${gda.config}/yaml/compatibility.yaml</value>
@@ -326,7 +326,6 @@
 				<value>${gda.config}/yaml/NXdetector_merlin.yaml</value>
 				<value>${gda.config}/yaml/NXdetector_merlins.yaml</value>
 				<value>${gda.config}/yaml/NXdetector_pilatus1.yaml</value>
-				<value>${gda.config}/yaml/NXdetector_pilatus3.yaml</value>
 			</list>
 		</property>
 		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
@@ -349,6 +348,7 @@
 				</entry>
 			</map>
 		</property>
+		<!-- private Set<String> metadataScannables; -->
 		<property name="metadataScannables">
 			<set>
 				<value>kgam</value>
@@ -361,155 +361,4 @@
 			</set>
 		</property>
 	</bean>
-
-<!-- 
-
-	private Set<String> metadataScannables;
-	private Map<String, ScannableWriter> locationMap;
-	private Map<String, Set<String>> metadataScannablesPerDetectorMap;
-	private List<String> nexusTemplateFiles;
-
-	private Map<String, String> metadata;
-
-		<property name="metadataScannablesPerDetectorMap">
-			<map>
-				<entry key="pil100k">
-					<set>
-						<value>pil100k</value>
-					</set>
-				</entry>
-				<entry key="pil3_100k">
-					<set>
-						<value>scannable</value>
-					</set>
-				</entry>
-				<entry key="merlin">
-					<set>
-					</set>
-				</entry>
-				<entry key="merlins">
-					<set>
-					</set>
-				</entry>
-			</map>
-		</property>
-							Add metadataScannablesPerDetectorMap and create a MetasataScannable?
-							Or just create and register a NexusMetadataAppender?
-							Maybe we can just link one node per detector & replace all of the template?
-							Maybe we can use locationMap to just put it in the correct place to start with?
-Example from i08
-		<property name="metadataScannablesPerDetectorMap">
-			<map>
-				<entry key="andor">
-					<set>
-						<value>andorAccumulatePeriod</value>
-						<value>andorShutterMode</value>
-						<value>andorExtShutterTrigger</value>
-						<value>andorPreampGain</value>
-						<value>andorADCSpeed</value>
-						<value>andorVerticalShiftSpeed</value>
-						<value>andorVerticalShiftAmplitude</value>
-						<value>andorEMCCDGain</value>
-						<value>andorCoolerTemperature</value>
-						<value>andorCoolerControl</value>
-						<value>andorBinningSizeX</value>
-						<value>andorBinningSizeY</value>
-					</set>
-				</entry>
-				<entry key="_andorrastor">
-					<set>
-						<value>andorAccumulatePeriod</value>
-						<value>andorShutterMode</value>
-						<value>andorExtShutterTrigger</value>
-						<value>andorPreampGain</value>
-						<value>andorADCSpeed</value>
-						<value>andorVerticalShiftSpeed</value>
-						<value>andorVerticalShiftAmplitude</value>
-						<value>andorEMCCDGain</value>
-						<value>andorCoolerTemperature</value>
-						<value>andorCoolerControl</value>
-						<value>andorBinningSizeX</value>
-						<value>andorBinningSizeY</value>
-					</set>
-				</entry>
-			</map>
-		</property>
-		<property name="locationMap">
-			<map>
-				<entry key="andorAccumulatePeriod">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/AccumulatePeriod" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorShutterMode">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ShutterMode" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorExtShutterTrigger">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ExtShutterMode" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorPreampGain">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/PreampGain" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorADCSpeed">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ADCSpeed" />
-						<property name="units" value="MHz" />
-					</bean>
-				</entry>
-				<entry key="andorVerticalShiftSpeed">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftSpeed" />
-						<property name="units" value="us" />
-					</bean>
-				</entry>
-				<entry key="andorVerticalShiftAmplitude">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftAmplitude" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorEMCCDGain">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/EMCCDGain" />
-						<property name="units" value="" />
-					</bean>
-				</entry> 
-				<entry key="andorCoolerTemperature">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerTemperature" />
-						<property name="units" value="C" />
-					</bean>
-				</entry>
-				<entry key="andorCoolerControl">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerControl" />
-						<property name="units" value="" />
-					</bean>
-				</entry> 
-				<entry key="andorBinningSizeX">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeX" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-				<entry key="andorBinningSizeY">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeY" />
-						<property name="units" value="" />
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
- -->
 </beans>

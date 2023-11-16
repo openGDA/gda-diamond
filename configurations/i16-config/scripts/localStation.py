@@ -949,6 +949,9 @@ if USE_PIL3:
 		localStation_warning("pil3 = NXDetector")
 		from analysis.RequiredRoiManager import RequiredRoiManager
 		pil3_required = RequiredRoiManager(pil3_100k)
+		from datawriting.geometry import GeometryScannable
+		pil3_geometry = GeometryScannable('pil3_geometry', 'pilatus3',
+			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml')
 	else:
 		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
 		localStation_warning("pil3 = NXProcessingDetectorWrapper")

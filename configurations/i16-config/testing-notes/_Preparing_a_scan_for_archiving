@@ -10,7 +10,7 @@ module load msmapper/latest
 
 SCRATCH=/scratch
 DEPLOYMENT=$SCRATCH/dls_sw/i16/software/gda
-cd $DEPLOYMENT/config/testing-notes/example-eta-scan
+cd $DEPLOYMENT/config/testing-notes/example-eta-scan/_regression_testing
 
 --------------------------------------------------------------------------------
 							Live vs scratch data
