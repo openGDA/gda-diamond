@@ -4,6 +4,7 @@
 # or the gda servers are restarted.                                           #
 ###############################################################################
 
+from gda.device.scannable import DummyScannable
 from localstation_functions import localStation_print, localStation_exception,\
 	localStation_warning, localStation_warnings, localStation_exceptions
 from localStationScripts.startup_epics_positioners import X1_DELAY
@@ -575,7 +576,6 @@ if installation.isLive():
 	localStation_print("   running localStationScripts/startup_epics_positioners.py")
 	run("localStationScripts/startup_epics_positioners")
 else:
-	from gda.device.scannable import DummyScannable
 	frontendx = DummyScannable('frontendx', 0)
 	frontendy = DummyScannable('frontendy', 0)
 	m1piezo = DummyScannable("m1piezo", 0)
@@ -1405,6 +1405,12 @@ try:
 	add_default(jythonNameMap["delta_axis_offset"])
 except:
 	localStation_exception("setting default scannables")
+
+if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
+	incidentBeamDivergenceScannable = DummyScannable('incidentBeamDivergenceScannable', 0)
+	incidentPolarizationScannable = DummyScannable('incidentPolarizationScannable', 0)
+	beamExtentScannable = DummyScannable('beamExtentScannable', 0)
+	fluxScannable = DummyScannable('fluxScannable', 0)
 
 ###############################################################################
 ###                          Recent developments                            ###

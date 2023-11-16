@@ -75,12 +75,10 @@
 	<bean id="beam" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
 		<property name="name" value="beam" />
 		<property name="incidentEnergyScannableName" value="en" /> <!-- incident_energy -->
-		<!-- 
-		<property name="incidentBeamDivergenceScannableName" value="dummy1" />
-		<property name="incidentPolarizationScannableName" value="dummy1" />
-		<property name="beamExtentScannableName" value="dummy1" />
-		<property name="fluxScannableName" value="dummy1" />
-		 -->
+		<property name="incidentBeamDivergenceScannableName" value="incidentBeamDivergenceScannable" />
+		<property name="incidentPolarizationScannableName" value="incidentPolarizationScannable" />
+		<property name="beamExtentScannableName" value="beamExtentScannable" />
+		<property name="fluxScannableName" value="fluxScannable" />
 		<property name="customNodes">
 			<list>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
