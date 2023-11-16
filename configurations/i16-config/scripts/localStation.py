@@ -1412,6 +1412,7 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanData
 	beamExtentScannable = DummyScannable('beamExtentScannable', 0)
 	fluxScannable = DummyScannable('fluxScannable', 0)
 	incident_polarisation_stokes = DummyScannable('incident_polarisation_stokes', 0)
+	polarization_analyser_jones_matrix = DummyScannable('polarization_analyser_jones_matrix', 0)
 
 ###############################################################################
 ###                          Recent developments                            ###
