@@ -87,6 +87,10 @@
 					<!--                  wavelength = 1e9 * PLANCK *         LIGHTSPEED / (energy           * 1000 * EVOLT_TO_JOULE) -->
 					<property name="units" value="nm"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="incident_polarisation_stokes"/>
+					<property name="scannableName" value="incident_polarisation_stokes"/>
+				</bean>
 			</list>
 		</property>
 	</bean>
