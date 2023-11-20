@@ -45,10 +45,6 @@ try:
 except Exception as e:
     print("Error setting up hkl providers", e)
 
-# Inject normaliser processor for use in namespace
-excalibur_norm = Finder.find("excalibur_norm")
-pilatus2_norm = Finder.find("pilatus2_norm")
-pilatus3_norm = Finder.find("pilatus3_norm")
 #####
 
 # PVA snapper

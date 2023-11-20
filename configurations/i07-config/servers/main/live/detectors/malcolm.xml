@@ -6,21 +6,27 @@
 
 
 	<bean id="MalcRoiProcExc" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="name" value="MalcRoiProcExc" />
 		<property name="plotName" value="Excalibur" />
 	</bean>
 	<bean id="MalcRoiProcPil2" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="name" value="MalcRoiProcPil2" />
 		<property name="plotName" value="Pilatus 2" />
 	</bean>
 	<bean id="MalcRoiProcPil3" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="name" value="MalcRoiProcPil3" />
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
 	<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="name" value="MalcPlotProcExc" />
 		<property name="plotName" value="Excalibur" />
 	</bean>
 	<bean id="MalcPlotProcPil2" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="name" value="MalcPlotProcPil2" />
 		<property name="plotName" value="Pilatus 2" />
 	</bean>
 	<bean id="MalcPlotProcPil3" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="name" value="MalcPlotProcPil3" />
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
 	<bean id="MalcAttenuatorProc" class="uk.ac.gda.analysis.mscan.FilterTransmissionProc">
@@ -29,6 +35,7 @@
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcExc">
+		<property name="name" value="MalcNormProcExc" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcExc" />
@@ -42,6 +49,7 @@
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil2">
+		<property name="name" value="MalcNormProcPil2" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil2" />
@@ -55,6 +63,7 @@
 	</bean>
 	<bean class="uk.ac.gda.analysis.mscan.NormProc"
 		id="MalcNormProcPil3">
+		<property name="name" value="MalcNormProcPil3" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil3" />
