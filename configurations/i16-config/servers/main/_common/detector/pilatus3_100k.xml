@@ -110,38 +110,6 @@
 		</property>
 	</bean>
 
-	<bean class="org.eclipse.scanning.device.DetectorTransformationsAppender" init-method="register">
-		<property name="name" value="pil3_100ks" />
-		<property name="transformation">
-			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="axisName" value="origin_offset" />
-				<property name="type" value="TRANSLATION" />
-				<property name="dependsOn" value="entry1/instrument/delta_axis_offset" />
-				<property name="size" value="1.0" />
-				<!-- 
-				<property name="value">
-					<list><value>1.0</value></list>
-				</property>
-				<property name="units" value="mm"/>
-				 -->
-				<property name="offset">
-					<list>
-						<value>0.</value>
-						<value>0.</value>
-						<value>0.</value>
-					</list>
-				</property>
-				<property name="vector">
-					<list>
-						<value>62.58314655</value>
-						<value>-18.31388151</value>
-						<value>621.14621608</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
 	<bean class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="pil3_100k" />
 		<property name="childNodes">
