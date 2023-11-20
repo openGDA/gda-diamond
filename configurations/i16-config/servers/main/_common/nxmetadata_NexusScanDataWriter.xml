@@ -322,9 +322,6 @@
 			 -->
 				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
 				<value>${gda.config}/yaml/compatibility.yaml</value>
-				<!-- 
-				<value>${gda.config}/yaml/locationMap.yaml</value>
-				 -->
 			</list>
 		</property>
 		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
