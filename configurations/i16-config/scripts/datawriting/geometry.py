@@ -3,6 +3,7 @@ from gda.device.scannable import ScannableMotionBase
 from org.slf4j import LoggerFactory
 from xml.etree.ElementTree import ElementTree
 
+
 class GeometryScannable(ScannableMotionBase):
 	""" Class for updating a detector geometry from a geometry file
 	
@@ -21,16 +22,17 @@ class GeometryScannable(ScannableMotionBase):
 		self.name = name
 		self.detectorNameInGeometryFile = detectorNameInGeometryFile
 		self.geometryFile = geometryFile
-		self.origin_offset_units = origin_offset_units
-		self.origin_offset_vector = origin_offset_vector
-		self.calibration_date = calibration_date
-		self.calibration_scan_number = calibration_scan_number
-		self.fast_pixel_direction_value = fast_pixel_direction_value
-		self.fast_pixel_direction_units = fast_pixel_direction_units
-		self.fast_pixel_direction_vector = fast_pixel_direction_vector
-		self.slow_pixel_direction_value = slow_pixel_direction_value
-		self.slow_pixel_direction_units = slow_pixel_direction_units
-		self.slow_pixel_direction_vector = slow_pixel_direction_vector
+		self.defaults = {}
+		self.defaults['origin_offset_units'] = 			origin_offset_units
+		self.defaults['origin_offset_vector'] = 			origin_offset_vector
+		self.defaults['calibration_date'] = 				calibration_date
+		self.defaults['calibration_scan_number'] =		calibration_scan_number
+		self.defaults['fast_pixel_direction_value'] =		fast_pixel_direction_value
+		self.defaults['fast_pixel_direction_units'] =		fast_pixel_direction_units
+		self.defaults['fast_pixel_direction_vector'] =	fast_pixel_direction_vector
+		self.defaults['slow_pixel_direction_value'] =		slow_pixel_direction_value
+		self.defaults['slow_pixel_direction_units'] =		slow_pixel_direction_units
+		self.defaults['slow_pixel_direction_vector'] =	slow_pixel_direction_vector
 
 		self.logger = LoggerFactory.getLogger('GeometryScannable:%s' % name)
 
@@ -51,7 +53,9 @@ class GeometryScannable(ScannableMotionBase):
 		self.outputFormat = [fmt for fmt in self.fields.itervalues()]
 		self.logger.debug('extraNames: {}{}', self.extraNames,'')
 		self.logger.debug('outputFormat: {}{}', self.outputFormat,'')
-		self.updatePosition()
+
+		for field in self.fields.iterkeys():
+			self.fields[field] = self.defaults[field]
 
 	# ScannableMotionBase overrides
 
@@ -84,6 +88,10 @@ class GeometryScannable(ScannableMotionBase):
 		geometryXml = ElementTree()
 		geometryXml.parse(self.geometryFile)
 		detXml  = self.getDetector(self.detectorNameInGeometryFile, geometryXml)
+		if detXml == None:
+			self.logger.warn("No Gemetry information found in {} with the name {}",
+							 geometryXml, self.detectorNameInGeometryFile)
+			return
 		self.logger.debug('detXml = {}{}', detXml, '')
 		# ------------------------------ I16-651 ------------------------------
 		positionXml = detXml.find('position')

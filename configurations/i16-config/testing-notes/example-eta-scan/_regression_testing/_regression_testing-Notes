@@ -28,6 +28,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023110108	NSD				Dummy	NXD/NDP	pil3	Move sample/depends_on definition into the sample bean
 2023110173	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for pil3_100k
 2023110183	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for merlin
+2023110188	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for pil_100k
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
