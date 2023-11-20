@@ -59,8 +59,7 @@ echo $VISIT/$SCAN.nxs.n*
 
 	To set the current scan as a new baseline
 
-[ -e $VISIT/$SCAN.nxs.ndw.nxlsa ] && BASELINE=$VISIT/$SCAN
-[ -e $VISIT/$SCAN.nxs.nsd.nxlsa ] && BASELINE=$VISIT/$SCAN
+BASELINE=$VISIT/$SCAN
 
 	To quickly summarise current state
 
@@ -73,5 +72,6 @@ echo SCAN=$SCAN BASELINE=$BASELINE VISIT=$VISIT
 	To copy the structure files to the archive
 
 cp $VISIT/$SCAN.dat $VISIT/$SCAN.nxs.* .
+BASELINE=$SCAN
 
 ================================================================================

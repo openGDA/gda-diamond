@@ -7,10 +7,30 @@ class GeometryScannable(ScannableMotionBase):
 	""" Class for updating a detector geometry from a geometry file
 	
 	"""
-	def __init__(self, name, detectorNameInGeometryFile, geometryFile):
+	def __init__(self, name, detectorNameInGeometryFile, geometryFile, # Defaults are for  pilatus3
+				origin_offset_units = 'mm',
+				origin_offset_vector = [62.58314655, -18.31388151, 621.14621608],
+				calibration_date = '0000-01-01 00:00:00',
+				calibration_scan_number = -1,
+				fast_pixel_direction_value = [0.172],
+				fast_pixel_direction_units = 'mm',
+				fast_pixel_direction_vector = [ 0.7063757 , 0.00183285, -0.70783474],
+				slow_pixel_direction_value = [0.172],
+				slow_pixel_direction_units = 'mm',
+				slow_pixel_direction_vector = [4.41563000e-04, 9.99995312e-01, 3.03000900e-03]):
 		self.name = name
 		self.detectorNameInGeometryFile = detectorNameInGeometryFile
 		self.geometryFile = geometryFile
+		self.origin_offset_units = origin_offset_units
+		self.origin_offset_vector = origin_offset_vector
+		self.calibration_date = calibration_date
+		self.calibration_scan_number = calibration_scan_number
+		self.fast_pixel_direction_value = fast_pixel_direction_value
+		self.fast_pixel_direction_units = fast_pixel_direction_units
+		self.fast_pixel_direction_vector = fast_pixel_direction_vector
+		self.slow_pixel_direction_value = slow_pixel_direction_value
+		self.slow_pixel_direction_units = slow_pixel_direction_units
+		self.slow_pixel_direction_vector = slow_pixel_direction_vector
 
 		self.logger = LoggerFactory.getLogger('GeometryScannable:%s' % name)
 
@@ -66,35 +86,14 @@ class GeometryScannable(ScannableMotionBase):
 		detXml  = self.getDetector(self.detectorNameInGeometryFile, geometryXml)
 		self.logger.debug('detXml = {}{}', detXml, '')
 		# ------------------------------ I16-651 ------------------------------
-		"""
-		origin_offset:
-		  units@: mm 											# TRANSFORMATION_UNITS, TODO: Use value from geometry file
-		  vector@: [62.58314655, -18.31388151, 621.14621608]	# TRANSFORMATION_VECTOR, TODO: Use value from geometry file
-		"""
 		positionXml = detXml.find('position')
 		position = [ float(element.text) for element in positionXml.findall('vector/element') ]
-
-		self.updateField('origin_offset_units', positionXml.find('units').text, 'mm')
-		self.updateField('origin_offset_vector', position, [62.58314655, -18.31388151, 621.14621608]) 
+		self.updateField('origin_offset_units', positionXml.find('units').text, self.origin_offset_units)
+		self.updateField('origin_offset_vector', position, self.origin_offset_vector) 
 		# ------------------------------ I16-648 ------------------------------
-		"""
-		calibration_date: "0000-01-01 00:00:00"	# CALIBRATION_TIME : CALIBRATION_TIME_DEF, TODO: Use value from geometry file
-		calibration_scan_number: -1				# CALIBRATION_SCAN : CALIBRATION_SCAN_DEF, TODO: Use value from geometry file
-		"""
-		self.updateField('calibration_date', detXml.find('time').text, '0000-01-01 00:00:00')
-		self.updateField('calibration_scan_number', int(detXml.find('scan').text), -1)
+		self.updateField('calibration_date', detXml.find('time').text, self.calibration_date)
+		self.updateField('calibration_scan_number', int(detXml.find('scan').text), self.calibration_scan_number)
 		# ------------------------------ I16-649 ------------------------------
-		"""
-		module/:
-		  fast_pixel_direction:
-		    value: [0.172] 												# FAST_PIXEL_SIZE, TODO: Use value from geometry file
-		    units@: mm 													# FAST_PIXEL_UNITS, TODO: Use value from geometry file
-		    vector@: [ 0.7063757 , 0.00183285, -0.70783474] 				# FAST_PIXEL_DIRECTION, TODO: Use value from geometry file
-		  slow_pixel_direction:
-		    value: [0.172] 												# SLOW_PIXEL_SIZE, TODO: Use value from geometry file
-		    units@: mm 													# SLOW_PIXEL_UNITS, TODO: Use value from geometry file
-		     vector@: [4.41563000e-04, 9.99995312e-01, 3.03000900e-03] 	# SLOW_PIXEL_DIRECTION, TODO: Use value from geometry file
-		"""
 		axes = detXml.findall('axis')
 		for axisXml in axes:
 			size = float(axisXml.find('size').text)
@@ -103,12 +102,10 @@ class GeometryScannable(ScannableMotionBase):
 
 			axisName = axisXml.attrib['name']
 			if axisName == 'fast':
-				self.updateField('fast_pixel_direction_value', [size], [0.172])
-				self.updateField('fast_pixel_direction_units', units, 'mm')
-				#self.updateField('fast_pixel_direction_vector', vector, [ 0.7063757 , 0.00183285, -0.70783474])
-				self.updateField('fast_pixel_direction_vector', vector, [ 0.7 , 0.002, -0.7])
+				self.updateField('fast_pixel_direction_value', [size], self.fast_pixel_direction_value)
+				self.updateField('fast_pixel_direction_units', units, self.fast_pixel_direction_units)
+				self.updateField('fast_pixel_direction_vector', vector, self.fast_pixel_direction_vector)
 			if axisName == 'slow':
-				self.updateField('slow_pixel_direction_value', [size], [0.172])
-				self.updateField('slow_pixel_direction_units', units, 'mm')
-				#self.updateField('slow_pixel_direction_vector', vector, [4.41563000e-04, 9.99995312e-01, 3.03000900e-03])
-				self.updateField('slow_pixel_direction_vector', vector, [4e-04, 10e-01, 3e-03])
+				self.updateField('slow_pixel_direction_value', [size], self.slow_pixel_direction_value)
+				self.updateField('slow_pixel_direction_units', units, self.slow_pixel_direction_units)
+				self.updateField('slow_pixel_direction_vector', vector, self.slow_pixel_direction_vector)

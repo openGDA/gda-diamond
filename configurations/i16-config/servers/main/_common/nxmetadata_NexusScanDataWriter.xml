@@ -325,8 +325,6 @@
 				<!-- 
 				<value>${gda.config}/yaml/locationMap.yaml</value>
 				 -->
-				<value>${gda.config}/yaml/NXdetector_merlin.yaml</value>
-				<value>${gda.config}/yaml/NXdetector_merlins.yaml</value>
 				<value>${gda.config}/yaml/NXdetector_pilatus1.yaml</value>
 			</list>
 		</property>

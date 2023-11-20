@@ -1,0 +1,362 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="NexusScanDataWriter">
+
+	<bean id="merlin" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor" >
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="merlin" />
+				<property name="collectionStrategy" ref="merlin_nxcollectionstrategy"/>
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="merlin_nxfilewriter_for_scans" />
+						<ref bean="merlin_hdf5_filewriter_for_scans" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="processor">
+			<bean class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
+				<property name="detName" value="merlin" />
+				<property name="processors">
+					<list>
+						<bean class="gda.device.detector.nexusprocessor.DatasetPlotter">
+							<property name="plotName" ref="merlin_plotName" />
+							<property name="roiProvider" ref="merlin_rois" />
+						</bean>
+						<ref bean="merlin_rois" />
+						<ref bean="merlin_stats" />
+					</list>
+				</property>
+				<property name="datasetCreator" >
+					<bean id="merlin_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator" />
+				</property>
+				<!-- 
+				<property name="detectorWidth" value="2068" />
+				<property name="detectorHeight" value="2162" />
+				<property name="useUidDataset" value="true" />
+				 -->
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_plotName" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="Merlin"/>
+	</bean>
+
+	<bean id="merlin_rois" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
+		<property name="plotName" ref="merlin_plotName" />
+		<property name="statsProcessor" ref="merlin_stats" />
+		<property name="requiredRectangularRoiList">
+			<list>
+				<bean class="org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI">
+					<property name="name" value="roi1" />
+					<property name="plot" value="true" />
+					<property name="fixed" value="true" />
+					<property name="point">
+						<array>
+							<value>232</value>
+							<value>98</value>
+						</array>
+					</property>
+					<property name="lengths">
+						<array>
+							<value>13</value>
+							<value>15</value>
+						</array>
+					</property>
+				</bean>
+				<bean class="org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI">
+					<property name="name" value="roi2" />
+					<property name="plot" value="true" />
+					<property name="fixed" value="true" />
+					<property name="point">
+						<array>
+							<value>214</value>
+							<value>81</value>
+						</array>
+					</property>
+					<property name="lengths">
+						<array>
+							<value>50</value>
+							<value>50</value>
+						</array>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="merlin_stats" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>SUM</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.DetectorTransformationsAppender" init-method="register">
+		<property name="name" value="merlins" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="axisName" value="origin_offset" />
+				<property name="type" value="TRANSLATION" />
+				<property name="dependsOn" value="entry1/instrument/delta_axis_offset" />
+				<property name="size" value="1.0" />
+				<!-- 
+				<property name="value">
+					<list><value>1.0</value></list>
+				</property>
+				<property name="units" value="mm"/>
+				 -->
+				<property name="offset">
+					<list>
+						<value>0.</value>
+						<value>0.</value>
+						<value>0.</value>
+					</list>
+				</property>
+				<property name="vector">
+					<list>
+						<value>62.58314655</value>
+						<value>-18.31388151</value>
+						<value>621.14621608</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="merlin" />
+		<property name="childNodes">
+			<list>
+				<!-- I16-651 -->
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="origin_offset"/>
+								<property name="value">
+										<array value-type="java.lang.Double"><value>1.0</value></array>
+								</property>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on"/>
+											<constructor-arg name="value" value="/entry1/instrument/delta_axis_offset"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset_units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="units"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="origin_offset_units"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="vector"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="origin_offset_vector"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean> 
+
+				<!-- I16-648 -->
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="calibration_date"/>
+					<property name="scannableName" value="merlin_geometry"/>
+					<property name="componentName" value="calibration_date"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="calibration_scan_number"/>
+					<property name="scannableName" value="merlin_geometry"/>
+					<property name="componentName" value="calibration_scan_number"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="/entry1/instrument/merlin/transformations/origin_offset"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="saturation_value"/>
+					<property name="value">
+							<array value-type="java.lang.Double"><value>1000000</value></array>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_material"/>
+					<property name="value" value="Silicon"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<constructor-arg name="fieldName" value="sensor_thickness" />
+					<constructor-arg name="value">
+							<array value-type="java.lang.Double"><value>500</value></array>
+					</constructor-arg>
+					<constructor-arg name="units" value="um" />
+				</bean>
+				<!-- I16-649 -->
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="module"/>
+					<property name="nexusClass" value="NXdetector_module"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="data_origin"/>
+								<property name="value">
+									<array value-type="java.lang.Integer"><value>0</value><value>0</value></array>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="data_size"/>
+								<property name="value">
+									<array value-type="java.lang.Integer"><value>515</value><value>515</value></array>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<constructor-arg name="fieldName" value="module_offset" />
+								<constructor-arg name="value">
+										<array value-type="java.lang.Double"><value>0.0</value></array>
+								</constructor-arg>
+								<constructor-arg name="units" value="mm" />
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on"/>
+											<constructor-arg name="value" value="/entry1/instrument/merlin/transformations/origin_offset"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset" />
+											<constructor-arg name="value">
+												<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset_units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableComponentField">
+								<property name="name" value="fast_pixel_direction"/>
+								<property name="scannableName" value="merlin_geometry"/>
+								<property name="componentName" value="fast_pixel_direction_value"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on"/>
+											<constructor-arg name="value" value="/entry1/instrument/merlin/module/module_offset"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset_units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="units"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="fast_pixel_direction_units"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="vector"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="fast_pixel_direction_vector"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableComponentField">
+								<property name="name" value="slow_pixel_direction"/>
+								<property name="scannableName" value="merlin_geometry"/>
+								<property name="componentName" value="slow_pixel_direction_value"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on"/>
+											<constructor-arg name="value" value="/entry1/instrument/merlin/module/module_offset"/>
+										</bean>
+										
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset_units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="units"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="slow_pixel_direction_units"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScannableComponentMetadataAttribute">
+											<property name="name" value="vector"/>
+											<property name="scannableName" value="merlin_geometry"/>
+											<property name="componentName" value="slow_pixel_direction_vector"/>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<!-- I16-637 -->
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="polarization_analyser_jones_matrix"/>
+					<property name="scannableName" value="polarization_analyser_jones_matrix"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>
