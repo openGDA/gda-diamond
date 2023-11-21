@@ -25,12 +25,12 @@
 
 	<bean id="s2cenX_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-AL-SLITS-02:X:CENTRE" />
+		<property name="pvName" value="BL15J-AL-SLITS-02:X:CENTER" />
 	</bean>
 
 	<bean id="s2cenY_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-AL-SLITS-02:Y:CENTRE" />
+		<property name="pvName" value="BL15J-AL-SLITS-02:Y:CENTER" />
 	</bean>
 
 	<bean id="s2gapX_motor"
