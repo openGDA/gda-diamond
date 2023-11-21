@@ -22,7 +22,7 @@
 	</bean>
 	
 	<bean id="diffractionTomographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
-		<constructor-arg ref="diffractionMalcolmMri" /> <!-- FIXME change as soon as Malcolm scan block for diffraction tomography becomes available -->
+		<constructor-arg ref="diffractionMalcolmMri" /> <!-- This scan contains gts_cs_theta too -->
 	</bean>
 	
 	<bean id="diffractionXScannable" class="java.lang.String"  factory-method="valueOf">
@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
-		<constructor-arg value="gts_theta"/>
+		<constructor-arg value="gts_cs_theta"/>
 	</bean>
 
 </beans>
