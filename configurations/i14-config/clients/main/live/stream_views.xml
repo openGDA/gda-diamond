@@ -8,6 +8,7 @@
 	<bean id="merlin_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Merlin Detector" />
 		<property name="arrayPv" value="BL14I-EA-DET-04:ARR" />
+		<property name="pvAccessPv" value="BL14I-EA-DET-04:PVA:ARRAY" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi">
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
