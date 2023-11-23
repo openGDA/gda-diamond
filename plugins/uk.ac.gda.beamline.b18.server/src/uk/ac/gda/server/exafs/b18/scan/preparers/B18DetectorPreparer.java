@@ -31,7 +31,6 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.mythen.MythenDetectorImpl;
 import gda.device.detector.nxdetector.NXPluginBase;
 import gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI;
 import gda.exafs.scan.ExafsScanPointCreator;
@@ -62,8 +61,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private static final Logger logger = LoggerFactory.getLogger(B18DetectorPreparer.class);
 
 	private Scannable energy_scannable;
-	private MythenDetectorImpl mythen_scannable;
-	private Detector pilatusDetector;
+	private Detector diffractionDetector;
+	private String diffractionDetectorFilenameTemplate = "/%d-pilatus";
 
 	private List<Scannable> ionc_gas_injector_scannables;
 
@@ -97,11 +96,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		stringSubstitutionMapQexafs.put("finalEnergy", QEXAFSParameters::getFinalEnergy);
 	}
 
-	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
+	public B18DetectorPreparer(Scannable energy_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers) {
 		this.energy_scannable = energy_scannable;
-		this.mythen_scannable = mythen_scannable;
 		detectorPreparerFunctions.setSensitivities(sensitivities);
 		detectorPreparerFunctions.setSensitivityUnits(sensitivity_units);
 		detectorPreparerFunctions.setOffsets(offsets);
@@ -230,10 +228,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	 * @since 26/5/2016
 	 * @throws Exception
 	 */
-	public void collectMythenData() throws Exception {
+	public void collectDiffractionData() throws Exception {
 		IExperimentDetectorParameters detParams = getDetectorParameters();
 		if ( detParams != null && detParams.isCollectDiffractionImages() ) {
-			control_mythen(detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
+			collectDiffractionData(detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
 		}
 	}
 
@@ -257,8 +255,6 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private void beforeFirstRepetition() throws Exception {
 		if (useNewDetectorConfiguration()) {
-			//Get the diffraction detector object to be used for the measurement
-			Scannable diffractionDetector = pilatusDetector != null ? pilatusDetector : mythen_scannable;
 			// Find the config that uses the detector
 			Optional<DetectorConfig> diffractionConfig = detectorBean.getDetectorConfigurations()
 					.stream()
@@ -267,10 +263,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			if (diffractionConfig.isPresent() && diffractionConfig.get().isUseDetectorInScan()) {
 				File mythenFile = Paths.get(experimentFullPath, diffractionConfig.get().getConfigFileName()).toFile();
 				MythenParameters mythenBean = (MythenParameters) XMLHelpers.getBean(mythenFile);
-				control_mythen(mythenBean.getMythenEnergy(), mythenBean.getMythenTime(), outputBean, experimentFullPath);
+				collectDiffractionData(mythenBean.getMythenEnergy(), mythenBean.getMythenTime(), outputBean, experimentFullPath);
 			}
 		} else {
-			collectMythenData();
+			collectDiffractionData();
 		}
 	}
 
@@ -351,29 +347,17 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 
-	protected void control_mythen(double energy, double collectionTime, IOutputParameters outputBean,
+	protected void collectDiffractionData(double energy, double collectionTime, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4,
 				experimentFullPath.length());
 		String nexusSubFolder = experimentFolderName + "/" + outputBean.getNexusDirectory();
 		String asciiSubFolder = experimentFolderName + "/" + outputBean.getAsciiDirectory();
-		String mythenSubFolder = Paths.get(experimentFolderName, "mythen").toString();
 
-		InterfaceProvider.getTerminalPrinter().print("Moving DCM for Mythen image...");
-
-		// Save currently set mythen subdirectory - so it can be set back to original value after the scan
-		String mythenSubdirectoryBeforeScan = mythen_scannable.getSubDirectory();
+		InterfaceProvider.getTerminalPrinter().print("Moving DCM for collecting diffraction data...");
 
 		energy_scannable.moveTo(energy);
-
-		Detector diffractionDetector = mythen_scannable;
-		String filenameTemplate = "/%d-mythen";
-
-		if (pilatusDetector != null) {
-			diffractionDetector = pilatusDetector;
-			filenameTemplate = "/%d-pilatus";
-		}
 
 		diffractionDetector.setCollectionTime(collectionTime);
 
@@ -384,20 +368,15 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		DataWriter datawriter = datawriterFactory.createDataWriter();
 		if (datawriter instanceof XasAsciiNexusDataWriter) {
 			((XasAsciiNexusDataWriter) datawriter).setRunFromExperimentDefinition(false);
-			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + filenameTemplate+".nxs");
-			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + filenameTemplate+".dat");
+			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + diffractionDetectorFilenameTemplate+".nxs");
+			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + diffractionDetectorFilenameTemplate+".dat");
 			staticscan.setDataWriter(datawriter);
 		}
 
-		try {
-			mythen_scannable.setSubDirectory(mythenSubFolder);
-			InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image using "+diffractionDetector.getName()+"...");
-			staticscan.run();
-			InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
-		} finally{
-			//set mythen subdirectory back to its original value
-			mythen_scannable.setSubDirectory(mythenSubdirectoryBeforeScan);
-		}
+		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image using "+diffractionDetector.getName()+"...");
+		staticscan.run();
+		InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
+
 	}
 
 	@Override
@@ -591,11 +570,11 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		detectorPreparerFunctions.setMutableRoiForMedipix(medipixDetector, mutableRoiForMedipix);
 	}
 
-	public Detector getPilatusDetector() {
-		return pilatusDetector;
+	public Detector getDiffractionDetector() {
+		return diffractionDetector;
 	}
 
-	public void setPilatusDetector(Detector pilatusDetector) {
-		this.pilatusDetector = pilatusDetector;
-	}
+	public void setDiffractionDetector(Detector diffractionDetector) {
+		this.diffractionDetector = diffractionDetector;
+		}
 }

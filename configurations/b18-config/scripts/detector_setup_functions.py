@@ -11,13 +11,6 @@ def checkXspressPvsExist(baseName):
     testPv=":TriggerMode"
     return XspressPvProviderBase.pvExists(baseName+testPv)
 
-# Set some scannables for Mythen, so they are added to header of output file
-def setupMythen() :
-    mythen.addScannableForHeader(qexafs_energy)
-    mythen.addScannableForHeader(user1)
-    mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
-    mythenEpics.addScannableForHeader(user1, "Motor angle")
-
 
 # Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
 def setupXspress3() :
@@ -36,7 +29,7 @@ def setupXspress3() :
         print("Not setting up Xspress3 detector- PVs do not exist (IOC is not running)")
         return
     
-    print("\nSetting up Xspress3 detector")
+    #print("\nSetting up Xspress3 detector")
     
     setup_xspress_detector(basePv)
     # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
