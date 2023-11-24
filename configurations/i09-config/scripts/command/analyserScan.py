@@ -4,10 +4,8 @@ Created on 15 May 2013
 @author: fy65
 '''
 from org.opengda.detector.electronanalyser.scan import RegionScannable, RegionPositionProvider
-from gda.jython.commands.ScannableCommands import scan
 from gda.factory import Finder
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
-from gda.jython import InterfaceProvider
 import os
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
@@ -20,7 +18,8 @@ from gdascripts.utils import caput
 from gda.device import Scannable
 from types import TupleType, ListType, FloatType, IntType
 from gda.device.scannable.scannablegroup import ScannableGroup
-#from localStation import setSubdirectory
+from gdascripts.scan.installStandardScansWithProcessing import scan
+
 
 ENABLEZEROSUPPLIES=False
 PRINTTIME=False
