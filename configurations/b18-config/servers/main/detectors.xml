@@ -75,52 +75,6 @@
 		<property name="useCustomisedOutput" value="true" />
 	</bean>
 
-	<bean id="counterTimer02_nocorr"
-		class="gda.device.detector.countertimer.TfgXspress2NoCorrection">
-		<property name="extraNames">
-			<list>
-				<value>flu_0</value>
-				<value>flu_1</value>
-				<value>flu_2</value>
-				<value>flu_3</value>
-				<value>flu_4</value>
-				<value>flu_5</value>
-				<value>flu_6</value>
-				<value>flu_7</value>
-				<value>flu_8</value>
-				<value>FF</value>
-			</list>
-		</property>
-		<property name="xspress" ref="xspress2system" />
-		<property name="timer" ref="tfg" />
-		<property name="slave" value="true" />
-	</bean>
-
-	<bean id="counterTimer02_raw" class="gda.device.detector.countertimer.TfgXspress2Raw">
-		<property name="extraNames">
-			<list>
-				<value>flu_0</value>
-				<value>flu_1</value>
-				<value>flu_2</value>
-				<value>flu_3</value>
-				<value>flu_4</value>
-				<value>flu_5</value>
-				<value>flu_6</value>
-				<value>flu_7</value>
-				<value>flu_8</value>
-				<value>FF</value>
-			</list>
-		</property>
-		<property name="xspress" ref="xspress2system" />
-		<property name="timer" ref="tfg" />
-		<property name="slave" value="true" />
-	</bean>
-
-	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
-		<property name="xspress" ref="xspress2system" />
-		<property name="scalerName" value="counterTimer01" />
-	</bean>
-
 	<bean id="det1" class="gda.device.detector.DummyBufferedDetector">
 		<property name="inputNames">
 			<list>
