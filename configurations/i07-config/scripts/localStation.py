@@ -67,6 +67,7 @@ print "		 To plot image: dnp.plot.image(data)"
 try_execfile("BeamlineI07/useMotors.py", "Motor Support")
 
 from BeamlineI07.useFourc import fc
+from BeamlineI07.useTenma import tenma
 
 from gdaserver import fastshutter as fs, fastshutter_fatt as ffs, fastshutterScan
 add_default(fastshutterScan)
