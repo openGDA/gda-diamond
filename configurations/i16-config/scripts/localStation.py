@@ -1213,16 +1213,12 @@ with overwriting:  # @UndefinedVariable
 	try:
 		camlab84, camlab84_peak2d, camlab84_max2d, camlab84Auto, camlab84Autopeak2d, camlab84Automax2d = wrappedAutoDetector(
 			"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:", panel_name_rcp='Plot 1')
-		camlab84ExpTime.level=10
 	except:
 		localStation_exception("configuring wrapped auto detectors - camlab84")
-	
-	global camlab84b_for_scans, camlab84b_for_snaps, camlab84bExpTime
 	
 	try:
 		camlab84b, camlab84b_peak2d, camlab84b_max2d, camlab84bAuto, camlab84bAutopeak2d, camlab84bAutomax2d = wrappedAutoDetector(
 			"camlab84", camlab84b_for_scans, camlab84b_for_snaps, "LA84R-DI-DCAM-03:", panel_name_rcp='Plot 2')
-		camlab84bExpTime.level=10
 	except:
 		localStation_exception("configuring wrapped auto detectors - camlab84b")
 	
