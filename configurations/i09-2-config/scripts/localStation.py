@@ -7,7 +7,6 @@ from gda.factory import Finder
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
-from calibration.Energy_class import BeamEnergy
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
 from gda.jython.commands.ScannableCommands import scan 
 from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
@@ -20,6 +19,7 @@ from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import Extr
 from gda.util import PropertyUtils
 import sys
 import installation
+from gda.device.scannable import PVScannable
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -150,7 +150,7 @@ def interruptable():
 ###                   Configure scan data processing                        ###
 ###############################################################################
 
-print "Importing analysis commands (findpeak, findcentroid & enable scan data processes)"
+print("Importing analysis commands (findpeak, findcentroid & enable scan data processes)")
 findpeak=FindScanPeak 
 findcentroid=FindScanCentroid 
 
@@ -158,58 +158,80 @@ findcentroid=FindScanCentroid
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-# print
-# print "-----------------------------------------------------------------------------------------------------------------"
-# print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
-# dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
-#print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
+###############################################################################
+###                   Configure scannable output formats                        ###
+###############################################################################
+globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 
-# 2017-10-13 James re-enable jenergy_old as the new way doesn't work. 
-#jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
 
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-#print "Create an 'jgap' scannable for soft X-ray ID gap"
-#from pseudodevices.AppleIIIDScannable import Apple2IDScannableClass
-#jgap=Apple2IDScannableClass("jgap","SR09J-MO-SERVC-01:BLGSET","SR09J-MO-SERVC-01:CURRGAPD","SR09J-MO-SERVC-01:BLGSETP","mm","%.5f", 0.002)
-# James' temporary solution, this require to comment out Java PGM energy object
-#from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
-#pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
 
+print("-----------------------------------------------------------------------------------------------------------------")
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
-
-# Create temporary devices for femtos this should be moved to Spring
-sd9iamp9=DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I","V","%f")
-sd9iamp36=DisplayEpicsPVClass("sd9iamp36", "BL09K-MO-SD-09:IAMP36:I","V","%f")
-sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
+if installation.isLive():
+    # Create temporary devices for femtos this should be moved to Spring
+    sd9iamp9=DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I","V","%f")
+    sd9iamp36=DisplayEpicsPVClass("sd9iamp36", "BL09K-MO-SD-09:IAMP36:I","V","%f")
+    sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
 
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
 
-print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
-LH,LV,CR,CL=["LH","LV","CR","CL"]
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 
-jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-jenergy.configure()
-polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
+print("-----------------------------------------------------------------------------------------------------------------")
+
+from pseudodevices.IDGap_Offset import jgap_offset
+
+print("Create 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables.")
+LH,LV,CR,CL,LH3=["LH","LV","CR","CL","LH3"]
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+if installation.isLive():
+    jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+    polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+    jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
+else:
+    jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+    polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+    jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+   
+jenergy_s.configure()
 polarisation.configure()
-jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
+from scannable.continuous.continuous_energy_scannables import jenergy,  jenergy_move_controller, jI0, sdc  # @UnusedImport
+from scan.cvscan import cvscan  # @UnusedImport
+
+
 if installation.isLive():
     from detector.iseg_instances import dldv, mcp_b, sample_bias, int_spec, DLD_start, DLD_stop  # @UnusedImport
+    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2  # @UnresolvedImport
 
 
 from scan.miscan import miscan, clear_summed_data  # @UnusedImport
-   
-print
-print "=================================================================================================================";
-print "Initialisation script complete."
-print
-###Must leave what after this line last.
+
+# Install regional scan
+print("Installing regional scan")
+from gdascripts.scan.RegionalScan import RegionalScanClass
+mrscan = RegionalScanClass()
+alias('mrscan')
+  
+#check beam scannables
+from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time # @UnusedImport
+
+print("-"*100)
+print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
+from metadata.metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
+meta_data_list = [jgap, topup_time, rc, beamenergy, topupstate, sm6iamp27, sm6, sm3, ss2, ss7, pgm, pgmenergy, microscope, es3x]  # @UndefinedVariable
+meta_data_list += [sx1, sx2, sx3, sy, sz1, sz2] 
+for each in meta_data_list:
+    meta_add(each)
+
+print("=================================================================================================================")
+print("localStation.py Initialisation script complete.")
+
+
+
