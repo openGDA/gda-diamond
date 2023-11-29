@@ -51,7 +51,7 @@
 				<ref bean="sm21b_z" />
 				<ref bean="sm21b_y" />
 				<ref bean="sm21b_roty"/>
-				<ref bean="sm21b_y_positioner"/>
+<!-- 				<ref bean="sm21b_y_positioner"/> -->
 			</list>
 		</property>
 	</bean>

@@ -20,7 +20,7 @@
 		<property name="pvName" value="BL07B-EA-SM-21:ROTY" />
 	</bean>
 
-	<bean id="sm21b_y_positioner" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="BL07B-EA-SM-21:Y:MP"/>
-	</bean>
+<!-- 	<bean id="sm21b_y_positioner" class="gda.spring.EpicsEnumPositionerFactoryBean"> -->
+<!-- 		<property name="pvBase" value="BL07B-EA-SM-21:Y:MP"/> -->
+<!-- 	</bean> -->
 </beans>
