@@ -515,11 +515,11 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		
 		step=1.0*(endEnergy - startEnergy)/numPoint;
 		
-		#pscan fastEnergy 0 1 numPoint fesData 0 1;
+		#pscan fastEnergy 0 numPoint-1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
 		
 		try:
-			theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
+			theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,1]);
 			theScan.runScan();
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
