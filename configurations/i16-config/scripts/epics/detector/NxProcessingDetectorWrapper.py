@@ -67,6 +67,10 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
             detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV())
             nexusPaths = ["/entry1/instrument/%s" % self.name, "/entry1/%s" % self.name]
             datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
+            if LocalProperties.isDummyModeEnabled(): # Resolve symlinks which mess up relpath in dummy mode
+                self.logger.debug("datadirectory WAS '{}'", datadirectory)
+                datadirectory = os.path.realpath(datadirectory)
+                self.logger.debug("datadirectory NOW '{}'", datadirectory)
             nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
             detectorPath = "/entry/instrument/detector/data"
             detectorFileName = os.path.relpath(detectorFileName, datadirectory)

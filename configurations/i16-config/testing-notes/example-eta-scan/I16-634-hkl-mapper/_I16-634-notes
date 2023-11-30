@@ -1,0 +1,40 @@
+================================================================================
+							Testing with msmapper
+================================================================================
+Scan		Configuration	Dummy	Detector		Notes
+			NDW	DWE	LF	T	/Live						Baseline scan command
+----------- --- --- --	-	-----	-------	-------	----------------------------
+../1022133	NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.002 61 pil3_100k 1 roi2 roi1
+202311264	NDW	DWE	LF		Dummy	NXPDW	pil3	scancn eta 0.002 5 pil3_100k 1 roi2 roi1
+----------- --- --- --	-	-----	-------	-------	----------------------------
+
+================================================================================
+							Preparing for a scan
+--------------------------------------------------------------------------------
+
+This scan assumes you have done
+
+loadub('CoTi2O5')
+pos eta 28.668754
+
+--------------------------------------------------------------------------------
+						Preparing a scan for archiving
+--------------------------------------------------------------------------------
+
+During setup, run this line instead
+
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/
+
+--------------------------------------------------------------------------------
+						Processing a scan
+--------------------------------------------------------------------------------
+
+rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log ; \
+nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
+nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree
+
+to get the processed nexus. This is the offline equivalent of
+
+rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/mm34332-1/1022133.nxs
+
+================================================================================

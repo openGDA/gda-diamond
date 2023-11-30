@@ -1,0 +1,23 @@
+/dls/i16/data/2023/mm34332-1/processing/1022133_rsmap.nxs:
+/
+  @default='processed'
+    entry0 (external link to ../1022133.nxs#/entry1):NXentry/
+    processed:NXentry/
+                       @default='reciprocal_space'
+    processed/process:NXprocess/
+    processed/process/date='2023-11-16T09:37:21.086287Z'
+    processed/process/parameters='{"inputs":["/dls/i16/data/2023/mm34332-1/1022133.nxs"],"output":"/dls/i16/data/2023/mm34332-1/processing/1022133_rsmap.nxs","splitterName":"gaussian","splitterParameter":2.0,"scaleFactor":2.0,"reduceToNonZero":false,"entryPath":null,"instrumentName":null,"attenuatorName":null,"monitorName":"rc","detectorName":null,"dataName":null,"sampleName":null,"listMillerEntries":false,"shape":[100,100,200],"start":[-0.046,-0.024,5.883],"step":[0.001,5.0E-4,0.0012],"region":null,"maskFilePath":null,"outputMode":"Volume_HKL","pixelIndexes":null,"images":null,"correctPolarization":true}'
+    processed/process/program='DAWN.MillerSpaceMapper'
+    processed/process/version='1.6'
+    processed/reciprocal_space:NXdata/
+                                       @auxiliary_signals='weight'
+                                       @axes=['h-axis', 'k-axis', 'l-axis']
+                                       @h-axis_indices=0
+                                       @k-axis_indices=1
+                                       @l-axis_indices=2
+                                       @signal='volume'
+    processed/reciprocal_space/h-axis: (100,) units=/angstrom
+    processed/reciprocal_space/k-axis: (100,) units=/angstrom
+    processed/reciprocal_space/l-axis: (200,) units=/angstrom
+    processed/reciprocal_space/volume: (100, 100, 200)
+    processed/reciprocal_space/weight: (100, 100, 200)

@@ -1,61 +1,71 @@
 ================================================================================
 					Preparing a scan for archiving here
 ================================================================================
-								Common setup
---------------------------------------------------------------------------------
-module load msmapper/latest
---------------------------------------------------------------------------------
 							Live or scratch deployment
 --------------------------------------------------------------------------------
 
 SCRATCH=/scratch
+# Above in both scratch and live, but only below in live
 DEPLOYMENT=$SCRATCH/dls_sw/i16/software/gda
-cd $DEPLOYMENT/config/testing-notes/example-eta-scan/_regression_testing
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/_regression_testing
 
 --------------------------------------------------------------------------------
 							Live vs scratch data
 --------------------------------------------------------------------------------
 
-VISIT=/dls/i16/data/2023/cm33911-1
---------------------------------------------------------------------------------
 VISIT=$DEPLOYMENT/gda_data_non_live
+# Above in scratch, but below in live
+VISIT=/dls/i16/data/2023/cm33911-1
 
-BASELINE=../971324 # For pil3
-BASELINE=../979681 # For merlin
-BASELINE=../985494 # For merlins
+--------------------------------------------------------------------------------
+							Baseline
+--------------------------------------------------------------------------------
+
+BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/971324 # For pil3
+BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/979681 # For merlin
+BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/985494 # For merlins
+BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/1022133 # For pil3
+
+--------------------------------------------------------------------------------
+							Common setup
+--------------------------------------------------------------------------------
+
+module load msmapper/1.7
+cd $VISIT
+
+Plus for dummy mode, activemq-for-dummy and GDA AreaDetector Simulation as usual
+
 --------------------------------------------------------------------------------
 								Analysis
 --------------------------------------------------------------------------------
 
 	To set the current scan:
 
-ls -trsh $VISIT | tail -10 ; SCAN=$((SCAN+1)) ; echo SCAN=$SCAN
+ls -trsh | tail -10 ; SCAN=$((SCAN+1)) ; echo SCAN=$SCAN
 
 	To generate the structure files:
 
-ls -tr $VISIT/$SCAN* ; \
+ls -tr $SCAN* ; echo ; \
+nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa ; \
+nexus.tree $SCAN.nxs > $SCAN.nxs.tree ; \
 echo ; \
-nxls    -a $VISIT/$SCAN.nxs > $VISIT/$SCAN.nxs.nxlsa ; \
-nexus.tree $VISIT/$SCAN.nxs > $VISIT/$SCAN.nxs.tree ; \
-echo ; \
-grep "^  @file_name=" $VISIT/$SCAN.nxs.nxlsa || mv $VISIT/$SCAN.nxs.tree  $VISIT/$SCAN.nxs.ndw.tree ; \
-grep "^  @file_name=" $VISIT/$SCAN.nxs.nxlsa && mv $VISIT/$SCAN.nxs.tree  $VISIT/$SCAN.nxs.nsd.tree ; \
-grep "^  @file_name=" $VISIT/$SCAN.nxs.nxlsa || mv $VISIT/$SCAN.nxs.nxlsa $VISIT/$SCAN.nxs.ndw.nxlsa ; \
-grep "^  @file_name=" $VISIT/$SCAN.nxs.nxlsa && mv $VISIT/$SCAN.nxs.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa ; \
-echo ; \
-echo $VISIT/$SCAN.nxs.n*
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.tree  $SCAN.nxs.ndw.tree ; \
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.tree  $SCAN.nxs.nsd.tree ; \
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.nxlsa $SCAN.nxs.ndw.nxlsa ; \
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa ; \
+echo ; echo $SCAN.nxs.n*
 
 	To compare the current scan with a beamline ndw or nsd baseline
 
-[ -e $BASELINE.nxs.ndw.nxlsa ] && [ -e $VISIT/$SCAN.nxs.ndw.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.ndw.nxlsa & \
-[ -e $BASELINE.nxs.ndw.nxlsa ] && [ -e $VISIT/$SCAN.nxs.nsd.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.ndw.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa & \
-[ -e $BASELINE.nxs.nsd.nxlsa ] && [ -e $VISIT/$SCAN.nxs.nsd.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.nsd.nxlsa $VISIT/$SCAN.nxs.nsd.nxlsa &
+[ -e     $BASELINE.nxs.ndw.nxlsa ] && [ -e $SCAN.nxs.ndw.nxlsa ] && \
+  kdiff3 $BASELINE.nxs.ndw.nxlsa           $SCAN.nxs.ndw.nxlsa   & \
+[ -e     $BASELINE.nxs.ndw.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
+  kdiff3 $BASELINE.nxs.ndw.nxlsa           $SCAN.nxs.nsd.nxlsa   & \
+[ -e     $BASELINE.nxs.nsd.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
+  kdiff3 $BASELINE.nxs.nsd.nxlsa           $SCAN.nxs.nsd.nxlsa   &
 # or
-[ -e $VISIT/$SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $VISIT/$SCAN.nxs.ndw.tree  ; \
-[ -e $VISIT/$SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $VISIT/$SCAN.nxs.nsd.tree 
+[ -e $SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.ndw.tree  ; \
+[ -e $SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.nsd.tree 
 
 	To set the current scan as a new baseline
 
@@ -63,7 +73,7 @@ BASELINE=$VISIT/$SCAN
 
 	To quickly summarise current state
 
-echo SCAN=$SCAN BASELINE=$BASELINE VISIT=$VISIT
+echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
 
 --------------------------------------------------------------------------------
 								Archiving
@@ -71,7 +81,7 @@ echo SCAN=$SCAN BASELINE=$BASELINE VISIT=$VISIT
 
 	To copy the structure files to the archive
 
-cp $VISIT/$SCAN.dat $VISIT/$SCAN.nxs.* .
+cp $SCAN.dat $SCAN*.nxlsa $SCAN*.tree $SCAN*.log $ARCHIVE
 BASELINE=$SCAN
 
 ================================================================================
