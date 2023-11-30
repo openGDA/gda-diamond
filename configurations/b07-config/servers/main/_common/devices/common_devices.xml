@@ -39,4 +39,8 @@
 	<import resource="sm21b.xml"/>
 	<import resource="sm52b.xml"/>
 	<import resource="analyser.xml"/>
+	
+	<!-- Patch panels -->
+	<import resource="patch_panel.xml"/>
+	
 </beans>

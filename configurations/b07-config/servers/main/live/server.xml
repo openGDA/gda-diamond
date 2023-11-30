@@ -64,7 +64,14 @@
 	
 	<!-- Microreactor ME08G output -->
 	<import resource="microreactor.xml" />
-		
+	
+	<!-- Patch Panel scannables -->
+	<import resource="patch_panel_A_ES1.xml" />
+	<import resource="patch_panel_D_ES1.xml" />
+	<import resource="patch_panel_A_ES2.xml" />
+	<import resource="patch_panel_D_ES2.xml" />
+	<import resource="patch_panel_T_ES2.xml" />
+			
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

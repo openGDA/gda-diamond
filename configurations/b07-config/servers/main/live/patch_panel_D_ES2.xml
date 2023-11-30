@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 	Digital inputs -->
+    <bean id="ppb_es2_di_1" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DI1" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es2_di_2" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DI2" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es2_di_3" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DI3" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es2_di_4" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DI4" />
+                <property name="readonly" value="true" />
+        </bean>
+        
+<!--      Digital Outputs -->
+
+    <bean id="ppb_es2_do_1" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DO1" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es2_do_2" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DO2" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es2_do_3" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DO3" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es2_do_4" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-02:DO4" />
+                <property name="readonly" value="false" />
+        </bean>
+
+</beans>
