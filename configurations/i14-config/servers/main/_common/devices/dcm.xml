@@ -7,17 +7,25 @@
 	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_pitch_motor" />
 	</bean>
+	
 	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_roll_motor" />
 	</bean>
+	
 	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_perp_motor" />
 	</bean>
+	
 	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_bragg_motor" />
 	</bean>
+	
 	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_energy_motor" />
+	</bean>
+	
+	<bean id="dcm_pitch_piezo" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_piezo_motor" />
 	</bean>
 
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
