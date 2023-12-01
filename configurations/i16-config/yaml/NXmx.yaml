@@ -1,0 +1,46 @@
+entry1/:
+  NX_class@: NXentry # the '@' has to come at the end as 
+  #definition: NXmx
+  #end_time_estimated: /entry1/end_time
+
+  # Fix ValidationReports -----------------------------------------------------
+
+  # Needed to get rid of
+  # ?
+  #data: /entry1/measurement
+
+  # -------------------- ValidationReport - NXmx: Data node 'name': must be set
+  # try:
+  #name: /entry1/instrument/name
+
+  # -------------- ValidationReport - NXmx: Attribute 'short_name': must be set
+  # Tried
+  #short_name@: /entry1/instrument/name
+  # but this failed with
+  # Applying template 'NXmx.yaml' failed:Link path must be to attribute (i.e. it must end with '@'),
+  # 	for attribute with name short_name and link path Optional[/entry1/instrument/name]
+
+  # ------ ValidationReport - NXmx: Group node 'entry1/sample/transformations/kphi':
+  # 			No such NXtransformation group: entry1/sample/transformations/kphi
+
+  # ------------------------------- ValidationReport - NXmx: Group node 'unnamed':
+  #							 At least one group of type NXsource must be present
+
+  instrument/:
+    NX_class@: NXinstrument
+    transformations/:
+      NX_class@: NXtransformations
+      offsetdelta: /entry1/instrument/delta_axis_offset/value
+      delta: /entry1/instrument/kdelta/value
+      gamma: /entry1/instrument/kgam/value
+
+  sample/:
+    NX_class@: NXsample
+    transformations/:
+      NX_class@: NXtransformations
+      cryophi: /entry1/instrument/cryophi/value
+      phi: /entry1/instrument/kphi/value
+      kappa: /entry1/instrument/kap/value
+      theta: /entry1/instrument/kth/value
+      mu: /entry1/instrument/kmu/value
+

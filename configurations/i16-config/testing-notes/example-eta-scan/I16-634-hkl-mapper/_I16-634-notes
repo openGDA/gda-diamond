@@ -1,12 +1,19 @@
 ================================================================================
 							Testing with msmapper
 ================================================================================
+
 Scan		Configuration	Dummy	Detector		Notes
 			NDW	DWE	LF	T	/Live						Baseline scan command
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 ../1022133	NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.002 61 pil3_100k 1 roi2 roi1
-202311264	NDW	DWE	LF		Dummy	NXPDW	pil3	scancn eta 0.002 5 pil3_100k 1 roi2 roi1
+2023110264	NDW	DWE	LF		Dummy	NXPDW	pil3	scancn eta 0.002 5 pil3_100k 1 roi2 roi1
 ----------- --- --- --	-	-----	-------	-------	----------------------------
+2023110272	NSD				Dummy	NXD/NDP	pil3	scancn eta 0.002 5 pil3_100k 1
+----------- --- --- --	-	-----	-------	-------	----------------------------
+	NDW		NexusDataWriter				T		Template
+	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
+	DWE		DataWriterExtender			NXD		NXDetector
+	LF		Link Files					NDP		NexusDetectorProcessor
 
 ================================================================================
 							Preparing for a scan
@@ -24,17 +31,29 @@ pos eta 28.668754
 During setup, run this line instead
 
 ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/
+BASELINELOG=$ARCHIVE/2023110264.nxs.rs_map.log
 
 --------------------------------------------------------------------------------
 						Processing a scan
 --------------------------------------------------------------------------------
 
-rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log ; \
-nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
-nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree
+rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log
 
 to get the processed nexus. This is the offline equivalent of
 
 rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/mm34332-1/1022133.nxs
+
+--------------------------------------------------------------------------------
+						Analysis
+--------------------------------------------------------------------------------
+
+	To compare the log with the baseline log:
+
+kdiff3 $BASELINELOG $SCAN.nxs.rs_map.log &
+
+	To generate the structure files of the processed volume:
+
+nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
+nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree
 
 ================================================================================

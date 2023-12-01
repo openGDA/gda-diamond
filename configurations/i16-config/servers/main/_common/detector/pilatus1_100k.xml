@@ -130,7 +130,7 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on"/>
-											<constructor-arg name="value" value="/entry1/instrument/delta_axis_offset"/>
+											<constructor-arg name="value" value="/entry1/instrument/transformations/offsetdelta"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="offset" />

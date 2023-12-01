@@ -1,0 +1,326 @@
+Parsing Namespace(all=False, step='0.002', volume=None, window=None, output_mode='Volume_HKL', location_mode='manual', binoculars_output=False, omit_poln=False, monitor=None, cores=None, memory=None, pixels=None, config=None, mask_file=None, output='processing/', images=None, debug=False, files=['2023110272.nxs'])
+11:35:22,626 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+11:35:22,627 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+11:35:22,627 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [bundleresource://1.fwk1389774257:1/logback.xml]
+11:35:22,632 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@532a02d9 - URL [bundleresource://1.fwk1389774257:1/logback.xml] is not of type file
+11:35:22,676 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+11:35:22,676 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+11:35:22,678 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+11:35:22,683 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+11:35:22,696 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+11:35:22,698 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DebugFILE]
+11:35:22,705 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - No compression will be used
+11:35:22,706 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Will use the pattern /tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log for the active file
+11:35:22,708 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - The date pattern is 'yyyy-MM-dd' from file name pattern '/tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log'.
+11:35:22,708 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Roll-over at midnight.
+11:35:22,714 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Setting initial period to Fri Dec 01 15:05:21 GMT 2023
+11:35:22,715 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+11:35:22,715 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+11:35:22,721 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Cleaning on start up
+11:35:22,721 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - first clean up after appender initialization
+11:35:22,721 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+11:35:22,722 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - Multiple periods, i.e. 32 periods, seem to have elapsed. This is expected at application start.
+11:35:22,723 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - Active log file name: /tmp/voo82358-msmapper.log
+11:35:22,723 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - File property is set to [/tmp/voo82358-msmapper.log]
+11:35:22,723 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.commons] to ERROR
+11:35:22,723 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [hdf.hdf5lib] to ERROR
+11:35:22,723 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ALL
+11:35:22,723 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DebugFILE] to Logger[ROOT]
+11:35:22,724 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+11:35:22,724 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+11:35:22,724 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7cbee484 - Registering current configuration as safe fallback point
+
+HDF5 plugin directory not found so trying with class loader
+11:35:23.300 INFO  2023110272.nxs is a file from I16
+11:35:23.305 WARN  Could not find monitor
+11:35:23.324 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.324 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.325 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:23.325 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.326 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.341 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.341 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:23.341 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.341 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.342 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.342 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:23.342 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.343 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.344 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.344 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:23.344 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.344 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.345 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:23.345 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:23.345 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.345 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:23.345 WARN  Extent of volume was found to be [2.69, -5.3660000000000005, -4.01] to [3.074, -3.346, -2.158]
+11:35:23.345 WARN  with shape = [194, 1012, 928]
+11:35:24.360 INFO      Processing file 1/1: 2023110272.nxs
+11:35:24.376 INFO  Selecting 5 images using slice: : with end 5
+11:35:24.376 INFO  Slicing image start:[0, 0, 0], stop:[1, 960, 1280]
+11:35:24.462 INFO  Mapping image at [0]/[5] in /scratch/dls_sw/i16/software/gda_versions/dummy_data/2023110272.nxs
+11:35:24.462 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:24.463 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:24.463 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:24.463 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:24.463 INFO  Splitting images to bands of 214 rows across 9 threads
+11:35:24.463 INFO  Chunk 0: 0 -> 214
+11:35:24.483 INFO  Chunk 1: 214 -> 428
+11:35:24.483 INFO  Chunk 2: 428 -> 642
+11:35:24.483 INFO  Chunk 3: 642 -> 856
+11:35:24.483 INFO  Chunk 4: 856 -> 1070
+11:35:24.483 INFO  Chunk 5: 1070 -> 1284
+11:35:24.483 INFO  Chunk 6: 1284 -> 1498
+11:35:24.483 INFO  Chunk 7: 1498 -> 1712
+11:35:24.483 INFO  Chunk 8: 1712 -> 1920
+11:35:24.492 INFO  Slicing image start:[1, 0, 0], stop:[2, 960, 1280]
+11:35:26.320 INFO  Mapping image at [1]/[5] in /scratch/dls_sw/i16/software/gda_versions/dummy_data/2023110272.nxs
+11:35:26.321 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:26.321 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:26.321 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:26.321 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:26.321 INFO  Splitting images to bands of 214 rows across 9 threads
+11:35:26.321 INFO  Chunk 0: 0 -> 214
+11:35:26.322 INFO  Chunk 1: 214 -> 428
+11:35:26.322 INFO  Chunk 2: 428 -> 642
+11:35:26.322 INFO  Chunk 3: 642 -> 856
+11:35:26.322 INFO  Chunk 4: 856 -> 1070
+11:35:26.322 INFO  Chunk 5: 1070 -> 1284
+11:35:26.322 INFO  Chunk 6: 1284 -> 1498
+11:35:26.322 INFO  Chunk 7: 1498 -> 1712
+11:35:26.322 INFO  Chunk 8: 1712 -> 1920
+11:35:26.322 INFO  Slicing image start:[2, 0, 0], stop:[3, 960, 1280]
+11:35:28.046 INFO  Mapping image at [2]/[5] in /scratch/dls_sw/i16/software/gda_versions/dummy_data/2023110272.nxs
+11:35:28.046 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:28.046 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:28.046 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:28.046 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:28.047 INFO  Splitting images to bands of 214 rows across 9 threads
+11:35:28.047 INFO  Chunk 0: 0 -> 214
+11:35:28.047 INFO  Chunk 1: 214 -> 428
+11:35:28.047 INFO  Chunk 2: 428 -> 642
+11:35:28.047 INFO  Chunk 3: 642 -> 856
+11:35:28.047 INFO  Chunk 4: 856 -> 1070
+11:35:28.047 INFO  Chunk 5: 1070 -> 1284
+11:35:28.047 INFO  Chunk 6: 1284 -> 1498
+11:35:28.047 INFO  Chunk 7: 1498 -> 1712
+11:35:28.047 INFO  Chunk 8: 1712 -> 1920
+11:35:28.049 INFO  Slicing image start:[3, 0, 0], stop:[4, 960, 1280]
+11:35:30.003 INFO  Mapping image at [3]/[5] in /scratch/dls_sw/i16/software/gda_versions/dummy_data/2023110272.nxs
+11:35:30.004 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:30.004 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:30.004 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:30.004 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:30.004 INFO  Splitting images to bands of 214 rows across 9 threads
+11:35:30.004 INFO  Chunk 0: 0 -> 214
+11:35:30.004 INFO  Chunk 1: 214 -> 428
+11:35:30.004 INFO  Chunk 2: 428 -> 642
+11:35:30.004 INFO  Chunk 3: 642 -> 856
+11:35:30.004 INFO  Chunk 4: 856 -> 1070
+11:35:30.004 INFO  Chunk 5: 1070 -> 1284
+11:35:30.004 INFO  Chunk 6: 1284 -> 1498
+11:35:30.004 INFO  Chunk 7: 1498 -> 1712
+11:35:30.005 INFO  Chunk 8: 1712 -> 1920
+11:35:30.005 INFO  Slicing image start:[4, 0, 0], stop:[5, 960, 1280]
+11:35:31.914 INFO  Mapping image at [4]/[5] in /scratch/dls_sw/i16/software/gda_versions/dummy_data/2023110272.nxs
+11:35:31.914 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+11:35:31.914 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+11:35:31.914 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:31.915 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+11:35:31.915 INFO  Splitting images to bands of 214 rows across 9 threads
+11:35:31.915 INFO  Chunk 0: 0 -> 214
+11:35:31.915 INFO  Chunk 1: 214 -> 428
+11:35:31.915 INFO  Chunk 2: 428 -> 642
+11:35:31.915 INFO  Chunk 3: 642 -> 856
+11:35:31.915 INFO  Chunk 4: 856 -> 1070
+11:35:31.915 INFO  Chunk 5: 1070 -> 1284
+11:35:31.915 INFO  Chunk 6: 1284 -> 1498
+11:35:31.915 INFO  Chunk 7: 1498 -> 1712
+11:35:31.915 INFO  Chunk 8: 1712 -> 1920
+11:35:33.839 INFO          processed 5 images
+11:36:09.644 WARN  Reduced to non-zero bounding box: [36, 10, 158] to [193, 1010, 925]
+11:36:09.644 WARN  so now start = [2.762, -5.346000000000001, -3.694] for shape = [158, 1001, 768]
+11:36:09.645 INFO  For 10 threads, processing took 46s (9259ms/frame)
+11:36:09.645 INFO                 loading 5 frames took 0s (32ms/frame)
+11:36:11.803 INFO  Saving took 2158ms

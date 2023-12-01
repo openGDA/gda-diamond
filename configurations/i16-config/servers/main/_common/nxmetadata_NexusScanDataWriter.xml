@@ -47,7 +47,7 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="/entry1/instrument/kphi/value"/>
+					<property name="value" value="/entry1/sample/transformations/phi"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="surface_vector"/>
@@ -155,14 +155,36 @@
 		</property>
 	</bean>
 
+<<<<<<< Upstream, based on origin/master
 	<!-- Sample transform chain: . < kmu < kth < kap < kphi -->
+=======
+	<!-- Sample transform chain: . < mu < theta < kappa < phi < cryophi -->
+
+	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
+		<property name="name" value="cryophi" />
+		<property name="transformation">
+			<bean class="org.eclipse.scanning.device.Transformation">
+				<property name="type" value="ROTATION" />
+				<property name="dependsOn" value="entry1/sample/transformations/phi" />
+				<property name="size" value="0" />
+				<property name="vector">
+					<list>
+						<value>0.567744</value>
+						<value>-0.0003651</value>
+						<value>0.82389</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+>>>>>>> b9edf82 I16-634 (9.33) Create sample transformations node using a template
 
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="kphi" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kap" />
+				<property name="dependsOn" value="entry1/sample/transformations/kappa" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -180,7 +202,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kth" />
+				<property name="dependsOn" value="entry1/sample/transformations/theta" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -198,7 +220,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kmu" />
+				<property name="dependsOn" value="entry1/sample/transformations/mu" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -229,14 +251,14 @@
 		</property>
 	</bean>
 
-	<!-- Detector transform chain: . < kgam < kdelta < delta_axis_offset -->
+	<!-- Detector transform chain: . < gamma < delta < offsetdelta -->
 
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="delta_axis_offset" />
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kdelta" />
+				<property name="dependsOn" value="entry1/instrument/transformations/delta" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -254,7 +276,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kgam" />
+				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -318,6 +340,7 @@
 			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
 			<list> <!-- Order here matters, as nodes can only be referenced after they have been created -->
+				<value>${gda.config}/yaml/NXmx.yaml</value>
 				<value>${gda.config}/yaml/compatibility.yaml</value>
 			</list>
 		</property>
