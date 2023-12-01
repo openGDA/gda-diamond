@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 	Digital inputs -->
+            <bean id="ppb_es1_di_1" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_2" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_3" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_4" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_5" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_6" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_7" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_8" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_9" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_10" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_11" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_12" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_13" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_14" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_15" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_di_16" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+        
+<!--      Digital Outputs -->
+
+        <bean id="ppb_es1_do_1" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_2" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_3" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_4" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_5" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_6" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_7" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_8" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_9" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_10" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_11" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_12" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_13" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_14" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_15" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+
+
+        <bean id="ppb_es1_do_16" class="gda.device.enumpositioner.DummyEnumPositioner">
+                <property name="positions">
+                        <list>
+                                <value>Off</value>
+                                <value>On</value>
+                        </list>
+                </property>
+        </bean>
+</beans>

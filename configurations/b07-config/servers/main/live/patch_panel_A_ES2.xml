@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 	Analogue Inputs ES1 -->
+	<bean id="ppb_es2_ai_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AI1" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ai_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AI2" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ai_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AI3" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ai_4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AI4" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+
+	<!-- 	Analogue Outputs ES1 -->
+	<bean id="ppb_es2_ao_1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AO1" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ao_2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AO2" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ao_3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AO3" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+	<bean id="ppb_es2_ao_4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-USER-02:AO4" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%5.3f" />
+	</bean>
+	
+</beans>

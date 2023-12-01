@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+<!-- 	Digital inputs -->
+    <bean id="ppb_es1_di_1" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI1" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_2" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI2" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_3" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI3" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_4" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI4" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_5" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI5" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_6" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI6" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_7" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI7" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_8" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI8" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_9" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI9" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_10" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI10" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_11" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI11" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_12" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI12" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_13" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI13" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_14" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI14" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_15" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI15" />
+                <property name="readonly" value="true" />
+        </bean>
+
+
+    <bean id="ppb_es1_di_16" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DI16" />
+                <property name="readonly" value="true" />
+        </bean>
+        
+<!--      Digital Outputs -->
+
+    <bean id="ppb_es1_do_1" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO1" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_2" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO2" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_3" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO3" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_4" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO4" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_5" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO5" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_6" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO6" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_7" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO7" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_8" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO8" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_9" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO9" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_10" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO10" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_11" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO11" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_12" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO12" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_13" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO13" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_14" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO14" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_15" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO15" />
+                <property name="readonly" value="false" />
+        </bean>
+
+
+    <bean id="ppb_es1_do_16" class="gda.device.enumpositioner.EpicsSimpleBinary">
+                <property name="pvName" value="BL07B-EA-USER-01:DO16" />
+                <property name="readonly" value="false" />
+        </bean>
+</beans>
