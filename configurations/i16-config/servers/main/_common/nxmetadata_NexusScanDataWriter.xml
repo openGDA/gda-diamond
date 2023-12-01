@@ -317,10 +317,7 @@
 		<!-- Clear the nexusTemplateFiles if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter' as
 			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
-			<list> <!-- Order here matters. If compatibility is earlier than NXclassic_scan, for instance,
-						then before_scan doesn't get created before it is referenced.
-			 -->
-				<value>${gda.config}/yaml/NXclassic_scan.yaml</value>
+			<list> <!-- Order here matters, as nodes can only be referenced after they have been created -->
 				<value>${gda.config}/yaml/compatibility.yaml</value>
 			</list>
 		</property>
