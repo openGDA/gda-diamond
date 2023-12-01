@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="led_status_con" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="led_status_ES1_con" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="posChangeEventFlag" value="true"/>
 		<property name="positions">
 			<list>
@@ -13,6 +13,18 @@
 		</property>
 	</bean>
 	
-	<alias name="led_status_con" alias="led_status_sta"/>
+	<alias name="led_status_ES1_con" alias="led_status_ES1_sta"/>
+	
+	<bean id="led_status_ES2_con" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>OFF</value>
+				<value>ON</value>
+			</list>
+		</property>
+	</bean>
+	
+	<alias name="led_status_ES2_con" alias="led_status_ES2_sta"/>
 
 </beans>

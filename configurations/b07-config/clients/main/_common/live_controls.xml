@@ -311,10 +311,10 @@
 		</property>
 	</bean>
 	
-	<bean id="led_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+	<bean id="led_control_ES1" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="LED" />
 		<property name="group" value="...." />
-		<property name="scannableName" value="led_status_con" />
+		<property name="scannableName" value="led_status_ES1_con" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0" />
 		<property name="showStop" value="false" />
@@ -322,10 +322,33 @@
 		<property name="readOnly" value="false" />
 	</bean>
 	
-	<bean id="led_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+	<bean id="led_status_ES1" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
 		<property name="displayName" value="LED" />
 		<property name="group" value="...." />
-		<property name="scannableName" value="led_status_sta" />
+		<property name="scannableName" value="led_status_ES1_sta" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="OFF" value-ref="red_colour" />
+				<entry key="ON" value-ref="green_colour" />
+			</util:map>		
+		</property>
+	</bean>
+	
+	<bean id="led_control_ES2" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="LED" />
+		<property name="group" value="...." />
+		<property name="scannableName" value="led_status_ES2_con" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="false" />
+	</bean>
+	
+	<bean id="led_status_ES2" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="LED" />
+		<property name="group" value="...." />
+		<property name="scannableName" value="led_status_ES2_sta" />
 		<property name="stateMap">
 			<util:map map-class="java.util.HashMap">
 				<entry key="OFF" value-ref="red_colour" />
@@ -387,8 +410,8 @@
 	 			<ref bean="pss_shutter1_status" />
 		 	 	<ref bean="pss_shutter2_status" />
 				<ref bean="fast_shutter_status" />
-				<ref bean="led_control" />
-				<ref bean="led_status" />
+				<ref bean="led_control_ES1" />
+				<ref bean="led_status_ES1" />
 				<ref bean="an_reconnect" />
 				<ref bean="an_connection_status" />
 			</list>
@@ -423,8 +446,8 @@
 	 			<ref bean="pss_shutter1_status" />
 		 	 	<ref bean="pss_shutter2_status" />
 				<ref bean="fast_shutter_status" />
-				<ref bean="led_control" />
-				<ref bean="led_status" />
+				<ref bean="led_control_ES2" />
+				<ref bean="led_status_ES2" />
 			</list>
 		</property>
 	</bean>

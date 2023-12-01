@@ -3,13 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="led_status_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="led_status_ES1_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07B-EA-VCH-51:LightStatus"/>
 		<property name="readOnly" value="false"/>
 	</bean>
 	
-	<bean id="led_status_sta" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+	<bean id="led_status_ES1_sta" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL07B-EA-VCH-51:LightStatus"/>
+	</bean>
+	
+	<bean id="led_status_ES2_con" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07B-EA-VCH-21:LightStatus"/>
+		<property name="readOnly" value="false"/>
+	</bean>
+	
+	<bean id="led_status_ES2_sta" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07B-EA-VCH-21:LightStatus"/>
 	</bean>
 
 </beans>
