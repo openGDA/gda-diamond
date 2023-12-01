@@ -13,7 +13,7 @@ from gda.device.MotorStatus import READY, BUSY, FAULT;
 from gda.device import Detector
 from gda.device.detector import DetectorBase
 
-from gda.scan import ConcurrentScan, PointsScan;
+from gda.scan import ConcurrentScan;
 
 from Diamond.Utility.Threads import BackgroundRunningTask
 #To start a long running activity

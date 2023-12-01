@@ -105,7 +105,7 @@ def fastscan(startEnergy, endEnergy, scanTime, pointTime):
     step=1.0*(endEnergy - startEnergy)/numPoint
     
 #    scan timer 0 scanTime pointTime fastEnergy 1 sdd 10
-#    pscan fastEnergy 0 1 numPoint fesData 0 1;
-    pscan([fastEnergy,0,1,numPoint,fesData,0,1])
+#    pscan fastEnergy 0 numPoint-1 numPoint fesData 0 1;
+    pscan([fastEnergy,0,numPoint-1,numPoint,fesData,0,1])
 
 

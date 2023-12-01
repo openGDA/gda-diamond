@@ -357,10 +357,10 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		numPoint = self.fesController.getNumberOfPoint();
 		step=1.0*(endEnergy - startEnergy)/numPoint;
 		
-		#pscan fastEnergy 0 1 numPoint fesData 0 1;
+		#pscan fastEnergy 0 numPoint-1 numPoint fesData 0 1;
 		fastEnergy = self;
 		fesData = self.fesDetector;
-		theScan = PointsScan([fastEnergy,0,1,numPoint,fesData,0,1]);
+		theScan = PointsScan([fastEnergy,0,numPoint-1,numPoint,fesData,0,1]);
 		theScan.runScan();
 
 		#Apply the file filter to get rid of bad points

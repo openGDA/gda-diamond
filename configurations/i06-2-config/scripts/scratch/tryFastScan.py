@@ -463,8 +463,7 @@ class EpicsMCADataDeviceClass(ScannableMotionBase):
 		return result[channelIndex-1];
 
 
-from time import sleep
-from gda.scan import PointsScan
+from gda.jython.commands.ScannableCommands import pscan
 exec("[fastController, fastData, fastMotor] = [None, None, None]");
 
 rootPV = "BL07I-EA-DET-01:MCA-01";
@@ -477,7 +476,7 @@ fastMotion = FastMotionDeviceClass("fastMotion", fastController, fastData);
 
 fastController.setAcceleration(1);
 #fastController.setMotorSpeed(4);
-#pscan fastMotor 0 1 10 fastData 0 1
+#pscan fastMotor 0 9 10 fastData 0 1
 
 #A function to run the fast scan
 def cvscan(dofName, startPosition, stopPosition,scanTime, pointTime):
@@ -493,7 +492,7 @@ def cvscan(dofName, startPosition, stopPosition,scanTime, pointTime):
 	
 	step=fastController.getStep();
 	
-	pscan([fastMotion,0,1,numPoint,fastData,0,1]);
+	pscan([fastMotion,0,numPoint-1,numPoint,fastData,0,1]);
 	positions2=fastController.getRealPositions();
 
 #cvscan(testMotor1, 100, 200, 10, 0.1);

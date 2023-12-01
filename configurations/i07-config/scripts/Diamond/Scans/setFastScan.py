@@ -473,8 +473,7 @@ class EpicsMCADataDeviceClass(ScannableMotionBase):
 
 
 ############################################
-from time import sleep
-from gda.scan import PointsScan
+from gda.jython.commands.ScannableCommands import pscan
 #exec("[fastController, fastData, fastMotor] = [None, None, None]");
 
 rootPV = "BL07I-EA-DET-01:MCA-01";
@@ -502,7 +501,7 @@ def cvscan(dofName, startPosition, stopPosition,scanTime, pointTime):
 	
 	step=fastController.getStep();
 	
-	pscan([fastMotion,0,1,numPoint,fastData,0,1]);
+	pscan([fastMotion,0,numPoint-1,numPoint,fastData,0,1]);
 	positions2=fastController.getRealPositions();
 
 alias("cvscan");

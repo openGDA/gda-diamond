@@ -25,5 +25,5 @@ positions1=fastController.getEstimatedPositions();
 
 step=fastController.getStep();
 
-pscan([fastMotion,0,1,numPoint,fastData,0,1]);
+pscan([fastMotion,0,numPoint-1,numPoint,fastData,0,1]);
 positions2=fastController.getRealPositions();

@@ -208,7 +208,7 @@ class FastMotionDeviceClass(ScannableBase):
 		step=self.fastController.getStep();
 		
 		try:
-			theScan = PointsScan([self, 0, 1, numPoint, self.fastDetector, 0, 1]);
+			theScan = PointsScan([self, 0, numPoint-1, numPoint, self.fastDetector, 0, 1]);
 			theScan.runScan();
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
