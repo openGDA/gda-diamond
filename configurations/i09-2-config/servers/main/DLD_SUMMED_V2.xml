@@ -50,43 +50,45 @@
  		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
 	</bean>
 	
-	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
-	<bean id="dldSummedTiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<property name="ndFile" ref="dld_summed_tifffile"/>
-		<property name="fileNameTemplate" value="dld"/>
-		<property name="filePathTemplate" value="$datadir$/$scan$-dld-files" />
-		<property name="fileTemplate" value="%s%s-%05d.tiff" />
-		<property name="fileNumberAtScanStart" value="0" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="blocking" value="false" />
-		<property name="pathErrorSuppressed" value="true" />
-		<property name="keyNameForMetadataPathTemplate" value="dld_path_template" />
- 		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
-	</bean>
-
-	<!-- NXDetector -->
+<!-- NXDetector -->
  	<bean id="dld" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dldImageStats_summed" />
+				<ref bean="dld_summed_RoiStats_Fixed" />
 				<ref bean="dld_summed_RoiStats1" />
 				<ref bean="dldSummedHdf5Filewriter" />
 			</list>
 		</property>
 	</bean>
 	
-		<!-- NXDetector -->
+	<!-- NXDetector -->
+ 	<bean id="dld_py" class="gda.device.detector.NXDetector">
+		<property name="name" value="dld_py" />
+		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dld_summed_RoiStats_Fixed" />
+				<ref bean="dld_summed_RoiStats1" />
+				<ref bean="dld_summed_python" />
+				<ref bean="dld_summed_python_RoiStats_Fixed" />
+				<ref bean="dld_summed_python_RoiStats" />
+				<ref bean="dldSummedHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	<!-- NXDetector -->
  	<bean id="dld_total" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld_total" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="dldImageStats_summed" />
+				<ref bean="dld_summed_RoiStats_Fixed" />
 				<ref bean="dld_summed_RoiStats1" />
 			</list>
 		</property>
 	</bean>
+	
 
 </beans>
