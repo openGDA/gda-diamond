@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Beamline i21" uid="uk.ac.gda.beamline.i21.product" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Beamline i21" uid="uk.ac.gda.beamline.i21.product" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -21,15 +21,11 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.core.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config
 -Dgda.group.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config/no-group
 -Dgda.config=/dls_sw/i21/software/gda/config
--Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/live/live_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/live/JCALibrary.properties
+-Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/${gda.mode}/${gda,mode}_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/${gda.mode}/JCALibrary.properties
 -Declipse.pluginCustomization=/dls_sw/i21/software/gda/config/plugin_customization.ini
 -Dgda.install.git.loc=/dls_sw/i21/software/gda/workspace_git
--Dgda.logs.dir=/dls_sw/i21//logs
--Dgda.data=/dls/i21/data
--Dgda.gui.beans.xml=/dls_sw/i21/software/gda/config/clients/main/live/client.xml
--Dgda.var=/dls_sw/i21/software/gda_versions/var
--Dgda.mode=live
+-Dgda.gui.beans.xml=/dls_sw/i21/software/gda/config/clients/main/${gda.mode}/client.xml
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
