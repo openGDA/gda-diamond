@@ -33,5 +33,19 @@
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
+	
+	<bean id="sx1" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="sx2" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="sx3" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="sy" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="sz1" class="gda.device.scannable.DummyScannable"/>
+	
+	<bean id="sz2" class="gda.device.scannable.DummyScannable"/>
+	
+	
 
 </beans>

@@ -10,10 +10,10 @@
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
 				<property name="ndProcess" ref="dld_proc_summed"/>
-				<property name="processDataTypeOut" value="8"/>
+				<property name="processDataTypeOut" value="10"/>
 				<property name="restoreState" value="true"/>
 				<property name="applyFlatFieldSettings"	value="false"/>
-				<property name="applyProcessDataTypeOutSettings" value="false"/>
+				<property name="applyProcessDataTypeOutSettings" value="true"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">

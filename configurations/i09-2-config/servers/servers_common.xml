@@ -83,6 +83,11 @@
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 	</bean>
+	
+		<!--  object to provide recording of metadata in Nexus files -->
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop"/>
+	</bean>
 
 	<!-- ScriptControllers must be after command_server -->
 	<import resource="scriptControllers.xml" />

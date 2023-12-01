@@ -21,4 +21,5 @@ for l in path:
 scanpath=tuple(scanpath)
 print "scan path: ", scanpath
 
-pathscan((x,y,z), scanpath, sm5iamp8)
+# usages example
+# pathscan((x,y,z), scanpath, sm5iamp8)
