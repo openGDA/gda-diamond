@@ -6,7 +6,7 @@
 
 	<bean id="dldSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
 		<property name="ndArray" ref="dld_summed_ndarray"/>
-		<property name="arrayPortName" value="#{dld_proc_summed.getPortName_RBV()}"/>
+		<property name="arrayPortName" value="#{dld_summed_ndarray.getPortName_RBV()}"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
 				<property name="ndProcess" ref="dld_proc_summed"/>
