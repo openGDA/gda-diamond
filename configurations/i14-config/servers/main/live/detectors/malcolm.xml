@@ -48,7 +48,7 @@
 
 	<bean id="malcolmModelXsp3Merlin" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-08" />
-		<property name="exposureTime" value="0.01" />
+		<property name="exposureTime" value="0.015" />
 	</bean>
 
 	<bean id="malcolmDeviceXsp3Merlin" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
