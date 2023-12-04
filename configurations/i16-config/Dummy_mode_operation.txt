@@ -16,6 +16,10 @@ Then click on "Start IOC".
 
 Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
 
+For more representative images, set CAM:SizeX/Y to
+* 487 & 195 for a pilatus 300k detector
+* 515 & 515 for a merlin detector
+
 --------------------------------------------------------------------------------
 3) Simulation ports
 

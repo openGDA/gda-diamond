@@ -9,6 +9,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023110264	NDW	DWE	LF		Dummy	NXPDW	pil3	scancn eta 0.002 5 pil3_100k 1 roi2 roi1
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 2023110272	NSD				Dummy	NXD/NDP	pil3	scancn eta 0.002 5 pil3_100k 1
+2023110273	NSD				Dummy	NXD/NDP	pil3	" with 487x195 image, not 1280*960
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
@@ -23,6 +24,9 @@ This scan assumes you have done
 
 loadub('CoTi2O5')
 pos eta 28.668754
+
+and, as suggested in Dummy_mode_operation.txt, set the simulated area detector
+to the correct image size.
 
 --------------------------------------------------------------------------------
 						Preparing a scan for archiving
