@@ -122,6 +122,8 @@ from gdaserver import tenma_psu
 print "Adding ring_current as a default_scannable"
 add_default(ring_current)
 
+from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis, getXFieldInScanPlot  # @UnusedImport
+
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05 scripts."
