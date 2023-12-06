@@ -247,14 +247,14 @@ from metadata.beamExtent import BeamExtent
 beam_size_at_sample =  BeamExtent("beam_size_at_sample", horizontal_size = 40.0, vertical_size = 2.5)
 
 from functions.manipulator_positions import sample_pos, carbon_tape_pos, save_sample_positions, save_carbon_tape_positions, move_to_sample_positions, move_to_carbon_tape_positions  # @UnusedImport
-from functions.energyEdge import set_edge, save_edge  # @UnusedImport
+from functions.energyEdge import set_edge, save_edge, display_edge_table  # @UnusedImport
 from functions.xas_functions import xas, repeat_xas  # @UnusedImport
 from functions.rixs_functions import get_rixs  # @UnusedImport
 from functions.sample_transfer import go_transfer  # @UnusedImport
 from functions.i21_alias_definition import eslit  # @UnusedImport
 from functions.sampleAlignment import halfcut  # @UnusedImport
 
-from functions.sample_vessel_vacuum_control import sample_vessel_valves
+from functions.sample_vessel_vacuum_control import sample_vessel_valves  # @UnusedImport
 
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
