@@ -8,8 +8,7 @@ from gda.factory import Finder
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 import os
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
-from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
-    EW4000CollectionStrategy
+from org.opengda.detector.electronanalyser.nxdetector import EW4000
 from time import sleep
 from gda.jython import InterfaceProvider, JythonStatus
 import time
@@ -129,7 +128,13 @@ def allElementsAreTuplesOfNumbers(arg):
             return False
     return True
 
+from gda.configuration.properties import LocalProperties  
+from gda.device.scannable import ScannableBase
+from gda.device import Detector
+from gda.data.scan.datawriter import NexusScanDataWriter
+
 def analyserscan(*args):
+    
     ''' a more generalised scan that extends standard GDA scan syntax to support 
     1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and 
     2. its corresponding path tuple (e.g. tuple of position lists), if exist, and
@@ -142,6 +147,10 @@ def analyserscan(*args):
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
     i=0;
+    
+    scannables = []
+    ew4000 = None
+    
     while i< len(args):
         arg = args[i]
         if i==0 and isinstance(arg, EW4000):
@@ -172,29 +181,48 @@ def analyserscan(*args):
         else:
             newargs.append(arg)
         i=i+1
-        if isinstance( arg,  EW4000 ):
+        if isinstance( arg,  EW4000):
+            ew4000 = arg
             controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
                 filename=FilenameUtil.convertSeparator(filename)
-            controller.update(controller,SequenceFileChangeEvent(filename)) #update client sequence view
+
+            if controller is not None:
+                controller.update(controller, SequenceFileChangeEvent(filename)) #update client sequence view
             sleep(2.0)
-            jythonServerStatus=InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
-            while (jythonServerStatus.isScriptOrScanPaused()):
+            jython_server_status = InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
+            while (jython_server_status.isScriptOrScanPaused()):
                 sleep(1.0) # wait for user saving dirty file
-            arg.setSequenceFilename(filename)
-            sequence=arg.loadSequenceData(filename)
-            if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
-                arg.getCollectionStrategy().setSequence(sequence)
+            arg.loadSequenceData(filename)
             i=i+1
-    scan(newargs)
+            
+    for i in newargs:
+        if isinstance(i, ScannableBase) and not isinstance(i, Detector):
+            scannables.append(i)
+            
+    if ew4000 != None and ew4000.isExtraRegionPrinting():
+        ew4000.configureExtraRegionPrinting(scannables)
+    
+    cached_file_at_scan_start_value = LocalProperties.check(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, False)
+    cached_datawriter_value =  LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT)
+    try:
+        #For region data to be written straight away rather than caching, the 
+        #file needs to be created at start of scan instead after the first 
+        #point in scan
+        LocalProperties.set(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, True)
+        LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusScanDataWriter")
+        scan(newargs)
+    finally:
+        LocalProperties.set(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, cached_file_at_scan_start_value)
+        LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, cached_datawriter_value)
+        
     if ENABLEZEROSUPPLIES:
         zerosupplies()  # @UndefinedVariable
     
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
-
 
 def analyserscan_v1(*args):
     starttime=time.ctime()

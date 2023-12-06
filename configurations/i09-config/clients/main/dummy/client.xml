@@ -31,6 +31,6 @@
 	<import resource="ring_status.xml"/>
 	<import resource="../_common/feedback_controls.xml" />
 	<import resource="../_common/live_controls.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/serverFileListener.xml" />
 	
-
 </beans>

@@ -2,6 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
+		<property name="sourceSelectable" value="true"/>
+		<property name="XRaySourceEnergyLimit" value="2100"/>
+	</bean>
+
 	<bean id="analyser.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" />
 		<property name="initialDataType" value="UInt16" />
@@ -161,6 +166,9 @@
 		<property name="readArray" value="true" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="energyStepPerPixel" value="0.0877" />
+		<property name="dcmenergy" ref="dcmenergy"/>
+		<property name="pgmenergy" ref="pgmenergy"/>
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
 	</bean>
  
 	<bean id="analyser_adarrayplugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.ADArrayPlugin">
@@ -175,29 +183,31 @@
 		<property name="dataName" value="spectrum"/>
 		<property name="dataUnit" value="counts"/>
 	</bean>
-
-	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<property name="sourceSelectable" value="true"/>
-		<property name="XRaySourceEnergyLimit" value="2100"/>
-	</bean>
 	
 	<bean id="SequenceFileObserver" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
 	
-	<bean id="ew4000_collectionstrategy" class="org.opengda.detector.electronanalyser.nxdetector.EW4000CollectionStrategy">
-		<property name="analyser" ref="analyser" />
-		<property name="dcmenergy" ref="dcmenergy"/>
-		<property name="pgmenergy" ref="pgmenergy"/>
-		<property name="scriptcontroller" ref="SequenceFileObserver"/>
-		<property name="softXRayFastShutter" ref="fsj1"/>
-		<property name="hardXRayFastShutter" ref="fsi1"/>
-		<property name="topup" ref="topup"/>
+	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
+		<property name="name" value="regionvalidator"/>
+		<property name="lookupTablePathMap">
+			<map>
+				<entry key="Low" value="${gda.config}/lookupTables/low_elementset_table.txt"/>
+				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
+			</map>
+		</property>
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
+		<property name="pgmEnergy" ref="pgmenergy" />
+		<property name="dcmEnergy" ref="dcmenergy" />
 	</bean>
 	
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
 		<property name="name" value="ew4000" />
-		<property name="collectionStrategy" ref="ew4000_collectionstrategy"/>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
+		<property name="analyser" ref="analyser" />
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
+		<property name="softXRayFastShutter" ref="fsj1"/>
+		<property name="hardXRayFastShutter" ref="fsi1"/>
+		<property name="topup" ref="topup"/>
+		<property name="regionValidator" ref="regionvalidator"/>
 	</bean>
 
 	<bean id="energy_width" class="gda.device.monitor.EpicsMonitor">
