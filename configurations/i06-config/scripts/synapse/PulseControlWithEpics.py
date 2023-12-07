@@ -238,14 +238,14 @@ def measureVoltage(val, comp_voltage, auto_range, range_value, state, nplc, time
     keithley.reset()
     keithley.sourceFunction('CURR')
     keithley.sourceValue('CURR', val)
-    keithley.sourceVoltageLimit(comp_voltage)
+    keithley.sourceLimit('CURR', comp_voltage)
     keithley.senseFunction('VOLT')
     if auto_range:
         keithley.senseAutoRange('VOLT', 'ON')
     else:
         keithley.senseAutoRange('VOLT', 'OFF')
         keithley.senseFunctionRange('VOLT', range_value)
-    keithley.senseVoltRsen(state)
+    keithley.senseRsense('VOLT', state)
     voltage = keithley.readVoltage(nplc, timeout)
     return voltage
 
