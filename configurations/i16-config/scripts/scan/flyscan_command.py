@@ -50,7 +50,7 @@ class   FlyScanPositionsProvider(ScanPositionProvider):
         self.scannable = scannable
         self.start = start
         self.stop = stop
-        self.step = ScanBase.sortArguments(start, stop, step);
+        self.step = ScanBase.checkStartStopStep(start, stop, step);
         number_steps = ScannableUtils.getNumberSteps(scannable, self.start, self.stop, self.step)
         self.points = []
         self.points.append(start)
@@ -193,6 +193,9 @@ class FlyScannable(ScannableBase):
     def atCommandFailure(self):
         self.restoreMotorSpeed()
         
+    def moveTo(self, val):
+        self.scannable.moveTo(val)
+    
     def rawAsynchronousMoveTo(self,new_position):
         if  not  isinstance( new_position,  FlyScanPosition):
             raise TypeError("Only support positions of type FlyScanPosition")
@@ -319,6 +322,11 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
     else:
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
         deadtime_index = -1 # no dead time input
+    # have to get 'waitforinjection' scannable from jython namesapce as it is defined in localStation.py, i16 adds it to defaults in live mode
+    waitforinjection = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("waitforinjection")
+    if waitforinjection:
+        waitforinjection.due = total_time
+    
     motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
     max_speed = flyscannablewraper.getScannableMaxSpeed()
     if motor_speed > 0 and motor_speed <= max_speed: #when exposure time is too large, change motor speed to roughly match
