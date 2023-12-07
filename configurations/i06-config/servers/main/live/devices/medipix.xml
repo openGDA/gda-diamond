@@ -19,7 +19,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL06I-EA-DET-02:PROC:" />
-				<property name="initialArrayPort" value="mpx.CAM" />
+				<property name="initialArrayPort" value="mpx.corr" />
 			</bean>
 		</property>
 	</bean>
@@ -28,7 +28,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL06I-EA-DET-02:STAT:" />
-				<property name="initialArrayPort" value="mpx.CAM" />
+				<property name="initialArrayPort" value="mpx.corr" />
 			</bean>
 		</property>
 	</bean>
@@ -37,7 +37,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL06I-EA-DET-02:ARR:" />
-				<property name="initialArrayPort" value="mpx.CAM" />
+				<property name="initialArrayPort" value="mpx.corr" />
 			</bean>
 		</property>
 	</bean>
@@ -46,7 +46,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL06I-EA-DET-02:HDF5:" />
-				<property name="initialArrayPort" value="mpx.CAM" />
+				<property name="initialArrayPort" value="mpx.corr" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -65,7 +65,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL06I-EA-DET-02:TIFF:" />
-				<property name="initialArrayPort" value="mpx.CAM" />
+				<property name="initialArrayPort" value="mpx.corr" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -89,7 +89,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI1:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT1:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpx.corr" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -104,7 +104,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI2:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT2:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpx.corr" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -119,7 +119,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI3:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT3:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpx.corr" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -134,7 +134,7 @@
 		<property name="baseRoiPVName" value="BL06I-EA-DET-02:ROI4:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-02:STAT4:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx.CAM" />
+		<property name="roiInputNdArrayPort" value="mpx.corr" />
 		<property name="enabledBasicStats" value="MeanValue" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -211,20 +211,29 @@
 	<bean id="medipixCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
 		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true" />
-				<property name="imageMode" value="0" /> <!-- Single image mode -->
-				<property name="numberOfImagesPerCollection" value="1"/>
+			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+				<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
+				<property name="expression" value="1"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
+				<property name="waitTimeInSeconds" value="0.5"/>
+				<property name="enabled" value="true" />
+				<property name="restorePvValue" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
-						<property name="restoreAcquireTime" value="true" />
-						<property name="restoreAcquirePeriod" value="true" />
-						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" /> <!-- this is for SRW mode only, in CRW mode acquire time = acquire period -->
+					<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true" />
+						<property name="imageMode" value="0" /> <!-- Single image mode -->
+						<property name="numberOfImagesPerCollection" value="1"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
-								<property name="restoreTriggerMode" value="true" />
-								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-								<property name="decoratee" ref="kbRasteringPeriod" />
+							<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+								<property name="restoreAcquireTime" value="true" />
+								<property name="restoreAcquirePeriod" value="true" />
+								<property name="acquirePeriodExpression" value="#acquireTime + 0.005" /> <!-- this is for SRW mode only, in CRW mode acquire time = acquire period -->
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+										<property name="restoreTriggerMode" value="true" />
+										<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
+										<property name="decoratee" ref="kbRasteringPeriod_delayed" />
+									</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
