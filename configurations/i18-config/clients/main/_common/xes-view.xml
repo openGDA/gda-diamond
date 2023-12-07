@@ -37,7 +37,7 @@
 
 	<bean id="spectrometerRowsPicture" class="uk.ac.gda.ui.views.synoptic.SynopticViewConfiguration">
 		<property name="viewName" value="XES spectrometer view"/>
-		<property name="backgroundImage" value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/oe images/xes_analysers3.png"/>
+		<property name="backgroundImage" value="platform:/plugin/uk.ac.gda.client.exafs/oe images/xes_analysers3.png"/>
 		<property name="imageStart" value="90,400" />
 		<property name="imageScaleFactor" value="1.0" />
 		<property name="showCoordinates" value="#{showCoordinates}" />

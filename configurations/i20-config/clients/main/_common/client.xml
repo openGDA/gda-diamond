@@ -36,11 +36,11 @@
 
 	<!-- Set the paths to the directories containing the images -->
 	<bean id="imageDirectory" class="java.lang.String">
-		<constructor-arg value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/oe images" />
+		<constructor-arg value="platform:/plugin/uk.ac.gda.client.exafs/oe images" />
 	</bean>
 
 	<bean id="arrowImageDirectory" class="java.lang.String">
-		<constructor-arg value="gda-diamond.git/plugins/uk.ac.gda.beamline.i20/arrow images" />
+		<constructor-arg value="platform:/plugin/uk.ac.gda.client.exafs/arrow images" />
 	</bean>
 
 	<import resource="sample-stage.xml" />
