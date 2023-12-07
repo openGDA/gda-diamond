@@ -53,11 +53,9 @@
 					<property name="scannableNames">
 						<list>
 							<value>meca_sample_control</value>
-							<value>meca_move_pose_x</value>
-							<value>meca_move_pose_y</value>
+							<value>meca_move_pose_lab_x</value>
+							<value>meca_move_pose_lab_y</value>
 							<value>meca_move_pose_z</value>
-							<value>meca_move_pose_alpha</value>
-							<value>meca_move_pose_beta</value>
 							<value>meca_move_pose_gamma</value>
 						</list>
 					</property>

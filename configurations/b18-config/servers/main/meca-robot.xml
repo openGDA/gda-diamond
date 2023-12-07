@@ -35,7 +35,7 @@
 	<bean id="meca_move_pose_lab_x" class="gda.device.robot.RotatedXyScannable">
 		<property name="xYScannable" ref="meca_move_pose_xy" />
 		<property name="componentNumber" value="0" />
-		<property name="angle" value="26" />
+		<property name="angle" value="30" />
 		<property name="origin" ref="origin_vals" />
 	</bean>
 

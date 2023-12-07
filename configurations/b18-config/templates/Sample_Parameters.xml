@@ -192,32 +192,20 @@
         <demandPosition>1.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>meca_move_pose_x</scannableName>
-        <description>Robot X position</description>
+        <scannableName>meca_move_pose_lab_x</scannableName>
+        <description>Robot lab X position</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>meca_move_pose_y</scannableName>
-        <description>Robot Y position</description>
+        <scannableName>meca_move_pose_lab_y</scannableName>
+        <description>Robot lab Y position</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>meca_move_pose_z</scannableName>
         <description>Robot Z position</description>
-        <doMove>false</doMove>
-        <demandPosition>0.0</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>meca_move_pose_alpha</scannableName>
-        <description>Robot Alpha angle</description>
-        <doMove>false</doMove>
-        <demandPosition>0.0</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>meca_move_pose_beta</scannableName>
-        <description>Robot Beta angle</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
