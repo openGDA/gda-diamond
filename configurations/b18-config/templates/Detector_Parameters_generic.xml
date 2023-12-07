@@ -11,15 +11,6 @@
         <useConfigFile>false</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>
-        <description>Xspress2</description>
-        <detectorName>xspress2system</detectorName>
-        <scriptCommand></scriptCommand>
-        <useDetectorInScan>false</useDetectorInScan>
-        <useScriptCommand>false</useScriptCommand>
-        <useConfigFile>true</useConfigFile>
-        <extraDetectorName>FFI0</extraDetectorName>
-    </detectorConfiguration>
-    <detectorConfiguration>
         <description>Xspress3X</description>
         <detectorName>xspress3X</detectorName>
         <scriptCommand></scriptCommand>

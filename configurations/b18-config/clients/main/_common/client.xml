@@ -38,40 +38,6 @@
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
 
-<!-- 	Detector element order config for 9 element xspress2 detector;  -->
-	<bean id="xspress2ElementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">
-		<property name="name" value="xspress2ElementConfig" />
-		<property name="detectorName" value="xspress2system" />
-
-<!-- Grid order will be used if number of elements on detector != size of elementMap
-		(i.e. xspress2detector is 36 element detector) -->
-		<property name="gridOrder" value="1" />  <!-- Use right to left, top to bottom order-->
-
-		<property name="elementMap">
-			<map>
-				<entry key="0" value="5" />
-				<entry key="1" value="4" />
-				<entry key="2" value="3" />
-
-				<entry key="3" value="6" />
-				<entry key="4" value="8" />
-				<entry key="5" value="2" />
-
-				<entry key="6" value="7" />
-				<entry key="7" value="0" />
-				<entry key="8" value="1" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="xspress2ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="detectorName" value="xspress2system" />
-	</bean>
-
-	<bean id="xspress3ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
-		<property name="detectorName" value="xspress3" />
-	</bean>
-
 	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
 		<property name="detectorName" value="xspress4Odin" />
 		<property name="maxDetectorElementCounts" value="500000" />
@@ -88,8 +54,6 @@
 				<entry key="Fluorescence">
 					<list>
 						<value>XMap</value>
-						<value>Xspress2</value>
-						<value>Xspress3</value>
 						<value>Xspress3X</value>
 						<value>Xspress4Odin</value>
 						<value>Medipix</value>					
@@ -102,8 +66,6 @@
 			<map>
 				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters.xml"/>
 				<entry key="medipix" value="${gda.config}/templates/Medipix_Parameters.xml"/>
-				<entry key="xspress2system" value="${gda.config}/templates/Xspress_Parameters36.xml"/>
-				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
