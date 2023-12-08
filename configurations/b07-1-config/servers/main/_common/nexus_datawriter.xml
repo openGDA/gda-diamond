@@ -7,6 +7,7 @@
 	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
 		<property name="metadataScannables">
 			<set>
+				<value>endstation</value>
 				<!-- s1c -->
 				<value>s1c_xcentre</value>
 				<value>s1c_xsize</value>

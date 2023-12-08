@@ -70,6 +70,9 @@
 	<import resource="ring.xml"/>
 	<import resource="front_end.xml"/>
 	<import resource="beam_to_endstation.xml"/>
+	
+	<!-- spring profile monitor to metadata -->
+	<import resource="profile_monitor.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
