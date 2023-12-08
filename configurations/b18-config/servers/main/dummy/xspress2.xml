@@ -40,24 +40,4 @@
 		<property name="daServer" ref="DAServer" />
 	</bean>
 	
-	<bean id="xspress2controller"
-		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
-		<property name="daServer" ref="DAServer36" />
-		<property name="tfg" ref="dummy_tfg" />
-		<property name="xspressSystemName" value="xsp1" />
-
-		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
-		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
-		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
-		<property name="fullMCABits" value="12" />
-	</bean>
-
-	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
-		<property name="controller" ref="xspress2controller" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Xspress_Parameters.xml" />
-		<property name="dtcConfigFileName"
-			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
-	</bean>
-    
 </beans>

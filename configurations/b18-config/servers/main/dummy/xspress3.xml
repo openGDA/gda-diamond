@@ -5,18 +5,6 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="xspress3Controller"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg>
-			<ref bean="DAServer" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="tfg" />
-		</constructor-arg>
-		<property name="simulationFileName" value="simulationFileName" />
-		<property name="numberOfChannels" value="4"/>
-	</bean>
-
 <!-- Controller for xspress3X (ME7)  -->
 	<bean id="xspress3XControllerME7"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
 		<property name="numElements" value="7" />

@@ -33,12 +33,7 @@ offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
 offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
 
-if (LocalProperties.get("gda.mode") == 'live'):
-    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
-else :
-    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
+detectorPreparer = B18DetectorPreparer(qexafs_energy, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
 daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
@@ -156,8 +151,8 @@ else :
     energy(7000) # start the simulation with an energy in a useful range
     qexafs_energy(7000)
     print "...moves done";
-    print "Switching off Xspress3 file writing"
-    xspress3.setWriteHDF5Files(False)
+    # print "Switching off Xspress3 file writing"
+    # xspress3.setWriteHDF5Files(False)
 
 
 # TODO move this to Spring config?
@@ -172,7 +167,7 @@ print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     print "Trying to reconnect to DAServer..."
     daServer.reconnect()
-    xspress2system.reconfigure()
+    # xspress2system.reconfigure()
     counterTimer01.configure()
     print "Ignore this error (it's 'normal'...)"
     counterTimer01.getScaler().clear()
@@ -194,10 +189,9 @@ detectorPreparer.setMedipixMutableRoi(medipix, medipix_roi)
 
 run("detector_setup_functions.py")
 run_in_try_catch(setupMedipix)
-run_in_try_catch(setupXspress3)
+# run_in_try_catch(setupXspress3)
 run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
-# run_in_try_catch(setupMythen)
 run_in_try_catch(setupPilatus)
 
 run("continuous_scans.py")

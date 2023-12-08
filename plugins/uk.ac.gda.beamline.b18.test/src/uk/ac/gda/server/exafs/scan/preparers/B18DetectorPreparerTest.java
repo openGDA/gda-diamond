@@ -39,8 +39,8 @@ import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.Detector;
 import gda.device.Scannable;
+import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.mythen.MythenDetectorImpl;
 import gda.device.detector.xmap.NexusXmap;
 import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -75,7 +75,7 @@ public class B18DetectorPreparerTest {
 	private Scannable[] offsets;
 	private Scannable[] offsets_units;
 	private List<Scannable> ionc_gas_injector_scannables;
-	private MythenDetectorImpl mythen_scannable;
+	private DetectorBase diffractionDetector;
 	private Xspress2Detector xspressDetector;
 	private NexusXmap xmapMca;
 	private Xspress3Detector xspress3Detector;
@@ -89,8 +89,8 @@ public class B18DetectorPreparerTest {
 	@Before
 	public void setup() throws Exception {
 		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
-		mythen_scannable = createMock(MythenDetectorImpl.class, "mythen_scannable");
-		Mockito.when(mythen_scannable.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
+		diffractionDetector = createMock(DetectorBase.class, "diffractionDetector");
+		Mockito.when(diffractionDetector.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
 
 		xspressDetector = createMock(Xspress2Detector.class, "xspressDetector");
 		xmapMca = createMock(NexusXmap.class, "vortexConfig");
@@ -133,9 +133,9 @@ public class B18DetectorPreparerTest {
 		ionc_gas_injector_scannables.add(createMock("It_gas_injector"));
 		ionc_gas_injector_scannables.add(createMock("Iref_gas_injector"));
 
-		thePreparer = new B18DetectorPreparer(energy_scannable, mythen_scannable, sensitivities, sensitivity_units,
+		thePreparer = new B18DetectorPreparer(energy_scannable, sensitivities, sensitivity_units,
 				offsets, offsets_units, ionc_gas_injector_scannables, ionchambers);
-
+		thePreparer.setDiffractionDetector(diffractionDetector);
 		XspressParameters xspressParams = new XspressParameters();
 		xspressParams.setDetectorName(xspressDetector.getName());
 		Xspress3Parameters xspress3Params = new Xspress3Parameters();
@@ -204,14 +204,13 @@ public class B18DetectorPreparerTest {
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT,"DummyDataWriter");
 
 		thePreparer.configure(null, detParams, outParams, "/scratch/test/xml/path/");
-		thePreparer.collectMythenData();
+		thePreparer.collectDiffractionData();
 
 		Mockito.verify(energy_scannable).moveTo(10000.0);
-		Mockito.verify(mythen_scannable).setCollectionTime(1.2);
-		Mockito.verify(mythen_scannable).setSubDirectory("path/mythen");
+		Mockito.verify(diffractionDetector).setCollectionTime(1.2);
 
-		Mockito.verify(mythen_scannable).collectData();
-		Mockito.verify(mythen_scannable).readout();
+		Mockito.verify(diffractionDetector).collectData();
+		Mockito.verify(diffractionDetector).readout();
 	}
 
 	@Test
