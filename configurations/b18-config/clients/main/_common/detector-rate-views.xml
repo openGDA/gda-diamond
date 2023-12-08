@@ -29,18 +29,5 @@
 		</property>
 		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
 	</bean>
-	
-	<bean id="xspress2Rates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
-		<property name="name" value="xspress2Rates" />
-		<property name="dataProvider" ref="detectorMonitorDataProvider" />
-		<property name="viewDescription" value="XSpress2 detector rates" />
-		<property name="collectionTime" value="1.0" />
-		<property name="detectorNames">
-			<list>
-				<value>counterTimer01</value>
-				<value>xspress2system</value>
-			</list>
-		</property>
-		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
-	</bean>
+
 </beans>

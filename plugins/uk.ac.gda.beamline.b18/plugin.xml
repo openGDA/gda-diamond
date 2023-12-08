@@ -35,18 +35,6 @@
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:xspress2ViewFactory"
-			id="uk.ac.gda.exafs.ui.views.xspress2View"
-            name="Xspress2 view"
-            restorable="true">
-      </view>
-      <view
-            class="gda.rcp.views.ViewFactoryFinder:xspress3ViewFactory"
-			id="uk.ac.gda.exafs.ui.views.xspress3View"
-            name="Xspress3 view"
-            restorable="true">
-      </view>
-      <view
             class="gda.rcp.views.ViewFactoryFinder:xspress3XViewFactory"
             id="uk.ac.gda.exafs.ui.views.xspress3XView"
             name="XspressX view"
@@ -70,14 +58,6 @@
 	        icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
             id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
             name="Ion chamber rates"
-	        restorable="true">
-      </view>
-      <view
-            category="uk.ac.gda.client.exafs.category"
-            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:xspress2Rates"
-	        icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
-            id="uk.ac.gda.exafs.ui.views.detectors.xspress2Rates"
-            name="Xspress2 detector rates"
 	        restorable="true">
       </view>
       <view
@@ -258,24 +238,6 @@
             locationURI="menu:window?after=showView">
          <menu
                label="Detector views">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="XSpress2"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.xspress2View">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="XSpress3"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.xspress3View">
-               </parameter>
-            </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="XSpress3X"
