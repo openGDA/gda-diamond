@@ -71,6 +71,9 @@ add_default(ring_current)
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis, getXFieldInScanPlot  # @UnusedImport
 setXFieldInScanPlot(0)
 
+from checkBeamlineHealth import *
+checkForBeamlineProblems()
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
     print "==================================================================="
