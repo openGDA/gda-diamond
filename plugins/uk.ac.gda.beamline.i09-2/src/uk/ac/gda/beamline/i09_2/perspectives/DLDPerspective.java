@@ -12,6 +12,7 @@ import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
 import gda.rcp.views.JythonTerminalView;
+import uk.ac.gda.beamline.i09_2.addons.ResetMovingSumAddon;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
 import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.livecontrol.LiveControlsView;
@@ -41,6 +42,11 @@ public class DLDPerspective implements IPerspectiveFactory {
 		layout.setFixed(false);
 		defineLayout(layout);
 		defineActions(layout);
+		activateAddons();
+	}
+
+	private void activateAddons() {
+		ResetMovingSumAddon resetMovingSumAddon = new ResetMovingSumAddon();
 	}
 
 	private void defineLayout(IPageLayout layout) {

@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I09-2 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i09-2;singleton:=true
 Bundle-Version: 9.28.0
+Import-Package: gda.observable
 Bundle-Activator: uk.ac.gda.beamline.i09_2.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
