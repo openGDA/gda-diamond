@@ -68,6 +68,9 @@ archiver = Finder.find("archiver")
 print "Adding ring_current as a default_scannable"
 add_default(ring_current)
 
+from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis, getXFieldInScanPlot  # @UnusedImport
+setXFieldInScanPlot(0)
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
     print "==================================================================="
