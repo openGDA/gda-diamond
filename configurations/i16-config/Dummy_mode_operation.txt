@@ -14,11 +14,12 @@ Diamond Launcher > Utilities > GDA AreaDetector Simulation
 
 Then click on "Start IOC".
 
-Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
+Once started, go to ADSIM > CAM > Image
+	For more representative images, set SizeX/Y to
+	* 487 & 195 for a pilatus 300k detector
+	* 515 & 515 for a merlin detector
+ ADSIM > hdf > File > more... > Defer file open until 1st write: Yes
 
-For more representative images, set CAM:SizeX/Y to
-* 487 & 195 for a pilatus 300k detector
-* 515 & 515 for a merlin detector
 
 --------------------------------------------------------------------------------
 3) Simulation ports

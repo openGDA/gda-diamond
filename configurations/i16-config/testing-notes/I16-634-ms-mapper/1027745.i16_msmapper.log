@@ -1,0 +1,435 @@
+Unloading Python 3.10 for zocalo-202204
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda deactivate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+
+    Loading 64-bit Anaconda Python3, version 3.9
+    If there are any problems, please contact dataanalysis@diamond.ac.uk
+
+    Need a 3rd party Python package installing? First, consider using the
+    user-based install option of pip to test it. (I.e., use
+    $ pip install --user ... For further details, see $ pip help install)
+
+    This will install the package in ~/.local
+    If a site-wide installation is required, contact Data Analysis.
+    For further details, see $ pip help install
+
+
+14:40:25,168 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+14:40:25,169 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+14:40:25,169 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [bundleresource://1.fwk640808588:1/logback.xml]
+14:40:25,178 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@15c25153 - URL [bundleresource://1.fwk640808588:1/logback.xml] is not of type file
+14:40:25,288 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+14:40:25,288 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+14:40:25,290 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+14:40:25,296 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+14:40:25,323 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+14:40:25,325 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DebugFILE]
+14:40:25,333 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@307411297 - No compression will be used
+14:40:25,333 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@307411297 - Will use the pattern /tmp/gda2-msmapper_%d{yyyy-MM-dd}.%i.log for the active file
+14:40:25,334 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@9ed238c - The date pattern is 'yyyy-MM-dd' from file name pattern '/tmp/gda2-msmapper_%d{yyyy-MM-dd}.%i.log'.
+14:40:25,334 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@9ed238c - Roll-over at midnight.
+14:40:25,353 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@9ed238c - Setting initial period to Tue Dec 05 14:40:25 GMT 2023
+14:40:25,353 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@9ed238c - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+14:40:25,353 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@9ed238c - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+14:40:25,365 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@307411297 - Cleaning on start up
+14:40:25,366 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+14:40:25,366 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - first clean up after appender initialization
+14:40:25,367 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - Multiple periods, i.e. 32 periods, seem to have elapsed. This is expected at application start.
+14:40:25,368 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - Active log file name: /tmp/gda2-msmapper.log
+14:40:25,368 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - File property is set to [/tmp/gda2-msmapper.log]
+14:40:25,368 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.commons] to ERROR
+14:40:25,368 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [hdf.hdf5lib] to ERROR
+14:40:25,368 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ALL
+14:40:25,368 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DebugFILE] to Logger[ROOT]
+14:40:25,369 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+14:40:25,369 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+14:40:25,369 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@56276db8 - Registering current configuration as safe fallback point
+
+Miller space mapper provides the following programs:
+	msmapper:         executable takes -bean argument
+	rs_map:           script to run on NeXus files
+	i07_rs_map:       script to run on I07 data files
+	create_mask_file: script to create a mask file
+	apply_template:   script to apply template to create better NeXus file
+	i07_cluster_submit: prefix script to submit rs_map commands to cluster for I07
+	i16_cluster_submit: prefix script to submit rs_map commands to cluster for I16
+
+The scripts allow arguments; use them with -h for help
+
+The following environment variables are available:
+	Detector   | Template           | Mask 
+	-----------+--------------------+---------------------
+	Excalibur  | I07_EXCALIBUR_1H   | I07_MASK_EXCALIBUR_1
+	Pilatus    | I07_PILATUS_1H     | I07_MASK_PILATUS_1
+	Soller P2M | I07_PILATUS_SOLLER | I07_MASK_PILATUS_SOLLER or I07_MASK_PILATUS_SOLLER2
+
+14:40:25.372 INFO  Cores set to 2 
+14:40:26.474 INFO  /dls/i16/data/2023/cm33911-5/1027745.nxs is a file from I16 
+14:40:26.516 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.516 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.539 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.539 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.540 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.540 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.540 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.540 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.541 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.541 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.541 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.541 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.542 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.542 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.542 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.542 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.543 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.543 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.544 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.544 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.544 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.544 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.545 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.545 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.545 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.546 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.546 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.546 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.547 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.547 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.547 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.547 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.548 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.548 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.548 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.548 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.549 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.549 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.549 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.549 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.550 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.550 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.550 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.550 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.551 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.551 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.551 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.551 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.552 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.552 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.552 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.552 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.553 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.553 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.553 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.553 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.554 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.554 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.555 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.555 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.556 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.556 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.556 WARN  Extent of volume was found to be [0.926, 0.9440000000000001, -0.026000000000000002] to [1.076, 1.102, 0.022] 
+14:40:26.556 WARN  with shape = [77, 81, 26] 
+14:40:26.557 INFO      Processing file 1/1: /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.572 INFO  Selecting 31 images using slice: : with end 31 
+14:40:26.572 INFO  Slicing image start:[0, 0, 0], stop:[1, 515, 515] 
+14:40:26.592 INFO  Skipping image at [0] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.592 INFO  Slicing image start:[1, 0, 0], stop:[2, 515, 515] 
+14:40:26.600 INFO  Skipping image at [1] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.600 INFO  Slicing image start:[2, 0, 0], stop:[3, 515, 515] 
+14:40:26.607 INFO  Skipping image at [2] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.607 INFO  Slicing image start:[3, 0, 0], stop:[4, 515, 515] 
+14:40:26.610 INFO  Skipping image at [3] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.610 INFO  Slicing image start:[4, 0, 0], stop:[5, 515, 515] 
+14:40:26.613 INFO  Skipping image at [4] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.613 INFO  Slicing image start:[5, 0, 0], stop:[6, 515, 515] 
+14:40:26.616 INFO  Skipping image at [5] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.616 INFO  Slicing image start:[6, 0, 0], stop:[7, 515, 515] 
+14:40:26.620 INFO  Skipping image at [6] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.620 INFO  Slicing image start:[7, 0, 0], stop:[8, 515, 515] 
+14:40:26.623 INFO  Skipping image at [7] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.623 INFO  Slicing image start:[8, 0, 0], stop:[9, 515, 515] 
+14:40:26.626 INFO  Skipping image at [8] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.626 INFO  Slicing image start:[9, 0, 0], stop:[10, 515, 515] 
+14:40:26.628 INFO  Skipping image at [9] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.628 INFO  Slicing image start:[10, 0, 0], stop:[11, 515, 515] 
+14:40:26.630 INFO  Skipping image at [10] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.630 INFO  Slicing image start:[11, 0, 0], stop:[12, 515, 515] 
+14:40:26.632 INFO  Skipping image at [11] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.632 INFO  Slicing image start:[12, 0, 0], stop:[13, 515, 515] 
+14:40:26.634 INFO  Skipping image at [12] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.635 INFO  Slicing image start:[13, 0, 0], stop:[14, 515, 515] 
+14:40:26.637 INFO  Skipping image at [13] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.637 INFO  Slicing image start:[14, 0, 0], stop:[15, 515, 515] 
+14:40:26.639 INFO  Skipping image at [14] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.639 INFO  Slicing image start:[15, 0, 0], stop:[16, 515, 515] 
+14:40:26.641 INFO  Skipping image at [15] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.641 INFO  Slicing image start:[16, 0, 0], stop:[17, 515, 515] 
+14:40:26.643 INFO  Skipping image at [16] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.643 INFO  Slicing image start:[17, 0, 0], stop:[18, 515, 515] 
+14:40:26.645 INFO  Mapping image at [17]/[31] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.646 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.646 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.646 INFO  Splitting images to bands of 1030 rows across 1 threads 
+14:40:26.646 INFO  Chunk 0: 0 -> 1030 
+14:40:26.680 INFO  Slicing image start:[18, 0, 0], stop:[19, 515, 515] 
+14:40:26.920 INFO  Skipping image at [18] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.920 INFO  Slicing image start:[19, 0, 0], stop:[20, 515, 515] 
+14:40:26.926 INFO  Skipping image at [19] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.926 INFO  Slicing image start:[20, 0, 0], stop:[21, 515, 515] 
+14:40:26.930 INFO  Skipping image at [20] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.930 INFO  Slicing image start:[21, 0, 0], stop:[22, 515, 515] 
+14:40:26.932 INFO  Skipping image at [21] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.933 INFO  Slicing image start:[22, 0, 0], stop:[23, 515, 515] 
+14:40:26.935 INFO  Skipping image at [22] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.935 INFO  Slicing image start:[23, 0, 0], stop:[24, 515, 515] 
+14:40:26.938 INFO  Mapping image at [23]/[31] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.938 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.938 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:26.938 INFO  Splitting images to bands of 1030 rows across 1 threads 
+14:40:26.939 INFO  Chunk 0: 0 -> 1030 
+14:40:26.939 INFO  Slicing image start:[24, 0, 0], stop:[25, 515, 515] 
+14:40:26.999 INFO  Skipping image at [24] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:26.999 INFO  Slicing image start:[25, 0, 0], stop:[26, 515, 515] 
+14:40:27.004 INFO  Mapping image at [25]/[31] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.005 WARN  Beam transformation was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:27.005 WARN  Polarization state was missing in     @NX_class = NXbeam
+    incident_energy
+    incident_wavelength
+ 
+14:40:27.006 INFO  Splitting images to bands of 1030 rows across 1 threads 
+14:40:27.006 INFO  Chunk 0: 0 -> 1030 
+14:40:27.006 INFO  Slicing image start:[26, 0, 0], stop:[27, 515, 515] 
+14:40:27.169 INFO  Skipping image at [26] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.170 INFO  Slicing image start:[27, 0, 0], stop:[28, 515, 515] 
+14:40:27.177 INFO  Skipping image at [27] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.177 INFO  Slicing image start:[28, 0, 0], stop:[29, 515, 515] 
+14:40:27.182 INFO  Skipping image at [28] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.182 INFO  Slicing image start:[29, 0, 0], stop:[30, 515, 515] 
+14:40:27.184 INFO  Skipping image at [29] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.184 INFO  Slicing image start:[30, 0, 0], stop:[31, 515, 515] 
+14:40:27.187 INFO  Skipping image at [30] in /dls/i16/data/2023/cm33911-5/1027745.nxs 
+14:40:27.187 INFO          processed 31 images 
+14:40:27.198 WARN  Reduced to non-zero bounding box: [51, 38, 14] to [63, 52, 21] 
+14:40:27.198 WARN  so now start = [1.028, 1.02, 0.0019999999999999983] for shape = [13, 15, 8] 
+14:40:27.199 INFO  For 2 threads, processing took 0s (20ms/frame) 
+14:40:27.199 INFO                 loading 31 frames took 0s (2ms/frame) 
+14:40:27.242 INFO  Saving took 43ms 
+HDF5 plugin directory not found so trying with class loader

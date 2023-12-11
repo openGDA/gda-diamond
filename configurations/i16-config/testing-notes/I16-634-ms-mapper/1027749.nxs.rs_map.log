@@ -1,0 +1,1366 @@
+Parsing Namespace(all=False, step='0.002', volume=None, window=None, output_mode='Volume_HKL', location_mode='manual', binoculars_output=False, omit_poln=False, monitor=None, cores=None, memory=None, pixels=None, config=None, mask_file=None, output='processing/', images=None, debug=False, files=['1027749.nxs'])
+15:43:12,388 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+15:43:12,388 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+15:43:12,388 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [bundleresource://1.fwk1389774257:1/logback.xml]
+15:43:12,402 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@532a02d9 - URL [bundleresource://1.fwk1389774257:1/logback.xml] is not of type file
+15:43:12,452 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+15:43:12,452 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+15:43:12,453 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+15:43:12,459 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+15:43:12,475 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+15:43:12,477 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DebugFILE]
+15:43:12,484 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - No compression will be used
+15:43:12,485 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Will use the pattern /tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log for the active file
+15:43:12,487 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - The date pattern is 'yyyy-MM-dd' from file name pattern '/tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log'.
+15:43:12,487 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Roll-over at midnight.
+15:43:12,493 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Setting initial period to Mon Dec 04 13:45:55 GMT 2023
+15:43:12,493 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+15:43:12,493 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+15:43:12,501 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Cleaning on start up
+15:43:12,502 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - first clean up after appender initialization
+15:43:12,502 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+15:43:12,502 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - Multiple periods, i.e. 32 periods, seem to have elapsed. This is expected at application start.
+15:43:12,503 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - Active log file name: /tmp/voo82358-msmapper.log
+15:43:12,503 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - File property is set to [/tmp/voo82358-msmapper.log]
+15:43:12,504 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.commons] to ERROR
+15:43:12,504 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [hdf.hdf5lib] to ERROR
+15:43:12,504 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ALL
+15:43:12,504 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DebugFILE] to Logger[ROOT]
+15:43:12,504 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+15:43:12,504 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+15:43:12,505 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7cbee484 - Registering current configuration as safe fallback point
+
+HDF5 plugin directory not found so trying with class loader
+15:43:14.449 INFO  1027749.nxs is a file from I16
+15:43:14.453 WARN  Could not find monitor
+15:43:14.494 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.494 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.495 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.495 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.495 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.513 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.513 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.513 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.513 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.514 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.514 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.514 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.514 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.515 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.515 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.515 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.515 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.516 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.516 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.516 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.517 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.517 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.517 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.518 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.518 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.518 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.518 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.518 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.518 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.519 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.519 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.519 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.519 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.520 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.520 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.520 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.520 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.521 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.521 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.521 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.521 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.522 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.522 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.522 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.522 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.522 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.523 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.523 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.523 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.523 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.523 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.523 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.523 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.524 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.524 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.524 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.524 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.525 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.525 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.525 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.525 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.526 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.526 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.526 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.526 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.526 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.526 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.526 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.527 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.527 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.527 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.527 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.527 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.528 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.528 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.528 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.528 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.529 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.529 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.529 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.529 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.529 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.529 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.529 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.529 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.530 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.530 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.530 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.530 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.531 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.531 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.531 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.531 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.532 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.532 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.532 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.532 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.532 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.532 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.532 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.532 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.533 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.533 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.533 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.533 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.534 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.534 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.534 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.534 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.534 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.534 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.534 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.535 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.535 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.535 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.535 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.535 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.536 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.536 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.536 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.536 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.536 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.536 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.536 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.536 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.537 WARN  Extent of volume was found to be [-3.202, -2.0, 5.958] to [-2.452, -1.444, 6.43]
+15:43:14.537 WARN  with shape = [377, 280, 238]
+15:43:14.575 INFO      Processing file 1/1: 1027749.nxs
+15:43:14.591 INFO  Selecting 31 images using slice: : with end 31
+15:43:14.592 INFO  Slicing image start:[0, 0, 0], stop:[1, 195, 487]
+15:43:14.625 INFO  Mapping image at [0]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.625 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.625 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.625 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.625 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.626 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.626 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.626 INFO  Chunk 0: 0 -> 130
+15:43:14.650 INFO  Chunk 1: 130 -> 260
+15:43:14.650 INFO  Chunk 2: 260 -> 390
+15:43:14.654 INFO  Slicing image start:[1, 0, 0], stop:[2, 195, 487]
+15:43:14.780 INFO  Skipping image at [1] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.780 INFO  Slicing image start:[2, 0, 0], stop:[3, 195, 487]
+15:43:14.786 INFO  Mapping image at [2]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.787 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.787 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.787 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.787 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.787 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.787 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.787 INFO  Chunk 0: 0 -> 130
+15:43:14.787 INFO  Chunk 1: 130 -> 260
+15:43:14.787 INFO  Chunk 2: 260 -> 390
+15:43:14.788 INFO  Slicing image start:[3, 0, 0], stop:[4, 195, 487]
+15:43:14.817 INFO  Mapping image at [3]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.817 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.817 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.817 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.817 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.818 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.818 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.818 INFO  Chunk 0: 0 -> 130
+15:43:14.818 INFO  Chunk 1: 130 -> 260
+15:43:14.818 INFO  Chunk 2: 260 -> 390
+15:43:14.818 INFO  Slicing image start:[4, 0, 0], stop:[5, 195, 487]
+15:43:14.879 INFO  Mapping image at [4]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.880 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.880 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.880 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.880 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.880 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.880 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.880 INFO  Chunk 0: 0 -> 130
+15:43:14.880 INFO  Chunk 1: 130 -> 260
+15:43:14.881 INFO  Chunk 2: 260 -> 390
+15:43:14.881 INFO  Slicing image start:[5, 0, 0], stop:[6, 195, 487]
+15:43:14.888 INFO  Mapping image at [5]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.889 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.889 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.889 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.889 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.889 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.889 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.889 INFO  Chunk 0: 0 -> 130
+15:43:14.889 INFO  Chunk 1: 130 -> 260
+15:43:14.889 INFO  Chunk 2: 260 -> 390
+15:43:14.890 INFO  Slicing image start:[6, 0, 0], stop:[7, 195, 487]
+15:43:14.897 INFO  Skipping image at [6] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.897 INFO  Slicing image start:[7, 0, 0], stop:[8, 195, 487]
+15:43:14.900 INFO  Skipping image at [7] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.901 INFO  Slicing image start:[8, 0, 0], stop:[9, 195, 487]
+15:43:14.905 INFO  Skipping image at [8] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.905 INFO  Slicing image start:[9, 0, 0], stop:[10, 195, 487]
+15:43:14.908 INFO  Skipping image at [9] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.908 INFO  Slicing image start:[10, 0, 0], stop:[11, 195, 487]
+15:43:14.912 INFO  Skipping image at [10] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.912 INFO  Slicing image start:[11, 0, 0], stop:[12, 195, 487]
+15:43:14.915 INFO  Mapping image at [11]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.915 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.915 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.915 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.915 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.916 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.916 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.916 INFO  Chunk 0: 0 -> 130
+15:43:14.916 INFO  Chunk 1: 130 -> 260
+15:43:14.916 INFO  Chunk 2: 260 -> 390
+15:43:14.916 INFO  Slicing image start:[12, 0, 0], stop:[13, 195, 487]
+15:43:14.924 INFO  Skipping image at [12] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.924 INFO  Slicing image start:[13, 0, 0], stop:[14, 195, 487]
+15:43:14.928 INFO  Mapping image at [13]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.928 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.928 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.928 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.928 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.929 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.929 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.929 INFO  Chunk 0: 0 -> 130
+15:43:14.929 INFO  Chunk 1: 130 -> 260
+15:43:14.929 INFO  Chunk 2: 260 -> 390
+15:43:14.929 INFO  Slicing image start:[14, 0, 0], stop:[15, 195, 487]
+15:43:14.936 INFO  Mapping image at [14]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.936 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.936 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.936 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.937 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.937 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.937 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.937 INFO  Chunk 0: 0 -> 130
+15:43:14.937 INFO  Chunk 1: 130 -> 260
+15:43:14.937 INFO  Chunk 2: 260 -> 390
+15:43:14.937 INFO  Slicing image start:[15, 0, 0], stop:[16, 195, 487]
+15:43:14.944 INFO  Mapping image at [15]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.945 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.945 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.945 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.945 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.945 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.945 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.945 INFO  Chunk 0: 0 -> 130
+15:43:14.945 INFO  Chunk 1: 130 -> 260
+15:43:14.945 INFO  Chunk 2: 260 -> 390
+15:43:14.946 INFO  Slicing image start:[16, 0, 0], stop:[17, 195, 487]
+15:43:14.952 INFO  Mapping image at [16]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.953 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.953 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.953 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.953 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.953 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.953 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.953 INFO  Chunk 0: 0 -> 130
+15:43:14.953 INFO  Chunk 1: 130 -> 260
+15:43:14.953 INFO  Chunk 2: 260 -> 390
+15:43:14.953 INFO  Slicing image start:[17, 0, 0], stop:[18, 195, 487]
+15:43:14.960 INFO  Skipping image at [17] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.960 INFO  Slicing image start:[18, 0, 0], stop:[19, 195, 487]
+15:43:14.963 INFO  Skipping image at [18] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.963 INFO  Slicing image start:[19, 0, 0], stop:[20, 195, 487]
+15:43:14.966 INFO  Mapping image at [19]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.966 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.967 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.967 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.967 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.967 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.967 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.967 INFO  Chunk 0: 0 -> 130
+15:43:14.967 INFO  Chunk 1: 130 -> 260
+15:43:14.967 INFO  Chunk 2: 260 -> 390
+15:43:14.967 INFO  Slicing image start:[20, 0, 0], stop:[21, 195, 487]
+15:43:14.974 INFO  Skipping image at [20] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.974 INFO  Slicing image start:[21, 0, 0], stop:[22, 195, 487]
+15:43:14.977 INFO  Skipping image at [21] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.977 INFO  Slicing image start:[22, 0, 0], stop:[23, 195, 487]
+15:43:14.981 INFO  Skipping image at [22] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.981 INFO  Slicing image start:[23, 0, 0], stop:[24, 195, 487]
+15:43:14.984 INFO  Mapping image at [23]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.985 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.985 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.985 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.985 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.985 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.985 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.985 INFO  Chunk 0: 0 -> 130
+15:43:14.985 INFO  Chunk 1: 130 -> 260
+15:43:14.985 INFO  Chunk 2: 260 -> 390
+15:43:14.985 INFO  Slicing image start:[24, 0, 0], stop:[25, 195, 487]
+15:43:14.992 INFO  Mapping image at [24]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:14.992 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:14.992 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:14.992 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.992 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 8
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 7
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 6
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 5
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 4
+15:43:14.993 INFO  Chunk too small so decrementing parallelism to 3
+15:43:14.993 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:14.993 INFO  Chunk 0: 0 -> 130
+15:43:14.993 INFO  Chunk 1: 130 -> 260
+15:43:14.993 INFO  Chunk 2: 260 -> 390
+15:43:14.993 INFO  Slicing image start:[25, 0, 0], stop:[26, 195, 487]
+15:43:15.000 INFO  Mapping image at [25]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.000 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:15.000 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:15.000 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.000 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 8
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 7
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 6
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 5
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 4
+15:43:15.000 INFO  Chunk too small so decrementing parallelism to 3
+15:43:15.000 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:15.000 INFO  Chunk 0: 0 -> 130
+15:43:15.000 INFO  Chunk 1: 130 -> 260
+15:43:15.000 INFO  Chunk 2: 260 -> 390
+15:43:15.000 INFO  Slicing image start:[26, 0, 0], stop:[27, 195, 487]
+15:43:15.007 INFO  Skipping image at [26] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.008 INFO  Slicing image start:[27, 0, 0], stop:[28, 195, 487]
+15:43:15.012 INFO  Mapping image at [27]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.012 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:15.012 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:15.012 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.012 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 8
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 7
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 6
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 5
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 4
+15:43:15.013 INFO  Chunk too small so decrementing parallelism to 3
+15:43:15.013 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:15.013 INFO  Chunk 0: 0 -> 130
+15:43:15.013 INFO  Chunk 1: 130 -> 260
+15:43:15.013 INFO  Chunk 2: 260 -> 390
+15:43:15.013 INFO  Slicing image start:[28, 0, 0], stop:[29, 195, 487]
+15:43:15.020 INFO  Mapping image at [28]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.020 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:15.020 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:15.020 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.021 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 8
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 7
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 6
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 5
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 4
+15:43:15.021 INFO  Chunk too small so decrementing parallelism to 3
+15:43:15.021 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:15.021 INFO  Chunk 0: 0 -> 130
+15:43:15.021 INFO  Chunk 1: 130 -> 260
+15:43:15.021 INFO  Chunk 2: 260 -> 390
+15:43:15.021 INFO  Slicing image start:[29, 0, 0], stop:[30, 195, 487]
+15:43:15.028 INFO  Mapping image at [29]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.028 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:15.028 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:15.028 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.028 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 8
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 7
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 6
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 5
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 4
+15:43:15.029 INFO  Chunk too small so decrementing parallelism to 3
+15:43:15.029 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:15.029 INFO  Chunk 0: 0 -> 130
+15:43:15.029 INFO  Chunk 1: 130 -> 260
+15:43:15.029 INFO  Chunk 2: 260 -> 390
+15:43:15.029 INFO  Slicing image start:[30, 0, 0], stop:[31, 195, 487]
+15:43:15.036 INFO  Mapping image at [30]/[31] in /dls/i16/data/2023/cm33911-5/1027749.nxs
+15:43:15.036 WARN  Detector module's data_size does not match detector data's shape. Correcting former
+15:43:15.036 WARN  NXbeam is missing a depends_on field so defaulting to NXtransformations/direction
+15:43:15.036 WARN  Beam transformation was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.036 WARN  Polarization state was missing in     @NX_class = NXbeam
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 8
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 7
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 6
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 5
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 4
+15:43:15.036 INFO  Chunk too small so decrementing parallelism to 3
+15:43:15.036 INFO  Splitting images to bands of 130 rows across 3 threads
+15:43:15.036 INFO  Chunk 0: 0 -> 130
+15:43:15.036 INFO  Chunk 1: 130 -> 260
+15:43:15.036 INFO  Chunk 2: 260 -> 390
+15:43:15.042 INFO          processed 31 images
+15:43:19.913 WARN  Reduced to non-zero bounding box: [26, 22, 23] to [242, 187, 159]
+15:43:19.913 WARN  so now start = [-3.15, -1.956, 6.0040000000000004] for shape = [217, 166, 137]
+15:43:19.913 INFO  For 10 threads, processing took 5s (173ms/frame)
+15:43:19.913 INFO                 loading 31 frames took 0s (3ms/frame)
+15:43:20.729 INFO  Saving took 816ms

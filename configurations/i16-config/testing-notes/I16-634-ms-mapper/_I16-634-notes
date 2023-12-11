@@ -1,15 +1,17 @@
 ================================================================================
-							Testing with msmapper
+							Live testing with msmapper
 ================================================================================
 
 Scan		Configuration	Dummy	Detector		Notes
 			NDW	DWE	LF	T	/Live						Baseline scan command
 ----------- --- --- --	-	-----	-------	-------	----------------------------
-../1022133	NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.002 61 pil3_100k 1 roi2 roi1
-2023110264	NDW	DWE	LF		Dummy	NXPDW	pil3	scancn eta 0.002 5 pil3_100k 1 roi2 roi1
+1027742		NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.001 31 MapperProc pil3_100k 1 roi2
+1027743		NDW	DWE	LF		Live	NXPDW	pil3	scancn hkl [0.001, 0.001, 0.0] 31 MapperProc pil3_100k 1 roi2
+1027744		NDW	DWE	LF		Live	NXPDW	merlin	scancn eta 0.001 31 MapperProc merlin 1 merlinroi2
+1027745		NDW	DWE	LF		Live	NXPDW	merlin	scancn hkl [0.001, 0.001, 0.0] 31 MapperProc merlin 1 merlinroi2
 ----------- --- --- --	-	-----	-------	-------	----------------------------
-2023110272	NSD				Dummy	NXD/NDP	pil3	scancn eta 0.002 5 pil3_100k 1
-2023110273	NSD				Dummy	NXD/NDP	pil3	" with 487x195 image, not 1280*960
+1027749		NSD				Live	NXD/NDP	pil3	scancn eta 0.001 31 MapperProc pil3_100k 1
+1027751		NSD				Live	NXD/NDP	pil3	scancn hkl [0.001, 0.001, 0.0] 31 MapperProc pil3_100k 1
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
@@ -20,10 +22,15 @@ Scan		Configuration	Dummy	Detector		Notes
 							Preparing for a scan
 --------------------------------------------------------------------------------
 
-This scan assumes you have done
+These scans assumes you have done
 
-loadub('CoTi2O5')
-pos eta 28.668754
+loadub('Si')
+pos euler [0, 90, 0, 0, 0, 0]	# chi 90, rest 0
+con gam 0 mu 0 phi 9
+simhkl [1 1 0]					# Check delta ~= 2*eta, chi ~= 90 & gamma/mu = 0
+pos hkl [1 1 0]
+pilin							# Before pil scans
+merlinin						# Before merlin scans
 
 and, as suggested in Dummy_mode_operation.txt, set the simulated area detector
 to the correct image size.
@@ -35,17 +42,23 @@ to the correct image size.
 During setup, run this line instead
 
 ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/
-BASELINE=$ARCHIVE/2023110264
+BASELINELOG=$ARCHIVE/1027742.i16_msmapper.log
 
 --------------------------------------------------------------------------------
-						Processing a scan
+						Finding the processed scans and logs
 --------------------------------------------------------------------------------
+
+The processed nexus files can be found in $VISIT/processed and their suffix is
+_msmapper rather than -processed-volume-hkl
+
+	To find the rs_map logs
+
+grep -R "$SCAN.nxs is" tmp
+cat > $VISIT/$SCAN.i16_msmapper.log < # Appending the file found
+
+	To re-process data, or process data that wasn't automatically processed
 
 rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log
-
-to get the processed nexus. This is the offline equivalent of
-
-rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/mm34332-1/1022133.nxs
 
 --------------------------------------------------------------------------------
 						Analysis
@@ -53,11 +66,18 @@ rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/m
 
 	To compare the log with the baseline log:
 
-kdiff3 $BASELINE.nxs.rs_map.log $SCAN.nxs.rs_map.log &
+[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINELOG $SCAN.i16_msmapper.log & \
+[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINELOG $SCAN.nxs.rs_map.log &
 
 	To generate the structure files of the processed volume:
 
+nxls    -a processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.nxlsa ; \
+nexus.tree processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.tree
+---------- or ----------
 nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
 nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree
+
+
+cp *_msmapper.nxs.nxlsa *_msmapper.nxs.tree 
 
 ================================================================================
