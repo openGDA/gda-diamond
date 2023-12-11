@@ -23,6 +23,7 @@ import sys
 from time import sleep
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
+from scannabledevices.checkbeanscannables import checkbeam
 
 SHOW_DEMAND_VALUE=False
         
@@ -187,6 +188,9 @@ class FlyScannable(ScannableBase):
         
     def atCommandFailure(self):
         self.restoreMotorSpeed()
+    
+    def moveTo(self, val):
+        self.scannable.moveTo(val)
         
     def rawAsynchronousMoveTo(self,new_position):
         if  not  isinstance( new_position,  FlyScanPosition):
@@ -269,14 +273,17 @@ def flyscan(*args):
                 command += str(arg) + " "  
             i=i+1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
+                i,deadtime_index, original_topup_threshold = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
 
     meta.addScalar("user_input", "cmd", command)
     try:
         scan([e for e in newargs])
     finally:
         meta.rm("user_input", "cmd")
-
+        if original_topup_threshold:
+            topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+            topup_checker.minimumThreshold = original_topup_threshold
+            
 def flyscannable(scannable, timeout_secs=1.):
     return FlyScannable(scannable, timeout_secs)
 
@@ -320,7 +327,13 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
         flyscannablewraper.setSpeed(motor_speed)
     elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
         flyscannablewraper.setSpeed(max_speed)
-    return i, deadtime_index
+    original_topup_threshold = None
+    if checkbeam in args:
+        topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+        original_topup_threshold = topup_checker.minimumThreshold
+        topup_checker.minimumThreshold = total_time + original_topup_threshold
+        
+    return i, deadtime_index, original_topup_threshold
 
 def flyscancn(*args):
     ''' 
@@ -367,7 +380,7 @@ def flyscancn(*args):
                 command += str(arg) + " "  
             i = i + 1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
+                i,deadtime_index,original_topup_threshold = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
 
     meta.addScalar("user_input", "cmd", command)
     try:
@@ -376,6 +389,9 @@ def flyscancn(*args):
         meta.rm("user_input", "cmd")
         # return to original position
         flyscannablewraper.scannable.moveTo(current_position)
+        if original_topup_threshold:
+            topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+            topup_checker.minimumThreshold = original_topup_threshold
         
 alias('flyscancn')
     
