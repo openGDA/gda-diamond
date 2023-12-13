@@ -267,7 +267,7 @@
 		
 		<property name="startPosition">
 			<list>
-				<ref bean="no_beam" />
+				<ref bean="shutter_closed" />
 			</list>
 		</property>
 		
@@ -346,7 +346,7 @@
 				<property name="scannableId" value="selector" />
 			</bean>
 		</property>
-		<property name="position" value="No beam//" />
+		<property name="position" value="No beam" />
 	</bean>
 
 </beans>
