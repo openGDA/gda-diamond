@@ -14,6 +14,7 @@
 		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
+	
 	<bean id="dld_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period " />
 		<property name="group" value="DLD" />
@@ -21,6 +22,7 @@
 		<property name="textWidth" value="85"/>
 		<property name="userUnits" value="s" />
 	</bean>
+	
 	<bean id="dld_state_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="State" />
 		<property name="group" value="DLD" />
@@ -35,6 +37,7 @@
 		<property name="textWidth" value="51"/>
 		<property name="userUnits" value="ns" />
 	</bean>
+	
 	<bean id="dld_time_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="length " />
 		<property name="group" value="DLD" />
@@ -42,13 +45,7 @@
 		<property name="textWidth" value="85"/>
 		<property name="userUnits" value="ns" />
 	</bean>
-<!-- 	<bean id="dld_hist_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl"> -->
-<!-- 		<property name="displayName" value="hist. length" /> -->
-<!-- 		<property name="group" value="DLD" /> -->
-<!-- 		<property name="scannableName" value="dldHistogramLength"/> -->
-<!-- 		<property name="textWidth" value="85"/> -->
-<!-- 		<property name="userUnits" value="s" /> -->
-<!-- 	</bean> -->
+
 	<bean id="dld_frames_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value=" Set sum frames " />
 		<property name="group" value="DLD" />
@@ -56,25 +53,11 @@
 		<property name="textWidth" value="85"/>
 	</bean>
 	
-	<bean id="dld_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
-		<property name="displayName" value=" Frames acquired " />
+	<bean id="dld_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Frames acquired" />
 		<property name="group" value="DLD" />
 		<property name="scannableName" value="numFilter_monitor"/>
-		<property name="textWidth" value="80"/>
-		<property name="valueColour" value="9" />
-		<property name="valueTextSize" value="12" />
-		<property name="labelTextSize" value="12"/>
-		<property name="boldValue" value="true"/>
-		<property name="valueThreshold" value="1000"/>
-		<property name="aboveThresholdColour" value="3"/>
-	</bean>
-	
-	<bean id="dld_frames_monitor_set" class="uk.ac.gda.client.livecontrol.ControlSet">
-		<property name="controls">
-			<list>
-				<ref bean="dld_frames_monitor" />
-			</list>
-		</property>
+		<property name="textWidth" value="51"/>
 	</bean>
 	
 	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
@@ -95,6 +78,7 @@
 		<property name="boldValue" value="true"/>
 		<property name="valueThreshold" value="1000000"/>
 		<property name="aboveThresholdColour" value="3"/>
+		<property name="rescalingFont" value="true"/>
 	</bean>
 
 	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
