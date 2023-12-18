@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<!-- Diagnostics -->
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HD2.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HD3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HD4.xml"/>
+
+	<!-- Slits -->
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HS1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HS2.xml"/>
+
+	<!-- Insertion Device -->
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/ID.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HM1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/HM2.xml"/>
+	<import resource="HM4A.xml"/>
+	<import resource="HM4B.xml"/>
+
+	<!-- Monochromator -->
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/DCM.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/live/devices/ChannelCutCrystal.xml"/>
+
+	<!-- End Station -->
+	<import resource="ES1.xml"/>
+	<import resource="analyser.xml" />
+	<import resource="manipulator.xml" />
+	<import resource="lakeshore.xml" />
+
+	<!-- Shutters -->
+	<import resource="shutters.xml"/>
+
+	<!-- Dummy Devices -->
+	<import resource="file://${gda.config.shared}/servers/main/live/devices/DummyMotors.xml"/>
+
+</beans>

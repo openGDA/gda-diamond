@@ -16,13 +16,19 @@
 				<property name="projects">
 					<list>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.config}/scripts" />
-							<property name="name" value="Scripts: Config" />
-							<property name="type" value="CONFIG" />
+							<property name="path" value="${gda.config}/scripts"/>
+							<property name="name" value="Scripts: Config"/>
+							<property name="type" value="CONFIG"/>
+						</bean>
+						
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-diamond.git/configurations/i09-shared/scripts"/>
+							<property name="name" value="Scripts: Shared"/>
+							<property name="type" value="CONFIG"/>
 						</bean>
 					</list>
 				</property>
-				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
 			</bean>
 		</property>
 	</bean>

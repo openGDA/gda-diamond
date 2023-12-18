@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- <import resource="EnergyLUT.xml"/> -->
+	
+	<!-- Beamline objects -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/BeamlineInfo.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/BeamInfo.xml"/>
+	<import resource="BeamMonitor.xml"/>
+
+	<!-- Insertion Device -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/ID.xml"/>
+	
+	<!-- Dummy Devices -->
+	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyMotors.xml"/>
+	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyScannables.xml"/>
+	
+	<!-- Monochromator -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/PGM.xml"/>
+	
+	<!-- Diagnostics -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD10.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD6.xml"/>
+	
+	<!-- Mirrors -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SM1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SM3.xml"/>
+	<import resource="SM6.xml"/>
+	
+	<!-- Slits -->
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS2.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS7.xml"/>
+	
+	<!--  End Station -->
+	<import resource="dummy_endstation.xml" />
+	<import resource="DLD_SUMMED_V2.xml"/>
+	<import resource="Microscope.xml"/>
+
+</beans>

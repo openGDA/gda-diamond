@@ -3,43 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
-	<!-- Slits -->
-	<import resource="HS1.xml"/>
-	<import resource="HS2.xml"/>
-
-	<!-- Insertion Device -->
-	<import resource="ID.xml"/>
+	<import resource="devices/all_devices.xml"/>
 	
-	<!-- Mirrors -->
-	<import resource="HM1.xml"/>
-	<import resource="HM2.xml"/>
-	<import resource="HM4A.xml"/>
-	<import resource="HM4B.xml"/>
-
-	<!-- Monochromator -->
-	<import resource="DCM.xml"/>
-	<import resource="ChannelCutCrystal.xml"/>
-
-	<!-- Diagnostics -->
-	<import resource="HD2.xml"/>
-	<import resource="HD3.xml"/>
-	<import resource="HD4.xml"/>
-
-	<!-- Simulated Area Detector -->
-	<import resource="adSimulator.xml"/>
-
-	<!-- End station -->
-	<import resource="analyser.xml"/>
-	<import resource="manipulator.xml"/>
-	<import resource="lakeshore.xml"/>
-
-	<!-- Shutters -->
-	<import resource="shutters.xml"/>
-
-	<!-- Dummy Devices -->
-	<import resource="DummyMotors.xml"/>	
-
-	<!-- Do not remove anything below here -->
+	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>

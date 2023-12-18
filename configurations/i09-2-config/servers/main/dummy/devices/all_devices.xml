@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
+	<!-- Insertion Device -->
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/ID.xml"/>
+	
+	<!-- Dummy Devices -->
+	<import resource="file://${gda.config.shared}/servers/main/dummy/devices/DummyMotors.xml"/>
+	<import resource="file://${gda.config.shared}/servers/main/dummy/devices/DummyScannables.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/GBC1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/GBC2.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/GBC3.xml"/>
+	
+	<!-- Monochromator -->
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/PGM.xml"/>
+	
+	<!-- Diagnostics -->
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD4.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD5.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD6.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD10.xml"/>
+	
+	<!-- Mirrors -->
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM4.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM5.xml"/>
+	<import resource="SM6.xml"/>
+	
+	<!-- Slits -->
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SS1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SS2.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SS3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SS4.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SS7.xml"/>
+	
+	<!-- Shutters -->
+	<import resource="shutters.xml"/>
+	
+	<!-- End station -->
+	<import resource="dummy_endstation.xml" />
+	<import resource="DLD_SUMMED_V2.xml"/>
+	<import resource="Microscope.xml"/>
+	<import resource="ES32.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/ring.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/frontEnd.xml"/>
+	
+</beans>
+	

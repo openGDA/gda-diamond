@@ -1,6 +1,5 @@
 import os
 import sys
-import installation
 import gdascripts
 from gda.factory import Finder
 from gda.data import NumTracker
@@ -12,10 +11,12 @@ from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
     waittimeClass, waittimeClass2, actualTimeClass
 from gda.configuration.properties import LocalProperties
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
-from analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
+from i09shared.analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
 from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
 from gda.device.scannable import PVScannable
+import gdascripts
+import i09shared.installation as installation
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -95,7 +96,7 @@ print
 
 ### Create time Scannables
 print "Creating time scannables"
-from timerelated import clock, t, dt, w #@UnusedImport
+from i09shared.timerelated import clock, t, dt, w #@UnusedImport
 showtime=showtimeClass('Showtime')
 inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass2('Waittime')
@@ -162,7 +163,7 @@ globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 
 
 print("-----------------------------------------------------------------------------------------------------------------")
-from functions import functionClassFor2Scannables
+from i09shared.functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
 if installation.isLive():
@@ -182,7 +183,7 @@ from pseudodevices.IDGap_Offset import jgap_offset
 
 print("Create 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables.")
 LH,LV,CR,CL,LH3=["LH","LV","CR","CL","LH3"]
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+from i09shared.calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 if installation.isLive():
     jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
     polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
@@ -199,7 +200,7 @@ jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
 from scannable.continuous.continuous_energy_scannables import jenergy,  jenergy_move_controller, jI0, sdc  # @UnusedImport
-from scan.cvscan import cvscan  # @UnusedImport
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 
 if installation.isLive():
@@ -209,7 +210,7 @@ if installation.isLive():
     from pseudodevices.bindingEnergyScannable import benergy # @UnusedImport
 
 
-from scan.miscan import miscan, clear_summed_data  # @UnusedImport
+from i09shared.scan.miscan import miscan, clear_summed_data  # @UnusedImport
 
 # Install regional scan
 print("Installing regional scan")

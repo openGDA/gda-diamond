@@ -3,7 +3,7 @@ from gda.factory import Finder
 import sys
 #from gda.function.lookup import LookupTable
 import math
-from LookupTables import readLookupTable
+from i09shared.lookup.LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caput
@@ -20,7 +20,7 @@ class BeamEnergy(ScannableMotionBase):
         
     def __init__(self, name, gap="jgap", dcm="pgmenergy", undulatorperiod=27, lut="JIDCalibrationTable.txt"):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
-        self.lut=readLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
+        self.lut=readLookupTable(LocalProperties.get("gda.config.shared")+"/lookupTables/soft/"+lut)
         self.gap=gap
         self.dcm=dcm
         self.lambdau=undulatorperiod

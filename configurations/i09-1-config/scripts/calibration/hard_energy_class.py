@@ -3,7 +3,7 @@ from gda.factory import Finder
 import sys
 import math
 from time import sleep
-from LookupTables import readLookupTable
+from i09shared.lookup.LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 import logging
@@ -30,8 +30,8 @@ class HardEnergy(ScannableMotionBase):
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
         """
-        self.lut = readLookupTable(LocalProperties.get("gda.config")
-                                   + "/lookupTables/" + lut)
+        self.lut = readLookupTable(LocalProperties.get("gda.config.shared")
+                                   + "/lookupTables/hard/" + lut)
         self.gap = "igap"
         self.dcm = "dcmenergy"
         self.lambdau = 27  # undulator period

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="sm6iamp27" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM6.xml"/>
+
+	<bean id="sm6fpitch_motor" class="gda.device.motor.DummyMotor"/>
+
+</beans>

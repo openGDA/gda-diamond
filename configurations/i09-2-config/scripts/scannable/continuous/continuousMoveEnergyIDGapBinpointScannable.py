@@ -13,7 +13,7 @@ from gda.device.scannable import ContinuouslyScannableViaController, \
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from time import sleep
-import installation
+import i09shared.installation as installation
 import java
 from gda.device import DeviceException
 from scannable.continuous.continuousEnergyMoveController import ContinuousEnergyMoveController

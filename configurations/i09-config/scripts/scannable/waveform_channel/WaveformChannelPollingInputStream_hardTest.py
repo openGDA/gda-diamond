@@ -6,7 +6,7 @@ import java.util.Vector
 from java.util import NoSuchElementException
 from org.slf4j import LoggerFactory
 import time
-import installation
+import i09shared.installation as installation
 
 class WaveformChannelPollingInputStream(PositionInputStream):
 

@@ -21,10 +21,10 @@
 
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
-	<import resource="devices/common_devices.xml"/>
+	<import resource="devices/all_devices.xml"/>
 
 	<import resource="jython_server_facade.xml" />
-	<import resource="common_nxplugins.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/common_nxplugins.xml"/>
 	<import resource="nexus_datawriter.xml"/>
 
 	<!-- Machine Status Scannables -->

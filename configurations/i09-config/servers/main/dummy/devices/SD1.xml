@@ -3,17 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sd1temp1" class="gda.device.monitor.DummyMonitor">
-	</bean>
-	<bean id="sd1pos" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
-		<property name="values">
-			<map>
-				<entry key="Out" value="0.0000"/>
-				<entry key="In" value="25.0000"/>
-			</map>
-		</property>
-		<property name="startPositionName" value="Out"/>
-	</bean>
+	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SD1.xml"/>
 
 		<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

@@ -3,8 +3,8 @@ Created on 23 Jan 2014
 
 @author: fy65
 '''
-from utils.dRangeUtil import drange
-from scan.concurrentAnalyserScan import pathscan
+from i09shared.utils.dRangeUtil import drange
+from i09shared.scan.concurrentAnalyserScan import pathscan
 
 xpoints=drange(2.597, 0.203, 0.04728)
 #print "x-points: ",xpoints

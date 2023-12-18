@@ -8,39 +8,8 @@
 	<context:property-placeholder/>
 
 	<!-- Diagnostics -->
-	<import resource="HD2.xml" />
-	<import resource="HD3.xml" />
-	<import resource="HD4.xml" />
+	<import resource="devices/all_devices.xml" />
 
-	<!-- Slits -->
-	<import resource="HS1.xml"/>
-	<import resource="HS2.xml"/>
-
-	<!-- Insertion Device -->
-	<import resource="ID.xml"/>
-
-	<!-- Mirrors -->
-	<import resource="HM1.xml"/>
-	<import resource="HM2.xml"/>
-	<import resource="HM4A.xml"/>
-	<import resource="HM4B.xml"/>
-
-	<!-- Monochromator -->
-	<import resource="DCM.xml" />
-	<import resource="ChannelCutCrystal.xml" />
-
-	<!-- End Station -->
-	<import resource="ES1.xml"/>
-	<import resource="analyser.xml" />
-	<import resource="manipulator.xml" />
-	<import resource="lakeshore.xml" />
-
-	<!-- Shutters -->
-	<import resource="shutters.xml"/>
-
-	<!-- Dummy Devices -->
-	<import resource="DummyMotors.xml"/>
-	
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>

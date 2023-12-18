@@ -18,7 +18,7 @@ def loadLookupTable(filename):
     return lookuptable    
 
 def test():
-    lookuptable=loadLookupTable("../../lookupTables/JIDEnergy2GapCalibrations.txt")
+    lookuptable=loadLookupTable("../../../i09-shared/lookupTables/soft/JIDEnergy2GapCalibrations.txt")
     formatstring="%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
     print (formatstring % ("Mode", "Min Energy", "Max Energy", "Coefficent0", "Coefficent1", "Coefficent2", "Coefficent3", "Coefficent4"))
     for key, value in sorted(lookuptable.iteritems()):
@@ -36,7 +36,7 @@ def test():
     limits=zip(lowEnergies, highEnergies)
     for low, high in limits:
         print low, high
-    from calibration.energy_polarisation_class import getFittingCoefficents
+    from i09shared.calibration.energy_polarisation_class import getFittingCoefficents
     print getFittingCoefficents("LH", 0.81, lookuptable)
 
 if __name__ == "__main__":

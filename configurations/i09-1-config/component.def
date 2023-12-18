@@ -4,10 +4,10 @@
     xmlns:xmi="http://www.omg.org/XMI"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:targlets="http://www.eclipse.org/oomph/targlets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Targlets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Targlets.ecore"
     id="i09-1-config">
   <requirement
-      name="dls-config"/>
+      name="i09-shared"/>
   <requirement
       name="uk.ac.gda.beamline.i09_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

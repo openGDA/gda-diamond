@@ -5,7 +5,7 @@ from gda.device.scannable import PositionInputStream
 import java.util.Vector
 from org.slf4j import LoggerFactory
 import time
-import installation
+import i09shared.installation as installation
 from gda.device import DeviceException
 
 class WaveformChannelPollingInputStream(PositionInputStream):

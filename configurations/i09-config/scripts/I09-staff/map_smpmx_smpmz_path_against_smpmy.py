@@ -3,8 +3,8 @@ Created on 3 Dec 2014
 
 @author: dqz93389
 '''
-from utils.dRangeUtil import drange
-from scan.concurrentAnalyserScan import pathscan
+from i09shared.utils.dRangeUtil import drange
+from i09shared.scan.concurrentAnalyserScan import pathscan
 
 #jenergy.moveTo(0.25)
 

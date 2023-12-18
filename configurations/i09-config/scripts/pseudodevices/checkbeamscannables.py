@@ -6,7 +6,7 @@ Created on 10 Apr 2018
 ###############################################################################
 ###                           Wait for beam device                          ###
 ###############################################################################
-from utils.ExceptionLogs import localStation_exception
+from i09shared.utils.ExceptionLogs import localStation_exception
 import sys
 from gdaserver import rc, topup_time, feBeamPermit, ew4000, fsi1, fsj1
 print "-"*100

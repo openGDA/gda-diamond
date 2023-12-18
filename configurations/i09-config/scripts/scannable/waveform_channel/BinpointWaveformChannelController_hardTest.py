@@ -3,7 +3,7 @@
 from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
-import installation
+import i09shared.installation as installation
 import time
 
 TIMEOUT = 5

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Slits -->
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HS1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HS2.xml"/>
+
+	<!-- Insertion Device -->
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/ID.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HM1.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HM2.xml"/>
+	<import resource="HM4A.xml"/>
+	<import resource="HM4B.xml"/>
+
+	<!-- Diagnostics -->
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD2.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD3.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD4.xml"/>
+
+	<!-- Monochromator -->
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/DCM.xml"/>
+	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/ChannelCutCrystal.xml"/>
+
+	<!-- Dummy Devices -->
+	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyMotors.xml"/>
+	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyScannables.xml"/>
+	
+	<!--  End Station -->
+	<import resource="analyser.xml" />
+	<import resource="manipulator.xml" />
+</beans>

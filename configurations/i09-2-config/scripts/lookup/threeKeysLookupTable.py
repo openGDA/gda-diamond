@@ -35,7 +35,7 @@ def test():
     limits=zip(lowEnergies, highEnergies)
     for low, high in limits:
         print low, high
-    from calibration.energy_polarisation_class import getFittingCoefficents
+    from i09shared.calibration.energy_polarisation_class import getFittingCoefficents
     print getFittingCoefficents("LH", 800.1, lookuptable)
 
 if __name__ == "__main__":

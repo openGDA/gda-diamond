@@ -3,6 +3,7 @@
 	<name>i09-config</name>
 	<comment></comment>
 	<projects>
+		<project>i09-shared</project>
 		<project>org.opengda.detector.electronanalyser</project>
 		<project>org.opengda.detector.electronanalyser.client</project>
 		<project>org.opengda.detector.electronanalyser.model</project>
@@ -27,6 +28,7 @@
 		<project>uk.ac.gda.nexus</project>
 		<project>uk.ac.gda.beamline.i09</project>
 		<project>uk.ac.gda.video.views</project>
+		<project>dls-config</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

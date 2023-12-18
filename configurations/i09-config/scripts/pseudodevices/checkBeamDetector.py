@@ -9,7 +9,7 @@ from gov.aps.jca.event import MonitorListener
 from time import sleep
 from org.slf4j import LoggerFactory
 from gda.epics import CAClient
-from utils.ExceptionLogs import localStation_exception
+from i09shared.utils.ExceptionLogs import localStation_exception
 import sys
 from gda.jython import InterfaceProvider
 

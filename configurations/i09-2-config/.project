@@ -3,6 +3,7 @@
 	<name>i09-2-config</name>
 	<comment></comment>
 	<projects>
+		<project>i09-shared</project>
 		<project>i21-python</project>
 		<project>uk.ac.gda.api</project>
 		<project>uk.ac.gda.arpes.server</project>
@@ -10,6 +11,7 @@
 		<project>uk.ac.gda.client</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.epics.test</project>
+		<project>dls-config</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

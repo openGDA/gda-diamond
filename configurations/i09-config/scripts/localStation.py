@@ -8,8 +8,8 @@ import java
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
-from calibration.soft_energy_class import SoftEnergy
 from calibration.hard_energy_class import HardEnergy
+from i09shared.calibration.soft_energy_class import SoftEnergy
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
 from gda.jython.commands.ScannableCommands import scan 
 from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
@@ -17,14 +17,14 @@ from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
 from gda.configuration.properties import LocalProperties
 import gdascripts
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
-from analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
+from i09shared.analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
 from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
 import sys
 from java.lang import System
 from org.opengda.detector.electronanalyser.utils import FilenameUtil
 from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
-import installation
+import i09shared.installation as installation
 from gda.device.scannable import PVScannable
 
 print "=================================================================================================================";
@@ -104,7 +104,7 @@ print
 
 ### Create time Scannables
 print "Creating time scannables"
-from timerelated import clock, t, dt, w #@UnusedImport
+from i09shared.timerelated import clock, t, dt, w #@UnusedImport
 showtime=showtimeClass('Showtime')
 inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass2('Waittime')
@@ -184,7 +184,7 @@ scan_processor.rootNamespaceDict=globals()
 ###                   Configure camera bases                                    ###
 ###############################################################################
 
-from pseudodevices.CameraExposureChanger import CameraExposureChanger
+from i09shared.pseudodevices.CameraExposureChanger import CameraExposureChanger
 
 print "\nCreating camera exposure object ('sd1_camera_exposure')for SD1 camera"
 sd1_camera_exposure = CameraExposureChanger(sd1_cam)
@@ -212,16 +212,16 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'ienergy_s' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
 if installation.isLive():
-    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy, "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])  # @UndefinedVariable
+    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy, "IIDCalibrationTable.txt",gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])  # @UndefinedVariable
 else:
-    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy, "IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=None)  # @UndefinedVariable
+    ienergy_s = HardEnergy("ienergy_s", igap, dcmenergy,"IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=None)  # @UndefinedVariable
     
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 
 print "Create an 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables."
 LH,LV,CR,CL,LH3=["LH","LV","CR","CL","LH3"]
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+from i09shared.calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 if installation.isLive():
     jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
     polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
@@ -249,7 +249,7 @@ print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-ES-03:STAT:Total_RBV","","%d")
 
 # Import and setup function to create mathmatical scannables
-from functions import functionClassFor2Scannables
+from i09shared.functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
 # I09-70 Create a empty string to hold detectors to be used with the GUI
@@ -267,7 +267,7 @@ from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, check
 run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")  # @UndefinedVariable
 
 from scannable.continuous.continuous_energy_scannables import ienergy,jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
-from scan.cvscan import cvscan  # @UnusedImport
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
@@ -286,7 +286,7 @@ print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\
 
 # the following requires new NexusScanDataWriter to work!
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
-from scan.miscan import miscan  # @UnusedImport
+from i09shared.scan.miscan import miscan  # @UnusedImport
 
 print
 print "="*100;
