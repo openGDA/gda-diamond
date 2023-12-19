@@ -33,11 +33,11 @@ http://www.opengda.org
 -Ddatavis.open.script=true
 -client
 -Xms128m
--Xmx1024m
+-Xmx8g
       </vmArgs>
       <vmArgsLin>-client
 -Xms128m
--Xmx1024m
+-Xmx8g
 -XX:MaxHeapFreeRatio=70
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
