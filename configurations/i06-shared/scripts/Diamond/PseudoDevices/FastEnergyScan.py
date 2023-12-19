@@ -112,6 +112,7 @@ class FastEnergyScanControlClass(object):
 
 		if beamline_name == "i06":
 			self.cleanChannel(self.chMedipixMode)
+			self.cleanChannel(self.chWaitForPlugins)
 			
 	def setupEpics(self, rootPV):
 #		Epics PVs for checking fast scan readiness:
@@ -150,7 +151,8 @@ class FastEnergyScanControlClass(object):
 		if beamline_name == "i06":
 			#To configure medipix's driver mode
 			self.chMedipixMode=CAClient("BL06I-EA-DET-02:CAM:QuadMerlinMode"); self.configChannel(self.chMedipixMode);
-		
+			self.chWaitForPlugins = CAClient("BL06I-EA-DET-02:CAM:WaitForPlugins"); self.configChannel(self.chWaitForPlugins)
+			
 	def configChannel(self, channel):
 		if not channel.isConfigured():
 			channel.configure()
@@ -196,6 +198,7 @@ class FastEnergyScanControlClass(object):
 			self.num_images=self.adbase.getNumImages()
 			self.trigger_mode=self.adbase.getTriggerMode()
 			self.drive_mode=int(self.chMedipixMode.caget())
+			self.wait_for_plugins = self.chWaitForPlugins.caget()
 			self.existingCameraParametersCaptured = True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
@@ -208,6 +211,7 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setImageMode(1) # Multiple
 			self.adbase.setNumImages(numImages)
 			self.adbase.setTriggerMode(0) # Auto
+			self.chWaitForPlugins.caput(1)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		if self.isKBRastering():
@@ -254,6 +258,7 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setImageMode(self.image_mode) # Multiple
 			self.adbase.setNumImages(self.num_images)
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
+			self.chWaitForPlugins(self.wait_for_plugins)
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
 			self.existingCameraParametersCaptured = False
@@ -659,6 +664,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		print("%s: Panic Stop Called" % self.getName())
 		self.fesController.abortScan();
 		if beamline_name == "i06":
+			self.fesDetector.stopROITimeSeries()()
 			self.fesController.restoreAreaDetectorParametersAfterCollection()
 
 	def cvscan(self, startEnergy, endEnergy, scanTime, pointTime):
@@ -692,6 +698,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			if beamline_name == "i06":
 				self.fesController.enableAreaDetector() #using area detector
 				self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
+				self.fesDetector.startROITimeSeries()
 				areadetector = self.fesController.getAreaDetector()
 				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,1,areadetector,pointTime])
 			else:
@@ -711,6 +718,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			print("The Fast Energy Scan is aborted.")
 		else:
 			if beamline_name == "i06":
+				self.fesDetector.stopROITimeSeries()
 				self.fesController.restoreAreaDetectorParametersAfterCollection()
 			print("The Fast Energy Scan is completed.")
 
@@ -738,7 +746,8 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.high = 1000
 		self.keyChannel = None
 		self.firstTime = True
-
+		self.chTimeSeriesStarts = []
+		
 		self.fastScanElementCounter = Finder.find(elementCounter)
 
 		self.reset()
@@ -747,9 +756,11 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.cleanChannel(self.chHead)
 		for chd in self.chData:
 			self.cleanChannel(chd)
+		for chd in self.chTimeSeriesStarts:
+			self.cleanChannel(chd)
 
 	def reset(self):
-		self.data=[[None]]*self.numberOfChannels
+		self.data=[[None]]*(len(self.chData) if beamline_name == "i06" else self.numberOfChannels)
 		self.dataset = None
 		self.readPointer = -1
 		#according to Pete leicester GDA should not reset Element Counter
@@ -776,6 +787,11 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 	pvDataChannel02 = 'BL06I-MO-FSCAN-01:CH2DATA'
 	pvDataChannel03 = 'BL06I-MO-FSCAN-01:CH3DATA'
 	pvDataChannel04 = 'BL06I-MO-FSCAN-01:CH4DATA'
+	
+	for i06 area detector ROIs
+	pvMeanValueRoi1 = 'BL06I-EA-DET-02:STAT1:TSMeanValue'
+	pvMeanValueRoi2 = 'BL06I-EA-DET-02:STAT2:TSMeanValue'
+	
 	...
 	"""	
 	def setupEpics(self, rootPV):
@@ -788,6 +804,29 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		for i in range(self.numberOfChannels):
 			self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
 			self.configChannel(self.chData[i])
+			
+	def setupAreaDetectorROITimeSeries(self, root_pv, time_series_start_pvs=[], time_series_waveform_pvs=[]):
+		self.chTimeSeriesStarts = []
+		for pv in time_series_start_pvs:			
+			ch_time_series_start  = CAClient(root_pv + pv)
+			self.configChannel(ch_time_series_start)
+			self.chTimeSeriesStarts.append(ch_time_series_start)
+			sleep(0.1)
+		for pv in time_series_waveform_pvs:			
+			ch_time_series_waveform  = CAClient(root_pv + pv)
+			self.configChannel(ch_time_series_waveform)
+			self.chData.append(ch_time_series_waveform)
+			sleep(0.1)
+			
+	def startROITimeSeries(self):
+		for chs in self.chTimeSeriesStarts:
+			chs.caput(1)
+			sleep(0.1)
+		
+	def stopROITimeSeries(self):
+		for chs in self.chTimeSeriesStarts:
+			chs.caput(0)
+			sleep(0.1)
 		
 	def configChannel(self, channel):
 		if not channel.isConfigured():
@@ -823,7 +862,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 		la=[]
 		#To get the waveform data from EPICS
-		for i in range(self.numberOfChannels):
+		for i in range(len(self.chData) if beamline_name == "i06" else self.numberOfChannels):
 			ok = False
 			while( not ok):
 				try:
