@@ -22,14 +22,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.eclipse.scanning.api.device.IRunnableDeviceService;
 import org.eclipse.scanning.api.points.MapPosition;
 import org.eclipse.scanning.api.scan.ScanningException;
 import org.eclipse.scanning.api.scan.event.IPositioner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.ServiceHolder;
 import gda.device.DeviceException;
+import uk.ac.diamond.osgi.services.ServiceProvider;
 import uk.ac.gda.beans.exafs.ScannableConfiguration;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
@@ -51,7 +52,8 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public void next() throws DeviceException, InterruptedException {
 		try {
-			IPositioner positioner = ServiceHolder.getRunnableDeviceService().createPositioner(I18SampleEnvironmentIterator.class.getName());
+			IPositioner positioner = ServiceProvider.getService(IRunnableDeviceService.class)
+					.createPositioner(I18SampleEnvironmentIterator.class.getName());
 			Map<String, Object> position = getPositionMap(parameters.getScannableConfigurations());
 			positioner.setPosition(new MapPosition(position));
 		} catch (ScanningException e) {
