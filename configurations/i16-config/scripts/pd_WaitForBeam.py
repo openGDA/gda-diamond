@@ -61,6 +61,10 @@ class TimeToMachineInjectionClass(DisplayEpicsPVClass):
 	Parameters as per DisplayEpicsPVClass
 	'''
 	'''Create PD to display single EPICS PV'''
+	
+	def __init__(self, name, pvstring, unitstring, formatstring):
+		super(TimeToMachineInjectionClass, self).__init__(name, pvstring, unitstring, formatstring)
+		self.timetoinjection = 99999.0
 
 	def getPosition(self):
 		try:
