@@ -39,12 +39,14 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.template.NexusTemplateService;
 import org.eclipse.dawnsci.nexus.template.impl.NexusTemplateServiceImpl;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.StringDataset;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +55,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.data.ServiceHolder;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -73,6 +74,7 @@ import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.scan.ede.datawriters.AsciiWriterTest;
+import uk.ac.diamond.osgi.services.ServiceProvider;
 import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
@@ -115,7 +117,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		Path tempDataDir = Files.createTempDirectory(TurboXasScanTest.class.getName());
 		tempDataDir.toFile().deleteOnExit();
 		LocalProperties.set(LocalProperties.GDA_VAR_DIR, tempDataDir.toString());
-		new ServiceHolder().setNexusTemplateService(new NexusTemplateServiceImpl());
+		ServiceProvider.setService(NexusTemplateService.class, new NexusTemplateServiceImpl());
 
 		daserver = new DummyDAServer();
 		daserver.configure();
@@ -172,6 +174,13 @@ public class TurboXasScanTest extends EdeTestBase {
 		dummyScannableMotor.setName("dummyScannableMotor");
 
 		setupFinder();
+	}
+
+	@After
+	public void teardownEnvironment() {
+		LocalProperties.clearProperty(LocalProperties.GDA_VAR_DIR);
+		Finder.removeAllFactories();
+		ServiceProvider.reset();
 	}
 
 	/**
