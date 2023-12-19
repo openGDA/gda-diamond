@@ -108,6 +108,7 @@ import gdascripts
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 
 from beam.beam_centering import centerBeam  # @UnusedImport
+from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVol  # @UnusedImport
 
 print("="*100)
 print("end of localStation.py for Beamline I06)")
