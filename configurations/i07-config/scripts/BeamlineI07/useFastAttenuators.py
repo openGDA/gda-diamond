@@ -17,8 +17,6 @@ def autofon():
     LocalProperties.set("gda.beamline.auto.attenuation", True)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), True)
-    exs_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
-    setProcessingEnabled(exs_scan.getProcessing().getProcessorMap(), True)
     print("Automatic attenuation enabled for exr, exv, exc and exs")
 
 def autofoff():
@@ -27,8 +25,6 @@ def autofoff():
     LocalProperties.set("gda.beamline.auto.attenuation", False)
     exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), False)
-    exs_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
-    setProcessingEnabled(exs_scan.getProcessing().getProcessorMap(), False)
     fatt.manualMode()
     print("Automatic attenuation disabled for exr, exv, exc and exs")
 

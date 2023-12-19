@@ -1,11 +1,14 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
 from gda.factory import Finder
+from gda.configuration.properties import LocalProperties
 
 # Excalibur
-exc = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
+exc_name = "BL07I-ML-SCAN-34" if LocalProperties.get('gda.active.diffractometer.mode')=="eh2" else "BL07I-ML-SCAN-01"
+exc = getRunnableDeviceService().getRunnableDevice(exc_name)
 # Excalibur for static malcolm scans (i.e. "mscan static [parameters]") - avoids bug I07-569 but cannot move motors
-exs = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-11")
+exs_name = "BL07I-ML-SCAN-34" if LocalProperties.get('gda.active.diffractometer.mode')=="eh2" else "BL07I-ML-SCAN-11"
+exs = getRunnableDeviceService().getRunnableDevice(exs_name)
 # Pilatus 2M
 p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
 # Pilatus 2M for static malcolm scans

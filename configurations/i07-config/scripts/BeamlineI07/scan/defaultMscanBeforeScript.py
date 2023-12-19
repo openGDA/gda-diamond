@@ -5,13 +5,14 @@ from gdascripts.utils import caput
 
 EXCALIBUR_RD_NAME = "BL07I-ML-SCAN-01"
 EXCALIBUR_STATIC_NAME = "BL07I-ML-SCAN-11"
+EXCALIBUR_EH2_NAME = "BL07I-ML-SCAN-34"
 P2_STATIC_NAME = "BL07I-ML-SCAN-12"
 P3_STATIC_NAME = "BL07I-ML-SCAN-32"
 
 # Set of Strings of runnable device names
 detectors = scanRequest.getDetectors().keySet()
 
-if LocalProperties.check("gda.beamline.auto.attenuation", False) and ( EXCALIBUR_RD_NAME in detectors or EXCALIBUR_STATIC_NAME in detectors ):
+if LocalProperties.check("gda.beamline.auto.attenuation", False) and ( EXCALIBUR_RD_NAME in detectors or EXCALIBUR_STATIC_NAME in detectors or EXCALIBUR_EH2_NAME in detectors ):
     print("Setting auto attenuation for continuous scan")
     fatt.manualMode()
     sleep(0.2)
