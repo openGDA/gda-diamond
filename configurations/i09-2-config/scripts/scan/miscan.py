@@ -20,7 +20,6 @@ print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.
 
 def clear_summed_data():
     if installation.isLive():
-        # caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
         caput("BL09K-EA-DET-01:PROC1:ResetFilter", 1)
     else:
         print("Clear accumulated data")
