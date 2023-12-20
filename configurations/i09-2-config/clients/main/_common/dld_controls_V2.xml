@@ -81,6 +81,20 @@
 		<property name="rescalingFont" value="true"/>
 	</bean>
 
+	<bean id="count_rate_fixed" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
+		<property name="displayName" value="Intensity (cps)" />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="count_rate_monitor" />
+		<property name="textWidth" value="170" />
+		<property name="valueColour" value="6" />
+		<property name="valueTextSize" value="28" />
+		<property name="labelTextSize" value="16"/>
+		<property name="boldValue" value="true"/>
+		<property name="valueThreshold" value="1000000"/>
+		<property name="aboveThresholdColour" value="3"/>
+		<property name="rescalingFont" value="false"/>
+	</bean>
+	
 	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>

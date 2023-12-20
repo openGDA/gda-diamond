@@ -4,6 +4,7 @@ Created on 19 Dec 2023
 @author: eir17846
 '''
 from gda.device.scannable import ScannableMotionBase
+from detector.iseg_instances import kenergy
 from gda.factory import Finder
 
 class bindingEnergyScannable(ScannableMotionBase):
@@ -28,7 +29,8 @@ class bindingEnergyScannable(ScannableMotionBase):
 
     def rawAsynchronousMoveTo(self, new_position):
         try:
-            self.sample_bias_scannable.moveTo(new_position)
+            result = self.pgm_scannable.getPosition() - new_position - self.work_function
+            self.sample_bias_scannable.moveTo(result)
         except:
             print "error moving to position"
 
@@ -38,6 +40,17 @@ class bindingEnergyScannable(ScannableMotionBase):
         except:
             print "problem moving: Returning busy status"
             return 0
-kenergy = Finder.find("kenergy")
+        
+    def setWF(self, value):
+        try:
+            self.work_function = value
+            print "Work function set to new value " + value.toString()
+        except:
+            print "Setting work function failed"
+            
+    def getWF(self):
+        print "Work function value is " + self.work_function.toString()
+        return self.work_function
+        
 pgm = Finder.find("pgmenergy")
 benergy=bindingEnergyScannable("benergy", pgm, kenergy, "", "%d", 4.3)

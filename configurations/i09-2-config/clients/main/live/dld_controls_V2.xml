@@ -48,17 +48,27 @@
 		<property name="pvName" value="BL09K-EA-DET-01:CAM:RatemeterMax"/>
 		<property name="outputFormat">
 			<list>
-					<value>%10f</value>
+					<value>%10d</value>
 			</list>
 		</property>	
 	</bean>
 
 	<bean id="numFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:SUM1:NumFilter"/>
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
 	</bean>
 	
 	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:SUM1:NumFiltered_RBV"/>
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
 	</bean>
 	
 </beans>

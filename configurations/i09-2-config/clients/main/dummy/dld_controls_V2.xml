@@ -56,15 +56,29 @@
 	
 	<bean id="summ_time_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
-
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
 	</bean>
 	
 	<bean id="numFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
 	</bean>
 	
 	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFiltered_RBV"/>
+		<property name="outputFormat">
+			<list>
+					<value>%10d</value>
+			</list>
+		</property>	
 	</bean>
 	
 </beans>
