@@ -12,6 +12,7 @@
 			</list>
 		</property>	
 	</bean>
+	
 	<bean id="dldAcquirePeriod" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:CAM:AcquirePeriod"/>
 		<property name="outputFormat">
@@ -37,14 +38,7 @@
 			</list>
 		</property>	
 	</bean>
-<!-- 	<bean id="dldHistogramLength" class="gda.device.scannable.PVScannable"> -->
-<!-- 		<property name="pvName" value="BL09K-EA-D-01:cam1:HistorySize"/> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<list> -->
-<!-- 				<value>%10d</value> -->
-<!-- 			</list> -->
-<!-- 		</property>	 -->
-<!-- 	</bean> -->
+
 	<bean id="dldState" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL09K-EA-DET-01:CAM:DetectorState_RBV"/>
 		<property name="readOnly" value="true"/>
@@ -54,7 +48,7 @@
 		<property name="pvName" value="BL09K-EA-DET-01:CAM:RatemeterMax"/>
 		<property name="outputFormat">
 			<list>
-					<value>%10d</value>
+					<value>%10f</value>
 			</list>
 		</property>	
 	</bean>
