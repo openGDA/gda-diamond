@@ -9,11 +9,13 @@
 # environment before invoking the main gda script to get correct startup behaviour. Also please add "< /dev/null > /dev/null 2>&1"
 # to the end of the line that calls the gda script to prevent ssh from hanging incorrectly due to an unclosed stream.
 
-################################################################################
-# This is only needed until cfengine can be updated with an authorized_keys
-# entry which calls /gda-diamond/dls-config/live/gda-servers-startup-script.sh
-################################################################################
 
+# Only restart active mq if not executing stop
+#if [[ $@ != *"--stop"* ]]; then
+#		sudo /sbin/service dls_activemq restart
+#fi
+# During testing it was found that sometimes a restart of activemq was not sufficient and
+# we had to delete /exports/activemq as well.
 
 
 # If you want any special behaviour add it above this line
