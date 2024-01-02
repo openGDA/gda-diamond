@@ -6,13 +6,11 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="d6x" live-pvName="BL15I-DI-PHDGN-06:X"/>
-
-	<bean id="PHDGN6"
+	<bean id="PHDGN1"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-06:I" />
+				<entry key="RECORD" value="BL15I-DI-PHDGN-01:I" />
 			</map>
 		</property>
 		<property name="dummyMode" value="${gda.dummy.mode}"/>

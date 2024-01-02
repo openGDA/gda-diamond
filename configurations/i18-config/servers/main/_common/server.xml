@@ -9,10 +9,7 @@
 	<context:property-placeholder/>
 	
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
-	<import resource="file:${gda.config}/servers/main/_common/server-common.xml" />
-
-
+	
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 	
 	<import resource="diagnostics/index.xml" />
@@ -22,7 +19,8 @@
 	<import resource="shutters/index.xml" />
 	<import resource="slits/index.xml" />
 	<import resource="stages/index.xml" />
-
+	<import resource="spectrometer/index.xml" />
+	
 	<import resource="datawriter.xml" />
 	<import resource="logging_script_controller.xml" />
 	<import resource="metadata.xml" />
@@ -38,8 +36,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<import resource="core.xml" />
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes-row-motors.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/xes-row.xml" />
 	
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

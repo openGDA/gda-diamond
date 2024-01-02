@@ -66,9 +66,9 @@
 	<bean id="detectorMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="det_x" />
-				<ref bean="det_y" />
-				<ref bean="det_pitch" />
+				<ref bean="xes_det_x" />
+				<ref bean="xes_det_y" />
+				<ref bean="xes_det_pitch" />
 			</list>
 		</property>
 	</bean>
@@ -76,22 +76,18 @@
 	<!-- Scannables for persisted radius, material, crystal cut values -->
 	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
 	
-	<bean id="XESBragg" class="gda.device.scannable.XesSpectrometerScannable">
+	<bean id="XESBraggJohann" class="gda.device.scannable.JohannSpectrometer">
 		<property name="radiusScannable" ref="radius" />
 		<property name="detectorGroup" ref="detectorMotors" />
 		<property name="crystalsGroup" ref="spectrometerCrystals" />
 		<property name="crystalsAllowedToMove" ref="crystalsAllowedToMove" />
-		<property name="trajectoryStepSize" value="0.1" />
-		<property name="horizontalCrystalOffset" value="130" />
-		<property name="absoluteXPos" value="true" />
-		<property name="detectorAxisAngle" value="-20" />
 	</bean>
-	
+		
 	<bean id="spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
 	</bean>
 	
-	<bean id="dummy_spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
-	</bean>
+<!-- 	<bean id="dummy_spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 	</bean> -->
 
 	<bean id="cut1" class="gda.device.scannable.DummyPersistentEnumScannable" >
 		<property name="positions" ref="crystalCutList" />
@@ -109,8 +105,8 @@
 		<property name="positions" ref="crystalMaterialList" />
 	</bean>
 
-	<bean id="XESEnergy" class="gda.device.scannable.XESEnergyScannable">
-		<property name="xes" ref="XESBragg" />
+	<bean id="XESEnergyJohann" class="gda.device.scannable.XESEnergyScannable">
+		<property name="xes" ref="XESBraggJohann" />
 		<property name="cut1" ref="cut1" />
 		<property name="cut2" ref="cut2" />
 		<property name="cut3" ref="cut3" />
@@ -125,7 +121,7 @@
 
 	<bean id="XesOffsets" class="gda.device.scannable.XesOffsets" >
 		<property name="spectrometerGroup" ref="spectrometer_all_scannables" />
-		<property name="xesEnergyScannable" ref="XESEnergy" />
+		<property name="xesEnergyScannable" ref="XESEnergyJohann" />
 	</bean>
 
 </beans>
