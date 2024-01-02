@@ -150,9 +150,10 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, self.timeunit)
         self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, 961)      # Complex bitfield
 
-        self.pvs['OR3_ENA'       ].caput(TIMEOUT, 3)        # 1 & 2
+        self.pvs['OR3_ENA'       ].caput(TIMEOUT, 7)        # 1, 2 & 3
         self.pvs['OR3_INP1'      ].caput(TIMEOUT, 31)       # PC_PULSE
         self.pvs['OR3_INP2'      ].caput(TIMEOUT, 62)       # SOFT_IN3
+        self.pvs['OR3_INP3'      ].caput(TIMEOUT, 4)        # IN2_TTL
         self.pvs['OUT3_OC'       ].caput(TIMEOUT, 38)       # OR3
 
         self.pvs['PC_ARM_SEL'    ].caput(TIMEOUT, 'Soft')

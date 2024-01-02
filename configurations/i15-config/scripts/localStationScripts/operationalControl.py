@@ -14,7 +14,7 @@ CON_IN=1
 CON_OUT=0
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline, dkappa, dktheta, cryobsx, d3x, d3y, d4x, d4y
+	global configured, isccd, beamline, dkappa, dktheta, cryobsx, d3y, d4x, d4y
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
@@ -22,7 +22,6 @@ def configure(jythonNameMap, beamlineParameters):
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
 	cryobsx = jythonNameMap.cryobsx
-	d3x = jythonNameMap.d3x
 	d3y = jythonNameMap.d3y
 	d4x = jythonNameMap.d4x
 	d4y = jythonNameMap.d4y

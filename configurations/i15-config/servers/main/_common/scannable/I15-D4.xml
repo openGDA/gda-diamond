@@ -8,4 +8,14 @@
 
 	<gda:motor id="d4x" live-pvName="BL15I-DI-PHDGN-04:X"/>
 	<gda:motor id="d4y" live-pvName="BL15I-DI-PHDGN-04:Y"/>
+
+	<bean id="PHDGN4"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-04:I" />
+			</map>
+		</property>
+		<property name="dummyMode" value="${gda.dummy.mode}"/>
+	</bean>
 </beans>
