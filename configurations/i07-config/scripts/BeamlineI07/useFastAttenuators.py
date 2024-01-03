@@ -3,12 +3,12 @@ from gda.configuration.properties import LocalProperties
 import time
 import datetime as fast_att_datetime
 from gdascripts.installation import isLive
+from gda.jython.commands.ScannableCommands import pos, add_default
+from gda.jython.commands.GeneralCommands import alias
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
 
 ird_service = ServiceProvider.getService(IRunnableDeviceService)
-
-add_default(fatt)
 
 def att(attenuation=None):
     if attenuation != None:
@@ -47,10 +47,10 @@ def exc_fast_exp_time(time=None):
     else:
         excalibur_atten.getCollectionStrategy().setFastExpTime(time)
 
-alias(att)
-alias(autofon)
-alias(autofoff)
-alias(exc_fast_exp_time)
+alias("att")
+alias("autofon")
+alias("autofoff")
+alias("exc_fast_exp_time")
 
 epics_filter_names = ["Cu", "Mo1", "Mo2", "Mo3", "Ag1", "Ag2"]
 filter_names = ["Cu", "Mo100", "Mo200", "Mo450", "Ag400", "Ag800"]
@@ -67,14 +67,14 @@ def list_transmissions(sort_key="Energy"):
     if sort_key not in column_names :
         print "Can only sort on one of the column names: " +str(column_names)
         return
-    
+
     print column_names
-    
+
     unsorted_energies = []
     for row_index in transmissions_lookup_table.lookupKeys:
         unsorted_energies.append((row_index, transmissions_lookup_table.lookupValue(row_index, sort_key)))
     sorted_energies = sorted(unsorted_energies, key=lambda pair: pair[1])
-    
+
     for entry in sorted_energies:
         index=entry[0]
         filter_name = filter_names[int(transmissions_lookup_table.lookupValue(index, "Filterset"))]
@@ -116,16 +116,17 @@ def remove_transmissions(index):
         for row in content :
             if not row.startswith(str(index) + "\t"):
                 write.write(row)
-            else: 
+            else:
                 print("Removing [" +row.strip("\n") +"] from transmissions table")
     transmissions_lookup_table.reload()
 
-alias(list_transmissions)
-alias(load_transmissions)
-alias(save_current_transmissions)
-alias(add_transmissions)
-alias(remove_transmissions)
+alias("list_transmissions")
+alias("load_transmissions")
+alias("save_current_transmissions")
+alias("add_transmissions")
+alias("remove_transmissions")
 
 # Default to off
 if isLive():
+    add_default(fatt)
     autofoff()

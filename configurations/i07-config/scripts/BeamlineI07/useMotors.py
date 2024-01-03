@@ -1,18 +1,21 @@
 
 from Diamond.PseudoDevices.EpicsMotors import EpicsMotorOffsetClass;
-
-from gdaserver import MotorDELTA_DIFF1, MotorGAMMA_DIFF1, MotorOMEGA_DIFF1, MotorTHETA_DIFF1, MotorCHI_DIFF1, hex1rx
+from gdascripts.installation import isLive # @UnresolvedImport
+from gdaserver import MotorDELTA_DIFF1, MotorGAMMA_DIFF1, MotorOMEGA_DIFF1, MotorTHETA_DIFF1, MotorCHI_DIFF1, hex1rx # @UnresolvedImport
+from gda.device.scannable import DummyScannable
 
 if isLive():
     diff1vdeltaoffset = EpicsMotorOffsetClass('diff1vdeltaoffset', MotorDELTA_DIFF1.getPvName(), '%.6f');
-
     diff1vgammaoffset = EpicsMotorOffsetClass('diff1vgammaoffset', MotorGAMMA_DIFF1.getPvName(), '%.6f');
-
     diff1vomegaoffset = EpicsMotorOffsetClass('diff1vomegaoffset', MotorOMEGA_DIFF1.getPvName(), '%.6f');
-
     diff1homegaoffset = EpicsMotorOffsetClass('diff1homegaoffset', MotorTHETA_DIFF1.getPvName(), '%.6f');
-
     diff1chioffset = EpicsMotorOffsetClass('diff1chioffset', MotorCHI_DIFF1.getPvName(), '%.6f');
+else :
+    diff1vdeltaoffset = DummyScannable('diff1vdeltaoffset');
+    diff1vgammaoffset = DummyScannable('diff1vgammaoffset');
+    diff1vomegaoffset = DummyScannable('diff1vomegaoffset');
+    diff1homegaoffset = DummyScannable('diff1homegaoffset');
+    diff1chioffset = DummyScannable('diff1chioffset');
 
 from gda.device.scannable import ScannableBase
 

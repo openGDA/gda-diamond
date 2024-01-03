@@ -3,7 +3,6 @@ print "===================================================================";
 print " Performing Beamline I07 specific initialisation code (localStation.py).";
 print
 
-
 import sys
 from os import system
 from time import sleep
@@ -12,10 +11,10 @@ from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 from gdaserver import ebe, p2_mask, p3_mask, ex_mask, ei_mask
-from gdascripts.installation import isLive
-from scannable.energy_id_gap import energy
+from gdascripts.installation import isLive, isDummy # @UnusedImport
+from scannable.energy_id_gap import energy # @UnusedImport
+from gda.jython.commands.ScannableCommands import add_default
 
-gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
 def disable_nexus():
@@ -25,29 +24,28 @@ def enable_nexus():
         LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusScanDataWriter")
 
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
-	print "-------------------------------------------------------------------"
-	if description:
-		print description
-	print "Running: '%s'" % filepath
+    print "-------------------------------------------------------------------"
+    if description:
+        print description
+    print "Running: '%s'" % filepath
 
-	if not absolute:
-		filepath = gdaScriptDir + filepath
+    if not absolute:
+        filepath = LocalProperties.get("gda.config") + "/scripts/" + filepath
 
-	try:
-		execfile(filepath, globals());
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "************************************************************"
-		print "XXXXXXXXXX:  Exception caught while: '%s'" % description
-		if full_log:
-			logger.fullLog(None, "Error", exceptionType, exception, traceback, True);
-			#Note that the final argument 'True' causes a Java exception to be thrown which will terminate the script
-		else:
-			logger.dump("---> ", exceptionType, exception, traceback)
-		print "************************************************************"
+    try:
+        execfile(filepath, globals());
+    except:
+        exceptionType, exception, traceback=sys.exc_info();
+        print "************************************************************"
+        print "XXXXXXXXXX:  Exception caught while: '%s'" % description
+        if full_log:
+            logger.fullLog(None, "Error", exceptionType, exception, traceback, True);
+            #Note that the final argument 'True' causes a Java exception to be thrown which will terminate the script
+        else:
+            logger.dump("---> ", exceptionType, exception, traceback)
+        print "************************************************************"
 
-
-execfile(gdaScriptDir + "BeamlineI07/beamline.py")
+try_execfile("BeamlineI07/beamline.py")
 
 try_execfile("BeamlineI07/setTimers.py", "Setup the timers")
 
@@ -63,18 +61,14 @@ print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs
 print "		 To plot data:  dnp.plot.line(x, y)"
 print "		 To plot image: dnp.plot.image(data)"
 
-
-try_execfile("BeamlineI07/useMotors.py", "Motor Support")
-
-from BeamlineI07.useFourc import fc
-from BeamlineI07.useTenma import tenma
-
+from BeamlineI07.useMotors import diff1chioffset, diff1homegaoffset, diff1vdeltaoffset, diff1vgammaoffset, diff1vomegaoffset, thv # @UnusedImport
+from BeamlineI07.useFourc import fc # @UnusedImport
+from BeamlineI07.useTenma import tenma # @UnusedImport
 from gdaserver import fastshutter as fs, fastshutter_fatt as ffs, fastshutterScan
 add_default(fastshutterScan)
-from BeamlineI07.useFastShutter import emergency_stopper, setShutterDelay
-from BeamlineI07.useNormalisation import ex_norm, p2_norm, p3_norm
-
-try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
+from BeamlineI07.useFastShutter import emergency_stopper, setShutterDelay # @UnusedImport
+from BeamlineI07.useNormalisation import ex_norm, p2_norm, p3_norm # @UnusedImport
+from BeamlineI07.useFilters import filterset # @UnusedImport
 
 print "==================================================================="
 print "Ion Chamber ADC Scaler Support"
@@ -108,21 +102,19 @@ try_execfile("BeamlineI07/createAlias.py")
 
 try_execfile("BeamlineI07/useGigECams.py")
 
-from BeamlineI07.useEuroThermo import etoutput11, etoutput12, etoutput13, etoutput21, etoutput22, etoutput23, etoutput3, etoutput4, etoutput5
-
+from BeamlineI07.useEuroThermo import etoutput11, etoutput12, etoutput13, etoutput21, etoutput22, etoutput23, etoutput3, etoutput4, etoutput5 # @UnusedImport
 # Replaces metadata set up in setSrsDataFileHeader.py
 try_execfile("BeamlineI07/configureMetadata.py")
 
 #try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
 try_execfile("BeamlineI07/Users/MainHutch.py")
 
-try_execfile("BeamlineI07/useHtc.py")
-
-
-try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
-try_execfile("BeamlineI07/useElectroChemValves.py")
-try_execfile("BeamlineI07/i07_mscan.py")
-
+from BeamlineI07.Users.ct import ct, ct_detectors # @UnusedImport
+from BeamlineI07.useHtc import htc # @UnusedImport
+from BeamlineI07.useVirtual6CircleMotors import sgam, sdel # @UnusedImport
+from BeamlineI07.useElectroChemValves import openvalve, closevalve  # @UnusedImport
+from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan # @UnusedImport
+from BeamlineI07.i07_mscan import exc, exs, p2c, p2s, p3c, p3s, eic, m3, ex_rois, p2_rois, p3_rois # @UnusedImport
 from BeamlineI07.useMalcolm import restart_ei, restart_ex, restart_p2, restart_p3 # @UnusedImport
 from det_threshold_setter import exthresh, p2thresh, p3thresh # @UnusedImport
 
@@ -132,8 +124,7 @@ try:
 except:
 	print('Could not find d5i to add as a default scannable')
 
-try_execfile("BeamlineI07/useFastAttenuators.py")
-
+from BeamlineI07.useFastAttenuators import att, autofon, autofoff, setProcessingEnabled, exc_fast_exp_time, list_transmissions, load_transmissions, save_current_transmissions, add_transmissions, remove_transmissions # @UnusedImport
 from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateReadbackAndToleranceScannable
 chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)
 chiller2=PVWithSeparateReadbackAndToleranceScannable('chiller2', pv_set='BL07I-EA-CHIL-02:SET_SETPOINT', pv_read='BL07I-EA-CHIL-02:TEMPERATURE', timeout=30*60, tolerance=0.2)
@@ -150,8 +141,7 @@ dummygp = GasPanelScannable("dummygp", _dummygp)
 
 #_gp = GasPanel("_gp", "BL07I-EA-GAS-01:")
 #gp = GasPanelScannable("gp", _gp)
-
-from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadoutDummy
+from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadoutDummy # @UnusedImport
 #lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
 dummyLakeshore = LakeshoreDoubleReadoutDummy("dummyLakeshore")
 
@@ -160,19 +150,20 @@ print
 
 from BeamlineI07.hplc import Hplc
 hplc = Hplc("BL07I-EA-HPLC-01:")
-
+import diffcalc
 
 # TODO this should probably be part of diffcalc itself
 def checkHkl(position):
 	try:
-		hkl._diffcalc.hkl_to_angles(position[0], position[1], position[2])
+		diffcalc.hkl._diffcalc.hkl_to_angles(position[0], position[1], position[2])
 	except diffcalc.util.DiffcalcException as err:
 		return(str(err))
 
-hkl.checkPositionValid = checkHkl
+diffcalc.hkl.checkPositionValid = checkHkl
+
 overwriting.protect("betain", "betaout", "bin_eq_bout")
 
-run "BeamlineI07/devices/ivium.py"
+from BeamlineI07.devices.ivium import ivium, ivium1, iviumPotential, iviumCurrent, iviumRange, iviumMethod # @UnusedImport
 
 if isLive() :
 	# add hexapod reset command
@@ -195,6 +186,3 @@ sample_name = VirtualScannable("sample_name", initial_value="Not set", value_for
 # sample temperature metadata
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 tsample = SampleTemperature('tsample', lakeshore_base)  # @UndefinedVariable
-
-
-

@@ -3,9 +3,9 @@
 #
 #    For user specific initialisation code on I07 Main Hutch.
 
-from os import path
 from gdaserver import topup_time
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
+from os import path, system
 
 try_execfile("BeamlineI07/Users/pvMonitors.py")
 
@@ -92,9 +92,6 @@ try_execfile("BeamlineI07/Users/checkValve.py")
 
 # add troughReset
 try_execfile("BeamlineI07/Users/troughReset.py")
-
-# add ct command
-try_execfile("BeamlineI07/Users/ct.py")
 
 # run the local setup file for this experiment
 # now finds this at the location returned by getDir()

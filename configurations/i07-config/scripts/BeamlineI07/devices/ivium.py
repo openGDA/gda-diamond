@@ -2,8 +2,8 @@ from time import sleep
 from datetime import datetime as ivium_datetime
 from gda.device.monitor import EpicsMonitor
 from gda.device.enumpositioner import EpicsSimpleMbbinary
-from gda.device.scannable import ScannableMotionBase
-
+from gda.device.scannable import ScannableBase
+from gda.epics import CAClient
 
 class EpicsDeviceClass(ScannableBase):
 	def __init__(self, name, pvSet, pvGet, pvStatus, strUnit, strFormat, timeout=None):
@@ -11,7 +11,7 @@ class EpicsDeviceClass(ScannableBase):
 		self.setInputNames([name]);
 		self.Units=[strUnit];
 		self.setOutputFormat([strFormat]);
-		
+
 		self.delay=1;
 		self.timeout = timeout;
 
@@ -22,7 +22,7 @@ class EpicsDeviceClass(ScannableBase):
 		self.cleanChannel(self.chGet);
 		if self.chStatus:
 			self.cleanChannel(self.chStatus);
-	
+
 	def setupEpics(self, pvSet, pvGet, pvStatus):
 #		Epics PVs for checking fast scan readiness:
 		self.chSet=CAClient(pvSet);  self.configChannel(self.chSet);
@@ -32,7 +32,7 @@ class EpicsDeviceClass(ScannableBase):
 			self.chStatus = CAClient(pvStatus);	self.configChannel(self.chStatus);
 		else:
 			self.chStatus = None;
-		
+
 	def configChannel(self, channel):
 		if not channel.isConfigured():
 			channel.configure();
@@ -40,10 +40,10 @@ class EpicsDeviceClass(ScannableBase):
 	def cleanChannel(self, channel):
 		if channel.isConfigured():
 			channel.clearup();
-	
+
 	def setDelay(self, newDelay):
 		self.delay = newDelay;
-	
+
 	def setTimeout(self, newTimeout):
 		self.timeout = newTimeout;
 
@@ -62,7 +62,7 @@ class EpicsDeviceClass(ScannableBase):
 				self.chSet.caput(new_position, self.timeout);
 		except:
 			print "Error setting position"
-			
+
 	def getPosition(self):
 		return self.caget();
 
@@ -88,7 +88,7 @@ class EpicsDeviceClass(ScannableBase):
 	def isBusy(self):
 		if self.chStatus is None:#No status pv provided, so no status feedback necessary
 			return False;
-		
+
 		if self.getStatus() == EpicsDevicStatus.DEVICE_STATUS_IDLE:#It's done
 			return False;
 		else:
@@ -102,7 +102,7 @@ class IviumPotentiastat:
     def __init__(self, pvStem):
         self.pvStem = pvStem
 
-        
+
     def setMethodMode(self):
         for i in [1]:
             caput(self.pvStem+"PORT"+str(i)+":OperatingMode",1) #Method
@@ -112,7 +112,7 @@ class IviumPotentiastat:
             caput(self.pvStem+"HDF"+":EnableCallbacks",1)
             caput(self.pvStem+"HDF"+":FileWriteMode",2)
             caput(self.pvStem+"HDF"+":LazyOpen",1)
-            
+
     def setDirectMode(self):
         for i in [1]:
             caput(self.pvStem+"PORT"+str(i)+":OperatingMode",0) #Direct
@@ -123,37 +123,37 @@ class IviumPotentiastat:
             caput(self.pvStem+"HDF"+":FileWriteMode",2)
             caput(self.pvStem+"HDF"+":LazyOpen",1)
             caput(self.pvStem+"PORT"+str(1)+":Acquire",1)
-            
+
     def setMethodPath(self,path="/IviumStat/datafiles/"):
         for i in [1]:
             caputS(self.pvStem+"PORT"+str(i)+":MethodDirectory",path)
-            
+
     def setMethodFilename(self,filename):
         """Takes the filename of the method to run (with or without the .imf extension)"""
         if filename[-4:] != ".imf":
             filename = filename+".imf"
         for i in [1]:
             caputS(self.pvStem+"PORT"+str(i)+":MethodFileName",filename)
-    
+
     def setHdfPath(self,path=None):
         """Sets the file path for the HDF file containing the eChem data.
-        
+
         Defaults to the current visit directory /processed/eChem"""
         if path == None:
             path = InterfaceProvider.getPathConstructor().getVisitDirectory() + "/ivium/"
             if not os.path.exists(path): os.makedirs(path)
         caputS(self.pvStem+"HDF"+":FilePath",path)
-            
+
     def setHdfFilename(self,filename):
         """Sets the filename for the HDF file containing the eChem data.
-        
+
         Automatically appends the channel number to the name given"""
         caputS(self.pvStem+"HDF"+":FileName",filename+"_ch{}".format(i))
-    
+
     def primeHdfWriter(self):
         caput(self.pvStem+"HDF"+":Capture",1)
         _waitFor(self.pvStem+"HDF:Capture_RBV",1,checkTime=.1,timeOut=5)
-    
+
     def stopAcquiring(self):
         caput(self.pvStem+"PORT"+str(1)+":Acquire",0)
 
@@ -163,12 +163,12 @@ class IviumPotentiastat:
     def startMethod(self):
         for i in [1]:
             caput(self.pvStem+"PORT"+str(i)+":Acquire",1)
-            
+
     def stopMethod(self):
         for i in [1]:
             caput(self.pvStem+"PORT"+str(i)+":Acquire",0)
         caput(self.pvStem+"HDF"+":Capture",0)
-        
+
     def runMethod(self,methodFilePath):
         self.setMethodMode()
         filename = os.path.basename(methodFilePath)
@@ -188,32 +188,32 @@ class IviumPotentiastat:
     def setCellMode(self, mode):
         caput(self.pvStem+"PORT"+str(1)+":CellConnection", mode)
         caput(self.pvStem+"PORT"+str(1)+":Apply",1)
-            
+
     def cellOff(self):
         self.setCellMode(0)
-        
+
     def applyCurrent(self, current):
         self.setDirectMode()
         sleep(0.1)
         caput(self.pvStem+"PORT"+str(1)+":AppliedCurrent",current)
         caput(self.pvStem+"PORT"+str(1)+":Apply",1)
-        
+
     def applyVoltage(self, voltage):
         self.setDirectMode()
         sleep(0.1)
         caput(self.pvStem+"PORT"+str(1)+":AppliedPotential",voltage)
         caput(self.pvStem+"PORT"+str(1)+":Apply",1)
-        
+
     def isAcquiring(self):
         return caget(self.pvStem+"PORT"+str(1)+":Acquire") == str(1)
-        
+
 ivium = IviumPotentiastat(pvStem="BL07I-EA-IVIUM-01:")
 
-    
+
 def caputS(pv,string):
     ustring = map(ord,string+u"\u0000")
     caput(pv,ustring)
-    
+
 def _waitFor(pv,value,checkTime=0.5,timeOut=30,logger=None):
      i = 0
      timeOut = int(float(timeOut) / float(checkTime))
@@ -223,30 +223,30 @@ def _waitFor(pv,value,checkTime=0.5,timeOut=30,logger=None):
          i += 1
          if i > timeOut:
              raise Exception("waitFor timed out while waiting for "+ str(pv) + " to change to " + str(value))
-    
-    
-    #eChemMethodCh1_V,eChemMethodCh1_I, eChemMethodCh2_V, eChemMethodCh2_I, eChemMethodCh3_V, eChemMethodCh3_I, eChemMethodCh4_V, eChemMethodCh4_I, eChemMethodCh5_V, eChemMethodCh5_I, eChemMethodCh6_V, eChemMethodCh6_I, eChemMethodCh7_V, eChemMethodCh7_I, eChemMethodCh8_V, eChemMethodCh8_I    
+
+
+    #eChemMethodCh1_V,eChemMethodCh1_I, eChemMethodCh2_V, eChemMethodCh2_I, eChemMethodCh3_V, eChemMethodCh3_I, eChemMethodCh4_V, eChemMethodCh4_I, eChemMethodCh5_V, eChemMethodCh5_I, eChemMethodCh6_V, eChemMethodCh6_I, eChemMethodCh7_V, eChemMethodCh7_I, eChemMethodCh8_V, eChemMethodCh8_I
 
 
 class IviumEpicsMonitor(EpicsMonitor):
-        
+
     def setController(self, controller):
         self.controller = controller
-    
+
     def getPosition(self):
         if not self.isConfigured():
             self.configure()
         if not self.controller.isAcquiring():
             self.controller.setDirectMode()
         return super(IviumEpicsMonitor, self).getPosition()
-    
-    
-    
-    
+
+
+
+
 class ScannableIvium(EpicsDeviceClass):
     def __init__(self, name, basePV):
         self.setName(name)
-        
+
         pvAppliedCurrent = '%s:PORT1:AppliedCurrent' %(basePV)
         pvAppliedCurrentRBV  = '%s:PORT1:AppliedCurrent_RBV' %(basePV)
         pvAppliedPotential = '%s:PORT1:AppliedPotential' %(basePV)
@@ -263,10 +263,10 @@ class ScannableIvium(EpicsDeviceClass):
         self.acquire.configure()
         self.apply.configure()
         EpicsDeviceClass.__init__(self,name,pvAppliedPotential,pvAppliedPotential,None,units,format,timeout=None)
-        
+
         self.setInputNames(['Potential'])
         self.setExtraNames(["MeasuredPotential","MeasuredCurrent"])
-        
+
         self.mpr = CAClient(pvMeasuredPotentialRBV)
         self.mpr.configure()
         self.mcr = CAClient(pvMeasuredCurrentRBV)
@@ -276,22 +276,22 @@ class ScannableIvium(EpicsDeviceClass):
         self.cm = CAClient(pvCellMode)
         self.cm.configure()
         self.setDelay(0.5)
-        
+
     def asynchronousMoveTo(self, new_position):
         self.currentposition = new_position;
         self.caput(new_position);
         self.apply.caput(1)
         sleep(1);
-        
-        
+
+
     def atScanStart(self):
-        self.acquire.caput(1) 
+        self.acquire.caput(1)
         sleep(self.delay)
-        
+
     def atScanEnd(self):
         self.acquire.caput(0)
         sleep(self.delay)
-        
+
     def getPosition(self):
         self.acquire.caput(1)
         sleep(1);
@@ -358,7 +358,7 @@ iviumMethodS.configure()
 iviumMethodS.setLevel(100)
 
 ivium1 = ScannableIvium("ivium1", "BL07I-EA-IVIUM-01")
-    
+
 """
 NOTES ON OPERATION IN DIRECT MODE
 1. Changes to applied current/voltage are only taken into account when the PORT is Stopped and Started again
@@ -440,7 +440,7 @@ class IviumMethodRunner(AbstractRunnableDevice, INexusDevice):
 
 
     def getNexusProvider(self, info):
-    	
+
     	scanFileName = os.path.basename(os.path.splitext(info.getFilePath())[0]) # without extension
     	scanNumber = re.findall("\d+$", scanFileName)[0]
     	self.fileWriter.setScanNumber(scanNumber)
@@ -490,11 +490,11 @@ class CustomScanNumberFileWriter(MultipleImagesPerHDF5FileWriter):
 
 	def __init__(self):
 		self.thisScanNumber = None
-	
+
 	def getScanNumber(self):
 		return self.thisScanNumber
-	
-	
+
+
 	def setScanNumber(self, scanNumber):
 		self.thisScanNumber = int(scanNumber)
 

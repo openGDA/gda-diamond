@@ -1,4 +1,5 @@
 from gdaserver import ecva1, ecva2, ecva3, ecva4, ecva5, ecva6, ecva7, ecva8, ecva9, ecva10
+from gda.jython.commands.GeneralCommands import alias
 
 VALVES = {
     1: ecva1,
@@ -25,5 +26,5 @@ def closevalve(valve_num):
     valve = VALVES[valve_num]
     pos(valve, "Close")
 
-alias(openvalve)
-alias(closevalve)
+alias("openvalve")
+alias("closevalve")

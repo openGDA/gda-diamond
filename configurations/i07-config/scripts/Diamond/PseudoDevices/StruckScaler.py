@@ -7,12 +7,12 @@ from gda.device.detector import DetectorBase
 from gda.device.Detector import BUSY, IDLE
 from gda.epics import CAClient;
 
-
 #from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;
 from gov.aps.jca import CAStatus;
 
 from Diamond.Objects.Shutter import ShutterDeviceClass
+from gdascripts.installation import isLive
 
 
 class StructScalerGdaClass(DetectorBase):
@@ -25,7 +25,7 @@ class StructScalerGdaClass(DetectorBase):
 
 		self.scaler=scaler;
 		
-		self.channels = self.scaler.getTotalChans();
+		self.channels = self.scaler.getTotalChans() if isLive() else 32;
 	
 		en=[]; of=["%8.3f"];
 		for i in range(self.channels):
