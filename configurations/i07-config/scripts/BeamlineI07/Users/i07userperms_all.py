@@ -1,11 +1,9 @@
 from datetime import datetime
 from commands import getoutput
 from os import listdir, path
+from gdascripts.installation import isLive
 
-from gda.configuration.properties import LocalProperties
-
-
-if LocalProperties.get("gda.mode") == "live":
+if isLive():
 
 	visits = ('/dls/i07/data/' + str(datetime.today().year))
 	print "Setting i07user permissions for all visits in " + visits

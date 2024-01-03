@@ -1,6 +1,7 @@
 from gdaserver import fatt, exr, exv, excalibur, excalibur_atten, dcm1energy, transmissions_lookup_table
 from gda.configuration.properties import LocalProperties
 import time, datetime
+from gdascripts.installation import isLive
 
 add_default(fatt)
 
@@ -125,5 +126,5 @@ alias(add_transmissions)
 alias(remove_transmissions)
 
 # Default to off
-if LocalProperties.get("gda.mode")=="live":
+if isLive():
     autofoff()
