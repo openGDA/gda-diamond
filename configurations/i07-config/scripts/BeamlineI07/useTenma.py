@@ -35,7 +35,7 @@ class TenmaPsu(ScannableMotionBase):
             self.setCurrentChan.clearup()
                 
     def epicsSetup(self, pvBase):
-        if isDummy :
+        if self.isDummy :
             self.readVoltageChan = self.dummy_single_value_chan()
             self.readCurrentChan = self.dummy_single_value_chan()
             self.setVoltageChan = self.readVoltageChan
