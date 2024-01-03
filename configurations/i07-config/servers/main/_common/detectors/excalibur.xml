@@ -108,7 +108,7 @@
 				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="excalibur_mask" />
+		<constructor-arg index="4" ref="ex_mask" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
@@ -126,13 +126,13 @@
 				<ref bean="excalibur_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="excalibur_mask" />
+		<constructor-arg index="4" ref="ex_mask" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
-		id="excalibur_mask">
+		id="ex_mask">
 		<property name="minThreshold">
 			<value type="java.lang.Integer">-1</value>
 		</property>

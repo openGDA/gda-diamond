@@ -88,7 +88,7 @@
 							<constructor-arg index="3" value="/uid"/>
 							<constructor-arg index="4" value="EXCALIBUR"/>
 							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
-							<constructor-arg index="6" ref="excalibur_mask"/>
+							<constructor-arg index="6" ref="ex_mask"/>
 						</bean>
 					</key>
 					<list>
@@ -104,7 +104,7 @@
 							<constructor-arg index="3" value="/uid"/>
 							<constructor-arg index="4" value="EXCALIBUR"/>
 							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
-							<constructor-arg index="6" ref="excalibur_mask"/>
+							<constructor-arg index="6" ref="ex_mask"/>
 						</bean>
 					</key>
 					<list>
@@ -129,7 +129,7 @@
 							<constructor-arg index="3" value="/entry/NDAttributes/NDArrayUniqueId"/>
 							<constructor-arg index="4" value="PILATUS"/>
 							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
-							<constructor-arg index="6" ref="pilatus2_mask"/>
+							<constructor-arg index="6" ref="p2_mask"/>
 						</bean>
 					</key>
 					<list>
@@ -154,7 +154,7 @@
 							<constructor-arg index="3" value="/entry/NDAttributes/NDArrayUniqueId"/>
 							<constructor-arg index="4" value="PILATUS"/>
 							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
-							<constructor-arg index="6" ref="pilatus3_mask"/>
+							<constructor-arg index="6" ref="p3_mask"/>
 						</bean>
 					</key>
 					<list>
