@@ -17,6 +17,7 @@ from gda.device.monitor import EpicsMonitor
 from gda.data.scan.datawriter import NexusDataWriter
 # from exafsscripts.exafs.config_fluorescence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+from gdascripts.scan.gdascans import Rscan
 
 XASLoggingScriptController = Finder.find("XASLoggingScriptController")
 commandQueueProcessor = Finder.find("commandQueueProcessor")
@@ -81,6 +82,7 @@ theFactory.setMetashop(Finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
+theFactory.setScanName("energyScan")
 
 # qexafs_energy.setPcEncType(0) # set zebra encoder to use when capturing pulses (0..3 for enc1..3, 4 for the avg)
 
@@ -196,6 +198,14 @@ run_in_try_catch(setupPilatus)
 
 run("continuous_scans.py")
 run("meca_status.py")
+run("test-ionchamber-output.py")
+
+## setup detector preparer to use ionchamber checker
+detectorPreparer.setRunIonchamberChecker(True)
+detectorPreparer.setIonchamberChecker(ionchamberChecker)
+# Set how often the checker should be run when running multiple repetition scans :
+# 0 = first rep only, 1 = every rep, 2 = every other rep etc.
+detectorPreparer.setIonchamberCheckerRunInterval(0) 
 
 from gda.data.metadata import GDAMetadataProvider
 def setVisit(visitStr) :
@@ -237,6 +247,10 @@ def test_xspressOdin(numPoints=10000, maxReadFrames=1000, scanTime=10) :
 
 
 alias("pwd")
+
+# setup rscan ('relative scan') command
+rscan = Rscan()
+alias(rscan)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"

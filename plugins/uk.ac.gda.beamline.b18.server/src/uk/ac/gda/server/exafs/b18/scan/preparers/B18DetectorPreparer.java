@@ -85,6 +85,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private Map<String, String> bufferedDetectorNameMap = new LinkedHashMap<>();
 	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 
+	private Scannable ionchamberChecker = null;
+	private boolean runIonchamberChecker;
+	private int ionchamberCheckerRunInterval; // 0 = 1st rep only, 1 = before every repetition, 2 = before every other repetition, etc
+
 	/** Map controlling how string substitutions are made in Jython text strings.
 	 * key = string to be replaced
 	 * value = function in QExafsParameters object that provides the new value
@@ -247,10 +251,21 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
-		if (isFirstRepetition()) {
+		if (getRepetitionNumber() == 1) {
 			beforeFirstRepetition();
+			runIonchamberCheckerNoThrow();
+		} else if (runCheckerForRepetition()) {
+			runIonchamberCheckerNoThrow();
 		}
 		setupIonchamberFrameTimes();
+	}
+
+	private boolean runCheckerForRepetition() {
+		if (ionchamberCheckerRunInterval <= 0) {
+			return false;
+		}
+		int repNumber = getRepetitionNumber()-1;
+		return repNumber % ionchamberCheckerRunInterval  == 0;
 	}
 
 	private void beforeFirstRepetition() throws Exception {
@@ -270,15 +285,44 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 	}
 
-	private boolean isFirstRepetition() {
-		// Use SampleEnvironmentIterator to determine if doing first repetition of scan, or first of loop over sample environment.
-		if (samplePreparer != null) {
-			B18SampleEnvironmentIterator iter = samplePreparer.getCurrentSampleEnvironmentIterator();
-			return iter.getCurrentScanRepetitionNumber() == 1;
+	/**
+	 *  Run the ionchamber checker without catching and logging any exceptions
+	 *
+	 * @throws DeviceException
+	 */
+	public void runIonchamberCheckerNoThrow() {
+		try {
+			runIonchamberChecker();
+		} catch(Exception e) {
+			logger.warn("Exception running ionchamber checker : {}. Continuing with rest of scan", e.getMessage(), e);
 		}
-		return true;
 	}
 
+	/**
+	 * Run 'atScanStart' method of ionchamberChecker object (only if runIonchamberChecker has been set to true)
+	 *
+	 * @throws DeviceException
+	 */
+	public void runIonchamberChecker() throws DeviceException {
+		if (!isRunIonchamberChecker()) {
+			return;
+		}
+		if (ionchamberChecker == null) {
+			logger.warn("Cannot run ionchamber checker - the checker object has not been set");
+			return;
+		}
+		logger.info("Running ionchamber check using {} object", ionchamberChecker.getName());
+		ionchamberChecker.atScanStart();
+	}
+
+	private int getRepetitionNumber() {
+		if (samplePreparer != null) {
+			// Use SampleEnvironmentIterator to determine if doing first repetition of scan, or first of loop over sample environment.
+			B18SampleEnvironmentIterator iter = samplePreparer.getCurrentSampleEnvironmentIterator();
+			return iter.getCurrentScanRepetitionNumber();
+		}
+		return 1;
+	}
 
 	private void setupIonchamberFrameTimes() throws Exception {
 		Double[] times = new Double[] {};
@@ -576,5 +620,47 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void setDiffractionDetector(Detector diffractionDetector) {
 		this.diffractionDetector = diffractionDetector;
-		}
+	}
+
+	public Scannable getIonchamberChecker() {
+		return ionchamberChecker;
+	}
+
+	/**
+	 * Set the scannable to be used for running the ion chamber check
+	 * (the 'atScanStart' method of this scannable is called to run the check)
+	 *
+	 * @param ionchamberChecker
+	 */
+	public void setIonchamberChecker(Scannable ionchamberChecker) {
+		this.ionchamberChecker = ionchamberChecker;
+	}
+
+	public boolean isRunIonchamberChecker() {
+		return runIonchamberChecker;
+	}
+
+	/**
+	 * Set to 'true' to run the ion chamber checker before doing a scan
+	 * Use {@link #setIonchamberCheckerRunInterval(int)} to control how often the check should be run.
+	 *
+	 * @param runIonchamberChecker
+	 */
+	public void setRunIonchamberChecker(boolean runIonchamberChecker) {
+		this.runIonchamberChecker = runIonchamberChecker;
+	}
+
+	public int getIonchamberCheckerRunInterval() {
+		return ionchamberCheckerRunInterval;
+	}
+
+	/**
+	 * Set how often the checker should be run when performing multiple repetition scans :
+ 	 * 0 = first repetition only, 1 = every repetition, 2 = every other rep etc.
+ 	 *
+	 * @param ionchamberCheckerRunInterval
+	 */
+	public void setIonchamberCheckerRunInterval(int ionchamberCheckerRunInterval) {
+		this.ionchamberCheckerRunInterval = ionchamberCheckerRunInterval;
+	}
 }
