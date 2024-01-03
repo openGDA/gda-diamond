@@ -47,7 +47,6 @@ import org.eclipse.january.dataset.Slice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.ServiceHolder;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
@@ -59,6 +58,7 @@ import gda.device.detector.NXDetectorData;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.TurboXasScannable;
+import uk.ac.diamond.osgi.services.ServiceProvider;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 
 /**
@@ -152,7 +152,7 @@ public class TurboXasNexusTree {
 		}
 		Map<String, Object> map = createYamlMap(detector);
 		logger.info("Applying template {} to file {}", map, file.getFilePath());
-		final NexusTemplateService templateService = ServiceHolder.getNexusTemplateService();
+		final NexusTemplateService templateService = ServiceProvider.getService(NexusTemplateService.class);
 		NexusTemplate nexusTemplateImpl = templateService.createTemplate("TurboXasNexusTemplate", map);
 		nexusTemplateImpl.apply(file);
 	}
