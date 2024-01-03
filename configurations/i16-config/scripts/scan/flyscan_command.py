@@ -277,7 +277,10 @@ def flyscan(*args):
                 command += str(arg) + " "  
             i=i+1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
+                i,deadtime_index,waitforinjection = parse_detector_parameters_set_flying_speed(args, i, number_steps, startpos, stoppos, flyscannablewraper)
+                if not [x for x in args if x.getName() == "waitforinjection"]:
+                    #only add if command does not contain waitforinjection object
+                    newargs.append(waitforinjection)
 
     jython_namespace, existing_info = add_command_metadata(command)
     try:
@@ -322,8 +325,11 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
     else:
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
         deadtime_index = -1 # no dead time input
-    # have to get 'waitforinjection' scannable from jython namesapce as it is defined in localStation.py, i16 adds it to defaults in live mode
-    waitforinjection = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("waitforinjection")
+    # try to retrieve waitforinjection object from scan arguments
+    waitforinjection = [x for x in args if x.getName() == "waitforinjection"]
+    if not waitforinjection:
+        # have to get 'waitforinjection' scannable from jython namesapce as it is defined in localStation.py, i16 adds it to defaults in live mode
+        waitforinjection = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("waitforinjection")
     if waitforinjection:
         waitforinjection.due = total_time
     
@@ -333,7 +339,7 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
         flyscannablewraper.setSpeed(motor_speed)
     elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
         flyscannablewraper.setSpeed(max_speed)
-    return i, deadtime_index
+    return i, deadtime_index, waitforinjection
 
 
 def add_command_metadata(command):
@@ -405,8 +411,11 @@ def flyscancn(*args):
                 command += str(arg) + " "  
             i = i + 1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i,deadtime_index = parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
-
+                i,deadtime_index,waitforinjection= parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, stoppos, flyscannablewraper)
+                if not [x for x in args if x.getName() == "waitforinjection"]:
+                    #only add if command does not contain waitforinjection object
+                    newargs.append(waitforinjection)
+                
     jython_namespace, existing_info = add_command_metadata(command)
     try:
         scan([e for e in newargs])

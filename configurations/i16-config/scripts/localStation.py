@@ -814,7 +814,7 @@ try:
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='fill_if_needed()'	#fill cryocooler vessel while waiting for beam
 	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'
 	timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
-	waitforinjection=WaitForInjectionPDClass('WaitForInjection',timetoinjection, 5, 5)
+	waitforinjection=WaitForInjectionPDClass('waitforinjection',timetoinjection, 5, 5)
 
 	### x1trig and x2trig ###
 	localStation_print("Creating x1trig and x2trig")
