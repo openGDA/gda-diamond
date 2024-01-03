@@ -2,8 +2,9 @@
 
 from Diamond.PseudoDevices.FilterBank import EpicsFilter, FilterSet;
 from gda.device.scannable import DummyScannable
+from gdascripts.installation import isLive
 
-if LocalProperties.get("gda.mode") == "live":
+if isLive():
 	
 	filter1PVs=['BL07I-OP-FILT-01:FILTER1', 'BL07I-OP-FILT-01:FILTER2', 'BL07I-OP-FILT-01:FILTER3', 'BL07I-OP-FILT-01:FILTER4',
 			   'BL07I-OP-FILT-01:FILTER5', 'BL07I-OP-FILT-01:FILTER6', 'BL07I-OP-FILT-01:FILTER7', 'BL07I-OP-FILT-01:FILTER8',

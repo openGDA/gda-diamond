@@ -1,7 +1,6 @@
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
-from gda.configuration.properties import LocalProperties
-from gdascripts.installation import isDummy
+from gdascripts.installation import isDummy as checkIfDummy
 
 class TenmaPsu(ScannableMotionBase):
     
@@ -18,9 +17,9 @@ class TenmaPsu(ScannableMotionBase):
         def caput(self, new_value):
             self.value = new_value
     
-    def __init__(self, name, pvBase, isDummy):
+    def __init__(self, name, pvBase):
         self.setName(name)
-        self.isDummy = isDummy
+        self.isDummy = checkIfDummy()
         self.setInputNames([name + '_I'])
         self.setExtraNames([name + '_V'])
         self.setOutputFormat(["%.3f", "%.3f"])
@@ -94,5 +93,5 @@ class TenmaPsu(ScannableMotionBase):
             self.mode = new_mode
             self.target = None
 
-tenma = TenmaPsu("tenma", "BL07I-EA-TENMA-01", "live"!=LocalProperties.get("gda.mode") )
+tenma = TenmaPsu("tenma", "BL07I-EA-TENMA-01")
 

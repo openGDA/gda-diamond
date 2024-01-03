@@ -1,6 +1,7 @@
 from gda.device.detector import NXDetectorDataWithFilepathForSrs
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
+from gdascripts.installation import isLive
 
 def ct(ct_time = 0):
 
@@ -123,6 +124,6 @@ ct.defaultTime = 1
 ct.fsSleep = 0.5
 ct.fastshutter = fs
 
-if LocalProperties.get("gda.mode") == "live" and LocalProperties.get("gda.active.diffractometer.mode") == "eh2" :
+if isLive() and LocalProperties.get("gda.active.diffractometer.mode") == "eh2" :
 	ct.p3=True
 	ct.ex=False

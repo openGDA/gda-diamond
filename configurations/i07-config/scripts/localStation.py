@@ -1,5 +1,4 @@
 #localStation.py
-
 print "===================================================================";
 print " Performing Beamline I07 specific initialisation code (localStation.py).";
 print
@@ -13,6 +12,7 @@ from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 from gdaserver import ebe, pilatus2_mask, pilatus3_mask, excalibur_mask
+from gdascripts.installation import isLive
 
 
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
@@ -185,7 +185,7 @@ overwriting.protect("betain", "betaout", "bin_eq_bout")
 
 run "BeamlineI07/devices/ivium.py"
 
-if "live"==LocalProperties.get("gda.mode") :
+if isLive() :
 	# add hexapod reset command
 	run "reset_symetrie.py"
 	# add transmissions command
