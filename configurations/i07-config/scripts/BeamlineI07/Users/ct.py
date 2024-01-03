@@ -1,7 +1,11 @@
+from time import sleep
 from gda.device.detector import NXDetectorDataWithFilepathForSrs
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
+from gda.jython.commands.ScannableCommands import pos 
+from gda.jython.commands.GeneralCommands import alias 
 from gdascripts.installation import isLive
+from BeamlineI07.diff_mode import is_eh2
 
 def ct(ct_time = 0):
 
@@ -124,6 +128,6 @@ ct.defaultTime = 1
 ct.fsSleep = 0.5
 ct.fastshutter = fs
 
-if isLive() and LocalProperties.get("gda.active.diffractometer.mode") == "eh2" :
+if isLive() and is_eh2() :
 	ct.p3=True
 	ct.ex=False
