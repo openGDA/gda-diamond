@@ -84,7 +84,7 @@
 				<ref bean="pilatus2_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="pilatus2_mask" />
+		<constructor-arg index="4" ref="p2_mask" />
 	</bean>
 
 	<bean
@@ -101,12 +101,12 @@
 				<ref bean="pilatus2_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="pilatus2_mask" />
+		<constructor-arg index="4" ref="p2_mask" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
-		id="pilatus2_mask">
+		id="p2_mask">
 		<property name="minThreshold">
 			<value type="java.lang.Integer">-1</value>
 		</property>

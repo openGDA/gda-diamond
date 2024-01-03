@@ -11,7 +11,7 @@ from time import sleep
 from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
-from gdaserver import ebe, pilatus2_mask, pilatus3_mask, excalibur_mask
+from gdaserver import ebe, p2_mask, p3_mask, ex_mask
 from gdascripts.installation import isLive
 
 
