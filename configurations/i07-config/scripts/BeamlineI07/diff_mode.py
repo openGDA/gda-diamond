@@ -7,11 +7,12 @@
 
 from gda.configuration.properties import LocalProperties
 from distutils.util import strtobool
+from gdaserver import mo8ax8
 
 # Carries out the switching to the specified mode with the facility for
 # specifying options. Supported option values:
 # >    silent       prevent the 'are you sure' message being displayed
-def handle_options(mode, options=''):
+def set_mode(mode, options=''):
     options = options.split(' ')
     if 'silent' not in options:
         choice = strtobool(raw_input(
@@ -27,13 +28,13 @@ def handle_options(mode, options=''):
         print 'Diffractometer reset cancelled'
 
 def eh1v(options=''):
-    handle_options('eh1v', options)
+    set_mode('eh1v', options)
 
 def eh1h(options=''):
-    handle_options('eh1h', options)
+    set_mode('eh1h', options)
 
 def eh2(options=''):
-    handle_options('eh2', options)
+    set_mode('eh2', options)
 
 
 def set_motor_aliases(diffmode):
@@ -43,6 +44,9 @@ def set_motor_aliases(diffmode):
     gamma = {'eh1v' : None, 'eh1h' : diff1gamma, 'eh2' : None}.get(diffmode)
     omega  = {'eh1v' : None, 'eh1h' : diff1omega, 'eh2' : None}.get(diffmode)
     theta = {'eh1v' : None, 'eh1h' : diff1theta, 'eh2' : None}.get(diffmode)
+
+def is_eh2():
+    return LocalProperties.get('gda.active.diffractometer.mode')=='eh2'
 
 # Necessary to store the active mode in a local property so that it can 
 # be updated without the need to restart the server. Defaults to eh1h
