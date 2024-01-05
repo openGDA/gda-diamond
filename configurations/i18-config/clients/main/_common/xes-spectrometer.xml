@@ -116,18 +116,7 @@
 		<property name="controls">
 			<list>
 				<bean name="simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView">
-					<property name="xesEnergyScannableName" value="XESEnergy" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean name="calibration_controlset" class="uk.ac.gda.client.livecontrol.ControlSet">
-		 <property name="viewName" value="XES offset calibration" />
-		<property name="controls">
-			<list>
-				<bean name="simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesCalibrationView">
-					<property name="offsetObjectName" value="XesOffsets" />
+					<property name="xesEnergyScannableName" value="XESEnergyJohann" />
 				</bean>
 			</list>
 		</property>
@@ -136,7 +125,6 @@
 	<bean name="xes_perspective_config" class="uk.ac.gda.ui.views.synoptic.SynopticPerspectiveConfiguration">
 		<property name="simulatedPositionsView" value="simulated_positions_controlset" />
 		<property name="spectrometerPicture" value="spectrometerRowsPicture" />
-		<property name="calibrationControls" value="calibration_controlset" />
 		<property name="offsetView" value="offsets_controlset" />
 	</bean>
 
