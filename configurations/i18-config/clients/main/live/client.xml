@@ -3,6 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="BL18I-EA-DET-04" />
+	</bean>
+
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 
 </beans>

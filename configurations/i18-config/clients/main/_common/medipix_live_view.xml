@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="medipix_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="medipix_camera_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Medipix camera" />
+		<property name="arrayPv" value="#{medipixBasePv}:ARR" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+							<constructor-arg ref="medipix_camera_control" />
+						</bean>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewRoiControls">
+							<constructor-arg ref="medipix_camera_control" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
