@@ -1,7 +1,6 @@
 
 #The ADC Card
 from Diamond.PseudoDevices.AdcScaler import AdcScalerClass, AdcScalerChannelClass;
-from gda.factory import Finder
 
 pvRootScaler   = "BL07I-EA-ADC-01";
 
@@ -83,14 +82,6 @@ eh1sc29 = StructScalerGdaChannelClass("eh1sc29", struck1, 28);
 eh1sc30 = StructScalerGdaChannelClass("eh1sc30", struck1, 29);
 eh1sc31 = StructScalerGdaChannelClass("eh1sc31", struck1, 30);
 eh1sc32 = StructScalerGdaChannelClass("eh1sc32", struck1, 31);
-
-# Inject normaliser processor for use in namespace
-exr_norm = Finder.find("excalibur_norm")
-exc_norm = Finder.find("MalcNormProcExc")
-p2r_norm = Finder.find("pilatus2_norm")
-p2c_norm = Finder.find("MalcNormProcPil2")
-p3r_norm = Finder.find("pilatus3_norm")
-p3c_norm = Finder.find("MalcNormProcPil3")
 
 #The Cyberstar Scintillation Card and APD device
 from Diamond.Objects.EpicsUnit import EpicsApeAceDeviceClass;

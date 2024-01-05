@@ -72,6 +72,7 @@ from BeamlineI07.useTenma import tenma
 from gdaserver import fastshutter as fs, fastshutter_fatt as ffs, fastshutterScan
 add_default(fastshutterScan)
 from BeamlineI07.useFastShutter import emergency_stopper, setShutterDelay
+from BeamlineI07.useNormalisation import ex_norm, p2_norm, p3_norm
 
 try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
 
