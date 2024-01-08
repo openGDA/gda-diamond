@@ -15,42 +15,42 @@
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_dm_template.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_template.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_template.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_unknown_probe_dm_template.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_unknown_probe_dm_template.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_unknown_probe_dm_template.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_dm_posref.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_posref.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_posref.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14"/>
 				<property name="name" value="i14_known_probe_dm_ml.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_ml.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_dm_ml.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_raar.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_raar.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_raar.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_epie_ml.yaml"/>
-				<property name="pathToConfig" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_epie_ml.yaml"/>
+				<property name="configObject" value="/dls_sw/i14/scripts/autoprocessing_script/Ptycho/i14_known_probe_epie_ml.yaml"/>
 			</bean>
 		</util:list>
 

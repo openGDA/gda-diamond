@@ -15,14 +15,14 @@
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_dm_template.yaml"/>
-				<property name="pathToConfig" value="${gda.var}/i14_unknown_probe_dm.yaml"/>
+				<property name="configObject" value="${gda.var}/i14_unknown_probe_dm.yaml"/>
 			</bean>
 			<bean class="uk.ac.diamond.daq.mapping.api.ConfigWrapper">
 				<property name="active" value="true" />
 				<property name="malcolmDeviceName" ref="ptychography_scan_detector" />
 				<property name="appName" value="ptypyi14" />
 				<property name="name" value="i14_known_probe_dm_template.yaml"/>
-				<property name="pathToConfig" value="${gda.var}/i14_known_probe_dm.yaml"/>
+				<property name="configObject" value="${gda.var}/i14_known_probe_dm.yaml"/>
 			</bean>
 		</util:list>
 
