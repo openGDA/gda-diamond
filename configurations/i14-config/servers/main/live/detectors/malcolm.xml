@@ -58,6 +58,42 @@
 		<property name="activated" value="false" />
 	</bean>
 	
+	<!-- Merlin01 and XRF -->
+	<bean id="malcolmInfoMerlin01XRF" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Merlin01 and XRF" />
+		<property name="description" value="Merlin01 and XRF" />
+	</bean>
+
+	<bean id="malcolmModelMerlin01XRF" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-09" />
+		<property name="exposureTime" value="0.015" />
+	</bean>
+
+	<bean id="malcolmDeviceMerlin01XRF" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-09" />
+		<property name="model" ref="malcolmModelMerlin01XRF" />
+		<property name="deviceInformation" ref="malcolmInfoMerlin01XRF" />
+		<property name="activated" value="false" />
+	</bean>
+	
+	<!-- Merlin01 only -->
+	<bean id="malcolmInfoMerlin01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Merlin01 only" />
+		<property name="description" value="Merlin01 only" />
+	</bean>
+
+	<bean id="malcolmModelMerlin01" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-10" />
+		<property name="exposureTime" value="0.015" />
+	</bean>
+
+	<bean id="malcolmDeviceMerlin01" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-10" />
+		<property name="model" ref="malcolmModelMerlin01" />
+		<property name="deviceInformation" ref="malcolmInfoMerlin01" />
+		<property name="activated" value="false" />
+	</bean>
+	
 	<!-- Eiger imaging -->
 	<bean id="malcolmInfoEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Eiger imaging"/>
