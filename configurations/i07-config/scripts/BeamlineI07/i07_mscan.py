@@ -2,23 +2,28 @@ from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
 from gda.factory import Finder
 from BeamlineI07.diff_mode import is_eh2
+from uk.ac.diamond.osgi.services import ServiceProvider
+from org.eclipse.scanning.api.device import IRunnableDeviceService
+
+ird_service = ServiceProvider.getService(IRunnableDeviceService)
 
 # Excalibur
 exc_name = "BL07I-ML-SCAN-34" if is_eh2() else "BL07I-ML-SCAN-01"
-exc = getRunnableDeviceService().getRunnableDevice(exc_name)
+exc = ird_service.getRunnableDevice(exc_name)
 # Excalibur for static malcolm scans (i.e. "mscan static [parameters]") - avoids bug I07-569 but cannot move motors
 exs_name = "BL07I-ML-SCAN-34" if is_eh2() else "BL07I-ML-SCAN-11"
-exs = getRunnableDeviceService().getRunnableDevice(exs_name)
+exs = ird_service.getRunnableDevice(exs_name)
 # Pilatus 2M
-p2c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-02")
+p2c = ird_service.getRunnableDevice("BL07I-ML-SCAN-02")
 # Pilatus 2M for static malcolm scans
-p2s = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-12")
+p2s = ird_service.getRunnableDevice("BL07I-ML-SCAN-12")
 # Exc and p2m
-m3 = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-03")
+m3 = ird_service.getRunnableDevice("BL07I-ML-SCAN-03")
 # Pilatus 3
-p3c = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-33")
+p3c = ird_service.getRunnableDevice("BL07I-ML-SCAN-33")
 # Pilatus 3 for static malcolm scans
-p3s = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-32")
+p3s = ird_service.getRunnableDevice("BL07I-ML-SCAN-32")
+
 
 from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan
 alias(fscan)

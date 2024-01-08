@@ -2,6 +2,8 @@ from gdaserver import fatt, exr, exv, excalibur, excalibur_atten, dcm1energy, tr
 from gda.configuration.properties import LocalProperties
 import time, datetime
 from gdascripts.installation import isLive
+from uk.ac.diamond.osgi.services import ServiceProvider
+from org.eclipse.scanning.api.device import IRunnableDeviceService
 
 add_default(fatt)
 
@@ -15,7 +17,8 @@ def autofon():
     exr.setDetector(excalibur_atten)
     exv.setDetector(excalibur_atten)
     LocalProperties.set("gda.beamline.auto.attenuation", True)
-    exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
+    ird_service = ServiceProvider.getService(IRunnableDeviceService)
+    exc_scan = ird_service.getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), True)
     print("Automatic attenuation enabled for exr, exv, exc and exs")
 
@@ -23,7 +26,8 @@ def autofoff():
     exr.setDetector(excalibur)
     exv.setDetector(excalibur)
     LocalProperties.set("gda.beamline.auto.attenuation", False)
-    exc_scan = getRunnableDeviceService().getRunnableDevice("BL07I-ML-SCAN-01")
+    ird_service = ServiceProvider.getService(IRunnableDeviceService)
+    exc_scan = ird_service.getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), False)
     fatt.manualMode()
     print("Automatic attenuation disabled for exr, exv, exc and exs")
