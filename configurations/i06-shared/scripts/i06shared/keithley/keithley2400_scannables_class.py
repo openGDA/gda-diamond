@@ -62,7 +62,14 @@ class Keithley2400Current(ScannableMotionBase):
 
     def atScanEnd(self):
         self.inScan = False
-            
+ 
+    def enable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = True
+    
+    def disable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = False
+        
+           
     @property
     def epics_wait(self):
         return self._epics_wait 
@@ -187,7 +194,14 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.keithley.senseFunctionNPLC("CURR", self.NPLC)
         # self.keithley.specify_data_elements("VOLT", "CURR")
         sleep(self.config_wait)
+
+    def enable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = True
+    
+    def disable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = False
         
+       
     def atScanStart(self):
         self.configure()
         self.inScan = True

@@ -78,6 +78,7 @@ class EpicsKeithleySourceMeter(object):
         self.use_trace_buffer = True
         self.communication_wait = 0.1
         self.read_wait = 0.1
+        self.enable_output_control_per_point = True
         
     def configure(self):
         '''
@@ -171,7 +172,8 @@ class EpicsKeithleySourceMeter(object):
     def reset(self):
         '''resets the instrument settings to their default values and clears the reading buffers.
         '''
-        self.send_command_no_reply("*RST")
+        if self.enable_output_control_per_point:
+            self.send_command_no_reply("*RST")
         
     def outputOn(self):
         '''
@@ -205,9 +207,9 @@ class EpicsKeithleySourceMeter(object):
             self.send_command('TRACe:ACTual? "' + str(buffer_name) + '"')
         if self.model == 2400:
             self.send_command('TRACe:POINts:ACTual?')
-            # sleep required otherwise get_response() returns '?'
-            while self.get_response() == '?':
-                sleep(self.read_wait) 
+        # sleep required otherwise get_response() returns '?'
+        while self.get_response() == '?':
+            sleep(self.read_wait) 
         return int(self.get_response()) == 0
     
     def numberOfReadingInBuffer(self, buffer_name):
@@ -241,7 +243,8 @@ class EpicsKeithleySourceMeter(object):
         '''
         trigger measurement and read data
         '''
-        self.outputOn()
+        if self.enable_output_control_per_point:
+            self.outputOn()
         if self.model == 2461:
             self.send_command_no_reply('TRACe:TRIGger "defbuffer1"')
             while self.isBufferClear("defbuffer1"):
@@ -256,7 +259,8 @@ class EpicsKeithleySourceMeter(object):
                 # sleep required otherwise get_response() returns '+'
                 while self.get_response() == '+':
                     sleep(self.read_wait)
-        self.outputOff()
+        if self.enable_output_control_per_point:
+            self.outputOff()
                 
     def prepare_trace_buffer(self, count):
         '''

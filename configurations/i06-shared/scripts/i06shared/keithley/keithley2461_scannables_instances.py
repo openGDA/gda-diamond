@@ -15,4 +15,4 @@ keithley2461.configure()
 
 keiCur = Keithley2461Current('keiCur', keithley2461)
 
-keiVol = Keithley2461Voltage('keiVol', keithley2461)
+keiVolt = Keithley2461Voltage('keiVolt', keithley2461)

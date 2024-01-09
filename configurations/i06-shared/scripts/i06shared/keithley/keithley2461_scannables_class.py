@@ -68,6 +68,12 @@ class Keithley2461Current(ScannableMotionBase):
     def set2Wire(self):
         self.keithley.senseRsense("VOLT", "OFF")
         
+    def enable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = True
+    
+    def disable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = False
+        
     def atScanStart(self):
         self.configure()
         self.inScan = True
@@ -215,6 +221,12 @@ class Keithley2461Voltage(ScannableMotionBase):
         
     def set2Wire(self):
         self.keithley.senseRsense("CURR", "OFF")
+            
+    def enable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = True
+    
+    def disable_output_control_per_point(self):
+        self.keithley.enable_output_control_per_point = False
 
     def atScanStart(self):
         self.configure()
