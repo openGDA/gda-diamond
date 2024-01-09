@@ -16,7 +16,7 @@
     <import resource="qbpm.xml" />
     <import resource="d8.xml" />
     <import resource="dcm.xml" />
-    <import resource="feaptr.xml" />
+    <!-- Currently unavailable, uncomment when available again <import resource="feaptr.xml" />-->
     <import resource="gonio.xml" />
     <import resource="hfm.xml" />
     <import resource="idgap.xml" />
