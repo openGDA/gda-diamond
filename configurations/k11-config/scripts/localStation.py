@@ -2,6 +2,8 @@ from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildI
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
 from gda.jython.commands.GeneralCommands import run
 from gdascripts.scannable.timerelated import TimeSinceScanStart
+from java.io import FileNotFoundException
+import sys
 
 print("Initialisation Started");
 
@@ -26,5 +28,18 @@ alias("list_watchdogs")
 # e.g. expose d1_det for 1 second every 5 seconds for 1 minute from now:
 # scan timerScannable 0 60 5 d1_det 1
 timerScannable = TimeSinceScanStart("timerScannable")
+
+print("Attempting to run localStationStaff.py from users script directory")
+try:
+    run("localStationStaff")
+    print("localStationStaff.py completed")
+except FileNotFoundException, e:
+    print("No localStationStaff found")
+except:
+    print("Error running localStationStaff")
+    print(sys.exc_info())
+finally:
+    print("=" * 80)
+    
 
 print("Initialisation Complete")
