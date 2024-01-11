@@ -198,13 +198,11 @@ class DummyAreaDetectorClass(DetectorBase, ShutterDeviceClass, MetadataConsumerC
 		if newFilePrefix is not None:
 			self.filePrefix = str(newFilePrefix);
 			
-#		imagePath = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
-#		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
-		imagePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
+		image_path = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir");
 		
-		fullPath = os.path.join(imagePath, self.subDir);
+		full_path = os.path.join(image_path, self.subDir);
 		
-		self.imageProducer.setFilePath(fullPath);
+		self.imageProducer.setFilePath(full_path);
 		self.imageProducer.setFilePrefix(self.filePrefix);
 		
 	def getFilePath(self):
