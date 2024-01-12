@@ -1863,8 +1863,11 @@ for to_protect in protected_commands :
 	overwriting.protect(to_protect)  # @UndefinedVariable
 
 print("-"*100)
-from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn  # @UnusedImport
-from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+# from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
+# from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+
+from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
+from gdascripts.scan import flyscans; print(flyscans.__doc__)
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
