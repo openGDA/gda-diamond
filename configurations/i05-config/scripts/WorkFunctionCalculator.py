@@ -4,7 +4,9 @@ namespace"""
 from uk.ac.gda.devices.vgscienta import WorkFunctionProvider
 import csv
 from gda.device import Scannable
+from gda.factory import Finder
 from gda.device.scannable.scannablegroup import ScannableGroup
+from uk.ac.gda.arpes.calculator import IResolutionCalculatorConfiguration
 
 
 class WorkFunctionCalculator(WorkFunctionProvider):
@@ -26,16 +28,18 @@ class WorkFunctionCalculator(WorkFunctionProvider):
         """
         Reads in parameters from a lookup table.
         """
-        self.p =[]
-        try:
-            csvfile = open('/dls_sw/i05/scripts/beamline/work_function_lookup.csv', 'rb')
-        except OSError as e:
-            print "Opening csv file failed.", e
-            raise
-        else:
-            with csvfile:
-                reader = csv.reader(csvfile)
-                self.p = [float(i) for i in list(reader)[1]]
+        self.calculatorConfig =  Finder.findSingleton(IResolutionCalculatorConfiguration)
+        
+        # self.p =[]
+        # try:
+        #     csvfile = open('/dls_sw/i05/scripts/beamline/work_function_lookup_new.csv', 'rb')
+        # except OSError as e:
+        #     print "Opening csv file failed.", e
+        #     raise
+        # else:
+        #     with csvfile:
+        #         reader = csv.reader(csvfile)
+        #         self.p = [float(i) for i in list(reader)[1]]
 
     def getWorkFunction(self, energy):
         """Returns the work function when given an energy"""
@@ -43,4 +47,10 @@ class WorkFunctionCalculator(WorkFunctionProvider):
             and not isinstance(energy, ScannableGroup)):
             energy = energy.getPosition()
 
-        return self.p[0]+self.p[1]*energy+self.p[2]*energy**2+self.p[3]*energy**3+self.p[4]*energy**4
+        # return self.p[1]+self.p[2]*energy+self.p[3]*energy**2+self.p[4]*energy**3+self.p[5]*energy**4
+        
+        pgm_linedensity = Finder.find("pgm_linedensity")        
+        workFunctionParameters  = self.calculatorConfig.getParametersFromFile(self.calculatorConfig.getWorkFunctionFilePath());
+        grating                 = pgm_linedensity.getPosition()
+        
+        return self.calculatorConfig.getWorkFunction(grating, energy, workFunctionParameters)

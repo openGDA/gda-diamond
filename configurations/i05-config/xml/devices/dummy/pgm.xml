@@ -46,9 +46,10 @@
 	</bean>
 
 	<bean id="pgm_linedensity_motor" class="gda.device.motor.DummyMotor"/>
-
+	
 	<bean id="pgm_linedensity" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_linedensity_motor" />
+		<property name="speed" value="1000"/>
 	</bean>
 
 	<!-- PGM Grating Select -->
