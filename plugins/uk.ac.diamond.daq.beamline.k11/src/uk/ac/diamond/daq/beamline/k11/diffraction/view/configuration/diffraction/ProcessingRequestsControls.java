@@ -73,8 +73,6 @@ public class ProcessingRequestsControls implements CompositeFactory, Reloadable 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<ProcessingRequestContext<?>> getProcessingRequestOptions() {
 		return List.of(
-				new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.DIFFRACTION_CALIBRATION),
-						getDiffractionCalibrationMergeDirectory(), getDefaultDiffractionCalibrationMergeFile(), false),
 				new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.DAWN),
 						 getDiffractionCalibrationMergeDirectory(), new ArrayList<>(), false),
 				new ProcessingRequestContext(getProcessingRequestKeyFactory().getProcessingKey(ProcessKey.FRAME_CAPTURE),
