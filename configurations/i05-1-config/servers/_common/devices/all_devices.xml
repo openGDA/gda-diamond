@@ -17,8 +17,7 @@
 
 	<!-- analyser -->
 	<import resource="analyser.xml"/>
-	<import resource="analyser_mapping.xml"/>
-	<import resource="analyser_energy_range.xml" />
+	<import resource="analyser_energy_range.xml"/>
 	<import resource="analyser_rotation.xml" />
 
 	<!-- resolution calculator config -->

@@ -1,25 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: i05-1 Plug-in
+Bundle-Name: Beamline I05-1
 Bundle-SymbolicName: uk.ac.gda.beamline.i05-1;singleton:=true
-Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.ide;bundle-version="3.8.2",
- uk.ac.gda.client,
- uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.api,
- uk.ac.gda.core,
- uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.2.0",
- uk.ac.gda.devices.vgscienta;bundle-version="1.0.0",
- uk.ac.gda.arpes;bundle-version="1.0.0",
- uk.ac.diamond.daq.pes.api;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-21
-Export-Package: uk.ac.gda.beamline.i05_1;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework"
+Bundle-Version: 9.1.0.qualifier
 Bundle-Vendor: Diamond Light Source
-Import-Package: gda.observable,
- org.eclipse.core.filesystem,
- org.slf4j;version="[1.7.2,2.0.0)"
-Eclipse-RegisterBuddy: uk.ac.gda.api,
- uk.ac.gda.core
-Automatic-Module-Name: uk.ac.gda.beamline.i05-1
+Automatic-Module-Name: uk.ac.gda.beamline.i05.1.singleton.true
+Require-Bundle: org.eclipse.equinox.app,
+ org.eclipse.ui;bundle-version="3.107.0",
+ uk.ac.diamond.daq.arpes.ui.e4;bundle-version="1.0.0"

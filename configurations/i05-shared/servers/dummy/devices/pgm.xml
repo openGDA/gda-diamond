@@ -43,6 +43,7 @@
 			<list>
 				<value>400 lines/mm</value>
 				<value>800 lines/mm</value>
+				<value>1600 lines/mm</value>
 			</list>
 		</property>
 	</bean>

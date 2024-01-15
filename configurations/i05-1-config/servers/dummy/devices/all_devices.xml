@@ -3,16 +3,22 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/beans/spring-beans.xsd
 				http://www.springframework.org/schema/context
 				http://www.springframework.org/schema/context/spring-context.xsd
 				http://www.springframework.org/schema/util
 				http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<context:property-placeholder properties-ref="configProperties" />
+
 	<util:properties id="configProperties">
 		<prop key="ANALYSER_PV_BASENAME">BL05J-EA-DET-01</prop>
 	</util:properties>
+
+		<!-- shutters -->
+	<import resource="shtrj.xml" />
+
 	<!-- electron analyser -->
 	<import resource="scientaslit.xml" />
 	<!-- sample environment -->
@@ -29,8 +35,9 @@
 	<import resource="osa.xml" />
 	<import resource="analyser_rotation.xml"/>
 	<import resource="mj7j8.xml" />
+
 <!-- 	<import resource="mcp.xml" /> -->
 	<import resource="keithley.xml" />
-
 	<import resource="microscope_pv.xml"/>
+
 </beans>

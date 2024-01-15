@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="slicing_view_config" class="uk.ac.gda.apres.ui.config.ArpesSlicingViewConfiguration">
+		<property name="name" value="slicing_config" />
+		<property name="analyserName" value="analyser" />
+		<property name="defaultScannableName" value="smx" />
+		<property name="degreeScannableNames">
+			<array>
+				<value>anapolar</value>
+				<value>smpolar</value>
+				<value>smazimuth</value>
+			</array>
+		</property>
+		<property name="initialImageDims" value="5,1279,909"/>
+		<property name="order" value="0,1,2"/>
+	</bean>
+
+</beans>
