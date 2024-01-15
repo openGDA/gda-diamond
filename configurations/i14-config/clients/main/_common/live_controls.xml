@@ -72,7 +72,6 @@
 			<list>
 				<value>beam_available_watchdog</value>
 				<value>topup_watchdog</value>
-				<value>malcolm_available_watchdog</value>
 			</list>
 		</property>
 	</bean>
