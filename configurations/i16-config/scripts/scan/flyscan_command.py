@@ -314,7 +314,7 @@ def configure_fly_scannable_extraname(arg, flyscannablewraper):
         flyscannablewraper.setOutputFormat(["%.5g"])
 
 
-def enable_topup_check(newargs, args, total_time):
+def enable_topup_check(newargs, args, total_time, i):
     ''' setup beamline-specific beam top up checker's minimum time threshold.
     '''
     if str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) == "i16": # try to retrieve waitforinjection object from scan arguments
@@ -322,7 +322,9 @@ def enable_topup_check(newargs, args, total_time):
         if waitforinjection is None: # have to get 'waitforinjection' scannable from jython namesapce as it is defined in localStation.py, i16 adds it to defaults in live mode
             waitforinjection = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("waitforinjection")
             if waitforinjection:
+                newargs.append(args[i])
                 newargs.append(waitforinjection)
+                i += 1
         if waitforinjection:
             waitforinjection.due = total_time
     if str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) in ["i21", "i10", "i10-1", "i06", "i06-1"]:
@@ -330,6 +332,7 @@ def enable_topup_check(newargs, args, total_time):
         if check_beam:
             topup_checker = check_beam.getDelegate().getGroupMember("checktopup_time")
             topup_checker.minimumThreshold = total_time + 5
+    return i
 
 def parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, startpos, stoppos, flyscannablewraper):
     '''calculate and set flying scannable speed based on total detector exposure time over the flying range and set wait for injection time
@@ -344,7 +347,7 @@ def parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, star
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
         deadtime_index = -1 # no dead time input
         
-    enable_topup_check(newargs, args, total_time)
+    i = enable_topup_check(newargs, args, total_time,i)
         
     motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
     max_speed = flyscannablewraper.getScannableMaxSpeed()
