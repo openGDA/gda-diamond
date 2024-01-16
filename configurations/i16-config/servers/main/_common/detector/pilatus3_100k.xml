@@ -34,7 +34,9 @@
 					<list>
 						<bean class="gda.device.detector.nexusprocessor.DatasetPlotter">
 							<property name="plotName" ref="pilatus3_plotName" />
+							<!-- 
 							<property name="roiProvider" ref="pilatus3_rois" />
+							 -->
 						</bean>
 						<ref bean="pilatus3_rois" />
 						<ref bean="pilatus3_stats" />
@@ -59,6 +61,7 @@
 	<bean id="pilatus3_rois" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" ref="pilatus3_plotName" />
 		<property name="statsProcessor" ref="pilatus3_stats" />
+		<!-- 
 		<property name="requiredRectangularRoiList">
 			<list>
 				<bean class="org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI">
@@ -97,6 +100,7 @@
 				</bean>
 			</list>
 		</property>
+		 -->
 	</bean>
 
 	<bean id="pilatus3_stats" class="gda.device.detector.nexusprocessor.DatasetStats">
