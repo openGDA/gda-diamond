@@ -15,8 +15,10 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
- 	<bean id="d3_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+	<bean id="d3_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
         <property name="restoreAcquireTime" value="true" />
+        <property name="restoreAcquirePeriod" value="true" />
+        <property name="acquirePeriodExpression" value="#acquireTime + 0.001" />
         <property name="decoratee">
             <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
                 <property name="restoreNumImagesAndImageMode" value="true"/>
