@@ -3,7 +3,6 @@ from localStationScripts.shutterCommands import sh, openEHShutter, closeEHShutte
 #import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
-from localStationConfiguration import d4x_in, d4y_in, d4x_out, d4y_out
 from localStationScripts.scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 
@@ -14,7 +13,7 @@ CON_IN=1
 CON_OUT=0
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline, dkappa, dktheta, cryobsx, d3y, d4x, d4y
+	global configured, isccd, beamline, dkappa, dktheta, cryobsx
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
@@ -22,9 +21,6 @@ def configure(jythonNameMap, beamlineParameters):
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
 	cryobsx = jythonNameMap.cryobsx
-	d3y = jythonNameMap.d3y
-	d4x = jythonNameMap.d4x
-	d4y = jythonNameMap.d4y
 	configured = True
 
 def checkConfigured():
@@ -113,16 +109,7 @@ def d3in():
 	"""
 	move diode 3 in (to the beam)
 	"""
-	setState("D3", "-DI-PHDGN-04:CON", CON_IN)
-	#						  ^^ Not 03 as valve 4 was reused for this.
-	#							 See https://jira.diamond.ac.uk/browse/I15-828
-
-def d4in():
-	"""
-	move diode 4 in
-	"""
-	d4x.moveTo(d4x_in)
-	d4y.moveTo(d4y_in)
+	setState("D3", "-DI-PHDGN-03:CON", CON_IN)
 
 def d1out():
 	"""
@@ -140,16 +127,7 @@ def d3out():
 	"""
 	move diode 3 out (of the beam)
 	"""
-	setState("D3", "-DI-PHDGN-04:CON", CON_OUT)
-	#						  ^^ Not 03 as valve 4 was reused for this.
-	#							 See https://jira.diamond.ac.uk/browse/I15-828
-
-def d4out():
-	"""
-	move diode 4 out
-	"""
-	d4x.moveTo(d4x_out)
-	d4y.moveTo(d4y_out)
+	setState("D3", "-DI-PHDGN-03:CON", CON_OUT)
 
 def d4cryoIn():
 	print "Moving d4cryo in."

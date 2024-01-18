@@ -6,9 +6,6 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="d4x" live-pvName="BL15I-DI-PHDGN-04:X"/>
-	<gda:motor id="d4y" live-pvName="BL15I-DI-PHDGN-04:Y"/>
-
 	<bean id="PHDGN4"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
