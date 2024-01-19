@@ -34,16 +34,15 @@ import uk.ac.diamond.daq.beamline.k11.diffraction.view.browser.MapBrowser;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.beamselectorscan.BeamSelectorComposite;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.DiffractionComposite;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.pointandshoot.PointAndShootComposite;
+import uk.ac.diamond.daq.mapping.ui.AcquisitionCompositeFactory;
 import uk.ac.diamond.daq.mapping.ui.BackgroundStateHelper;
 import uk.ac.diamond.daq.mapping.ui.LiveStreamBackgroundAction;
+import uk.ac.diamond.daq.mapping.ui.SelectableAcquisitionCompositeFactory;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 import uk.ac.diamond.daq.mapping.ui.services.MappingRemoteServices;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.AcquisitionConfigurationView;
-import uk.ac.gda.ui.tool.ClientMessages;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
-import uk.ac.gda.ui.tool.selectable.NamedCompositeFactory;
-import uk.ac.gda.ui.tool.selectable.SelectableContainedCompositeFactory;
 
 public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
@@ -80,7 +79,7 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 
 	@Override
 	protected CompositeFactory getTopArea(Supplier<Composite> controlButtonsContainerSupplier) {
-		return new SelectableContainedCompositeFactory(initializeConfiguration(controlButtonsContainerSupplier), ClientMessages.ACQUISITIONS);
+		return new SelectableAcquisitionCompositeFactory(initializeConfiguration(controlButtonsContainerSupplier));
 	}
 
 	@Override
@@ -90,8 +89,8 @@ public class DiffractionConfigurationView extends AcquisitionConfigurationView {
 			.orElseGet(() -> new MapBrowser(null));
 	}
 
-	private List<NamedCompositeFactory> initializeConfiguration(Supplier<Composite> controlButtonsContainerSupplier) {
-		List<NamedCompositeFactory> configurations = new ArrayList<>();
+	private List<AcquisitionCompositeFactory> initializeConfiguration(Supplier<Composite> controlButtonsContainerSupplier) {
+		List<AcquisitionCompositeFactory> configurations = new ArrayList<>();
 		configurations.add(new DiffractionComposite(controlButtonsContainerSupplier));
 		configurations.add(new PointAndShootComposite(controlButtonsContainerSupplier));
 		configurations.add(new DiffractionTomographyComposite(controlButtonsContainerSupplier));

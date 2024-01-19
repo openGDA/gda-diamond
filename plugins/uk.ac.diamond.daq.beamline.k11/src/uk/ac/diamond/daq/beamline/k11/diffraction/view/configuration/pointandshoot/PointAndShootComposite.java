@@ -63,7 +63,7 @@ public class PointAndShootComposite extends DiffractionComposite {
 	}
 
 	@Override
-	protected AcquisitionKeys getAcquisitionKey() {
+	protected AcquisitionKeys getKey() {
 		return key;
 	}
 
@@ -73,19 +73,8 @@ public class PointAndShootComposite extends DiffractionComposite {
 	}
 
 	@Override
-	public ClientMessages getTooltip() {
-		return ClientMessages.POINT_AND_SHOOT_TP;
-	}
-
-	@Override
 	protected CompositeFactory getButtonControlsFactory() {
 		var buttons = new ButtonGroupFactoryBuilder();
-		buttons.addButton(ClientMessages.NEW, ClientMessages.NEW_CONFIGURATION_TP,
-				widgetSelectedAdapter(event -> {
-					createNewAcquisition();
-					getScanControls().reload();
-				}),
-				ClientImages.ADD);
 		buttons.addButton(ClientMessages.SAVE, ClientMessages.SAVE_CONFIGURATION_TP,
 				widgetSelectedAdapter(event -> saveAcquisition()),
 				ClientImages.SAVE);
