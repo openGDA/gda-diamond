@@ -17,8 +17,8 @@ def estimateResolution(AnalyserSlit=200):
         print " Pulling PVs for resolution estimation failed"
         return 
     finally:
-        print " Exit Slit value: " + HRExitSlit
-        print " Photon Energy value: " + HRPhotonEnergy
+        print " Exit Slit value: ", HRExitSlit, " mm"
+        print " Photon Energy value: ", HRPhotonEnergy, " eV"
         print "Grating ", Grating, " l/mm"
         print "Pass Energy ", HRPassEnergy, " eV"
         print "Analyser slit ", AnalyserSlit, " micron"
