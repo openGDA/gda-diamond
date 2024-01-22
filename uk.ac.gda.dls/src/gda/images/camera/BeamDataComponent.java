@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
@@ -34,18 +35,18 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.factory.FindableConfigurableBase;
 import gda.factory.Finder;
-import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
+import uk.ac.gda.api.remoting.ServiceInterface;
 
 /**
  * Reads and saves the data which describes the various zoom levels of a gda.images.camera object.
  */
-public class BeamDataComponent extends FindableConfigurableBase implements IObservable {
+@ServiceInterface(BeamDataComponentInterface.class)
+public class BeamDataComponent extends FindableConfigurableBase implements BeamDataComponentInterface {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeamDataComponent.class);
 
-	private static String INSTANCE_NAME = "BeamDataComponent";
 	private static BeamDataComponent theInstance;
 
 	// read in from the beamData file
@@ -61,7 +62,9 @@ public class BeamDataComponent extends FindableConfigurableBase implements IObse
 		return "(" + x + ", " + y + ")";
 	}
 
-	public static class BeamData {
+	public static final String INSTANCE_NAME = "BeamDataComponent";
+
+	public static class BeamData implements Serializable{
 
 		public Double zoomLevel = null;
 
@@ -114,6 +117,7 @@ public class BeamDataComponent extends FindableConfigurableBase implements IObse
 	/**
 	 * @return the camera object this object refers to.
 	 */
+	@Override
 	public Camera getCamera() {
 		return opticalCamera;
 	}
@@ -264,6 +268,7 @@ public class BeamDataComponent extends FindableConfigurableBase implements IObse
 	/**
 	 * @return BeamData
 	 */
+	@Override
 	public BeamData getCurrentBeamData() {
 		// get the zoom level
 		double zoom = 0.0;
@@ -296,6 +301,17 @@ public class BeamDataComponent extends FindableConfigurableBase implements IObse
 		}
 
 		return out;
+	}
+
+	/**
+	 * Update the beam centre (in pixels) for the current zoom.
+	 */
+	@Override
+	public void updateCurrentCentre(int x, int y) {
+		var currentData = getCurrentBeamData();
+		currentData.xCentre = x;
+		currentData.yCentre = y;
+		saveBeamData();
 	}
 
 	private BeamData createDummyBeamData(double zoomLevel) {
