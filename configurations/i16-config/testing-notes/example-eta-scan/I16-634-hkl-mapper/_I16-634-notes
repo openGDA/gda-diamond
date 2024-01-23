@@ -10,6 +10,7 @@ Scan		Configuration	Dummy	Detector		Notes
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 2023110272	NSD				Dummy	NXD/NDP	pil3	scancn eta 0.002 5 pil3_100k 1
 2023110273	NSD				Dummy	NXD/NDP	pil3	" with 487x195 image, not 1280*960
+2024010118	NSD				Dummy	NXD/NDP	pil3	" using NXmx template to create transformations
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
@@ -41,10 +42,13 @@ BASELINE=$ARCHIVE/2023110264
 						Processing a scan
 --------------------------------------------------------------------------------
 
-rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log
+	To get the processed nexus:
+	
+rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log && \
+ll -tr processing/$SCAN*
 
-to get the processed nexus. This is the offline equivalent of
-
+	This is the offline equivalent of
+	
 rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/mm34332-1/1022133.nxs
 
 --------------------------------------------------------------------------------

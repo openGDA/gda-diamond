@@ -12,6 +12,39 @@
 
 	<bean class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register" />
 
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="entry" /> <?ignore When a category node is the same type as the nexusClass, child nodes
+														are added to it, rather than added as a child node with this name. ?>
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXentry"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="definition"/>
+					<property name="value" value="NXmx" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="features"/>
+					<property name="value">
+						<list>
+							<value>3</value>
+							<value>6</value>
+							<value>-4539647395532570642</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="title_old"/>
+					<property name="scannableName" value="_title"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="sample_name"/>
+					<property name="scannableName" value="_sample"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="sourceNexusDevice" />
 		<property name="sourceName" value="Diamond Light Source" />
@@ -88,24 +121,6 @@
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="metadata" />
-		<property name="category" value="NX_ENTRY"/>
-		<property name="nexusClass" value="NXcollection"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="title_old"/>
-					<property name="scannableName" value="_title"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="sample_name"/>
-					<property name="scannableName" value="_sample"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="attenuator" />
 		<property name="category" value="NX_INSTRUMENT"/>
 		<property name="nexusClass" value="NXattenuator"/>
@@ -119,35 +134,8 @@
 		</property>
 	</bean>
 
-	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
-		<property name="name" value="compatibility" />
-		<property name="category" value="NX_ENTRY"/>
-		<property name="nexusClass" value="NXcollection"/>
-		<property name="childNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScalarField">
-					<property name="name" value="features"/>
-					<property name="value">
-						<list>
-							<value>3</value>
-							<value>6</value>
-							<value>-4539647395532570642</value>
-						</list>
-					</property>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScalarField">
-					<property name="name" value="definition"/>
-					<property name="value" value="NXmx" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-<<<<<<< Upstream, based on origin/master
 	<!-- Sample transform chain: . < kmu < kth < kap < kphi -->
-=======
-	<!-- Sample transform chain: . < mu < theta < kappa < phi < cryophi -->
-
+	
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="cryophi" />
 		<property name="transformation">
@@ -303,10 +291,9 @@
 		<property name="userDeviceName" value="userNexusDevice" />
 		<property name="additionalDeviceNames">
 			<set>
-				<value>before_scan</value>
-				<value>metadata</value>
 				<value>attenuator</value>
-				<value>compatibility</value>
+				<value>before_scan</value>
+				<value>entry</value>
 				<value>sample</value>
 			</set>
 		</property>

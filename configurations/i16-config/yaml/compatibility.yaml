@@ -1,7 +1,5 @@
 entry1/:
   NX_class@: NXentry
-  definition: /entry1/compatibility/definition
-  features: /entry1/compatibility/features
 
   # ------------------------------ Temporary ------------------------------
   # Various changes between NDW and NSD make comparing files difficult, so this
