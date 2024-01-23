@@ -10,7 +10,7 @@
 	<bean id="unpausableDetectorsList" class="java.util.ArrayList">
 		<constructor-arg>
 			<list value-type="java.lang.String">
-				<value>Xspress3A</value>
+				<value>Xspress3Acquire</value>
 			</list>
 		</constructor-arg>
 	</bean>
@@ -18,7 +18,7 @@
 	<bean id="xspress3DetectorNames" class="java.util.ArrayList">
 		<constructor-arg>
 			<list value-type="java.lang.String">
-				<value>Xspress3A</value>
+				<value>Xspress3Acquire</value>
 			</list>
 		</constructor-arg>
 	</bean>
@@ -26,7 +26,7 @@
 	<bean id="snapshotDetectors" class="java.util.HashMap">
 		<constructor-arg>
 			<map>
-				<entry key="Xspress3A" value-ref="VM"/>
+				<entry key="Xspress3Acquire" value-ref="VM"/>
 			</map>
 		</constructor-arg>
 	</bean>
