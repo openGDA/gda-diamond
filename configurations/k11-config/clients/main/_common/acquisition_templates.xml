@@ -207,6 +207,11 @@
 				<ref bean="imaging_beam" />
 			</list>
 		</property>
+		<property name="nexusTemplatePaths">
+			<set>
+				<ref bean="nxtomoTemplatePath" />
+			</set>
+		</property>
 		
 	</bean>
 	

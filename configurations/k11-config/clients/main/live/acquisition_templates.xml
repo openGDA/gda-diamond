@@ -36,5 +36,9 @@
 	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
 		<constructor-arg value="gts_cs_theta"/>
 	</bean>
+	
+	<bean id="nxtomoTemplatePath" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="/dls_sw/k11/software/gda_var/nexus_templates/nxtomo_template.yaml" /> 
+	</bean>
 
 </beans>
