@@ -45,6 +45,9 @@ def set_motor_aliases(diffmode):
     omega  = {'eh1v' : None, 'eh1h' : diff1omega, 'eh2' : None}.get(diffmode)
     theta = {'eh1v' : None, 'eh1h' : diff1theta, 'eh2' : None}.get(diffmode)
 
+def is_eh1v():
+    return LocalProperties.get('gda.active.diffractometer.mode')=='eh1v'
+
 def is_eh2():
     return LocalProperties.get('gda.active.diffractometer.mode')=='eh2'
 

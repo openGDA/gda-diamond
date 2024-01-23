@@ -1,20 +1,30 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
 from gda.factory import Finder
-from BeamlineI07.diff_mode import is_eh2
+from BeamlineI07.diff_mode import is_eh2, is_eh1v
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
 
 ird_service = ServiceProvider.getService(IRunnableDeviceService)
 
+#Default diff mode is eh1h
+exc_name = "BL07I-ML-SCAN-01"
+exs_name = "BL07I-ML-SCAN-11"
+p2c_name = "BL07I-ML-SCAN-02"
+
+if is_eh1v() :
+    exc_name = "BL07I-ML-SCAN-21"
+    p2c_name = "BL07I-ML-SCAN-22"
+elif is_eh2() :
+    exc_name = "BL07I-ML-SCAN-34"
+    exs_name = "BL07I-ML-SCAN-34"
+
 # Excalibur
-exc_name = "BL07I-ML-SCAN-34" if is_eh2() else "BL07I-ML-SCAN-01"
 exc = ird_service.getRunnableDevice(exc_name)
 # Excalibur for static malcolm scans (i.e. "mscan static [parameters]") - avoids bug I07-569 but cannot move motors
-exs_name = "BL07I-ML-SCAN-34" if is_eh2() else "BL07I-ML-SCAN-11"
 exs = ird_service.getRunnableDevice(exs_name)
 # Pilatus 2M
-p2c = ird_service.getRunnableDevice("BL07I-ML-SCAN-02")
+p2c = ird_service.getRunnableDevice(p2c_name)
 # Pilatus 2M for static malcolm scans
 p2s = ird_service.getRunnableDevice("BL07I-ML-SCAN-12")
 # Exc and p2m
