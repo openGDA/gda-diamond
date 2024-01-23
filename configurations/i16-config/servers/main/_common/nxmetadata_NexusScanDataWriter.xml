@@ -10,9 +10,6 @@
 
 	<bean id="dummy_NSDW_motor" class="gda.device.motor.DummyMotor"/>
 
-	<!-- Beans required for NexusScanDataWriter
-	 -->
-
 	<bean class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register" />
 
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
@@ -25,18 +22,12 @@
 		<property name="name" value="idNexusDevice" />
 		<property name="type" value="WIGGLER" />
 		<property name="gapScannableName" value="idgap" />
-		<!-- 
-		<property name="taperScannableName" value="dummy1" />
-		 -->
 		<property name="harmonicScannableName" value="uharmonic" />
 	</bean>
 
 	<bean id="monochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
 		<property name="name" value="monochromatorNexusDevice" />
 		<property name="energyScannableName" value="en" />
-		<!-- Commenting any out causes the whole NXmonochromator node to be disappeared
-		<property name="energyErrorScannableName" value="dummy1" />
-		 -->
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
@@ -59,9 +50,6 @@
 					<property name="scannableName" value="ubMeta"/>
 					<property name="componentIndex" value="2"/>
 					<property name="units" value="angstrom"/>
-					<!-- 
-					<property name="angle_units" value="deg"/>
-					 -->
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="ub_matrix"/>
@@ -310,9 +298,6 @@
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
-		<!-- 
-		<property name="bendingMagnetName" value="" />
-		 -->
 		<property name="monochromatorName" value="monochromatorNexusDevice" />
 		<property name="beamName" value="beam" />
 		<property name="userDeviceName" value="userNexusDevice" />
@@ -332,12 +317,7 @@
 		<property name="defaultDataGroupName" value="measurement" />
 	</bean>
 
-	<!-- Beans also required for NexusDataWriter
-	 -->
-
 	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
-		<!-- Clear the nexusTemplateFiles if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter' as
-			 these only work with NexusScanDataWriter, see scripts/datawriting/16_nexus.py -->
 		<property name="nexusTemplateFiles">
 			<list> <!-- Order here matters, as nodes can only be referenced after they have been created -->
 				<value>${gda.config}/yaml/NXmx.yaml</value>
