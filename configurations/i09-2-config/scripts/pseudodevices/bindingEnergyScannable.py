@@ -16,7 +16,8 @@ class bindingEnergyScannable(ScannableMotionBase):
         self.sample_bias_scannable = sample_bias_scannable
         self.Units=[unitstring]
         self.setOutputFormat([formatstring])
-        self.setLevel(3)
+        # Level must be higher than default level(5) of scannables - pgm (level=5) must be set first!
+        self.setLevel(6) 
         self.work_function = work_function
  
     def rawGetPosition(self):
@@ -44,12 +45,12 @@ class bindingEnergyScannable(ScannableMotionBase):
     def setWF(self, value):
         try:
             self.work_function = value
-            print "Work function set to new value " + value.toString()
+            print "Work function set to new value ", value
         except:
             print "Setting work function failed"
             
     def getWF(self):
-        print "Work function value is " + self.work_function.toString()
+        print "Work function value is ", self.work_function
         return self.work_function
         
 pgm = Finder.find("pgmenergy")
