@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<description> define all cameras Live Stream views
+	</description>
+	<beans profile="absorption">
+		<bean id="dj1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}dj1Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="dj1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic DJ1 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ1.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10J-DI-PHDGN-01:DCAM:ARR" />
+			<property name="roiProvider" ref="dj1_roi" />
+		</bean>
+		<bean id="dj3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+			<property name="serviceUrl" value="${gda.rmi.prefix}dj3Roi" />
+			<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+			<property name="refreshStubOnConnectFailure" value="true" />
+		</bean>
+		<bean id="dj3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+			<property name="displayName" value="Diagnostic DJ3 Camera" />
+			<property name="url" value="http://bl10i-di-serv-01.diamond.ac.uk:8080/DJ3.DCAM.mjpg.mjpg" />
+			<property name="arrayPv" value="BL10J-DI-PHDGN-02:DCAM:ARR" />
+			<property name="roiProvider" ref="dj3_roi" />
+		</bean>
+	</beans>
+</beans>

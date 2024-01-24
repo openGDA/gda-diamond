@@ -1,0 +1,9 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration" />
+	<import resource="../../../../i10-shared/clients/main/dummy/client.xml" />
+	<import resource="stream_views.xml" />
+	<import resource="../_common/client.xml" />
+</beans>

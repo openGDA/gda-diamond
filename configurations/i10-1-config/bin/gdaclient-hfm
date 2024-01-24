@@ -1,5 +1,5 @@
 #!/bin/bash
 export GTK_OVERLAY_SCROLLING=0
 
-export SPRING_PROFILES=absorption,em
+export SPRING_PROFILES=hfm
 gda --start client --springprofiles $SPRING_PROFILES "$@"

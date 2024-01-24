@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+  <group name="Data Acquisition">
+    <button text="Start GDA Servers - EM" command="/usr/bin/env gnome-terminal --window -e /dls_sw/i10-1/software/gda/config/bin/gdaservers-em" icon="sgda.png"/>
+    <button text="Start GDA Client - EM" command="/dls_sw/i10-1/software/gda/config/bin/gdaclient-em" icon="cgda.png"/>
+    <button text="Start GDA Servers - HFM" command="/usr/bin/env gnome-terminal --window -e /dls_sw/i10-1/software/gda/config/bin/gdaservers-hfm" icon="sgda.png"/>
+    <button text="Start GDA Client - HFM" command="/dls_sw/i10-1/software/gda/config/bin/gdaclient-hfm" icon="cgda.png"/>
+    <button text="Start GDA Log" command="/dls_sw/i10-1/software/gda/config/bin/gdalog" icon="lgda.png"/>
+    <button text="Start GDA Client - EM (Reset Workspace)" command="/dls_sw/i10-1/software/gda/config/bin/gdaclient-em"  args="--reset" icon="cgda.png"/>
+    <button text="Start GDA Client - HFM (Reset Workspace)" command="/dls_sw/i10-1/software/gda/config/bin/gdaclient-hfm" args="--reset" icon="cgda.png"/>
+    <button text="Start Dawn Stable" command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh" icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+    <button text="Start Dawn Stable (Reset Workspace)" command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh" args="--reset" icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+    <button text="Connect to Vortex Server" command="xfreerdp --ignore-certificate -d DIAMOND -u i10detector -p \!i10d3t3ct0r# --no-nla -g 1800x1100 -k en-gb -K  diamrd3073.dc.diamond.ac.uk" icon="/dls_sw/apps/icons/windows.png"/>
+  </group>
+</launcher>

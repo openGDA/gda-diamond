@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="shtrj" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="gvj6" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="statusView" />
+		<property name="targetMethod" value="addCompositeFactories" />
+		<property name="arguments">
+			<list>
+				<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+					<property name="label" value="EHJ" />
+					<property name="controlPermitted" value="true" />
+					<property name="shutter" ref="shtrj" />
+				</bean>
+				<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+					<property name="label" value="GVJ6" />
+					<property name="controlPermitted" value="true" />
+					<property name="shutter" ref="gvj6" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

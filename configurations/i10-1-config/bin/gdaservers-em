@@ -9,5 +9,5 @@
 #
 # This script should not be added to as it is being phased out
 
-export SPRING_PROFILES=absorption,hfm
+export SPRING_PROFILES=em
 gda servers --springprofiles $SPRING_PROFILES $*

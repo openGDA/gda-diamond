@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<beans profile="hfm">
+		<bean id="hfmx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="X" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmx" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean id="hfmy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Y" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmy" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean id="hfmpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Pitch" />
+			<property name="group" value="HFM" />
+			<property name="scannableName" value="hfmpitch" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="controls">
+				<list>
+					<ref bean="hfmx_control" />
+					<ref bean="hfmy_control" />
+					<ref bean="hfmpitch_control" />
+				</list>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="em">
+		<bean id="emy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Y" />
+			<property name="group" value="EM" />
+			<property name="scannableName" value="emy" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean id="empitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+			<property name="displayName" value="Pitch" />
+			<property name="group" value="EM" />
+			<property name="scannableName" value="empitch" />
+			<property name="increment" value="1" />
+		</bean>
+		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="controls">
+				<list>
+					<ref bean="emy_control" />
+					<ref bean="empitch_control" />
+				</list>
+			</property>
+		</bean>
+	</beans>
+</beans>
