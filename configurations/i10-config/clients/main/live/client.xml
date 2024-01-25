@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
-	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="../../../../i10-shared/clients/main/live/client.xml"/>
 	<import resource="stream_views.xml"/>
 	<import resource="pimte_live_controls.xml"/>

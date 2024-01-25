@@ -1,330 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<beans profile="scattering">
-		<!-- RASOR TABLE -->
-		<bean id="leg1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="lgf" />
-			<property name="group" value="RASOR Table" />
-			<property name="scannableName" value="lgf" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="leg2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="lgm" />
-			<property name="group" value="RASOR Table" />
-			<property name="scannableName" value="lgm" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="leg3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="lgb" />
-			<property name="group" value="RASOR Table" />
-			<property name="scannableName" value="lgb" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR CRYOSTAT -->
-		<bean id="sx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="sx" />
-			<property name="group" value="RASOR CryoStat" />
-			<property name="scannableName" value="sx" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="sy" />
-			<property name="group" value="RASOR CryoStat" />
-			<property name="scannableName" value="sy" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="sz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="sz" />
-			<property name="group" value="RASOR CryoStat" />
-			<property name="scannableName" value="sz" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR Diffractometer -->
-		<bean id="tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="tth" />
-			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="tth" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-		
-		<bean id="th_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="th" />
-			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="th" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="chi_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="chi" />
-			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="chi" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-		
-		<bean id="alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="alpha_rasor" />
-			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="alpha_rasor" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="difx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="difx" />
-			<property name="group" value="RASOR DIFF" />
-			<property name="scannableName" value="difx" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR Pin hole -->
-		<bean id="pinhx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="pinhx" />
-			<property name="group" value="RASOR Pin Hole" />
-			<property name="scannableName" value="pinhx" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="pinhy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="pinhy" />
-			<property name="group" value="RASOR Pin Hole" />
-			<property name="scannableName" value="pinhy" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR REMEC -->
-		<bean id="emecy1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="emecy1" />
-			<property name="group" value="RASOR REMEC" />
-			<property name="scannableName" value="emecy1" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="emecy2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="emecy2" />
-			<property name="group" value="RASOR REMEC" />
-			<property name="scannableName" value="emecy2" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="emecpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="emecpitch" />
-			<property name="group" value="RASOR REMEC" />
-			<property name="scannableName" value="emecpitch" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR POLAN -->
-		<bean id="eta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="eta" />
-			<property name="group" value="RASOR POLAN" />
-			<property name="scannableName" value="eta" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-		
-		<bean id="thp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="thp" />
-			<property name="group" value="RASOR POLAN" />
-			<property name="scannableName" value="thp" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="ttp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="ttp" />
-			<property name="group" value="RASOR POLAN" />
-			<property name="scannableName" value="ttp" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-		
-		<bean id="py_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="py" />
-			<property name="group" value="RASOR POLAN" />
-			<property name="scannableName" value="py" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="pz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="pz" />
-			<property name="group" value="RASOR POLAN" />
-			<property name="scannableName" value="pz" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<!-- RASOR Pin hole -->
-		<bean id="dsd_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="dsd" />
-			<property name="group" value="Detector Aperture" />
-			<property name="scannableName" value="dsd" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean id="dsu_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="dsu" />
-			<property name="group" value="Detector Aperture" />
-			<property name="scannableName" value="dsu" />
-			<property name="increment" value="1" />
-			<property name="unitDisplayOutsideTextBox" value="true"/>
-			<property name="horizontalLayout" value="true"/>
-			<property name="showIncrement" value="false"/>
-			<property name="showStop" value="false"/>
-		</bean>
-	
-		<bean name="controlSet_scattering" class="uk.ac.gda.client.livecontrol.ControlSet">
-			<property name="controls">
-				<list>
-					<ref bean="leg1_control" />
-					<ref bean="leg2_control" />
-					<ref bean="leg3_control" />
-					<ref bean="sx_control" />
-					<ref bean="sy_control" />
-					<ref bean="sz_control" />
-					<ref bean="tth_control" />
-					<ref bean="th_control" />
-					<ref bean="chi_control" />
-					<ref bean="difx_control" />
-					<ref bean="alpha_control" />
-					<ref bean="pinhx_control" />
-					<ref bean="pinhy_control" />
-					<ref bean="emecy1_control" />
-					<ref bean="emecy2_control" />
-					<ref bean="emecpitch_control" />
-					<ref bean="eta_control" />
-					<ref bean="thp_control" />
-					<ref bean="ttp_control" />
-					<ref bean="py_control" />
-					<ref bean="pz_control" />
-					<ref bean="dsd_control" />
-					<ref bean="dsu_control" />
-				</list>
-			</property>
-		</bean>
-	</beans>
-
-	<beans profile="hfm">
-		<bean id="hfmx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="X" />
-			<property name="group" value="HFM" />
-			<property name="scannableName" value="hfmx" />
-			<property name="increment" value="1" />
-		</bean>
-		<bean id="hfmy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="Y" />
-			<property name="group" value="HFM" />
-			<property name="scannableName" value="hfmy" />
-			<property name="increment" value="1" />
-		</bean>
-	
-		<bean id="hfmpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-			<property name="displayName" value="Pitch" />
-			<property name="group" value="HFM" />
-			<property name="scannableName" value="hfmpitch" />
-			<property name="increment" value="1" />
-		</bean>
-	
-		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
-			<property name="controls">
-				<list>
-					<ref bean="hfmx_control" />
-					<ref bean="hfmy_control" />
-					<ref bean="hfmpitch_control" />
-				</list>
-			</property>
-		</bean>
-	</beans>
-
+	<bean id="leg1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="lgf" />
+		<property name="group" value="RASOR Table" />
+		<property name="scannableName" value="lgf" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="leg2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="lgm" />
+		<property name="group" value="RASOR Table" />
+		<property name="scannableName" value="lgm" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="leg3_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="lgb" />
+		<property name="group" value="RASOR Table" />
+		<property name="scannableName" value="lgb" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR CRYOSTAT -->
+	<bean id="sx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sx" />
+		<property name="group" value="RASOR CryoStat" />
+		<property name="scannableName" value="sx" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sy" />
+		<property name="group" value="RASOR CryoStat" />
+		<property name="scannableName" value="sy" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="sz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sz" />
+		<property name="group" value="RASOR CryoStat" />
+		<property name="scannableName" value="sz" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR Diffractometer -->
+	<bean id="tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="tth" />
+		<property name="group" value="RASOR DIFF" />
+		<property name="scannableName" value="tth" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="th_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="th" />
+		<property name="group" value="RASOR DIFF" />
+		<property name="scannableName" value="th" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="chi_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="chi" />
+		<property name="group" value="RASOR DIFF" />
+		<property name="scannableName" value="chi" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="alpha_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="alpha_rasor" />
+		<property name="group" value="RASOR DIFF" />
+		<property name="scannableName" value="alpha_rasor" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="difx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="difx" />
+		<property name="group" value="RASOR DIFF" />
+		<property name="scannableName" value="difx" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR Pin hole -->
+	<bean id="pinhx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="pinhx" />
+		<property name="group" value="RASOR Pin Hole" />
+		<property name="scannableName" value="pinhx" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="pinhy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="pinhy" />
+		<property name="group" value="RASOR Pin Hole" />
+		<property name="scannableName" value="pinhy" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR REMEC -->
+	<bean id="emecy1_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="emecy1" />
+		<property name="group" value="RASOR REMEC" />
+		<property name="scannableName" value="emecy1" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="emecy2_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="emecy2" />
+		<property name="group" value="RASOR REMEC" />
+		<property name="scannableName" value="emecy2" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="emecpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="emecpitch" />
+		<property name="group" value="RASOR REMEC" />
+		<property name="scannableName" value="emecpitch" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR POLAN -->
+	<bean id="eta_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="eta" />
+		<property name="group" value="RASOR POLAN" />
+		<property name="scannableName" value="eta" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="thp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="thp" />
+		<property name="group" value="RASOR POLAN" />
+		<property name="scannableName" value="thp" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="ttp_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ttp" />
+		<property name="group" value="RASOR POLAN" />
+		<property name="scannableName" value="ttp" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="py_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="py" />
+		<property name="group" value="RASOR POLAN" />
+		<property name="scannableName" value="py" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="pz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="pz" />
+		<property name="group" value="RASOR POLAN" />
+		<property name="scannableName" value="pz" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<!-- RASOR Pin hole -->
+	<bean id="dsd_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="dsd" />
+		<property name="group" value="Detector Aperture" />
+		<property name="scannableName" value="dsd" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="dsu_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="dsu" />
+		<property name="group" value="Detector Aperture" />
+		<property name="scannableName" value="dsu" />
+		<property name="increment" value="1" />
+		<property name="unitDisplayOutsideTextBox" value="true" />
+		<property name="horizontalLayout" value="true" />
+		<property name="showIncrement" value="false" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean name="controlSet_scattering" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="leg1_control" />
+				<ref bean="leg2_control" />
+				<ref bean="leg3_control" />
+				<ref bean="sx_control" />
+				<ref bean="sy_control" />
+				<ref bean="sz_control" />
+				<ref bean="tth_control" />
+				<ref bean="th_control" />
+				<ref bean="chi_control" />
+				<ref bean="difx_control" />
+				<ref bean="alpha_control" />
+				<ref bean="pinhx_control" />
+				<ref bean="pinhy_control" />
+				<ref bean="emecy1_control" />
+				<ref bean="emecy2_control" />
+				<ref bean="emecpitch_control" />
+				<ref bean="eta_control" />
+				<ref bean="thp_control" />
+				<ref bean="ttp_control" />
+				<ref bean="py_control" />
+				<ref bean="pz_control" />
+				<ref bean="dsd_control" />
+				<ref bean="dsu_control" />
+			</list>
+		</property>
+	</bean>
 </beans>

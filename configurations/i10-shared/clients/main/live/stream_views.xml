@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<description>
-		define all cameras and detectors Live Stream views
+	<description> define all cameras and detectors Live Stream views
 	</description>
-
 	<bean id="d1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}d1Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
@@ -18,7 +14,6 @@
 		<property name="arrayPv" value="BL10I-DI-PHDGN-01:DCAM:ARR" />
 		<property name="roiProvider" ref="d1_roi" />
 	</bean>
-	
 	<bean id="d2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}d2Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
@@ -30,7 +25,6 @@
 		<property name="arrayPv" value="BL10I-DI-PHDGN-02:DCAM:ARR" />
 		<property name="roiProvider" ref="d2_roi" />
 	</bean>
-	
 	<bean id="d3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}d3Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />

@@ -43,7 +43,7 @@ fi
 ##################################################################################################################
 
 # For instance if you use an actual group config (like mx) you might put
-# export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i10-shared
 
 #GDA environment need to be source here to support rollback to 8.50. - To be removed when 8.50 not used any more
 . ${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/etc/live/i10_profile.sh
