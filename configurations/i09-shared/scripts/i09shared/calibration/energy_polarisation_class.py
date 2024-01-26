@@ -14,22 +14,45 @@ import i09shared.installation as installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
-from gda.device.scannable import ScannableMotionBase
+from gda.device.scannable import ScannableMotionBase, ScannableStatus
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i09shared.lookup.threeKeysLookupTable_CSV import load_lookup_table, get_fitting_coefficents
 import numbers
 
+from gda.device import MotorStatus
+
+from gda.observable import IObserver
+from uk.ac.diamond.daq.concurrent import Async
+from org.apache.commons.lang3.builder import EqualsBuilder, HashCodeBuilder
+
+# cannot use python 'lambda source, change : updateFunction(source, change)' for annonymouse IObserver as you cannot delete it after added it, which results in 'reset_namespace' add more observer agaia
+class GenericObserver(IObserver):
+    def __init__(self, name, update_function):
+        self.name =name
+        self.updateFunction = update_function # a function point
+        
+    def update(self, source, change):
+        self.updateFunction(source, change)
+    
+    #both equals and hashCode method required by addIObserver and deleteIOberser in Java observers set.        
+    def equals(self, other):
+        return EqualsBuilder.reflectionEquals(self, other, True)
+      
+    def hashCode(self):
+        # Apache lang3 org.apache.commons.lang3.builder.HashCodeBuilder
+        return HashCodeBuilder.reflectionHashCode(self, True)
+
 class BeamEnergyPolarisationClass(ScannableMotionBase):
-    '''Coupled beam energy and polarisation scannable that encapsulates and fan-outs control to ID gap, row phase, and PGM energy.
+    '''
+    Coupled beam energy and polarisation scannable that encapsulates and fan-outs control to ID gap, row phase, and PGM energy.
 
-        This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID idgap from beam
-        energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
-        The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class
-        instance.
-        '''
-    harmonicOrder = 1
+    This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID idgap from beam
+    energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
+    The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class
+    instance.
+    '''
 
-    def __init__(self, name, idctrl, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=False, polarisationConstant=False, gap_offset=None, feedbackPV=None):
+    def __init__(self, name, harmonic_order_scannable, idctrl, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=False, polarisationConstant=False, gap_offset=None, feedbackPV=None):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut,self.header = load_lookup_table(LocalProperties.get("gda.config.shared")+"/lookupTables/soft/"+lut)
         self.idscannable = idctrl
@@ -55,12 +78,20 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.inputSignSwitched = False
         self.beamlinename = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
         self.logger = logger.getChild(self.__class__.__name__)
+        self.harmonic_order_scannable = harmonic_order_scannable
+        
+        self.submit = None
+        self.energyObserver = None
+        self.polarisationObserver =  None
 
     def configure(self):
         if self.idscannable is not None:
             self.maxGap=self.idscannable.getController().getMaxGapPos()
             self.minGap=self.idscannable.getController().getMinGapPos()
             self.maxPhase=self.idscannable.getController().getMaxPhaseMotorPos()
+            
+            
+        self.addIObservers()
         self.isConfigured=True
 
     def getIDPositions(self):
@@ -70,8 +101,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         result = list(self.idscannable.getPosition())
         gap = float(result[0])
         polarisation = str(result[1])
-        if BeamEnergyPolarisationClass.harmonicOrder > 1: # support other harmonic
-            polarisation = str(polarisation)+str(BeamEnergyPolarisationClass.harmonicOrder)
+        if self.harmonic_order_scannable.getPosition() > 1: # support other harmonic
+            polarisation = str(polarisation)+str(self.harmonic_order_scannable.getPosition())
         phase = float(result[2])
         return (gap, polarisation, phase)
 
@@ -82,10 +113,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print (formatstring % tuple([x for x in key] + [x for x in value]))
 
     def setOrder(self,n):
-        BeamEnergyPolarisationClass.harmonicOrder = n
+        self.harmonic_order_scannable.rawAsynchronousMoveTo(n)
 
     def getOrder(self):
-        return BeamEnergyPolarisationClass.harmonicOrder
+        return self.harmonic_order_scannable.getPosition()
 
     def idgap(self, energy):
         '''return gap for the given energy for current polarisation.
@@ -112,16 +143,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
 
             if mode == "LH3":
-                BeamEnergyPolarisationClass.harmonicOrder = 3
+                self.harmonic_order_scannable.rawAsynchronousMoveTo(3)
             if mode == "LH":
-                BeamEnergyPolarisationClass.harmonicOrder = 1
+                self.harmonic_order_scannable.rawAsynchronousMoveTo(1)
                 
             if mode == "LV":
-                BeamEnergyPolarisationClass.harmonicOrder = 1
+                self.harmonic_order_scannable.rawAsynchronousMoveTo(1)
                 phase = self.maxPhase
 
             if mode in ["CR", "CL"]:
-                BeamEnergyPolarisationClass.harmonicOrder = 1
+                self.harmonic_order_scannable.rawAsynchronousMoveTo(1)
                 phase=15.0
 
         else:
@@ -152,7 +183,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             self.setOutputFormat(["%10.6f","%s"])
             self.polarisation = polarisation
             return energy, polarisation
-
 
     def moveDevices(self, gap, new_polarisation, phase, energy):
         for s in self.scannables.getGroupMembers():
@@ -228,6 +258,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             caput(self.feedbackPV, 0)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
+            
 
     def isBusy(self):
         '''checks the busy status of all child scannables.
@@ -255,11 +286,102 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
         else:  
             self.idscannable.stop()
+        if self.submit is not None:
+            self.submit.cancel(self.isBusy())
 
     def atScanStart(self):
         self.rawGetPosition() #ensure ID hardware in sync at start of scan
         self.SCANNING=True
- 
+
     def atScanEnd(self):
         self.SCANNING=False
 
+    def updateValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.mono_energy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition())
+        #last update on not busy
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition())
+    
+    def updatePolarisationValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.mono_energy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[1])
+        #last update on not busy
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition()[1])
+            
+    def updateEnergyValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.mono_energy.isBusy() or self.idscannable.isBusy():
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[0])
+        #last update on stop
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition()[0])
+            
+    def updatePolarisation(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if self.energyConstant and change == MotorStatus.BUSY:
+            self.logger.debug("%s: submit updating polarisation value thread ! " % self.getName())
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating polarisation value from %1$s", self.getName())
+            
+    def updatePolarisationField(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if not self.energyConstant and not self.polarisationConstant and change == MotorStatus.BUSY:
+            self.logger.debug("%s: submit updating polarisation field thread ! " % self.getName())
+            self.submit = Async.submit(lambda : self.updatePolarisationValue(), "Updating polarisation field from %1$s", self.getName())
+        
+    def updateEnergy(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if self.polarisationConstant and change == ScannableStatus.BUSY:
+            self.logger.debug("%s: submit updating energy value thread !" % self.getName())
+            self.submit = Async.submit(lambda : self.updateValue(), "Updating energy value from %1$s", self.getName())
+    
+    def updateEnergyField(self, source, change):
+        self.logger.debug("source is %s, change is %s" % (source, change))
+        if not self.energyConstant and not self.polarisationConstant and change == ScannableStatus.BUSY:
+            self.logger.debug("%s: submit updating energy field thread !" % self.getName())
+            self.submit = Async.submit(lambda : self.updateEnergyValue(), "Updating energy field from %1$s", self.getName())
+
+    def addIObservers(self):
+        if self.energyConstant and self.polarisationObserver is None: # check required to stop multiple add
+            self.logger.debug("%s: add polarisation observer to %s" % (self.getName(), self.idscannable.getName()))
+            self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisation)
+            self.idscannable.addIObserver(self.polarisationObserver)
+        if self.polarisationConstant and self.energyObserver is None:
+            self.logger.debug("%s: add energy observer to %s" % (self.getName(), self.mono_energy.getName()))
+            self.energyObserver = GenericObserver("energyObserver", self.updateEnergy)
+            self.mono_energy.addIObserver(self.energyObserver)
+        if not self.energyConstant and not self.polarisationConstant:
+            if self.polarisationObserver is None:
+                self.logger.debug("%s: add polarisation observer to %s" % (self.getName(), self.idscannable.getName()))
+                self.polarisationObserver = GenericObserver("polarisationObserver", self.updatePolarisationField)
+                self.idscannable.addIObserver(self.polarisationObserver)
+            if self.energyObserver is None:
+                self.logger.debug("%s: add energy observer to %s" % (self.getName(), self.mono_energy.getName()))
+                self.energyObserver = GenericObserver("energyObserver", self.updateEnergyField)
+                self.mono_energy.addIObserver(self.energyObserver)
+                
+    def removeIObservers(self):
+        '''delete observer from observed object'''
+        if self.energyConstant and self.polarisationObserver is not None:
+            self.logger.debug("%s: delete polarisation observer from %s" % (self.getName(), self.idscannable.getName()))
+            self.idscannable.deleteIObserver(self.polarisationObserver)
+            self.polarisationObserver = None
+        if self.polarisationConstant and self.energyObserver is not None:
+            self.logger.debug("%s: delete energy observer from %s" % (self.getName(), self.pgmenergy.getName()))
+            self.pgmenergy.deleteIObserver(self.energyObserver)
+            self.energyObserver = None
+        if not self.energyConstant and not self.polarisationConstant:
+            if self.polarisationObserver is not None:
+                self.logger.debug("%s: delete polarisation observer from %s" % (self.getName(), self.idscannable.getName()))
+                self.idscannable.deleteIObserver(self.polarisationObserver)
+                self.polarisationObserver = None
+            if self.energyObserver is not None:
+                self.logger.debug("%s: delete energy observer from %s" % (self.getName(), self.pgmenergy.getName()))
+                self.pgmenergy.deleteIObserver(self.energyObserver)
+                self.energyObserver = None

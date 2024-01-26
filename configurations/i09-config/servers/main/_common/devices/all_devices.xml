@@ -62,6 +62,7 @@
 	<import resource="ES2.xml"/>
 <!-- 	<import resource="ES3.xml"/> -->
 	<import resource="RFD.xml"/>
+	<import resource="jython_scannable_wrappers.xml"/>
 
 
 </beans>

@@ -59,5 +59,5 @@
 	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/frontEnd.xml"/>
 	<import resource="topup.xml" />
 	<import resource="keithley.xml"/>
-	
+	<import resource="IntensityProtection.xml"/>
 </beans>

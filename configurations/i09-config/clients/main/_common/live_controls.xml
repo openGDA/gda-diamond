@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	
+	<bean id="igap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="igap_offset" />
+		<property name="group" value="Hard" />
+		<property name="scannableName" value="igap_offset_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="mm"/>
+		<property name="boldLabel" value="true"/>
+	</bean>
+	
+	<bean id="ienergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ienergy_order" />
+		<property name="group" value="Hard" />
+		<property name="scannableName" value="ienergy_order_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="increment" value="1" />
+		<property name="boldLabel" value="true"/>
+	</bean>
+	
+	<bean id="jgap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="jgap_offset" />
+		<property name="group" value="Soft" />
+		<property name="scannableName" value="jgap_offset_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="mm"/>
+		<property name="boldLabel" value="true"/>
+	</bean>
+	
+	<bean id="polarisation_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="polarisation " />
+		<property name="group" value="Soft" />
+		<property name="scannableName" value="polarisation_wrapper" />
+		<property name="userUnits" value=""/>
+		<property name="textInput" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="boldLabel" value="true"/>
+	</bean>
+	
+	<bean id="jenergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="jenergy_order" />
+		<property name="group" value="Soft" />
+		<property name="scannableName" value="jenergy_order_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="increment" value="1" />
+		<property name="boldLabel" value="true"/>
+	</bean>
+	
+	<bean id="green_colour" class="org.eclipse.swt.graphics.Color">
+		<constructor-arg name="device">
+			<null/>
+		</constructor-arg>
+		<constructor-arg name="red">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg name="green">
+			<value>255</value>
+		</constructor-arg>
+		<constructor-arg name="blue">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="red_colour" class="org.eclipse.swt.graphics.Color">
+		<constructor-arg name="device">
+			<null/>
+		</constructor-arg>
+		<constructor-arg name="red">
+			<value>255</value>
+		</constructor-arg>
+		<constructor-arg name="green">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg name="blue">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="intensity_protection_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Intensity Protection" />
+		<property name="scannableName" value="intensity_protection" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Clear" value-ref="green_colour" />
+				<entry key="Set" value-ref="red_colour" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="reset_intensity_protection" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="pos intensity_protection 'Clear'" />
+		<property name="buttonText" value="Clear" />
+		<property name="buttonTooltip" value="Move the intensity protection into a clear state: 'pos intensity_protection &#34;Clear&#34;'"/>
+		<property name="group" value="Intensity Protection" />
+	</bean>
+	
+	<bean id="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Live Monitor"/>
+		<property name="numberOfColumns" value="3"/>
+		<property name="controls">
+			<list>
+				<ref bean="igap_offset_control" />
+				<ref bean="ienergy_order_control" />
+				<ref bean="jgap_offset_control" />
+				<ref bean="polarisation_control" />
+				<ref bean="jenergy_order_control" />
+				<ref bean="intensity_protection_status" />
+				<ref bean="reset_intensity_protection" />
+			</list>
+		</property>
+	</bean>
+</beans>

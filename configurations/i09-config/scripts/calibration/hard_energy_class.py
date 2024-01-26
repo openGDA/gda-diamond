@@ -24,7 +24,7 @@ class HardEnergy(ScannableMotionBase):
     class.
     """
 
-    def __init__(self, name, idgap, dcmenergy, lut, gap_offset=None, feedbackPVs=None):
+    def __init__(self, name, harmonic_order_scannable, idgap, dcmenergy, lut, gap_offset=None, feedbackPVs=None):
         """
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
@@ -41,7 +41,8 @@ class HardEnergy(ScannableMotionBase):
         self.setLevel(3)
         self.setOutputFormat(["%10.6f"])
         self.inputNames = [name]
-        self.order = 3
+        self.harmonic_order_scannable = harmonic_order_scannable
+        self.harmonic_order_scannable.rawAsynchronousMoveTo(3)
         self.SCANNING=False
         self.logger = logger.getChild(self.__class__.__name__)
 
@@ -67,11 +68,11 @@ class HardEnergy(ScannableMotionBase):
 
     def setOrder(self, n):
         """Method to set the harmonic order"""
-        self.order = n
+        self.harmonic_order_scannable.rawAsynchronousMoveTo(n)
 
     def getOrder(self):
         """Method to retrieve the harmonic order"""
-        return self.order
+        return self.harmonic_order_scannable.getPosition()
 
     def idgap(self, Ep, n):
         """
@@ -128,18 +129,18 @@ class HardEnergy(ScannableMotionBase):
         corresponding to this energy. If a child scannable can not be reached
         for whatever reason, it just prints out a message, then continue to next.
         """
-        min_energy, max_energy = self.energyRangeForOrder(self.order)
+        min_energy, max_energy = self.energyRangeForOrder(self.harmonic_order_scannable.getPosition())
         energy = float(new_position)
         self.logger.debug(("rawAsynchronousMoveTo called for energy {}. "
                            "min_energy for order is: {}, max_energy is: {}")
                           .format(energy, min_energy, max_energy))
 
-        gap = self.idgap(energy, self.order)
+        gap = self.idgap(energy, self.harmonic_order_scannable.getPosition())
 
         if not min_energy < energy < max_energy:
             raise ValueError(("Requested photon energy {} is out of range for "
                               "harmonic {}: min: {}, max: {}")
-                             .format(energy, self.order, min_energy, max_energy))
+                             .format(energy,self.harmonic_order_scannable.getPosition(), min_energy, max_energy))
             
         if self.feedbackPVs is not None and not self.SCANNING:
             caput(self.feedbackPVs[0], 1)
@@ -179,5 +180,3 @@ class HardEnergy(ScannableMotionBase):
              
     def atScanEnd(self):
         self.SCANNING=False
-
-
