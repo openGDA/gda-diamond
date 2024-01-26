@@ -275,7 +275,7 @@ from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
 import metashop  # @UnusedImport
 print("Can now add meta data items to be captured in data files.")
 imetadata=[igap,dcm,hm1x,hm1y,hm1pitch,hm1yaw,hm2x,hm2y,hm2pitch,hm3x,hm3y,hm3pitch,hm3mainbender,hm3elipticalbender,cccx,cccy] #@UndefinedVariable
-jmetadata=[jgap,pgm,sm1fpitch,sm3fpitch,sm4x,sm4y,sm4pitch,sm5pitch,sm5bender1,sm5bender2,ss2ycentre,ss2ygap,ss4] #@UndefinedVariable
+jmetadata=[jgap,polarisation,pgm,sm1fpitch,sm3fpitch,sm4x,sm4y,sm4pitch,sm5pitch,sm5bender1,sm5bender2,ss2ycentre,ss2ygap,ss4] #@UndefinedVariable
 esmetadata=[hm3iamp20,sm5iamp8,hm3iamp20,sm5iamp8,smpmiamp39,smpm,lakeshore] #@UndefinedVariable
 meta_data_list = imetadata + jmetadata + esmetadata
 for each in meta_data_list:
