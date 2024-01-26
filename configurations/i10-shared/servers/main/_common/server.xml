@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="commandServer.xml" />
+	<!-- watch dogs for solstice scanning. -->
+	<!-- <import resource="../../../../../dls-config/servers/_common/beam_available_watchdog.xml" /> -->
+	<!-- <import resource="../../../../../dls-config/servers/_common/topup_watchdog.xml" /> -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
+		<import resource="../../../../../../gda-diamond.git/dls-config/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="terminal_logger.xml" />
+	<import resource="dataWriter.xml" />
+	<import resource="scannable/all.xml" />
+	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/det.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/darkImageDetector.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<!-- beanAdder must be placed after commandServer.xml -->
+	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml" />
+	<!-- Exports objects over RMI -->
+	<gda:rbac />
+	<!-- IMPORTANT: this will start processing the scanning queue. detectors must be created before doing this. ADVISED: do it last or towards the end, scan will now start to run! -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml" />
+	<import resource="nxmetadata.xml" />
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+</beans>

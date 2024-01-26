@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+	<import resource="scannable/all.xml" />
+	<import resource="nxmetadata-share.xml" />
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+		<property name="targetMethod" value="addAdditionalDeviceNames" />
+		<property name="arguments">
+			<list>
+				<value>s7</value>
+				<value>s8</value>
+				<value>s9</value>
+				<value>m6</value>
+			</list>
+		</property>
+	</bean>
+	<beans profile="em">
+		<import resource="nxmetadata-em.xml" />
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+			<property name="targetMethod" value="addAdditionalDeviceNames" />
+			<property name="arguments">
+				<list>
+					<value>lakeshore336</value>
+					<value>em</value>
+					<value>magnet</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="hfm">
+		<import resource="nxmetadata-hfm.xml" />
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+			<property name="targetMethod" value="addAdditionalDeviceNames" />
+			<property name="arguments">
+				<list>
+					<value>hfm</value>
+					<value>itc2_device</value>
+					<value>itc3_device</value>
+					<value>ips</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
+</beans>

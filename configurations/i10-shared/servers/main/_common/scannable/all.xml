@@ -1,18 +1,17 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<import resource="FrontEnd.xml"/>
-	<import resource="ID.xml"/>
-	<import resource="D1.xml"/>
-	<import resource="S1.xml"/>
-	<import resource="S2.xml"/>
-	<import resource="D2.xml"/>
-	<import resource="PGM.xml"/>
-	<import resource="S3.xml"/>
-	<import resource="D3.xml"/>
-	<import resource="CA1.xml"/>
-	<import resource="beam.xml"/>
-	
+	<import resource="FrontEnd.xml" />
+	<import resource="ID.xml" />
+	<import resource="D1.xml" />
+	<import resource="S1.xml" />
+	<import resource="S2.xml" />
+	<import resource="D2.xml" />
+	<import resource="PGM.xml" />
+	<import resource="S3.xml" />
+	<import resource="D3.xml" />
+	<import resource="CA1.xml" />
+	<import resource="beam.xml" />
+	<import resource="dummy.xml" />
+<!-- 	<import resource="xmap_detector.xml"/> -->
 </beans>

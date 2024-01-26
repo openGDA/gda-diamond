@@ -1,201 +1,290 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans.xsd">     
-
-	<!-- RASOR SCALER card --> 
-	
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- RASOR SCALER card -->
 	<bean id="scaler2" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL10I-DI-SCLR-02:SCALER2" />
-		<property name="frequency" value="50000000"/>
+		<property name="frequency" value="50000000" />
 	</bean>
-	
 	<bean id="macd1" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd1</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="1"/>
+		<property name="inputNames">
+			<list>
+				<value>macd1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="1" />
 	</bean>
-
 	<bean id="macd2" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd2</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="2"/>
+		<property name="inputNames">
+			<list>
+				<value>macd2</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="2" />
 	</bean>
-
 	<bean id="macd3" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd3</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="3"/>
+		<property name="inputNames">
+			<list>
+				<value>macd3</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="3" />
 	</bean>
-
 	<bean id="macd4" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd4</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="4"/>
+		<property name="inputNames">
+			<list>
+				<value>macd4</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="4" />
 	</bean>
-
 	<bean id="macd5" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd5</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="5"/>
+		<property name="inputNames">
+			<list>
+				<value>macd5</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="5" />
 	</bean>
-
 	<bean id="macd6" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd6</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="6"/>
+		<property name="inputNames">
+			<list>
+				<value>macd6</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="6" />
 	</bean>
-
 	<bean id="macd7" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd7</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="7"/>
+		<property name="inputNames">
+			<list>
+				<value>macd7</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="7" />
 	</bean>
-
 	<bean id="macd8" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd8</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="8"/>
+		<property name="inputNames">
+			<list>
+				<value>macd8</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="8" />
 	</bean>
-
 	<bean id="macd9" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd9</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="9"/>
+		<property name="inputNames">
+			<list>
+				<value>macd9</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="9" />
 	</bean>
-
 	<bean id="macd10" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd10</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="10"/>
+		<property name="inputNames">
+			<list>
+				<value>macd10</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="10" />
 	</bean>
-
 	<bean id="macd11" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd11</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="11"/>
+		<property name="inputNames">
+			<list>
+				<value>macd11</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="11" />
 	</bean>
-
 	<bean id="macd12" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd12</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="12"/>
+		<property name="inputNames">
+			<list>
+				<value>macd12</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="12" />
 	</bean>
-
 	<bean id="macd13" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd13</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="13"/>
+		<property name="inputNames">
+			<list>
+				<value>macd13</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="13" />
 	</bean>
-
 	<bean id="macd14" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd14</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="14"/>
+		<property name="inputNames">
+			<list>
+				<value>macd14</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="14" />
 	</bean>
-
 	<bean id="macd15" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd15</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="15"/>
+		<property name="inputNames">
+			<list>
+				<value>macd15</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="15" />
 	</bean>
-
 	<bean id="macd16" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd16</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="16"/>
+		<property name="inputNames">
+			<list>
+				<value>macd16</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="16" />
 	</bean>
-
 	<bean id="macd17" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd17</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="17"/>
+		<property name="inputNames">
+			<list>
+				<value>macd17</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="17" />
 	</bean>
-
 	<bean id="macd18" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd18</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="18"/>
+		<property name="inputNames">
+			<list>
+				<value>macd18</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="18" />
 	</bean>
-
 	<bean id="macd19" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd19</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="19"/>
+		<property name="inputNames">
+			<list>
+				<value>macd19</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="19" />
 	</bean>
-
 	<bean id="macd20" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd20</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="20"/>
+		<property name="inputNames">
+			<list>
+				<value>macd20</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="20" />
 	</bean>
-
 	<bean id="macd21" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd21</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="21"/>
+		<property name="inputNames">
+			<list>
+				<value>macd21</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="21" />
 	</bean>
-
 	<bean id="macd22" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd22</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="22"/>
+		<property name="inputNames">
+			<list>
+				<value>macd22</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="22" />
 	</bean>
-
 	<bean id="macd23" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd23</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="23"/>
+		<property name="inputNames">
+			<list>
+				<value>macd23</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="23" />
 	</bean>
-
 	<bean id="macd24" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd24</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="24"/>
+		<property name="inputNames">
+			<list>
+				<value>macd24</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="24" />
 	</bean>
-
 	<bean id="macd25" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd25</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="25"/>
+		<property name="inputNames">
+			<list>
+				<value>macd25</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="25" />
 	</bean>
-
 	<bean id="macd26" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd26</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="26"/>
+		<property name="inputNames">
+			<list>
+				<value>macd26</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="26" />
 	</bean>
-
 	<bean id="macd27" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd27</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="27"/>
+		<property name="inputNames">
+			<list>
+				<value>macd27</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="27" />
 	</bean>
-
 	<bean id="macd28" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd28</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="28"/>
+		<property name="inputNames">
+			<list>
+				<value>macd28</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="28" />
 	</bean>
-
 	<bean id="macd29" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd29</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="29"/>
+		<property name="inputNames">
+			<list>
+				<value>macd29</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="29" />
 	</bean>
-
 	<bean id="macd30" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd30</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="30"/>
+		<property name="inputNames">
+			<list>
+				<value>macd30</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="30" />
 	</bean>
-
 	<bean id="macd31" class="gda.device.detector.etldetector.ETLDetector">
-		<property name="inputNames"><list><value>macd31</value></list></property>
-		<property name="scaler" ref="scaler2"/>
-		<property name="scalerChannelIndex" value="31"/>
+		<property name="inputNames">
+			<list>
+				<value>macd31</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler2" />
+		<property name="scalerChannelIndex" value="31" />
 	</bean>
-
 	<bean id="SCALER2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

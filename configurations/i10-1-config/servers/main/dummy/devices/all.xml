@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<import resource="stanfords_gain_maps.xml" />
+	<import resource="ShutterJ.xml" />
+	<import resource="accessControl4J.xml" />
+	<import resource="DJ1.xml" />
+	<import resource="S7.xml" />
+	<import resource="DJ2.xml" />
+	<import resource="DJ2A.xml" />
+	<import resource="M6.xml" />
+	<import resource="../../_common/scannable/M6.xml" />
+	<import resource="S8.xml" />
+	<import resource="DJ3.xml" />
+	<import resource="S9.xml" />
+	<import resource="UMJ1.xml" />
+	<import resource="UJ1.xml" />
+	<import resource="CAJ1.xml" />
+	<import resource="CAJ2.xml" />
+	<import resource="GVJ6.xml" />
+	<import resource="UJ1_SCALERJ1.xml" />
+	<beans profile="hfm">
+		<import resource="HFM.xml" />
+		<import resource="MES_SCALERJ2.xml" />
+		<import resource="MES_stanfords.xml" />
+	</beans>
+	<beans profile="em">
+		<import resource="MES2.xml" />
+		<import resource="MES2_SCALERJ3.xml" />
+		<import resource="lakeshore336.xml" />
+	</beans>
+</beans>
