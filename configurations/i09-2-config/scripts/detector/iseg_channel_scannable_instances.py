@@ -54,12 +54,48 @@ m4c5 = ISegChannelControlScannable("m4c5", 4, 5, pv_root = ISEG_DEVICE_PV, toler
 m4c6 = ISegChannelControlScannable("m4c6", 4, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m4c6.configure()
 m4c7 = ISegChannelControlScannable("m4c7", 4, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m4c7.configure()
 
+m5c0 = ISegChannelControlScannable("m5c0", 5, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c0.configure()
+m5c1 = ISegChannelControlScannable("m4c1", 5, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c1.configure()
+m5c2 = ISegChannelControlScannable("m4c2", 5, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c2.configure()
+m5c3 = ISegChannelControlScannable("m4c3", 5, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c3.configure()
+m5c4 = ISegChannelControlScannable("m4c4", 5, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c4.configure()
+m5c5 = ISegChannelControlScannable("m4c5", 5, 5, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c5.configure()
+m5c6 = ISegChannelControlScannable("m4c6", 5, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c6.configure()
+m5c7 = ISegChannelControlScannable("m4c7", 5, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m5c7.configure()
+
+m6c0 = ISegChannelControlScannable("m6c0", 6, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c0.configure()
+m6c1 = ISegChannelControlScannable("m6c1", 6, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c1.configure()
+m6c2 = ISegChannelControlScannable("m6c2", 6, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c2.configure()
+m6c3 = ISegChannelControlScannable("m6c3", 6, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c3.configure()
+m6c4 = ISegChannelControlScannable("m6c4", 6, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c4.configure()
+m6c5 = ISegChannelControlScannable("m6c5", 6, 5, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c5.configure()
+m6c6 = ISegChannelControlScannable("m6c6", 6, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c6.configure()
+m6c7 = ISegChannelControlScannable("m6c7", 6, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c7.configure()
+
+m7c0 = ISegChannelControlScannable("m7c0", 7, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c0.configure()
+m7c1 = ISegChannelControlScannable("m7c1", 7, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c1.configure()
+m7c2 = ISegChannelControlScannable("m7c2", 7, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c2.configure()
+m7c3 = ISegChannelControlScannable("m7c3", 7, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c3.configure()
+m7c4 = ISegChannelControlScannable("m7c4", 7, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c4.configure()
+m7c5 = ISegChannelControlScannable("m7c5", 7, 5, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c5.configure()
+m7c6 = ISegChannelControlScannable("m7c6", 7, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c6.configure()
+m7c7 = ISegChannelControlScannable("m7c7", 7, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c7.configure()
+
+m8c0 = ISegChannelControlScannable("m8c0", 8, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c0.configure()
+m8c1 = ISegChannelControlScannable("m8c1", 8, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c1.configure()
+m8c2 = ISegChannelControlScannable("m8c2", 8, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c2.configure()
+m8c3 = ISegChannelControlScannable("m8c3", 8, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c3.configure()
+m8c4 = ISegChannelControlScannable("m8c4", 8, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c4.configure()
+m8c5 = ISegChannelControlScannable("m8c5", 8, 5, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c5.configure()
+m8c6 = ISegChannelControlScannable("m8c6", 8, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c6.configure()
+m8c7 = ISegChannelControlScannable("m8c7", 8, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c7.configure()
+
 hda_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
 main_lenses_group = [m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1]
 stig_group = [m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7]
 downstream_group = [m1c1, m1c2, m1c3, m1c4, m1c7]
 HDA_PEEM_group = [m1c0, m0c2, m0c3, m0c5, m0c6, m1c7]
-MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c6, m1c7]
+MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c6, m1c7, m6c1, m6c2, m6c3, m6c4]
 
 hda = ISegGroup("hda", hda_group)
 mainlenses = ISegGroup("mainlenses", main_lenses_group)

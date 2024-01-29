@@ -1,8 +1,7 @@
-# file: localStation.py
-# Description: For beamline specific initialisation.
-# @author: Fajin Yuan / James Mudd
-# updated 5/1/2017
 import os
+import sys
+import installation
+import gdascripts
 from gda.factory import Finder
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
@@ -12,13 +11,10 @@ from gda.jython.commands.ScannableCommands import scan
 from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
     waittimeClass, waittimeClass2, actualTimeClass
 from gda.configuration.properties import LocalProperties
-import gdascripts
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 from analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
 from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
-import sys
-import installation
 from gda.device.scannable import PVScannable
 
 print "=================================================================================================================";
@@ -208,6 +204,7 @@ from scan.cvscan import cvscan  # @UnusedImport
 
 if installation.isLive():
     from detector.iseg_instances import dldv, mcp_b, kenergy, int_spec, DLD_start, DLD_stop  # @UnusedImport
+    from detector.iseg_channel_scannable_instances import *  # @UnusedImport
     from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2  # @UnresolvedImport
     from pseudodevices.bindingEnergyScannable import benergy # @UnusedImport
 
