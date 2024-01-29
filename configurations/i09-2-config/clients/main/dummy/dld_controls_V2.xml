@@ -46,10 +46,10 @@
 	</bean>
 	
 	<bean id="count_rate_monitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:Total_RBV"/>
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:Total_RBV"/>
 		<property name="outputFormat">
 			<list>
-					<value>%10f</value>
+					<value>%.1e</value>
 			</list>
 		</property>	
 	</bean>
