@@ -8,5 +8,4 @@
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml" />
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
-	<import resource="nxmetadata.xml" />
 </beans>

@@ -107,7 +107,7 @@
 		</property>
 		<property name="saveRawSpectrum" value="true" />
 		<property name="slave" value="false" />
-		<property name="configFileName"	value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="configFileName"	value="${gda.group.dir}/templates/Vortex_Parameters.xml" />
 		<property name="sumAllElementData" value="true" />
 	</bean>
 </beans>

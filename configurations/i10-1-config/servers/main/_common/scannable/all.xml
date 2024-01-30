@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<import resource="DJ1.xml" />
+	<import resource="S7.xml" />
+	<import resource="DJ2A.xml" />
+	<import resource="DJ2.xml" />
+	<import resource="S8.xml" />
+	<import resource="DJ3.xml" />
+	<import resource="S9.xml" />
+	<import resource="UMJ1.xml" />
+	<import resource="CAJ1.xml" />
+	<import resource="CAJ2.xml" />
+	<beans profile="hfm">
+		<import resource="HFM.xml" />
+	</beans>
+	<beans profile="em">
+		<import resource="MES2.xml" />
+	</beans>
+</beans>

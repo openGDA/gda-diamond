@@ -1,23 +1,13 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<import resource="../../../../i10-shared/servers/main/dummy/devices/all.xml"/>
-	<import resource="devices/all.xml"/>
-	<!-- add dummy motors from dls-config  for solstice scanning testing-->
+	<import resource="../../../../i10-shared/servers/main/dummy/server.xml" />
+	<import resource="devices/all.xml" />
+	<!-- add dummy motors from dls-config for solstice scanning testing -->
 	<!-- Dummy motor -->
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> 
-	<!-- EPICS SWMR IOC-->
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mic.xml"/> 
-	<!-- Java Simulation -->
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/> 
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mic.xml"/>
-
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/icat_xml_creator.xml" />
-
-
-<!-- do not remove anything below here -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml" />
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml" />
+	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
-
+	<import resource="nxmetadata.xml" />
 </beans>

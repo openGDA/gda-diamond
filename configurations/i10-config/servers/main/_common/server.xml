@@ -1,113 +1,22 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
-
-	<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
-	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
-	<import resource="commandQueueProcessor.xml"/>
-	<import resource="commandServer.xml"/>
-	<!-- watch dogs for solstice scanning. -->
-<!-- 	<import resource="../../../../../dls-config/servers/_common/beam_available_watchdog.xml" /> -->
-<!-- 	<import resource="../../../../../dls-config/servers/_common/topup_watchdog.xml" /> -->
-<!-- 	<import resource="xRayWatchdog.xml"/> -->
-
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
-
-	<import resource="terminal_logger.xml"/>
-	<import resource="dataWriter.xml"/>
-	
-	<import resource="../../../../i10-shared/servers/main/_common/scannable/all.xml"/>
-	<import resource="scannable/all.xml"/>
-	
-	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/det.xml"/>
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml"/>
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml"/>
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/darkImageDetector.xml"/>
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml"/>
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml"/>
-
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	<!-- beanAdder must be placed after commandServer.xml -->
-	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>
-
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-	<gda:rbac />
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
-	      detectors must be created before doing this.
-	      ADVISED: do it last or towards the end, scan will now start to run!
-	 --> 
-	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/>
-	<import resource="nxmetadata-shared.xml"/>
-	
-	<!-- Spring profile must be the last lines in this file. -->
-	<beans profile="scattering">
-		<import resource="../${gda.mode}/nxmetadata-scattering.xml"/>
-		<import resource="nxmetadata-scattering.xml"/>
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
-			<property name="targetMethod" value="addAdditionalDeviceNames" />
-			<property name="arguments">
-				<list>
-					<value>s4</value>
-					<value>s5</value>
-					<value>s6</value>
-					<value>m4</value>
-					<value>rasor</value>
-					<value>lakeshore340</value>
-				</list>
-			</property>
-		</bean>
-	</beans>
-	<beans profile="absorption">
-		<import resource="nxmetadata-absorption-share.xml"/>
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
-			<property name="targetMethod" value="addAdditionalDeviceNames" />
-			<property name="arguments">
-				<list>
-					<value>s7</value>
-					<value>s8</value>
-					<value>s9</value>
-					<value>m6</value>
-				</list>
-			</property>
-		</bean>
-	</beans>
-	<beans profile="em">
-		<import resource="nxmetadata-em.xml"/>
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
-			<property name="targetMethod" value="addAdditionalDeviceNames" />
-			<property name="arguments">
-				<list>
-					<value>lakeshore336</value>
-					<value>em</value>
-					<value>magnet</value>
-				</list>
-			</property>
-		</bean>
-	</beans>
-	<beans profile="hfm">
-		<import resource="nxmetadata-hfm.xml"/>
-		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-			<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
-			<property name="targetMethod" value="addAdditionalDeviceNames" />
-			<property name="arguments">
-				<list>
-					<value>hfm</value>
-					<value>itc2_device</value>
-					<value>itc3_device</value>
-					<value>ips</value>
-				</list>
-			</property>
-		</bean>
-	</beans>
-
+	<import resource="scannable/all.xml" />
+	<import resource="nxmetadata.xml" />
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="commonBeamlineDevicesConfiguration" />
+		<property name="targetMethod" value="addAdditionalDeviceNames" />
+		<property name="arguments">
+			<list>
+				<value>s4</value>
+				<value>s5</value>
+				<value>s6</value>
+				<value>m4</value>
+				<value>rasor</value>
+				<value>lakeshore340</value>
+			</list>
+		</property>
+	</bean>
 </beans>
