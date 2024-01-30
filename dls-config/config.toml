@@ -1,0 +1,10 @@
+logging = [
+    'properties/_common/jython_class_loading_logging.xml',
+    'properties/${gda.mode}/logging_customisation.xml',
+]
+
+properties = [
+    'properties/_common/common_facility_java.properties',
+    'properties/${gda.mode}/${gda.mode}_facility_java.properties',
+]
+

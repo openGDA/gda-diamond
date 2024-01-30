@@ -1,5 +1,0 @@
-Note that none of these commands are destined to end up on the user path, so
-they should all be moved to dls-config/etc.
-
-Scripts which are only used in live should be put in the etc/live while scripts
-which are common to all modes, should be in etc/_common.  

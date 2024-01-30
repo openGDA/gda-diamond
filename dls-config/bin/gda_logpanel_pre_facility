@@ -1,5 +1,0 @@
-# Setup specific to this facility, that is done before the log is started
-
-# Set up some basic environment
-. ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/loadjava.sh
-
