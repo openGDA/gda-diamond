@@ -3,7 +3,21 @@
 	<name>i10-1-config</name>
 	<comment></comment>
 	<projects>
-	</projects>
+		<project>diffcalc</project>
+		<project>dls-config</project>
+		<project>optics-config</project>
+		<project>uk.ac.diamond.daq.dls.controls</project>
+		<project>uk.ac.gda.api</project>
+		<project>uk.ac.gda.beamline.i10-1</project>
+		<project>uk.ac.gda.beamline.synoptics</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.xmap</project>
+		<project>uk.ac.gda.devices.xmap.epics</project>
+		<project>uk.ac.gda.dls</project>
+		<project>uk.ac.gda.dls.client</project>
+		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.exafs.api</project>
+		<project>uk.ac.gda.test.helpers</project>	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.python.pydev.PyDevBuilder</name>
