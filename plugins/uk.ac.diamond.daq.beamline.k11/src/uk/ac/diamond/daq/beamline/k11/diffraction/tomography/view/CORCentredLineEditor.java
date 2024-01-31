@@ -109,12 +109,32 @@ public class CORCentredLineEditor extends LineScanpathEditor {
 		if (handlingMappingUpdate) return;
 		try {
 			handlingMappingUpdate = true;
-			var length = Math.abs(getXAxis().getStop() - getXAxis().getStart());
-			var cor = corLocator.getCentreOfRotation();
-			updateAxes(modifyAxis(getXAxis(), cor - length / 2.0, cor + length / 2.0, getXAxis().getPoints()), getYAxis());
 
-			var y0 = getYAxis().getStart() + (getYAxis().getStop() - getYAxis().getStart()) / 2.0;
-			line.centre(cor, y0);
+			var cor = corLocator.getCentreOfRotation();
+
+			var x = getXAxis();
+			var y = getYAxis();
+
+			double yStart = y.getStart();
+			double yStop = y.getStop();
+
+			var length = Math.abs(x.getStop() - x.getStart());
+
+			if (length == 0) {
+				// convert vertical line to horizontal
+				length = Math.abs(y.getStop() - y.getStart());
+				yStart = Math.abs(y.getStart() - y.getStop()) / 2.0;
+				yStop = yStart;
+			}
+
+			var xStart = cor - length / 2.0;
+			var xStop = cor + length / 2.0;
+			updateAxes(modifyAxis(x, xStart, xStop, getPoints()),
+					// ensure y only has 1 point
+					modifyAxis(y, yStart, yStop, 1));
+
+			var roi = new LinearROI(new double[] {xStart,  yStart}, new double[] {xStop,  yStop});
+			line.updateFromROI(roi);
 		} finally {
 			handlingMappingUpdate = false;
 		}
