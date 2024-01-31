@@ -4,31 +4,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="dldSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-		<property name="ndArray" ref="dld_summed_ndarray"/>
-		<property name="arrayPortName" value="#{dld_summed_ndarray.getPortName_RBV()}"/>
+	<bean id="dldSummedCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+		<property name="ndProcess" ref="dld_proc_summed"/>
+		<property name="processDataTypeOut" value="10"/>
+		<property name="restoreState" value="true"/>
+		<property name="applyFlatFieldSettings"	value="false"/>
+		<property name="applyProcessDataTypeOutSettings" value="true"/>
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
-				<property name="ndProcess" ref="dld_proc_summed"/>
-				<property name="processDataTypeOut" value="10"/>
-				<property name="restoreState" value="true"/>
-				<property name="applyFlatFieldSettings"	value="false"/>
-				<property name="applyProcessDataTypeOutSettings" value="true"/>
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
-								<property name="ndProcess" ref="dld_proc_summed"/>
-								<property name="adBase" ref="dld_adbase" />
-								<property name="procMonitorPV" value="#{dld_summed_stats.getBasePVName()}ArrayCounter_RBV" />
-							</bean>
-						</property>
+					<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
+						<property name="ndProcess" ref="dld_proc_summed"/>
+						<property name="adBase" ref="dld_adbase" />
+						<property name="procMonitorPV" value="#{dld_summed_stats.getBasePVName()}ArrayCounter_RBV" />
 					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	
+
 	<!--  HDF5 plugin configuration -->
 	<bean id="dldSummedHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="dld_summed_hdf5"/>
@@ -49,7 +43,7 @@
 		<property name="SwmrModeEnabled" value="false"/>
  		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
 	</bean>
-	
+
 <!-- NXDetector -->
  	<bean id="dld" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld" />
@@ -62,7 +56,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- NXDetector -->
  	<bean id="dld_py" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld_py" />
@@ -78,6 +72,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<!-- NXDetector -->
  	<bean id="dld_total" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld_total" />
@@ -89,6 +84,4 @@
 			</list>
 		</property>
 	</bean>
-	
-
 </beans>
