@@ -3,6 +3,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+	<bean id="hostName" class="java.lang.String">
+		<constructor-arg value="#{localhostInetAddress.hostName.split('\.')[0]}" />
+	</bean>
+	
+	<bean id="medipixBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 
 </beans>

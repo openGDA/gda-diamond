@@ -27,11 +27,11 @@
 <!-- Energy and bragg angle controls from rows of spectrometer  -->
 
  	<bean id="XESEnergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="scannableName" value="XESEnergy" />
+		<property name="scannableName" value="XESEnergyJohann" />
 		<property name="displayNameWidth" value="50" />
 	</bean>
  	<bean id="XESBragg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="scannableName" value="XESBragg" />
+		<property name="scannableName" value="XESBraggJohann" />
  		<property name="displayNameWidth" value="50" />
 	</bean>
 

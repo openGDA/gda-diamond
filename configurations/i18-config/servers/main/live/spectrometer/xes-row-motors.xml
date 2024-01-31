@@ -9,7 +9,7 @@
 <!-- Live motors for XES analyser and detector stages -->
 
 	<bean id="SpecBasePv" class="java.lang.String">
-		<constructor-arg value="BL18I-MO-XTL-02" />
+		<constructor-arg value="BL18I-MO-XTL-01" />
 	</bean>
 	<bean id="DetBasePv" class="java.lang.String">
 		<constructor-arg value="BL18I-MO-DET-01" />
@@ -34,7 +34,7 @@
 	<gda:motor id="xes_det_y" live-pvName="#{DetBasePv}:Y" />
 	<gda:motor id="xes_det_pitch" live-pvName="#{DetBasePv}:PITCH" />
 
-	<gda:motor id="xes_base_z" live-pvName="BL18I-MO-BASE-02:Z" />
+	<gda:motor id="xes_base_z" live-pvName="BL18I-MO-BASE-01:Z" />
 	<gda:motor id="xes_slit_y" live-pvName="BL18I-MO-SLIT-03:Y" />
 	
 </beans>
