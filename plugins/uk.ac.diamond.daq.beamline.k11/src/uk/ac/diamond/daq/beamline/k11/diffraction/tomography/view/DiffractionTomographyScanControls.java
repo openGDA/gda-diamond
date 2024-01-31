@@ -47,6 +47,7 @@ import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument.Axis;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScanningParametersUtils;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.document.ScanningAcquisitionTemporaryHelper;
@@ -119,8 +120,22 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 		var controls = new ShapeControls(this::getScanningParameters, List.of(DiffractionTomographyShapeDescriptor.POINT, DiffractionTomographyShapeDescriptor.SNAPPED_LINE, DiffractionTomographyShapeDescriptor.RECTANGLE));
 		controls.createComposite(parent, 0);
+		controls.setShapeResolver(this::findSuitableShape);
 		reloadableControls.add(controls);
+	}
 
+	private TrajectoryShape findSuitableShape(ScanningParameters parameters) {
+		var scan = parameters.getScanpathDocument();
+		var x = ScanningParametersUtils.getAxis(scan, Axis.X);
+		var y = ScanningParametersUtils.getAxis(scan, Axis.Y);
+
+		if (x.getPoints() == 1 && y.getPoints() == 1) {
+			return TrajectoryShape.TWO_DIMENSION_POINT;
+		} else if (x.length() == 0 || y.length() == 0) {
+			return TrajectoryShape.TWO_DIMENSION_LINE;
+		} else {
+			return TrajectoryShape.TWO_DIMENSION_GRID;
+		}
 	}
 
 	private void createExposureControls(Composite parent) {
