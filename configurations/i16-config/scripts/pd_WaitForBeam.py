@@ -85,6 +85,8 @@ class TimeToMachineInjectionClass(DisplayEpicsPVClass):
 		else:
 			return 99999
 
+	def rawAsynchronousMoveTo(self, posn):
+		pass
 
 class WaitForInjectionPDClass(ScannableMotionBase):
 	'''
