@@ -34,6 +34,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.springframework.context.ApplicationListener;
 
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction.ExposureControls;
@@ -60,6 +61,8 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 	private List<Reloadable> reloadableControls = new ArrayList<>();
 
+	private TrajectoryMutator trajectoryMutator = new TrajectoryMutator();
+
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		var composite = innerComposite(parent, 1, true);
@@ -70,6 +73,10 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 		createExposureControls(composite);
 		createSummary(composite);
 		createProcessingSection(composite);
+
+		SpringApplicationContextFacade.addApplicationListener(trajectoryMutator);
+		composite.addDisposeListener(dispose -> SpringApplicationContextFacade.removeApplicationListener(trajectoryMutator));
+
 		return composite;
 	}
 
@@ -135,6 +142,32 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 			return TrajectoryShape.TWO_DIMENSION_LINE;
 		} else {
 			return TrajectoryShape.TWO_DIMENSION_GRID;
+		}
+	}
+
+	/**
+	 * In diffraction tomography, X moves in a trajectory with Theta, and Y moves as an outer axis.
+	 * Consequently we need to change the shape of the X-Theta trajectory according to the number of points in X:
+	 * 2D grid if points > 1 or 2D line if points == 1
+	 */
+	private class TrajectoryMutator implements ApplicationListener<ScanningAcquisitionChangeEvent> {
+
+		@Override
+		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
+			if (event.getProperty() == UpdatedProperty.PATH) {
+				var xThetaTrajectory = getScanningParameters().getScanpathDocument().getTrajectories().stream()
+						.filter(traj -> traj.getAxes().stream().anyMatch(axis -> axis.getAxis().equals(Axis.X)))
+						.findFirst().orElseThrow();
+
+				var xAxis = xThetaTrajectory.getAxes().stream()
+						.filter(doc -> doc.getAxis() == Axis.X)
+						.findFirst().orElseThrow();
+
+				TrajectoryShape shape = xAxis.getPoints() > 1 ? TrajectoryShape.TWO_DIMENSION_GRID : TrajectoryShape.TWO_DIMENSION_LINE;
+				if (xThetaTrajectory.getShape() != shape) {
+					ScanningParametersUtils.updateTrajectoryShape(getScanningParameters().getScanpathDocument(), xThetaTrajectory, shape);
+				}
+			}
 		}
 	}
 
