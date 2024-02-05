@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline B21" uid="uk.ac.gda.beamline.b21.product" id="uk.ac.gda.beamline.b21.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="Beamline B21" uid="uk.ac.gda.beamline.b21.product" id="uk.ac.gda.beamline.b21.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,22 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Duser.timezone=GMT
--Dgda.config=${workspace_loc:b21-config}
--Dgda.mode=dummy
--Dgda.propertiesFile=${workspace_loc:b21-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:b21-config}/properties/dummy/JCALibrary.properties
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${workspace_loc:b21-config}
--Dgda.facility.dir=${workspace_loc:dls-config}
--Dgda.core.dir=${workspace_loc:core-config}
--Xms1g
+      <vmArgs>-Xms1g
 -Xmx4g
 -XX:-UseCompressedOops
--Dorg.dawb.editor.h5.use.default=false
--Declipse.pluginCustomization=${workspace_loc:b21-config}/clients/pluginCustomization.ini
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
