@@ -11,7 +11,7 @@ from gdascripts.utils import caput
 
 dldv = ISegVoltageControl('dldv',3,6,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); dldv.configure()
 mcp_b = ISegVoltageControl('mcp_b',3,5,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.1, ramp_speed = 1.0); mcp_b.configure()
-kenergy = ISegVoltageControl('kenergy',1,6,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.01, ramp_speed = 8.0); kenergy.configure()
+kenergy = ISegVoltageControl('kenergy',6,0,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.01, ramp_speed = 8.0); kenergy.configure()
 int_spec = IntegratedSpectrum("int_spec", "BL09K-EA-D-01:")
 #caput("BL09K-EA-D-01:Stats1:NDArrayPort", "ROI1")
 '''Sample_IRamp=EpicsReadWritePVClass("Sample_IRamp","BL09K-EA-PSU-01:0:1:CurrentRampSpeed","%/s*I_nom","%f")'''
