@@ -17,7 +17,16 @@
 	<bean id="sm5bender2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09J-MO-SM-05:BENDER2" />
 	</bean>
+	
+	<bean id="sm5strain1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SM-05:STRAIN1"/>
+		<property name="unit" value="N"/>
+	</bean>
+	
+	<bean id="sm5strain2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SM-05:STRAIN2"/>
+		<property name="unit" value="N"/>
+	</bean>
 
 	<import resource="file://${gda.config.shared}/servers/soft/live/devices/SM5.xml"/>
-
 </beans>

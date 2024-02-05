@@ -30,5 +30,13 @@
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
+	
+	<bean id="sm5strain1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="N"/>
+	</bean>
+	
+	<bean id="sm5strain2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="N"/>
+	</bean>
 
 </beans>
