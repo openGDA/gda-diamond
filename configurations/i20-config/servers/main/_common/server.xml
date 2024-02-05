@@ -58,6 +58,8 @@
 	<!-- Definition of the ascii data format -->
 	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
 
+	<import resource="file:${gda.config}/servers/main/_common/mapping.xml" />
+
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
 

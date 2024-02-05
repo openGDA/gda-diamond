@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+<!-- Models, runnable devices for medipix1, medipix2 detectors -->
+	<bean id="medipix1_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="medipix1_addetector" />
+		<property name="exposureTime" value="0.1" />
+		<property name="timeout" value="55000" />
+	</bean>
+
+	<bean id="medipix1_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label"       value="medipix1" />
+		<property name="description" value="medipix1" />
+	</bean>
+	
+	<bean id="medipix1_runnable_device" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="medipix1_addetector" />
+		<property name="model" ref="medipix1_model" />
+		<property name="deviceInformation" ref="medipix1_info" />
+		<property name="activated" value="true" />
+	</bean>
+	
+
+	<bean id="medipix2_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="medipix2_addetector" />
+		<property name="exposureTime" value="0.1" />
+		<property name="timeout" value="55000" />
+	</bean>
+
+	<bean id="medipix2_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label"       value="medipix2" />
+		<property name="description" value="medipix2" />
+	</bean>
+	
+	<bean id="medipix2_runnable_device" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="medipix2_addetector" />
+		<property name="model" ref="medipix2_model" />
+		<property name="deviceInformation" ref="medipix1_info" />
+		<property name="activated" value="true" />
+	</bean>
+
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
+
+</beans>
