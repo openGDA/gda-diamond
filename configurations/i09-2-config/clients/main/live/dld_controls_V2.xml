@@ -48,7 +48,7 @@
 		<property name="pvName" value="BL09K-EA-DET-01:CAM:RatemeterMax"/>
 		<property name="outputFormat">
 			<list>
-					<value>%10d</value>
+					<value>%.1e</value>
 			</list>
 		</property>	
 	</bean>
