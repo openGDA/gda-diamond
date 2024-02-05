@@ -11,22 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Duser.timezone=GMT
--Dgda.config=${workspace_loc:b21-config}
--Dgda.mode=dummy
--Dgda.propertiesFile=${workspace_loc:b21-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:b21-config}/properties/dummy/JCALibrary.properties
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${workspace_loc:b21-config}
--Dgda.facility.dir=${workspace_loc:dls-config}
--Dgda.core.dir=${workspace_loc:core-config}
--Xms1g
+      <vmArgs>-Xms1g
 -Xmx4g
 -XX:-UseCompressedOops
--Dorg.dawb.editor.h5.use.default=false
--Declipse.pluginCustomization=${workspace_loc:b21-config}/clients/pluginCustomization.ini
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
