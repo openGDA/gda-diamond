@@ -5,6 +5,7 @@ Created on Sep 1, 2021
 @author: fy65
 '''
 from gda.device.scannable import ScannableMotionBase
+from i06shared.scannables.sourceModes import SourceMode
 
 class HarmonicScannable(ScannableMotionBase):
     '''
@@ -12,20 +13,25 @@ class HarmonicScannable(ScannableMotionBase):
     '''
 
 
-    def __init__(self, name, pol):
+    def __init__(self, name, smode, iddhar, iduhar):
         '''
         Constructor
         '''
         self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat(["%d"])
-        self.pol = pol
+        self.smode = smode
+        self.iddhar = iddhar
+        self.iduhar = iduhar
     
     def getPosition(self):
-        if str(self.pol.getPosition()) == "lh3":
-            return 3
+        mode = str(self.smode.getPosition())
+        if mode == SourceMode.SOURCE_MODES[0]:
+            return int(self.iddhar.getPosition())
+        elif mode == SourceMode.SOURCE_MODES[1]:
+            return int(self.iduhar.getPosition())
         else:
-            return 1
+            return "Cannot determine ID harmonic in source mode %s" % mode
     
     def asynchronousMoveTo(self):
         print("%s is a Read-Only scannable used for metadata." % self.getName())

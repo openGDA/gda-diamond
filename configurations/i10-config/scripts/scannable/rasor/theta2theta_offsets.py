@@ -3,7 +3,7 @@ Created on Aug 19, 2021
 
 @author: fy65
 '''
-import installation
+from i10shared import installation
 from gdascripts.pd.epics_pds import EpicsReadWritePVClass
 from gdascripts.pd.dummy_pds import DummyEpicsReadWritePVClass
 from utils.ExceptionLogs import localStation_exception
@@ -18,4 +18,3 @@ if installation.isLive():
 else:
     th_off = DummyEpicsReadWritePVClass('th_off', 0.0, 90.0, 'deg', '%.6f')
     tth_off = DummyEpicsReadWritePVClass('tth_off', 0.0, 90.0, 'deg', '%.6f')
-        

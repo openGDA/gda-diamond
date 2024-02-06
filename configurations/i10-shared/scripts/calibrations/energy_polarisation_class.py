@@ -10,7 +10,7 @@ from calibrations.xraysource import X_RAY_SOURCE_MODES
 import math
 from utils.ExceptionLogs import localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
-import installation
+from i10shared import installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
@@ -32,8 +32,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         instance.
         '''
     harmonicOrder = 1
-       
-    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap="IDEnergy2GapCalibrations.csv", lut4phase="IDEnergy2PhaseCalibrations.csv", energyConstant=False, polarisationConstant=False, energy_offset=None, maxGap=200, minGap=16, maxPhase=24):
+
+    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap = "IDEnergy2GapCalibrations.csv", lut4phase = "IDEnergy2PhaseCalibrations.csv", energyConstant = False, polarisationConstant = False, energy_offset = None, maxGap = 200, minGap = 16, maxPhase = 24):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut4gap, self.header = load_lookup_table(LocalProperties.get("gda.config") + "/lookupTables/" + lut4gap)
         self.lut4phase, self.header = load_lookup_table(LocalProperties.get("gda.config") + "/lookupTables/" + lut4phase)
@@ -54,15 +54,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.order = 1
         self.energyConstant = energyConstant
         self.polarisationConstant = polarisationConstant
-        self.SCANNING = False 
+        self.SCANNING = False
         if self.energyConstant and self.polarisationConstant:
             raise ValueError("Cannot create an instance with both energy and polarisation being constant.")
         self.logger = logger.getChild(self.__class__.__name__)
         self.maxGap = maxGap
         self.minGap = minGap
         self.maxPhase = maxPhase
-        
-    def determinePhaseFromHardware(self, insertiondevice={}):
+
+    def determinePhaseFromHardware(self, insertiondevice = {}):
         rowphase1 = float(insertiondevice['rowphase1'].getPosition())
         rowphase2 = float(insertiondevice['rowphase2'].getPosition())
         rowphase3 = float(insertiondevice['rowphase3'].getPosition())
@@ -70,53 +70,53 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         gap = float(insertiondevice['gap'].getPosition())
         # determine polarisation and phase value using row phase motor position pattern, However there is no way to return lh3 polarisation
         if self._motorPositionEqual(rowphase1, 0.0) and self._motorPositionEqual(rowphase2, 0.0) and self._motorPositionEqual(rowphase3, 0.0) and self._motorPositionEqual(rowphase4, 0.0):
-            #Linear Horizontal
-            if float(self.pgmenergy.getPosition()) > 2*gap*gap:
+            # Linear Horizontal
+            if float(self.pgmenergy.getPosition()) > 2 * gap * gap:
                 polarisation = X_RAY_POLARISATIONS[5]
-            elif float(self.pgmenergy.getPosition()) < 2*gap*gap:
+            elif float(self.pgmenergy.getPosition()) < 2 * gap * gap:
                 polarisation = X_RAY_POLARISATIONS[2]
             phase = 0.0
             return polarisation, phase
         if self._motorPositionEqual(rowphase1, MAXIMUM_ROW_PHASE_MOTOR_POSITION) and self._motorPositionEqual(rowphase2, 0.0) and self._motorPositionEqual(rowphase3, MAXIMUM_ROW_PHASE_MOTOR_POSITION) and self._motorPositionEqual(rowphase4, 0.0):
-            #Linear Vertical
+            # Linear Vertical
             polarisation = X_RAY_POLARISATIONS[3]
             phase = MAXIMUM_ROW_PHASE_MOTOR_POSITION
             return polarisation, phase
         if self._motorPositionEqual(rowphase1, rowphase3) and rowphase1 > 0.0 and self._motorPositionEqual(rowphase2, 0.0) and self._motorPositionEqual(rowphase4, 0.0):
-            #Positive Circular
+            # Positive Circular
             polarisation = X_RAY_POLARISATIONS[0]
             phase = rowphase1
             return polarisation, phase
         if self._motorPositionEqual(rowphase1, rowphase3) and rowphase1 < 0.0 and self._motorPositionEqual(rowphase2, 0.0) and self._motorPositionEqual(rowphase4, 0.0):
-            #Negative Circular
+            # Negative Circular
             polarisation = X_RAY_POLARISATIONS[1]
             phase = rowphase1
             return polarisation, phase
         if self._motorPositionEqual(rowphase1, -rowphase3) and self._motorPositionEqual(rowphase2, 0.0) and self._motorPositionEqual(rowphase4, 0.0):
-            #Positive Linear Arbitrary
+            # Positive Linear Arbitrary
             polarisation = X_RAY_POLARISATIONS[4]
             phase = rowphase1
             return polarisation, phase
         if self._motorPositionEqual(rowphase2, -rowphase4) and self._motorPositionEqual(rowphase1, 0.0) and self._motorPositionEqual(rowphase3, 0.0):
-            #Negative Linear Arbitrary
+            # Negative Linear Arbitrary
             polarisation = X_RAY_POLARISATIONS[4]
             phase = rowphase2
             return polarisation, phase
-        #UNKNOWN
+        # UNKNOWN
         polarisation = X_RAY_POLARISATIONS[6]
         phase = 0.0
         return (polarisation, phase)
-    
+
     def _motorPositionEqual(self, a, b):
         return math.fabs(a - b) < ROW_PHASE_MOTOR_TOLERANCE
-    
+
     def getIDPositions(self):
         '''get gap and phase from ID hardware controller, and set polarisation mode in GDA 'idscannable' instance
         This method sync current object states with ID state in EPICS IOC.
         '''
         if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:
             gap = float(self.idd['gap'].getPosition())
-            polarisation, phase = self.determinePhaseFromHardware(self.idd)            
+            polarisation, phase = self.determinePhaseFromHardware(self.idd)
         elif self.source.getPosition() == X_RAY_SOURCE_MODES[1]:
             gap = float(self.idu['gap'].getPosition())
             polarisation, phase = self.determinePhaseFromHardware(self.idu)
@@ -127,52 +127,52 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else:
             BeamEnergyPolarisationClass.harmonicOrder = 1
         return (gap, polarisation, phase)
-    
+
     def displayGapCalibrationData(self):
         formatstring = "%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
         print (formatstring % tuple(self.header))
         for key, value in sorted(self.lut4gap.iteritems()):
             print (formatstring % (key[0], key[1], key[2], key[3], value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7]))
-            
+
     def displayPhaseCalibrationData(self):
         formatstring = "%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
         print (formatstring % tuple(self.header))
         for key, value in sorted(self.lut4phase.iteritems()):
             print (formatstring % (key[0], key[1], key[2], key[3], value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7]))
-    
+
     def setHarmonicsOrder(self, n):
         if not n in [1, 3]:
             raise ValueError("Only beam harmonics order 1 and 3 are supported!")
         self.order = n
         BeamEnergyPolarisationClass.harmonicOrder = n
-        
+
     def getHarmonicsOrder(self):
         return self.order
-    
+
     def get_ID_gap_phase_at_current_source_polarisation(self, energy):
-        gap, polarisation, phase = self.getIDPositions()
-        gap, phase = self.idgapphase(self.source, Ep=energy, polar=polarisation)
+        gap, polarisation, phase = self.getIDPositions()  # @UnusedVariable
+        gap, phase = self.idgapphase(self.source, Ep = energy, polar = polarisation)
         return gap, phase
-    
-    def idgapphase(self, source, Ep=None, polar='lh'):
+
+    def idgapphase(self, source, Ep = None, polar = 'lh'):
         '''converts energy and polarisation to  gap and phase. It supports polarisation modes: 'pc','nc', 'lh', 'lv', 'la', 'lh3'.
         '''
-        if self.detune: # adjust energy by offset
-            Ep =  Ep + float(self.detune.getPosition())
-        if polar in X_RAY_POLARISATIONS[:-1] :
+        if self.detune:  # adjust energy by offset
+            Ep = Ep + float(self.detune.getPosition())
+        if polar in X_RAY_POLARISATIONS[:-1]:
         # find ID gap from energy
             coef = get_fitting_coefficents(source.getPosition(), polar, Ep, self.lut4gap)
             gap = coef[0] + coef[1] * Ep + coef[2] * Ep ** 2 + coef[3] * Ep ** 3 + coef[4] * Ep ** 4 + coef[5] * Ep ** 5 + coef[6] * Ep ** 6 + coef[7] * Ep ** 7
-            
+
             if (gap < self.minGap or gap > self.maxGap):  # IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
-            
+
             if polar == "lh":
                 BeamEnergyPolarisationClass.harmonicOrder = 1
                 phase = 0.0
             elif polar == "lh3":
                 BeamEnergyPolarisationClass.harmonicOrder = 3
-                phase = 0.0                
+                phase = 0.0
             elif polar == "lv":
                 BeamEnergyPolarisationClass.harmonicOrder = 1
                 phase = self.maxPhase
@@ -185,7 +185,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         if phase < -self.maxPhase or phase > self.maxPhase:  # Physical limits of ID Row Phase
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, -self.maxPhase, self.maxPhase))
         return (gap, phase)
-        
+
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
         if self.getName() == "dummyenergy":
@@ -196,7 +196,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             try:
                 polarisation = self.getIDPositions()[1]
                 energy = self.pgmenergy.getPosition()
-    
+
                 if self.polarisationConstant:
                     return energy
                 elif self.energyConstant:
@@ -222,15 +222,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             if polarisation == X_RAY_POLARISATIONS[6]:
                 raise RuntimeError("polarisation is not defined!")
             if not polarisation == X_RAY_POLARISATIONS[4]:
-                idcontrol['jawphase'].asynchronousMoveTo(0.0) #set ID jawphase to 0 position except for la
+                idcontrol['jawphase'].asynchronousMoveTo(0.0)  # set ID jawphase to 0 position except for la
         except:
             localStation_exception(sys.exc_info(), "Error move %s to position (%f, %s, %f)" % (self.source.getPosition(), gap, polarisation, phase))
             simpleLog(localStation_exception)
             raise
-    
+
     def isIDBusy(self, idcontrol):
         return idcontrol['gap'].isBusy() or idcontrol['rowphase1'].isBusy() or idcontrol['rowphase2'].isBusy() or idcontrol['rowphase3'].isBusy() or idcontrol['rowphase4'].isBusy() or idcontrol['jawphase'].isBusy()
-            
+
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified value.
         At the background this moves both ID gap, phase, and PGM energy to the values corresponding to this energy, polarisation or both.
@@ -245,10 +245,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else:
             if not self.SCANNING:  # ensure ID hardware in sync in 'pos' command
                 self.getIDPositions()  # update self.gap, self.polarisation,self.phase in this object
-                
+
             # parse arguments as it could be 1 or 2 inputs, string type for polarisation or number type for energy
             if not isinstance(new_position, list):  # single argument
-                if isinstance(new_position, basestring): 
+                if isinstance(new_position, basestring):
                     if self.polarisationConstant:  # input must be for energy
                         raise ValueError("Input value must be a number.")
                     new_polarisation_mode = str(new_position)
@@ -286,15 +286,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 self.move_id_to_positions(self.idu, gap, phase, new_polarisation_mode)
             else:
                 raise ValueError("Source mode %s is not supported!" % self.source.getPosition())
-            
+
             # move PGM to position
-            if self.polarisationConstant or not self.energyConstant :
+            if self.polarisationConstant or not self.energyConstant:
                 try:
                     self.pgmenergy.asynchronousMoveTo(energy)
                 except:
                     print("cannot set %s to %f." % (self.pgmenergy.getName(), energy))
                     raise
-                
+
     def isBusy(self):
         '''checks the busy status of all child scannables.        
         If and only if all child scannables are done this will be set to False.
@@ -317,12 +317,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             localStation_exception(sys.exc_info(), "Error stop %s" % (self.source.getPosition()))
             simpleLog(localStation_exception)
             raise
-        
+
     def stop(self):
         self.pgmenergy.stop()
         if installation.isLive():
             print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
-        else:  
+        else:
             if self.source.getPosition() == X_RAY_SOURCE_MODES[0]:
                 self.stop_id(self.idd)
             elif self.source.getPosition() == X_RAY_SOURCE_MODES[1]:
@@ -336,7 +336,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         else:  # real hardware
             self.getIDPositions()  # ensure ID hardware in sync at start of scan
             self.SCANNING = True
-        
+
     def atScanEnd(self):
         self.SCANNING = False
 

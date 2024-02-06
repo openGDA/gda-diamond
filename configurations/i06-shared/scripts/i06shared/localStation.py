@@ -83,7 +83,7 @@ if beamline != "lab44" and beamline != "i06-2":
     from i06shared.metadata.taperScannable import TaperScannable
     taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
     from i06shared.metadata.harmonicScannable import HarmonicScannable
-    harmonic = HarmonicScannable("harmonic", __main__.pol)
+    harmonic = HarmonicScannable("harmonic", __main__.smode, __main__.iddhar, __main__.iduhar)
 
 print("-"*100)
 print("create command for 'acquire_flat_field' and 'remove_flat_field'\n")
