@@ -151,6 +151,10 @@ public class LineScanpathEditor extends ScanpathEditor {
 		return Double.parseDouble(yStopText.getText());
 	}
 
+	protected int getPoints() {
+		return Integer.parseInt(pointsSpinner.getText());
+	}
+
 	@Override
 	protected void modelToControls() {
 		if (handlingDocumentUpdate) return;
@@ -171,7 +175,7 @@ public class LineScanpathEditor extends ScanpathEditor {
 	}
 
 	private void modelToControlsPath() {
-		pointsSpinner.setSelection(getXAxis().getPoints());
+		pointsSpinner.setSelection(Math.max(getXAxis().getPoints(), getYAxis().getPoints()));
 		stepButton.setSelection(!isContinuous());
 		continuousButton.setSelection(isContinuous());
 	}
@@ -197,7 +201,7 @@ public class LineScanpathEditor extends ScanpathEditor {
 	@Override
 	protected IMapPathModel modelToMappingPath() {
 		var path = new TwoAxisLinePointsModel();
-		path.setPoints(getXAxis().getPoints());
+		path.setPoints(Math.max(getXAxis().getPoints(), getYAxis().getPoints()));
 		path.setBoundingLine(getBoundingLineFromModel());
 		path.setAlternating(false);
 		path.setContinuous(isContinuous());

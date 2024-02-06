@@ -19,6 +19,8 @@
 package uk.ac.diamond.daq.beamline.k11.diffraction.view.configuration.diffraction;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -50,6 +52,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 	private final Supplier<ScanningParameters> scanningParameters;
 
 	private final List<ShapeDescriptor> shapes;
+	private Optional<Function<ScanningParameters, TrajectoryShape>> shapeResolver = Optional.empty();
 
 	private ShapeSelectionButtons buttons;
 
@@ -142,14 +145,11 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 		if (shapes.stream().anyMatch(descriptor -> descriptor.shape().equals(innerScan.getShape()))) {
 			return innerScan.getShape();
-		} else {
-			/* TODO review this carefully.
-			 * This would be the case for Diffraction Tomography.
-			 * What do we need to happen here?
-			 * See K11-1738, K11-1739 */
-			return TrajectoryShape.TWO_DIMENSION_GRID;
+		} else if (shapeResolver.isPresent()) {
+			return shapeResolver.get().apply(scanningParameters.get());
 		}
 
+		return TrajectoryShape.TWO_DIMENSION_GRID;
 	}
 
 	/**
@@ -202,6 +202,10 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	private void publishUpdate() {
 		SpringApplicationContextFacade.publishEvent(new ScanningAcquisitionChangeEvent(this, UpdatedProperty.PATH));
+	}
+
+	public void setShapeResolver(Function<ScanningParameters, TrajectoryShape> shapeResolver) {
+		this.shapeResolver = Optional.of(shapeResolver);
 	}
 
 	@Override
