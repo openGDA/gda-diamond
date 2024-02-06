@@ -5,6 +5,7 @@ from datetime import date
 from mathd import *
 from gda.device.scannable import ScannableMotionBase
 import traceback
+from gdascripts.messages.handle_messages import simpleLog
 
 class Harmonic(ScannableMotionBase):
 
@@ -286,7 +287,7 @@ class EnergyFromIDandDCM(ScannableMotionBase):
 			self.ue.asynchronousMoveTo(energy)
 			self.dcme.asynchronousMoveTo(energy)
 		except (java.lang.Exception, Exception), e: # ANYTHING
-			print "Error moving " + self.getName() + " (EnergyFromIDandDCM) to: " + `energy`
+			simpleLog("Error moving " + self.getName() + " (EnergyFromIDandDCM) to: " + `energy`)
 			print traceback.format_exc() + "<< No exception raised >>>"
 
 	def isBusy(self):
