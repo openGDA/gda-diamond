@@ -19,7 +19,6 @@
 		<property name="motor" ref="sm5bender2_motor" />
 	</bean>
 
-
 	<bean id="sm5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -29,6 +28,8 @@
 				<ref bean="sm5bender1" />
 				<ref bean="sm5bender2" />
 				<ref bean="sm5iamp8"/>
+				<ref bean="sm5strain1"/>
+				<ref bean="sm5strain2"/>
 			</list>
 		</property>
 	</bean>
