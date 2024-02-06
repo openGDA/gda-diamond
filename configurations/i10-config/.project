@@ -5,6 +5,7 @@
 	<projects>
 		<project>diffcalc</project>
 		<project>dls-config</project>
+		<project>i10-shared</project>
 		<project>optics-config</project>
 		<project>uk.ac.diamond.daq.dls.controls</project>
 		<project>uk.ac.gda.api</project>

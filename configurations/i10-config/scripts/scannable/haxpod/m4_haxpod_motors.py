@@ -11,7 +11,7 @@ from future.singleEpicsPositionerNoStatusClassDeadbandOrStop import SingleEpicsP
 from utils.ExceptionLogs import localStation_exception
 import sys
 from gda.device.scannable.scannablegroup import ScannableGroup
-import installation
+from i10shared import installation
 from gdascripts.pd.dummy_pds import DummyEpicsReadWritePVClass
 
 if installation.isLive():
@@ -23,10 +23,9 @@ if installation.isLive():
         m4_pitch = PositionCompareMotorClass("m4_pitch", "BL10I-OP-FOCS-01:PITCH.VAL", "BL10I-OP-FOCS-01:PITCH.RBV", "BL10I-OP-FOCS-01:PITCH.STOP", 0.002, "urad", "%.3f")
         m4_roll = PositionCompareMotorClass("m4_roll", "BL10I-OP-FOCS-01:ROLL.VAL", "BL10I-OP-FOCS-01:ROLL.RBV", "BL10I-OP-FOCS-01:ROLL.STOP", 0.002, "urad", "%.3f")
         m4fpitch = SingleEpicsPositionerNoStatusClassDeadbandOrStop('m4fpitch', 'BL10I-OP-FOCS-01:FPITCH:DMD:AO', 'BL10I-OP-FOCS-01:FPITCH:RBV:AI', 'V', '%.3f', 0.1)
-        M4=ScannableGroup("M4", [m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, m4fpitch])
+        M4 = ScannableGroup("M4", [m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, m4fpitch])
     except:
         localStation_exception(sys.exc_info(), "initialising m4 hexapod and fpitch scannables")
 else:
         # other objects are defined by Spring beans
     m4fpitch = DummyEpicsReadWritePVClass('m4fpitch', 0.0, 5.0, 'V', '%.3f')
-    

@@ -4,11 +4,11 @@ Created on 13 Apr 2018
 
 @author: fy65
 '''
-from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
-from scannable.waveform_channel.McsWaveformChannelController import McsWaveformChannelController
-from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
-from scannable.continuous.ContinuousMovePgmEnergyIDGapBinpointScannable import ContinuousMovePgmEnergyIDGapBinpointScannable
-from scannable.continuous.energy_move_controller import energy_controller
+from scannables.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
+from scannables.waveform_channel.McsWaveformChannelController import McsWaveformChannelController
+from scannables.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
+from scannables.continuous.ContinuousMovePgmEnergyIDGapBinpointScannable import ContinuousMovePgmEnergyIDGapBinpointScannable
+from scannables.continuous.energy_move_controller import energy_controller
 
 print("-"*100)
 print("Creating scannables for continuous energy scanning using cvscan in RASOR end station.")
@@ -18,14 +18,14 @@ print("            - this scannable can also be used in step 'scan' command, in 
 print("   'mcs16', 'mcs17', 'mcs18', 'mcs19', 'mcs20', 'mcs21', 'mcs11', 'mcs23'- RASOR scannables used in 'cvscan' to collect data from MCS channel 17, 18, 19, 20, 21, 22, 23, 24, respectively")
 
 # RASOR counter controller - reading collected data from multi-channel scaler:    ME01D-EA-SCLR-01:MCA01:
-mcs_controller = McsWaveformChannelController('mcs_controller', 'ME01D-EA-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True); mcs_controller.verbose = True
+mcs_controller = McsWaveformChannelController('mcs_controller', 'ME01D-EA-SCLR-01:MCA01:', channelAdvanceInternalNotExternal = True); mcs_controller.verbose = True
 # Sometimes the RASOR struck scaler returns 1 fewer points than requested, this causes the binpoints to fail and the whole scan to fail.
-# Adding the shortest possible time to the total count time seems to ensure that all of the required points are acquired.   
+# Adding the shortest possible time to the total count time seems to ensure that all of the required points are acquired.
 mcs_controller.exposure_time_offset = 0.001
 # Binpoint is slaved from (triggered by) RASOR scaler (mcs_controller) - reading collected motor position data from BINPOINT  'BL10I-CS-CSCAN-01:'
 binpoint_controller = BinpointWaveformChannelController('binpoint_controller', 'BL10I-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:'); binpoint_controller.verbose = True
 
-# scannables to capture count data from scaler channels 
+# scannables to capture count data from scaler channels
 mcs16 = WaveformChannelScannable('mcs16', mcs_controller, 17); mcs16.setHardwareTriggerProvider(energy_controller); mcs16.verbose = True
 mcs17 = WaveformChannelScannable('mcs17', mcs_controller, 18); mcs17.setHardwareTriggerProvider(energy_controller); mcs17.verbose = True
 mcs18 = WaveformChannelScannable('mcs18', mcs_controller, 19); mcs18.setHardwareTriggerProvider(energy_controller); mcs18.verbose = True
@@ -34,7 +34,7 @@ mcs20 = WaveformChannelScannable('mcs20', mcs_controller, 21); mcs20.setHardware
 mcs21 = WaveformChannelScannable('mcs21', mcs_controller, 22); mcs21.setHardwareTriggerProvider(energy_controller); mcs21.verbose = True
 mcs22 = WaveformChannelScannable('mcs22', mcs_controller, 23); mcs22.setHardwareTriggerProvider(energy_controller); mcs22.verbose = True
 mcs23 = WaveformChannelScannable('mcs23', mcs_controller, 24); mcs23.setHardwareTriggerProvider(energy_controller); mcs23.verbose = True
-# scannables to capture motor position data from BINPOINT 
+# scannables to capture motor position data from BINPOINT
 binpoint_GrtPitch = WaveformChannelScannable('binpoint_GrtPitch', binpoint_controller, 'GRT:PITCH:');       binpoint_GrtPitch.setHardwareTriggerProvider(energy_controller);  binpoint_GrtPitch.verbose = True
 binpoint_MirPitch = WaveformChannelScannable('binpoint_MirPitch', binpoint_controller, 'MIR:PITCH:');       binpoint_MirPitch.setHardwareTriggerProvider(energy_controller);  binpoint_MirPitch.verbose = True
 binpoint_PgmEnergy = WaveformChannelScannable('binpoint_PgmEnergy', binpoint_controller, 'PGM:ENERGY:');      binpoint_PgmEnergy.setHardwareTriggerProvider(energy_controller); binpoint_PgmEnergy.verbose = True
@@ -46,5 +46,5 @@ binpoint_McaTime = WaveformChannelScannable('binpoint_McaTime', binpoint_control
 # energy scannable used to parse input data and delegate motions to controllers above
 energy = ContinuousMovePgmEnergyIDGapBinpointScannable('energy', energy_controller, binpoint_GrtPitch, binpoint_MirPitch, binpoint_PgmEnergy); energy.verbose = True
 
-# cvscan energy 695 705 1 mcs17 2 
+# cvscan energy 695 705 1 mcs17 2
 
