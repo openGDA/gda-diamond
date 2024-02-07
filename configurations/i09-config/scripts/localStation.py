@@ -230,12 +230,18 @@ else:
     jenergy_s=BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
     polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
     jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
-   
+
 jenergy_s.configure()
 polarisation.configure()
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
+
+#I09-505
+print("")
+print("Synchronising polarisation with hardware...")
+print("Initial ID polarisation is: " + polarisation.rawGetPosition())
+
 print "-----------------------------------------------------------------------------------------------------------------"
 
 print "Create an 'analyserscan' command for scanning the electron analyser."
