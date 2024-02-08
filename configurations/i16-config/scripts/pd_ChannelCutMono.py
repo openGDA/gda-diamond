@@ -1,7 +1,5 @@
 # NOTE: Needs classes from pd_undulator
 
-
-
 class ChanCutMonoClass(EnergyFromIDandDCM):
 	'''
 	energy pd 
@@ -52,6 +50,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 			#print "moving m2y to "+str(m1y_offset()+self.nextheight)
 			ztable.asynchronousMoveTo(ztable_offset()+self.nextheight)
 			base_z.asynchronousMoveTo(base_z_offset()+self.nextheight)
+			ppy.asynchronousMoveTo(ppy_offset()+self.nextheight)
 			self.last_height=self.nextheight	#last value where mirrors were adjusted
 		elif self.moveDiffWhenNotMovingMirrors==True:
 			base_z.asynchronousMoveTo(base_z_offset()+self.last_height+(self.nextheight-self.last_height)*self.mirrormag)
@@ -60,9 +59,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 			self.check_mirror_coating(new_position)
 
 	def isBusy(self):
-		#return self.enpd.isBusy() or m1y.isBusy() or m2y.isBusy() or ztable.isBusy() or base_z.isBusy()
-		#return self.enpd.isBusy() or ztable.isBusy() or base_z.isBusy()
-		return self.enpd.isBusy() or ztable.isBusy() or base_z.isBusy() or m1y.isBusy() or m2y.isBusy() 
+		return self.enpd.isBusy() or ztable.isBusy() or base_z.isBusy() or m1y.isBusy() or m2y.isBusy() or ppy.isBusy()
 
 	def waitWhileBusy(self):
 		self.enpd.waitWhileBusy()
@@ -70,6 +67,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		base_z.waitWhileBusy()
 		m1y.waitWhileBusy()
 		m2y.waitWhileBusy() 
+		ppy.waitWhileBusy()
 
 	def stop(self):
 		self.enpd.stop()
@@ -77,6 +75,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		base_z.stop()
 		m1y.stop()
 		m2y.stop()
+		ppy.stop()
 	
 	def calibrate(self):
 		self.ang=abs(self.braggpd())
@@ -88,13 +87,13 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		m2y_offset(m2y()-m2_coating_offset()-self.beamheight)
 		ztable_offset(ztable()-self.beamheight)
 		base_z_offset(base_z()[0]-self.beamheight)
-		print '=== New offsets:\n',m1y_offset,'\n',m2y_offset,'\n',ztable_offset,'\n',base_z_offset
+		ppy_offset(ppy()-self.beamheight)
+		print '=== New offsets:\n',m1y_offset,'\n',m2y_offset,'\n',ztable_offset,'\n',base_z_offset,'\n',ppy_offset
 
 	def check_mirror_coating(self,newenergy):
 		if newenergy>8.0:
 			if m2y()>0:
 				print "=== Warning: mirror coating may be wrong for this energy. Type 'help energy'."
-
 	
 	def si(self):
 		self.change_coating(m2_coating_offset.si,"=== Changing to Si coating. Gives better harmonic rejection but usually low reflectivity above 8 keV")
@@ -123,5 +122,3 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 			print "=== Mirror coating is probably Si (uncoated). Good for up to 8keV"
 		else:
 			print "=== Mirror coating is probably Rh. Good for up to 15keV"
-
-

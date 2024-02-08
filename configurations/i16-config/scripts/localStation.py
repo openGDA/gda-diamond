@@ -88,7 +88,7 @@ global sperp, spara, ytable, ztable
 global xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6
 global frontendx, frontendy
 global diode, ic2
-global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset
+global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, ppy_offset
 global san
 global rs,CA,EDi,az
 
@@ -1390,7 +1390,7 @@ try:
 	"""
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, kbm_offsets])
 	"""
-	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
+	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, ppy_offset, m2_coating_offset, idgap_offset])
 	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
