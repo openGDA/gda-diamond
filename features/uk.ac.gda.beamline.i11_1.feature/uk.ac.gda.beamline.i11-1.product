@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="I11-1 GDA" uid="uk.ac.gda.beamline.i11-1.product" id="uk.ac.gda.beamline.i11-1.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="I11-1 GDA" uid="uk.ac.gda.beamline.i11-1.product" id="uk.ac.gda.beamline.i11-1.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i11-1/icons/i11GDA.png"/>
@@ -21,14 +21,7 @@ Visit http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
--Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../../workspace_git
--Dgda.propertiesFile=${workspace_loc:i11-1-config}/properties/dummy/dummy_instance_java.properties
--Dgda.config=${workspace_loc:i11-1-config}
--Dgda.core.dir=${workspace_loc:core-config}
--Dgda.facility.dir=${workspace_loc:dls-config}
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-1-config}/jca/dummy/JCALibrary.properties
--Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=dummy
 -Xms256m 
 -Xmx2048m
 -XX:+UseG1GC
