@@ -21,17 +21,11 @@ Visit http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
--Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../../workspace_git
--Dgda.propertiesFile=${workspace_loc:i11-1-config}/properties/dummy/dummy_instance_java.properties
--Dgda.config=${workspace_loc:i11-1-config}
--Dgda.core.dir=${workspace_loc:core-config}
--Dgda.facility.dir=${workspace_loc:dls-config}
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-1-config}/jca/dummy/JCALibrary.properties
--Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=dummy
 -Xms256m 
 -Xmx2048m
 -XX:+UseG1GC
+-Dgda.config=${project_loc:i11-1-config}
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
