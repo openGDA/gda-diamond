@@ -30,10 +30,8 @@ enf = EnergyFromBraggFixedoffsetwithHarmonicPD('enf',BLi,dcmharmonic) # GLOBALS:
 ### Undulator
 print "Setting up undulator"
 run("pd_undulator")
-id = Undulator2('Undulator',uharmonic,idgap,idgap_offset,en,GBHfile='/dls_sw/i16/var/U27_GBH.dat')
-#u27 = Undulator('U27-I16',idgap,idgap_offset,'/dls_sw/i16/var/U27_GBH.dat')
-#uenergy = EnergyFromUndulator('Undulator Energy',u27)
-uenergy = EnergyFromUndulator2('Uenergy',id)
+id = Undulator('Undulator',uharmonic,idgap,idgap_offset,en,GBHfile='/dls_sw/i16/var/U27_GBH.dat')
+uenergy = EnergyFromUndulator('Uenergy',id)
 energy2 = EnergyFromIDandDCM('energy2',uenergy,enf) # could rename
 
 def calcgap(energy=None,H=None):
