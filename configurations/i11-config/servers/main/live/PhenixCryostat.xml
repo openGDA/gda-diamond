@@ -22,4 +22,10 @@
 		<property name="configureAtStartup" value="true" />
 		<property name="pvRoot" value="BL11I-CG-CSTAT-01" />
 	</bean>
+	<bean id="pcs_motor_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref ="pcs_motor_y_raw"/>
+	</bean>
+	<bean id="pcs_motor_y_raw" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11I-CG-CSTAT-01:Y" />
+	</bean>
 </beans>
