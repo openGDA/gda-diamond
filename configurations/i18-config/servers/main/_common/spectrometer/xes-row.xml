@@ -81,6 +81,7 @@
 		<property name="detectorGroup" ref="detectorMotors" />
 		<property name="crystalsGroup" ref="spectrometerCrystals" />
 		<property name="crystalsAllowedToMove" ref="crystalsAllowedToMove" />
+		<property name="detectorAxisLength" value="133" />
 	</bean>
 		
 	<bean id="spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">

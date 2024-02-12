@@ -84,7 +84,7 @@
 	
 		<!-- Create a ProcessingSetupConfiguration -->
 	<bean id="processingSetupConfiguration" class="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration">
-		<property name="defaultDetector" value="Xspress3A" />
+		<property name="defaultDetector" value="Xspress3Acquire" />
 		<property name="defaultProcessingFile" value="xrf_window_40.nxs" />
 	</bean>
 
