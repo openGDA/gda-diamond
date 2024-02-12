@@ -130,6 +130,14 @@ checkForBeamlineProblems()
 
 run "beamline/resolutionEstimator.py"
 
+def set_analyser_slit(slit):
+    """ Set analyser entrance slit by integer value """
+    analyser.getEntranceSlitInformationProvider().setCurrentSlitByValue(slit)
+    
+def get_analyser_slit():
+    """ Get current analyser entrance slit parameters """
+    return analyser.getEntranceSlitInformationProvider().getCurrentSlit()
+
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05 scripts."
