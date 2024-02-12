@@ -283,6 +283,132 @@
 		</property>
 	</bean>
 
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s1" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s1xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s1ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s2" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s2xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s2ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s3" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s3xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s3ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s4" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s4xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s4ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s5" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s5xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s5ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s6" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s6xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s6ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="s7" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXslit"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="x_gap"/>
+					<property name="scannableName" value="s7xgap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="y_gap"/>
+					<property name="scannableName" value="s7ygap"/>
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
 		<property name="insertionDeviceName" value="idNexusDevice" />
@@ -341,6 +467,13 @@
 				<value>kphi</value>
 				<value>kth</value>
 				<value>kmu</value>
+				<value>s1</value>
+				<value>s2</value>
+				<value>s3</value>
+				<value>s4</value>
+				<value>s5</value>
+				<value>s6</value>
+				<value>s7</value>
 			</set>
 		</property>
 	</bean>

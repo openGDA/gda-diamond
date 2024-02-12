@@ -29,6 +29,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2023110173	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for pil3_100k
 2023110183	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for merlin
 2023110188	NSD				Dummy	NXD/NDP	pil3	Use geometry from xml for pil_100k
+2024010128	NSD				Dummy	NXD/NDP	pil3	Add s1 to s7 NXslit nodes
 ----------- --- --- --	-	-----	------	------------------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
