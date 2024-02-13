@@ -45,19 +45,27 @@ import sys
 from time import sleep
 from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
-from gdascripts.scan.installStandardScansWithProcessing import scan,\
-    scan_processor
-from gdascripts.scan.concurrentScanWrapper import ConcurrentScanWrapper,\
-    isObjectScannable
+from gdascripts.scan.installStandardScansWithProcessing import scan, scan_processor
+from gdascripts.scan.concurrentScanWrapper import ConcurrentScanWrapper, isObjectScannable
 from functions.list_operations import split_list_by_emelent
 import inspect
 from gdascripts.scan.gdascans import scale
 from gda.device.scannable.scannablegroup import ScannableGroup
 from inspect import isfunction
-
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
+from gdaserver import rc
+from pd_WaitForBeam import TimeToMachineInjectionClass
 
 SHOW_DEMAND_VALUE=False
 
+_timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
+flyscan_wait_for_injection = WaitWhileScannableBelowThreshold('flyscan_wait_for_injection', _timetoinjection, 60, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
+flyscan_wait_for_injection.setOperatingContinuously(True)
+flyscan_wait_for_injection.setInputNames([])
+flyscan_wait_for_beam = WaitWhileScannableBelowThreshold('flyscan_wait_for_beam', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10)
+flyscan_wait_for_beam.setOperatingContinuously(True)
+flyscan_wait_for_beam.setInputNames([])
+        
 class FlyScanPosition:
     ''' define a position required by :class:FlyScannable
     '''
@@ -149,7 +157,7 @@ class FlyScannable(ScannableBase):
         self.name = scannable.getName()+"_fly"
         self.inputNames = [scannable.getInputNames() [0]+"_actual"]
         self.extraNames= []
-        self.outputFormats=[ "%.5g", "%.5g"]
+        self.outputFormats=[scannable.getOutputFormat()[0], scannable.getOutputFormat()[0]]
         self.level = 3
         self.positive = True
         self.requiredPosVal = 0.
@@ -308,31 +316,32 @@ def configure_fly_scannable_extraname(arg, flyscannablewraper):
     flyscannablewraper.showDemandValue = SHOW_DEMAND_VALUE
     if SHOW_DEMAND_VALUE:
         flyscannablewraper.setExtraNames([arg.getInputNames()[0] + "_demand"])
-        flyscannablewraper.setOutputFormat(["%.5g", "%.5g"])
+        flyscannablewraper.setOutputFormat(flyscannablewraper.getOutputFormat())
     else:
         flyscannablewraper.setExtraNames([])
-        flyscannablewraper.setOutputFormat(["%.5g"])
+        flyscannablewraper.setOutputFormat([flyscannablewraper.getOutputFormat()[0]])
 
 
-def enable_topup_check(newargs, args, total_time, i):
+def enable_topup_check(newargs, args, total_time):
     ''' setup beamline-specific beam top up checker's minimum time threshold.
     '''
     if str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) == "i16": # try to retrieve waitforinjection object from scan arguments
-        waitforinjection = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "waitforinjection"), None)
-        if waitforinjection is None: # have to get 'waitforinjection' scannable from jython namesapce as it is defined in localStation.py, i16 adds it to defaults in live mode
-            waitforinjection = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("waitforinjection")
-            if waitforinjection:
-                newargs.append(args[i])
-                newargs.append(waitforinjection)
-                i += 1
-        if waitforinjection:
-            waitforinjection.due = total_time
-    if str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) in ["i21", "i10", "i10-1", "i06", "i06-1"]:
+        fwaitforinjection = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "flyscan_wait_for_injection"), None)
+        if fwaitforinjection is None:
+            fwaitforinjection = flyscan_wait_for_injection
+            if fwaitforinjection is not None and total_time < 590:
+                flyscan_wait_for_injection.minimumThreshold = total_time + 5
+                newargs.append(fwaitforinjection)
+        fwaitforbeam  = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "flyscan_wait_for_beam"), None)
+        if fwaitforbeam is None:
+            fwaitforbeam = flyscan_wait_for_beam
+            if fwaitforbeam is not None :
+                newargs.append(fwaitforbeam)
+    elif str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) in ["i21", "i10", "i10-1", "i06", "i06-1"]:
         check_beam = next((x for x in args if isinstance(x, ScannableGroup) and str(x.getName()) == "checkbeam"), None)
         if check_beam:
             topup_checker = check_beam.getDelegate().getGroupMember("checktopup_time")
             topup_checker.minimumThreshold = total_time + 5
-    return i
 
 def parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, startpos, stoppos, flyscannablewraper):
     '''calculate and set flying scannable speed based on total detector exposure time over the flying range and set wait for injection time
@@ -347,7 +356,7 @@ def parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, star
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
         deadtime_index = -1 # no dead time input
         
-    i = enable_topup_check(newargs, args, total_time,i)
+    enable_topup_check(newargs, args, total_time)
         
     motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
     max_speed = flyscannablewraper.getScannableMaxSpeed()
