@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VortexParameters>
+    <detectorName>xmapMca</detectorName>
+    <tfgName>tfg</tfgName>
+    <countType>Static</countType>
+    <collectionTime>1000.0</collectionTime>
+    <DetectorElement>
+        <name>Element0</name>
+        <number>1</number>
+        <ROI>
+            <name>Fe_Ka</name>
+            <windowStart>620</windowStart>
+            <windowEnd>660</windowEnd>
+        </ROI>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <saveRawSpectrum>true</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
+</VortexParameters>
