@@ -66,6 +66,7 @@
 
 	<import resource="solstice_scanning_defaults.xml" />
 	<import resource="fatt_transmissions.xml" />
+	<import resource="energy_id_gap_lookup.xml" />
 
 	<import resource="detectors/dcam2.xml" />
 	<import resource="detectors/dcam3.xml" />
@@ -89,7 +90,6 @@
 	</bean>
 
 	<beans profile="eh1">
-		<import resource="dcm.xml" />
 		<import resource="slits.xml" />
 		<import resource="server_scannables.xml" />
 		<import resource="detectors/dcam1.xml" />

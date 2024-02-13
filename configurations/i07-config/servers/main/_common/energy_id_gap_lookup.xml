@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="e_id_gap_lookup_table" class="gda.function.lookup.LookupTable">
+		<property name="name" value="e_id_gap_lookup_table" />
+		<property name="filename" value="IIDCalibrationTable.txt" />
+		<property name="columnHead" value="Column" />
+		<property name="columnUnit" value="Units" />
+	</bean>
+
+</beans>

@@ -13,7 +13,7 @@ from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 from gdaserver import ebe, p2_mask, p3_mask, ex_mask
 from gdascripts.installation import isLive
-
+from scannable.energy_id_gap import energy
 
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
