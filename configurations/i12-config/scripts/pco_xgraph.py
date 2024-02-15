@@ -214,6 +214,7 @@ class PCOXgraph():
         from gda.scan.ScanInformation import ScanInformationBuilder
         from gda.scan import ScanDataPoint
         from gda.device.scannable import DummyScannable
+        from gda.device.scannable.ScannableUtils import getExtraNamesFormats
         #from dummy_utils import dum_collstrat, dum_det
         #import sys
         #sys.path.append("/dls_sw/i12/scripts/gda-tests")
@@ -254,7 +255,7 @@ class PCOXgraph():
                 sdp_tmp.setUniqueName("unique")
                 sdp_tmp.setScanInformation(si)
                 sdp_tmp.addDetector(dum_det)
-                sdp_tmp.addDataFromDetector(dum_det)
+                sdp_tmp.addDetectorData(dum_det.readout(), getExtraNameFormat(dum_det))
                 
                 sdp_tmp.setCurrentPointNumber(i)
                 
@@ -286,6 +287,7 @@ def _create_nexus_scan_file(detector_name,exptime,scan_number,hdfpath,outdirpath
     from gda.scan.ScanInformation import ScanInformationBuilder
     from gda.scan import ScanDataPoint
     from gda.device.scannable import DummyScannable
+    from gda.device.scannable.ScannableUtils import getExtraNamesFormats
     from dummy_utils import dum_collstrat, dum_det
     
     print("create_nexus_scan_file: outdirpath = %s" %(outdirpath))
@@ -363,7 +365,7 @@ def _create_nexus_scan_file(detector_name,exptime,scan_number,hdfpath,outdirpath
             sdp_tmp.setUniqueName("some-unique-name-but-not-this-one")
             sdp_tmp.setScanInformation(si)
             sdp_tmp.addDetector(dum_det)
-            sdp_tmp.addDataFromDetector(dum_det)
+            sdp_tmp.addDetectorData(dum_det.readout(), getExtraNamesFormats(dum_det))
             
             sdp_tmp.addScannable(dum_before_x)
             sdp_tmp.addScannable(dum_before_y)

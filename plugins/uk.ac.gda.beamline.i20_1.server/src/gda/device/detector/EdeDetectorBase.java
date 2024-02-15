@@ -39,6 +39,7 @@ import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.INexusDataWriter;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
+import gda.device.scannable.ScannableUtils;
 import gda.epics.util.EpicsGlobals;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
@@ -273,7 +274,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		try {
 			ScanDataPoint sdp = new ScanDataPoint();
 			sdp.addDetector(this);
-			sdp.addDataFromDetector(this);
+			sdp.addDetectorData(readout(), ScannableUtils.getExtraNamesFormats(currentDetector));
 			sdp.setCurrentPointNumber(0);
 			sdp.setNumberOfPoints(1);
 			sdp.setScanDimensions(new int[]{1});
