@@ -216,7 +216,6 @@ from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass
 from pd_dummy import dummyClass
 from pd_foilinserter import Foilinserter
 from pd_attenuator import Atten
-from pd_polarizationAnalyser_new_alpha import PolarizationAnalyser
 from pd_epics import DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerSetAndGetOnlyClass, SingleEpicsPositionerNoStatusClass2, Epics_Shutter #@UnusedImport #@UnusedImport
 from pd_ionpump import AllPumpsOnPD, EpicsIonpClass #@UnusedImport
 from pd_struck import Struck
@@ -464,13 +463,6 @@ if USE_CRYO_GEOMETRY:
 	exec("gam=euler.gam")
 else:
 	run("localStationScripts/startup_diffractometer_euler")
-
-""" PA motors now defined in spring
-if installation.isLive():
-	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
-	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
-	dettrans=SingleEpicsPositionerClass('dettrans','BL16I-EA-POLAN-01:DET2:2THETAp.VAL','BL16I-EA-POLAN-01:DET2:2THETAp.RBV','BL16I-EA-POLAN-01:DET2:2THETAp.DMOV','BL16I-EA-POLAN-01:DET2:2THETAp.STOP','mm','%.3f')
-"""
 
 if not USE_DIFFCALC:
 	localStation_warning("setting up diffractometer, using Allesandro's code instead of diffcalc")
@@ -733,10 +725,7 @@ else:
 
 try:
 	### Polarization analyser ###
-	localStation_print("   creating polarisation analyser scannable: pol")
-#	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
-	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)  # @UndefinedVariable
-
+	from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
 
 	### TCA  ###
 	localStation_print("   creating TCA scanables")
@@ -757,31 +746,18 @@ if installation.isLive():
 	### LS340 ###
 	localStation_print("Creating LS340 scannables")
 	try:
-		Treg=DisplayEpicsPVClassLS('T1',"BL16I-EA-LS340-01:",'K','%7f','0',7)
-		Tsam=DisplayEpicsPVClassLS('T1',"BL16I-EA-LS340-01:",'K','%7f','1',8)
-		tset=EpicsLScontrol('tset','BL16I-EA-LS340-01:','K','%5.2f','0','1')
-		T1=EpicsLSsetpoint('Tset1','SETP? 1','SETP 1','K','%5.2f')
-		T2=EpicsLSsetpoint('Tset2','SETP? 2','SETP 2','K','%5.2f')
-
-		Ta=DisplayEpicsPVClass('Ta','BL16I-EA-LS340-01:KRDG0','K','%6f')
-		Tb=DisplayEpicsPVClass('Tb','BL16I-EA-LS340-01:KRDG1','K','%6f')
-		Tc=DisplayEpicsPVClass('Tc','BL16I-EA-LS340-01:KRDG2','K','%6f')
-		Td=DisplayEpicsPVClass('Td','BL16I-EA-LS340-01:KRDG3','K','%6f')
-
-		Tas=DisplayEpicsPVClass('Tas','BL16I-EA-LS340-01:SRDG0','K','%6f')
-		Tbs=DisplayEpicsPVClass('Tbs','BL16I-EA-LS340-01:SRDG1','K','%6f')
-		Tcs=DisplayEpicsPVClass('Tcs','BL16I-EA-LS340-01:SRDG2','K','%6f')
-		Tds=DisplayEpicsPVClass('Tds','BL16I-EA-LS340-01:SRDG3','K','%6f')
-
-#		Ta=DisplayEpicsPVClassLS('Ta_diode',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta.setInputNames(['Ta'])
-#		Tb=DisplayEpicsPVClassLS('Tb_Pt',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb.setInputNames(['Tb'])
-#		Tc=DisplayEpicsPVClassLS('Tc_TCtypeE',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc.setInputNames(['Tc'])
-#		Td=DisplayEpicsPVClassLS('Td_TCAuFe',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td.setInputNames(['Td'])
-
-#		Ta2=DisplayEpicsPVClassLS2('Ta2',"BL16I-EA-LS340-01:",'K','%4f','0',8); Ta2.setInputNames(['Tas']);
-#		Tb2=DisplayEpicsPVClassLS2('Tb2',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb2.setInputNames(['Tbs']);
-#		Tc2=DisplayEpicsPVClassLS2('Tc2',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc2.setInputNames(['Tcs']);
-#		Td2=DisplayEpicsPVClassLS2('Td2',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td2.setInputNames(['Tds']);
+		from pd_sample_temperature import TemperatureController
+		tcontrol_id = pd_offset.Offset('tcontrol_id')
+		tcontrol = TemperatureController('tcontrol', tcontrol_id)
+		tset = tcontrol.tset_device('tset')
+		Ta = tcontrol.Ta_device('Ta')
+		Tb = tcontrol.Tb_device('Tb')
+		Tc = tcontrol.Tc_device('Tc')
+		Td = tcontrol.Td_device('Td')
+		Tsample = tcontrol.Tsample_device('Tsample')
+		Theater = tcontrol.Theater_device('Theater')
+		twait = tcontrol.twait_device('twait', tset, Tsample)
+		Tchannel = tcontrol.Tchannel_device('Tchannel')
 	except:
 		localStation_exception("connecting to epics PVs for BL16I-EA-LS340-01 - failed to create Scannables: Treg, Tsam, tset, T1, T2, Ta, Tb, Tc, Td, Tas, Tbs, Tcs & Tds")
 
@@ -1311,28 +1287,6 @@ from pd_offsetAxis import OffsetAxisClass
 th=OffsetAxisClass('th',eta,eta_offset,help='eta device with offset given by eta_offset. Use pos eta_offset to change offset')
 thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_offset. Use pos mu_offset to change offset')
 
-#############################################################################
-###                           P/A detector angles                           ###
-###############################################################################
-""" PA motors are now defined in spring, so we cannot store ad-hoc values in tthp
-if installation.isLive():
-	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
-	#tthp.apd = 3.25 #30/9/15
-	#tthp.apd = 0.5 #17/5/16
-	#tthp.apd = 0.9 #13/2/17
-	tthp.apd = -0.35 #24/04/18
-	#tthp.diode=56.4#2/10/11 - changed from 55.6
-	#tthp.diode=55#01/07/16 - changed from 56.4
-	#tthp.diode=53.713#01/07/16 - changed from 56.4
-	#tthp.diode=53.65#01/07/16 - changed from 53.713
-	#tthp.diode=54.3	#13/02/17
-	tthp.diode=0	#24/04/18
-	tthp.camera=34.4 #14/10/12 -changed from 33.4
-	tthp.vortex=-14.75 #31/1/10
-	#tthp.ccd=70
-	tthp.ccd=40 #24/04/18
-"""
-
 ###############################################################################
 ###                                Metadata                                 ###
 ###############################################################################
@@ -1360,7 +1314,7 @@ try:
 
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])  # @UndefinedVariable
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])  # @UndefinedVariable
-	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])  # @UndefinedVariable
+	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans, s7xgap, s7xtrans, s7ygap, s7ytrans])  # @UndefinedVariable
 	mirror1=ReadPDGroupClass('mirror1',[m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo])  # @UndefinedVariable
 	mirror2=ReadPDGroupClass('mirror2',[m2pitch, m2x, m2y, m2roll, m2yaw,m2bender])  # @UndefinedVariable
 	mirror3=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch])
@@ -1369,7 +1323,7 @@ try:
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
 	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])  # @UndefinedVariable
 	###
-	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])  # @UndefinedVariable
+	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp, dettrans, mtthp])  # @UndefinedVariable
 	#pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12 @UndefinedVariable
@@ -1383,14 +1337,14 @@ try:
 	frontend=ReadPDGroupClass('frontend',[frontendx, frontendy])
 	gains_atten=ReadPDGroupClass('gains_atten',[atten, diode.gain, ic1monitor.gain, ic2.gain])
 	try:
-		lakeshore=ReadPDGroupClass('lakeshore',[tset,Ta,Tb,Tc,Td])
+		temperature_controller=ReadPDGroupClass('temperature_controller',[tset, Ta, Tb, Tc, Td, Tsample, Theater, Tchannel])
 	except NameError:
-		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
+		temperature_controller=ReadPDGroupClass('temperature_controller',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
 	"""
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, kbm_offsets])
 	"""
-	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, ppy_offset, m2_coating_offset, idgap_offset])
+	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, ppy_offset])
 	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
@@ -1405,11 +1359,9 @@ def meta_std(full=True):
 		if not USE_DIFFCALC:
 			meta_scannable_names += ['xtalinfo']
 		if full:
-			meta_scannable_names += ['jjslits', 'PPR', 'positions', 'gains_atten', 'lakeshore', 'offsets',
-									's7xgap', 's7xtrans', 's7ygap', 's7ytrans', 'dettrans', 'ppy', 'ppx',
-									'ppchi', 'ppyaw', 'ppth1', 'ppz1', 'ppth2', 'ppz2', 'ppyaw', 'pppitch',
-									'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp', 'p2', 'dettrans',
-									'Energy', 'ubMeta']
+			meta_scannable_names += ['jjslits', 'PPR', 'positions', 'gains_atten', 'tcontrol', 'temperature_controller', 'offsets',
+									'ppy', 'ppx', 'ppyaw', 'pppitch', 'ppchitemp', 'ppth1temp', 'ppz1temp', 'ppth2temp', 'ppz2temp',
+                                    'p2', 'pa_crystal', 'pa_detector', 'pol', 'stokes_pars', 'pa_jones', 'Energy', 'ubMeta']
 
 		addedInSpring = ['sixckappa', 'delta_axis_offset'] # See /i16-config/servers/main/_common/nxmetadata.xml
 
@@ -1739,11 +1691,6 @@ except:
 
 if USE_SMARGON and Finder.find("sgphi"):
 	try:
-		""" Smargon motors now defined in spring
-		sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
-		sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
-		sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
-		"""
 		exec("del hkl")
 		exec("del euler")
 		run("localStationScripts/SmargonTopClass")
@@ -1863,8 +1810,6 @@ for to_protect in protected_commands :
 	overwriting.protect(to_protect)  # @UndefinedVariable
 
 print("-"*100)
-# from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
-# from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
 from gdascripts.scan import flyscans; print(flyscans.__doc__)
