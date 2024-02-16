@@ -26,15 +26,17 @@ print("    Syntax: miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) mpx 10 0
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
 
+
 def clear_summed_data():
     if installation.isLive():
-        # caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
-        caput("BL09K-EA-DET-01:PROC1:ResetFilter", 1)
+        caput("BL09K-EA-DET-01:SUM1:ResetFilter", 1)
     else:
         print("Clear accumulated data")
-        
-PRINTTIME=False
-zeroScannable=DummyScannable("zeroScannable")
+
+
+PRINTTIME = False
+zeroScannable = DummyScannable("zeroScannable")
+
 
 def all_elements_are_scannable(arg):
     for each in arg:
@@ -51,6 +53,7 @@ def all_elements_are_list_of_number(arg):
             if not (type(item) == FloatType or type(item) == IntType):
                 return False
     return True
+
 
 def all_elements_are_list_of_number_or_string(arg):
     for each in arg:
@@ -91,7 +94,7 @@ def get_adbase(collection_strategy):
     else:
         return get_adbase(collection_strategy.getDecoratee())
 
-        
+
 def get_image_mode_decorator(collection_strategy):
     from gda.device.detector.addetector.collectionstrategy import ImageModeDecorator
     if isinstance(collection_strategy, ImageModeDecorator):
@@ -108,7 +111,7 @@ def parse_tuple_arguments(command, newargs, arg):
         for each in arg:
             scannable_group.addGroupMember(each)
             scannable_names.append(each.getName())
-        
+
         command += ",".join(scannable_names)
         scannable_group.setName("pathgroup")
         newargs.append(scannable_group)
@@ -117,7 +120,7 @@ def parse_tuple_arguments(command, newargs, arg):
         list_of_lists = []
         for each in arg:
             list_of_lists.append("[" + ",".join([str(x) for x in each]) + "]")
-        
+
         command += ",".join(list_of_lists)
     elif all_elements_are_number(arg):  # parsing scannable group's position lists
         newargs.append(arg)
@@ -127,7 +130,7 @@ def parse_tuple_arguments(command, newargs, arg):
         list_of_tuples = []
         for each in arg:
             list_of_tuples.append("(" + ",".join([str(x) for x in each]) + ")")
-        
+
         command += ",".join(list_of_tuples)
     elif all_elements_are_string(arg):
         newargs.append(arg)
@@ -153,15 +156,15 @@ def restore_detector_setting_after_scan(adbase, image_mode, num_images):
 def set_number_of_images_to_collect_per_scan_data_point(command, newargs, args, i, image_mode_decorator):
     if i < len(args) - 1:  # more than 2 arguments following detector
         if isinstance(args[i], int) and isinstance(args[i + 1], (int, float)):
-            image_mode_decorator.setImageMode(1) # this will make sure metadata in detector setting are correct as image_mode_decorator setting comes after metadata are collected
+            image_mode_decorator.setImageMode(1)  # this will make sure metadata in detector setting are correct as image_mode_decorator setting comes after metadata are collected
             image_mode_decorator.setNumberOfImagesPerCollection(args[i])  # support the miscan command - first input after detector is number of images per data point
         elif isinstance(args[i], float) and isinstance(args[i + 1], (int, float)):
             raise TypeError, "Number of images to collect per scan data point must be int type."
         elif isinstance(args[i], float) and not isinstance(args[i + 1], (int, float)):
-            image_mode_decorator.setImageMode(0) #single image mode
+            image_mode_decorator.setImageMode(0)  # single image mode
             image_mode_decorator.setNumberOfImagesPerCollection(1)
     elif i == len(args) - 1:  # followed by only one argument - must be exposure time
-        image_mode_decorator.setImageMode(0) #single image mode
+        image_mode_decorator.setImageMode(0)  # single image mode
         image_mode_decorator.setNumberOfImagesPerCollection(1)
         newargs.append(args[i])
     command += str(args[i]) + " "
@@ -198,13 +201,13 @@ def miscan(*args):
         Thus it can be used anywhere the standard GDA 'scan' is used.
     '''
     command = "miscan "  # rebuild the input command as String so it can be recored into data file
-    
+
     starttime = time.ctime()
     start = time.time()
     if PRINTTIME: print("=== Scan started: " + starttime)
     newargs = []
     i = 0;
-    CACHE_PARAMETER_TOBE_CHANGED = False 
+    CACHE_PARAMETER_TOBE_CHANGED = False
     while i < len(args):
         arg = args[i]
         if i == 0 and isinstance(arg, NXDetector):
@@ -213,7 +216,7 @@ def miscan(*args):
             newargs.append(0)
             newargs.append(1)
             newargs.append(arg)
-            command += str(arg.getName()) + " "  
+            command += str(arg.getName()) + " "
         elif type(arg) == TupleType:
             command, newargs = parse_tuple_arguments(command, newargs, arg)
         else:
@@ -228,18 +231,18 @@ def miscan(*args):
                 CACHE_PARAMETER_TOBE_CHANGED = True
             command, newargs = parse_detector_arguments(command, newargs, args, i, arg)
             i = i + 1
-    
+
     # meta.addScalar("user_input", "command", command)
     try:
         scan([e for e in newargs])
     finally:
         if CACHE_PARAMETER_TOBE_CHANGED:
             restore_detector_setting_after_scan(adbase, image_mode, num_images)
-            
-        # meta.rm("user_input", "command")    
+
+        # meta.rm("user_input", "command")
 
     if PRINTTIME: print("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time() - start))
 
 
-from gda.jython.commands.GeneralCommands import alias 
+from gda.jython.commands.GeneralCommands import alias
 alias("miscan")
