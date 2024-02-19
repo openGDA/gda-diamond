@@ -36,7 +36,7 @@ cd $VISIT
 Plus for dummy mode, activemq-for-dummy and GDA AreaDetector Simulation as usual
 
 --------------------------------------------------------------------------------
-								Analysis
+								Scan Analysis
 --------------------------------------------------------------------------------
 
 	To set the current scan:
@@ -76,12 +76,50 @@ BASELINE=$VISIT/$SCAN
 echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
 
 --------------------------------------------------------------------------------
-								Archiving
+								Scan Archiving
 --------------------------------------------------------------------------------
 
 	To copy the structure files to the archive
 
 cp $SCAN.dat $SCAN*.nxlsa $SCAN*.tree $SCAN*.log $ARCHIVE
 BASELINE=$SCAN
+
+--------------------------------------------------------------------------------
+						Processing a scan
+--------------------------------------------------------------------------------
+
+	To re-process data, or process data that wasn't automatically processed
+
+rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log ; \
+ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
+
+	This is the offline equivalent of
+
+rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/mm34332-1/1022133.nxs
+
+--------------------------------------------------------------------------------
+						Processing Analysis
+--------------------------------------------------------------------------------
+
+	To compare the log with the baseline log:
+
+[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINELOG.i16_msmapper.log $SCAN.i16_msmapper.log & \
+[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINELOG.nxs.rs_map.log   $SCAN.nxs.rs_map.log &
+
+	To generate the structure files of the processed volume:
+
+[ -e       processed/${SCAN}_msmapper.nxs ] && \
+nxls    -a processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.nxlsa && \
+nexus.tree processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.tree ; \
+[ -e       processing/$SCAN-processed-volume-hkl.nxs ] && \
+nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
+nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree ; \
+ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
+
+--------------------------------------------------------------------------------
+								Processing Archiving
+--------------------------------------------------------------------------------
+
+cp *_msmapper.nxs.nxlsa *_msmapper.nxs.tree 
 
 ================================================================================
