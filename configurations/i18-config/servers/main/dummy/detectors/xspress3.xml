@@ -22,4 +22,10 @@
 		<property name="numberOfChannels" value="8" />
 	</bean>
 
+	<bean id="xspress3ControllerOdin"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
+		<property name="numElements" value="36" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+     	<property name="timeSeriesNumPoints" value="10000" />	
+	</bean>
 </beans>
