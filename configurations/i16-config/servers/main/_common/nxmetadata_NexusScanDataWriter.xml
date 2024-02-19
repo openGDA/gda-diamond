@@ -112,6 +112,52 @@
 					<property name="name" value="incident_polarisation_stokes"/>
 					<property name="scannableName" value="incident_polarisation_stokes"/>
 				</bean>
+				<!-- vvvvvv Note that the beam direction transformation is specific to i16 vvvvvv -->
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="transformations/direction"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="direction"/>
+								<property name="value">
+										<array value-type="java.lang.Double"><value>0.0</value></array>
+								</property>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>1.</value></array>
+											</constructor-arg>
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="reference_plane"/>
+								<property name="value">
+										<array value-type="java.lang.Double"><value>1.0</value></array>
+								</property>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>1.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				<!-- ^^^^^^ Note that the beam direction transformation is specific to i16 ^^^^^^ -->
+				</bean> 
 			</list>
 		</property>
 	</bean>
