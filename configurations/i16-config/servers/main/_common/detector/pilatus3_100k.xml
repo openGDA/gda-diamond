@@ -133,7 +133,7 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on"/>
-											<constructor-arg name="value" value="/entry1/instrument/transformations/offsetdelta"/>
+											<constructor-arg name="value" value="/entry/instrument/transformations/offsetdelta"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="offset" />
@@ -179,7 +179,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="/entry1/instrument/pil3_100k/transformations/origin_offset"/>
+					<property name="value" value="/entry/instrument/pil3_100k/transformations/origin_offset"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="saturation_value"/>
@@ -226,7 +226,7 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on"/>
-											<constructor-arg name="value" value="/entry1/instrument/pil3_100k/transformations/origin_offset"/>
+											<constructor-arg name="value" value="/entry/instrument/pil3_100k/transformations/origin_offset"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="offset" />
@@ -263,7 +263,7 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on"/>
-											<constructor-arg name="value" value="/entry1/instrument/pil3_100k/module/module_offset"/>
+											<constructor-arg name="value" value="/entry/instrument/pil3_100k/module/module_offset"/>
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="offset" />
@@ -300,7 +300,7 @@
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on"/>
-											<constructor-arg name="value" value="/entry1/instrument/pil3_100k/module/module_offset"/>
+											<constructor-arg name="value" value="/entry/instrument/pil3_100k/module/module_offset"/>
 										</bean>
 										
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">

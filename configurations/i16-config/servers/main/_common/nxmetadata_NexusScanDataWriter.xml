@@ -71,7 +71,7 @@
 			<list>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="/entry1/sample/transformations/phi"/>
+					<property name="value" value="/entry/sample/transformations/phi"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="surface_vector"/>
@@ -187,7 +187,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/sample/transformations/phi" />
+				<property name="dependsOn" value="entry/sample/transformations/phi" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -206,7 +206,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/sample/transformations/kappa" />
+				<property name="dependsOn" value="entry/sample/transformations/kappa" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -224,7 +224,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/sample/transformations/theta" />
+				<property name="dependsOn" value="entry/sample/transformations/theta" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -242,7 +242,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/sample/transformations/mu" />
+				<property name="dependsOn" value="entry/sample/transformations/mu" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -280,7 +280,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/transformations/delta" />
+				<property name="dependsOn" value="entry/instrument/transformations/delta" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -298,7 +298,7 @@
 		<property name="transformation">
 			<bean class="org.eclipse.scanning.device.Transformation">
 				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/transformations/gamma" />
+				<property name="dependsOn" value="entry/instrument/transformations/gamma" />
 				<property name="size" value="0" />
 				<property name="vector">
 					<list>
@@ -480,7 +480,6 @@
 		<property name="nexusTemplateFiles">
 			<list> <!-- Order here matters, as nodes can only be referenced after they have been created -->
 				<value>${gda.config}/yaml/NXmx.yaml</value>
-				<value>${gda.config}/yaml/compatibility.yaml</value>
 			</list>
 		</property>
 		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
