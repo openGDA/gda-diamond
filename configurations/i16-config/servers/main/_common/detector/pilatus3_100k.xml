@@ -213,7 +213,7 @@
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="data_size"/>
 								<property name="value">
-									<array value-type="java.lang.Integer"><value>487</value><value>195</value></array>
+									<array value-type="java.lang.Integer"><value>195</value><value>487</value></array>
 								</property>
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
