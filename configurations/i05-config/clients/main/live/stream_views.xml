@@ -21,32 +21,33 @@
 		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/ES-i2.DCAM.mjpg.mjpg"/>
 	</bean>
 
-	<bean id="i05_camera11" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="webcam4" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam4.diamond.ac.uk/mjpg/1/video.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="webcam9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Simulated Camera" />
+		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
+		<property name="rgb" value="true" />
+	</bean>
+
+	<bean id="webcam10" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Camera" />
 		<property name="url" value="http://i05-webcam10.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="i05_camera10" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+	<bean id="webcam11" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Camera" />
 		<property name="url" value="http://i05-webcam11.diamond.ac.uk/mjpg/1/video.mjpg?camera=1" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="i05_camera8" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
-		<property name="rgb" value="true" />
-	</bean>
-
-	<bean id="i05_camera9" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://i05-webcam9.diamond.ac.uk/mjpg/1/video.mjpg" />
-		<property name="rgb" value="true" />
-	</bean>
-	
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 		<import resource="../_common/es_i3_live_controls.xml"/>
+
 	<bean id="es-i3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES-i3" />
 		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/ES-i3.DCAM.mjpg.mjpg" />

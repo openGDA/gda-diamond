@@ -37,9 +37,9 @@
 
 	<bean id="monitoring_perspective_config" class="uk.ac.gda.apres.ui.config.HRMonitoringPerspectiveConfiguration">
 		<property name="name" value="monitoring_perspective_config" />
-		<property name="camera1Name" value="i05_camera10" />
-		<property name="camera2Name" value="i05_camera11" />
-		<property name="camera3Name" value="i05_camera8" />
+		<property name="camera1Name" value="webcam4" />
+		<property name="camera2Name" value="webcam10" />
+		<property name="camera3Name" value="webcam9" />
 		<property name="temperatureControls">
 			<bean class="uk.ac.gda.client.livecontrol.ControlSet">
 				<property name="controls">
