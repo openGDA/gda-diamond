@@ -120,6 +120,6 @@ ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
 								Processing Archiving
 --------------------------------------------------------------------------------
 
-cp *_msmapper.nxs.nxlsa *_msmapper.nxs.tree 
+cp $SCAN*.log $SCAN*.nxlsa $SCAN*.tree $ARCHIVE
 
 ================================================================================

@@ -12,6 +12,10 @@ Scan		Configuration	Dummy	Detector		Notes
 2023110273	NSD				Dummy	NXD/NDP	pil3	" with 487x195 image, not 1280*960
 2024010118	NSD				Dummy	NXD/NDP	pil3	" using NXmx template to create transformations
 ----------- --- --- --	-	-----	-------	-------	----------------------------
+2024010139	NSD				Dummy	NXD/NDP	pil3	New baseline without NDW compatibility
+----------- --- --- --	-	-----	-------	-------	----------------------------
+
+----------- --- --- --	-	-----	-------	-------	----------------------------
 	NDW		NexusDataWriter				T		Template
 	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
 	DWE		DataWriterExtender			NXD		NXDetector
