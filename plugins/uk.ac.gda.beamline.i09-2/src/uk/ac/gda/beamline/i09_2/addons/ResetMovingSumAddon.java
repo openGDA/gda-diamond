@@ -22,13 +22,12 @@
 
 package uk.ac.gda.beamline.i09_2.addons;
 
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.jython.InterfaceProvider;
-import gda.jython.commandinfo.CommandThreadEvent;
-import gda.jython.commandinfo.CommandThreadEventType;
-import gda.jython.commandinfo.ICommandThreadObserver;
 import gda.observable.IObserver;
 import gda.scan.ScanEvent;
 
@@ -37,10 +36,7 @@ public class ResetMovingSumAddon{
 
 	private static final String DETECTOR = "dld";
 	private static final String COMMAND = "clear_summed_data()";
-
-	private String scanCommand;
-	private boolean scanIsRunning = false;
-	private int currentPoint = -1;
+	private int currentPoint = Integer.MAX_VALUE;
 
 	public ResetMovingSumAddon() {
 		configure();
@@ -48,30 +44,16 @@ public class ResetMovingSumAddon{
 
 	public void configure() {
 		logger.debug("Configuring ResetMovingSumAddon");
-		InterfaceProvider.getCommandThreadInfoProvider().addCommandThreadObserver(commandThreadObserver);
 		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
 	}
 
-	private ICommandThreadObserver commandThreadObserver = (source, arg) -> {
-		if (arg instanceof CommandThreadEvent event &&  (event.getEventType()==CommandThreadEventType.START)) {
-				scanCommand = event.getInfo().getCommand();
-				if (!(scanCommand.contains(DETECTOR))) return;
-				scanIsRunning = true;
-				resetMovSum();
-				logger.debug("CommandThreadObserver got scan command {}",scanCommand);
-		}
-	};
-
 	private IObserver serverObserver = (source, arg) -> {
-		if (!(arg instanceof ScanEvent scanEvent) || (!scanIsRunning)) return;
-		if (scanEvent.getLatestStatus().isComplete()) {
-			scanIsRunning = false;
-			currentPoint = -1;
-			return;
-		}
-		if (scanEvent.getCurrentPointNumber()==currentPoint) return;
+		if (!(arg instanceof ScanEvent scanEvent)) return;
+		if (Arrays.asList(scanEvent.getLatestInformation().getDetectorNames()).stream().filter(s -> s.startsWith(DETECTOR)).toList().isEmpty()) return;
+		if (currentPoint == scanEvent.getCurrentPointNumber()) return;
 		resetMovSum();
 		currentPoint = scanEvent.getCurrentPointNumber();
+		if (scanEvent.getLatestStatus().isComplete()) currentPoint = Integer.MAX_VALUE;
 	};
 
 	private void resetMovSum() {
