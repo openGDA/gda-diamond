@@ -382,11 +382,15 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			log("moving sample wheel to " + demand);
 			samplewheel_scannable.moveTo(demand);
 		} else {
-			String filter = bean.getFilter();
-			log("moving sample wheel to " + filter);
-			// Move to named filter, block until finished
-			((SampleWheel) samplewheel_scannable).moveToFilter(filter);
-			((SampleWheel) samplewheel_scannable).waitWhileBusy();
+			if (samplewheel_scannable instanceof SampleWheel wheel) {
+				String filter = bean.getFilter();
+				log("moving sample wheel to " + filter);
+				// Move to named filter, block until finished
+				wheel.moveToFilter(filter);
+				wheel.waitWhileBusy();
+			} else {
+				throw new IllegalArgumentException("Cannot move samplewheel using filter name - samplewheel_scannable is not correct type (SampleWheel class)");
+			}
 		}
 		log("sample wheel move complete");
 	}
