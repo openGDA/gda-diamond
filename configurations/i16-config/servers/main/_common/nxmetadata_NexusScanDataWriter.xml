@@ -342,7 +342,103 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s1ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s1transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s1transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s1xcentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s1transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s1ycentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s1transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">-26.4</value>
+								</property>
+								<property name="units" value="m"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<!-- ^^^^^^ slits transformation ^^^^^^ -->
 			</list>
 		</property>
 	</bean>
@@ -360,7 +456,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s2ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s2transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s2transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s2xcentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s2transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s2ycentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s2transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">-23.3</value>
+								</property>
+								<property name="units" value="m"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -378,7 +569,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s3ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s3transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s3transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s3xcentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s3transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s3ycentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s3transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">-17.3</value>
+								</property>
+								<property name="units" value="m"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -396,7 +682,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s4ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s4transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s4transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s4xcentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s4transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s4ycentre"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s4transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">-4.37</value>
+								</property>
+								<property name="units" value="m"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -414,7 +795,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s5ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s5transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s5transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s5xtrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s5transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s5ytrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s5transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">-0.5</value>
+								</property>
+								<property name="units" value="m"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -432,7 +908,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s6ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s6transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s6transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s6xtrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s6transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s6ytrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s6transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">57</value>
+								</property>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -450,7 +1021,102 @@
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="y_gap"/>
 					<property name="scannableName" value="s7ygap"/>
-				</bean>		
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="s7transformations/x_centre"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="s7transformations"/>
+					<property name="nexusClass" value="NXtransformations"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="x_centre"/>
+								<property name="scannableName" value="s7xtrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>1.</value>
+														<value>0.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s7transformations/y_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="y_centre"/>
+								<property name="scannableName" value="s7ytrans"/>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>1.</value>
+														<value>0.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="s7transformations/z_centre" />
+										</bean>
+									</list>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="z_centre"/>
+								<property name="value">
+									<value type="java.lang.Double">750</value>
+								</property>
+								<property name="units" value="mm"/>
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double">
+														<value>0.</value>
+														<value>0.</value>
+														<value>1.</value>
+													</array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on" />
+											<constructor-arg name="value" value="." />
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>

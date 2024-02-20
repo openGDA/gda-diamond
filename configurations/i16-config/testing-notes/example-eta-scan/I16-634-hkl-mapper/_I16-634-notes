@@ -13,6 +13,7 @@ Scan		Configuration	Dummy	Detector		Notes
 2024010118	NSD				Dummy	NXD/NDP	pil3	" using NXmx template to create transformations
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 2024010139	NSD				Dummy	NXD/NDP	pil3	New baseline without NDW compatibility
+2024010220	NSD				Dummy	NXD/NDP	pil3	Add slits transformations
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 
 ----------- --- --- --	-	-----	-------	-------	----------------------------

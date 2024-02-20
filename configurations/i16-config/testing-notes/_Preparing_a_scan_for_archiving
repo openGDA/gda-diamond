@@ -35,11 +35,19 @@ cd $VISIT
 
 Plus for dummy mode, activemq-for-dummy and GDA AreaDetector Simulation as usual
 
+	To quickly summarise current state
+
+echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
+
+	To set the current scan as a new baseline
+
+BASELINE=$VISIT/$SCAN
+
 --------------------------------------------------------------------------------
 								Scan Analysis
 --------------------------------------------------------------------------------
 
-	To set the current scan:
+	To set the current scan (may need to be run multiple times if scan failed):
 
 ls -trsh | tail -10 ; SCAN=$((SCAN+1)) ; echo SCAN=$SCAN
 
@@ -62,27 +70,13 @@ echo ; echo $SCAN.nxs.n*
 [ -e     $BASELINE.nxs.ndw.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
   kdiff3 $BASELINE.nxs.ndw.nxlsa           $SCAN.nxs.nsd.nxlsa   & \
 [ -e     $BASELINE.nxs.nsd.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.nsd.nxlsa           $SCAN.nxs.nsd.nxlsa   &
-# or
-[ -e $SCAN.nxs.ndw.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.ndw.tree  ; \
-[ -e $SCAN.nxs.nsd.tree  ] && kdiff3 $BASELINE.nxs.ndw.tree $SCAN.nxs.nsd.tree 
-
-	To set the current scan as a new baseline
-
-BASELINE=$VISIT/$SCAN
-
-	To quickly summarise current state
-
-echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
-
---------------------------------------------------------------------------------
-								Scan Archiving
---------------------------------------------------------------------------------
-
-	To copy the structure files to the archive
-
-cp $SCAN.dat $SCAN*.nxlsa $SCAN*.tree $SCAN*.log $ARCHIVE
-BASELINE=$SCAN
+  kdiff3 $BASELINE.nxs.nsd.nxlsa           $SCAN.nxs.nsd.nxlsa   & \
+[ -e     $BASELINE.nxs.ndw.tree  ] && [ -e $SCAN.nxs.ndw.tree ] && \
+  kdiff3 $BASELINE.nxs.ndw.tree            $SCAN.nxs.ndw.tree   & \
+[ -e     $BASELINE.nxs.ndw.tree  ] && [ -e $SCAN.nxs.nsd.tree ] && \
+  kdiff3 $BASELINE.nxs.ndw.tree            $SCAN.nxs.nsd.tree   & \
+[ -e     $BASELINE.nxs.nsd.tree  ] && [ -e $SCAN.nxs.nsd.tree ] && \
+  kdiff3 $BASELINE.nxs.nsd.tree            $SCAN.nxs.nsd.tree   &
 
 --------------------------------------------------------------------------------
 						Processing a scan
@@ -103,8 +97,8 @@ rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/m
 
 	To compare the log with the baseline log:
 
-[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINELOG.i16_msmapper.log $SCAN.i16_msmapper.log & \
-[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINELOG.nxs.rs_map.log   $SCAN.nxs.rs_map.log &
+[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINE.i16_msmapper.log $SCAN.i16_msmapper.log & \
+[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINE.nxs.rs_map.log   $SCAN.nxs.rs_map.log &
 
 	To generate the structure files of the processed volume:
 
@@ -117,9 +111,9 @@ nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hk
 ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
 
 --------------------------------------------------------------------------------
-								Processing Archiving
+								Scan Archiving
 --------------------------------------------------------------------------------
 
-cp $SCAN*.log $SCAN*.nxlsa $SCAN*.tree $ARCHIVE
+cp $SCAN.dat $SCAN*.nxlsa $SCAN*.tree $SCAN*.log $ARCHIVE
 
 ================================================================================

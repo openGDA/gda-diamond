@@ -1,0 +1,24 @@
+processing/2024010220-processed-volume-hkl.nxs:
+/
+  @default='processed'
+    entry0 (external link to ../2024010220.nxs#/entry):NXentry/
+                                                                @default='measurement'
+    processed:NXentry/
+                       @default='reciprocal_space'
+    processed/process:NXprocess/
+    processed/process/date='2024-03-01T13:29:14.255706481Z'
+    processed/process/parameters='{"inputs":["2024010220.nxs"],"output":"processing/2024010220-processed-volume-hkl.nxs","splitterName":"gaussian","splitterParameter":2.0,"scaleFactor":2.0,"reduceToNonZero":true,"entryPath":null,"instrumentName":null,"attenuatorName":null,"monitorName":null,"detectorName":null,"dataName":null,"sampleName":null,"listMillerEntries":false,"shape":null,"start":null,"step":[0.002],"region":null,"maskFilePath":null,"outputMode":"Volume_HKL","pixelIndexes":null,"images":null,"correctPolarization":true}'
+    processed/process/program='DAWN.MillerSpaceMapper'
+    processed/process/version='1.6'
+    processed/reciprocal_space:NXdata/
+                                       @auxiliary_signals='weight'
+                                       @axes=['h-axis', 'k-axis', 'l-axis']
+                                       @h-axis_indices=0
+                                       @k-axis_indices=1
+                                       @l-axis_indices=2
+                                       @signal='volume'
+    processed/reciprocal_space/h-axis: (47,) units=/angstrom
+    processed/reciprocal_space/k-axis: (325,) units=/angstrom
+    processed/reciprocal_space/l-axis: (152,) units=/angstrom
+    processed/reciprocal_space/volume: (47, 325, 152)
+    processed/reciprocal_space/weight: (47, 325, 152)
