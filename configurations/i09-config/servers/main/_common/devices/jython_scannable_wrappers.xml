@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- These wrapper objects expose scannable defined in Jython scripts to the GUI components in Client -->
+	<bean id="polarisation_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="polarisation"/>
+		<property name="command" value="polarisation.deleteIObservers()"/>
+	</bean>
+
+	<bean id="igap_offset_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="igap_offset"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+	
+	<bean id="jgap_offset_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="jgap_offset"/>
+		<property name="command" value="jgap_offset_wrapper.deleteIObservers()"/>
+	</bean>
+
+	<bean id="ienergy_order_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="ienergy_order"/>
+		<property name="command" value="ienergy_order.deleteIObservers()"/>
+	</bean>
+	
+	<bean id="jenergy_order_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="jenergy_order"/>
+		<property name="command" value="jenergy_order.deleteIObservers()"/>
+	</bean>
+	
+</beans>
