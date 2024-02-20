@@ -56,6 +56,13 @@ run "spectrometer-setup.py"
 # Setup the deferred moves and direct demand PVs for the spectrometer
 run 'setup-spectrometer-deferred-move-scannables.py'
 
+# Functions for running anlalyser alignment
+run 'analyser-alignment.py'
+
+# Functions for running qXES scans using Malcolm
+run 'quick_xes_scan.py'
+run 'quick_xes_scan_processing.py'
+
 #  Run the detector setup functions
 run "detector-setup.py"
 
@@ -93,7 +100,7 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-theFactory.setScanName("")
+#theFactory.setScanName("")
 theFactory.setXesBraggGroup(XESBraggGroup)
 theFactory.setXesEnergyBoth(XESEnergyBoth)
 theFactory.setXesEnergyGroup(XESEnergyGroup)
@@ -115,7 +122,7 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-theFactory.setScanName("")
+#theFactory.setScanName("")
 
 xas = theFactory.createEnergyScan();
 xas.setDetectorOrder([ionchambers])
@@ -190,8 +197,6 @@ else :
 
 set_initial_crystal_values(XESEnergyLower)
 set_initial_crystal_values(XESEnergyUpper)
-XesMotorOffsetsLower = Finder.find("XesMotorOffsetsLower")
-XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
@@ -229,5 +234,12 @@ test.setSpeed(10000)
 # Sometimes the script logging controls does not connect to database initially -
 # run 'reconfigure' to try connect again.
 XASLoggingScriptController.reconfigure()
+
+from gda.data.metadata import GDAMetadataProvider
+def setVisit(visitStr) :
+    metaDataProv=GDAMetadataProvider.getInstance()
+    currentVisit=metaDataProv.getMetadataValue("visit") # current visit
+    metaDataProv.setMetadataValue("visit", visitStr) # set the new visit
+    print "Changing visit from ",currentVisit," to ",visitStr
 
 print "\n****GDA startup script complete.****\n\n"

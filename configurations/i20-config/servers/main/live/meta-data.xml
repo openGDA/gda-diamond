@@ -61,6 +61,9 @@
                     <property name="name" value="defVisit" />
                     <property name="propertyName" value="gda.defVisit" />
                 </bean>
+				<bean name="subdirectory" class="gda.data.metadata.PersistantMetadataEntry">
+					<property name="defaultValue" value="" />
+				</bean>
                 <!-- 
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="investigation" />
