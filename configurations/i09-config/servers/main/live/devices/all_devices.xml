@@ -50,6 +50,7 @@
 	<import resource="ES2.xml" />
 <!-- 	<import resource="file://${gda.config.shared}/servers/hard/live/devices/ES3.xml"/> -->
 	<import resource="FastShutter.xml" />
+	<import resource="file://${gda.config.shared}/servers/soft/live/devices/ring.xml"/>
 	<import resource="topup.xml" />
 	<import resource="RFDMotors.xml" />
 	<import resource="Scaler1.xml" />
