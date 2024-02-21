@@ -2,10 +2,8 @@
 import pd_offset
 from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
-
-pil3_centre_i = pd_offset.Offset('pil3_centre_i')
-pil3_centre_j = pd_offset.Offset('pil3_centre_j')
 from lab84.initialise_offsets import PIL3_CENTRE_I_DEFAULT, PIL3_CENTRE_J_DEFAULT
+from localStationScripts.startup_offsets import pil3_centre_i, pil3_centre_j
 ci = pil3_centre_i() or PIL3_CENTRE_I_DEFAULT
 cj = pil3_centre_j() or PIL3_CENTRE_J_DEFAULT
 

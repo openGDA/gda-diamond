@@ -45,7 +45,6 @@ PIL3_CENTRE_J_DEFAULT=106
 def setup_pil3_centre():
     '''initialise detector centre position
     '''
-    from dummy.localStationStaff import pil3_centre_i, pil3_centre_j
+    from localStationScripts.startup_offsets import pil3_centre_i, pil3_centre_j
     pil3_centre_i.asynchronousMoveTo(PIL3_CENTRE_I_DEFAULT)
     pil3_centre_j.asynchronousMoveTo(PIL3_CENTRE_J_DEFAULT)
-    

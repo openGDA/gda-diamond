@@ -19,6 +19,9 @@ detector_lateral_offset_ninety=pd_offset.Offset('detector_lateral_offset_ninety'
 phi_offset=pd_offset.Offset('phi_offset') 
 gam_offset=pd_offset.Offset('gam_offset')
 
+pil3_centre_i = pd_offset.Offset('pil3_centre_i')
+pil3_centre_j = pd_offset.Offset('pil3_centre_j')
+
 eta_offset=pd_offset.Offset('eta_offset') 
 delta_offset=pd_offset.Offset('delta_offset') #used in th2th
 mu_offset=pd_offset.Offset('mu_offset') 
