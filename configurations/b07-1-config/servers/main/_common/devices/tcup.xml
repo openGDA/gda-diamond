@@ -16,17 +16,17 @@
 		<property name="motor" ref="sm2_zp_motor" />
 	</bean>
 
-	<bean id="sm2_xpc" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sm2_xpc_motor" />
-	</bean>
+<!-- 	<bean id="sm2_xpc" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="sm2_xpc_motor" /> -->
+<!-- 	</bean> -->
 
-	<bean id="sm2_ypc" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sm2_ypc_motor" />
-	</bean>
+<!-- 	<bean id="sm2_ypc" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="sm2_ypc_motor" /> -->
+<!-- 	</bean> -->
 
-	<bean id="sm2_zpc" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sm2_zpc_motor" />
-	</bean>
+<!-- 	<bean id="sm2_zpc" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="motor" ref="sm2_zpc_motor" /> -->
+<!-- 	</bean> -->
 
 	<bean id="sm2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -34,9 +34,9 @@
 				<ref bean="sm2_xp" />
 				<ref bean="sm2_yp" />
 				<ref bean="sm2_zp" />
-				<ref bean="sm2_xpc" />
-				<ref bean="sm2_ypc" />
-				<ref bean="sm2_zpc" />
+<!-- 				<ref bean="sm2_xpc" /> -->
+<!-- 				<ref bean="sm2_ypc" /> -->
+<!-- 				<ref bean="sm2_zpc" /> -->
 			</list>
 		</property>
 	</bean>
