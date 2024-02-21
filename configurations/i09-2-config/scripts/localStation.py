@@ -30,8 +30,6 @@ scansReturnToOriginalPositions = 0;
 print
 
 from java.lang import System  # @UnresolvedImport
-_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-core.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
-sys.path.append(_epicsScriptLibraryDir)
 
 ###############################################################################
 ###                            Generic Functions                            ###
@@ -203,20 +201,15 @@ print("-------------------------------------------------------------------------
 
 from pseudodevices.IDGap_Offset import jgap_offset
 
-print("Create 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables.")
-LH, LV, CR, CL, LH3 = ["LH", "LV", "CR", "CL", "LH3"]
-from i09shared.calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-if installation.isLive():
-    jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
-    polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
-    jenergypolarisation = BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV='BL09J-EA-FDBK-01:ENABLE')  # @UndefinedVariable
-else:
-    jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", polarisationConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
-    polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", energyConstant=True, gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
-    jenergypolarisation = BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.csv", gap_offset=jgap_offset, feedbackPV=None)  # @UndefinedVariable
+print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
+LH,LV,CR,CL=["LH","LV","CR","CL"]
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 
+jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
 jenergy_s.configure()
+polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
 polarisation.configure()
+jenergypolarisation = BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy_s"])
 jenergypolarisation.setExtraNames(["polarisation"])
@@ -247,6 +240,7 @@ from metadata.metashop import meta_add, meta_ll, meta_ls, meta_rm  # @UnusedImpo
 meta_data_list = [jgap, topup_time, rc, beamenergy, topupstate, sm6iamp27, sm6, sm3, ss2, ss7, pgm, pgmenergy, microscope, es3x]  # @UndefinedVariable
 meta_data_list += [sx1, sx2, sx3, sy, sz1, sz2]  # @UndefinedVariable
 meta_data_list += [jenergy_s, polarisation]  # @UndefinedVariable
+meta_data_list += [analyser_slit]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
 

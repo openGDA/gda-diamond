@@ -1,18 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
+		http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+		
+	<!-- Add paths to Jython -->
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.users.scripts.dir}"/>
+		<property name="name" value="Scripts: User"/>
+		<property name="type" value="USER"/>
 	</bean>
 
-
-	<bean id="user_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0" value="${gda.users.scripts.dir}" />
-		<constructor-arg index="1" value="user-scripts" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="USER" />
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config.shared}/scripts"/>
+		<property name="name" value="Scripts: Shared"/>
+		<property name="type" value="CONFIG"/>
 	</bean>
 
 	<bean id="configuration_script_project" class="gda.jython.ScriptProject">
@@ -20,70 +22,6 @@
 		<constructor-arg index="1" value="beamline-config-scripts" />
 		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 			value="CONFIG" />
-	</bean>
-
-	<bean id="core_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
-		<constructor-arg index="1" value="gda-core-scripts" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-	<bean id="epics_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.epics/scripts" />
-		<constructor-arg index="1" value="epics-core-scripts" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-	<bean id="scisoft_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.install.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.python/src" />
-		<constructor-arg index="1" value="scisoft-scripts" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-
-	<bean id="script_paths" class="gda.jython.ScriptPaths">
-		<property name="projects">
-			<list>
-				<ref bean="user_script_project" />
-				<ref bean="configuration_script_project" />
-				<ref bean="core_script_project" />
-				<ref bean="epics_script_project" />
-				<ref bean="scisoft_script_project" />
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-	</bean>
-
-	<bean id="command_server" class="gda.jython.JythonServer">
-		<property name="jythonScriptPaths">
-			<bean class="gda.jython.ScriptPaths">
-				<property name="projects">
-					<list>
-						
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.users.scripts.dir}"/>
-							<property name="name" value="Scripts: User"/>
-							<property name="type" value="USER"/>
-						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.config}/scripts"/>
-							<property name="name" value="Scripts: Config"/>
-							<property name="type" value="CONFIG"/>
-						</bean>
-						
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.install.git.loc}/gda-diamond.git/configurations/i09-shared/scripts"/>
-							<property name="name" value="Scripts: Shared"/>
-							<property name="type" value="CONFIG"/>
-						</bean>
-					</list>
-				</property>
-				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
-			</bean>
-		</property>
 	</bean>
 
 	<bean id="terminallog_path_provider" class="gda.data.metadata.IntransparentLogFilePathProvider">

@@ -6,11 +6,6 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-
 	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DatasetFitter">
 		<property name="enable" value="false" />
 	</bean>
@@ -59,9 +54,6 @@
 		</property>
 	</bean>
 
-<!-- 	<import resource="commandQueueProcessor.xml" /> -->
-	<import resource="CommandServer.xml" />
-
 	<bean id="highestExistingFileMonitor"
 		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
@@ -75,19 +67,15 @@
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 	</bean>
-	
-	<!--  object to provide recording of metadata in Nexus files -->
-	<import resource="GDAMetadata.xml"/>
-
-	<!-- ScriptControllers must be after command_server -->
-	<import resource="scriptControllers.xml" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar 
 		class -->
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	
+	<import resource="CommandServer.xml" />
+	<import resource="GDAMetadata.xml"/>
+	
+	<import resource="devices/all_devices.xml"/>
 
 </beans>

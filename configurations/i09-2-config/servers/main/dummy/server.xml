@@ -7,5 +7,5 @@
 	<import resource="devices/all_devices.xml" />
 	
 	<!-- do not remove anything below here -->
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+	<import resource="../_common/server.xml" />
 </beans>

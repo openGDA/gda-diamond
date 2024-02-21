@@ -186,6 +186,7 @@
 	
 	<bean id="SequenceFileObserver" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
 	
+		
 	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
 		<property name="name" value="regionvalidator"/>
 		<property name="lookupTablePathMap">

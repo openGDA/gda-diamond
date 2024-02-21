@@ -39,9 +39,6 @@ print "    scansReturnToOriginalPositions=1, return to its start position;"
 scansReturnToOriginalPositions=0;
 print
 
-_epicsScriptLibraryDir = PropertyUtils.getExistingDirFromLocalProperties("gda.install.git.loc") + "/gda-core.git/uk.ac.gda.epics/scripts" + System.getProperty("file.separator");
-sys.path.append(_epicsScriptLibraryDir)
-
 ###############################################################################
 ###                            Generic Functions                            ###
 ###############################################################################
@@ -207,10 +204,15 @@ else:
 ###############################################################################
 globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 
-#Import i/j energy, harmonic order. gap and polarisation instances
-from scannable.energy_poloarisation_order_gap_instances import * #@UnusedWildImport
-from pseudodevices.IDGap_Offset import igap_offset, jgap_offset # @UnusedImport
+###############################################################################
+#     Import i/j energy, harmonic order. gap and polarisation instances       #
+###############################################################################
+from scannable.energy_poloarisation_order_gap_instances import LH,LV,CR,CL,LH3,jenergy_s,polarisation,jenergypolarisation,ienergy_order,jenergy_order, ienergy_s  # @UnusedImport
+from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
 
+###############################################################################
+#                      Import analyserscan commands                           #
+###############################################################################
 print "Create an 'analyserscan' command for scanning the electron analyser."
 from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
 alias("zerosupplies")
@@ -229,7 +231,7 @@ functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 extraDetectors = ""
 
 # Install regional scan
-print "Installing regional scan"
+print "Installing regional scan 'mrscan'"
 from gdascripts.scan.RegionalScan import RegionalScanClass
 mrscan = RegionalScanClass()
 alias('mrscan')

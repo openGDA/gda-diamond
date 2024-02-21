@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="BeamlineInfo.xml"/>
+	<import resource="BeamInfo.xml"/>
+	<import resource="ID.xml"/>
+	<import resource="PGM.xml"/>
+	<import resource="SD1.xml"/>
+	<import resource="SD3.xml"/>
+	<import resource="SD6.xml"/>
+	<import resource="SD10.xml"/>
+	<import resource="SM1.xml"/>
+	<import resource="SM3.xml"/>
+	<import resource="SM6.xml"/>
+	<import resource="SS1.xml"/>
+	<import resource="SS2.xml"/>
+	<import resource="SS3.xml"/>
+	<import resource="SS4.xml"/>
+	<import resource="SS7.xml"/>
+</beans>

@@ -22,9 +22,4 @@
 	<bean id="spc2_loadlock_pressure" class="gda.device.scannable.DummyScannable">
 		<property name="outputFormat" value="%1.3f" />
 	</bean>
-	
-	
-	
-	
-
 </beans>

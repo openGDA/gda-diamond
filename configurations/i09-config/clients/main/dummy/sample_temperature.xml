@@ -18,7 +18,4 @@
 	<bean id="sample_temp" class="gda.device.scannable.DummyScannable">
 		<property name="outputFormat" value="%1.3f" />
 	</bean>
-	
-	
-
 </beans>

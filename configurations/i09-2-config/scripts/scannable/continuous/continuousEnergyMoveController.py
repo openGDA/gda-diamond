@@ -33,7 +33,7 @@ class ContinuousEnergyMoveController(ConstantVelocityMoveController, DeviceBase)
         self._movelog_time = datetime.now()
         self._energy = energy
         #PGM
-        self._mono_energy = energy.mono_energy
+        self._mono_energy = energy.pgmenergy
         self._mono_energy_speed_orig = None
         self._mono_runupdown_time = None
         #ID
