@@ -178,6 +178,7 @@
 						<property name="processDataTypeOut" value="10"/>
 						<property name="enableOffsetScale" value="1"/>
 						<property name="restoreState" value="true"/>
+						<property name="skipFrame"	value="true"/>
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">

@@ -19,10 +19,8 @@ updated on 24 Aug 2014
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.jython.commands.ScannableCommands import scan
 from gda.jython.commands.GeneralCommands import alias
-from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
-    EW4000CollectionStrategy
+from org.opengda.detector.electronanalyser.nxdetector import EW4000
 from gda.factory import Finder
-from gda.jython import InterfaceProvider
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 from time import sleep
@@ -122,10 +120,7 @@ def analyserpathscan(*args):
             jythonServerStatus=InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
             while (jythonServerStatus.isScriptOrScanPaused()):
                 sleep(1.0)
-            arg.setSequenceFilename(filename)
-            sequence=arg.loadSequenceData(filename)
-            if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
-                arg.getCollectionStrategy().setSequence(sequence)
+            arg.loadSequenceData(filename)
             i=i+1
     scan(newargs)
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
