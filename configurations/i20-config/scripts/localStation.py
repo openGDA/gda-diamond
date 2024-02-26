@@ -42,6 +42,8 @@ else :
 # Create DTC_energy scannable to set, get the XSpress4 DTC energy value
 run 'xspress4_dtc_energy_scannable.py'
 
+run 'diagnostic-detector.py'
+
 # Create and setup the monoOptimiser scannable
 run "mono_optimisation.py"
 
@@ -83,6 +85,8 @@ detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(m
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
 detectorPreparer.setIonchamberChecker(ionchamberChecker)
 detectorPreparer.setRunIonchamberChecker(True)
+detectorPreparer.setDiagnosticDetector(d9_current_detector)
+detectorPreparer.setUseDiagnosticDetector(False)
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)

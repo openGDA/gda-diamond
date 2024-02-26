@@ -93,6 +93,12 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	private boolean runIonchamberChecker;
 
+	/** Alternative diagnostic detector to use for Bragg offset scan instead of ionchambers/I1 */
+	private Scannable diagnosticDetector;
+
+	/** Set to true to force braggoffset scan to use detector set by {@link #diagnosticDetector} */
+	private boolean useDiagnosticDetector;
+
 	public I20DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
 			Xmap vortex, NXDetector medipix, TopupChecker topupChecker) {
@@ -543,7 +549,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
-
 	/**
 	 * Run mono optimisation scan (i.e. adjust bragg offset for start and end scan energies to maximise signal
 	 * on the detector and set appropriate fitting parameters to be used to adjust the offset during an energy scan).<p>
@@ -556,13 +561,21 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			return;
 		}
 
-		// Set the ionchamber to use to make measurement
-		if (xesMode) {
-			monoOptimiser.setScannableToMonitor(i1);
-			setI1TimeFormatRequired(true); // always include time, even if not used for main XES scan
+		monoOptimiser.setUseDiagnosticDetector(useDiagnosticDetector);
+
+		if (useDiagnosticDetector) {
+			monoOptimiser.setScannableToMonitor(diagnosticDetector);
 		} else {
-			monoOptimiser.setScannableToMonitor(ionchambers);
+			// Set the ionchamber to use to make measurement
+			if (xesMode) {
+				monoOptimiser.setScannableToMonitor(i1);
+				setI1TimeFormatRequired(true); // always include time, even if not used for main XES scan
+			} else {
+				monoOptimiser.setScannableToMonitor(ionchambers);
+			}
 		}
+
+		logger.info("Running bragg offset scan using {} as detector", monoOptimiser.getScannableToMonitor().getName());
 
 		MonoEnergyRange monoEnergyRange = null;
 		boolean is2dScan = false;
@@ -665,5 +678,21 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public void setRunIonchamberChecker(boolean runIonchamberChecker) {
 		this.runIonchamberChecker = runIonchamberChecker;
+	}
+
+	public boolean isUseDiagnosticDetector() {
+		return useDiagnosticDetector;
+	}
+
+	public void setUseDiagnosticDetector(boolean useDiagnosticDetector) {
+		this.useDiagnosticDetector = useDiagnosticDetector;
+	}
+
+	public Scannable getDiagnosticDetector() {
+		return diagnosticDetector;
+	}
+
+	public void setDiagnosticDetector(Scannable diagnosticDetector) {
+		this.diagnosticDetector = diagnosticDetector;
 	}
 }

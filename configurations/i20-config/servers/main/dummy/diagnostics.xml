@@ -131,14 +131,21 @@
 	</bean>
 	<bean id="d8_screen" class="gda.device.enumpositioner.DummyValve"/>
 
-	<bean id="d9_diode" class="gda.device.enumpositioner.DummyValve"/>
-	<bean id="d9_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d9_diode" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>10^5 low noise</value>
+				<value>In</value>
+				<value>Out</value>
 			</list>
 		</property>
 	</bean>
+
+	<bean id="d9_current" class="gda.device.scannable.DummyScannable">
+		<property name="lowerGdaLimits" value="-10" />
+		<property name="upperGdaLimits" value="10" />
+		<property name="increment" value="0.1" />
+	</bean>
+	
 	<bean id="d9_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
