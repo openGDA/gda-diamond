@@ -7,12 +7,9 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	
 	<util:properties id="microscopePVs">
-	    <prop key="mic">ws410-AD-SIM-01</prop>
-	    <prop key="mic_roi_inparr_port">ADSIM.CAM</prop>	    
+	    <prop key="mic">BL05J-DI-PHDGN-11:DCAM</prop>
+	    <prop key="mic_roi_inparr_port">Mic.DCAM.CAM</prop>	    
 	</util:properties>
-
-	<import resource="../live/microscope.xml" />
 	
 </beans>

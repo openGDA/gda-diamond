@@ -42,6 +42,7 @@
 	<import resource="nano_es_femto.xml" />
 	<import resource="mcp.xml" />
 	<import resource="microscope_pv.xml" />
+	<import resource="microscope.xml" />
 	<import resource="cryostat.xml" />
 	<import resource="raw_sample_stage.xml" />
 	<import resource="user_patch_panel.xml" />

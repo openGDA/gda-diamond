@@ -30,7 +30,6 @@
 	<!-- sample manipulator -->
 	<import resource="gonio.xml" />
 	<import resource="cryostat.xml" />
-	<import resource="../combinedgonio.xml" />
 
 	<!-- insertion device -->
 	<import resource="rawid.xml" />

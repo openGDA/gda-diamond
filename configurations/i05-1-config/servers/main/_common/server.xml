@@ -32,7 +32,6 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<import resource="datawriter.xml" />
-	<import resource="../../../xml/devices/common_devices.xml" />
 	<import resource="gda_metadata.xml" />
 
 	<import resource="solstice_scanning.xml"/>
@@ -46,5 +45,7 @@
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<import resource="jython_server.xml" />
+	
+	<import resource="devices/all_devices.xml" />
 
 </beans>
