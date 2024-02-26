@@ -41,6 +41,6 @@ to the correct image size.
 During setup, run this line instead of the default ARCHIVE= line,
 
 ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/
-BASELINELOG=$ARCHIVE/2023110264
+BASELINE=$ARCHIVE/2023110264
 
 ================================================================================

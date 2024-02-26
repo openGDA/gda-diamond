@@ -4,12 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
 	profile="NexusScanDataWriter">
 
-	<bean id="dummy_NSDW" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dummy_NSDW_motor" />
-	</bean>
-
-	<bean id="dummy_NSDW_motor" class="gda.device.motor.DummyMotor"/>
-
 	<bean class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register" />
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
@@ -45,21 +39,21 @@
 		</property>
 	</bean>
 
-	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
-		<property name="name" value="sourceNexusDevice" />
+	<bean id="source" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
 		<property name="sourceName" value="Diamond Light Source" />
 		<property name="currentScannableName" value="rc" />
 	</bean>
 
-	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
-		<property name="name" value="idNexusDevice" />
+	<bean id="insertion_device" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="insertion_device" />
 		<property name="type" value="WIGGLER" />
 		<property name="gapScannableName" value="idgap" />
 		<property name="harmonicScannableName" value="uharmonic" />
 	</bean>
 
-	<bean id="monochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
-		<property name="name" value="monochromatorNexusDevice" />
+	<bean id="monochromator" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
+		<property name="name" value="monochromator" />
 		<property name="energyScannableName" value="en" />
 	</bean>
 
@@ -163,7 +157,7 @@
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
-		<property name="name" value="userNexusDevice" />
+		<property name="name" value="user" />
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
@@ -1122,11 +1116,11 @@
 	</bean>
 
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
-		<property name="sourceName" value="sourceNexusDevice" />
-		<property name="insertionDeviceName" value="idNexusDevice" />
-		<property name="monochromatorName" value="monochromatorNexusDevice" />
+		<property name="sourceName" value="source" />
+		<property name="insertionDeviceName" value="insertion_device" />
+		<property name="monochromatorName" value="monochromator" />
 		<property name="beamName" value="beam" />
-		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="userDeviceName" value="user" />
 		<property name="additionalDeviceNames">
 			<set>
 				<value>attenuator</value>
