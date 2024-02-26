@@ -20,7 +20,7 @@
 	
     <!-- Export analyser so that it will be available on client -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/analyser" />
+		<property name="serviceName" value="${gda.rmi.prefix}analyser" />
 		<property name="service" ref="analyser" />
 		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
 	</bean>
