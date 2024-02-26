@@ -4,8 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
 	profile="NexusScanDataWriter">
 
-	<bean class="gda.data.scan.nexus.device.BeforeScanSnapshotWriter" init-method="register" />
-
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="entry" /> <?ignore When a category node is the same type as the nexusClass, child nodes
 														are added to it, rather than added as a child node with this name. ?>
@@ -1124,7 +1122,6 @@
 		<property name="additionalDeviceNames">
 			<set>
 				<value>attenuator</value>
-				<value>before_scan</value>
 				<value>entry</value>
 				<value>sample</value>
 			</set>
