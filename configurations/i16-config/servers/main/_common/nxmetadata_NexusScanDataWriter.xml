@@ -1139,26 +1139,6 @@
 				<value>${gda.config}/yaml/NXmx.yaml</value>
 			</list>
 		</property>
-		<!-- The locationMap will work with both NexusDataWriter and NexusScanDataWriter, but is deprecated for the latter -->
-		<property name="locationMap">
-			<map>
-				<entry key="frontend">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>instrument:NXinstrument/Frontend:NXcollection/frontendx</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				<entry key="x">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths"
-							value="test:NXcollection/x" />
-					</bean>
-				</entry>
-			</map>
-		</property>
 		<!-- private Set<String> metadataScannables; -->
 		<property name="metadataScannables">
 			<set>

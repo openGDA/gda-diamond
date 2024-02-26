@@ -14,6 +14,7 @@ Scan		Configuration	Dummy	Detector		Notes
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 2024010139	NSD				Dummy	NXD/NDP	pil3	New baseline without NDW compatibility
 2024010220	NSD				Dummy	NXD/NDP	pil3	Add slits transformations
+2024010223	NSD				Dummy	NXD/NDP	pil3	Remove before_scan & tidy up
 ----------- --- --- --	-	-----	-------	-------	----------------------------
 
 ----------- --- --- --	-	-----	-------	-------	----------------------------
