@@ -19,10 +19,7 @@
 	<!-- analyser -->
 	<import resource="analyser.xml"/>
 	<import resource="analyser_mapping.xml"/>
-	
-	<!-- dummy motor -->
-	<import resource="dummy_motor.xml"/>
-	
+
 	<!-- resolution calculator config -->
 	<import resource="resolution_calculator_config.xml"/>
 

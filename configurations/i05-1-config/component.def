@@ -7,7 +7,7 @@
     xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Targlets.ecore"
     id="i05-1-config">
   <requirement
-      name="dls-config"/>
+      name="i05-shared"/>
   <requirement
       name="uk.ac.gda.beamline.i05_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

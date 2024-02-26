@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="rawid_gap_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="25" />
+		<property name="position" value="42" />
+	</bean>
+
+	<bean id="rawid_lowerphase_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="30" />
+	</bean>
+
+	<bean id="rawid_upperphase_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="30" />
+	</bean>
+
+</beans>

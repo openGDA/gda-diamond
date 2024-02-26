@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>i05-config</name>
+	<name>i05-shared</name>
 	<comment></comment>
 	<projects>
-		<project>i05-shared</project>
-		<project>uk.ac.gda.core</project>
+		<project>dls-config</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

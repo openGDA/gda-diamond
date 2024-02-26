@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s1_xcentre_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_xgap_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_ycentre_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_ygap_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_xring_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_xhall_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_ytop_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1_ybottom_motor" class="gda.device.motor.DummyMotor"/>
+
+</beans>

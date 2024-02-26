@@ -4,9 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- slits -->
-	<import resource="s1.xml" />
-	<import resource="s2.xml" />
-	<import resource="s3.xml" />
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
 
@@ -17,16 +14,7 @@
 	<import resource="femto.xml" />
 
 	<!-- mirrors -->
-	<import resource="m1.xml" />
-	<import resource="m3mj6.xml" />
 	<import resource="mj7j8.xml" />
-
-	<!-- plain grating monocromator -->
-	<import resource="pgm.xml" />
-
-	<!-- insertion device -->
-	<import resource="rawid.xml" />
-	<import resource="id.xml" />
 
 	<!-- shutters -->
 	<import resource="shtrj.xml" />

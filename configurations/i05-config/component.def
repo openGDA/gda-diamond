@@ -8,6 +8,7 @@
     id="i05-config">
   <requirement
       name="dls-config"/>
+      name="i05-shared"/>
   <requirement
       name="uk.ac.gda.beamline.i05.feature.feature.group"/>
 </targlets:ComponentDefinition>
