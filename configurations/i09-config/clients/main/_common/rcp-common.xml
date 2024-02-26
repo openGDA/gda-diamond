@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean id="pgmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="dcmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcmenergyEv" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 

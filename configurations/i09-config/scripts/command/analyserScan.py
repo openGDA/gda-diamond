@@ -26,10 +26,12 @@ zeroScannable=DummyScannable("zeroScannable")
 
 def zerosupplies():
     caput("BL09I-EA-DET-01:CAM:ZERO_SUPPLIES", 1)
-    
 
-def getSequenceFilename(arg, xmldir):
-    filename = xmldir + arg
+def getSequenceFilename(arg):
+    filename = arg
+    if not os.path.isfile(arg):
+        xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
+        filename = os.path.join(xmldir, filename)
     if (OsUtil.isWindows()):
         FilenameUtil.setPrefix("D:")
         filename = FilenameUtil.convertSeparator(filename)
@@ -44,11 +46,7 @@ def isRegionValid(regionValidator, region, elementset, excitationenergy):
 def analyserscancheck(*args):
     
     region_validator=Finder.find("regionvalidator")
-    
-    dcmenergy=Finder.find("dcmenergy")
-    pgmenergy=Finder.find("pgmenergy")
-    
-    xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
+
     ew4000 = None
     
     energy_scan = False
@@ -61,13 +59,15 @@ def analyserscancheck(*args):
     
     args = list(args)
 
+    scannable_name = ""
+
     i = 0
     while i < len(args):
         arg = args[i]
         
         if isinstance( arg,  EW4000 ):
             ew4000 = arg     
-            filename = getSequenceFilename(args[i + 1], xmldir)
+            filename = getSequenceFilename(args[i + 1])
             i = i + 1
             continue
         
@@ -76,8 +76,10 @@ def analyserscancheck(*args):
             continue
         
         #If energy scan values are used, we need to validate our regions against these
-        elif arg.getName() =="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="jenergy" or arg.getName()=="pgmenergy" :  
+        elif arg.getName() =="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="dcmenergyEv" or arg.getName()=="jenergy" or arg.getName()=="pgmenergy" :
             try:
+                scannable_name = arg.getName()
+
                 if isinstance(args[i + 1], tuple):
                     params = args[i + 1]
                     i = i + 1
@@ -85,9 +87,15 @@ def analyserscancheck(*args):
                     params = tuple(args[i + 1], args[i + 2], args[i + 3])
                     i = i + 3
                 
-                if arg.getName() =="ienergy" or arg.getName()=="dcmenergy":
-                    dcm_excitation_energy_start.append(min(params) * 1000.)
-                    dcm_excitation_energy_stop.append(max(params) * 1000.)
+                if arg.getName() =="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="dcmenergyEv":
+                    min_param = min(params)
+                    max_param = max(params)
+                    #Convert from keV to eV
+                    if arg.getName() =="ienergy" or arg.getName()=="dcmenergy":
+                        min_param = min_param * 1000
+                        max_param = max_param * 1000
+                    dcm_excitation_energy_start.append(min_param)
+                    dcm_excitation_energy_stop.append(max_param)
 
                     
                 elif arg.getName() =="jenergy" or arg.getName()=="pgmenergy":
@@ -114,11 +122,9 @@ def analyserscancheck(*args):
     
     def print_invalid_message(region, exctiation_energy):
         
-        scannablename = "dcmenergy" if exctiation_energy > xray_limit  else "pgmenergy"
-        
         if not valid_region:
             invalid_regions.append(region.getName())
-            print("Region " + region.getName() + " is not valid at " + scannablename + " " + str(exctiation_energy) + " eV.")
+            print("Region " + region.getName() + " is not valid at " + scannable_name + " " + str(exctiation_energy) + " eV.")
     
     for region in regions:
         
@@ -155,10 +161,12 @@ def analyserscancheck(*args):
                     valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_stop[i])
                     print_invalid_message(region, pgm_excitation_energy_stop[i])
         else:
-            excitation_energy = float(pgmenergy.getPosition())
+            dcmenergy=Finder.find("dcmenergyEv")
+            pgmenergy=Finder.find("pgmenergy")
             
+            excitation_energy = float(pgmenergy.getPosition())
             if region.getExcitationEnergy() > xray_limit:
-                excitation_energy = float(dcmenergy.getPosition()) * 1000. #Convert to eV
+                excitation_energy = float(dcmenergy.getPosition())
                 
             valid_region = isRegionValid(region_validator, region, element_set, excitation_energy)
             print_invalid_message(region, excitation_energy)

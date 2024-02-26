@@ -12,7 +12,7 @@
 	</bean>
 	
 	<bean id="regionDefinitionResourceUtilForCreator" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<property name="sourceSelectable" value="false"/>
+		<property name="sourceSelectable" value="true"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
 	</bean>
 	
@@ -33,7 +33,7 @@
 		</property>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="pgmEnergy" ref="pgmenergy" />
-		<property name="dcmEnergy" ref="dcmenergy" />
+		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
 	
 	<bean id="regionvalidatorForCreator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
@@ -90,7 +90,7 @@
 		<property name="messagePV" value="BL09I-EA-DET-01:CAM:StatusMessage_RBV"/>
 		<property name="zeroSuppliesPV" value="BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"/>
 		<property name="pgmEnergy" ref="pgmenergy" />
-		<property name="dcmEnergy" ref="dcmenergy" />
+		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
 	
 	<bean id="regioncreatorfactory"
