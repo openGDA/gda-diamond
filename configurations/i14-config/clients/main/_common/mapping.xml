@@ -46,17 +46,6 @@
 					<constructor-arg name="includeInScan" value="false" />
 					<property name="shownByDefault" value="true" />
 				</bean>
- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="X-ray Eye software" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="xreye_addetector" />
-							<property name="exposureTime" value="0.1" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-					<property name="shownByDefault" value="false" />
-				</bean>
 			</list>
 		</property>
 		<property name="scriptFiles">

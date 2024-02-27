@@ -32,7 +32,6 @@
 	<bean id="xreye" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="xreye_addetector" />
 				<ref bean="xreye_x" />
 				<ref bean="xreye_y" />
 				<ref bean="xreye_z" />
