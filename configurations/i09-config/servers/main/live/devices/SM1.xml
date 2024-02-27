@@ -2,8 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.config.shared}/servers/soft/live/devices/SM1.xml"/>
-
 	<bean id="sm1fpitchfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
 		<property name="pvName" value="BL09J-EA-FDBK-01:ENABLE" />
 		<property name="positions">
