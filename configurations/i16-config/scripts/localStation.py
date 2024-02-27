@@ -54,7 +54,7 @@ global Finder, pos, add_default, meta
 global idgap
 global bragg, perp
 
-global sixckappa, euler_cryo, sixckappa_cryo, cryophi
+global sixckappa, sixckappa_fly, euler_cryo, sixckappa_cryo, cryophi
 global delta_axis_offset
 global azir, psi, psic, hkl
 global setDatadirPropertyFromPersistanceDatabase, pitchupClass
@@ -293,13 +293,10 @@ if USE_CRYO_GEOMETRY:
 	# Diffcalc instructions here: http://confluence.diamond.ac.uk/display/I16/Diffcalc or http://confluence.diamond.ac.uk/x/855TAQ
 else:
 	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
-	exec("kphi=sixc.kphi")
+	kphi=sixc.kphi
 
-exec("kap=sixc.kap")
-exec("kth=sixc.kth")
-exec("kmu=sixc.kmu")
-exec("kdelta=sixc.kdelta")
-exec("kgam=sixc.kgam")
+kap, kth, kmu, kdelta, kgam = sixc.kap, sixc.kth, sixc.kmu, sixc.kdelta, sixc.kgam
+kphi_fly, kap_fly, kth_fly, kmu_fly, kdelta_fly, kgam_fly = sixckappa_fly.kphi_fly, sixckappa_fly.kap_fly, sixckappa_fly.kth_fly, sixckappa_fly.kmu_fly, sixckappa_fly.kdelta_fly, sixckappa_fly.kgam_fly
 
 SIXC_MOTOR_NAMES = ['sixcKphiMotor', 'sixcKappaMotor', 'sixcKthMotor', 'sixcMuMotor', 'sixcDeltaMotor','sixcGammaMotor']
 SIXC_SCANNABLEMOTOR_NAMES = ['kphi', 'kap', 'kth', 'kmu', 'kdelta', 'kgam']

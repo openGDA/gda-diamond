@@ -31,6 +31,32 @@
 		</property>
 	</bean>
 
+	<bean id="sixc_fly_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="kth_minus_kdelta_max_fly">
+					<bean class="gda.device.scannable.component.RelativeLimitValidator">
+						<property name="aIndex" value="2" />
+						<property name="aName" value="kth_fly" />
+						<property name="bIndex" value="4" />
+						<property name="bName" value="kdelta_fly" />
+						<property name="maximumDifference" value="80" />
+					</bean>
+				</entry>
+
+				<entry key="kgam_minus_kmu_min_fly">
+					<bean class="gda.device.scannable.component.RelativeLimitValidator">
+						<property name="aIndex" value="5" />
+						<property name="aName" value="kgam_fly" />
+						<property name="bIndex" value="3" />
+						<property name="bName" value="kmu_fly" />
+						<property name="minimumDifference" value="-11" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -78,46 +104,49 @@
 		<property name="deferredControlPoint" ref="deferFlag" />
 	</bean>
 
-	<bean id="kappa_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcKappaEpicsMotor" />
-		<property name="outputFormat" value="%.3f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
 
-	<bean id="kphi_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcKphiEpicsMotor" />
-		<property name="outputFormat" value="%.3f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="kth_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcKthEpicsMotor" />
-		<property name="outputFormat" value="%.5f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="kmu_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcMuEpicsMotor" />
-		<property name="outputFormat" value="%.3f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="kdelta_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcDeltaEpicsMotor" />
-		<property name="outputFormat" value="%.3f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="kgam_fly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sixcGammaEpicsMotor" />
-		<property name="outputFormat" value="%.3f" />
-		<property name="logMoveRequestsWithInfo" value="true" />
+	<bean id="sixckappa_fly" class="gda.device.scannable.scannablegroup.CoordinatedScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<bean id="kphi_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKphiEpicsMotor" />
+					<property name="outputFormat" value="%.3f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kap_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKappaEpicsMotor" />
+					<property name="outputFormat" value="%.3f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kth_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcKthEpicsMotor" />
+					<property name="outputFormat" value="%.5f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kmu_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcMuEpicsMotor" />
+					<property name="outputFormat" value="%.3f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kdelta_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcDeltaEpicsMotor" />
+					<property name="outputFormat" value="%.3f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean id="kgam_fly" class="gda.device.scannable.ScannableMotor">
+					<property name="motor" ref="sixcGammaEpicsMotor" />
+					<property name="outputFormat" value="%.3f" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="additionalPositionValidators" ref="sixc_fly_additional_position_validators"/>
 	</bean>
 
 	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 	</bean>
-	
+
 	<bean id="dummy_eta" class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 	</bean>

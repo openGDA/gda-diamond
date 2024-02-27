@@ -19,13 +19,13 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		self.name = name
 		self.kappa = coordinatatedMotionKappaScannable
 		self.diffcalc_ordering = diffcalc_ordering
-		
+
 		if self.diffcalc_ordering:
 			self.setInputNames(('mu','delta','gam', 'eta', 'chi', 'phi'))
 		else:
 			self.setInputNames(('phi','chi','eta', 'mu', 'delta', 'gam'))
 		self.setOutputFormat(['% 5.5f']*6)
-	
+
 		self.ekcm = EulerianKconversionModes.EulerianKconversionModes()
 
 		# Note mu, delta and gam limits must be stored in the kappa device					
@@ -34,7 +34,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 
 	def isBusy(self):
 		return self.kappa.isBusy()
-		
+
 	def waitWhileBusy(self):
 		return self.kappa.waitWhileBusy()
 
@@ -51,7 +51,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			return kmu, kdelta, kgam, eta, chi, phi
 		else:
 			return phi, chi, eta, kmu, kdelta, kgam
-	
+
 	def getFieldPosition(self, index):
 		if self.diffcalc_ordering:
 			if index in (0,1,2):
@@ -63,21 +63,20 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 				return self.kappa.getPosition()[index]
 			else:
 				return self.getPosition()[index]
-			
-	
+
 	def eulerToKappa(self, eta, chi, phi):
 		ang = self.ekcm.getKPossibleAngles( (eta, chi, phi) ) #-> ang.Vector, ang.KTheta, ang.K, ang.KPhi 
 		kth = ang.KTheta
 		kappa = ang.K
 		kphi = ang.KPhi
 		return (kth, kappa, kphi)
-	
+
 	def setMode(self,mode):
 		self.ekcm.setEuleriantoKmode(mode)
 
 	def getMode(self):
 		return self.ekcm.getEuleriantoKmode()
-	
+
 #	def simulateMoveTo(self, eulerPos):
 #		(kphi, kappa, kth, kmu, kdelta, kgam)=self.eulerToKappa(eulerPos)
 #		(oldkphi, oldkappa, oldkth, oldkmu, oldkdelta, oldkgam) = self.kappa.getPosition()
@@ -89,12 +88,12 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 #		result += "   kappa : % 5.5f --> % 5.5f\n" % (oldkappa,kappa)
 #		result += "   kphi  : % 5.5f --> % 5.5f\n" % (oldkphi,kphi)
 #		return result
-				
+
 	def rawAsynchronousMoveTo(self, eulerPos):
-			
+
 		#euler:: 0:mu, 1:delta, 2:gamma, 3:eta, 4:chi, 5:phi
 		#kappa:: 0:mu, 1:delta, 2:gamma, 3:kth, 4:kap, 5:kphi'
-		
+
 		# Check the euler (self) limits
 
 		# mu, delta and gamma can be move independently of the others, although
@@ -103,28 +102,23 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			mu, delta, gam, eta, chi, phi = tuple(eulerPos)
 		else:
 			phi, chi, eta, mu, delta, gam = tuple(eulerPos)
-		
+
 		if chi is not None:
 			self.last_move_involved_chi = True
 		else:
 			self.last_move_involved_chi = False
-		
+
 		if phi==chi==eta==None:
 			if self.diffcalc_ordering:
 				self.kappa.asynchronousMoveTo((mu,delta,gam, None, None, None) )
 			else:
 				self.kappa.asynchronousMoveTo((None, None,None, mu,delta,gam) )
-				
 		else:
-			
 			phi_orig, chi_orig, eta_orig = phi, chi, eta
 			if None in (phi, chi, eta):
-#				print "phi, chi, eta", phi, chi, eta
 				position_at_scan_start = self.getPositionAtScanStart()
-#				print "position_at_scan_start1", position_at_scan_start
 				base_position = position_at_scan_start if position_at_scan_start is not None else self.rawGetPosition()
 
-				
 				if self.diffcalc_ordering:
 					_, _, _, eta_c, chi_c, phi_c = base_position
 				else:
@@ -132,26 +126,17 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 				if phi is None: phi = phi_c
 				if chi is None: chi = chi_c
 				if eta is None: eta = eta_c
-				
+
 				# update position_at_scan_start
-#				print "position_at_scan_start2", position_at_scan_start
 				if position_at_scan_start is not None:
 					position_at_scan_start = list(position_at_scan_start)
-#					print "position_at_scan_start3", position_at_scan_start
-#					print "phi_orig, chi_orig, eta_orig", phi_orig, chi_orig, eta_orig
 					if phi_orig is not None:
-#						print 'phi'
 						position_at_scan_start[0] = phi_orig
 					if chi_orig is not None:
-#						print 'chi'
 						position_at_scan_start[1] = chi_orig
 					if eta_orig is not None:
-#						print 'eta'
 						position_at_scan_start[2] = eta_orig
-#					print "position_at_scan_start4", position_at_scan_start
 					self.setPositionAtScanStart(position_at_scan_start)
-#				print "getPositionAtScanStart()", self.getPositionAtScanStart()
-			#self.checkMuIsCorrectForMode(mu)
 			kth, kappa, kphi = self.eulerToKappa(eta, chi, phi)
 			if self.diffcalc_ordering:   
 				self.kappa.asynchronousMoveTo( (mu, delta, gam, kth, kappa, kphi) )
@@ -175,10 +160,6 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		self.kappa.stop()
 		ScannableMotionWithScannableFieldsBase.stop(self)
 
-#[u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'])
-
-#return kmu, kdelta, kgam, eta, chi, phi
-#return phi, chi, eta, kmu, kdelta, kgam
 
 	def checkPositionValid(self, eulerPos):
 		result = ScannableMotionWithScannableFieldsBase.checkPositionValid(self, eulerPos)
@@ -189,14 +170,14 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		else:
 			phi, chi, eta, mu, delta, gam = tuple(eulerPos)
 		if None in (phi, chi, eta):
-		        base_position = self.rawGetPosition()
-		        if self.diffcalc_ordering:
-		                _, _, _, eta_c, chi_c, phi_c = base_position
-		        else:
-		                phi_c, chi_c, eta_c, _, _, _ = base_position
-		        if phi is None: phi = phi_c
-		        if chi is None: chi = chi_c
-		        if eta is None: eta = eta_c
+			base_position = self.rawGetPosition()
+			if self.diffcalc_ordering:
+				_, _, _, eta_c, chi_c, phi_c = base_position
+			else:
+				phi_c, chi_c, eta_c, _, _, _ = base_position
+			if phi is None: phi = phi_c
+			if chi is None: chi = chi_c
+			if eta is None: eta = eta_c
 		kth, kappa, kphi = self.eulerToKappa(eta, chi, phi)
 		if self.diffcalc_ordering:
 			result = self.kappa.checkPositionValid( (mu, delta, gam, kth, kappa, kphi) )
@@ -216,13 +197,13 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			return mu, delta, gam, eta, chi, phi
 		else:
 			phi, chi, eta = (None, None, None) if super_euler_limits==None else super_euler_limits[0:3]
-			mu = n(self.kappa.kmu.getLowerGdaLimits())
-			delta = n(self.kappa.kdelta.getLowerGdaLimits())
-			gam = n(self.kappa.kgam.getLowerGdaLimits())
+			mu = n(self.kappa.getGroupMembersAsArray()[3].getLowerGdaLimits())
+			delta = n(self.kappa.getGroupMembersAsArray()[4].getLowerGdaLimits())
+			gam = n(self.kappa.getGroupMembersAsArray()[5].getLowerGdaLimits())
 			if phi==chi==eta==mu==delta==gam==None:
 				return None
 			return phi, chi, eta, mu, delta, gam
-				
+
 	def getUpperGdaLimits(self):
 		super_euler_limits = ScannableMotionWithScannableFieldsBase.getUpperGdaLimits(self)
 		if self.diffcalc_ordering:
@@ -235,9 +216,9 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			return mu, delta, gam, eta, chi, phi
 		else:
 			phi, chi, eta = (None, None, None) if super_euler_limits==None else super_euler_limits[0:3]
-			mu = n(self.kappa.kmu.getUpperGdaLimits())
-			delta = n(self.kappa.kdelta.getUpperGdaLimits())
-			gam = n(self.kappa.kgam.getUpperGdaLimits())
+			mu = n(self.kappa.getGroupMembersAsArray()[3].getUpperGdaLimits())
+			delta = n(self.kappa.getGroupMembersAsArray()[4].getUpperGdaLimits())
+			gam = n(self.kappa.getGroupMembersAsArray()[5].getUpperGdaLimits())
 			if phi==chi==eta==mu==delta==gam==None:
 				return None
 			return phi, chi, eta, mu, delta, gam
@@ -252,21 +233,21 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 				phi, chi, eta, mu, delta, gam = tuple(value)
 				
 		if self.diffcalc_ordering:
-			# phi, chi, eta			
+			# phi, chi, eta
 			super_euler_limits = None if phi==chi==eta==None else (None, None, None, eta, chi, phi)
 			ScannableMotionWithScannableFieldsBase.setUpperGdaLimits(self, super_euler_limits)
-			# mu, delta, gam		
+			# mu, delta, gam
 			self.kappa.kmuDC.setUpperGdaLimits(mu)
 			self.kappa.kdeltaDC.setUpperGdaLimits(delta)
 			self.kappa.kgamDC.setUpperGdaLimits(gam)
 		else:
-			# phi, chi, eta			
+			# phi, chi, eta
 			super_euler_limits = None if phi==chi==eta==None else (phi, chi, eta, None, None, None)
 			ScannableMotionWithScannableFieldsBase.setUpperGdaLimits(self, super_euler_limits)
-			# mu, delta, gam		
-			self.kappa.kmu.setUpperGdaLimits(mu)
-			self.kappa.kdelta.setUpperGdaLimits(delta)
-			self.kappa.kgam.setUpperGdaLimits(gam)
+			# mu, delta, gam
+			self.kappa.getGroupMembersAsArray()[3].setUpperGdaLimits(mu)
+			self.kappa.getGroupMembersAsArray()[4].setUpperGdaLimits(delta)
+			self.kappa.getGroupMembersAsArray()[5].setUpperGdaLimits(gam)
 
 	def setLowerGdaLimits(self,value):
 		if value==None:
@@ -276,33 +257,24 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 				mu, delta, gam, eta, chi, phi = tuple(value)
 			else:
 				phi, chi, eta, mu, delta, gam = tuple(value)
-				
+
 		if self.diffcalc_ordering:
-			# phi, chi, eta			
+			# phi, chi, eta
 			super_euler_limits = None if phi==chi==eta==None else (None, None, None, eta, chi, phi)
 			ScannableMotionWithScannableFieldsBase.setLowerGdaLimits(self, super_euler_limits)
-			# mu, delta, gam		
+			# mu, delta, gam
 			self.kappa.kmuDC.setLowerGdaLimits(mu)
 			self.kappa.kdeltaDC.setLowerGdaLimits(delta)
 			self.kappa.kgamDC.setLowerGdaLimits(gam)
 		else:
-			# phi, chi, eta			
+			# phi, chi, eta
 			super_euler_limits = None if phi==chi==eta==None else (phi, chi, eta, None, None, None)
 			ScannableMotionWithScannableFieldsBase.setLowerGdaLimits(self, super_euler_limits)
-			# mu, delta, gam		
-			self.kappa.kmu.setLowerGdaLimits(mu)
-			self.kappa.kdelta.setLowerGdaLimits(delta)
-			self.kappa.kgam.setLowerGdaLimits(gam)
-	#<--
-#
-#	def asynchronousMoveTo(self, position):
-#		# We don't want the behaviour from  DottedAccessScannableMotionBase
-#		ScannableMotionBase.asynchronousMoveTo(self, position)
-#
-#	def getPosition(self):
-#		# We don't want the behaviour from  DottedAccessScannableMotionBase
-#		return ScannableMotionBase.getPosition(self)
-		
+			# mu, delta, gam
+			self.kappa.getGroupMembersAsArray()[3].setLowerGdaLimits(mu)
+			self.kappa.getGroupMembersAsArray()[4].setLowerGdaLimits(delta)
+			self.kappa.getGroupMembersAsArray()[5].setLowerGdaLimits(gam)
+
 	def setOperatingContinuously(self, b):
 		self.kappa.setOperatingContinuously(b);
 
@@ -312,6 +284,6 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 	def getContinuousMoveController(self):
 		#raise Exception("Eulerian axes cannot be traj scanned. Use the axes on the group 'kappa' (e.g. kth) instead. (Due to a multi-axes traj scans not triggering reliably from Epics)")
 		return self.kappa.getContinuousMoveController()
-	
+
 	def setContinuousMoveController(self, controller):
 		self.kappa.setContinuousMoveController(controller)
