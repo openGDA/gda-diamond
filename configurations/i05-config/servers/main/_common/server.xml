@@ -33,9 +33,7 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<import resource="datawriter.xml" />
-
-	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
-	<import resource="../../../xml/devices/common/i05_server_devices.xml" />
+	
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
 	<import resource="archiver.xml" />
@@ -45,5 +43,7 @@
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+	
+	<import resource="devices/all_devices.xml" />
 
 </beans>

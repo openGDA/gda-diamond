@@ -27,6 +27,6 @@
 	<import resource="resolution_calculator_config.xml"/>
 
 	<!-- Import the mode specific devices -->
-	<import resource="${gda.mode}/${gda.mode}_devices.xml" />
+	<import resource="../../${gda.mode}/devices/all_devices.xml" />
 
 </beans>
