@@ -2,7 +2,7 @@
 functions to set or save motor positions for specified energy edge and SGM grating selection.
 
 set_edge function takes 1, 2 or 3 parameters - edge name is essential, sgm grating (SLVS1, SVLS2 or SLVS3) is optional 
-- it is not given it uses current sgm grating in EPICS device. 
+- if it is not given it uses current sgm grating in EPICS device. 
 It moves all scannables defined in the header of the lookup table if position value are exist. 3rd parameter is optional lookup file path.
 
 save_edge function takes 1 or 2 parameters - edge label. It saves new edge label along with current positions 
@@ -30,58 +30,76 @@ def is_busy(scannables):
         _busy = _busy or scannable.isBusy()
     return _busy
 
+
 def load_lookup_table(lookup_table):
     if os.path.isabs(lookup_table):
         filename = str(lookup_table)
     else:
         from gda.configuration.properties import LocalProperties
         filename = os.path.join(str(LocalProperties.get('gda.config')), lookup_table)
-    lookuptable, header, unit = load_lookup_table_from_csv_file(filename, 2, units_row_exist=True)
+    lookuptable, header, unit = load_lookup_table_from_csv_file(filename, 2, units_row_exist = True)
     return header, lookuptable, filename, unit
+
 
 def set_edge(edge, sgm_grating = None, lookup_table = EDGE_GRATING_TABLE):
     '''move energy and motors positions to the given edge and sgm_grating selection
     '''
     from scannable.continuous.continuous_energy_scannables import energy
-    
     header, lookuptable, filename, unit = load_lookup_table(lookup_table)
-    
     scannable_names = header[1:]
     scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names]
-    
+
     if not sgm_grating:
         sgm_grating = str(scannables[0].getPosition())
         sgm_grating_provided = False
     else:
         sgm_grating_provided = True
-        
+
     try:
-        positions = lookuptable[(edge,sgm_grating)]
+        positions = lookuptable[(edge, sgm_grating)]
     except KeyError as e:
         print("Lookup table does not have key (%s, %s)" % (edge, sgm_grating))
         raise e
-    #handle empty row
+    # handle empty row
     if all(v is None for v in positions):
         print("No motor position value for (%s, %s) available in lookup table %s!" % (edge, sgm_grating, filename))
         return
-    
+
     if sgm_grating_provided:
         print("move %s to %s" % (scannables[0].getName(), sgm_grating))
         scannables[0].asynchronuousMoveTo(sgm_grating)
-        
+
     print('\n'.join('move {0} to {1} {2}'.format(*k) for k in zip(scannable_names[1:], positions, unit)))
+    from gdaserver import specl, spech  # @UnresolvedImport
     for scannable, position in zip(scannables[1:], positions):
-        if position is None:
-            print("no position value available for scannable %s" % scannable.getName())
-        else:
+        if scannable is specl:
+            while is_busy([spech]):
+                sleep(0.25)
             scannable.asynchronousMoveTo(position)
-            
+    sleep(0.5)
+    for scannable, position in zip(scannables[1:], positions):
+        from gdaserver import sgmpitch  # @UnresolvedImport
+        if scannable in [energy, sgmpitch, spech]:
+            if position is None:
+                print("no position value available for scannable %s" % scannable.getName())
+            else:
+                while is_busy([specl]):
+                    sleep(0.25)
+                scannable.asynchronousMoveTo(position)
+    sleep(0.5)
+    for scannable, position in zip(scannables[1:], positions):
+        from gdaserver import sgmr1  # @UnresolvedImport
+        if scannable is sgmr1:
+            while is_busy([spech, specl]):
+                sleep(0.25)
+            scannable.asynchronousMoveTo(position)
+    sleep(0.5)
     while is_busy(scannables):
         sleep(0.25)
     print("\nmove to (%s, %s) completed." % (edge, sgm_grating))
-    
 
-def save_edge(edge, lookup_table = EDGE_GRATING_TABLE, keep_order=True):
+
+def save_edge(edge, lookup_table = EDGE_GRATING_TABLE, keep_order = True):
     '''save new edge or update an existing edge motors' position data in lookup table file given.
     The lookup_table file is default to ${gda.config}/lookupTables/edge_grating_table.csv. User can specify another file with absolute file path.
     '''
@@ -89,32 +107,31 @@ def save_edge(edge, lookup_table = EDGE_GRATING_TABLE, keep_order=True):
         save_edge_keep_order(edge, lookup_table)
     else:
         save_edge_not_keep_order(edge, lookup_table)
-        
-    
+
+
 def save_edge_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
     '''save new edge or update an existing edge motors' position data in lookup table file given. It keeps the original data order in the file.
-    The lookup_table file is default to ${gda.config}/lookupTables/edge_lookup.csv.
+    The lookup_table file is default to ${gda.config}/lookupTables/edge_lookup.csv. User can specify another file with absolute file path.
     '''
     from scannable.continuous.continuous_energy_scannables import energy
     header, _, filename, _ = load_lookup_table(lookup_table)
     scannable_names = header[1:]
-    scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names] 
-    scannable_values = [ round(float(v),4) if isinstance(v, numbers.Number) else str(v) for v in [scannable.getPosition() for scannable in scannables]]
-    
+    scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names]
+    scannable_values = [ round(float(v), 4) if isinstance(v, numbers.Number) else str(v) for v in [scannable.getPosition() for scannable in scannables]]
     _updated = False
     from  tempfile import NamedTemporaryFile
     import shutil
-    temp_file =  NamedTemporaryFile(delete=False)
+    temp_file = NamedTemporaryFile(mode = 'w', delete = False)
     with open(filename, 'r') as csv_file, temp_file:
-        reader = csv.DictReader(csv_file, fieldnames=header)
-        writer = csv.DictWriter(temp_file, fieldnames=header)
+        reader = csv.DictReader(csv_file, fieldnames = header)
+        writer = csv.DictWriter(temp_file, fieldnames = header)
         for row in reader:
             if row[header[0]] == edge and row[header[1]] == scannable_values[0]:
                 print("\nUpdate edge (%s, %s)" % (edge, scannable_values[0]))
                 _updated = True
                 for i in range(len(header[2:])):
-                    print("Update '{0}' from {1} to {2}".format(scannable_names[i+1], row[header[i+2]], scannable_values[i+1]))
-                    row[header[i+2]] = scannable_values[i+1]
+                    print("Update '{0}' from {1} to {2}".format(scannable_names[i + 1], row[header[i + 2]], scannable_values[i + 1]))
+                    row[header[i + 2]] = scannable_values[i + 1]
             writer.writerow(row)
         # new edge data are added
         if not _updated:
@@ -124,24 +141,24 @@ def save_edge_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
                 print("set '{0}' to {1}".format(head, value))
                 new_row[head] = value
             writer.writerow(new_row)
-            
-    shutil.move(temp_file.name, filename)       
+
+    file_name = shutil.copy(temp_file.name, filename)
 
     if _updated:
-        print("\nEdge '%s' is updated in lookup table %s" % (edge, filename))
+        print("\nEdge '%s' is updated in lookup table %s" % (edge, file_name))
     else:
-        print("\nEdge '%s' is added in lookup table %s" % (edge, filename))
+        print("\nEdge '%s' is added in lookup table %s" % (edge, file_name))
+
 
 def save_edge_not_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
     '''save new edge or update an existing edge motors' position data in lookup table file given.It does not keep the original data order in the file.
-    The lookup_table file is default to ${gda.config}/lookupTables/edge_grating_table.csv.
+    The lookup_table file is default to ${gda.config}/lookupTables/edge_lookup.csv. User can specify another file with absolute file path.
     '''
     from scannable.continuous.continuous_energy_scannables import energy
     header, lookuptable, filename, unit = load_lookup_table(lookup_table)
     scannable_names = header[1:]
-    scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names] 
-    scannable_values = [ round(float(v),4) if isinstance(v, numbers.Number) else str(v) for v in [scannable.getPosition() for scannable in scannables]]
-    
+    scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names]
+    scannable_values = [ round(float(v), 4) if isinstance(v, numbers.Number) else str(v) for v in [scannable.getPosition() for scannable in scannables]]
     if (edge, scannable_values[0]) in lookuptable.keys():
         print("\nUpdate (%s, %s)" % (edge, scannable_values[0]))
         _updated = True
@@ -161,7 +178,8 @@ def save_edge_not_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
         print("Edge '%s' is updated in lookup table %s" % (edge, filename))
     else:
         print("Edge '%s' is added in lookup table %s" % (edge, filename))
-        
+
+
 def display_edge_table(lookup_table = EDGE_GRATING_TABLE):
     header, lookuptable, filename, unit = load_lookup_table(lookup_table)
     print(''.join((("%18s" if isinstance(v, str) else "%18.4f") % v for v in header)))
@@ -169,9 +187,9 @@ def display_edge_table(lookup_table = EDGE_GRATING_TABLE):
     for key, value in sorted(lookuptable.iteritems()):
         data = [key[i] for i in range(len(key))] + [value[i] for i in range(len(value))]
         print(''.join([("%18s" if isinstance(v, str) else "%18.4f") % v for v in data]))
-    print("\nFile location at %s" % filename) 
-        
-           
+    print("\nFile location at %s" % filename)
+
+
 def test_edge():
     header, lookuptable, filename, unit = load_lookup_table(EDGE_GRATING_TABLE)
     for key, value in lookuptable.iteritems():
@@ -180,15 +198,15 @@ def test_edge():
     print(lookuptable)
     print(header)
     print(unit)
-    print(lookuptable[("V L-edge","SVLS1")])
+    print(lookuptable[("V L-edge", "SVLS1")])
     try:
-        print(lookuptable[("V L-edge","SVLS3")])
+        print(lookuptable[("V L-edge", "SVLS3")])
     except KeyError as e:
-        print("Key (%s, %s) is not in the lookup table." % ("V L-edge","SVLS3") )
-        # raise e
-    
+        print("Key (%s, %s) is not in the lookup table %s." % ("V L-edge", "SVLS3", filename))
+        raise e
+
+
 if __name__ == "__main__":
     test_edge()
     print('')
     display_edge_table()
-    
