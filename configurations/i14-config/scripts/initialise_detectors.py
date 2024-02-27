@@ -11,5 +11,5 @@ def initialise_detectors():
 		initialise_detector("Merlin", merlin_addetector.getAdBase().getBasePVName(), merlin_addetector.getNdArray().getBasePVName(), "Software", "Single")
 		initialise_detector("Xspress3", xsp3_addetector.getAdBase().getBasePVName(), xsp3_addetector.getNdArray().getBasePVName(), "Software", "Single")
 	else:
-		initialise_detector("Simulator", xreye_addetector.getAdBase().getBasePVName(), xreye_addetector.getNdArray().getBasePVName(), "Internal", "Single")
+		initialise_detector("Simulator", merlin_addetector.getAdBase().getBasePVName(), merlin_addetector.getNdArray().getBasePVName(), "Internal", "Single")
 	print('Detector initialisation complete')
