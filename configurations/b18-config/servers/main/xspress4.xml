@@ -23,7 +23,7 @@
 	</bean>
 
 	<bean id="xspress4OdinFFI0" class="gda.device.detector.TfgFFoverI0">
-		<property name="xspress" ref="xspress4Odin" />
+		<property name="xspressSystemName" value="xspress4Odin" />
 		<property name="i0_channel" value="0" />
 		<property name="counterTimer" ref="counterTimer01" />
 	</bean>
