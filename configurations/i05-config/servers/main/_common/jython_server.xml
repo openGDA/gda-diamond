@@ -15,6 +15,11 @@
 							<property name="name" value="Scripts: Config" />
 							<property name="type" value="CONFIG" />
 						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.config.shared}/scripts"/>
+							<property name="name" value="Scripts: Shared"/>
+							<property name="type" value="CONFIG"/>
+						</bean>
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />

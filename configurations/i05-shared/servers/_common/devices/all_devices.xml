@@ -19,10 +19,6 @@
 	<!-- monochromator -->
 	<import resource="pgm.xml" />
 	
-	<!-- insertion devices -->
-	<import resource="id.xml" />
-	<import resource="raw_id.xml" />
-	
 	<import resource="dummy_motor.xml" />
 
 </beans>

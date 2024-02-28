@@ -4,7 +4,6 @@
     <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">jython interpreter</pydev_property>
     <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
         <path>/i05-shared/scripts</path>
-        <path>/i05-shared/tests</path>
     </pydev_pathproperty>
     <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 	</pydev_pathproperty>

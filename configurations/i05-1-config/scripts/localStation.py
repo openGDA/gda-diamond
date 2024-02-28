@@ -71,7 +71,7 @@ add_default(ring_current)
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis, getXFieldInScanPlot  # @UnusedImport
 setXFieldInScanPlot(0)
 
-from checkBeamlineHealth import *
+from i05Shared.checkBeamlineHealth import *
 checkForBeamlineProblems()
 
 run "beamline/resolutionEstimator.py"
