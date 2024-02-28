@@ -23,7 +23,8 @@ import sys
 from time import sleep
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
-from scannabledevices.checkbeanscannables import checkbeam
+
+from scannabledevices.checkbeamscannables import checkbeam
 
 SHOW_DEMAND_VALUE=False
         

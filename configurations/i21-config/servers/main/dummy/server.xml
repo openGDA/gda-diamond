@@ -3,21 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="../../../properties/_common/gdaProperties.xml"/>
-
 	<import resource="devices/_all.xml"/>
 	<import resource="nxmetadata.xml"/>
 
 	<!-- add dummy motors from dls-config  for solstice scanning testing-->
-	<import resource="../../../../../dls-config/servers/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
 	<import resource="../../../../../dls-config/servers/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
-	<import resource="../../../../../dls-config/servers/dummy/det.xml"/> <!-- Java Simulation -->
-	<import resource="../../../../../dls-config/servers/_common/mic.xml"/>
 
-	<import resource="../../../../../dls-config/servers/dummy/icat_xml_creator.xml" />
-
-
-<!-- do not remove anything below here -->
-	<import resource="../../../servers/main/_common/server.xml" />
+	<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
 
 </beans>

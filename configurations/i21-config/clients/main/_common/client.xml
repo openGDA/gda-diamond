@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="serverFileListener.xml"/>
 	<import resource="batonStateProvider.xml"/>
@@ -12,11 +11,5 @@
 	<import resource="statusView.xml"/>
 	<import resource="dashboard_motors.xml"/>
 	
-
-	<!-- new solstice scanning sourced from p45-config project -->
-	<import resource="../../../../../dls-config/clients/_common/stage_controls_tree.xml"/>
-
-	<!-- mapping perspective -->
-	<import resource="../../../../../dls-config/clients/_common/mapping_view.xml"/>
 	<import resource="mapping.xml"/>
 </beans>
