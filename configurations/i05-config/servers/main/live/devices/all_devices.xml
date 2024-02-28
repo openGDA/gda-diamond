@@ -4,9 +4,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- slits -->
-	<import resource="s1.xml" />
-	<import resource="s2.xml" />
-	<import resource="s3.xml" />
 	<import resource="s5.xml" />
 	<import resource="s6.xml" />
 	<import resource="sj6.xml" />
@@ -17,23 +14,14 @@
 	<import resource="femto.xml" />
 
 	<!-- mirrors -->
-	<import resource="m1.xml" />
-	<import resource="m3mj6.xml" />
 	<import resource="m4m5.xml" />
 
 	<!-- shutters -->
 	<import resource="shtr1.xml" />
 
-	<!-- plain grating monocromator -->
-	<import resource="pgm.xml" />
-
 	<!-- sample manipulator -->
 	<import resource="gonio.xml" />
 	<import resource="cryostat.xml" />
-
-	<!-- insertion device -->
-	<import resource="rawid.xml" />
-	<import resource="id.xml" />
 
 	<!-- analyser -->
 	<import resource="cameras.xml" />
@@ -43,9 +31,6 @@
 
 	<!-- vacuum gauges -->
 	<import resource="pressure_gauges.xml" />
-
-	<!-- dummy motor for testing -->
-	<import resource="dummyMotor.xml" />
 
 	<!-- Tenma PSU -->
 	<import resource="tenma_psu.xml" />

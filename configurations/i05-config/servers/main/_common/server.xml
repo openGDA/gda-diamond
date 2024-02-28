@@ -36,7 +36,6 @@
 	
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
-	<import resource="archiver.xml" />
 
 	<!-- Machine Status Scannables -->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
@@ -44,6 +43,7 @@
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 	
+	<import resource="file://${gda.config.shared}/servers/_common/servers.xml"/>
 	<import resource="devices/all_devices.xml" />
 
 </beans>

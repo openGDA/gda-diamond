@@ -13,16 +13,8 @@
 	<import resource="cryostat.xml"/>
 
 	<!-- slits -->
-	<import resource="s2.xml"/>
 	<import resource="sj6.xml"/>
 	<import resource="sj9.xml"/>
-
-	<!-- plain grating monocromator -->
-	<import resource="pgm.xml" />
-
-	<!-- insertion device -->
-	<import resource="rawid.xml" />
-	<import resource="id.xml" />
 
 	<!-- femtos -->
 	<import resource="femto.xml" />

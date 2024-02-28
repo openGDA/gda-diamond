@@ -24,7 +24,7 @@ fi
 # If your installation does not use dls-config or you wish to override the default values set above, please
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
-
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i05-shared
 
 
 ######################################################################

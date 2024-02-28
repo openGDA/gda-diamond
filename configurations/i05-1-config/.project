@@ -3,6 +3,7 @@
 	<name>i05-1-config</name>
 	<comment></comment>
 	<projects>
+		<project>i05-shared</project>
 		<project>uk.ac.gda.core</project>
 	</projects>
 	<buildSpec>

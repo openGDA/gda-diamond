@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Import the mode specific devices -->
+	<!-- slits -->
+	<import resource="s1.xml"/>
+	<import resource="s2.xml" />
+	<import resource="s3.xml"/>
+	
+	<!-- mirrors -->
+	<import resource="m1.xml" />
+	<import resource="m3mj6.xml" />
+	
+	<!-- monochromator -->
+	<import resource="pgm.xml" />
+	
+	<!-- insertion devices -->
+	<import resource="raw_id.xml" />
+	
+</beans>
