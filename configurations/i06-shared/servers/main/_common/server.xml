@@ -8,11 +8,8 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="GDAMetadata.xml"/>
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	<import resource="commandQueueProcessor.xml"/>
 <!-- 	<import resource="commandServer.xml"/> -->
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	<import resource="dataWriter.xml"/>
 	<import resource="nxmetadata.xml"/>	
 	
