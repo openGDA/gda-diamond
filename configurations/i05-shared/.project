@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>dls-config</project>
+		<project>uk.ac.gda.core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
