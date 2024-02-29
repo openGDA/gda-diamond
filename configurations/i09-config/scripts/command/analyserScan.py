@@ -36,65 +36,144 @@ def getSequenceFilename(arg, xmldir):
     return filename
 
 def isRegionValid(regionValidator, region, elementset, excitationenergy):
-        if region.isEnabled():
-            if not regionValidator.isValidRegion(region, elementset, excitationenergy):
-                print "Region '"+region.getName()+"' is not valid."
-                return False
-        return True
-    
+    if region.isEnabled():
+        if not regionValidator.isValidRegion(region, elementset, excitationenergy):
+            return False
+    return True
+
 def analyserscancheck(*args):
-    regionValidator=Finder.find("regionvalidator")
+    
+    region_validator=Finder.find("regionvalidator")
+    
     dcmenergy=Finder.find("dcmenergy")
     pgmenergy=Finder.find("pgmenergy")
-    xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
-    i=0
-    arg=args[i]
-    i=i+1
-    if isinstance(arg, EW4000):
-        filename = getSequenceFilename(args[i], xmldir)
-        NotEnergyScan=True
-    elif isinstance(arg, Scannable):
-        if arg.getName()=="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="jenergy" or arg.getName()=="pgmenergy" :
-            excitationEnergy_start=args[i]
-            i=i+1
-            excitationEnergy_stop=args[i]
-            i=i+1
-            NotEnergyScan=False
-        else:
-            i=i+2
-            NotEnergyScan=True
-        while i<len(args):
-            arg=args[i]
-            i=i+1
-            if isinstance( arg,  EW4000 ):
-                filename = getSequenceFilename(args[i], xmldir)
-                break
-    arg.setSequenceFilename(filename)
-    sequence=arg.loadSequenceData(filename)
-    allRegionsValid=True
-    for region in sequence.getRegion():
-        if NotEnergyScan:
-            if region.getExcitationEnergy()>arg.getCollectionStrategy().getXRaySourceEnergyLimit():
-                excitationEnergy=float(dcmenergy.getPosition())
-            else:
-                excitationEnergy=float(pgmenergy.getPosition())
-            allRegionsValid=isRegionValid(regionValidator, region, sequence.getElementSet(), excitationEnergy) and allRegionsValid
-            if not allRegionsValid:
-                print "Sequence file "+filename+" contains selected invalid regions for fixed excitation energy "+str(excitationEnergy)+"."
-            else:
-                print "All regions in the sequence file "+filename+" are valid."
-        else:
-            allRegionsValid=isRegionValid(regionValidator, region, sequence.getElementSet(), excitationEnergy_start) and allRegionsValid
-            if not allRegionsValid:
-                print "Sequence file "+filename+" contains selected invalid regions for the start energy "+str(excitationEnergy_start)+" in an energy scan."
-            else:
-                print "All regions in the sequence file "+filename+" are valid for the start energy "+str(excitationEnergy_start)+" in an energy scan."
+    
+    xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
+    ew4000 = None
+    
+    energy_scan = False
+    
+    pgm_excitation_energy_start = []
+    pgm_excitation_energy_stop  = []
+    
+    dcm_excitation_energy_start = []
+    dcm_excitation_energy_stop  = []
+    
+    args = list(args)
 
-            allRegionsValid=isRegionValid(regionValidator, region, sequence.getElementSet(), excitationEnergy_stop) and allRegionsValid
-            if not allRegionsValid:
-                print "Sequence file "+filename+" contains selected invalid regions for the stop energy "+str(excitationEnergy_stop)+" in an energy scan."
-            else:
-                print "All regions in the sequence file "+filename+" are valid for the stop energy "+str(excitationEnergy_stop)+" in an energy scan."
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        
+        if isinstance( arg,  EW4000 ):
+            ew4000 = arg     
+            filename = getSequenceFilename(args[i + 1], xmldir)
+            i = i + 1
+        
+        #If energy scan values are used, we need to validate our regions against these
+        elif arg.getName() =="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="jenergy" or arg.getName()=="pgmenergy" :  
+            try:
+                if isinstance(args[i + 1], tuple):
+                    params = args[i + 1]
+                    i = i + 1
+                else:
+                    params = tuple(args[i + 1], args[i + 2], args[i + 3])
+                    i = i + 3
+                
+                if arg.getName() =="ienergy" or arg.getName()=="dcmenergy":
+                    dcm_excitation_energy_start.append(min(params) * 1000.)
+                    dcm_excitation_energy_stop.append(max(params) * 1000.)
+
+                    
+                elif arg.getName() =="jenergy" or arg.getName()=="pgmenergy":
+
+                    pgm_excitation_energy_start.append(min(params))
+                    pgm_excitation_energy_stop.append(max(params))
+                    
+            except IndexError:
+                raise SyntaxError(
+                    "Incorrect syntax for " + arg.getName()
+                )
+            energy_scan = True
+                
+        i = i + 1
+        
+    sequence = ew4000.loadSequenceData(filename)
+    regions = sequence.getRegion()
+    print("")
+    
+    element_set = ew4000.getAnalyser().getPsuMode()
+    xray_limit = ew4000.getRegionDefinitionResourceUtil().getXRaySourceEnergyLimit()
+    
+    invalid_regions = []
+    
+    def print_invalid_message(region, exctiation_energy):
+        
+        scannablename = "dcmenergy" if exctiation_energy > xray_limit  else "pgmenergy"
+        
+        if not valid_region:
+            invalid_regions.append(region.getName())
+            print("Region " + region.getName() + " is not valid at " + scannablename + " " + str(exctiation_energy) + " eV.")
+    
+    for region in regions:
+        
+        valid_region = False
+        
+        if energy_scan:
+            
+            for i in range(0, len(dcm_excitation_energy_start)):
+                
+                #If this is a pgm, we only want to check it's valid against pgm and not the dcm scannable args
+                if region.getExcitationEnergy() < xray_limit:
+                    valid_region = isRegionValid(region_validator, region, element_set, region.getExcitationEnergy())
+                    print_invalid_message(region, region.getExcitationEnergy())
+                    break
+                #Check all dcm scannable args are valid for region
+                else:
+                    valid_region = isRegionValid(region_validator, region, element_set, dcm_excitation_energy_start[i])
+                    
+                    print_invalid_message(region, dcm_excitation_energy_start[i])
+                    
+                    valid_region = isRegionValid(region_validator, region, element_set, dcm_excitation_energy_stop[i]) #and valid_region
+                    
+                    print_invalid_message(region, dcm_excitation_energy_stop[i])
+                
+                #if not valid_region:
+                #    break
+                
+            for i in range(0, len(pgm_excitation_energy_start)):
+                
+                if region.getExcitationEnergy() > xray_limit:
+                    valid_region = isRegionValid(region_validator, region, element_set, region.getExcitationEnergy())
+                    
+                    print_invalid_message(region, region.getExcitationEnergy())
+                    
+                    break
+                    
+                else:      
+                    valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_start[i])
+                    
+                    print_invalid_message(region, pgm_excitation_energy_start[i])
+                    
+                    valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_stop[i]) #and valid_region
+                    
+
+                    print_invalid_message(region, pgm_excitation_energy_stop[i])
+                
+                #if not valid_region:
+                #    break
+        else:
+            excitation_energy = float(pgmenergy.getPosition())
+            
+            if region.getExcitationEnergy() > xray_limit:
+                excitation_energy = float(dcmenergy.getPosition()) * 1000. #Convert to eV
+                
+            valid_region = isRegionValid(region_validator, region, element_set, excitation_energy)
+            
+            print_invalid_message(region, excitation_energy)
+            
+    if len(invalid_regions) == 0:
+        print("All regions are valid!")
 
 def allElementsAreScannable(arg):
     for each in arg:
