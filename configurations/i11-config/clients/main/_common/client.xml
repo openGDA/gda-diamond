@@ -20,7 +20,6 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<gda:rbac />
 	<import resource="spinner.xml" />
 	<import resource="statusView.xml" />
 	<import resource="batonStateProvider.xml" />
@@ -28,5 +27,4 @@
 	<import resource="dataFileMonitor.xml" />
 	<import resource="RCPController.xml" />
 	<import resource="commandQueueProcessor.xml"/>
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 </beans>
