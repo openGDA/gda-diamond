@@ -3,13 +3,9 @@
 #	the Eulerian angles for a six circle diffractometer
 # [phi, chi, eta,mu,delta,gamma]
 #
-from java.lang import Double
-from java.lang import Thread
 from java.lang import String
 from jarray import array
-import java.lang.Exception
 from gda.device.scannable import ScannableMotionBase
-from gda.jython import JythonServerFacade
 
 import beamline_objects as BLobjects
 import ShelveIO
@@ -35,9 +31,6 @@ class EulerianPseudoDevice(ScannableMotionBase):
 		self.SO.setSettingsFileName('SO')
 		self.Etaoff=None
 		self.disable_kmu = False
-		
-		
-
 
 	def setEtaOffset(self,angle):
 		self.Etaoff=angle
@@ -47,8 +40,6 @@ class EulerianPseudoDevice(ScannableMotionBase):
 		if self.Etaoff == None:
 			self.Etaoff = self.SO.getValue('Eta')
 		return self.Etaoff
-
-
 
 	#
 	# Simply return the modes of the convertor
@@ -64,9 +55,7 @@ class EulerianPseudoDevice(ScannableMotionBase):
 		delta_pos = String.format(self.getOutputFormat()[0], [ positions[4] ])
 		gamma_pos = String.format(self.getOutputFormat()[0], [ positions[5] ])
 
-
 		return self.getName() + ".phi : " + phi_pos +"\n" + self.getName() + ".chi : " + chi_pos +"\n" + self.getName() + ".eta : " + eta_pos + "\n" +self.getName() + ".mu : " + mu_pos +"\n" + self.getName() + ".delta : " + delta_pos +"\n" + self.getName() + ".gamma : " + gamma_pos
-
 		
 	def toString(self):
 		return self.__repr__()
@@ -87,8 +76,6 @@ class EulerianPseudoDevice(ScannableMotionBase):
 		except:
 			print "Warning::it did not move delta or gamma"
 
-
-
 	#
 	# Returns true if any of the six motors is busy
 	#
@@ -101,4 +88,3 @@ class EulerianPseudoDevice(ScannableMotionBase):
 	def getPosition(self):
 		angles = self.storedAngles.getAngles()
 		return [angles.Phi,angles.Chi,angles.Eta,angles.Mu,angles.Delta,angles.Gamma]
-

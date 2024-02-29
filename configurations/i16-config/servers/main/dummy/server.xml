@@ -6,22 +6,8 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-				<value>file:${gda.core.dir}/properties/core_java.properties</value> <!-- Not in I15-1! -->
-			</list>
-		</property>
-	</bean>
-
 	<import resource="../_common/server.xml"/>
 
-	<context:property-placeholder/>
-	
 	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
 
 	<bean id="ADSIM_HOST" class="java.lang.String">
@@ -92,12 +78,6 @@
 
 	<import resource="metadata.xml" />
 
-	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
-
 	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
 		<property name="realAxisPositioner" ref="stage_x" />
 		<property name="imaginaryAxisPositioner" ref="stage_y" />
@@ -107,16 +87,6 @@
 		 -->
 	</bean>
 
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
-	      detectors must be created before doing this.
-	      ADVISED: do it last or towards the end, scan will now start to run!
-	 -->
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
-
-	<import resource="file://${gda.facility.dir}/servers/dummy/icat_xml_creator.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-			
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DefaultDataWriterFactory" />
 		<property name="dataWriterExtenders">
@@ -125,9 +95,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>
