@@ -201,28 +201,23 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		Dataset transpose = DatasetUtils.transpose(activePaletteTrace.get().getData());
 		double energyDis = Double.parseDouble(energyDispersion.getText());
 		double rslope = Double.parseDouble(slope.getText());
-		double roffset = Double.parseDouble(offset.getText());
-		int rOffset2;
-		Dataset[] spectrum;
-		if (region != null && region.getROI() instanceof RectangularROI) {
+		double[] rOrigin = {0, Double.parseDouble(offset.getText())};
+		if (region != null && region.getROI() instanceof RectangularROI rroi) {
 			// spectrum within ROI
-			Slice[] slicesFromRectangularROI = ROISliceUtils.getSlicesFromRectangularROI((RectangularROI) region.getROI(), 1);
-			rOffset2 = region.getROI().getIntPoint()[0];
-			spectrum = RixsImageReductionBase.makeSpectrum(transpose.getSliceView(slicesFromRectangularROI), rOffset2, rslope, roffset, true);
-		} else {
-			// whole image spectrum
-			rOffset2 = 0;
-			spectrum = RixsImageReductionBase.makeSpectrum(transpose, rOffset2, rslope, roffset, true);
+			Slice[] slicesFromRectangularROI = ROISliceUtils.getSlicesFromRectangularROI(rroi, 1);
+			rOrigin[0] = rroi.getIntPoint()[0]; // override X
+			transpose = transpose.getSliceView(slicesFromRectangularROI);
 		}
+		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, rOrigin, rslope, true, true);
 		// apply energy calibration
-		Dataset elastic = RixsImageReductionBase.makeEnergyScale(spectrum, rOffset2, energyDis);
+		Dataset xValues = RixsImageReductionBase.makeEnergyScale(spectrum, 0, rOrigin[1], energyDis);
 		if (energyDis == 1.0) {
-			elastic.setName("Pixels");
+			xValues.setName("Pixels");
 		} else {
-			elastic.setName("Energy loss");
+			xValues.setName("Energy loss");
 		}
 		spectrum[1].setName("Intensity");
-		spectrumPlot.updatePlot1D(elastic, Arrays.asList(spectrum[1]), "", new NullProgressMonitor());
+		spectrumPlot.updatePlot1D(xValues, Arrays.asList(spectrum[1]), "", new NullProgressMonitor());
 		if (spectrumPlot.isRescale()) {
 			spectrumPlot.setRescale(false);
 		}
