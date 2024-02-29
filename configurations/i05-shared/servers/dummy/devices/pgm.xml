@@ -4,19 +4,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="20"/>
+	</bean>
 
-	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="1"/>
+	</bean>
+	
+	<bean id="pgm_mpitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="2"/>
+	</bean>
 
-	<bean id="pgm_mpitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_mtrans_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="1"/>
+	</bean>
 
-	<bean id="pgm_mtrans_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_gpitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="1"/>
+	</bean>
 
-	<bean id="pgm_gpitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_gtrans_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="1"/>
+	</bean>
 
-	<bean id="pgm_gtrans_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="pgm_linedensity_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="pgm_linedensity_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="400"/>
+	</bean>
 	
 	<bean id="pgm_linedensity" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_linedensity_motor" />

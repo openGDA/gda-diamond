@@ -9,16 +9,16 @@
 	<import resource="s1.xml"/>
 	<import resource="s2.xml" />
 	<import resource="s3.xml"/>
-	
+
 	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m3mj6.xml" />
-	
+
 	<!-- monochromator -->
 	<import resource="pgm.xml" />
-	
+
 	<!-- insertion devices -->
 	<import resource="id.xml" />
 	<import resource="raw_id.xml" />
-	
+
 </beans>
