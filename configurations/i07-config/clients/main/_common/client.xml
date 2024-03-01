@@ -5,7 +5,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
-
     
  	<context:property-placeholder/>
 
@@ -16,14 +15,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file://${gda.facility.dir}/clients/_common/mapping_view.xml" />
 
-   <!--  Removed thes two as a temprary measure during callout on June 24th at 11:55 pm - Rob W -->
-<!--     <import resource="fastpil1_clientside.xml"/> -->
-<!--     <import resource="fastpil3_clientside.xml"/> -->
-
-<!--    <import resource="mjpegViewer.xml"/> -->
-
-
-<bean id="dataserverclient" class="gda.data.DataServerClientConfig" />
+	<bean id="dataserverclient" class="gda.data.DataServerClientConfig" />
 
 </beans>
 
