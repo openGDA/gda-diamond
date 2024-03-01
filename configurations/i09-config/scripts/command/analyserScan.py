@@ -69,6 +69,11 @@ def analyserscancheck(*args):
             ew4000 = arg     
             filename = getSequenceFilename(args[i + 1], xmldir)
             i = i + 1
+            continue
+        
+        elif not isinstance(arg, Scannable):
+            i = i + 1
+            continue
         
         #If energy scan values are used, we need to validate our regions against these
         elif arg.getName() =="ienergy" or arg.getName()=="dcmenergy" or arg.getName()=="jenergy" or arg.getName()=="pgmenergy" :  
@@ -131,37 +136,24 @@ def analyserscancheck(*args):
                 #Check all dcm scannable args are valid for region
                 else:
                     valid_region = isRegionValid(region_validator, region, element_set, dcm_excitation_energy_start[i])
-                    
                     print_invalid_message(region, dcm_excitation_energy_start[i])
                     
-                    valid_region = isRegionValid(region_validator, region, element_set, dcm_excitation_energy_stop[i]) #and valid_region
-                    
+                    valid_region = isRegionValid(region_validator, region, element_set, dcm_excitation_energy_stop[i])
                     print_invalid_message(region, dcm_excitation_energy_stop[i])
-                
-                #if not valid_region:
-                #    break
                 
             for i in range(0, len(pgm_excitation_energy_start)):
                 
                 if region.getExcitationEnergy() > xray_limit:
                     valid_region = isRegionValid(region_validator, region, element_set, region.getExcitationEnergy())
-                    
                     print_invalid_message(region, region.getExcitationEnergy())
-                    
                     break
                     
                 else:      
                     valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_start[i])
-                    
                     print_invalid_message(region, pgm_excitation_energy_start[i])
                     
-                    valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_stop[i]) #and valid_region
-                    
-
+                    valid_region = isRegionValid(region_validator, region, element_set, pgm_excitation_energy_stop[i])
                     print_invalid_message(region, pgm_excitation_energy_stop[i])
-                
-                #if not valid_region:
-                #    break
         else:
             excitation_energy = float(pgmenergy.getPosition())
             
@@ -169,7 +161,6 @@ def analyserscancheck(*args):
                 excitation_energy = float(dcmenergy.getPosition()) * 1000. #Convert to eV
                 
             valid_region = isRegionValid(region_validator, region, element_set, excitation_energy)
-            
             print_invalid_message(region, excitation_energy)
             
     if len(invalid_regions) == 0:
@@ -230,22 +221,42 @@ def analyserscan(*args):
     scannables = []
     ew4000 = None
     
-    while i< len(args):
+    while i < len(args):
         arg = args[i]
-        if i==0 and isinstance(arg, EW4000):
-            newargs.append(zeroScannable)
-            newargs.append(0)
-            newargs.append(0)
-            newargs.append(1)
-            newargs.append(arg)
+            
+        if isinstance(arg,  EW4000):
+            ew4000 = arg
+            controller = Finder.find("SequenceFileObserver")
+            xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
+            
+            newargs.append(ew4000)
+            try:
+                #Get file name and skip over this argument as only needed for setup, should not be added to newargs
+                i = i + 1
+                filename = args[i]
+            except IndexError:
+                raise IndexError("Next argument after " + ew4000.getName() + " needs to be a sequence file.")
+            filename = xmldir + filename;
+            if (OsUtil.isWindows()) :
+                FilenameUtil.setPrefix("D:")
+                filename=FilenameUtil.convertSeparator(filename)
+
+            if controller is not None:
+                controller.update(controller, SequenceFileChangeEvent(filename)) #update client sequence view
+            sleep(2.0)
+            jython_server_status = InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
+            while (jython_server_status.isScriptOrScanPaused()):
+                sleep(1.0) # wait for user saving dirty file
+            ew4000.loadSequenceData(filename)
+            
         elif type(arg)==TupleType:
             if allElementsAreScannable(arg):
                 #parsing (scannable1, scannable2,...) as scannable group
-                scannableGroup=ScannableGroup()
+                scannablegroup = ScannableGroup()
                 for each in arg:
-                    scannableGroup.addGroupMember(each)
-                scannableGroup.setName("pathgroup")
-                newargs.append(scannableGroup)
+                    scannablegroup.addGroupMember(each)
+                scannablegroup.setName("pathgroup")
+                newargs.append(scannablegroup)
             elif allElementsAreListOfNumber(arg):
                 #parsing scannable group's position lists
                 newargs.append(arg)
@@ -257,32 +268,28 @@ def analyserscan(*args):
                 newargs.append(arg)
             else:
                 raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, or list of numbers are supported."
+            
         else:
             newargs.append(arg)
-        i=i+1
-        if isinstance( arg,  EW4000):
-            ew4000 = arg
-            controller = Finder.find("SequenceFileObserver")
-            xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') +os.sep;
-            filename=xmldir+args[i];
-            if (OsUtil.isWindows()) :
-                FilenameUtil.setPrefix("D:")
-                filename=FilenameUtil.convertSeparator(filename)
-
-            if controller is not None:
-                controller.update(controller, SequenceFileChangeEvent(filename)) #update client sequence view
-            sleep(2.0)
-            jython_server_status = InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
-            while (jython_server_status.isScriptOrScanPaused()):
-                sleep(1.0) # wait for user saving dirty file
-            arg.loadSequenceData(filename)
-            i=i+1
             
+        i = i + 1
+         
+    #This ensures zeroscannable doesn't ever sneak into scan and add useless extra dimension. 
+    #Only ever added to newargs if no other scannable with suitable arguments qualifies.
+    if analyserscancheckneedszeroscannable(newargs):
+        newargs.insert(0, 1)
+        newargs.insert(0, 0)
+        newargs.insert(0, 0)
+        newargs.insert(0, zeroScannable)
+        
+    if newargs[0] == ew4000:
+        raise SyntaxError(ew4000.getName() + " with other scannables should be after scannable steps e.g 'analyserscan x 1 2 1 " + ew4000.getName() + " \"user.seq\" '")
+      
+    #For extra ew4000 region printing, give it only scannables 
     for i in newargs:
         if isinstance(i, ScannableBase) and not isinstance(i, Detector):
-            scannables.append(i)
-            
-    if ew4000 != None and ew4000.isExtraRegionPrinting():
+            scannables.append(i)   
+    if ew4000 is not None and ew4000.isExtraRegionPrinting():
         ew4000.configureExtraRegionPrinting(scannables)
     
     cached_file_at_scan_start_value = LocalProperties.check(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, False)
@@ -302,6 +309,23 @@ def analyserscan(*args):
         zerosupplies()  # @UndefinedVariable
     
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
+
+def analyserscancheckneedszeroscannable(args):
+    """
+    Loop through scannables with their arguments. We are checking to see if there is a 
+    valid scannable for the scan e.g "scan x 1 2 1" OR "scan x (1, 2, 3)". If there isn't,
+    return True as need zeroscannable, otherwise False.
+    """
+    zero_scannable_needed = True   
+    scannableswithargs_list = scan.parseArgsIntoArgStruct(args)
+    
+    for scannablewithargs in scannableswithargs_list:
+        for argindex in range(len(scannablewithargs)):
+            if argindex > 1 or isinstance(scannablewithargs[argindex], tuple):
+                zero_scannable_needed = False
+                break
+            
+    return zero_scannable_needed
 
 def analyserscan_v1(*args):
     starttime=time.ctime()
@@ -328,5 +352,4 @@ def analyserscan_v1(*args):
             i=i+1
     scan(newargs)
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
-
 
