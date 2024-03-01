@@ -6,6 +6,8 @@ from java.lang import Exception
 import math
 import datetime
 from gda.jython import InterfaceProvider
+from __builtin__ import False
+from uk.ac.gda.server.exafs.scan import DetectorPreparer
 
 print("\nRunning 'test-ionchamber-output.py")
 
@@ -222,6 +224,35 @@ class TestIonchamberReadout(DefaultScannable):
     def getPosition(self):
         return self.testResultString
     
+class IonchamberDetectorPreparer(DetectorPreparer) :
+
+    def __init__(self, ionchamberChecker):
+        self.logger = LoggerFactory.getLogger("IonchamberDetectorPreparer")
+        self.ionchamberChecker = ionchamberChecker
+        self.runChecker = False
+
+    def configure(self, scanBean, detectorBean, outputBean, experimentFullPath) :
+        pass
+
+    def setRunIonchamberChecker(self, tf):
+        self.runChecker = tf
+
+    def isRunIonchamberChecker(self):
+        return self.runChecker
+
+    def beforeEachRepetition(self):
+        if not self.runChecker :
+            return
+        try :
+            self.ionchamberChecker.atScanStart()
+        except Exception as e :
+            self.logger.warn("Problem running ion chamber checker", e)
+
+    def completeCollection(self):
+        pass
+
+    def getExtraDetectors(self):
+        return []
 
 ## Create new AsciiMetadataConfig object
 def createAsciiMetaDataEntry(label, values):

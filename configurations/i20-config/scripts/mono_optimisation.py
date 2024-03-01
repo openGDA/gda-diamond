@@ -35,3 +35,4 @@ bragg1WithOffset.setMonoOptimiser(monoOptimiser)
 bragg1WithOffset.setOffsetStartValue(0)
 bragg1WithOffset.setOffsetGradient(0)
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
+                    
