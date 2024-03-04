@@ -8,7 +8,6 @@ from gda.jython import InterfaceProvider
 #import gda
 from gda.analysis import Plotter
 
-from gda.jython import JythonServer;
 from gda.factory import Finder
 
 from org.eclipse.january.dataset import DatasetFactory
