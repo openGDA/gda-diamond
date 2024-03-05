@@ -16,19 +16,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
--Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
--Dgda.mode=dummy
--Drebel.log=true
--Dgda.config=${project_loc:k11-config}
--Dgda.propertiesFile=${project_loc:k11-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:k11-config}/properties/dummy/JCALibrary.properties
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.instance.dir=${project_loc:k11-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Dgda.group.dir=${project_loc:core-config}/no-group
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=false
+      <vmArgs>-Dgda.config=${project_loc:k11-config}
 -Xms256m
 -Xmx2048m
       </vmArgs>

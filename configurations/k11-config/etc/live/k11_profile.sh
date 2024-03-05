@@ -10,5 +10,5 @@ export GDA_INSTANCE_NAME=${BEAMLINE}
 export GDA_WORKSPACE_PARENT=/dls_sw/$BEAMLINE/software/gda
 export GDA_INSTANCE_CONFIG=${GDA_WORKSPACE_PARENT}/workspace_git/gda-diamond.git/configurations/k11-config
 
-export PATH=$GDA_INSTANCE_CONFIG/bin:${PATH}
+export PATH=$PATH:/dls_sw/apps/gda_launcher/nightly
 export GDA_MODE=live

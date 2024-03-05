@@ -1,0 +1,40 @@
+server.spring-xml = [
+	"servers/${gda.mode}/server.xml",
+	"servers/_common/server.xml"
+]
+
+client.spring-xml = "clients/_common/client.xml"
+
+properties = [
+	"properties/${gda.mode}/${gda.mode}_instance_java.properties",
+	"properties/_common/common_instance_java.properties"
+]
+
+logging = "properties/_common/logging_customisation.xml"
+
+[defaults]
+"gda.mode" = "dummy"
+
+[system]
+"gda.config.debug" = true
+"gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+"org.eclipse.scanning.event.remote.scannableServiceTimeout" = 1000
+"org.eclipse.scanning.event.remote.positionerTimeout" = 1000
+
+[extras.dls]
+root = "../../dls-config"
+server.spring-xml.common = [
+	"servers/${gda.mode}/icat_xml_creator.xml",
+	"servers/_common/machine_status.xml",
+	"servers/_common/file_registrar.xml",
+	"servers/_common/solstice_scanning.xml"
+]
+server.spring-xml.mode.dummy = [
+	"servers/dummy/malcolmsims.xml",
+	"servers/dummy/sim_area_detector.xml",
+	"servers/_common/mandelbrotDetector.xml"
+]
+client.spring-xml = [
+	"clients/_common/client.xml",
+	"clients/_common/mapping_controllers.xml"
+]
