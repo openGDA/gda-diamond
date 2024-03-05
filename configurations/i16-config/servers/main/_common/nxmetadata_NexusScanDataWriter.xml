@@ -87,6 +87,10 @@
 
 	<bean id="beam" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
 		<property name="name" value="beam" />
+		<?ignore These properties are implicit in this class, but included here for ease of searching
+		<property name="category" value="NX_SAMPLE"/>
+		<property name="nexusClass" value="NXbeam"/>
+		 ?>
 		<property name="incidentEnergyScannableName" value="en" /> <!-- incident_energy -->
 		<property name="incidentBeamDivergenceScannableName" value="incidentBeamDivergenceScannable" />
 		<property name="incidentPolarizationScannableName" value="incidentPolarizationScannable" />
@@ -104,7 +108,7 @@
 					<property name="name" value="incident_polarisation_stokes"/>
 					<property name="scannableName" value="incident_polarisation_stokes"/>
 				</bean>
-				<!-- vvvvvv Note that the beam direction transformation is specific to i16 vvvvvv -->
+				<?ignore vvvvvv Note that the beam direction transformation is specific to i16 vvvvvv ?>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
 					<property name="value" value="transformations/direction"/>
@@ -148,7 +152,7 @@
 							</bean>
 						</list>
 					</property>
-				<!-- ^^^^^^ Note that the beam direction transformation is specific to i16 ^^^^^^ -->
+				<?ignore ^^^^^^ Note that the beam direction transformation is specific to i16 ^^^^^^ ?>
 				</bean> 
 			</list>
 		</property>
@@ -1134,8 +1138,9 @@
 	</bean>
 
 	<bean id="nexusDataWriterConfiguration" class="gda.data.scan.datawriter.NexusDataWriterConfiguration">
+		<!-- Order here matters, as nodes can only be referenced after they have been created -->
 		<property name="nexusTemplateFiles">
-			<list> <!-- Order here matters, as nodes can only be referenced after they have been created -->
+			<list>
 				<value>${gda.config}/yaml/NXmx.yaml</value>
 			</list>
 		</property>
