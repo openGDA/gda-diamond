@@ -2,12 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="fsj1" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="pvName" value="BL09J-EA-FSHTR-01:CTRL" />
+	<bean id="fsj1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09J-EA-FSHTR-01:CTRL"/>
+		<property name="readOnly" value="false"/>
 	</bean>
-	<bean id="fsi1" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="pvName" value="BL09I-EA-FSHTR-01:CTRL" />
+	<bean id="fsi1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL09I-EA-FSHTR-01:CTRL"/>
+		<property name="readOnly" value="false"/>
 	</bean>
+	
 	<bean id="fsj1inlim" class="gda.device.enumpositioner.EpicsSimpleBinary">
 		<property name="readonly" value="true" />
 		<property name="pvName" value="BL09J-EA-FSHTR-01:INLIM" />

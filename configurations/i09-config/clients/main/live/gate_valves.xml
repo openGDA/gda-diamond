@@ -20,7 +20,4 @@
 		<property name="recordName" value="BL09I-VA-VALVE-10:STA" />
 	</bean>
 	
-	<bean id="fsj1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="fsi1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	
 </beans>

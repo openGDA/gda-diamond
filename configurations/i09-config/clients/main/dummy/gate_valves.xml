@@ -46,22 +46,5 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="fsj1" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Out</value>
-				<value>In</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="fsi1" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Out</value>
-				<value>In</value>
-			</list>
-		</property>
-	</bean>
-	
+
 </beans>

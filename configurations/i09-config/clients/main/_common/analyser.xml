@@ -54,13 +54,9 @@
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="location" value="Diamond I09"/>
-<!-- 		<property name="user" value="si8449-1"/> -->
-<!-- 		<property name="user" value="${gda.defVisit}"/> -->
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="hardShutterPV" value="BL09I-EA-FSHTR-01:CTRL"/>
-		<property name="softShutterPV" value="BL09J-EA-FSHTR-01:CTRL"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 	</bean>
 	

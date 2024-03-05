@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="fsj1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
 		<property name="positions">
 			<list>
 				<value>In</value>
@@ -11,6 +12,7 @@
 		</property>
 	</bean>
 	<bean id="fsi1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
 		<property name="positions">
 			<list>
 				<value>In</value>

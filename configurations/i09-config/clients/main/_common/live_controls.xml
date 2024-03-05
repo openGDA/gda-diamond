@@ -7,65 +7,6 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	
-	<bean id="igap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="igap_offset" />
-		<property name="group" value="Hard" />
-		<property name="scannableName" value="igap_offset_wrapper" />
-		<property name="showIncrement" value="false"/>
-		<property name="showStop" value="false"/>
-		<property name="horizontalLayout" value="true"/>
-		<property name="readOnly" value="true"/>
-		<property name="userUnits" value="mm"/>
-		<property name="boldLabel" value="true"/>
-	</bean>
-	
-	<bean id="ienergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="ienergy_order" />
-		<property name="group" value="Hard" />
-		<property name="scannableName" value="ienergy_order_wrapper" />
-		<property name="showIncrement" value="false"/>
-		<property name="showStop" value="false"/>
-		<property name="horizontalLayout" value="true"/>
-		<property name="readOnly" value="true"/>
-		<property name="increment" value="1" />
-		<property name="boldLabel" value="true"/>
-	</bean>
-	
-	<bean id="jgap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="jgap_offset" />
-		<property name="group" value="Soft" />
-		<property name="scannableName" value="jgap_offset_wrapper" />
-		<property name="showIncrement" value="false"/>
-		<property name="showStop" value="false"/>
-		<property name="horizontalLayout" value="true"/>
-		<property name="readOnly" value="true"/>
-		<property name="userUnits" value="mm"/>
-		<property name="boldLabel" value="true"/>
-	</bean>
-	
-	<bean id="polarisation_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="polarisation " />
-		<property name="group" value="Soft" />
-		<property name="scannableName" value="polarisation_wrapper" />
-		<property name="userUnits" value=""/>
-		<property name="textInput" value="true"/>
-		<property name="readOnly" value="true"/>
-		<property name="boldLabel" value="true"/>
-	</bean>
-	
-	<bean id="jenergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="jenergy_order" />
-		<property name="group" value="Soft" />
-		<property name="scannableName" value="jenergy_order_wrapper" />
-		<property name="showIncrement" value="false"/>
-		<property name="showStop" value="false"/>
-		<property name="horizontalLayout" value="true"/>
-		<property name="readOnly" value="true"/>
-		<property name="increment" value="1" />
-		<property name="boldLabel" value="true"/>
-	</bean>
-	
 	<bean id="green_colour" class="org.eclipse.swt.graphics.Color">
 		<constructor-arg name="device">
 			<null/>
@@ -96,9 +37,130 @@
 		</constructor-arg>
 	</bean>
 	
+	<bean id="hard_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="fsi1" />
+		<property name="group" value="Hard X-Ray" />
+		<property name="scannableName" value="fsi1" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value-ref="red_colour" />
+				<entry key="Out" value-ref="green_colour" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="hard_shutter_toggle_button" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="fsi1"/>
+		<property name="buttonTooltip" value="Move the hard x-ray shutter"/>
+		<property name="group" value="Hard X-Ray" />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="Open" />
+				<entry key="Out" value="Close" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="pos fsi1 'Out'" />
+				<entry key="Out" value="pos fsi1 'In'" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="igap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="igap_offset" />
+		<property name="group" value="Hard X-Ray" />
+		<property name="scannableName" value="igap_offset_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
+	
+	<bean id="ienergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ienergy_order" />
+		<property name="group" value="Hard X-Ray" />
+		<property name="scannableName" value="ienergy_order_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="soft_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="fsj1" />
+		<property name="group" value="Soft X-Ray" />
+		<property name="scannableName" value="fsj1" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value-ref="red_colour" />
+				<entry key="Out" value-ref="green_colour" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="soft_shutter_toggle_button" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="fsj1"/>
+		<property name="buttonTooltip" value="Move the soft x-ray shutter"/>
+		<property name="group" value="Soft X-Ray" />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="Open" />
+				<entry key="Out" value="Close" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="pos fsj1 'Out'" />
+				<entry key="Out" value="pos fsj1 'In'" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="jgap_offset_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="jgap_offset" />
+		<property name="group" value="Soft X-Ray" />
+		<property name="scannableName" value="jgap_offset_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
+	
+	<bean id="polarisation_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="polarisation " />
+		<property name="group" value="Soft X-Ray" />
+		<property name="scannableName" value="polarisation_wrapper" />
+		<property name="userUnits" value=""/>
+		<property name="textInput" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
+	<bean id="jenergy_order_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="jenergy_order" />
+		<property name="group" value="Soft X-Ray" />
+		<property name="scannableName" value="jenergy_order_wrapper" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="readOnly" value="true"/>
+		<property name="increment" value="1" />
+	</bean>
+	
 	<bean id="intensity_protection_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
-		<property name="displayName" value="" />
-		<property name="group" value="Intensity Protection" />
+		<property name="displayName" value="intensity_protection" />
+		<property name="group" value="Analyser" />
 		<property name="scannableName" value="intensity_protection" />
 		<property name="canvasHeight" value="24" />
 		<property name="canvasWidth" value="24" />
@@ -111,25 +173,32 @@
 		</property>
 	</bean>
 	
-	<bean id="reset_intensity_protection" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+	<bean id="clear_intensity_protection" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="command" value="pos intensity_protection 'Clear'" />
 		<property name="buttonText" value="Clear" />
 		<property name="buttonTooltip" value="Move the intensity protection into a clear state: 'pos intensity_protection &#34;Clear&#34;'"/>
-		<property name="group" value="Intensity Protection" />
+		<property name="group" value="Analyser" />
 	</bean>
 	
 	<bean id="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="viewName" value="Live Monitor"/>
 		<property name="numberOfColumns" value="3"/>
+		<property name="pack" value="true"/>
 		<property name="controls">
 			<list>
+				<ref bean="hard_shutter_status" />
+				<ref bean="hard_shutter_toggle_button" />
 				<ref bean="igap_offset_control" />
 				<ref bean="ienergy_order_control" />
+				
+				<ref bean="soft_shutter_status" />
+				<ref bean="soft_shutter_toggle_button" />
 				<ref bean="jgap_offset_control" />
 				<ref bean="polarisation_control" />
 				<ref bean="jenergy_order_control" />
+				
 				<ref bean="intensity_protection_status" />
-				<ref bean="reset_intensity_protection" />
+				<ref bean="clear_intensity_protection" />
 			</list>
 		</property>
 	</bean>
