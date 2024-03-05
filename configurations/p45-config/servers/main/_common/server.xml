@@ -6,9 +6,6 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
-
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 	<!-- GDA REST Server -->
@@ -19,7 +16,6 @@
 		<property name="name" value="metashop"/>
 	</bean>
 
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> 
 	<import resource="command_queue_processor.xml"/>
 	<import resource="jython_server_facade.xml" />
 
@@ -38,9 +34,7 @@
 	<!-- Experiment service, plan request handler -->
 	<import resource="experiment.xml" />
 	<import resource="experiment_driver.xml" />
-	
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
 
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 

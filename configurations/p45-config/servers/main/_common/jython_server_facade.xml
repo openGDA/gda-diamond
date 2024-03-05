@@ -4,25 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
 
-	<bean id="command_server" class="gda.jython.JythonServer">
-		<property name="jythonScriptPaths">
-			<bean class="gda.jython.ScriptPaths">
-				<property name="projects">
-					<list>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.config}/scripts" />
-							<property name="name" value="Scripts: Config" />
-							<property name="type" value="CONFIG" />
-						</bean>
-					</list>
-				</property>
-				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
-			</bean>
-		</property>
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts" />
+		<property name="name" value="Scripts: Config" />
+		<property name="type" value="CONFIG" />
 	</bean>
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">

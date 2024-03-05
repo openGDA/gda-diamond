@@ -8,7 +8,7 @@
 	</description>
 
 	<!-- It could be loaded through 
-		through file://${gda.facility.dir}/servers/dummy/malcolmsims.xml" in dummy/server.xml file 
+		through dls-config/servers/dummy/malcolmsims.xml" in dummy/server.xml file 
 		but they would have a different ref names for _common/stages/tomography_stack.xml 
 		-->
 

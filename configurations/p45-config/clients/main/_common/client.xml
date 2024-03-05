@@ -10,13 +10,8 @@
 	<!-- This line assures that Spring scans and initialises beans using annotations instead of explicit XML declarations -->
 	<context:component-scan base-package="uk.ac.gda.tomography"></context:component-scan>
 
-	<context:property-placeholder/>
-
 	<import resource="command_queue_processor.xml"/>
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	<import resource="file://${gda.facility.dir}/clients/_common/mapping_view.xml" />
 	<import resource="stage_controls.xml"/>  <!--  TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
-	<import resource="file://${gda.facility.dir}/clients/_common/stage_controls_tree.xml"/>
 	<import resource="mapping.xml"/>
 
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml"/>

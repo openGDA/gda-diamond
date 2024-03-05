@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA Test Rig P45" uid="uk.ac.diamond.daq.beamline.p45.product" id="uk.ac.diamond.daq.beamline.p45.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA Test Rig P45" uid="uk.ac.diamond.daq.beamline.p45.product" id="uk.ac.diamond.daq.beamline.p45.product" application="uk.ac.gda.client.application" version="9.33.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -20,16 +20,7 @@ See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.root=${project_loc:uk.ac.gda.core}/../
--Dgda.config=${project_loc:p45-config}
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${project_loc:p45-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Dgda.propertiesFile=${project_loc:p45-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:p45-config}/properties/dummy/JCALibrary.properties
--Dgda.mode=dummy
+      <vmArgs>-Dgda.config=${project_loc:p45-config}
 -Xms512m
 -Xmx2048m
       </vmArgs>
