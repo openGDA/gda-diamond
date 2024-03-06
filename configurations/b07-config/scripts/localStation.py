@@ -102,5 +102,7 @@ from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 print("-"*100)
-
+# import sputter functions
+from gda.jython.commands.GeneralCommands import run
+run("/dls_sw/b07/scripts/Beamline/sputter_funcs.py")
 print "-----------------------------------------------------------------------------------------------------------------"
