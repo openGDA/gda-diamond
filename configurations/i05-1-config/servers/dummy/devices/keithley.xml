@@ -21,4 +21,7 @@
 	<bean id="keithley_b_resistance_mode" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="4-wire" />
 	</bean>
+
+	<bean id="keithley_a_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600SweepMode"/>
+	<bean id="keithley_b_sweep_mode" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600SweepMode"/>
 </beans>
