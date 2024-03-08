@@ -522,5 +522,20 @@
 		<property name="processing" ref="pilatus3_processing" />
 	</bean>
 
+	<bean id="malcolm_info_scan36" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Scan 36" />
+		<property name="description" value="Scan 36" />
+	</bean>
+	<bean id="malcolm_model_scan36" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL07I-ML-SCAN-36" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+	<bean id="malcolm_device_scan36" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
+		<property name="name" value="BL07I-ML-SCAN-36" />
+		<property name="model" ref="malcolm_model_scan36" />
+		<property name="deviceInformation" ref="malcolm_info_scan36" />
+		<property name="activated" value="false" />
+		<property name="processing" ref="excalibur_processing" />
+	</bean>
 
 </beans>

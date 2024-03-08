@@ -16,8 +16,8 @@ if is_eh1v() :
     exc_name = "BL07I-ML-SCAN-21"
     p2c_name = "BL07I-ML-SCAN-22"
 elif is_eh2() :
-    exc_name = "BL07I-ML-SCAN-34"
-    exs_name = "BL07I-ML-SCAN-34"
+    exc_name = "BL07I-ML-SCAN-36"
+    exs_name = "BL07I-ML-SCAN-36"
 
 # Excalibur
 exc = ird_service.getRunnableDevice(exc_name)
