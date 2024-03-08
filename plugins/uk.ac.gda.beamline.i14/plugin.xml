@@ -133,5 +133,16 @@
             class="org.eclipse.scanning.event.ui.view.QueuedScanRepeatHandler">
       </rerunHandler>
    </extension>
-
+   <extension
+        point="org.eclipse.ui.activities">
+        <activity
+          id="uk.ac.gda.beamline.i14.removeCreateLiveMapHandler"
+          name="remove">
+        </activity>
+        <!-- remove live map button -->
+        <activityPatternBinding
+          activityId="uk.ac.gda.beamline.i14.removeCreateLiveMapHandler"
+          pattern=".*/uk.ac.gda.client.live.stream.createlivemapcommand">
+        </activityPatternBinding>
+   </extension>
 </plugin>
