@@ -45,6 +45,4 @@
 		<property name="activated" value="true" />
 	</bean>
 
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
-
 </beans>

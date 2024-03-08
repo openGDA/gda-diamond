@@ -36,4 +36,4 @@ sed $sed_command $plugin_customization_file  > $new_customization_file
 export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization="$new_customization_file
 
 # Start the client
-gda --start client "$@" -data $WORKSPACE_DIR
+gda client -Declipse.pluginCustomization=$new_customization_file --tag $USER$subdir "$@"

@@ -63,7 +63,4 @@
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-
 </beans>

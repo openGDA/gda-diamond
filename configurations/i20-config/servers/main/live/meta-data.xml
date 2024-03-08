@@ -3,153 +3,61 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="instrument" />
+		<property name="value" value="i20" />
+	</bean>
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facility" />
+		<property name="propertyName" value="gda.facility" />
+	</bean>
 
-		<property name="metadataEntries">
-			<list>
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facilityType" />
+		<property name="propertyName" value="gda.facility.type" />
+	</bean>
 
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="instrument" />
-					<property name="value" value="i20" />
-				</bean>
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="probe" />
+		<property name="propertyName" value="gda.facility.probe" />
+	</bean>
 
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facility" />
-					<property name="propertyName" value="gda.facility" />
-				</bean>
+	<bean class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="facility.mode" />
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+	</bean>
 
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facilityType" />
-					<property name="propertyName" value="gda.facility.type" />
-				</bean>
+	<bean class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="instrument.source.current" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+	</bean>
 
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="probe" />
-					<property name="propertyName" value="gda.facility.probe" />
-				</bean>
-				
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="facility.mode" />
-					<property name="pvName" value="CS-CS-MSTAT-01:MODE"/>
-				</bean>
-				
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="instrument.source.current" />
-					<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-				</bean>
-				
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="source.fillMode" />
-					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
-				</bean>
-				
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="instrument.source.energy" />
-					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-				</bean>
-				
-                <bean class="gda.data.metadata.StoredMetadataEntry">
-                    <property name="name" value="userid" />
-                </bean>
-                
-                <bean class="gda.data.metadata.StoredMetadataEntry">
-                    <property name="name" value="federalid" />
-                </bean>
-                
-                <bean class="gda.data.metadata.PropertyMetadataEntry">
-                    <property name="name" value="defVisit" />
-                    <property name="propertyName" value="gda.defVisit" />
-                </bean>
-				<bean name="subdirectory" class="gda.data.metadata.PersistantMetadataEntry">
-					<property name="defaultValue" value="" />
-				</bean>
-                <!-- 
-                <bean class="gda.data.metadata.IcatMetadataEntry">
-                    <property name="name" value="investigation" />
-                    <property name="query" value="id:investigation:id" />
-                </bean>
-                <bean class="gda.data.metadata.StoredMetadataEntry">
-                    <property name="name" value="visit" />
-                    <property name="defEntryName" value="defVisit" />
-                </bean>
-                <bean class="gda.data.metadata.IcatMetadataEntry">
-                    <property name="name" value="proposal" />
-                    <property name="query" value="INV_NUMBER:investigation:id" />
-                </bean>
-                <bean class="gda.data.metadata.IcatMetadataEntry">
-                    <property name="name" value="title" />
-                    <property name="query" value="TITLE" />
-                </bean>
-                <bean class="gda.data.metadata.IcatMetadataEntry">
-                    <property name="name" value="user" />
-                    <property name="query" value="first_name, middle_name, last_name:facility_user where facility_user_id in (select facility_user_id from investigator:investigation_id" />
-                </bean>
-				 -->
-<!-- 				<bean name="subdirectory" class="gda.data.metadata.PersistantMetadataEntry"> -->
-<!-- 					<property name="defaultValue" value=""/> -->
-<!-- 				</bean> -->
+	<bean class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="source.fillMode" />
+		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+	</bean>
 
-<!-- 				<bean name="beamCurrent" class="gda.data.metadata.EpicsMetadataEntry"> -->
-<!-- 					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" /> -->
-<!-- 				</bean> -->
+	<bean class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="instrument.source.energy" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
 
-<!-- 				<bean name="facilityMode" class="gda.data.metadata.EpicsMetadataEntry"> -->
-<!-- 					<property name="pvName" value="CS-CS-MSTAT-01:MODE" /> -->
-<!-- 				</bean> -->
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="userid" />
+	</bean>
 
-<!-- 				<bean name="fillMode" class="gda.data.metadata.EpicsMetadataEntry"> -->
-<!-- 					<property name="pvName" value="LI-TI-MTGEN-01:MODE" /> -->
-<!-- 				</bean> -->
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="federalid" />
+	</bean>
 
-<!-- 				<bean name="userid" class="gda.data.metadata.PropertyMetadataEntry"> -->
-<!-- 					<property name="propertyName" value="user.name" /> -->
-<!-- 				</bean> -->
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="defVisit" />
+		<property name="propertyName" value="gda.defVisit" />
+	</bean>
+	<bean name="subdirectory"
+		class="gda.data.metadata.PersistantMetadataEntry">
+		<property name="defaultValue" value="" />
+	</bean>
 
-<!-- 				<bean name="visitid" class="gda.data.metadata.StoredMetadataEntry"> -->
-<!-- 					<property name="name" value="visitid" /> -->
-<!-- 				</bean> -->
-
-<!-- 				<bean name="subdirectory" class="gda.data.metadata.PropertyMetadataEntry"> -->
-<!-- 					<property name="propertyName" value="gda.defVisit" /> -->
-<!-- 				</bean> -->
-
-				<!-- <bean class="gda.data.metadata.IcatMetadataEntry"> -->
-				<!-- <property name="name" value="visit" /> -->
-				<!-- <property name="query" value="lower(visit_id)visit_id:investigation:id" 
-					/> -->
-				<!-- <property name="defEntryName" value="defVisit" /> -->
-				<!-- </bean> -->
-
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="investigation" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="id:investigation:id" /> -->
-				<!-- </bean> -->
-
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="visit" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="lower(visit_id)visit_id:investigation:id" 
-					/> -->
-				<!-- <property name="defEntryName" value="defVisit" /> -->
-				<!-- </bean> -->
-				<!-- -->
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="proposal" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="INV_NUMBER:investigation:id" 
-					/> -->
-				<!-- </bean> -->
-				<!-- -->
-				<!-- <bean class="gda.data.metadata.MetadataEntry"> -->
-				<!-- <property name="name" value="title" /> -->
-				<!-- <property name="type" value="icat" /> -->
-				<!-- <property name="propertyName" value="TITLE:investigation:id" /> -->
-				<!-- </bean> -->
-				<!-- -->
-
-			</list>
-		</property>
-	</bean>	
 </beans>
