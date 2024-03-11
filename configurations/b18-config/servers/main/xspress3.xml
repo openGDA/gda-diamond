@@ -18,6 +18,15 @@
 		<property name="triggerModeForScans" value="3" /> <!--  0 = software trigger mode, 3 = TTL veto -->
 	</bean>
 
+<!-- 	<bean id="xspress3X" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector"> -->
+<!-- 		<property name="controller" ref="xspress3XControllerME4" /> -->
+<!-- 		<property name="defaultSubdirectory" value="xspress3X" /> -->
+<!-- 		<property name="tfgFFI0" ref="xspress3XFFI0" /> -->
+<!-- 		<property name="configFileName" value="${gda.config}/templates/Xspress3X_Parameters_ME4.xml" /> -->
+<!-- 		<property name="deadtimeFileName" value="${gda.config}/templates/Xspress3X_DTC_params_ME4.xml" /> -->
+<!-- 		<property name="triggerModeForScans" value="3" />  0 = software trigger mode, 3 = TTL veto -->
+<!-- 	</bean> -->
+
 	<bean id="xspress3XFFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress3X" />
 		<property name="i0_channel" value="0" />

@@ -23,4 +23,16 @@
 		</property>
 	</bean>
 
+	<bean id="xspress3XControllerME4"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL18B-EA-XSP3X-02" />
+		<property name="numElements" value="4" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+		<property name="pvNameMap">
+			<map>
+				<entry key="ROI_RES_GRADE_BIN" value=":ROI1:BinY" />
+			</map>
+		</property>
+	</bean>
+
 </beans>
