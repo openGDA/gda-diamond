@@ -13,8 +13,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
-
-	<bean id="pilatus_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator" >
+	<bean id="pilatus_single_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator" >
 	    <property name="restoreAcquireTime" value="true" />
 	    <property name="restoreAcquirePeriod" value="true" />
 	    <property name="acquirePeriodExpression" value="#acquireTime + 0.1" />
@@ -35,20 +34,72 @@
             </bean>
         </property>
     </bean>
- 
+    
+    <bean id="pilatus_roi_provider" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+    
+    <bean id="pilatus_roistat_mutable" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="#{pilatusBaseRoiPv}" />
+		<property name="baseStatsPVName" value="#{pilatusBaseStatPv}" />
+		<property name="roiInputNdArrayPort" value="#{pilatusCamPort}" />
+		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi" ref="pilatus_roi_provider" />
+			</bean>
+		</property>
+	</bean>
+    
+    <bean id="pilatus_ndstat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{pilatusBaseStatPv}" />
+	</bean>
+	<bean id="pilatus_simple_stats" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<constructor-arg ref="pilatus_ndstat"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+		
 	<bean id="pilatus_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="pilatus_adbase" />
 		<property name="ndFile" ref="pilatus_ndfile" />
 		<property name="ndArray" ref="pilatus_ndarray" />
 		<property name="ndStats" ref="pilatus_stats" />
 		<property name="fileWriter" ref="pilatus_hdf5_writer" />
-		<property name="collectionStrategy" ref="pilatus_collection_strategy"/>
+		<property name="collectionStrategy" ref="pilatus_single_collection_strategy"/>
 	</bean>
 
 	<bean id="pilatus_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="pilatus_adbase" />
 		<constructor-arg ref="pilatus_roi" />
 		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	
+	<bean id="pilatus_nxdetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_nxdetector" />
+		<property name="collectionStrategy" ref="pilatus_single_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_hdf5_writer" />
+<!-- 				<ref bean="pilatus_simple_stats" /> -->
+				<ref bean="pilatus_roistat_mutable" />
+
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="qexafs_pilatus" class="gda.device.detector.nxdetector.BufferedNXDetector">
+		<property name="detector" ref="pilatus_nxdetector" />
+		<property name="collectionStrategy" ref="pilatus_multiple_nxcollectionstrategy" />
+		<property name="baseRoiPvName" value="#{pilatusBaseRoiPv}" />
+		<property name="baseStatPvName" value="#{pilatusBaseStatPv}" />
+		<property name="currentPointPointPvName" value="TS:TSCurrentPoint" />
+		<property name="maximumReadFrames" value="50" />
 	</bean>
 
 </beans>
