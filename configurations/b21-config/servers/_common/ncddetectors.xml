@@ -46,6 +46,19 @@
 		<property name="channel" value="2" />
 		<property name="tfg" ref="Tfg" />
 	</bean>
+	
+	<bean id="waxs_eiger" class="uk.ac.gda.server.ncd.subdetector.NcdEigerDetector" >
+		<property name="controller" ref="waxs_eiger_controller" />
+		<property name="detectorType" value="WAXS" />
+		<property name="serialNumber" value="E-02-0398" />
+		<property name="pixelSize" value="0.075" />
+		<property name="metaProviders">
+			<list>
+				<ref bean="waxs_mask" />
+				<ref bean="waxs_cal" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
@@ -82,12 +95,22 @@
 	<bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
 		<property name="detectorType" value="WAXS"/>
 		<property name="visitMeta" ref="visit"/>
-		<property name="configFileName" value="saxs_mask" />
+		<property name="configFileName" value="waxs_masks" />
 	</bean>
 	<bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
 		<property name="detectorType" value="WAXS"/>
 		<property name="visitMeta" ref="visit"/>
-		<property name="configFileName" value="saxs_mask" />
+		<property name="configFileName" value="waxs_mask" />
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="targetObject" ref="ncddetectors" />
+		<property name="targetMethod" value="addDetector" />
+		<property name="arguments">
+			<list>
+				<ref bean="waxs_eiger" />
+			</list>
+		</property>
 	</bean>
 
 	<beans profile="eiger" >

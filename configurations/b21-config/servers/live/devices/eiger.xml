@@ -8,4 +8,9 @@
 		<property name="basePv" value="BL21B-EA-EIGER-01:"/>
 		<property name="reshapeCommand" value="${gda.config}/bin/reshape.eiger" />
 	</bean>
+	
+	<bean id="waxs_eiger_controller" class="uk.ac.gda.server.ncd.subdetector.NcdEpicsEiger" >
+		<property name="basePv" value="BL21B-EA-EIGER-02:"/>
+		<property name="reshapeCommand" value="${gda.config}/bin/reshape.eiger" />
+	</bean>
 </beans>
