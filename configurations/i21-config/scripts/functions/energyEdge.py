@@ -142,12 +142,12 @@ def save_edge_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
                 new_row[head] = value
             writer.writerow(new_row)
 
-    file_name = shutil.copy(temp_file.name, filename)
+    shutil.copyfile(temp_file.name, filename)
 
     if _updated:
-        print("\nEdge '%s' is updated in lookup table %s" % (edge, file_name))
+        print("\nEdge '%s' is updated in lookup table %s" % (edge, filename))
     else:
-        print("\nEdge '%s' is added in lookup table %s" % (edge, file_name))
+        print("\nEdge '%s' is added in lookup table %s" % (edge, filename))
 
 
 def save_edge_not_keep_order(edge, lookup_table = EDGE_GRATING_TABLE):
