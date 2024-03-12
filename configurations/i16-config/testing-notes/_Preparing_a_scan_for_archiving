@@ -4,22 +4,25 @@
 							Live or scratch deployment
 --------------------------------------------------------------------------------
 
-SCRATCH=/scratch
-# Above in both scratch and live, but only below in live
-DEPLOYMENT=$SCRATCH/dls_sw/i16/software/gda
-ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/_regression_testing
+Define the DEPLOYMENT environment variable, add tests folder to the path and and
+load the msmapper module
+
+. gda/config/tests/init.sh
+# Or if already inside the deployment folder
+. config/tests/init.sh
 
 --------------------------------------------------------------------------------
-							Live vs scratch data
+					Configure for Live data
 --------------------------------------------------------------------------------
 
-VISIT=$DEPLOYMENT/gda_data_non_live
-# Above in scratch, but below in live
 VISIT=/dls/i16/data/2024/mm34302-1
+cd $VISIT
 
 --------------------------------------------------------------------------------
-							Baseline
+					Configure Archive location and Baseline
 --------------------------------------------------------------------------------
+
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/_regression_testing
 
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/971324 # For pil3
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/979681 # For merlin
@@ -27,22 +30,13 @@ BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/985494 # For merlins
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/1022133 # For pil3
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/2024010139 # For pil3
 
+echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
+
 --------------------------------------------------------------------------------
 							Common setup
 --------------------------------------------------------------------------------
 
-module load msmapper/1.7
-cd $VISIT
-
-Plus for dummy mode, activemq-for-dummy and GDA AreaDetector Simulation as usual
-
-	To quickly summarise current state
-
-echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
-
-	To set the current scan as a new baseline
-
-BASELINE=$VISIT/$SCAN
+For dummy mode, activemq-for-dummy and GDA AreaDetector Simulation as usual
 
 --------------------------------------------------------------------------------
 								Scan Analysis
@@ -50,34 +44,15 @@ BASELINE=$VISIT/$SCAN
 
 	To set the current scan (may need to be run multiple times if scan failed):
 
-ls -trsh | tail -10 ; SCAN=$((SCAN+1)) ; echo SCAN=$SCAN
+. scan-next.sh
 
 	To generate the structure files:
 
-ls -tr $SCAN* ; echo ; \
-nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa ; \
-nexus.tree $SCAN.nxs > $SCAN.nxs.tree ; \
-echo ; \
-grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.tree  $SCAN.nxs.ndw.tree ; \
-grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.tree  $SCAN.nxs.nsd.tree ; \
-grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.nxlsa $SCAN.nxs.ndw.nxlsa ; \
-grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa ; \
-echo ; echo $SCAN.nxs.n*
+scan-structure-files
 
 	To compare the current scan with a beamline ndw or nsd baseline
 
-[ -e     $BASELINE.nxs.ndw.nxlsa ] && [ -e $SCAN.nxs.ndw.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.ndw.nxlsa           $SCAN.nxs.ndw.nxlsa   & \
-[ -e     $BASELINE.nxs.ndw.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.ndw.nxlsa           $SCAN.nxs.nsd.nxlsa   & \
-[ -e     $BASELINE.nxs.nsd.nxlsa ] && [ -e $SCAN.nxs.nsd.nxlsa ] && \
-  kdiff3 $BASELINE.nxs.nsd.nxlsa           $SCAN.nxs.nsd.nxlsa   & \
-[ -e     $BASELINE.nxs.ndw.tree  ] && [ -e $SCAN.nxs.ndw.tree ] && \
-  kdiff3 $BASELINE.nxs.ndw.tree            $SCAN.nxs.ndw.tree   & \
-[ -e     $BASELINE.nxs.ndw.tree  ] && [ -e $SCAN.nxs.nsd.tree ] && \
-  kdiff3 $BASELINE.nxs.ndw.tree            $SCAN.nxs.nsd.tree   & \
-[ -e     $BASELINE.nxs.nsd.tree  ] && [ -e $SCAN.nxs.nsd.tree ] && \
-  kdiff3 $BASELINE.nxs.nsd.tree            $SCAN.nxs.nsd.tree   &
+scan-diffs
 
 --------------------------------------------------------------------------------
 						Processing a scan
@@ -85,8 +60,7 @@ echo ; echo $SCAN.nxs.n*
 
 	To re-process data, or process data that wasn't automatically processed
 
-rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log ; \
-ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
+scan-reprocess
 
 	This is the offline equivalent of
 
@@ -98,32 +72,24 @@ rs_map -s 0.002 -o /dls/i16/data/2023/mm34332-1/processing/ /dls/i16/data/2023/m
 
 	To compare the log with the baseline log:
 
-[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINE.i16_msmapper.log $SCAN.i16_msmapper.log & \
-[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINE.nxs.rs_map.log   $SCAN.nxs.rs_map.log &
+scan-log-diffs
 
 	To generate the structure files of the processed volume:
 
-[ -e       processed/${SCAN}_msmapper.nxs ] && \
-nxls    -a processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.nxlsa && \
-nexus.tree processed/${SCAN}_msmapper.nxs > ${SCAN}_msmapper.nxs.tree ; \
-[ -e       processing/$SCAN-processed-volume-hkl.nxs ] && \
-nxls    -a processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.nxlsa ; \
-nexus.tree processing/$SCAN-processed-volume-hkl.nxs > $SCAN-processed-volume-hkl.nxs.tree ; \
-ll -tr $SCAN.* $SCAN*.nxlsa $SCAN*.tree ; ll -tr processing/$SCAN*
+scan-processing-structure-files
 
-[ -e     ${BASELINE}_msmapper.nxs.nxlsa ] && [ -e ${SCAN}_msmapper.nxs.nxlsa ] && \
-  kdiff3 ${BASELINE}_msmapper.nxs.nxlsa           ${SCAN}_msmapper.nxs.nxlsa   & \
-[ -e     ${BASELINE}_msmapper.nxs.tree  ] && [ -e ${SCAN}_msmapper.nxs.tree  ] && \
-  kdiff3 ${BASELINE}_msmapper.nxs.tree            ${SCAN}_msmapper.nxs.tree    & \
-[ -e     ${BASELINE}-processed-volume-hkl.nxs.nxlsa ] && [ -e ${SCAN}-processed-volume-hkl.nxs.nxlsa ] && \
-  kdiff3 ${BASELINE}-processed-volume-hkl.nxs.nxlsa           ${SCAN}-processed-volume-hkl.nxs.nxlsa   & \
-[ -e     ${BASELINE}-processed-volume-hkl.nxs.tree  ] && [ -e ${SCAN}-processed-volume-hkl.nxs.tree  ] && \
-  kdiff3 ${BASELINE}-processed-volume-hkl.nxs.tree            ${SCAN}-processed-volume-hkl.nxs.tree    &
+	To compare the current scan with a beamline ndw or nsd baseline
+
+scan-mapper-diffs
 
 --------------------------------------------------------------------------------
 								Scan Archiving
 --------------------------------------------------------------------------------
 
 cp $SCAN.dat $SCAN*.nxlsa $SCAN*.tree $SCAN*.log $ARCHIVE
+
+	To set the current scan as a new baseline
+
+BASELINE=$VISIT/$SCAN
 
 ================================================================================

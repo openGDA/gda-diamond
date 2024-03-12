@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z ${SCAN-} ] ; then
+  echo "No SCAN environment variable defined! Exiting..."
+  exit 1
+fi
+
+rs_map -s 0.002 -o processing/ $SCAN.nxs > $SCAN.nxs.rs_map.log
+ls -altr $SCAN.* $SCAN*.nxlsa $SCAN*.tree
+ls -altr processing/$SCAN*

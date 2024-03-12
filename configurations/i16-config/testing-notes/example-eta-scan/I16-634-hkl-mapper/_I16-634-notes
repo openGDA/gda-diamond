@@ -35,13 +35,15 @@ pos eta 28.668754
 and, as suggested in Dummy_mode_operation.txt, set the simulated area detector
 to the correct image size.
 
+
 --------------------------------------------------------------------------------
-						Preparing a scan for archiving
+					Configure Archive location and Baseline
 --------------------------------------------------------------------------------
 
 During setup, run this line instead of the default ARCHIVE= line,
 
-ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper
 BASELINE=$ARCHIVE/2024010223
+echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
 
 ================================================================================

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+ls -tr $SCAN*
+
+if [ -z ${SCAN-} ] ; then
+  echo "No SCAN environment variable defined! Exiting..."
+  exit 1
+fi
+
+echo -e "\nGenerating structure files\n"
+nxls    -a $SCAN.nxs > $SCAN.nxs.nxlsa &
+nexus.tree $SCAN.nxs > $SCAN.nxs.tree &
+wait
+echo -e "\nNaming structure files\n"
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.tree  $SCAN.nxs.ndw.tree
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.tree  $SCAN.nxs.nsd.tree
+grep "^  @file_name=" $SCAN.nxs.nxlsa || mv $SCAN.nxs.nxlsa $SCAN.nxs.ndw.nxlsa
+grep "^  @file_name=" $SCAN.nxs.nxlsa && mv $SCAN.nxs.nxlsa $SCAN.nxs.nsd.nxlsa
+echo -e "\nNew structure files\n\n"
+ls -tr $SCAN.nxs.n*

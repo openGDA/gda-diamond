@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ -z ${SCAN-} ] ; then
+  echo "No SCAN environment variable defined! Exiting..."
+  exit 1
+fi
+if [ -z ${BASELINE-} ] ; then
+  echo "No BASELINE environment variable defined! Exiting..."
+  exit 1
+fi
+
+[ -e     ${BASELINE}_msmapper.nxs.nxlsa ]             && [ -e ${SCAN}_msmapper.nxs.nxlsa ] &&
+  kdiff3 ${BASELINE}_msmapper.nxs.nxlsa                       ${SCAN}_msmapper.nxs.nxlsa   &
+[ -e     ${BASELINE}_msmapper.nxs.tree  ]             && [ -e ${SCAN}_msmapper.nxs.tree  ] &&
+  kdiff3 ${BASELINE}_msmapper.nxs.tree                        ${SCAN}_msmapper.nxs.tree    &
+[ -e     ${BASELINE}-processed-volume-hkl.nxs.nxlsa ] && [ -e ${SCAN}-processed-volume-hkl.nxs.nxlsa ] &&
+  kdiff3 ${BASELINE}-processed-volume-hkl.nxs.nxlsa           ${SCAN}-processed-volume-hkl.nxs.nxlsa   &
+[ -e     ${BASELINE}-processed-volume-hkl.nxs.tree  ] && [ -e ${SCAN}-processed-volume-hkl.nxs.tree  ] &&
+  kdiff3 ${BASELINE}-processed-volume-hkl.nxs.tree            ${SCAN}-processed-volume-hkl.nxs.tree    &

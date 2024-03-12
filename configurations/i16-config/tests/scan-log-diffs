@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z ${SCAN-} ] ; then
+  echo "No SCAN environment variable defined! Exiting..."
+  exit 1
+fi
+if [ -z ${BASELINE-} ] ; then
+  echo "No BASELINE environment variable defined! Exiting..."
+  exit 1
+fi
+
+[ -e $SCAN.i16_msmapper.log ] && kdiff3 $BASELINE.i16_msmapper.log $SCAN.i16_msmapper.log & \
+[ -e $SCAN.nxs.rs_map.log   ] && kdiff3 $BASELINE.nxs.rs_map.log   $SCAN.nxs.rs_map.log &
