@@ -1,6 +1,4 @@
-"""
-
-"""
+print("\nRunning quick_xes_scans.py")
 
 from org.eclipse.scanning.sequencer import ScanRequestBuilder
 from org.eclipse.scanning.api.points.models import StaticModel, AxialStepModel, CompoundModel
@@ -196,6 +194,20 @@ def calculate_scan_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step
 
     return start_pitch, end_pitch, step_pitch
 
+def calculate_offset_gain(start_energy_upper, end_energy_upper, start_energy_lower, end_energy_lower) :
+    """
+        Calculate the malcolm scan pitch 'offset' and 'gain' from upper and lower row start
+        and end energies so that : pitch_lower = pitch_upper*gain + offset
+        
+        Return : gain, offset
+    """
+    upper_pitches = calculate_scan_pitch_for_scan(XESEnergyUpper, start_energy_upper, end_energy_upper, 1.0)
+    lower_pitches = calculate_scan_pitch_for_scan(XESEnergyLower, start_energy_lower, end_energy_lower, 1.0)
+    gain = (lower_pitches[0] - lower_pitches[1])/(upper_pitches[0] - upper_pitches[1])
+    offset = lower_pitches[0] - upper_pitches[0]*gain
+    return gain, offset
+
+
 def set_analyser_pitch_offsets(xes_energy_scn, pitch_value) :
     print("Setting pitch of all analysers to %.4f :"%(pitch_value))
     ### store the offsets first!
@@ -232,19 +244,36 @@ def run_test_lower() :
     reset_medipix()
 
 def reset_medipix() :
-    print("Setting Medipix trigger mode to internal and setting PositionMode to 0")
+    print("Setting Medipix trigger mode to internal, PositionMode to 0 and XML layout path to default")
+    
+    # PV name - value pairs to be set on each medipix
     posMode = ":HDF5:PositionMode", 0
     triggerMode = ":CAM:TriggerMode", 0
-    medipix1_pv="BL20I-EA-DET-05"
-    medipix2_pv="BL20I-EA-DET-07"
-    for basename in medipix1_pv, medipix2_pv :
-        CAClient.put(basename+posMode[0], posMode[1])
-        CAClient.put(basename+triggerMode[0], triggerMode[1])
+    layout = ":HDF5:XMLFileName", ""
+    value_pairs = [posMode, triggerMode, layout]
+    
+    # Generate Medipix basePV names from ADBase on medipix ADDetector objects
+    detectors = [medipix1_addetector, medipix2_addetector]
+    base_pvs = [det.getAdBase().getBasePVName().replace(":CAM:","") for det in detectors]
+
+    for basename in base_pvs :
+        for value_pair in value_pairs :
+            pv_name = basename+value_pair[0]
+            pv_value = value_pair[1]
+            # eet appropriate caput method to use - in case dealing with a string
+            caput_pv_value = CAClient.putStringAsWaveform if isinstance(pv_value, str) else CAClient.put
+            print("Caput %s %s"%(pv_name, str(pv_value)))
+            caput_pv_value(pv_name, pv_value)
+
+if not LocalProperties.isDummyModeEnabled() :
+    reset_medipix()
 
 from gda.device.scannable import DummyScannable, TimeScannable
 repetition_number_scn = DummyScannable("repetition_number_scn")
 repetition_number_scn.configure()
 
+# c;ear the subdirectory, so data is written in top level of visit.
+set_subdirectory()
 
 class PositionTimeScannable(ScannableBase) :
     
