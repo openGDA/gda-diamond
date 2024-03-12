@@ -1,34 +1,44 @@
-package uk.ac.gda.beamline.i10.perspectives;
+/*-
+ * Copyright © 2009 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import org.dawnsci.plotting.views.ToolPageView;
+package uk.ac.gda.beamline.i10_1.perspectives;
+
+import org.dawnsci.mapping.ui.MappingPerspective;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.progress.IProgressConstants;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
 import gda.rcp.views.JythonTerminalView;
-import uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective;
-import uk.ac.gda.client.live.stream.view.LiveStreamView;
-import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
-import uk.ac.gda.client.live.stream.view.SnapshotView;
-import uk.ac.gda.client.livecontrol.LiveControlsView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
-public class AreaDetectorPerspective implements IPerspectiveFactory {
-
-	public final static String ID="uk.ac.gda.beamline.i10.perspectives.areadetector";
+public class ScanPerspective implements IPerspectiveFactory {
+	static final String ID = "uk.ac.gda.beamline.i10-1.perspectives.ScanPerspective";
 
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projFolder";
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String PLOT_1D_FOLDER = "Plot1DFolder";
-	private static final String PLOT_2D_FOLDER = "Plot2DFolder";
 
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i10.statusView";
@@ -44,50 +54,42 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 
 	private void defineLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
-		layout.setEditorAreaVisible(false);
 
-		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.65, editorArea); //$NON-NLS-1$
-		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
-		topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
-		topLeft.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
+		IFolderLayout leftfolder = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.65, editorArea); //$NON-NLS-1$
+		leftfolder.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		leftfolder.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
+		leftfolder.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
-		IFolderLayout bottomLeftfolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.86, PROJ_FOLDER);
+		IFolderLayout bottomLeftfolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.85, PROJ_FOLDER);
 		bottomLeftfolder.addView(STATUS_VIEW_ID);
 		bottomLeftfolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
-		bottomLeftfolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
+		bottomLeftfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 		bottomLeftfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
-		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.RIGHT, (float)0.20, PROJ_FOLDER); //$NON-NLS-1$
+		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.RIGHT, (float)0.25, PROJ_FOLDER); //$NON-NLS-1$
 		topMiddlefolder.addView(LivePlotView.ID);
 		topMiddlefolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
 		topMiddlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
-		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
-		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
-		topMiddlefolder.addPlaceholder(SnapshotView.ID);
 
-        IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.58f, PLOT_1D_FOLDER);
+        IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.5f, PLOT_1D_FOLDER);
         middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
-        middlefolder.addView(LiveControlsView.ID);
-        middlefolder.addPlaceholder(LiveControlsView.ID);
-        middlefolder.addPlaceholder(LiveControlsView.ID + ":*");
 
-        IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea); //$NON-NLS-1$
-		topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamView:pimte_cam#EPICS_ARRAY");
-		topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamView:pixis_cam#EPICS_ARRAY");
-		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
-		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
-		topRightFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
-		topRightFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
+		IFolderLayout middleRightfolder = layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, 0.5f, editorArea);
+		middleRightfolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+		middleRightfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
+		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.1D");
+		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.2D");
+		middleRightfolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
+		middleRightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView:Plot 1");
+		middleRightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.HistogramView:Plot 1");
 
-        IFolderLayout bottomRightFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.6, PLOT_2D_FOLDER); //$NON-NLS-1$
-        bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
-        bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
 
+		layout.setEditorAreaVisible(false);
 	}
 
 	private void defineActions(IPageLayout layout) {
+        layout.addPerspectiveShortcut(ScanPerspective.ID);
         layout.addPerspectiveShortcut(AreaDetectorPerspective.ID);
-        layout.addPerspectiveShortcut(I10ScanPerspective.ID);
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         layout.addPerspectiveShortcut(MappingPerspective.ID);
 
@@ -110,5 +112,4 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 
         layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
     }
-
 }

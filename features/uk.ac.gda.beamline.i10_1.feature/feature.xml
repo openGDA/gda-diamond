@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="uk.ac.gda.beamline.i10_1.feature"
-      label="Feature"
-      version="1.0.0.qualifier">
+      label="I10_1_feature"
+      version="9.33.0.qualifier"
+      provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      [I10-1 GDA Client.]
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -15,5 +16,61 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
+
+   <includes
+         id="uk.ac.gda.diamond.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.dawnsci.plotting.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.scanning.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.scanning.ui.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.epics.adviewer"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.beamline.synoptics"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.apache.commons.vfs"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.dls.client"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.scanning.example"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.lookuptable.editor"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.equinox.concurrent"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.client.live.stream.controls"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.beamline.i10-1"
+         version="0.0.0"/>
 
 </feature>
