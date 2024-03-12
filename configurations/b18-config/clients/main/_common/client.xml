@@ -67,6 +67,7 @@
 				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters.xml"/>
 				<entry key="medipix" value="${gda.config}/templates/Medipix_Parameters.xml"/>
 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
+<!-- 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME4.xml" /> -->
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />

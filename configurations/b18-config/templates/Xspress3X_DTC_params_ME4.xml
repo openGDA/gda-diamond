@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XspressDeadTimeParameters>
+    <DetectorDeadTimeElement>
+        <name>Element0</name>
+        <number>0</number>
+        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>0.0</processDeadTimeInWindow>
+        <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
+    </DetectorDeadTimeElement>
+    <DetectorDeadTimeElement>
+        <name>Element1</name>
+        <number>1</number>
+        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>0.0</processDeadTimeInWindow>
+        <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
+    </DetectorDeadTimeElement>
+    <DetectorDeadTimeElement>
+        <name>Element2</name>
+        <number>2</number>
+        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>0.0</processDeadTimeInWindow>
+        <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
+    </DetectorDeadTimeElement>
+    <DetectorDeadTimeElement>
+        <name>Element3</name>
+        <number>3</number>
+        <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
+        <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
+        <processDeadTimeInWindow>0.0</processDeadTimeInWindow>
+        <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
+    </DetectorDeadTimeElement>
+</XspressDeadTimeParameters>
