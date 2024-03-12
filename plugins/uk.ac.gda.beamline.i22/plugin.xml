@@ -58,8 +58,16 @@
          tooltip="beamstop diode reading.">
    </Scannable>
    <Scannable
-         name="d4d2"
-         tooltip="d4d2 diode reading.">
+         name="qbpm0_total"
+         tooltip="QBPM 0 reading.">
+   </Scannable>
+   <Scannable
+         name="qbpm1_total"
+         tooltip="QBPM 1 reading.">
+   </Scannable>
+   <Scannable
+         name="qbpm2_total"
+         tooltip="QBPM 2 reading.">
    </Scannable>
 </extension>
 <extension
