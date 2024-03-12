@@ -27,8 +27,10 @@ exs = ird_service.getRunnableDevice(exs_name)
 p2c = ird_service.getRunnableDevice(p2c_name)
 # Pilatus 2M for static malcolm scans
 p2s = ird_service.getRunnableDevice("BL07I-ML-SCAN-12")
+# Eiger
+eic = ird_service.getRunnableDevice("BL07I-ML-SCAN-03")
 # Exc and p2m
-m3 = ird_service.getRunnableDevice("BL07I-ML-SCAN-03")
+m3 = ird_service.getRunnableDevice("BL07I-ML-SCAN-04")
 # Pilatus 3
 p3c = ird_service.getRunnableDevice("BL07I-ML-SCAN-35")
 # Pilatus 3 for static malcolm scans
