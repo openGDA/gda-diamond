@@ -52,7 +52,7 @@ def load_lookup_table(filename):
 
 
 def test():
-    lookuptable, header = load_lookup_table("../../lookupTables/IDEnergy2GapCalibrations.csv")
+    lookuptable, header = load_lookup_table("../../../i10-shared/lookupTables/IDEnergy2GapCalibrations.csv")
     formatstring = "%4s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s\t%10s"
     print (formatstring % (header[0], header[1], header[2], header[3], header[4], header[5], header[6], header[7], header[8], header[9], header[10], header[11]))
     for key, value in sorted(lookuptable.iteritems()):

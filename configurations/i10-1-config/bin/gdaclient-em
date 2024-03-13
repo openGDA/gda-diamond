@@ -2,4 +2,4 @@
 export GTK_OVERLAY_SCROLLING=0
 
 export SPRING_PROFILES=em
-gda --start client --springprofiles $SPRING_PROFILES "$@"
+gda client start -P -p $SPRING_PROFILES "$@"
