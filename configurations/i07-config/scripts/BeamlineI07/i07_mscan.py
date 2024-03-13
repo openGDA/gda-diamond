@@ -8,8 +8,6 @@ from gdascripts.metadata.metadata_commands import meta_add
 from useFourc import fc
 from diffcalc.gdasupport.you import hkl
 
-ird_service = ServiceProvider.getService(IRunnableDeviceService)
-
 #Default diff mode is eh1h
 exc_name = "BL07I-ML-SCAN-01"
 exs_name = "BL07I-ML-SCAN-11"
@@ -22,6 +20,7 @@ elif LocalProperties.get('gda.active.diffractometer.mode')=='eh2' :
     exc_name = "BL07I-ML-SCAN-36"
     exs_name = "BL07I-ML-SCAN-36"
 
+ird_service = ServiceProvider.getService(IRunnableDeviceService)
 # Excalibur
 exc = ird_service.getRunnableDevice(exc_name)
 # Excalibur for static malcolm scans (i.e. "mscan static [parameters]") - avoids bug I07-569 but cannot move motors
@@ -58,6 +57,7 @@ try:
     hkl_prov = DCHklAdapter()
     exc.setHklProvider(hkl_prov)
     exs.setHklProvider(hkl_prov)
+    eic.setHklProvider(hkl_prov)
     p2c.setHklProvider(hkl_prov)
     p2s.setHklProvider(hkl_prov)
     p3c.setHklProvider(hkl_prov)

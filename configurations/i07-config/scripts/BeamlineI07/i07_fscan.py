@@ -1,4 +1,4 @@
-from gdascripts.mscanHandler import mscan as mscan_master, submit, axis, cont, line, pts, step
+from gdascripts.mscanHandler import mscan as mscan_master, submit, axis, cont, line, pts, step, static
 from org.eclipse.scanning.api.points.models import AxialArrayModel, ConcurrentMultiModel, CompoundModel
 from org.eclipse.scanning.sequencer import ScanRequestBuilder
 from gda.scan import ImplicitScanObject
@@ -6,6 +6,9 @@ from gda.device.scannable import ScannableUtils
 import scisoftpy as dnp
 import datetime as fscan_datetime
 from org.eclipse.scanning.api.scan import ScanningException
+from org.opengda.lde.scannables import StringValueScannable
+from gda.factory import Findable
+from gdascripts.metadata.metadata_commands import meta_add, meta_rm
 from gda.jython.commands.GeneralCommands import alias
 
 def log_error(error_message):
@@ -13,6 +16,32 @@ def log_error(error_message):
     log_file = "/dls_sw/i07/logs" + '/malcolmErrorLog.txt'
     with open(log_file, 'a') as file:
         file.write('%s ERROR: %s\n' % (timestamp, error_message))
+
+from BeamlineI07.i07_mscan import exc, exs, p2c, p2s, p3c, p3s, eic, m3
+device_names = { exc:"exc", exs:"exs", p2c:"p2c", p2s:"p2s", eic:"eic", m3:"m3", p3c:"p3c", p3s:"p3s", static:"static"}
+
+user_command = StringValueScannable()
+user_command.setName("user_command")
+
+def set_user_cmd_scannable(scan_type, args):
+    """
+    Reconstructs the scan command string to add to the metadata
+    """
+    def getInput(arg):
+        if arg in device_names.keys() :
+            return device_names.get(arg)
+        elif isinstance(arg,Findable) :
+            return arg.getName()
+        else :
+            return str(arg)
+
+    cmd = scan_type
+    for entry in args :
+        cmd += " "
+        cmd += getInput(entry)
+    user_command.asynchronousMoveTo(cmd)
+    meta_add(user_command)
+
 
 def perform_scan(args, motors_to_reset=[], scan_method=mscan_master):
     reset_posns = {}
@@ -31,8 +60,10 @@ def perform_scan(args, motors_to_reset=[], scan_method=mscan_master):
                 pos(motor, reset_posns[motor])
     else:
         print 'Maximum number of tries reached'
+    meta_rm(user_command)
 
 def mscan(*args_here):
+    set_user_cmd_scannable("mscan", args_here)
     perform_scan(args=args_here)
 
 def fscan(*args):
@@ -43,6 +74,8 @@ def fscan(*args):
        fscan motor start end step_size detector count_in_milliseconds
        fscan motor1 start1 end1 motor2 start2 end2 step_size1 detector count_in_milliseconds
     '''
+    set_user_cmd_scannable("fscan", args)
+
     if len(args) == 6:
         # single motor scan
         (motor, start, end, arg_step, detector, count) = args
@@ -97,6 +130,7 @@ def fpscan(*args):
        fpscan motor start end points detector count_in_milliseconds
        fpscan motor1 start1 end1 motor2 start2 end2 points detector count_in_milliseconds
     '''
+    set_user_cmd_scannable("fpscan", args)
     if len(args) == 6:
         # single motor scan
         (motor, start, end, points, detector, count) = args
@@ -167,6 +201,7 @@ def fhklscan_e(hkl, start, stop, step, runnable_device, exposure_time):
     submit(request)
 
 def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
+    set_user_cmd_scannable("fhklscan", args)
     perform_scan(scan_method=fhklscan_e, args=[hkl, start, stop, step, runnable_device, exposure_time])
 
 alias("fscan")
