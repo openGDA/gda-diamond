@@ -13,7 +13,6 @@
     
     <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
         <path>/i09-shared/scripts</path>
-        <path>/i09-shared/tests</path>
     </pydev_pathproperty>
     
     
