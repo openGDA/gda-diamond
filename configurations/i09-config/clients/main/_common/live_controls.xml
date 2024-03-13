@@ -106,7 +106,7 @@
 		<property name="stateMap">
 			<util:map map-class="java.util.HashMap">
 				<entry key="Clear" value-ref="green_colour" />
-				<entry key="Set" value-ref="red_colour" />
+				<entry key="Tripped" value-ref="red_colour" />
 			</util:map>
 		</property>
 	</bean>

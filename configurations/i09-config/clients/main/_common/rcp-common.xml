@@ -59,7 +59,6 @@
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="analyser.xml"/>
 
 </beans>

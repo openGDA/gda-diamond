@@ -4,7 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- <import resource="file://${gda.config.shared}/servers/main/_common/commandQueueProcessor.xml" /> -->
-	<import resource="file://${gda.config.shared}/servers/soft/_common/servers_common.xml"/>
 	<import resource="DataWriterFactory.xml"/>
 	<import resource="devices/all_devices.xml" />
 	

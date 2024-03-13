@@ -2,7 +2,7 @@ import i09shared.installation as installation
 from calibration.hard_energy_class import HardEnergy
 from pseudodevices.IDGap_Offset import igap_offset, jgap_offset
 from scannable.energyHarmonicOrder import EnergyHarmonicOrder
-from i09shared.calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 
 from gdaserver import igap, dcmenergy, pgmenergy, jidscannable # @UnresolvedImport
 

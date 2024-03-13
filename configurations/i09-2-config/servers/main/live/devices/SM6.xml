@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.config.shared}/servers/soft/live/devices/SM6.xml"/>
-
 	<bean id="sm6fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
 		<property name="pvName" value="BL09K-MO-SM-06:FPITCH" />
 	</bean>

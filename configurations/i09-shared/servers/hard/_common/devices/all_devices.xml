@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="ID.xml"/>
+	<import resource="DCM.xml"/>
+	
+	<import resource="HD2.xml"/>
+	<import resource="HD3.xml"/>
+	<import resource="HD4.xml"/>
+	<!-- <import resource="HD7.xml" /> -->
+	<import resource="HM1.xml"/>
+	<import resource="HM2.xml"/>
+	<import resource="HS1.xml"/>
+	<import resource="HS2.xml"/>
+	<import resource="ChannelCutCrystal.xml"/>
+</beans>

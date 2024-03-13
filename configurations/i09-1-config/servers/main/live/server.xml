@@ -5,11 +5,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
-
-	<!-- Diagnostics -->
 	<import resource="devices/all_devices.xml" />
+	<import resource="../_common/server.xml"/>
 
-	<!-- do not remove anything below here -->
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>

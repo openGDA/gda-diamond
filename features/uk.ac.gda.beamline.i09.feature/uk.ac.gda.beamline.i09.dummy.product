@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.dummy" id="uk.ac.gda.beamline.i09.dummy_product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.dummy" id="uk.ac.gda.beamline.i09.dummy_product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -20,22 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Drun.in.eclipse=false
--Dgda.instance.dir=${project_loc:i09-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Declipse.pluginCustomization=${project_loc:i09-config}/plugin_customization_dummy.ini
--Dgda.config=${project_loc:i09-config}
--Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties
--Dgda.mode=dummy
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.gui.beans.xml=${project_loc:i09-config}/clients/main/dummy/client.xml
--Dgda.client.jython.automatic.interpreter=1
--Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
--Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+      <vmArgs>-Dgda.mode=dummy
 -Xms512m
 -Xmx4g
 -Dpydev.funding.hide=true

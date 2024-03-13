@@ -4,10 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="sm6iamp27" class="gda.device.currentamplifier.DummyCurrentAmplifier">
-	</bean>
-
-	<import resource="file://${gda.config.shared}/servers/soft/dummy/devices/SM6.xml"/>
+	<bean id="sm6iamp27" class="gda.device.currentamplifier.DummyCurrentAmplifier"/>
 
 	<bean id="sm6fpitch_motor" class="gda.device.motor.DummyMotor"/>
 

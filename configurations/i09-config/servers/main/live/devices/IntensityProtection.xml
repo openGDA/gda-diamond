@@ -3,9 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="intensity_protection" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09I-DI-EAN-01:PROT:ILK"/>
-		<property name="canMove" value="true"/>
+	
+	<bean id="intensity_protection" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-DI-EAN-01:PROT:ILK" />
+		<property name="positions">
+			<list>
+				<value>Clear</value>
+				<value>Tripped</value>
+			</list>
+		</property>
 	</bean>
 </beans>

@@ -3,57 +3,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-	<!-- <import resource="EnergyLUT.xml"/> -->
-	<!-- Beamline objects -->
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/BeamlineInfo.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/BeamInfo.xml"/>
-
-	<!-- Front End Devices -->
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/ID.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/ID.xml"/>
 	<!-- Optics Hutch -->
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/DCM.xml"/>
-	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyMotors.xml"/>
 	<import resource="BFM.xml" />
-	<import resource="file://${gda.config.shared}/servers/main/_common/devices/DummyScannables.xml"/>
 	<!-- <import resource="Shutters.xml"/> -->
 	<import resource="GBC1.xml" />
 	<import resource="GBC2.xml" />
 	<import resource="GBC3.xml" />
-	<!-- <import resource="HD1.xml"/> -->
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD2.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD3.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HD4.xml"/>
-	<!-- <import resource="HD7.xml" /> -->
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HM1.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HM2.xml"/>
+
 	<import resource="HM3.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HS1.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/HS2.xml"/>
 	<import resource="HS4.xml" />
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/PGM.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD1.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD3.xml"/>
+
 	<!-- <import resource="SD4.xml"/> -->
 	<import resource="SD5.xml" />
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD6.xml"/>
 	<import resource="SD7.xml"/>
 	<import resource="SD8.xml"/>
 	<import resource="SD9.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SD10.xml"/>
 	<import resource="SD11.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SM1.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SM3.xml"/>
 	<import resource="SM4.xml"/>
 	<import resource="SM5.xml"/>
 	<import resource="SM6.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS1.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS2.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS3.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS4.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SS7.xml"/>
-	<import resource="file://${gda.config.shared}/servers/hard/_common/devices/ChannelCutCrystal.xml"/>
+
 	<import resource="BeamMonitor.xml"/>
 	<import resource="SMPM.xml" />
 	<import resource="analyser_energy_range.xml"/>

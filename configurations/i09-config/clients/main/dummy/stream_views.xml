@@ -563,8 +563,6 @@
 	<!-- Import the server side object over RMI -->
 	<bean id="analyser_eav_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy">
 	</bean>
-	
-	
 </beans>
 
 	

@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="file://${gda.config.shared}/servers/soft/_common/devices/SM6.xml"/>
-
 	<bean id="sm6fpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sm6fpitch_motor" />
 	</bean>

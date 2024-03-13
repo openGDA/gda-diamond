@@ -9,7 +9,7 @@
 		<property name="positions">
 			<list>
 				<value>Clear</value>
-				<value>Set</value>
+				<value>Tripped</value>
 			</list>
 		</property>
 	</bean>

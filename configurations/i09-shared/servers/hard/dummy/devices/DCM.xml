@@ -5,20 +5,28 @@
 
 	<bean id="dcmtemp1" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp2" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp3" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp4" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp5" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp6" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp7" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp8" class="gda.device.monitor.DummyMonitor">
 	</bean>
+	
 	<bean id="dcmtemp9" class="gda.device.monitor.DummyMonitor">
 	</bean>
 
