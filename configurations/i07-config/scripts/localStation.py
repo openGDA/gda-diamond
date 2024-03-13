@@ -121,8 +121,6 @@ try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
 try_execfile("BeamlineI07/useGigECams.py")
 
-try_execfile("BeamlineI07/useDummyCam.py")
-
 try_execfile("BeamlineI07/useEuroThermo.py")
 
 # Replaces metadata set up in setSrsDataFileHeader.py
