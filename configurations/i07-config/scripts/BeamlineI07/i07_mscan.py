@@ -16,8 +16,8 @@ if is_eh1v() :
     exc_name = "BL07I-ML-SCAN-21"
     p2c_name = "BL07I-ML-SCAN-22"
 elif is_eh2() :
-    exc_name = "BL07I-ML-SCAN-34"
-    exs_name = "BL07I-ML-SCAN-34"
+    exc_name = "BL07I-ML-SCAN-36"
+    exs_name = "BL07I-ML-SCAN-36"
 
 # Excalibur
 exc = ird_service.getRunnableDevice(exc_name)
@@ -27,8 +27,10 @@ exs = ird_service.getRunnableDevice(exs_name)
 p2c = ird_service.getRunnableDevice(p2c_name)
 # Pilatus 2M for static malcolm scans
 p2s = ird_service.getRunnableDevice("BL07I-ML-SCAN-12")
+# Eiger
+eic = ird_service.getRunnableDevice("BL07I-ML-SCAN-03")
 # Exc and p2m
-m3 = ird_service.getRunnableDevice("BL07I-ML-SCAN-03")
+m3 = ird_service.getRunnableDevice("BL07I-ML-SCAN-04")
 # Pilatus 3
 p3c = ird_service.getRunnableDevice("BL07I-ML-SCAN-35")
 # Pilatus 3 for static malcolm scans
