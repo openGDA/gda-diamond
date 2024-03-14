@@ -1,6 +1,7 @@
 #localStation.py - For beamline specific initialisation code.
 from utils.ExceptionLogs import localStation_exception
 from gda.factory import Finder
+from uk.ac.diamond.daq.configuration import ConfigUtils
 
 print("="*100)
 print("Performing Beamline I06-1 specific initialisation code (localStation.py).")
@@ -62,9 +63,7 @@ alias("d12Gd")
 
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
-from java.lang import System  # @UnresolvedImport
-profiles = System.getProperty("gda.spring.profiles.active")
-if "magnet" in profiles:
+if ConfigUtils.profileActive("magnet"):
     from beam.magnetvalve import closebeam, openbeam  # @UnusedImport
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
     if installation.isLive():
@@ -77,7 +76,7 @@ if "magnet" in profiles:
             logger.dump("---> ", exceptionType, exception, traceback)
         #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
 
-if "DD" in profiles:
+if ConfigUtils.profileActive("DD"):
     from beam.DDvalve import closebeam, openbeam  # @UnusedImport
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
     print("*"*100)
@@ -87,7 +86,7 @@ if "DD" in profiles:
     except:
         localStation_exception(sys.exc_info(), "import diffcalc error.")
 
-if "xabs" in profiles:
+if ConfigUtils.profileActive("xabs"):
     from beam.xabsvalve import closebeam, openbeam  # @UnusedImport
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
     
