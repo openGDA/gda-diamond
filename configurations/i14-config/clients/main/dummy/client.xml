@@ -3,9 +3,6 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- 	<import resource="file://${gda.facility.dir}/clients/dummy/persistence.xml" /> -->
-<!-- 	<import resource="file://${gda.facility.dir}/clients/_common/persistence.xml" /> -->
-
     <import resource="../_common/client.xml"/>
     
     <bean id="ptychography_scan_detector" class="java.lang.String" factory-method="valueOf"><constructor-arg value="Simulated motors for mapping"/></bean>

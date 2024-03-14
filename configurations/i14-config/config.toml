@@ -1,0 +1,36 @@
+server.spring-xml = "servers/main/${gda.mode}/server.xml"
+client.spring-xml = "clients/main/${gda.mode}/client.xml"
+
+properties = "properties/${gda.mode}/${gda.mode}_instance_java.properties"
+
+logging = "properties/_common/logging_customisation.xml"
+
+[defaults]
+"gda.mode" = "dummy"
+
+[system]
+"gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+
+[server.system]
+"java.awt.headless" = "true"
+
+[extras.dls]
+root = "../../dls-config"
+
+server.spring-xml.common = [
+    "servers/_common/file_registrar.xml",
+    "servers/_common/beam_available_watchdog.xml",
+    "servers/_common/machine_status.xml",
+    "servers/_common/solstice_scanning.xml",
+    "servers/${gda.mode}/icat_xml_creator.xml"
+]
+
+server.spring-xml.mode.dummy = [
+    "servers/dummy/sim_area_detector.xml",
+    "servers/dummy/malcolmsims.xml"
+]
+
+client.spring-xml = [
+	"clients/_common/serverFileListener.xml",
+	"clients/_common/mapping_controllers.xml",
+]
