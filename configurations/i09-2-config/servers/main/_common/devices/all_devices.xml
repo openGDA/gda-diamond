@@ -16,5 +16,6 @@
 	<import resource="Microscope.xml"/>
 	
 	<import resource="specs_entrance_slit.xml"/>
+	<import resource="dummy_motor.xml"/>
 
 </beans>

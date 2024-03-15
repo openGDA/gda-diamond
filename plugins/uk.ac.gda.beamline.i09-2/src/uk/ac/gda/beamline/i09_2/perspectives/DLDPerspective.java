@@ -1,6 +1,5 @@
 package uk.ac.gda.beamline.i09_2.perspectives;
 
-import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -14,7 +13,6 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.beamline.i09_2.addons.ResetMovingSumAddon;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
-import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.livecontrol.LiveControlsView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
@@ -53,30 +51,13 @@ public class DLDPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
+		// left row
 		IFolderLayout left = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.15, editorArea); //$NON-NLS-1$
 		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		left.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
 		left.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
-		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea);
-		statusFolder.addView(STATUS_VIEW_ID);
-		statusFolder.addPlaceholder(BatonView.ID);
-		statusFolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
-		statusFolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
-
-		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.3, STATUS_FOLDER); //$NON-NLS-1$
-		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_liveimagexy#EPICS_ARRAY");
-		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
-		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
-
-		IFolderLayout toolpageFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.LEFT, (float)0.4, PLOT_2D_FOLDER); //$NON-NLS-1$
-		toolpageFolder.addPlaceholder(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
-		toolpageFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
-		toolpageFolder.addPlaceholder(SnapshotView.ID);
-		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
-		toolpageFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
-
-		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.BOTTOM, (float)0.6, TOOLPAGE_FOLDER); //$NON-NLS-1$
+		IFolderLayout liveControlFolder=layout.createFolder(LIVE_CONTROL_FOLDER, IPageLayout.TOP, (float)0.2, PROJ_FOLDER); //$NON-NLS-1$
 		liveControlFolder.addView(LiveControlsView.ID + ":dld_count_rate");
 		liveControlFolder.addView(LiveControlsView.ID + ":pgm_control_set");
 		liveControlFolder.addPlaceholder("uk.ac.gda.rcp.views.dashboardView");
@@ -84,18 +65,32 @@ public class DLDPerspective implements IPerspectiveFactory {
 		liveControlFolder.addPlaceholder(LiveControlsView.ID);
 		liveControlFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
-		IFolderLayout scanPlotFolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.BOTTOM, (float)0.15, STATUS_FOLDER); //$NON-NLS-1$
-        scanPlotFolder.addView(LivePlotView.ID);
-        scanPlotFolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
+		// middle row
+		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.LEFT, (float)0.4, editorArea);
+		statusFolder.addView(STATUS_VIEW_ID);
+		statusFolder.addPlaceholder(BatonView.ID);
+		statusFolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
+		statusFolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
-        IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.BOTTOM, (float)0.6, PLOT_1D_FOLDER); //$NON-NLS-1$
+        IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.BOTTOM, (float)0.4, STATUS_FOLDER); //$NON-NLS-1$
         terminalfolder.addView(JythonTerminalView.ID);
         terminalfolder.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);
         terminalfolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
         terminalfolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
         terminalfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);
 
-		IFolderLayout accumPlotFolder=layout.createFolder(ACCUM_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
+		IFolderLayout scanPlotFolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.TOP, (float)0.4, TERMINAL_FOLDER); //$NON-NLS-1$
+        scanPlotFolder.addView(LivePlotView.ID);
+        scanPlotFolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
+
+        // third row
+		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.3, editorArea); //$NON-NLS-1$
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_liveimagexy#EPICS_ARRAY");
+		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
+		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
+
+		// forth row
+		IFolderLayout accumPlotFolder=layout.createFolder(ACCUM_PLOT_FOLDER, IPageLayout.RIGHT, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
 		accumPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY:dld_accumimagexy#EPICS_ARRAY");
 		accumPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.ES32AccumImageXY:es32_liveview#EPICS_ARRAY");
 	}
