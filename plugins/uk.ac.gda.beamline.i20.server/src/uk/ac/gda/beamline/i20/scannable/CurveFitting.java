@@ -36,7 +36,7 @@ public class CurveFitting {
 	/** If true, then curve fitting during optimisation will use a small number of points either side of peak detector value*/
 	private boolean fitToPeakPointsOnly;
 
-	public Gaussian findPeakOutput(double[] xvalues, double[] yvalues) {
+	public Gaussian findPeakOutput(Object[] xvalues, Object[] yvalues) {
 		int numValues = Math.min(xvalues.length, yvalues.length);
 		Dataset combined = DatasetFactory.zeros(numValues, 2);
 		for(int i=0; i<numValues; i++) {
