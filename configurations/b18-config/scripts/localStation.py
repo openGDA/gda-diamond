@@ -39,7 +39,7 @@ daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-detectorPreparer.setPilatusDetector(pilatus_addetector)
+detectorPreparer.setDiffractionDetector(pilatus_addetector)
 
 ## Setup XspressOdin 
 xspress4IsPresent = 'xspress4Odin' in locals()
@@ -82,7 +82,6 @@ theFactory.setMetashop(Finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
-theFactory.setScanName("energyScan")
 
 # qexafs_energy.setPcEncType(0) # set zebra encoder to use when capturing pulses (0..3 for enc1..3, 4 for the avg)
 
