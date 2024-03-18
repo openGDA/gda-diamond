@@ -57,7 +57,6 @@ import uk.ac.gda.server.exafs.scan.DetectorPreparer;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerDelegate;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
-import uk.ac.gda.util.beans.xml.XMLRichBean;
 
 public class I20DetectorPreparer extends DetectorPreparerDelegate implements DetectorPreparer {
 
@@ -76,8 +75,6 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 
 	private String experimentXmlFullPath;
 	private String hdfFilePathBeforeScan;
-
-	private boolean xesMode = false;
 
 	private IOutputParameters outputBean;
 
@@ -221,7 +218,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
-		if (xesMode) {
+		if (isXesMode()) {
 			setI1TimeFormatRequired(true);
 		}
 
@@ -254,7 +251,6 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 
 		i1.setDarkCurrentRequired(true);
 		ionchambers.setDarkCurrentRequired(true);
-		xesMode = false;
 	}
 
 	/**
@@ -284,28 +280,34 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		return index;
 	}
 
-	private Double[] getScanTimeArray(XesScanParameters xesParams) throws Exception {
-		Double[] timeValues = null;
-
-		int scanType = xesParams.getScanType();
-
-		if (scanType == XesScanParameters.FIXED_XES_SCAN_XANES || scanType == XesScanParameters.FIXED_XES_SCAN_XAS) {
-			// Fixed XES, scan mono : Load bean with Xas, Xanes settings, create time array values from it
-
-			XMLRichBean bean = XMLHelpers.getBean(Paths.get(experimentXmlFullPath).resolve(xesParams.getScanFileName()).toFile());
-			if (bean instanceof XasScanParameters monoScanBean) {
-				timeValues = ExafsScanPointCreator.getScanTimeArray(monoScanBean);
-			} else if (bean instanceof XanesScanParameters monoScanBean) {
-				timeValues = XanesScanPointCreator.getScanTimeArray(monoScanBean);
-			}
+	private Double[] createTimeArray(XesScanParameters xesParams) throws Exception {
+		if (xesParams.scanUsesXasXanesFile()) {
+			var scanFileBean = (IScanParameters) XMLHelpers.getBean(Paths.get(experimentXmlFullPath).resolve(xesParams.getXasXanesFileName()).toFile());
+			return createTimeArray(scanFileBean);
 		} else {
 			// Scan using spectrometer : SCAN_XES_FIXED_MONO, (SCAN_XES_REGION?), or (2d) SCAN_XES_SCAN_MONO/
 			SpectrometerScanParameters scanParams = xesParams.getPrimarySpectrometerScanParams();
-			Double collectionTime = scanParams.getIntegrationTime();
-			return new Double[]{collectionTime};
+			return  new Double[]{scanParams.getIntegrationTime()};
 		}
+	}
 
-		return timeValues;
+	private boolean scanUsesXasXanesFile() {
+		if (scanBean instanceof XanesScanParameters || scanBean instanceof XasScanParameters) {
+			return true;
+		} else if (scanBean instanceof XesScanParameters xesParams) {
+			return xesParams.scanUsesXasXanesFile();
+		}
+		return false;
+	}
+
+	private Double[] createTimeArray(IScanParameters scanParams) throws Exception {
+		if (scanParams instanceof XanesScanParameters p) {
+			return XanesScanPointCreator.getScanTimeArray(p);
+		}
+		else if (scanParams instanceof XasScanParameters p) {
+			return ExafsScanPointCreator.getScanTimeArray(p);
+		}
+		return new Double[] {};
 	}
 
 	/**
@@ -317,14 +319,10 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 	private void setUpIonChambers() throws Exception {
 		Double[] tfgFrameTimes = null;
 
-		if (scanBean instanceof XanesScanParameters p) {
-			tfgFrameTimes = XanesScanPointCreator.getScanTimeArray(p);
-		}
-		else if (scanBean instanceof XasScanParameters p) {
-			tfgFrameTimes = ExafsScanPointCreator.getScanTimeArray(p);
-		}
-		else if (scanBean instanceof XesScanParameters p) {
-			tfgFrameTimes = getScanTimeArray(p);
+		if (scanBean instanceof XanesScanParameters || scanBean instanceof XasScanParameters) {
+			tfgFrameTimes = createTimeArray(scanBean);
+		} else if (scanBean instanceof XesScanParameters p) {
+			tfgFrameTimes = createTimeArray(p);
 		}
 
 		if (tfgFrameTimes == null) {
@@ -345,13 +343,14 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		}
 
 		// Always want time switched off if doing Xas/Xanes/Region scans
-		// (XasScannable includes the Time field already)
-		if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters) {
+		// These use XasScannable includes the Time field already
+		if (scanUsesXasXanesFile()) {
 			setI1TimeFormatRequired(false);
 		} else {
 			setI1TimeFormatRequired(true);
 		}
-		if (xesMode) {
+
+		if (isXesMode()) {
 			i1.clearFrameSets();
 			if (tfgFrameTimes.length>1) {
 				i1.setTimes(tfgFrameTimes);
@@ -385,12 +384,8 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		this.vortex = vortex;
 	}
 
-	public void setXesMode(boolean xesMode) {
-		this.xesMode = xesMode;
-	}
-
 	public boolean isXesMode() {
-		return xesMode;
+		return scanBean instanceof XesScanParameters;
 	}
 
 	public void setPluginsForMutableRoi(NXDetector detector, List<NXPluginBase> pluginsForMutableRoi) {
