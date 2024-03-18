@@ -1,4 +1,4 @@
-package uk.ac.gda.beamline.i10.perspectives;
+package uk.ac.gda.beamline.i10_1.perspectives;
 
 import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.search.ui.NewSearchUI;
@@ -22,7 +22,7 @@ import uk.ac.gda.client.scripting.JythonPerspective;
 
 public class AreaDetectorPerspective implements IPerspectiveFactory {
 
-	public final static String ID="uk.ac.gda.beamline.i10.perspectives.areadetector";
+	public static final String ID="uk.ac.gda.beamline.i10-1.perspectives.areadetector";
 
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projFolder";
@@ -87,7 +87,7 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 
 	private void defineActions(IPageLayout layout) {
         layout.addPerspectiveShortcut(AreaDetectorPerspective.ID);
-        layout.addPerspectiveShortcut(I10ScanPerspective.ID);
+        layout.addPerspectiveShortcut(ScanPerspective.ID);
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         layout.addPerspectiveShortcut(MappingPerspective.ID);
 

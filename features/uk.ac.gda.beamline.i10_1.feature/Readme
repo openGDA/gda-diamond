@@ -1,0 +1,5 @@
+Note that the only difference between "product dummy.launch" and
+"product.launch" should be the mode (dummy and live etc.).
+
+Similarly, the VM Arguments in the ".product" should be identical to those
+in "product.launch".

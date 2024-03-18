@@ -1,22 +1,57 @@
 package uk.ac.gda.beamline.i10_1;
 
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class Activator implements BundleActivator {
+import gda.rcp.ImageConstants;
 
-	private static BundleContext context;
+/**
+ * The activator class controls the plug-in life cycle
+ */
+public class Activator extends AbstractUIPlugin {
 
-	static BundleContext getContext() {
-		return context;
+	// The plug-in ID
+	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i10-1";
+
+	// The shared instance
+	private static Activator plugin;
+
+	/**
+	 * The constructor
+	 */
+	public Activator() {
+		super();
 	}
 
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+	/**
+	 * Returns the shared instance
+	 *
+	 * @return the shared instance
+	 */
+	public static Activator getDefault() {
+		if (plugin == null) {
+			plugin = new Activator();
+		}
+		return plugin;
 	}
 
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
+	/**
+	 * Returns an image descriptor for the image file at the given
+	 * plug-in relative path
+	 *
+	 * @param path the path
+	 * @return the image descriptor
+	 */
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
+	@Override
+	protected void initializeImageRegistry(ImageRegistry reg) {
+		for (String imgPath : ImageConstants.IMAGES) {
+			reg.put(imgPath, imageDescriptorFromPlugin(PLUGIN_ID, imgPath));
+		}
+		super.initializeImageRegistry(reg);
+	}
 }
