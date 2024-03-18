@@ -60,6 +60,8 @@ def setupXspress4() :
     xspress4.setFilePath("");
     set_hdf5_filetemplate(basename)
     xspress4.setMcaReadoutWaitTimeMs(3000)
+    xspress4.setReadoutWaitTimeMs(50)
+
     print("Finished setting up Xspress4 detector")
 
 def setupDetectors() :

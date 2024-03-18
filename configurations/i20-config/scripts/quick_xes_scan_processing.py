@@ -149,6 +149,8 @@ class QuickXesNexusProcessor :
             return XESEnergyLower
         elif re.search("up.*pitch", axis_name) is not None :
             return XESEnergyUpper
+        elif axis_name.endswith("all_pitch") :
+            return XESEnergyUpper
         else :
             raise Exception("Could not find XESEnergy scannable corresponding to axis "+axis_name)
             
@@ -168,14 +170,19 @@ class QuickXesNexusProcessor :
         # to PCAP data in hdf file written by panda :
         if not path_is_valid(self.filename, link_target_name) :
             external_link = True
-            scan_name = basename(self.filename).replace(".nxs", "")
-            link_target_name=scan_name+"/"+scan_name+"-PANDABOX-01.h5#entry/NDAttributes/PCAP.TS_START.Value"
+            link_target_name=self.get_panda_file_path("01")+"#entry/NDAttributes/PCAP.TS_START.Value"
 
         print("Adding link %s to time information in %s"%(link_name, link_target_name))
         self.add_link(link_name, link_target_name, external_link)
         
         return link_name
     
+    # Return relative path tp Panda hdf file based on name of Nexus file
+    # e.g. for scan name "i20-1234.nxs", panda 01 file is in "i20-1234" subdirectory and called "i20-1234-PANDABOX-01.hdf",
+    def get_panda_file_path(self, panda_num) :
+        scan_name = basename(self.filename).replace(".nxs", "")
+        return scan_name+"/"+scan_name+"-PANDABOX-"+str(panda_num)+".h5"
+
     def get_scan_rank(self):
         return len(self.get_scan_axes())
     
@@ -224,7 +231,8 @@ class QuickXesNexusProcessor :
         # Add link to the pitch demand values :
         # Read the names of the scan axes from Nexus file
         scan_axes = self.get_scan_axes()
-        
+        print("scan axes : "+str(scan_axes))
+
         # xes pitch is the last one
         pitch_values_name = scan_axes[len(scan_axes)-1]
         print("Pitch values axis : "+pitch_values_name)
@@ -240,8 +248,41 @@ class QuickXesNexusProcessor :
             energy_vals.append(self.get_energy(xes_energy_scannable, pitch))
             
         self.add_dataset(self.processedPath+"/"+xes_energy_scannable.getName(), energy_vals)
-
-  
+        
+        if pitch_values_name.endswith("all_pitch") :
+            self.add_lower_row_derived_values(pitch_vals)
+            
+    def add_lower_row_derived_values(self, pitch_vals):
+            
+        print("Adding axis parameters for lower row")
+        # Add link to offset and gain datasets in PANDABOX-01 file
+        panda_hdf_path=self.get_panda_file_path("01")
+        
+        # Names of links to be created in NExus file
+        nexus_gain_path=self.processedPath+"/xes_lo_gain"
+        nexus_offset_path=self.processedPath+"/xes_lo_offset"
+        
+        # Paths to the gain and offset datasets in Hdf file
+        panda_gain_path="/entry/xes_lo_gain.data/xes_lo_gain.data"
+        panda_offset_path="/entry/xes_lo_offset.data/xes_lo_offset.data"
+        
+        # Create the links in the Nexus file
+        self.add_link(nexus_offset_path, panda_hdf_path+"#"+panda_offset_path, True)
+        self.add_link(nexus_gain_path, panda_hdf_path+"#"+panda_gain_path, True)
+        
+        #Read the first offset and gain value (they should be all the same)
+        offset_val = self.load_dataset(nexus_offset_path)[0][0]
+        gain_val = self.load_dataset(nexus_gain_path)[0][0]
+        
+        print("Offset : %.4f , Gain : %.4f"%(offset_val, gain_val))
+        
+        lower_pitch_vals = pitch_vals*gain_val + offset_val
+        print("Lower pitch values : "+str(lower_pitch_vals))
+        self.add_dataset(self.processedPath+"/lower_pitch_values", list(lower_pitch_vals))
+        
+        energy_vals = [self.get_energy(XESEnergyLower, pitch) for pitch in lower_pitch_vals]
+        self.add_dataset(self.processedPath+"/XESEnergyLower", energy_vals)
+     
     def add_time_values(self) :
         self.show_info("Adding time axis values")
         group_path=self.processedPath

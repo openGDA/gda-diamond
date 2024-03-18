@@ -159,20 +159,8 @@
 		<property name="recordName" value="BL20I-DI-PHDGN-08:MP" />
 	</bean>
 
-	<bean id="d9_diode" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
-		<property name="pvBase" value="BL20I-DI-PHDGN-09" />
-		<property name="controlValues">
-			<map>
-				<entry key="In" value="In" />
-				<entry key="Out" value="Out" />
-			</map>
-		</property>
-		<property name="statusValues">
-			<map>
-				<entry key="In" value="In" />
-				<entry key="Out" value="Out" />
-			</map>
-		</property>
+	<bean id="d9_diode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL20I-DI-PHDGN-09:CON" />
 	</bean>
 	<bean id="d9_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-09:DIODE" />
