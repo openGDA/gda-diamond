@@ -1,2 +1,2 @@
 #!/bin/bash
-gda --start client "$@" -- --debug
+gda client "$@"

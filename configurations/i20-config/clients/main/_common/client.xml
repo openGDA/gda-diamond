@@ -62,8 +62,6 @@
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
 
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
 	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
 		<property name="detectorGroupsMap">
 			<map>
