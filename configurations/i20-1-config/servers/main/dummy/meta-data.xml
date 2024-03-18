@@ -3,39 +3,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="instrument" />
+		<property name="propertyName" value="gda.instrument" />
+	</bean>
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facility" />
+		<property name="propertyName" value="gda.facility" />
+	</bean>
 
-		<property name="metadataEntries">
-			<list>
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facilityType" />
+		<property name="propertyName" value="gda.facility.type" />
+	</bean>
 
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="instrument" />
-					<property name="propertyName" value="gda.instrument" />
-				</bean>
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="probe" />
+		<property name="propertyName" value="gda.facility.probe" />
+	</bean>
 
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facility" />
-					<property name="propertyName" value="gda.facility" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facilityType" />
-					<property name="propertyName" value="gda.facility.type" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="probe" />
-					<property name="propertyName" value="gda.facility.probe" />
-				</bean>
-
-				<bean class="gda.data.metadata.SubdirectoryMetadataEntry">
-					<property name="name" value="subdirectory" />
-					<property name="defaultSubdirectory" value="" />
-				</bean>
-
-			</list>
-		</property>
+	<bean class="gda.data.metadata.SubdirectoryMetadataEntry">
+		<property name="name" value="subdirectory" />
+		<property name="defaultSubdirectory" value="" />
 	</bean>
 
 </beans>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 EDE offline" uid="uk.ac.gda.beamline.i20_1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 EDE offline" uid="uk.ac.gda.beamline.i20_1.product.offline" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="9.33.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,19 +11,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
--Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
--Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
--Dgda.config=${project_loc:i20-1-config}
--Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
--Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i20-1-config}/properties/dummy/jacorb
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/properties/dummyJCALibrary.properties
--Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-diamond.git/plugins/uk.ac.gda.beamline.i20_1/plugin_customization.ini
--Dgda.mode=dummy
--Dgda.client.jython.automatic.interpreter=1
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
+      <vmArgs>-Dgda.config=${project_loc:i20-1-config}
 -Xms512m
 -Xmx4g
 -XX:+DisableExplicitGC

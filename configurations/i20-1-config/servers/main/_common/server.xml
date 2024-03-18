@@ -11,14 +11,6 @@
 	</bean>
 	<import resource="commandQueueProcessor.xml"/>
 
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
-<!-- 	<bean -->
-<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
-<!-- 		<property name="location" -->
-<!-- 			value="file:${gda.config}/properties/${gda.mode}/java.properties" /> -->
-<!-- 	</bean> -->
-
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 <!-- This is used to broadcast progress information and normalised spectra for display to the UI during linear and cyclic experiments -->

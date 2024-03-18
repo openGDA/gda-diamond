@@ -1,1 +1,1 @@
-gda --start client $@
+gda client $@

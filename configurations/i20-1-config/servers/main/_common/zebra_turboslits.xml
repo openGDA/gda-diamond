@@ -238,8 +238,12 @@
 
 	<bean id="dummy_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+	<bean id="dummy_scannable" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dummy_motor" />
+	</bean>
+	
+	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="delegateScannable" ref="dummy_scannable" />
 		<property name="lowerGdaLimits" value="-10000" />
 		<property name="upperGdaLimits" value="10000" />
 		<property name="outputFormat">
