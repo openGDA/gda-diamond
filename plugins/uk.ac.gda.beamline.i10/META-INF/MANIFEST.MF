@@ -37,5 +37,6 @@ Import-Package: gda.configuration.properties,
  org.eclipse.ui.intro.config,
  org.python.pydev.ui.wizards.files,
  org.python.pydev.ui.wizards.project,
+ uk.ac.diamond.daq.configuration,
  uk.ac.diamond.daq.mapping.ui.experiment
 Automatic-Module-Name: uk.ac.gda.beamline.i10

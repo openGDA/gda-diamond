@@ -18,8 +18,7 @@
 
 package uk.ac.gda.beamline.i06_1.perspectives;
 
-import java.util.Arrays;
-import java.util.List;
+import static uk.ac.diamond.daq.configuration.ConfigUtils.profileActive;
 
 import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.search.ui.NewSearchUI;
@@ -31,7 +30,6 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
-import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
 import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
@@ -70,8 +68,7 @@ public class Experiment implements IPerspectiveFactory {
 		bottomLeftfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.53, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
-		List<String> profiles = Arrays.asList(LocalProperties.getStringArray("gda.spring.profiles.active"));
-		if (profiles.contains("DD")) {
+		if (profileActive("DD")) {
 			topRightFolder.addView("uk.ac.gda.beamline.i06-1.pixis.live.stream.view.LiveStreamViewWithHistogram:pixis#EPICS_ARRAY");
 		}
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
@@ -89,10 +86,10 @@ public class Experiment implements IPerspectiveFactory {
 		IFolderLayout topLeftfolder = layout.createFolder(TERMINAL_FOLDER, IPageLayout.TOP, (float)0.6, PROJ_FOLDER); //$NON-NLS-1$
 		topLeftfolder.addView(gda.rcp.views.JythonTerminalView.ID);
 		topLeftfolder.addView(RegionalisedScanView.ID);
-		if (profiles.contains("magnet")) {
+		if (profileActive("magnet")) {
 			topLeftfolder.addView(SuperConductingMagnetView.ID);
 		}
-		if (profiles.contains("DD")) {
+		if (profileActive("DD")) {
 			topLeftfolder.addView(DiffractionAndDichroismView.ID);
 		}
 
