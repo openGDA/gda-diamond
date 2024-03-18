@@ -6,13 +6,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
-
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
-	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
 	<!-- Command Server -->
 	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
 
@@ -36,16 +29,12 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/dark_field_collector.xml" />
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
 
-	<!-- file registration -->
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
-
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
  	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/beam_watchdogs.xml" />
  	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/energyFocus.xml"/>
  	<import resource="file:${gda.config.shared}/servers/_common/devices/frontEnd.xml"/>
@@ -57,10 +46,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
 
-	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
-
-	<!-- file registration -->
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
 
 	<!-- Dummies -->
@@ -68,18 +53,7 @@
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
-	<!--
-		Mapping scans
-		IMPORTANT: this will start processing the scanning queue.
-		Detectors must be created before doing this.
-		ADVISED: do it last or towards the end, scan will now start to run!
-	 -->
-	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
-
  	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />
-
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 </beans>
