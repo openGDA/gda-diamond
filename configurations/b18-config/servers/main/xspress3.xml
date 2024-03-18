@@ -28,7 +28,7 @@
 <!-- 	</bean> -->
 
 	<bean id="xspress3XFFI0" class="gda.device.detector.TfgFFoverI0">
-		<property name="xspress" ref="xspress3X" />
+		<property name="xspressSystemName" value="xspress3X" />
 		<property name="i0_channel" value="0" />
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="outputFormat">

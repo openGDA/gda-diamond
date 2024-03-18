@@ -6,8 +6,6 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
-
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
     <import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 
@@ -52,7 +50,5 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/pilatus.xml" />
 	<import resource="file:${gda.config}/servers/main/pilatus.xml" />
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>
 

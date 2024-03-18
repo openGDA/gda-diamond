@@ -3,15 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-			</list>
-		</property>
-</bean>
-
 	<import resource="spreadsheet-view.xml" />
 	<import resource="detector-rate-views.xml" />
 	<import resource="live_controls.xml" />
@@ -22,9 +13,6 @@
 	<import resource="sample-parameters-view-config.xml" />
 	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
 
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
