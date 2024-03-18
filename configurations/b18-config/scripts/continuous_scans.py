@@ -6,6 +6,8 @@ from __builtin__ import False
 from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 from gda.device import IScannableMotor
 from gda.device.scannable import TwoDScanPlotter
+import math
+from gda.device.detector import BufferedScannablePositions 
 
 print "Running 'continuous_scans.py"
 
@@ -83,7 +85,7 @@ def test_2d_scan() :
 
     scan test 10 20 1.0 cs twoDPlotter
 
-def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=[]) :
+def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, bidirectional=False) :
     """
         Create continuous scan using 'step scan'-like parameter 
         i.e. between start and end positions, with num points and total time computed automatically.
@@ -94,14 +96,21 @@ def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=[]) :
             time_per_point - duration of each readout
             dets = list of detectors to use for the scan
     """
-    num_points=int((end-start)/step)
+    num_points=abs( int((end-start)/step) )
     total_time=num_points*time_per_point
     
     ## Create continuously scannable object from the scannable motor
     continuous_scannable = createContinuousScannable(scnMotor)
     
+    # create detector to record positions of the scannable during the scan
+    scn_detector = createScannableDetector(scnMotor)
+    if dets is None :
+        dets=[]
+    dets.append(scn_detector)
+
     cs=getCscanUnsyncronized(continuous_scannable, start, end, num_points, total_time, dets)
-    
+    cs.setBiDirectional(bidirectional)
+
     #add non continuous variable to get encoder values for motor position instead of values calculated by GDA according to speed
     cs.getAllScannables().add(scnMotor)
 
@@ -138,17 +147,34 @@ def createContinuousScannable(scn, name=None):
     newScannable.configure()
     return newScannable
 
+def createScannableDetector(scn) :
+    scn_det = BufferedScannablePositions()
+    scn_det.setScannable(scn)
+    scn_det.setName(scn.getName()+"_det")
+    return scn_det
+
 """
 No zebra used for synchronization. Motor move and tfg start at same time 
 """
-def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None, extraScannables=None ) :
-    detectors=[qexafs_counterTimer01]
+def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None, extraScannables=None, bidirectional=False) :
+    detectors=[]
+
     if extraDetectors != None :
         detectors.extend(extraDetectors)
+    
+    # create detector for recording the scannable position during scan
+    scn_detector = createScannableDetector(continuous_axis)
+    detectors.append(scn_detector)
+    
+    # add counterTimer01
+    detectors.append(qexafs_counterTimer01)
     
     cs=ContinuousScan(continuous_axis, start, stop, readouts, time, detectors)
     # cs.getAllScannables().add(axis) # add hoffset scannable to get the real position at each scan data point (from Epics)
     cs.getAllScannables().add(set_tfg_internal_trigger)
+    
+    # set the bidirectional flag
+    cs.setBiDirectional(bidirectional)
     
     # Add any extra scannables (to record the position for each point in the scan)
     if extraScannables != None :
