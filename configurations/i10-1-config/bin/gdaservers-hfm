@@ -10,4 +10,4 @@
 # This script should not be added to as it is being phased out
 
 export SPRING_PROFILES=hfm
-gda servers --springprofiles $SPRING_PROFILES $*
+gda server -P -p $SPRING_PROFILES $*

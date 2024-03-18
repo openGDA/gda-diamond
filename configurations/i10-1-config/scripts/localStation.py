@@ -16,8 +16,9 @@ scansReturnToOriginalPositions = 0;
 
 from i10shared.localStation import *  # @UnusedWildImport
 
-from java.lang import System  # @UnresolvedImport
-spring_profiles = System.getProperty("gda.spring.profiles.active")
+from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
+from uk.ac.diamond.daq.configuration import BeamlineConfiguration
+spring_profiles = ServiceProvider.getService(BeamlineConfiguration).profiles.toList()
 
 from scannable.haxpod.m6_haxpod_motors import m6fpitch  # @UnusedImport
 from amplifiers.femto_instances import ca1je, ca2je, ca3je  # @UnusedImport

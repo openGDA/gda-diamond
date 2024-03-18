@@ -105,6 +105,7 @@ initialisation()
 from scannables.stokesParameters import StokesParameters
 stokes_parameters = StokesParameters("stokes_parameters", pol, laa)
 from scannables.idcontrols.gapScannable import GapScannable
+from gdaserver import idd_gap, idu_gap# @UnresolvedImport
 gap = GapScannable("gap", smode, idd_gap, idu_gap, "mm", "%.3f")  # @UndefinedVariable
 from scannables.idcontrols.taperScannable import TaperScannable
 taper = TaperScannable("taper", smode, "urad", "%.3f", iddtaper = None, idutaper = None)
