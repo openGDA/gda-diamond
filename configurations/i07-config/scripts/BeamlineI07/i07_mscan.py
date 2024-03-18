@@ -1,7 +1,7 @@
 from gdascripts.mscanHandler import *
 from uk.ac.gda.analysis.mscan import HklAdapter
 from gda.factory import Finder
-from BeamlineI07.diff_mode import is_eh2, is_eh1v
+from gda.configuration.properties import LocalProperties
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
 
@@ -12,10 +12,10 @@ exc_name = "BL07I-ML-SCAN-01"
 exs_name = "BL07I-ML-SCAN-11"
 p2c_name = "BL07I-ML-SCAN-02"
 
-if is_eh1v() :
+if LocalProperties.get('gda.active.diffractometer.mode')=='eh1v' :
     exc_name = "BL07I-ML-SCAN-21"
     p2c_name = "BL07I-ML-SCAN-22"
-elif is_eh2() :
+elif LocalProperties.get('gda.active.diffractometer.mode')=='eh2' :
     exc_name = "BL07I-ML-SCAN-36"
     exs_name = "BL07I-ML-SCAN-36"
 
@@ -96,4 +96,3 @@ try:
     meta_add(p3_rois)
 except Exception as e:
     print("Error setting up ROI meta devices", e)
-#####
