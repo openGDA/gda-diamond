@@ -7,8 +7,8 @@
 	
 	<!-- Objects that are not true dummies but access a simulated area detector -->
 	<!-- You will have to change the PVs to those corresponding to your simulator -->
-	
-	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	  
+	<!--<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>-->
 	
 	<!-- Area Detector -->
 	<bean id="simCamBase" class="gda.spring.V17ADBaseFactoryBean">

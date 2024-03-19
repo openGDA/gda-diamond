@@ -22,14 +22,14 @@
 		<property name="minPosition" value="100.00000" />
 		<property name="maxPosition" value="10318.15400" />
 		<property name="speed" value="1" />
-		<property name="unitString" value="N"/>
+		<property name="unitString" value="deg"/>
 	</bean>
 
 	<bean id="MotorHFMBender2_M5" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="139.68950" />
 		<property name="maxPosition" value="1422.68950" />
 		<property name="speed" value="1" />
-		<property name="unitString" value="N"/>
+		<property name="unitString" value="deg"/>
 	</bean>
 
 <!-- 	<bean id="MotorHFMFinePitch_M5" class="gda.device.motor.DummyMotor"> -->

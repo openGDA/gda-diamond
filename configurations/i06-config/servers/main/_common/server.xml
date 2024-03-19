@@ -9,7 +9,4 @@
 	<import resource="terminal_logger.xml"/>
 	<import resource="nxmetadata.xml"/>
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-
 </beans>
