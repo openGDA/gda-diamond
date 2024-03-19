@@ -312,8 +312,9 @@ try:
 		'cam1det', 'cam1', 'peak2d', 'max2d', 'BL15I-DI-GIGE-01:')
 	cam2det, cam2, peak2d2, max2d2 = gigeFactory(
 		'cam2det', 'cam2', 'peak2d2', 'max2d2', 'BL15I-DI-GIGE-02:')
-	cam3det, cam3, peak2d3, max2d3 = gigeFactory(
-		'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
+	# Comment out cam3 since it is now configured for Malcolm rather than GDA.
+	#cam3det, cam3, peak2d3, max2d3 = gigeFactory(
+	#	'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
 	cam4det, cam4, peak2d4, max2d4 = gigeFactory(
 		'cam4det', 'cam4', 'peak2d4', 'max2d4', 'BL15I-DI-GIGE-04:')
 

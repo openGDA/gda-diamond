@@ -43,5 +43,36 @@
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
+	
 
+<!-- Odin detectors and FFI0s -->
+	<bean id="xspress3Odin" class="uk.ac.gda.devices.detector.xspress4.Xspress4OdinDetector">
+		<property name="controller" ref="xspress3ControllerOdin" />
+		<property name="tfgFFI0" ref="FFI0_xspress3Odin" />
+		<property name="configFileName" value="${gda.config}/templates/Xspress3Odin_Parameters.xml" />
+		<property name="defaultSubdirectory" value="xspress3Odin" />
+		<property name="triggerModeForScans" value="3" /> <!--  0 = software trigger mode, 3 = TTL veto -->
+	</bean>
+
+	<bean id="FFI0_xspress3Odin" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3Odin" />
+		<property name="i0_channel" value="1" />
+		<property name="counterTimer" ref="counterTimer01" />
+	</bean>
+	
+	<bean id="qexafs_xspress3Odin" class="uk.ac.gda.devices.detector.xspress4.Xspress4BufferedDetector" >
+		<property name="xspress4Detector" ref="xspress3Odin" />
+		<property name="useNexusTreeWriter" value="true" />
+		<property name="pathToAttributeDataGroup" value="/" />
+		<property name="dtcFactorDataNameFormat" value="dtc" />
+		<property name="scalerDataNameFormat" value="scalar_%d" />
+<!-- 		<property name="triggerModeForContinuousScan" value="3" /> -->
+		<property name="twoDHdfData" value="true" />
+	</bean>
+	
+	<bean id="qexafs_FFI0_xspress4Odin"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+		<property name="qexafsXspress" ref="qexafs_xspress3Odin" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="i0_channel" value="1" />
+	</bean>
 </beans>
