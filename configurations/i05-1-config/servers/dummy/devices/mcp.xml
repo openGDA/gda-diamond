@@ -9,7 +9,7 @@
 	</description>
 
 	<bean id="mcp_gain" class="gda.device.scannable.DummyScannable" />
-	
+
 	<bean id="mcp_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="10" />
 		<property name="ystart" value="10" />
@@ -22,22 +22,19 @@
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="simRoiStats" />
+				<ref bean="sim_RoiStats1" />
 				<ref bean="simHdf5Filewriter" />
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="mcp_total" class="gda.device.detector.NXDetector">
 		<property name="name" value="mcp_total" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="simRoiStats" />
+				<ref bean="sim_RoiStats2" />
 			</list>
 		</property>
 	</bean>
-
-	<import resource="adSimulator.xml"/>
-
 </beans>
