@@ -60,5 +60,3 @@ class DiagnosticDetector(DetectorBase):
 d9_current_detector = DiagnosticDetector("d9_current_detector", d9_current)
 d9_current_detector.setOutputFormat(["%.4f"])
 d9_current_detector.configure()
-detectorPreparer.setDiagnosticDetector(d9_current_detector)
-detectorPreparer.setDiagnosticValve(d9_diode)

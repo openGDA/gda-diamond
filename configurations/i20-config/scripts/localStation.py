@@ -16,6 +16,7 @@ from gda.factory import Finder
 
 from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
+from uk.ac.gda.server.exafs.scan.preparers import BraggOffsetPreparer
 
 DAServer = Finder.find("DAServer")
 XASLoggingScriptController = Finder.find("XASLoggingScriptController")
@@ -74,19 +75,30 @@ run "energy-transfer-scannable.py"
 # Create and setup topup checker with shutter
 run "topup-scannable.py"
 
+# Function to set the initial state of the ionchamber and braggOffset preparers
+def setup_detector_preparers() :  
+    ionchamberCheckerPreparer = IonchamberDetectorPreparer(ionchamberChecker)
+    ionchamberCheckerPreparer.setRunIonchamberChecker(True)
+
+    braggOffsetPreparer = BraggOffsetPreparer()
+    braggOffsetPreparer.setMonoOptimiser(monoOptimiser)
+    braggOffsetPreparer.setIonchambers(ionchambers)
+    braggOffsetPreparer.setI1(I1)
+    braggOffsetPreparer.setDiagnosticDetector(d9_current_detector)
+    braggOffsetPreparer.setUseDiagnosticDetector(False)
+    
+    return ionchamberCheckerPreparer, braggOffsetPreparer
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupChecker)
-# detectorPreparer.setFFI0(FFI0);
-detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
 detectorPreparer.setPluginsForMutableRoi(medipix1, getMedipixMutableRoiPlugins(medipix1))
 detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
 detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(medipix2))
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
-detectorPreparer.setIonchamberChecker(ionchamberChecker)
-detectorPreparer.setRunIonchamberChecker(True)
-detectorPreparer.setDiagnosticDetector(d9_current_detector)
-detectorPreparer.setUseDiagnosticDetector(False)
+
+ionchamberCheckerPreparer, braggOffsetPreparer = setup_detector_preparers()
+detectorPreparer.setPreparers([ionchamberCheckerPreparer, braggOffsetPreparer])
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
@@ -104,7 +116,6 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-#theFactory.setScanName("")
 theFactory.setXesBraggGroup(XESBraggGroup)
 theFactory.setXesEnergyBoth(XESEnergyBoth)
 theFactory.setXesEnergyGroup(XESEnergyGroup)
@@ -126,7 +137,6 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(False);
-#theFactory.setScanName("")
 
 xas = theFactory.createEnergyScan();
 xas.setDetectorOrder([ionchambers])

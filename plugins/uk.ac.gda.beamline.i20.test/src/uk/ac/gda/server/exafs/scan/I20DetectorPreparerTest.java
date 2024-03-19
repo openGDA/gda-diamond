@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InOrder;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -160,7 +162,6 @@ public class I20DetectorPreparerTest {
 		I20DetectorPreparer thePreparer = new I20DetectorPreparer(sensitivities, sensitivity_units, offset, offset_units,
 				ionchambers, I1, xmpaMca, medipix, topupChecker);
 		thePreparer.setFFI1(ffI1);
-		thePreparer.setMonoOptimiser(monoOptimiser);
 		return thePreparer;
 	}
 
@@ -351,5 +352,47 @@ public class I20DetectorPreparerTest {
 
 		assertTrue(topupChecker.getCollectionTime() == 0.0);
 		assertTrue(!ionchambers.isOutputLogValues());
+	}
+
+	List<Serializable> createBeans() {
+		DetectorParameters detectorBean = new DetectorParameters();
+		detectorBean.setTransmissionParameters(I20PreparersTestUtils.createTransmissionParameters());
+		detectorBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+
+		var scanBean = I20PreparersTestUtils.createXanesBean();
+		var outputBean = new I20OutputParameters();
+		var dirName = "";
+		return List.of(scanBean, detectorBean, outputBean, dirName);
+	}
+
+	@Test
+	public void testDelegation() throws Exception {
+		DetectorParameters detectorBean = new DetectorParameters();
+		detectorBean.setTransmissionParameters(I20PreparersTestUtils.createTransmissionParameters());
+		detectorBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+
+		DetectorPreparer detPrep1 = Mockito.mock(DetectorPreparer.class);
+		DetectorPreparer detPrep2 = Mockito.mock(DetectorPreparer.class);
+
+		I20DetectorPreparer preparer = makePreparer();
+		preparer.setPreparers(List.of(detPrep1, detPrep2));
+		var scanBean = I20PreparersTestUtils.createXanesBean();
+		var outputBean = new I20OutputParameters();
+		var dirName = "";
+
+		preparer.configure(scanBean, detectorBean, outputBean, dirName);
+		preparer.beforeEachRepetition();
+		preparer.completeCollection();
+
+		// Check that methods on detPrep1 and detPrep2 were all called and in the correct order
+		InOrder inorder = Mockito.inOrder(detPrep1, detPrep2);
+		inorder.verify(detPrep1).configure(scanBean, detectorBean, outputBean, dirName);
+		inorder.verify(detPrep2).configure(scanBean, detectorBean, outputBean, dirName);
+
+		inorder.verify(detPrep1).beforeEachRepetition();
+		inorder.verify(detPrep2).beforeEachRepetition();
+
+		inorder.verify(detPrep1).completeCollection();
+		inorder.verify(detPrep2).completeCollection();
 	}
 }
