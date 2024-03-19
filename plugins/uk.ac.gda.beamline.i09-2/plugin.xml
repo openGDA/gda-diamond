@@ -37,7 +37,7 @@
          </property>
          <property
                name="preferenceCustomization"
-               value="plugin_customization.ini">
+               value="platform:/plugin/uk.ac.gda.beamline.i09-2/plugin_customization.ini">
          </property>
       </product>
    </extension>
