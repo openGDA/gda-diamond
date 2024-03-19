@@ -20,13 +20,6 @@ See &lt;http://www.opengda.org/&gt;
 
    <launcherArgs>
       <programArgsLin>-client
--Xms256m
--Xmx2048m
--XX:MaxHeapFreeRatio=70
--XX:+DisableExplicitGC
--XX:+UseGCOverheadLimit
--XX:+UseParallelGC
--XX:ParallelGCThreads=8
       </programArgsLin>
       <programArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </programArgsMac>
@@ -39,19 +32,7 @@ See &lt;http://www.opengda.org/&gt;
 -XX:+UseParallelGC
 -XX:ParallelGCThreads=8
       </programArgsWin>
-      <vmArgs>-Drun.in.eclipse=false
--Dgda.spring.profiles.active=windows7
--Dgda.instance.dir=${project_loc:i10-config}
--Dgda.group.dir=${project_loc:i10-shared}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Declipse.pluginCustomization=${project_loc:i10-config}/pluginCustomization.ini
--Dgda.config=${project_loc:i10-config}
--Dgda.propertiesFile=${project_loc:i10-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i10-config}/properties/dummy/JCALibrary.properties
--Dgda.gui.beans.xml=${project_loc:i10-config}/clients/main/dummy/client.xml
--Dgda.mode=dummy
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
+      <vmArgs>-Declipse.pluginCustomization=${project_loc:i10-config}/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
@@ -60,6 +41,7 @@ See &lt;http://www.opengda.org/&gt;
 -Xms512m
 -Xmx2g
 -Dpydev.funding.hide=true
+-Dgda.config=${project_loc:i10-config}
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I10" uid="uk.ac.gda.beamline.i10.product" id="uk.ac.gda.beamline.i10.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I10" uid="uk.ac.gda.beamline.i10.product" id="uk.ac.gda.beamline.i10.product" application="uk.ac.gda.client.application" version="9.33.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -13,17 +13,7 @@
    <launcherArgs>
       <programArgs>-debug
       </programArgs>
-      <vmArgs>-Drun.in.eclipse=false
--Dgda.instance.dir=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
--Dgda.facility.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-diamond.git/dls-config
--Dgda.core.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-core.git/core-config
--Dgda.install.git.loc=/dls_sw/i10/software/gda/workspace_git
--Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
--Dgda.mode=live
--Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/live_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/JCALibrary.properties
--Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/pluginCustomization.ini
--Dgda.logs.dir=/dls_sw/i10/logs
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
