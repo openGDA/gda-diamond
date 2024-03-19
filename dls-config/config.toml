@@ -8,3 +8,5 @@ properties = [
     'properties/${gda.mode}/${gda.mode}_facility_java.properties',
 ]
 
+[system]
+"uk.ac.diamond.daq.native_dir" = "/usr/local/tmpexec"
