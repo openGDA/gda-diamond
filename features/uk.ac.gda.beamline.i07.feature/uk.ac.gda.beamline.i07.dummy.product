@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.dummy.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.dummy.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -20,28 +20,11 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.mode=dummy
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
--Duk.ac.diamond.scisoft.create_pydev_jython_interpreter=FALSE
--Dgda.install.git.loc=${workspace_loc}_git
+      <vmArgs>-Xms128m
+-Xmx1024m
 -Dgda.config=${project_loc:i07-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Dgda.var=${workspace_loc}/../gda_var_non_live
--Dgda.propertiesFile=${project_loc:i07-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i07-config}/properties/dummy/JCALibrary.properties
--Dpython.cachedir=~/python.cachedir
--Ddatavis.open.mode=DESELECT_OTHERS
--Ddatavis.open.script=true
--client
--Xms128m
--Xmx1024m
       </vmArgs>
-      <vmArgsLin>-client
--Xms128m
--Xmx1024m
--XX:MaxHeapFreeRatio=70
+      <vmArgsLin>-XX:MaxHeapFreeRatio=70
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
 -XX:+UseParallelGC
@@ -49,8 +32,7 @@ http://www.opengda.org
       </vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
-      <vmArgsWin>-Xms512m
--Xmx1024m
+      <vmArgsWin>
       </vmArgsWin>
    </launcherArgs>
 
