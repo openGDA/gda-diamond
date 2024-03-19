@@ -4,7 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Area detector camera -->
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="es_i3_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/es_i3Roi" />
+	    <property name="service" ref="es_i3_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
 
  	<bean id="es_i3" class="gda.device.detector.NXDetector">
 		<property name="name" value="es_i3" />
