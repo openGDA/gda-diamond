@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I08-1 Beamline" uid="uk.ac.gda.beamline.i08-1.product" id="uk.ac.gda.beamline.i08-1.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I08-1 Beamline" uid="uk.ac.gda.beamline.i08-1.product" id="uk.ac.gda.beamline.i08-1.product" application="uk.ac.gda.client.application" version="9.33.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -16,19 +16,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
--Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
--Dgda.mode=dummy
--Drebel.log=true
--Dgda.config=${project_loc:i08-1-config}
--Dgda.propertiesFile=${project_loc:i08-1-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i08-1-config}/properties/dummy/JCALibrary.properties
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.instance.dir=${project_loc:i08-1-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
--Dgda.group.dir=${project_loc:core-config}/no-group
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=false
+      <vmArgs>-Dgda.config=${project_loc:i08-1-config}
+-Dgda.config.debug=true
 -Xms256m
 -Xmx2048m
       </vmArgs>
