@@ -6,41 +6,17 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
-<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
-	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
 	<import resource="GDAMetadata.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
- 	<import resource="../../../../../dls-config/servers/_common/beam_available_watchdog.xml" />
- 	<import resource="../../../../../dls-config/servers/_common/topup_watchdog.xml" />
 	<import resource="xRayWatchdog.xml"/>
-
-	<import resource="../../../../../dls-config/servers/_common/file_registrar.xml" />
 
 	<import resource="terminal_logger.xml"/>
 	<import resource="dataWriter.xml"/>
 
 	<import resource="devices/_all.xml"/>
 	<import resource="nxmetadata.xml"/>
-
-	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
-	<import resource="../../../../../dls-config/servers/_common/det.xml"/>
-	<import resource="../../../../../dls-config/servers/_common/mapping_motors.xml"/>
-	<import resource="../../../../../dls-config/servers/_common/mandelbrotDetector.xml"/>
-	<import resource="../../../../../dls-config/servers/_common/darkImageDetector.xml"/>
-	<import resource="../../../../../dls-config/servers/_common/constantVelocityDevice.xml"/>
-	<import resource="../../../../../dls-config/servers/_common/mandelbrot_detectors.xml"/>
 	
 	<import resource="commandServer.xml" />
 	<import resource="beanAdder.xml"/>
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-	<gda:rbac />
-
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
-	      detectors must be created before doing this.
-	      ADVISED: do it last or towards the end, scan will now start to run!
-	 --> 
-	<import resource="../../../../../dls-config/servers/_common/solstice_scanning.xml"/>
 </beans>

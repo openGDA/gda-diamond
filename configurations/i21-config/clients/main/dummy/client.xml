@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="machineStatus.xml"/>
 	<import resource="live_controls.xml"/>
 	<import resource="smp_cam_3_live_controls.xml"/>
