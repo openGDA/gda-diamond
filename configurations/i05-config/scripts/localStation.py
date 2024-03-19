@@ -1,11 +1,9 @@
 #localStation.py
 #For beamline specific initialisation code.
 #
-print "===================================================================";
-print "Performing beamline specific initialisation code (i05).";
-print
-
-print "Importing generic features...";
+print "="*20
+print "Performing beamline specific initialisation code (i05)."
+print "Importing generic features..."
 import java
 import array
 from WorkFunctionCalculator import WorkFunctionCalculator
@@ -14,20 +12,25 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
-from gdascripts.scannable.timerelated import TimeSinceScanStart
-from dirFileCommands import pwd, lwf, nwf, nfn
-
-# Get the location of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
-gdascripts = LocalProperties.get("gda.install.git.loc")+"/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
+from gdascripts.scannable.timerelated import TimeSinceScanStart, clock, epoch  # @UnusedImport
+from i05Shared.dirFileCommands import pwd, lwf, nwf, nfn
 
 print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-execfile(gdascripts + "/pd/epics_pds.py");
+print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
+from gdascripts.pd.epics_pds import * #@UnusedWildImport
+from gdascripts.pd.dummy_pds import * #@UnusedWildImport
 
-execfile(gdascripts + "/pd/time_pds.py");
+print "load time utilities for creating timer objects."
+from gdascripts.pd.time_pds import * #@UnusedWildImport
+
+print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
+from gdascripts.utils import * #@UnusedWildImport
+
+print "load common physical constants"
+from gdascripts.constants import * #@UnusedWildImport
 
 
 class actTimeInInt(actualTimeClass):  # specialise to make displayed time semi-human-readable
@@ -42,13 +45,9 @@ actTime = actTimeInInt("actTime")
 # Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
 timeScannable = TimeSinceScanStart('timeScannable')
 
-execfile(gdascripts + "/pd/dummy_pds.py");
-
-execfile(gdascripts + "/utils.py");
-
 print "Creating beamline specific devices...";
 
-import metadatatweaks
+from i05Shared import metadatatweaks
 getSubdirectory = metadatatweaks.getSubdirectory
 alias("getSubdirectory")
 setSubdirectory = metadatatweaks.setSubdirectory
@@ -61,33 +60,24 @@ def isgold():
    return saz.getPosition() < -18
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
 
-# Setting Analyser slices to 1000
-#try:
-#    analyser.setSlices(1000)
-#except:
-#    print "There was a problem setting the analyser slices to 1000, please check detector parameters." 
-#centre_energy=analyser.getCentreEnergyScannable()
-#centre_energy.setName("centre_energy")
-#centre_energy.setInputNames(["centre_energy"])
-
 energy_group = ScannableGroup() # Make a new ScannableGroup
 energy_group.addGroupMember(energy) # Add members
-#energy_group.addGroupMember(centre_energy)
 energy_group.setName('energy_group') # Set the group name
 energy_group.configure() # Configure the group, once all the members are added
 print "Scannable group 'energy_group' created containing 'energy'";
 
 print "Loading Photon and Centre Energy Scan calculator... "
 print "Usage: calculate_hv_scan_values(hv_start, hv_end, hv_step, start_centre_energy, centre_energy_hv_function_name)"
-execfile(gdaScriptDir + "photonCentreEnergyScan.py")
+from scans.photonCentreEnergyScan import *
 
 print "Loading Secondary Scannable Group Creator Script... "
 print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
 print "scan_creator.create_group_and_tuples()"
-execfile(gdaScriptDir + "scan_creator.py")
+from i05Shared.scan_creator import *
 print "-" *20
+
 print "Adding PGM backlash scannables pgm_gtrans_bl and pgm_mtrans_bl"
-execfile(gdaScriptDir + "/beamline/pgm_with_backlash.py")
+from beamlineGDA.pgm_with_backlash import *
 
 print "\nLoading Work Function calculator... "
 wf_calculator = WorkFunctionCalculator()
@@ -108,8 +98,8 @@ alias("B_E")
 print "Added binding energy calculator - Usage: B_E(kinetic_energy)"
 
 import arpes
-execfile(gdascripts + "scan/pathscanCommand.py");
-from pathscanTable import pathscanTable
+from gdascripts.scan.pathscanCommand import *
+from i05Shared.pathscanTable import pathscanTable
 
 print "Installing archiver client"
 from gdascripts.archiver.archiver import archive
@@ -128,18 +118,23 @@ setXFieldInScanPlot(0)
 from i05Shared.checkBeamlineHealth import *
 checkForBeamlineProblems()
 
-run "beamline/resolutionEstimator.py"
+from i05Shared.resolutionEstimator import *
+estimateResolution()
 
 def set_analyser_slit(slit):
     """ Set analyser entrance slit by integer value """
     analyser.getEntranceSlitInformationProvider().setCurrentSlitByValue(slit)
+    print "Analyser slit is set to: "
+    print get_analyser_slit()
     
 def get_analyser_slit():
     """ Get current analyser entrance slit parameters """
     return analyser.getEntranceSlitInformationProvider().getCurrentSlit()
 
-print "==================================================================="
+print "="*20
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05 scripts."
-   run "beamline/master.py"
-print "==================================================================="
+   # module location is /dls_sw/ixx/scripts/
+   from beamline.master import *
+   # run "beamline/master.py"
+print "="*20

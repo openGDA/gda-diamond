@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName" value="client_file_announcer" />
+	</bean>
+
+	<import resource="es_i3_live_controls.xml"/>
+	<import resource="stream_views.xml" />
+	<import resource="monitors.xml" />
+
+</beans>

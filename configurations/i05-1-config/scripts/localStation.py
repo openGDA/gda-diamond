@@ -4,7 +4,6 @@
 print "===================================================================";
 print "Performing beamline specific initialisation code (i05-1).";
 print
-
 print "Importing generic features...";
 import java
 from gda.configuration.properties import LocalProperties
@@ -12,32 +11,32 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
-from dirFileCommands import pwd, lwf, nwf, nfn
+from i05Shared.dirFileCommands import pwd, lwf, nwf, nfn
+from i05Shared.pathscanTable import pathscanTable
 from gda.factory import Finder
-
-# Get the location of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/"
-gdascripts = LocalProperties.get("gda.install.git.loc") + "/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
 print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-execfile(gdascripts + "/pd/epics_pds.py");
-execfile(gdascripts + "/pd/dummy_pds.py");
-execfile(gdascripts + "/pd/time_pds.py");
+print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
+from gdascripts.pd.epics_pds import * #@UnusedWildImport
+from gdascripts.pd.dummy_pds import * #@UnusedWildImport
 
-execfile(gdascripts + "/utils.py");
+print "load time utilities for creating timer objects."
+from gdascripts.pd.time_pds import * #@UnusedWildImport
+
+from gdascripts import utils
 
 print "Loading Secondary Scannable Group Creator Script... "
 print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
 print "scan_creator.create_group_and_tuples()"
-execfile(gdaScriptDir + "scan_creator.py")
+from i05Shared.scan_creator import *
 print "-" *20
 
 print "Creating beamline specific devices...";
 
-import metadatatweaks
+from i05Shared import metadatatweaks
 getSubdirectory = metadatatweaks.getSubdirectory
 alias("getSubdirectory")
 setSubdirectory = metadatatweaks.setSubdirectory
@@ -58,7 +57,8 @@ mcp_roi = Finder.find('mcp_roi')
 import arpes
 
 # Sample stage script for easy and safe movement of the stage to predefined positions
-run "beamline/sampleStage.py"
+# module location is /dls_sw/ixx/scripts/
+from beamline.sampleStage import *
 
 print "Installing archiver client"
 from gdascripts.archiver.archiver import archive
@@ -74,11 +74,14 @@ setXFieldInScanPlot(0)
 from i05Shared.checkBeamlineHealth import *
 checkForBeamlineProblems()
 
-run "beamline/resolutionEstimator.py"
+from i05Shared.resolutionEstimator import *
+estimateResolution()
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
     # Run the beamline staff scripts
     print "==================================================================="
     print "Running i05-1 scripts."
-    run "beamline/masterj.py"
+    # module location is /dls_sw/ixx/scripts/
+    from beamline.masterj import *
+    # run "beamline/masterj.py"
     print "==================================================================="
