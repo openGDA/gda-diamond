@@ -493,6 +493,7 @@ class MiroXgraph():
 		from gda.scan.ScanInformation import ScanInformationBuilder
 		from gda.scan import ScanDataPoint
 		from gda.device.scannable import DummyScannable
+        from gda.device.scannable.ScannableUtils import getExtraNamesFormats
 		from dummy_utils import dum_collstrat, dum_det
 		
 		print("create_nexus_scan_file: outdirpath = %s" %(outdirpath))
@@ -528,7 +529,7 @@ class MiroXgraph():
 				sdp_tmp.setUniqueName("some-unique-name-but-not-this-one")
 				sdp_tmp.setScanInformation(si)
 				sdp_tmp.addDetector(dum_det)
-				sdp_tmp.addDataFromDetector(dum_det)
+				sdp_tmp.addDetectorData(dum_det.readout(), getExtraNameFormat(dum_det))
 				
 				sdp_tmp.setCurrentPointNumber(i)
 				dw.addData(sdp_tmp)
