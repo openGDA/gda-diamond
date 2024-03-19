@@ -19,16 +19,19 @@
 package uk.ac.gda.server.exafs.scan;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
+import org.python.core.PyTuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,36 +41,29 @@ import gda.device.detector.NXDetector;
 import gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.device.scannable.XESEnergyScannable;
+import gda.device.scannable.XasScannable;
+import gda.exafs.scan.ExafsScanPointCreator;
+import gda.exafs.scan.XanesScanPointCreator;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
-import gda.jython.scriptcontroller.logging.LoggingScriptController;
-import uk.ac.gda.beans.exafs.IDetectorConfigurationParameters;
-import uk.ac.gda.beans.exafs.IDetectorParameters;
-import uk.ac.gda.beans.exafs.IOutputParameters;
-import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.ScanColourType;
-import uk.ac.gda.beans.exafs.SignalParameters;
 import uk.ac.gda.beans.exafs.SpectrometerScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
-import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
-import uk.ac.gda.server.exafs.scan.preparers.I20DetectorPreparer;
 import uk.ac.gda.server.exafs.scan.preparers.I20OutputPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScan extends XasScanBase implements XasScan {
 
-	private static Logger logger = LoggerFactory.getLogger(XesScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(XesScan.class);
 
 	private Scannable mono_energy;
 	private EnergyScan xas;
 	private XesScanParameters xesScanParameters;
 	private TwoDScanPlotter twodplotter = new TwoDScanPlotter();
-	private I20OutputParameters i20OutputParameters;
 	private String monoAxisLabel = "bragg1 energy [eV]";
-	private String xesAxisLabel = "XESEnergy [eV]";
 	private List<IXesOffsets> xesOffsetsList;
 
 	private Map<Scannable, Scannable> energyTransferScannables = new HashMap<>();
@@ -82,37 +78,16 @@ public class XesScan extends XasScanBase implements XasScan {
 	// Scannable that moves XESEnergyUpper and XESEnergyLower to the same position
 	private Scannable xesEnergyBoth;
 
+	private Map<IXesOffsets, String> appliedOffsets = Collections.emptyMap();
+
 	@Override
 	public String getScanType() {
 		return "XES";
 	}
 
 	@Override
-	public void configureCollection(ISampleParameters sampleBean, IScanParameters scanBean, IDetectorParameters detectorBean,
-			IOutputParameters outputBean, IDetectorConfigurationParameters detectorConfigurationBean,
-			String experimentFullPath, int numRepetitions) throws Exception {
-
-		xesScanParameters = (XesScanParameters) scanBean;
-		i20OutputParameters = (I20OutputParameters) outputBean;
-		this.numRepetitions = numRepetitions;
-		this.experimentFullPath = experimentFullPath;
-		this.detectorConfigurationBean = detectorConfigurationBean;
-		this.outputBean = outputBean;
-		this.detectorBean = detectorBean;
-		this.sampleBean = sampleBean;
-		this.scanBean = scanBean;
-
-		setXmlFileNames("", "", "", "", "");
-		determineExperimentPath(experimentFullPath);
-		scan_unique_id = LoggingScriptController.createUniqueID(getScanType());
-	}
-
-	Map<IXesOffsets, String> appliedOffsets = Collections.emptyMap();
-
-	@Override
 	public void doCollection() throws Exception {
 		xesScanParameters = (XesScanParameters) scanBean;
-		i20OutputParameters = (I20OutputParameters) outputBean;
 
 		// Generate default spectrometer settings list if not present
 		if (!xesScanParameters.hasSpectrometerList()) {
@@ -127,20 +102,6 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		if (xesBraggGroup.isBusy()) {
 			xesBraggGroup.waitWhileBusy();
-		}
-
-		// Set XES mode on detector preparer so appropriate setup can be done
-		// for ionchambers/I1
-		if (xas.getDetectorPreparer() instanceof I20DetectorPreparer detPreparer) {
-			detPreparer.setXesMode(true);
-		}
-
-		int innerScanType = xesScanParameters.getScanType();
-		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS ||
-			innerScanType == XesScanParameters.FIXED_XES_SCAN_XANES ||
-			innerScanType == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
-			doXASScan();
-			return;
 		}
 
 		try {
@@ -203,36 +164,24 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	}
 
-	private XESEnergyScannable getEnergyScannable(String scannableName) {
-		Optional<XESEnergyScannable> scn = Finder.findOptionalOfType(scannableName, XESEnergyScannable.class);
-		if (scn.isPresent()) {
-			return scn.get();
-		}
-		throw new IllegalArgumentException("Could not find XESEnergy object "+scannableName+" required to run XES scan");
-	}
-
-	private Scannable getXesEnergyScannable(XesScanParameters scanParams) throws Exception {
-		ScanColourType colour = scanParams.getScanColourType();
-		if (colour == ScanColourType.ONE_COLOUR || colour == ScanColourType.TWO_COLOUR) {
-			return xesEnergyGroup;
-		}
-
-		int index = colour == ScanColourType.ONE_COLOUR_ROW1 ? 0 : 1;
-		String scnName = scanParams.getScannableNameForRow(index);
-		return getEnergyScannable(scnName);
-	}
-
-	private Scannable getXesAngleScannable(Scannable s) {
-		if (s instanceof XESEnergyScannable xesScn) {
-			return xesScn.getXes();
-		}
-		return xesBraggGroup;
-	}
-
-	// args do run a single concurrentscan
 	@Override
 	public Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
+		if (xesScanParameters.scanUsesXasXanesFile()) {
+			return createScanArgumentsXasXanes();
+		} else {
+			return createScanArgumentsStepScan();
+		}
+	}
 
+	/**
+	 * Create scan arguments for 'scan xes, fixed mono' and 'scan xes, scan mono' step scans.
+	 *
+	 * @param sampleName
+	 * @param descriptions
+	 * @return
+	 * @throws Exception
+	 */
+	private Object[] createScanArgumentsStepScan() throws Exception {
 
 		SpectrometerScanParameters specParameters = xesScanParameters.getPrimarySpectrometerScanParams();
 		SpectrometerScanParameters secondaryParams = xesScanParameters.getSecondarySpectrometerScanParams();
@@ -242,7 +191,7 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		Scannable spectrometerScanAxis;
 		if (scanEnergyTransfer) {
-			spectrometerScanAxis = getEnergyTransferForXes(xesEnergyScannable);
+			spectrometerScanAxis = getEnergyTransferScannable(xesEnergyScannable);
 		} else {
 			spectrometerScanAxis = xesEnergyScannable;
 		}
@@ -346,7 +295,7 @@ public class XesScan extends XasScanBase implements XasScan {
 		}
 	}
 
-	public Optional<String> getFFI1Name(Detector detector) {
+	private Optional<String> getFFI1Name(Detector detector) {
 		if (detector instanceof NXDetector nxDetector) {
 			return nxDetector.getAdditionalPluginList()
 					.stream()
@@ -359,43 +308,23 @@ public class XesScan extends XasScanBase implements XasScan {
 	}
 
 	/**
-	 * Set name of scannable in scan bean to match the one to be moved (not essential, but useful to have it recorded in XML)
-	 * @param scanParams
-	 * @param nameOfScannableToMove
-	 */
-	private void setXasXanesScannable(IScanParameters scanParams, String nameOfScannableToMove) {
-		logger.info("Updating name of scannable in Xas/Xanes/Region parameter file to {}", nameOfScannableToMove);
+	 * Create scan arguements for Xas or Xanes scan moving either the mono or Xes energy scannable.
 
-		if (scanParams instanceof XasScanParameters xasScanParams) {
-			xasScanParams.setScannableName(nameOfScannableToMove);
-		} else if (scanParams instanceof XanesScanParameters xanesScanParams) {
-			xanesScanParams.setScannableName(nameOfScannableToMove);
-		}
-	}
-
-	/**
-	 * Do Xas or Xanes scan moving either the mono or Xes energy scannable.
-	 * The non scanning energy scannable stays fixed for the duration of the scan.
 	 * @throws Exception
 	 */
-	private void doXASScan() throws Exception {
+	private Object[] createScanArgumentsXasXanes() throws Exception {
+
+		logger.info("Creating parameters for XES scan using Xas/Xanes parameter file");
 
 		Scannable movingScannable;
-		String xasRegionFileName = "";
-
-
-		List<SignalParameters> extraOutputs = new ArrayList<>();
-
-		Scannable xesEnergyScannable;
-
-		logger.info("Starting Xas/Xanes scan");
+		Map<Scannable, Object> fixedScannablePositions = new LinkedHashMap<>();
+		List<Scannable> extraOutputs = new ArrayList<>();
 
 		// Set the scannable to be moved during scan, and non
 		if (xesScanParameters.getScanType() == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
 			// TWO_COLOUR is not allowed for this type of scan!
 
-			SpectrometerScanParameters specParams = xesScanParameters.getPrimarySpectrometerScanParams();
-			xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
+			Scannable xesEnergyScannable = getXesEnergyScannable(xesScanParameters);
 			if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
 				xesEnergyScannable = xesEnergyBoth;
 			}
@@ -403,36 +332,27 @@ public class XesScan extends XasScanBase implements XasScan {
 			if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
 				for(var p : xesScanParameters.getSpectrometerScanParameters()) {
 					var energyScannable = getEnergyScannable(p.getScannableName());
-					extraOutputs.add(createSignal(energyScannable.getName()));
-					extraOutputs.add(createSignal(energyScannable.getXes().getName()));
+					extraOutputs.add(energyScannable);
+					extraOutputs.add(energyScannable.getXes());
 				}
 			} else {
-				extraOutputs.add(createSignal(xesEnergyScannable));
-				extraOutputs.add(createSignal(getXesAngleScannable(xesEnergyScannable)));
+				extraOutputs.add(xesEnergyScannable);
+				extraOutputs.add(getXesAngleScannable(xesEnergyScannable));
 			}
-
-			xasRegionFileName = specParams.getScanFileName();
 
 			// Scan XES using XANES parameters, fixed mono
 			movingScannable = xesEnergyScannable;
 
-			Scannable fixedScannable = mono_energy;
-			double fixedEnergy = xesScanParameters.getMonoEnergy();
+			logger.debug("Initial {} position : {} eV", mono_energy.getName(), xesScanParameters.getMonoEnergy());
+			fixedScannablePositions.put(mono_energy, xesScanParameters.getMonoEnergy());
 
-			logger.info("Moving {} to initial position {} eV", fixedScannable.getName(), fixedEnergy);
-			fixedScannable.waitWhileBusy();
-			fixedScannable.moveTo(fixedEnergy);
-
-			// Add the mono energy as extra outputs
-			extraOutputs.add(createSignal(fixedScannable));
 		} else {
 			// TWO_COLOUR is ok here
 
 			// Scan mono using Xanes/Xas parameters, fixed XES
 			movingScannable = mono_energy;
-			xasRegionFileName = xesScanParameters.getScanFileName();
 
-			// Move the spectrometer rows to the intitial position(s)
+			// Store the spectrometer row fixed position(s)
 			for(var params : xesScanParameters.getActiveSpectrometerParameters().entrySet()) {
 				var specParams = xesScanParameters.getSpectrometerScanParameters();
 				int rowNum = params.getKey();
@@ -444,45 +364,89 @@ public class XesScan extends XasScanBase implements XasScan {
 				double pos = params.getValue().getFixedEnergy();
 
 				Scannable energyScannable = getEnergyScannable(scnName);
-				logger.info("Moving {} to initial position {}", scnName, pos);
-				getEnergyScannable(scnName).moveTo(pos);
+				logger.debug("Intitial {} position : {} eV", scnName, pos);
 
-				// Add the XES energy and bragg angle as extra outputs
-				extraOutputs.add(createSignal(energyScannable));
-				extraOutputs.add(createSignal(getXesAngleScannable(energyScannable)));
+				fixedScannablePositions.put(energyScannable, pos);
+
+				// Add the bragg angle as extra outputs
+				extraOutputs.add(getXesAngleScannable(energyScannable));
 			}
 		}
 
-		extraOutputs.forEach(i20OutputParameters::addSignal);
-
-		IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/", xasRegionFileName);
-
-		logger.info("Scan parameters loaded from {}", xasRegionFileName);
-		setXasXanesScannable(xasScanParams, movingScannable.getName());
-
-		// Set the name of the x-axis to be used for the scan plot
 		setXesEnergyAxisName(movingScannable);
 
-		// Set scannable object to be moved during scan
-		xas.setEnergyScannable(movingScannable);
+		// Load the Xas/Xanes parameters bean from disk
+		String xasRegionFileName = xesScanParameters.getXasXanesFileName();
+		logger.info("Scan parameters loaded from {}", xasRegionFileName);
+		IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBean(Paths.get(experimentFullPath).resolve(xasRegionFileName).toFile());
 
-		xas.configureCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
-				experimentFullPath, numRepetitions);
+		// Get the detector objectrs to be used (in the correct order).
+		Detector[] detList = getDetectors();
+		detList = getOrderedDetectors(detList);
 
-		// Set the names of the XML bean files so they get written to the 'before_scan' meta data.
-		String[] filenames = getXmlFileNames();
-		xas.setXmlFileNames(filenames[0], xasRegionFileName, filenames[2], filenames[3], filenames[4]);
+		// Create new XasScannable, to move the energy axis and set the detector collection time.
+		XasScannable xasScannable = new XasScannable();
+		xasScannable.setName("xas_scannable");
+		xasScannable.setEnergyScannable(movingScannable);
+		xasScannable.setDetectors(detList);
 
-		xas.doCollection();
+		// Assemble the scan argument list :
+		List<Object> argList = new ArrayList<>();
+
+		// XAS scannable and the list of (energy, time) values
+		argList.add(xasScannable);
+		argList.add(getEnergiesFromScanBean(xasScanParams));
+
+		// Scannables at fixed position for the scan
+		fixedScannablePositions.entrySet().stream().forEach(entry -> {
+			argList.add(entry.getKey());
+			argList.add(entry.getValue());
+		});
+
+		// Scannables whose positions should also be recorded (e.g. XESBragg scannables)
+		argList.addAll(extraOutputs);
+
+		// The detectors
+		argList.addAll(List.of(detList));
+
+		return argList.toArray();
 	}
 
-	private SignalParameters createSignal(Scannable scn) {
-		return new SignalParameters(scn.getName(), scn.getName(), 2, scn.getName(), scn.getName());
+	private XESEnergyScannable getEnergyScannable(String scannableName) {
+		Optional<XESEnergyScannable> scn = Finder.findOptionalOfType(scannableName, XESEnergyScannable.class);
+		if (scn.isPresent()) {
+			return scn.get();
+		}
+		throw new IllegalArgumentException("Could not find XESEnergy object "+scannableName+" required to run XES scan");
 	}
 
-	private SignalParameters createSignal(String name) {
-		return new SignalParameters(name, name, 2, name, name);
+	private Scannable getXesEnergyScannable(XesScanParameters scanParams) throws Exception {
+		ScanColourType colour = scanParams.getScanColourType();
+		if (colour == ScanColourType.ONE_COLOUR || colour == ScanColourType.TWO_COLOUR) {
+			return xesEnergyGroup;
+		}
+
+		int index = colour == ScanColourType.ONE_COLOUR_ROW1 ? 0 : 1;
+		String scnName = scanParams.getScannableNameForRow(index);
+		return getEnergyScannable(scnName);
 	}
+
+	private Scannable getXesAngleScannable(Scannable s) {
+		if (s instanceof XESEnergyScannable xesScn) {
+			return xesScn.getXes();
+		}
+		return xesBraggGroup;
+	}
+
+	private PyTuple getEnergiesFromScanBean(IScanParameters paramBean) throws Exception {
+		if (paramBean instanceof XanesScanParameters xaneParams) {
+			return XanesScanPointCreator.calculateEnergies(xaneParams);
+		} else if (paramBean instanceof XasScanParameters xasParams) {
+			return ExafsScanPointCreator.calculateEnergies(xasParams);
+		}
+		throw new IllegalArgumentException("Cannot get scan energies from IScanParameters object of type "+scanBean.getClass().getCanonicalName());
+	}
+
 	public Scannable getBraggGroup() {
 		return xesBraggGroup;
 	}
@@ -535,12 +499,13 @@ public class XesScan extends XasScanBase implements XasScan {
 		this.twodplotter = twodplotter;
 	}
 
-	private Scannable getEnergyTransferForXes(Scannable xesScannable) {
+	private Scannable getEnergyTransferScannable(Scannable xesScannable) {
 		if (energyTransferScannables.containsKey(xesScannable)) {
 			return energyTransferScannables.get(xesScannable);
 		}
 		throw new IllegalArgumentException("Energy transfer scannable was not fround for "+xesScannable.getName());
 	}
+
 	public Map<Scannable, Scannable> getEnergyTransferScannables() {
 		return energyTransferScannables;
 	}

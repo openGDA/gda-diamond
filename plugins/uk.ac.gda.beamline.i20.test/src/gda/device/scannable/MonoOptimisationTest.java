@@ -23,7 +23,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.dawnsci.nexus.appender.INexusFileAppenderService;
+import org.eclipse.dawnsci.nexus.appender.impl.NexusFileAppenderService;
+import org.eclipse.dawnsci.nexus.template.NexusTemplateService;
+import org.eclipse.dawnsci.nexus.template.impl.NexusTemplateServiceImpl;
 import org.eclipse.january.dataset.Dataset;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -36,6 +41,7 @@ import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.enumpositioner.ValvePosition;
+import uk.ac.diamond.osgi.services.ServiceProvider;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 import uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable;
 import uk.ac.gda.beamline.i20.scannable.MonoOptimisation;
@@ -92,11 +98,19 @@ public class MonoOptimisationTest {
 		return newMock;
 	}
 
+	@After
+	public void tearDown() {
+		ServiceProvider.reset();
+	}
+
 	@Before
 	public void setup() {
 		prepareScannables();
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
 		LocalProperties.set(LocalProperties.GDA_SCAN_CONCURRENTSCAN_READOUT_CONCURRENTLY, "false"); // default as interpreted by ConcurrentScan
+
+		ServiceProvider.setService(INexusFileAppenderService.class, new NexusFileAppenderService());
+		ServiceProvider.setService(NexusTemplateService.class, new NexusTemplateServiceImpl());
 	}
 
 	private void intialShutterPositions() throws DeviceException {
@@ -109,6 +123,7 @@ public class MonoOptimisationTest {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testMonoOptimisationFitting", true);
 
 		intialShutterPositions();
+
 
 		optimisation.setBraggScannable(braggMotor);
 		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
