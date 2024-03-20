@@ -1,13 +1,13 @@
 #!/bin/bash
-# The local gda script is required to be on the path until the Diamond Launcher scripts in
-# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
-# this cannot be done until all beamlines use the standard startup commands.
 
-#############
-# @DEPRECATED
-#############
-#
-# This script should not be added to as it is being phased out
+if [ -z $GDA_LOG ] ; then
+	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
+	if [ "X$LOGPANEL" == "X" ] ; then
+		nohup gdalog 2>/dev/null &
+	else
+		wmctrl -R "GDA Log Panel"
+	fi
+fi
 
 export SPRING_PROFILES=em
-gda server start -P -p $SPRING_PROFILES $*
+gda --host i10--1control server restart -P -p $SPRING_PROFILES $*

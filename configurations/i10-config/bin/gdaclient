@@ -9,5 +9,4 @@ if [ -z $GDA_LOG ] ; then
 	fi
 fi
 
-export SPRING_PROFILES=windows7
-gda client start -P -p $SPRING_PROFILES "$@"
+gda client start -P -p "windows7" "$@"
