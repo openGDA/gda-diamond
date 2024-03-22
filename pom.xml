@@ -205,6 +205,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
+      <id>i10-1</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.i10_1.feature</module>
+        <module>products/uk.ac.gda.beamline.i10-1.product</module>
+      </modules>
+    </profile>
+    <profile>
       <id>i11</id>
       <modules>
         <module>features/uk.ac.gda.beamline.i11.feature</module>
