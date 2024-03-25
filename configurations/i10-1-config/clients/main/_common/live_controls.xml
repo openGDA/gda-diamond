@@ -43,7 +43,7 @@
 			<property name="scannableName" value="empitch" />
 			<property name="increment" value="1" />
 		</bean>
-		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<bean name="controlSet_em" class="uk.ac.gda.client.livecontrol.ControlSet">
 			<property name="controls">
 				<list>
 					<ref bean="emy_control" />

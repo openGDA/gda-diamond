@@ -29,6 +29,8 @@ import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
 import gda.rcp.views.JythonTerminalView;
+import uk.ac.diamond.daq.configuration.ConfigUtils;
+import uk.ac.gda.client.livecontrol.LiveControlsView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
@@ -75,7 +77,12 @@ public class ScanPerspective implements IPerspectiveFactory {
         middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
 
 		IFolderLayout middleRightfolder = layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, 0.5f, editorArea);
-		middleRightfolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+		if (ConfigUtils.profileActive("hfm")) {
+			middleRightfolder.addView(LiveControlsView.ID + ":controlSet_hfm");
+		}
+		if (ConfigUtils.profileActive("em")) {
+			middleRightfolder.addView(LiveControlsView.ID + ":controlSet_em");
+		}
 		middleRightfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.1D");
 		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.2D");
