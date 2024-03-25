@@ -14,11 +14,13 @@
 		<property name="mode" value="1"/>
 		<property name="pcPulseGateNotTrigger" value="true"/>
 		<property name="minimumAccelerationDistance" value="0.008"/>
+		<!-- 
 		<property name="triggeredControllers">
 			<list>
 				<ref bean="zebra2ZebraMonitorController" />
 			</list>
 		</property>
+		 -->
 	</bean>
 	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032
 		 Failed with 0.002 minimumAccelerationDistance
@@ -64,6 +66,7 @@
 		<!-- Note that zebra2 is built as an area detector zebra, unlike zebra1, so requires armPutNoWait -->
 	</bean>
 
+<!--
 	<bean id="zebra2ZebraMonitorController" class="gda.device.zebra.ZebraMonitorController">
 		<property name="zebra" ref="zebra2"/>
 		<property name="zebraCVMoveController" ref="zebraContinuousMoveController"/>
@@ -75,7 +78,6 @@
 		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>
 
-<!--
 	<bean id="etlZebraDetectorMonitor" class="gda.device.zebra.ZebraExternallyTriggeredDetector">
 		<property name="name" value="etlZebraScannableMonitor" />
 		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>

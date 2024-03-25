@@ -2,4 +2,5 @@
 # This is required to be on the path until the Diamond Launcher scripts in 
 # /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
 # this cannot be done until all beamlines use the standard startup commands. 
-gda logpanel $*
+module load gda_launcher
+gda-logpanel 

@@ -1,0 +1,15 @@
+--------------------------------------------------------------------------------
+#### To run in dummy mode from the IDE, you need to use ####
+
+activemq-for-dummy
+
+--------------------------------------------------------------------------------
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA AreaDetector Simulation
+
+Then click on "Start IOC".
+
+Once started, go to ADSIM > hdf > more... > Defer file open until 1st write: Yes
+
+================================================================================

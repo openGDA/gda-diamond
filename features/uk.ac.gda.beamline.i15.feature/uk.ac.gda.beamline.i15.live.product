@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline I15" uid="uk.ac.gda.beamline.i15.live.product" id="uk.ac.gda.beamline.i15.product" application="uk.ac.gda.client.application" version="9.33.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline I15" uid="uk.ac.gda.beamline.i15.live.product" id="uk.ac.gda.beamline.i15.product" application="uk.ac.gda.client.application" version="9.33.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,16 +11,12 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.root=${project_loc:uk.ac.gda.core}/../                        -Dgda.config=${project_loc:i15-config}
--Dgda.install.git.loc=${workspace_loc}/../workspace_git       -Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${project_loc:i15-config}                          -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}                              -Dgda.mode=live
--Dgda.propertiesFile=${project_loc:i15-config}/properties/live/live_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i15-config}/properties/live/JCALibrary.properties
--Declipse.pluginCustomization=${project_loc:i15-config}/clients/main/_common/pluginCustomization.ini
--Dgda.client.jython.automatic.interpreter=1
--Dorg.dawnsci.mapping.ui.processing.off=true
--Xmx2048m -XX:+DisableExplicitGC
+      <vmArgs>
+-Dgda.config=${project_loc:i15-config}
+-Dgda.mode=live
+-Djava.io.tmpdir=/scratch/30day_tmp
+-Xmx2048m
+-XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

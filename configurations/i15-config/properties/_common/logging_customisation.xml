@@ -23,7 +23,4 @@
 	 -->
 	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
 	<logger name="gda">																	<level value="ALL"/></logger>
-
-	<!-- If this file exists it allows you to customise logging levels for each config -->
-	<include file="${gda.config}/properties/${gda.mode}/logging_customisation.xml" />
 </included>
