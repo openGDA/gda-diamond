@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Eclipse-BundleShape: dir
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab beamline P33
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.p33;singleton:=true
+Bundle-Version: 9.8.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Require-Bundle: org.eclipse.equinox.app
