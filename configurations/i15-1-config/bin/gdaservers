@@ -1,13 +1,19 @@
 #!/bin/bash
 # This is required to be on the path until the Diamond Launcher scripts in
-# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands,
-# which cannot be done until all beamlines use the standard startup commands.
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
 
-# As it should only ever be run by the diamond launcher or long time users
-# who got used to running it this way, this script MUST only contain the
-# following command:
+# Check that the user actually wants the servers restarted.
+if [[ "${GDA_MODE}" == "live" ]]; then
+    icon_type="warning"
+else
+    icon_type="question"
+fi
+RESPONSE=yes
+zenity --width 300 --title "Are you sure?" --question --text "This will abort any ongoing scans.\n\nAre you sure you want to ${GDA_OPERATION-restart} the GDA server in ${GDA_MODE} mode?" --window-icon=${icon_type} || RESPONSE=no
+if [[ $RESPONSE == "no" ]]; then
+    exit
+fi
 
-gda servers $*
-
-# Any other code must be added to "/etc/_common/gda_common_pre_instance"
-# instead. 
+module load gda_launcher
+gda server restart $*
