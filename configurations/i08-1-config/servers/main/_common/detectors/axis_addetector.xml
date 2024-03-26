@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- This seems a bit redundant in the new scanning but keeping it for now
+		to fit with the current ADDectector framework -->
+	<bean id="axis_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="axis_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+ 	<bean id="axis_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="axis_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="axis_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="axis_adbase" />
+		<property name="ndFile" ref="axis_ndfile" />
+		<property name="ndArray" ref="axis_ndarray" />
+		<property name="ndStats" ref="axis_stats" />
+		<property name="fileWriter" ref="axis_hdf5_writer" />
+		<property name="collectionStrategy" ref="axis_collection_strategy"/>
+	</bean>
+
+	<bean id="axis_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="axis_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="axis_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Axis" />
+		<property name="description" value="Axis" />
+	</bean>
+
+	<bean id="axis_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="axis_addetector" />
+		<property name="model" ref="axis_model" />
+		<property name="deviceInformation" ref="axis_info" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>
