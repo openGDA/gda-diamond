@@ -24,7 +24,7 @@ print(SaveAndReload.__doc__)
 # RASOR Multi-layer support
 from rasor.scannable.polarisation_analyser_example import ml, mss, pa  # @UnusedImport
 from scannable.haxpod.m4_haxpod_motors import m4fpitch  # @UnusedImport
-from scannable.rasor.theta2theta_offsets import tth_off, th_off  # @UnusedImport
+from scannable.rasor.theta2theta_offsets import tth_off, th_off, chi_off  # @UnusedImport
 from amplifiers.femto_instances import rca1, rca2, rca3  # @UnusedImport
 if installation.isLive():
     from scannable.haxpod.m4_haxpod_motors import m4_x, m4_y, m4_z, m4_yaw, m4_pitch, m4_roll, M4  # @UnusedImport

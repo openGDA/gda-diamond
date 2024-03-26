@@ -13,8 +13,11 @@ if installation.isLive():
     try:
         th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
         tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
+        chi_off = EpicsReadWritePVClass('chi_off', 'ME01D-MO-DIFF-01:CHI.OFF', 'deg', '%.6f')
     except:
         localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 else:
     th_off = DummyEpicsReadWritePVClass('th_off', 0.0, 90.0, 'deg', '%.6f')
     tth_off = DummyEpicsReadWritePVClass('tth_off', 0.0, 90.0, 'deg', '%.6f')
+    chi_off = DummyEpicsReadWritePVClass('chi_off', 0.0, 90.0, 'deg', '%.6f')
+        
