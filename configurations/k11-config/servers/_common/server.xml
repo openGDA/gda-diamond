@@ -1,0 +1,142 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment" />
+	<context:component-scan	base-package="uk.ac.diamond.daq.experiment.structure" />
+	<context:component-scan base-package="uk.ac.gda.core.tool.spring" />
+	<context:component-scan base-package="uk.ac.diamond.daq.web" />	
+
+	<context:property-placeholder />
+	<context:property-placeholder properties-ref="configProperties" />
+
+	<util:properties id="configProperties">
+		<prop key="BSEL_PV_PREFIX">BL11K-MO-BSEL-</prop>
+		<prop key="FRONTSTOP_PV_PREFIX">BL11K-AL-STOP-</prop>
+		<prop key="CRYO_PV_PREFIX">BL11K-CG-CRYO-</prop>
+		<prop key="DCM_PV_PREFIX">BL11K-OP-DCM-</prop>
+		<prop key="DIAGNOSTIC_CAMERAS_PV_PREFIX">BL11K-DI-PHDGN-</prop>
+		<prop key="FE_ABSORBER_PV_PREFIX">FE11K-RS-ABSB-</prop>
+		<prop key="FE_SHUTTER_PV_PREFIX">FE11K-PS-SHTR-</prop>
+		<prop key="KBM_PV_PREFIX">BL11K-OP-KBM-</prop>
+		<prop key="MR_PV_PREFIX">BL11K-OP-MR-</prop>
+		<prop key="EA_DET_PREFIX">BL11K-EA-DET-</prop>
+		<prop key="EA_PCO_PREFIX">BL11K-EA-PCO-</prop>
+		<prop key="MO_TABLE_PREFIX">BL11K-MO-TABLE-</prop>		
+		<!--  Filters -->
+		<prop key="AL_ATTN_PREFIX">BL11K-AL-ATTN-</prop>
+		<!--  Robot -->
+		<prop key="MO_ROBOT_PREFIX">BL11K-MO-ROBOT-</prop>
+	</util:properties>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<!-- Command Server -->
+	<import resource="rcpController.xml" />
+
+	<bean id="GDAHashtable"
+		class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!-- =========================================================== -->
+	<!-- 					mode specific files 			 		 -->
+	<!-- =========================================================== -->
+	
+	<!-- beam -->
+	<import	resource="file:${gda.config}/servers/${gda.mode}/beam/beam_selector.xml" />
+
+	<!-- detectors -->
+	<import	resource="file:${gda.config}/servers/${gda.mode}/detectors/imaging/pco_addetector.xml" />
+	<import resource="file:${gda.config}/servers/${gda.mode}/detectors/imaging/pco_nxdetector.xml" />
+	<import resource="file:${gda.config}/servers/${gda.mode}/detectors/ethercat.xml" />
+
+	<!-- shutters -->
+	<import	resource="file:${gda.config}/servers/${gda.mode}/shutters/fe_shutter.xml" />
+
+
+	<!-- ExperimentService -->
+	<bean id="serverExperimentService"
+		class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
+
+	<!-- Plan request handler -->
+	<bean id="planRequestHandler"
+		class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler" />
+
+	<!-- =========================================================== -->
+	<!-- 						shared files 						 -->
+	<!-- =========================================================== -->
+	
+	<!-- beam -->
+	<import	resource="beam/beam_selector.xml" />
+	
+	<import	resource="shutters/eh_shutter.xml" />
+	
+
+	<!-- cryo -->
+	<import	resource="cryo/cryo.xml" />
+
+	<!-- dcms -->
+	<import	resource="dcms/dcms.xml" />
+
+	<!-- filters -->
+	<import	resource="filters/filters.xml" />
+
+	<!-- mirrors -->
+	<import	resource="mirrors/mirrors.xml" />
+
+	<!-- others -->
+	<import	resource="others/others.xml" />
+		
+	<!-- slits -->
+	<import	resource="slits/s1.xml" />
+	<import	resource="slits/s2.xml" />
+	<import	resource="slits/s3.xml" />
+	<import	resource="slits/s4.xml" />
+
+	<!-- stages -->
+	<import	resource="stages/gts.xml" />
+	<import	resource="stages/smaract.xml" />
+	<import	resource="stages/tr6.xml" />
+	<import	resource="stages/stage3.xml" />
+	<import	resource="stages/stage_manager.xml" />
+	<import	resource="stages/base_x.xml" />
+
+	<!-- detectors -->
+	<import	resource="detectors/imaging/pco_addetector.xml" />
+	<import resource="detectors/imaging/pco_nxdetector.xml" />
+	<import	resource="detectors/imaging/imaging_rail.xml" />
+
+	<!-- detectors - diffraction -->
+	<import	resource="detectors/diffraction/diffraction.xml" />
+	
+	<import resource="detectors/ethercat.xml" />
+
+	<import	resource="detectors/diagnostics/diagnostics.xml" />
+
+	<import	resource="metadata.xml" />
+
+	<import	resource="data_writer.xml" />
+
+	<bean id="DashboardObserver"
+		class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<import	resource="experiment_driver.xml" />
+	
+	<import resource="tr7000.xml"/>
+	
+	<import resource="experiment.xml" />
+
+	<!-- Mapping scans IMPORTANT: this will start processing the scanning queue. 
+		Detectors must be created before doing this. ADVISED: do it last or towards 
+		the end, scan will now start to run! -->
+	<import	resource="solstice_scanning.xml" />
+
+	<import resource="script_projects.xml" />
+
+</beans>

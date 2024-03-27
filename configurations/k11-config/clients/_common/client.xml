@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- KEEP FIRST -->
+	<context:component-scan base-package="uk.ac.diamond.daq.beamline.k11"></context:component-scan>
+	<!-- KEEP FIRST -->
+
+	<bean class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName"
+			value="client_file_announcer" />
+	</bean>
+
+	<!-- =========================================================== -->
+	<!-- ===================== MODE SPECIFIC ======================= -->
+	<!-- =========================================================== -->
+	<import
+		resource="file:${gda.config}/clients/${gda.mode}/stream_views.xml" />
+		
+	<import resource="file:${gda.config}/clients/${gda.mode}/acquisition_templates.xml" />
+
+	<!-- =========================================================== -->
+	<!-- ===================== SHARED FILES ======================== -->
+	<!-- =========================================================== -->
+	
+	<import resource="live_controls.xml" />
+	
+	<import resource="mapping_view.xml" />
+	
+	<import resource="acquisition_templates.xml" />
+	<import resource="imaging_configuration.xml" />
+	<import resource="beam_selector_scan_config.xml" />
+	<import resource="stages.xml" />
+	<import resource="shutters.xml" />
+	<import resource="mapping.xml"/>
+
+	<import resource="experiment.xml" />
+	
+	<bean class="uk.ac.diamond.daq.beamline.k11.command.ToggleWatchdogsOnTestModeToggled" init-method="attachListener" />
+	
+</beans>
