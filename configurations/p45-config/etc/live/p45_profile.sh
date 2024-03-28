@@ -17,5 +17,5 @@ export PATH=${PATH}:/dls_sw/apps/gda_launcher/nightly
 export GDA_MODE=live
 
 # Set up command completion for the gda command
-source /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda_core_completion
+source <(gda completion bash)
 
