@@ -130,12 +130,16 @@ public abstract class StatusView extends ViewPart {
 	}
 
 	/**
-	 * Create shutter controls (depends on the subclass)
+	 * Create shutter controls
 	 *
 	 * @param parent
 	 *            the {@link Composite} to draw these controls on
 	 */
-	protected abstract void createShutterControls(Composite parent);
+	protected void createShutterControls(Composite parent) {
+		// FE shutter
+		final Group grpFe = createGroup(parent, "FE Shutter", 1);
+		createShutterComposite(grpFe, "fe_shutter_status");
+	}
 
 	protected void setIcon() {
 		if (iconPlugin != null && iconFilePath != null) {

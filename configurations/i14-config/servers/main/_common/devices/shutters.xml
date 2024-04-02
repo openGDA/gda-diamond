@@ -11,6 +11,7 @@
 				<ref bean="oh2_shutter_status" />
 				<ref bean="oh3_shutter_status" />
 				<ref bean="eh2_nano_shutter_status" />
+				<ref bean="fe_shutter_status" />
 			</list>
 		</property>
 	</bean>
