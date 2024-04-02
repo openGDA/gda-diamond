@@ -61,6 +61,7 @@
 				<entry key="XRF/Eiger" value="Beamline/EndstationConfigurations/in_xreye.py"/>
 				<entry key="Custom in" value="Beamline/EndstationConfigurations/custom.py"/>
 				<entry key="Reset stages" value="Beamline/EndstationConfigurations/reset_stages.py"/>
+				<entry key="Reset sample microscope IOC" value="Beamline/EndstationConfigurations/reset_sample_microscope_ioc.py"/>
 			</map>
 		</property>
 	</bean>
