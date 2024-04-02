@@ -25,36 +25,32 @@ import gda.factory.FindableBase;
 public class DetectorCoverParameters extends FindableBase {
 
 	private String scannableName;
-	private double inValue;
-	private double outValue;
+	private String detectorCoverPositionsFile;
 
 	public String getScannableName() {
 		return scannableName;
 	}
+
 	public void setScannableName(String scannableName) {
 		this.scannableName = scannableName;
 	}
-	public double getInValue() {
-		return inValue;
-	}
-	public void setInValue(double inValue) {
-		this.inValue = inValue;
-	}
-	public double getOutValue() {
-		return outValue;
+
+	public String getDetectorCoverPositionsFile() {
+		return detectorCoverPositionsFile;
 	}
 
-	public void setOutValue(double outValue) {
-		this.outValue = outValue;
+	public void setDetectorCoverPositionsFile(String detectorCoverPositionsFile) {
+		this.detectorCoverPositionsFile = detectorCoverPositionsFile;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(inValue, outValue, scannableName);
+		result = prime * result + Objects.hash(detectorCoverPositionsFile, scannableName);
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -64,15 +60,13 @@ public class DetectorCoverParameters extends FindableBase {
 		if (getClass() != obj.getClass())
 			return false;
 		DetectorCoverParameters other = (DetectorCoverParameters) obj;
-		return Double.doubleToLongBits(inValue) == Double.doubleToLongBits(other.inValue)
-				&& Double.doubleToLongBits(outValue) == Double.doubleToLongBits(other.outValue)
+		return Objects.equals(detectorCoverPositionsFile, other.detectorCoverPositionsFile)
 				&& Objects.equals(scannableName, other.scannableName);
 	}
 
 	@Override
 	public String toString() {
-		return "DetectorCoverParameters [scannableName=" + scannableName + ", inValue=" + inValue + ", outValue="
-				+ outValue + "]";
+		return "DetectorCoverParameters [scannableName=" + scannableName + ", detectorCoverPositionsFile="
+				+ detectorCoverPositionsFile + "]";
 	}
-
 }

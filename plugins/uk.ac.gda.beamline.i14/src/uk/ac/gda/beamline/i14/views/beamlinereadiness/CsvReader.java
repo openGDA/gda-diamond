@@ -19,7 +19,6 @@
 package uk.ac.gda.beamline.i14.views.beamlinereadiness;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -27,38 +26,26 @@ import java.util.function.Consumer;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class CsvReader {
 
-	private static final Logger logger = LoggerFactory.getLogger(CsvReader.class);
-
 	private CsvReader() {
+
 	}
 
-	public static void processCsvFile(String csvFilePath, String key, String value, Consumer<CSVRecord> consumer) {
+	public static void processCsvFile(String csvFilePath, Consumer<CSVRecord> consumer)
+			throws IllegalArgumentException, IOException{
 
 		CSVFormat csvFormat = CSVFormat.DEFAULT
-				.withHeader(key, value)
+				.withHeader()
 				.withSkipHeaderRecord()
 				.withIgnoreSurroundingSpaces(true);
 
 		try (FileReader fileReader = new FileReader(csvFilePath);
-				BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-				CSVParser csvParser = CSVParser.parse(bufferedReader, csvFormat);
-
-				for (CSVRecord row : csvParser) {
-					consumer.accept(row);
-				}
-
-		} catch (NumberFormatException e) {
-			logger.error("Found non-numeric numbers in target intensities lookup table", e);
-		} catch (FileNotFoundException e) {
-			logger.error("CSV file not found", e);
-		} catch (IOException e) {
-			logger.error("Error reading CSV file", e);
+				BufferedReader bufferedReader = new BufferedReader(fileReader);
+				CSVParser csvParser = CSVParser.parse(bufferedReader, csvFormat)) {
+		    csvParser.forEach(consumer::accept);
 		}
 	}
 }

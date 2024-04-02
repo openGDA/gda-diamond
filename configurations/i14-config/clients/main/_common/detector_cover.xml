@@ -5,8 +5,8 @@
 
 	<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.DetectorCoverParameters">
 		<property name="scannableName" value="detector_cover" />
-		<property name="inValue" value="19.00" />
-		<property name="outValue" value="-16.00" />
+		<property name="detectorCoverPositionsFile" value="/dls_sw/i14/software/gda_var/detector_cover_positions.csv"/>
+		
 	</bean>
 
 </beans>

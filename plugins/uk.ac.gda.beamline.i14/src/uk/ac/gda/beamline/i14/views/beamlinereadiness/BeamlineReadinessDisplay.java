@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i14.views.beamlinereadiness;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -126,16 +127,7 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 			shutters.add(shutter);
 		}
 
-		// Create a function to calculate required beam intensity
-		SortedMap<Double, Double> targetIntensities = new TreeMap<>();
-		Consumer<CSVRecord> consumer = row -> targetIntensities.put(Double.parseDouble(row.get("Energy")), Double.parseDouble(row.get("Intensity")));
-		CsvReader.processCsvFile(displayParams.getTargetIntensitiesFile(), "Energy", "Intensity", consumer);
-
-		final double[] energies = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getKey).mapToDouble(x -> x).toArray();
-		final double[] intensities = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getValue).mapToDouble(x -> x).toArray();
-		if (energies.length > 1 && intensities.length > 1) {
-			beamIntensityFunction = new LinearInterpolator().interpolate(energies, intensities);
-		}
+		calculateRequiredBeamIntensity();
 
 		logger.debug("BeamlineReadinessDisplay initialised");
 		logger.debug("intensityTolerance: {}%", displayParams.getIntensityTolerance());
@@ -145,6 +137,24 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		setReadinessStatus();
 
 		logger.debug("Initial state: {}", state);
+	}
+
+	private void calculateRequiredBeamIntensity() {
+		SortedMap<Double, Double> targetIntensities = new TreeMap<>();
+		Consumer<CSVRecord> consumer = row -> targetIntensities.put(Double.parseDouble(row.get("Energy")), Double.parseDouble(row.get("Intensity")));
+
+		try {
+			CsvReader.processCsvFile(displayParams.getTargetIntensitiesFile(), consumer);
+
+			final double[] energies = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getKey).mapToDouble(x -> x).toArray();
+			final double[] intensities = targetIntensities.entrySet().stream().map(Map.Entry<Double, Double>::getValue).mapToDouble(x -> x).toArray();
+
+			if (energies.length > 1 && intensities.length > 1) {
+				beamIntensityFunction = new LinearInterpolator().interpolate(energies, intensities);
+			}
+		} catch (IllegalArgumentException | IOException e) {
+			logger.error("Error reading CSV file", e);
+		}
 	}
 
 	private void logCurrentValues() {
@@ -197,11 +207,11 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 
 	private double getIntensity() {
 		try {
-			final Object intensityVal = intensity.getPosition();
-			if (intensityVal instanceof Double) {
-				return (double) intensityVal;
-			} else if (intensityVal instanceof double[]) {
-				return Arrays.stream((double[]) intensityVal).average().orElse(0);
+			final Object intensityPos = intensity.getPosition();
+			if (intensityPos instanceof Double) {
+				return (double) intensityPos;
+			} else if (intensityPos instanceof double[] intensityValue) {
+				return Arrays.stream(intensityValue).average().orElse(0);
 			}
 			ionChambersOn = true;
 		} catch (DeviceException e) {
@@ -239,19 +249,11 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 	}
 
 	private void setDisplay() {
-		switch(state.getSeverity()) {
-			case OK:
-				setGreen();
-				break;
-			case WARNING:
-				setYellow();
-				break;
-			case CRITICAL:
-				setRed();
-				break;
-			case UNKNOWN:
-				setGrey();
-				break;
+		switch (state.getSeverity()) {
+			case OK -> setGreen();
+			case WARNING -> setYellow();
+			case CRITICAL -> setRed();
+			case UNKNOWN -> setGrey();
 		}
 		setToolTipText(state.getMessage());
 	}

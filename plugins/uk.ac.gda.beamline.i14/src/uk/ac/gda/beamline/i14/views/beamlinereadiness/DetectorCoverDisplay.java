@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i14.views.beamlinereadiness;
 
+import java.io.IOException;
+import java.util.function.Consumer;
+
+import org.apache.commons.csv.CSVRecord;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
@@ -26,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.gda.client.viewer.ThreeStateDisplay;
 
 /**
@@ -34,25 +39,27 @@ import uk.ac.gda.client.viewer.ThreeStateDisplay;
  */
 
 public class DetectorCoverDisplay extends ThreeStateDisplay {
-
 	private static final Logger logger = LoggerFactory.getLogger(DetectorCoverDisplay.class);
+	private static final String OUT = "Out";
+	private static final String IN = "In";
 
 	private double inValue;
 	private double outValue;
 	private double position;
 
 	private Scannable detectorCover;
-	private DetectorCoverState state;
+	private State state;
 
+	private IObserver handler;
 
-	private enum DetectorCoverState {
+	private enum State {
 		OUT("Detector cover is out"),
 		UNKNOWN("Detector cover state unknown"),
 		IN("Detector cover is in");
 
 		private final String message;
 
-		private DetectorCoverState(String message) {
+		private State(String message) {
 			this.message = message;
 		}
 
@@ -61,66 +68,78 @@ public class DetectorCoverDisplay extends ThreeStateDisplay {
 		}
 	}
 
-
 	public DetectorCoverDisplay(Composite parent, DetectorCoverParameters displayParams) {
-		super(parent, "Out", "Unknown", "In");
+		super(parent, OUT, "Unknown", IN);
 
-		inValue = displayParams.getInValue();
-		outValue = displayParams.getOutValue();
+		handler = (source, arg) -> handleUpdate();
 
-		detectorCover = Finder.find(displayParams.getScannableName());
-		detectorCover.addIObserver(this::handleUpdate);
+		Consumer<CSVRecord> consumer = row -> {
+			inValue = Double.parseDouble(row.get(IN));
+			outValue = Double.parseDouble(row.get(OUT));
+		};
 
-		logger.debug("DetectorCoverStatus initialised");
-		logger.debug("inValue: {}%, outValue: {}%",displayParams.getInValue(), displayParams.getOutValue());
+		try {
+			CsvReader.processCsvFile(displayParams.getDetectorCoverPositionsFile(), consumer);
 
-		setDetectorCoverStatus();
+			detectorCover = Finder.find(displayParams.getScannableName());
+			detectorCover.addIObserver(handler);
 
-		logger.debug("Initial state: {}", state);
+			logger.debug("DetectorCoverStatus initialised");
+			logger.debug("inValue: {}%, outValue: {}%",inValue, outValue);
+
+			setDetectorCoverStatus();
+
+			logger.debug("Initial state: {}", state);
+
+		} catch (IllegalArgumentException | IOException e) {
+			logger.error("Error reading CSV file", e);
+			setUnknownCoverStatus();
+		}
 	}
 
-	@SuppressWarnings("unused")
-	private void handleUpdate(Object source, Object arg) {
-		final DetectorCoverState oldState = state;
+	private void handleUpdate() {
+		final State oldState = state;
 		setDetectorCoverStatus();
 		if (state != oldState) {
 			logger.debug("Detector cover state changed from {} to {}", oldState, state);
 		}
 	}
 
-	private DetectorCoverState setDetectorCoverStatus() {
+	private void setUnknownCoverStatus() {
+		state = State.UNKNOWN;
+		Display.getDefault().asyncExec(this::setDisplay);
+	}
 
+	private void setDetectorCoverStatus() {
 		try {
 			position = (double) detectorCover.getPosition();
 			logger.debug("Position: {}%", position);
-
 		} catch(DeviceException e) {
 			logger.error("Error getting Detector Cover data", e);
-			state = DetectorCoverState.UNKNOWN;
+			state = State.UNKNOWN;
 		}
 
 		if (position == inValue) {
-			state = DetectorCoverState.IN;
+			state = State.IN;
 		} else if(position == outValue) {
-			state = DetectorCoverState.OUT;
+			state = State.OUT;
 		} else {
-			state = DetectorCoverState.UNKNOWN;
+			state = State.UNKNOWN;
 		}
-
 		Display.getDefault().asyncExec(this::setDisplay);
-
-		return state;
 	}
 
 	private void setDisplay() {
-		if (state == DetectorCoverState.IN) {
-			setRed();
-		} else if (state == DetectorCoverState.OUT) {
-			setGreen();
-		} else if (state == DetectorCoverState.UNKNOWN) {
-			setYellow();
+		switch (state) {
+			case IN -> setRed();
+			case OUT -> setGreen();
+			case UNKNOWN -> setYellow();
 		}
 		setToolTipText(state.getMessage());
+	}
+
+	public void dispose() {
+		detectorCover.deleteIObserver(handler);
 	}
 
 }
