@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+ 	<bean id="axis_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL08J-EA-DET-05:CAM:" />
+	</bean>
+
+	<bean id="axis_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL08J-EA-DET-05:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL08J-EA-DET-05:STAT:" />
+				<property name="initialArrayPort" value="DET5.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="axis_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL08J-EA-DET-05:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL08J-EA-DET-05:ARR:" />
+				<property name="initialArrayPort" value="DET5.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="axis_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL08J-EA-DET-05:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL08J-EA-DET-05:HDF5:" />
+				<property name="initialArrayPort" value="DET5.stat" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="axis" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="axis_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL08J-EA-DET-05:HDF5:" />
+		<property name="file" ref="axis_ndfile" />
+	</bean>
+
+</beans>
