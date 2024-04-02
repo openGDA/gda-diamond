@@ -16,12 +16,14 @@
 	<!-- =========================================================== -->
 
 	<!-- Detectors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/axis_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/axis_information.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d8_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/dark_field_collector.xml" />
 
 	<!-- Devices -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/valves.xml" />
 	<import resource="file:${gda.config.shared}/servers/${gda.mode}/devices/frontEnd.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d8.xml" />
@@ -33,6 +35,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/led.xml" />
 
 	<!-- Monitors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/processing_monitor.xml" />
@@ -42,6 +45,7 @@
 	<!-- =========================================================== -->
 
 	<!-- Detectors -->
+	<import resource="file:${gda.config}/servers/main/_common/detectors/axis_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/axis_information.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d8_addetector.xml" />
