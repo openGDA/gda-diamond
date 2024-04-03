@@ -21,6 +21,7 @@ profiles = [
 
 [server.system]
 "java.awt.headless" = "true"
+#"uk.ac.diamond.daq.native_dir" = "/tmp"
  
 [extras.dls]
 root = "../../dls-config"

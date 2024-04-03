@@ -3,11 +3,11 @@ export GTK_OVERLAY_SCROLLING=0
 if [ -z $GDA_LOG ] ; then
 	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
 	if [ "X$LOGPANEL" == "X" ] ; then
-		nohup gdalog 2>/dev/null &
+		nohup gda-logpanel 2>/dev/null &
 	else
 		wmctrl -R "GDA Log Panel"
 	fi
 else
-	gda logpanel
+	gda-logpanel -f $*
 fi
 

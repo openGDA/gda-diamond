@@ -4,6 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="GDAMetadata.xml"/>
+	<import resource="stanfords_gain_maps.xml"/>
 	<import resource="ring.xml"/>
 	<import resource="electron_beam_monitors.xml" />
 	<import resource="deviceAccessController.xml"/>

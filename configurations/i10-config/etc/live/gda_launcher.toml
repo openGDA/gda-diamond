@@ -1,0 +1,13 @@
+log_directory = "/dls_sw/i10/logs"
+server_runtime_root = "gda_server"
+client_runtime_root = "/scratch"
+layout.client = "client/gda-i10"
+
+deployment_root = "/dls_sw/i10/software/gda_versions"
+default_deployment = "gda"
+
+
+[env]
+"GDA_MODE" = "live"
+"GDA_VAR" = "/dls_sw/i10/software/gda_versions/var"
+

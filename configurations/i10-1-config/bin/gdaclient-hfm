@@ -1,14 +1,7 @@
 #!/bin/bash
 export GTK_OVERLAY_SCROLLING=0
 
-if [ -z $GDA_LOG ] ; then
-	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
-	if [ "X$LOGPANEL" == "X" ] ; then
-		nohup gdalog 2>/dev/null &
-	else
-		wmctrl -R "GDA Log Panel"
-	fi
-fi
+gdalog
 
 export SPRING_PROFILES=hfm
-gda client start -P -p $SPRING_PROFILES "$@"
+nohup gda client -P -p $SPRING_PROFILES $*

@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [ -z $GDA_LOG ] ; then
-	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
-	if [ "X$LOGPANEL" == "X" ] ; then
-		nohup gdalog 2>/dev/null &
-	else
-		wmctrl -R "GDA Log Panel"
-	fi
-fi
+gdalog
 
-gda --host i10-control server restart -P -p "windows7" $*
+gda --host i10-control server restart -P -p windows7 $*

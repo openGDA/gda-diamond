@@ -7,9 +7,7 @@ if [ ! -n "$BEAMLINE" ]; then
   exit 1
 fi
 
-module load gda_launcher
-
-export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:/dls_sw/apps/gda_launcher/stable:${PATH}
 export LD_LIBRARY_PATH=/dls_sw/i21/software/anaconda2/plugins/platforms:${LD_LIBRARY_PATH}
 export GDA_MODE=live
 
