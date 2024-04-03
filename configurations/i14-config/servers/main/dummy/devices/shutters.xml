@@ -18,5 +18,9 @@
     <bean id="eh2_nano_shutter_status" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Open" />
 	</bean>
+	
+	<bean id="fe_shutter_status" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
 
 </beans>

@@ -29,17 +29,7 @@ public class StatusViewUser extends StatusView {
 
 	@Override
 	protected void createShutterControls(Composite parent) {
-		// OH1 shutter
-		final Group grpOH1 = createGroup(parent, "OH1 Shutter", 1);
-		createShutterComposite(grpOH1, "oh1_shutter_status");
-
-		// OH2 shutter
-		final Group grpOH2 = createGroup(parent, "OH2 Shutter", 1);
-		createShutterComposite(grpOH2, "oh2_shutter_status");
-
-		// OH3 shutter
-		final Group grpOH3 = createGroup(parent, "OH3 Shutter", 1);
-		createShutterComposite(grpOH3, "oh3_shutter_status");
+		super.createShutterControls(parent);
 
 		// EH2 Nano shutter
 		final Group grpEH2Nano = createGroup(parent, "EH2 Nano Shutter", 1);

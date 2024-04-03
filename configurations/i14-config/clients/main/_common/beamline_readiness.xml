@@ -6,9 +6,7 @@
 	<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.BeamlineReadinessParameters">
 		<property name="shutters">
 			<list>
-				<value>oh1_shutter_status</value>
-				<value>oh2_shutter_status</value>
-				<value>oh3_shutter_status</value>
+				<value>fe_shutter_status</value>
 				<value>eh2_nano_shutter_status</value>
 			</list>
 		</property>
