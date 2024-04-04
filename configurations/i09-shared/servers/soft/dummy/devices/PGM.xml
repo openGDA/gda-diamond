@@ -24,9 +24,12 @@
 		<property name="slowSpeed" value="100" />
 	</bean>
 	<bean id="pgmenergy_motor" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400" />
-		<property name="mediumSpeed" value="200" />
-		<property name="slowSpeed" value="100" />
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+		<property name="randomPositionVariation" value="true"/>
+		<property name="randomPositionVariationAmount" value="0.01"/>
+		<property name="upperHardLimit" value="2099"/>
 	</bean>
 	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
