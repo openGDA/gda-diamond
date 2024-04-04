@@ -1,0 +1,49 @@
+[
+    {
+        "type": "group",
+        "children": [
+            {
+                "type": "button",
+                "text": "Start I09-1 GDA Client",
+                "args": "client --foreground",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda",
+                "icon": "cgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start I09-1 GDA Client (Reset workspace)",
+                "args": "client --foreground --reset",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda",
+                "icon": "cgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start I09-1 GDA Server",
+                "args": " ",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",
+                "icon": "sgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start I09-1 GDA Log Panel",
+                "args": " ",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+                "icon": "lgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start Dawn",
+                "command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+            },
+            {
+                "type": "button",
+                "text": "Start Dawn (Reset Workspace)",
+                "args": "--reset",
+                "command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+            }
+        ],
+        "name": "Data Acquisition"
+    }
+]
