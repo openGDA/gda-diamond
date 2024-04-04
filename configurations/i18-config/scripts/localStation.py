@@ -200,6 +200,8 @@ def setup():
     
     setup_monitors()
     setup_watchdogs()
+    if not live_mode :
+        noBeamMode(True)
     
     global XASLoggingScriptController
     global elementListScriptController
@@ -216,8 +218,10 @@ def setup():
     global detectorPreparer
     sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
     sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
-    detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3) # @UndefinedVariable
-    
+    detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, raster_counterTimer01) # @UndefinedVariable
+    detectorPreparer.addQexafsDetectors("Xspress3", [raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3])
+    detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_counterTimer01, qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin])
+        
     global beamlinePreparer
     global samplePreparer
     global outputPreparer

@@ -27,13 +27,21 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
+import gda.TestHelpers;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.scannable.DummyScannable;
+import gda.factory.Factory;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
 import gda.jython.JythonServerFacade;
@@ -43,9 +51,9 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
-import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
+import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I18DetectorPreparerTest {
 
@@ -55,8 +63,7 @@ public class I18DetectorPreparerTest {
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
 	private BufferedDetector qexafs_counterTimer01;
-	private Xspress3BufferedDetector qexafs_xspress3;
-	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
+	private static MockedStatic<XMLHelpers> xmlHelpersMock;
 
 	@Before
 	public void setup() {
@@ -74,8 +81,6 @@ public class I18DetectorPreparerTest {
 		xspress3 = createMock(Xspress3WithFullCalculationsDetector.class, "xspress3");
 		ionchambers = createMock(TfgScalerWithFrames.class, "ionchambers");
 		qexafs_counterTimer01 = createMock(BufferedDetector.class, "qexafs_counterTimer01");
-		qexafs_xspress3 = createMock(Xspress3BufferedDetector.class, "qexafs_xspress3");
-		qexafs_FFI0_xspress3 = createMock(Xspress3FFoverI0BufferedDetector.class, "qexafs_FFI0_xspress3");
 
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("i0_keithley_gain");
@@ -83,7 +88,33 @@ public class I18DetectorPreparerTest {
 		sensitivityUnits = new Scannable[] {createMockScannable("i0units"), createMockScannable("itunits")};
 
 		thePreparer = new I18DetectorPreparer(sensitivities, sensitivityUnits, ionchambers,
-				xspress3, qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3);
+				qexafs_counterTimer01);
+
+	}
+
+	@BeforeClass
+	public static void setupMock() {
+		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
+	}
+
+	@AfterClass
+	public static void closeMock() {
+		xmlHelpersMock.close();
+	}
+
+	private void setupFinder(String testname) throws Exception {
+		TestHelpers.setUpTest(I18DetectorPreparer.class, testname, false);
+		final Factory factory = TestHelpers.createTestFactory();
+		factory.addFindable(xspress3);
+		InterfaceProvider.getJythonNamespace().placeInJythonNamespace(xspress3.getName(), xspress3);
+
+		Finder.addFactory(factory);
+	}
+
+	@After
+	public void tearDown() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.removeAllFactories();
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -98,6 +129,8 @@ public class I18DetectorPreparerTest {
 
 	@Test
 	public void testFluoDetectors() throws Exception {
+		setupFinder("testFluoDetectors");
+
 		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
 
 		FluorescenceParameters fluoParams = new FluorescenceParameters();
@@ -106,22 +139,20 @@ public class I18DetectorPreparerTest {
 			fluoParams.addIonChamberParameter(params);
 		}
 
-		fluoParams.setConfigFileName("Fluo_config.xml");
-		fluoParams.setDetectorType(FluorescenceParameters.GERMANIUM_DET_TYPE);
+		Xspress3Parameters xspressParams = new Xspress3Parameters();
+		xspressParams.setDetectorName(xspress3.getName());
+
+		// Setup static mock to make XMLHelpers return xspress3 parameters
+		Mockito.when(XMLHelpers.getBeanObject("/scratch/test/xml/path/", "Fluo_config.xml")).thenReturn(xspressParams);
 
 		DetectorParameters detParams = new DetectorParameters();
 		detParams.setFluorescenceParameters(fluoParams);
 		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-
-		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-
-		verifyNoInteractions(xspress3);
-
 		fluoParams.setDetectorType(FluorescenceParameters.XSPRESS3_DET_TYPE);
+		fluoParams.setConfigFileName("Fluo_config.xml");
+
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-		verify(xspress3).setConfigFileName(
-				"/scratch/test/xml/path/Fluo_config.xml");
-		verify(xspress3).loadConfigurationFromFile();
+		verify(xspress3).applyConfigurationParameters(xspressParams);
 	}
 
 	@Test
@@ -198,6 +229,7 @@ public class I18DetectorPreparerTest {
 		detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
+		verifyNoInteractions(xspress3);
 
 		verify(sensitivities[0]).moveTo("1");
 		verify(sensitivityUnits[0]).moveTo("nA/V");
