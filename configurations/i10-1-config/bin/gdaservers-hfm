@@ -4,3 +4,5 @@ gdalog
 
 export SPRING_PROFILES=hfm
 gda --host i10-1-control server restart -P -p $SPRING_PROFILES $*
+
+gda_servers_post_start

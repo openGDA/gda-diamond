@@ -10,6 +10,3 @@ default_deployment = "gda"
 [env]
 "GDA_MODE" = "live"
 "GDA_VAR" = "/dls_sw/i10-1/software/gda_versions/var"
-
-[server.system]
-"uk.ac.diamond.daq.native_dir" = "/tmp"
