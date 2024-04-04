@@ -56,4 +56,51 @@
 		<property name="calibratedAxesProvider" ref="zoom_dependent_calibration_t3" />
 	</bean>
 
+	<bean id="webcam_1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 1" />
+		<property name="url" value="http://i18-webcam1/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="webcam_2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 2" />
+		<property name="url" value="http://i18-webcam2/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="webcam_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 3" />
+		<property name="url" value="http://i18-webcam3/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 </beans>

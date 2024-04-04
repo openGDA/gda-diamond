@@ -57,4 +57,22 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Xspress 3 Odin -->
+
+	<bean id="xspress3OdinDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xspress3 Odin" />
+		<property name="description" value="Scan of Xspress3Odin and ion chambers" />
+	</bean>
+	<bean id="xspress3OdinMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-06" />
+		<property name="exposureTime" value="0.01" />
+		<property name="minExposureTime" value="0.0001"/>
+	</bean>
+	<bean id="xspress3OdinMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-06" />
+		<property name="model" ref="xspress3OdinMalcolmModel" />
+		<property name="deviceInformation" ref="xspress3OdinDeviceInfo" />
+		<property name="activated" value="false" />
+	</bean>
+
 </beans>
