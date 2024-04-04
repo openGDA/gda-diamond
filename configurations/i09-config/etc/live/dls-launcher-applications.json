@@ -1,0 +1,36 @@
+[
+    {
+        "type": "group",
+        "children": [
+            {
+                "type": "button",
+                "text": "Start GDA Client",
+                "args": "client --foreground",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda",
+                "icon": "cgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start GDA Client (Reset workspace)",
+                "args": "client --foreground --reset",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda",
+                "icon": "cgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start GDA Server",
+                "args": " ",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",
+                "icon": "sgda.png"
+            },
+            {
+                "type": "button",
+                "text": "Start GDA Log Panel",
+                "args": " ",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+                "icon": "lgda.png"
+            }
+        ],
+        "name": "Data Acquisition"
+    }
+]
