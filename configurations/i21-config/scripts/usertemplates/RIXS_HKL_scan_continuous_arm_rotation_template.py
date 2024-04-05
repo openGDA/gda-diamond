@@ -48,6 +48,7 @@ Created on 27th Mar 2019
 from gdascripts.utils import frange
 from functions.momentumTransferFunctions import thLscan, tthLscan
 from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
+from i21commands.checkedMotion import enable_arm_motion
 
 ###########################################################################################
 ######################## SAMPLE PARAMETERS ################################################
@@ -375,6 +376,7 @@ if answer == "y":
     
     s5v1gap.asynchronousMoveTo(exit_slit)
     energy.asynchronousMoveTo(energy_val_instrument)
+    enable_arm_motion()
     spech.asynchronousMoveTo(spech_val_fix)
     
     s5v1gap.waitWhileBusy()
