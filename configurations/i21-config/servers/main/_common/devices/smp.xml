@@ -13,7 +13,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="x" class="gda.device.scannable.TweakableScannableMotor">
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpxMotor" />
 		<property name="outputFormat">
 			<list>
@@ -21,11 +21,6 @@
 			</list>
 		</property>
 		<property name="userUnits" value="mm" />
-		<property name="tweaker">
-			<bean class="gda.device.motor.MotorPositionTweakControl">
-				<property name="motor" ref="smpxMotor"/>
-			</bean>		
-		</property>
 	</bean>
 
 	<bean id="y" class="gda.device.scannable.ScannableMotor">
