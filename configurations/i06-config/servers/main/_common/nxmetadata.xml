@@ -287,6 +287,11 @@
 					<property name="scannableName" value="leem_FOV_A"/>
 					<property name="units" value="um"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="tSampleET"/>
+					<property name="scannableName" value="tSampleET"/>
+					<property name="units" value="C"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

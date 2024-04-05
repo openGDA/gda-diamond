@@ -250,6 +250,9 @@ class EpicsKeithleySourceMeter(object):
             while self.isBufferClear("defbuffer1"):
                 sleep(self.read_wait)
             self.send_command('TRACe:DATA? 1, ' + str(count) + ', "defbuffer1", SOUR, READ')
+            # sleep required otherwise get_response() returns '@'
+            while  self.get_response() == '@':
+                sleep(self.read_wait)
         if self.model == 2400:
             if not self.use_trace_buffer:
                 self.send_command("READ?")
