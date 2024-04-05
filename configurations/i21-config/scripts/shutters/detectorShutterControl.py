@@ -10,7 +10,7 @@ from gda.jython.commands.GeneralCommands import alias
 
 SOURCE_CONTROL_PV = "BL21I-OP-SHTR-01:SRC"
 
-def erio():
+def fsxas():
     if installation.isDummy():
         print("set '%s' to 0" % SOURCE_CONTROL_PV)
     else:
@@ -27,9 +27,16 @@ def polarimeter():
         print("set '%s'to 2" % SOURCE_CONTROL_PV)
     else:
         caput(SOURCE_CONTROL_PV, 2)
+
+def erio():
+    if installation.isDummy():
+        print("set '%s' to 3" % SOURCE_CONTROL_PV)
+    else:
+        caput(SOURCE_CONTROL_PV, 3)
     
     
-alias("erio")
+alias("fsxas")
 alias("primary")
 alias("polarimeter")
+alias("erio")
 
