@@ -49,11 +49,17 @@
 		<property name="showIncrement" value="false"/>
 		<property name="showStop" value="false"/>
 		<property name="horizontalLayout" value="true"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
-
-	<bean id="Polandor_HCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="Polandor_H"/>
-		<property name="stateVariableName" value="i21.Polandor_H.live.stream.active"/>
+	<bean id="Polandor_H_sigma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sigma" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polsigma" />
+		<property name="increment" value="500" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
 
 </beans>
