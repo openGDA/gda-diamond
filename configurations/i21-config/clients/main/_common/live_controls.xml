@@ -295,19 +295,19 @@
 		<property name="horizontalLayout" value="true"/>
 	</bean>	
 
-	<bean id="uvw_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
-		<property name="displayName" value="" />
-		<property name="group" value="uvw" />
-		<property name="scannableName" value="uvw_wrapper" />
-		<property name="showStop" value="false"/>
-		<property name="userUnits">
-			<util:map>
-    			<entry key="u" value="mm" />
-    			<entry key="v" value="mm" />
-    			<entry key="w" value="mm" />
-			</util:map>
-		</property>
-	</bean>
+<!-- 	<bean id="uvw_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl"> -->
+<!-- 		<property name="displayName" value="" /> -->
+<!-- 		<property name="group" value="uvw" /> -->
+<!-- 		<property name="scannableName" value="uvw_wrapper" /> -->
+<!-- 		<property name="showStop" value="false"/> -->
+<!-- 		<property name="userUnits"> -->
+<!-- 			<util:map> -->
+<!--     			<entry key="u" value="mm" /> -->
+<!--     			<entry key="v" value="mm" /> -->
+<!--     			<entry key="w" value="mm" /> -->
+<!-- 			</util:map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="viewName" value="Live Controls"/>
@@ -339,7 +339,7 @@
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
 				<ref bean="polstick_control" />
-				<ref bean="uvw_control" />
+<!-- 				<ref bean="uvw_control" /> -->
 			</list>
 		</property>
 	</bean>

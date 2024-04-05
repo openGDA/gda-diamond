@@ -104,7 +104,7 @@ else:
     m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 0.0, 50.0, 'px', '%.10f')
 
 
-from shutters.detectorShutterControl import erio, primary, polarimeter  # @UnusedImport
+from shutters.detectorShutterControl import fsxas, erio, primary, polarimeter  # @UnusedImport
 from lights.chamberLight import lightOff, lightOn  # @UnusedImport
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
@@ -190,7 +190,7 @@ print(" To manually switch off scan processor, run 'scan_processing_off()' funct
 scan_processing_off()
 
 #check beam scannables
-from scannabledevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkrc_cv, checktopup_time_cv, checkfe_cv, checkbeamcv # @UnusedImport
+from scannabledevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkrc_cv, checktopup_time_cv, checkfe_cv, checkbeam_cv # @UnusedImport
 
 # from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport #this is reverted to before not monitor the scanner light
 
@@ -230,7 +230,8 @@ from calibration.extraPVCoupledScannable import ScannableWithPVControl
 pgm_energy = ScannableWithPVControl('pgm_energy', pgmEnergy, pvname="BL21I-OP-MIRR-01:FBCTRL:MODE",pvvaluebefore=0, pvvalueafter=4)  # @UndefinedVariable
 
 #initialize Jython Scannable Wrappers must be done after the wrapped scannable become available
-uvw_wrapper.connectScannable()  # @UndefinedVariable
+#commented out on 4/3/2023
+# uvw_wrapper.connectScannable()  # @UndefinedVariable
 
 #nexus metadata items
 from scannabledevices.stokesParameters import StokesParameters
@@ -247,7 +248,7 @@ from metadata.beamExtent import BeamExtent
 beam_size_at_sample =  BeamExtent("beam_size_at_sample", horizontal_size = 40.0, vertical_size = 2.5)
 
 from functions.manipulator_positions import sample_pos, carbon_tape_pos, save_sample_positions, save_carbon_tape_positions, move_to_sample_positions, move_to_carbon_tape_positions  # @UnusedImport
-from functions.energyEdge import set_edge, save_edge, display_edge_table  # @UnusedImport
+from functions.energyEdge import set_edge, save_edge  # @UnusedImport
 from functions.xas_functions import xas, repeat_xas  # @UnusedImport
 from functions.rixs_functions import get_rixs  # @UnusedImport
 from functions.sample_transfer import go_transfer  # @UnusedImport
