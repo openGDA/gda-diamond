@@ -40,7 +40,7 @@ from exceptions import KeyboardInterrupt
 from time import sleep, strftime, localtime, time
 from gda.device.scannable import ScannableBase
 import math
-from java.lang import Runnable, Thread
+from java.lang import Runnable, Thread  # @UnresolvedImport
 
 class CryostatWarmUp(ScannableBase, Runnable):
     def __init__(self, name, cryostat, gauge, maxRampRate = 10.0, minRampRate=0.05, 
