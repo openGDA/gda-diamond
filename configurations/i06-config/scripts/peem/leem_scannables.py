@@ -97,5 +97,6 @@ leem_rot = EpicsLEEMPVClass('leem_rot',"", "BL06I-EA-LEEM-01:IMAGE:ROT:RBV", "de
 leem_intermlens = EpicsLEEMPVClass('leem_intermlens', "BL06I-EA-LEEM-01:INTERM:LENS", "BL06I-EA-LEEM-01:INTERM:LENS:RBV", "mA", formatstring="%.3f")
 leem_FOV_A = EpicsLEEMPVClass('leem_FOV_A',"", "BL06I-EA-LEEM-01:FOV:RBV", "um", formatstring="%.2f", readonly=True)
 leem_FOV_B = EpicsLEEMPVClass('leem_FOV_B',"", "BL06I-EA-LEEM-01:FOVB:RBV", "um", formatstring="%.2f", readonly=True)
+leem_AC_state = EpicsLEEMPVClass('leem_AC_state',"", "BL06I-EA-LEEM-01:AC:MIR:STATE:RBV", "", formatstring="%.2f", readonly=True)
 
     

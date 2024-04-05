@@ -9,7 +9,7 @@ print("-"*100)
 print("Set scan returns to the start positions on completion")
 print("   To set scan returns to its start positions on completion please do:")
 print("      >>>scansReturnToOriginalPositions=1\n")
-scansReturnToOriginalPositions=1;
+scansReturnToOriginalPositions = 0
 
 from i06shared.localStation import *  # @UnusedWildImport
 
@@ -53,12 +53,12 @@ def stop_preview():
     
 def enableRastering():
     from gdaserver import medipix  # @UnresolvedImport
-    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(True)
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(True)
 alias("enableRastering")
 
 def disableRastering():
     from gdaserver import medipix  # @UnresolvedImport
-    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(False)
+    medipix.getCollectionStrategy().getDecoratee().getDecoratee().getDecoratee().getDecoratee().getDecoratee().setEnabled(False)
 alias("disableRastering")
   
 if installation.isLive():
@@ -108,7 +108,7 @@ import gdascripts
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 
 from beam.beam_centering import centerBeam  # @UnusedImport
-from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVolt  # @UnusedImport
+from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVolt, keithley2461  # @UnusedImport
 
 print("="*100)
 print("end of localStation.py for Beamline I06)")
