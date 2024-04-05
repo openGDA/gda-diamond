@@ -65,7 +65,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL21I-EA-DET-02:STAT:" />
-				<property name="initialArrayPort" value="ANDOR2.trf" />
+				<property name="initialArrayPort" value="POL_PI.trf" />
 			</bean>
 		</property>
 	</bean>
@@ -74,7 +74,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL21I-EA-DET-02:ARR:" />
-				<property name="initialArrayPort" value="ANDOR2.trf" />
+				<property name="initialArrayPort" value="POL_PI.trf" />
 			</bean>
 		</property>
 	</bean>
@@ -83,7 +83,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL21I-EA-DET-02:HDF5:" />
-				<property name="initialArrayPort" value="ANDOR2.trf" />
+				<property name="initialArrayPort" value="POL_PI.trf" />
 			</bean>
 		</property>
 		<property name="initialWriteMode" value="0" />
@@ -108,7 +108,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats1" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT1:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -123,7 +123,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats2" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI2:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT2:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -138,7 +138,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats3" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI3:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT3:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -153,7 +153,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats4" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI4:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT4:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -168,7 +168,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats5" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI5:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT5:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -183,7 +183,7 @@
 		<property name="pluginName" value="Polandor_H_RoiStats6" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-02:ROI6:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-02:STAT6:" />
-		<property name="roiInputNdArrayPort" value="ANDOR2.trf" />
+		<property name="roiInputNdArrayPort" value="POL_PI.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
