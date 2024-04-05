@@ -59,6 +59,7 @@ from gdascripts.utils import frange
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
 import _bytecodetools
+from i21commands.checkedMotion import enable_arm_motion
 
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
@@ -217,6 +218,7 @@ def move_energy_to(energy_val, spech_val):
     print("move energy to %f ..." % energy_val)
     energy.asynchronousMoveTo(energy_val)
     print("move spech to %f ..." % spech_val)
+    enable_arm_motion()
     spech.asynchronousMoveTo(spech_val)
     energy.waitWhileBusy()
     spech.waitWhileBusy()
@@ -420,6 +422,7 @@ if answer == "y":
 
     # move spech to the optimised position for qscan (resonance)    
     energy.asynchronousMoveTo(energy_val_fix)
+    enable_arm_motion()
     spech.asynchronousMoveTo(spech_val_fix) 
     energy.waitWhileBusy()
     spech.waitWhileBusy()
