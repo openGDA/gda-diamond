@@ -8,11 +8,16 @@
 		<property name="motor" ref="polariserStickMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
+	<bean id="polsigma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="polariserSigmaMotor" />
+		<property name="userUnits" value="um" />
+	</bean>
 
 	<bean id="Polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="polstick" />
+				<ref bean="polsigma" />
 			</list>
 		</property>
 	</bean>

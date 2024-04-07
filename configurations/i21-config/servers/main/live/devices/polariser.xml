@@ -8,5 +8,8 @@
 	<bean id="polariserStickMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-POL-01:STICK" />
 	</bean>
-	
+	<bean id="polariserSigmaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-MO-POL-02:SIGMA:Z" />
+	</bean>
+
 </beans>

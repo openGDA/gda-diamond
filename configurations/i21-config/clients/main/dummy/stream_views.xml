@@ -38,6 +38,7 @@
 						<ref bean="Polandor_H_time_remaining" />
 						<ref bean="Polandor_H_time_remaining_progress" />
 						<ref bean="Polandor_H_stick_control" />
+						<ref bean="Polandor_H_sigma_control" />
 					</list>
 				</property>
 				<property name="cameraState">

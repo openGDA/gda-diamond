@@ -34,11 +34,11 @@
 						<ref bean="Polandor_H_time_remaining" />
 						<ref bean="Polandor_H_time_remaining_progress" />
 						<ref bean="Polandor_H_stick_control" />
-
+						<ref bean="Polandor_H_sigma_control" />
 					</list>
 				</property>
 				<property name="cameraState">
-					<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+					<bean id="Polandor_HCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 						<property name="pvName" value="BL21I-EA-DET-02:CAM:Acquire"/>
 						<property name="stateVariableName" value="i21.Polandor_H.live.stream.active"/>
 					</bean>
