@@ -4,6 +4,8 @@ from gda.device.scannable.scannablegroup import ScannableGroup, ScannableMotionW
 from gdaserver import  x, y,z, chi, phi  # @UnresolvedImport
 from diffcalc.util import TORAD  # @UnresolvedImport
 from gda.observable import IObserver
+from gda.device.scannable import ScannableStatus
+from time import sleep
 
 # Manipulator position where all rotation axes
 # intersect in a single point in the middle of the beam
@@ -12,7 +14,7 @@ from gda.observable import IObserver
 AXES_ZERO = (6.12, -0.3141, 0.9214)
 
 
-class ToolpointMotion(ScannableMotionWithScannableFieldsBase, IObserver):
+class ToolpointMotion(ScannableMotionWithScannableFieldsBase): #, IObserver):
     '''Define virtual manipulator translations as of the sample stage is mounted on top of diffractometer circles chi and phi'''
 
     def __init__(self, name, sax, say, saz, chi_rot, phi_rot, zero_pos):
@@ -32,7 +34,7 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase, IObserver):
         self.completeInstantiation()
         self.setAutoCompletePartialMoveToTargets(True)
         # make tool point tracks real axes changes in hardware
-        self.xyz_group.addIObserver(self)
+        # self.xyz_group.addIObserver(self)
 
     def checkPositionValid(self, pos):
         if len(pos) != 5: raise ValueError('Toolpoint device expects five inputs')
@@ -73,11 +75,12 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase, IObserver):
         sz = self.z0 - nu*sin(chi_pos) + nv*cos(chi_pos)*sin(phi_pos) + nw*cos(chi_pos)*cos(phi_pos)
         
         self.xyz_group.asynchronousMoveTo([sx, sy, sz, ps_chi, ps_phi])
-        
-    def update(self, theobserved, changecode):  # @UnusedVariable
-        if theobserved == self.xyz_group:
-            # send tool point values to observer, not the change code which default to scannable group status.
-            self.notifyIObservers(self, self.rawGetPosition())
+    
+    # def update(self, theobserved, changecode):  # @UnusedVariable
+    #     if theobserved == self.xyz_group:
+    #         sleep(1)
+    #         # send tool point values to observer, not the change code which default to scannable group status.
+    #         self.notifyIObservers(self, self.rawGetPosition())
 
     def rawGetPosition(self):
         tx, ty, tz, ps_chi, ps_phi  = [float(t) for t in self.xyz_group.getPosition()]
@@ -102,7 +105,9 @@ class ToolpointMotion(ScannableMotionWithScannableFieldsBase, IObserver):
 
     def waitWhileBusy(self):
         return self.xyz_group.waitWhileBusy()
-
+    
+    def removeIObservers(self):
+        self.xyz_group.deleteIObserver(self)
 
 tp = ToolpointMotion('tp', x, y, z, chi, phi, AXES_ZERO)
 
@@ -132,11 +137,21 @@ ps_phi.limitsComponent.setInternalUpper([phi.getUpperInnerLimit(),])
 
 # a scannable group that sends its members' positions to the observer, not the change code from its observable
 class ScannableGroupWithUpdateMethodOverride(ScannableGroup):
+
+    def __init__(self, name, s_group, tp):
+        super(ScannableGroupWithUpdateMethodOverride, self).__init__(name, s_group)
+        self.tp = tp
+        # make tool point tracks real axes changes in hardware
+        self.tp.addIObserver(self)
+
     def update(self, theobserved, changecode):  # @UnusedVariable
-        if theobserved == tp.xyz_group:
-            self.notifyIObservers(self, self.getPosition())
-            
-uvw = ScannableGroupWithUpdateMethodOverride('uvw', (u, v, w))
-# make uvw group watching real hardware axes changes
-tp.xyz_group.addIObserver(uvw)
+        if theobserved == self.tp:
+            self.notifyIObservers(self,changecode)
+
+    def removeIObservers(self):
+        self.tp.deleteIObserver(self)
+        self.tp.removeIObservers()
+
+uvw = ScannableGroupWithUpdateMethodOverride('uvw', (u, v, w), tp)
+
 

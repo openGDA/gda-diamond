@@ -17,8 +17,9 @@
 		<property name="command" value="energypolarisation.removeIObservers()"/>
 	</bean>
 
-	<bean id="uvw_wrapper" class="gda.device.scannable.JythonScannableWrapper">
-		<property name="scannableName" value="uvw"/>
-	</bean>	
+<!-- 	<bean id="uvw_wrapper" class="gda.device.scannable.JythonScannableWrapper"> -->
+<!-- 		<property name="scannableName" value="uvw"/> -->
+<!-- 		<property name="command" value="uvw.removeIObservers()"/> -->
+<!-- 	</bean>	 -->
 
 </beans>

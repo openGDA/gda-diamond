@@ -29,7 +29,7 @@ def load_dataset(filename):
 X_RAY_POLARISATIONS = ["LH", "LV", "CR", "CL", "LH3", "LV3", "LH5", "LV5", "LAN", "LAP"]
 
 
-# cannot use python 'lambda source, change : updateFunction(source, change)' for annonymouse IObserver as you cannot delete it after added it, which results in 'reset_namespace' add more observer agaia
+# cannot use python 'lambda source, change : updateFunction(source, change)' for anonymous IObserver as you cannot delete it after added it, which results in 'reset_namespace' add more observer again
 class GenericObserver(IObserver):
     def __init__(self, name, update_function):
         self.name =name
