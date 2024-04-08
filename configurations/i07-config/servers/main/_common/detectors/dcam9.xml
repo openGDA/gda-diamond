@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcam9_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="dcam9_hdf5" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="dcam9" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="dcam9_tiff_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="dcam9_ndfile_tiff" />
+		<property name="fileNameTemplate" value="" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-dcam9-files" />
+		<property name="fileTemplate" value="%s%s%d.tiff" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="dcam9_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="dcam9_adbase" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+						<property name="restoreTriggerMode" value="true" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Main area detector - does not compute stats -->
+	<bean id="dcam9_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam9_adbase" />
+		<property name="ndFile" ref="dcam9_ndfile" />
+		<property name="fileWriter" ref="dcam9_hdf5_writer" />
+		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
+		<property name="computeStats" value="false" />
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="true" />
+	</bean>
+
+	<!-- Stats-computing version -->
+	<bean id="dcam9_det_stat" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam9_adbase" />
+		<property name="ndFile" ref="dcam9_ndfile" />
+		<property name="ndStats" ref="dcam9_ndstats" />
+		<property name="fileWriter" ref="dcam9_hdf5_writer" />
+		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
+		<property name="computeStats" value="true" />
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="true" />
+	</bean>
+
+	<bean id="dcam9_tiff" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="dcam9_adbase" />
+		<property name="ndFile" ref="dcam9_ndfile_tiff" />
+		<property name="fileWriter" ref="dcam9_tiff_writer" />
+		<property name="collectionStrategy" ref="dcam9_collection_strategy" />
+		<property name="computeStats" value="false" />
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="true" />
+	</bean>
+
+	<alias name="dcam9_tiff" alias="dcam9" />
+
+	<bean id="dcam9_detModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name" value="dcam9_det" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+	<bean id="dcam9_detInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
+		<property name="label" value="dcam9" />
+		<property name="description" value="dcam9" />
+	</bean>
+	<bean id="dcam9RD" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name" value="dcam9_det" />
+		<property name="model" ref="dcam9_detModel" />
+		<property name="deviceInformation" ref="dcam9_detInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>

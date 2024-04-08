@@ -14,6 +14,7 @@ dcam5stats = NDStatsMonitor('dcam5stats', dcam5_det_stat)
 dcam6stats = NDStatsMonitor('dcam6stats', dcam6_det_stat)
 dcam7stats = NDStatsMonitor('dcam7stats', dcam7_det_stat)
 dcam8stats = NDStatsMonitor('dcam8stats', dcam8_det_stat)
+dcam9stats = NDStatsMonitor('dcam9stats', dcam9_det_stat)
 
 xrayeyestats1 = NDStatsMonitor('xrayeyestats1', xrayeye1_det_stat)
 xrayeyestats2 = NDStatsMonitor('xrayeyestats2', xrayeye2_det_stat)

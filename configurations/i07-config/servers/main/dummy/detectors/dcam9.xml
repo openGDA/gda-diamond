@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<alias name="sim_adbase" alias="dcam9_adbase" />
+	<alias name="sim_stats" alias="dcam9_ndstats" />
+	<alias name="sim_hdf5" alias="dcam9_hdf5" />
+	<alias name="sim_ndfile_tiff" alias="dcam9_ndfile_tiff" />
+
+	<bean id="dcam9_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_ndfile_hdf5">
+		<property name="initialFileName" value="dcam9" />
+	</bean>
+
+</beans>
