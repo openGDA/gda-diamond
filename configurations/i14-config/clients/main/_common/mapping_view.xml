@@ -32,6 +32,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
 				<ref bean="xanesSection" />
 				<ref bean="sparseXanesSection" />
+				<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographyAngleSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.AlternativeDirectorySection" />
@@ -75,7 +76,7 @@
 							</bean>
 							<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySubmitScanSection">
 								<constructor-arg name="fileDirectory" value="/dls_sw/i14/scripts/tomography" />
-								<constructor-arg name="calibrateDataFile" value="scanning/tomography/calibrate_data.py" />
+								<property name="scriptFilePath" value="scanning/submit_tomography_scan.py"/>
 								<property name="description" value="Tomography scan" />
 								<property name="buttonText" value="Submit tomography scan" />
 								<property name="submitScanButtonColour" value="YELLOW"/>
