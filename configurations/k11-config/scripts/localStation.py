@@ -4,6 +4,7 @@ from gda.jython.commands.GeneralCommands import run
 from gdascripts.scannable.timerelated import TimeSinceScanStart
 from java.io import FileNotFoundException
 import sys
+from k11_utilities import is_live
 
 print("Initialisation Started");
 
@@ -29,6 +30,14 @@ alias("list_watchdogs")
 # scan timerScannable 0 60 5 d1_det 1
 timerScannable = TimeSinceScanStart("timerScannable")
 
+
+# experiment listener: writes visit to PV
+from experiment_listener import ExperimentListener
+visit_pv = "BL11K-BL-SET-01:EXPERIMENTID" if is_live() else "ws413-AD-SIM-01:STAT:NDArrayPort"
+listener = ExperimentListener(visit_pv)
+add_reset_hook(listener.close)  # prevent multiple listeners on reset_namespace
+
+
 print("Attempting to run localStationStaff.py from users script directory")
 try:
     run("localStationStaff")
@@ -40,6 +49,5 @@ except:
     print(sys.exc_info())
 finally:
     print("=" * 80)
-    
 
 print("Initialisation Complete")
