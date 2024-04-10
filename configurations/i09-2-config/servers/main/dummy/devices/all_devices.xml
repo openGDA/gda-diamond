@@ -18,6 +18,5 @@
 	<import resource="ES32.xml"/>
 	<import resource="DummyScannables.xml"/>
 	<import resource="BFM.xml"/>
-	
 </beans>
 	
