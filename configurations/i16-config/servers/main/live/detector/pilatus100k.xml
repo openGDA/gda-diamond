@@ -45,7 +45,7 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="pilatus1_nxcollectionstrategy"
+	<bean id="pilatus1_nxcollectionstrategy_for_scans_and_snaps"
 			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg value=".003" />
@@ -152,7 +152,7 @@
 	<bean id="pilatus1"
 			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus1" />
-		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy"/>
+		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_scans_and_snaps"/>
 		<!-- <property name="collectionStrategy" ref="pilatus1_softtrigger" /> -->
 		<property name="additionalPluginList">
 			<list>

@@ -21,7 +21,9 @@
 				<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_scans_and_snaps"/>
 				<property name="additionalPluginList">
 					<list>
+						<!-- 
 						<ref bean="pilatus3_nxfilewriter_for_scans" />
+						 -->
 						<ref bean="pilatus3_hdf5filewriter_for_scans" />
 					</list>
 				</property>
