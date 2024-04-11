@@ -322,21 +322,21 @@ def configure_fly_scannable_extraname(arg, flyscannablewraper):
         flyscannablewraper.setOutputFormat([flyscannablewraper.getOutputFormat()[0]])
 
 
-def enable_topup_check(newargs, args, total_time):
+def enable_topup_check(newargs, args, total_time, det_index):
     ''' setup beamline-specific beam top up checker's minimum time threshold.
     '''
     if str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) == "i16": # try to retrieve waitforinjection object from scan arguments
+        fwaitforbeam  = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "flyscan_wait_for_beam"), None)
+        if fwaitforbeam is None:
+            fwaitforbeam = flyscan_wait_for_beam
+            if fwaitforbeam is not None :
+                newargs.insert(det_index, fwaitforbeam)
         fwaitforinjection = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "flyscan_wait_for_injection"), None)
         if fwaitforinjection is None:
             fwaitforinjection = flyscan_wait_for_injection
             if fwaitforinjection is not None and total_time < 590:
                 flyscan_wait_for_injection.minimumThreshold = total_time + 5
-                newargs.append(fwaitforinjection)
-        fwaitforbeam  = next((x for x in args if isinstance(x, Scannable) and str(x.getName()) == "flyscan_wait_for_beam"), None)
-        if fwaitforbeam is None:
-            fwaitforbeam = flyscan_wait_for_beam
-            if fwaitforbeam is not None :
-                newargs.append(fwaitforbeam)
+                newargs.insert(det_index, fwaitforinjection)
     elif str(LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)) in ["i21", "i10", "i10-1", "i06", "i06-1"]:
         check_beam = next((x for x in args if isinstance(x, ScannableGroup) and str(x.getName()) == "checkbeam"), None)
         if check_beam:
@@ -355,16 +355,14 @@ def parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, star
     else:
         total_time = float(args[i]) * numpoints # calculate detector total time without dead times
         deadtime_index = -1 # no dead time input
-        
-    enable_topup_check(newargs, args, total_time)
-        
+
     motor_speed = math.fabs((float(stoppos - startpos)) / float(total_time))
     max_speed = flyscannablewraper.getScannableMaxSpeed()
     if motor_speed > 0 and motor_speed <= max_speed: #when exposure time is too large, change motor speed to roughly match
         flyscannablewraper.setSpeed(motor_speed)
     elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
         flyscannablewraper.setSpeed(max_speed)
-    return i, deadtime_index, newargs
+    return i, deadtime_index, newargs, total_time
 
 
 def append_command_metadata_for_nexus_file(command):
@@ -418,6 +416,7 @@ def parse_flyscan_scannable_arguments(args, newargs):
     if not isinstance(args[0], Scannable):
         raise CommandError(args, "The first argument after 'flyscan' is not a Scannable!")
     deadtime_index = -1
+    det_index = -1
     i = 0
     while i < len(args):
         arg = args[i]
@@ -438,8 +437,10 @@ def parse_flyscan_scannable_arguments(args, newargs):
                 newargs.append(arg)
             i = i + 1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i, deadtime_index, newargs = parse_detector_parameters_set_flying_speed(newargs, args, i, number_steps, startpos, stoppos, flyscannablewraper)
+                det_index = len(newargs) - 1
+                i, deadtime_index, newargs, total_time = parse_detector_parameters_set_flying_speed(newargs, args, i, number_steps, startpos, stoppos, flyscannablewraper)
     
+    enable_topup_check(newargs, args, total_time, det_index)
     return newargs 
 
 
@@ -447,6 +448,7 @@ def parse_flyscancn_scannable_arguments(args, newargs):
     if not isinstance(args[0], Scannable):
         raise CommandError(args, "The first argument after 'flyscancn' is not a Scannable!")
     deadtime_index = -1 # signify no dead time input
+    det_index = -1
     i = 0
     while i < len(args):
         arg = args[i]
@@ -469,8 +471,10 @@ def parse_flyscancn_scannable_arguments(args, newargs):
                 newargs.append(arg)
             i = i + 1
             if isinstance(arg, Detector) and i < len(args) and (type(args[i]) == IntType or type(args[i]) == FloatType):
-                i, deadtime_index, newargs = parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, startpos, stoppos, flyscannablewraper)
+                det_index = len(newargs) - 1
+                i, deadtime_index, newargs, total_time = parse_detector_parameters_set_flying_speed(newargs, args, i, numpoints, startpos, stoppos, flyscannablewraper)
     
+    enable_topup_check(newargs, args, total_time, det_index)
     return newargs, flyscannablewraper, current_position
 
 
@@ -647,4 +651,3 @@ class Fscancn(Fscan):
 
 fscancn = Fscancn([scan_processor])
 alias("fscancn")
-    
