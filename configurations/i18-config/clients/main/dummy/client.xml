@@ -13,6 +13,10 @@
 		<constructor-arg value="#{hostName}-AD-SIM-01" />
 	</bean>
 
+	<bean id="andorBasePv" class="java.lang.String">
+		<constructor-arg value="#{hostName}-AD-SIM-01" />
+	</bean>
+
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 
 </beans>

@@ -4,6 +4,5 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="beam_available_watchdog_i18.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/topup_watchdog.xml" />
 
 </beans>

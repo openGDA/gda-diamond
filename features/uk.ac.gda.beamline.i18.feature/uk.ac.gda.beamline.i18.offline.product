@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I18 Beamline Dummy Client" uid="uk.ac.gda.beamline.i18.offline.product" id="uk.ac.gda.beamline.i18.offline_product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I18 Beamline Dummy Client" uid="uk.ac.gda.beamline.i18.offline.product" id="uk.ac.gda.beamline.i18.offline_product" application="uk.ac.gda.client.application" version="9.34.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Drebel.log=true
+      <vmArgs>-Dgda.config=${project_loc:i18-config}
 -Dgda.mode=dummy
--Dgda.config=${project_loc:i18-config}
--Dgda.propertiesFile=${project_loc:i18-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/dummy/JCALibrary.properties
--Declipse.pluginCustomization=${project_loc:i18-config}/client/pluginCustomization.ini
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${workspace_loc}/../logs
--Dgda.instance.dir=${project_loc:i18-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:core-config}
+-XX:+DisableExplicitGC
 -Xms512m
 -Xmx4g
--XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

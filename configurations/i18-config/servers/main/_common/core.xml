@@ -3,14 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="command_server" class="gda.jython.JythonServer">
-		<property name="jythonScriptPaths" ref="jython_script_paths" />
-	</bean>
-
 	<bean id="RCPController" class="uk.ac.diamond.daq.server.rcpcontroller.RCPControllerImpl"/>
 	
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
 	<bean id="ExafsController" class="gda.jython.scriptcontroller.ScriptControllerBase" />

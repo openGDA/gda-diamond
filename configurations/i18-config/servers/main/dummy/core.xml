@@ -5,17 +5,10 @@
 
 	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
 	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
-	<bean id="jython_script_paths" class="gda.jython.ScriptPaths">
-		<property name="projects">
-			<list>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.config}/scripts"></property>
-					<property name="name" value="Scripts: Config"></property>
-					<property name="type" value="CONFIG"></property>
-				</bean>
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py"></property>
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts"></property>
+		<property name="name" value="Scripts: Config"></property>
+		<property name="type" value="CONFIG"></property>
 	</bean>
 
 </beans>
