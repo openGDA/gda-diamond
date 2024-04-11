@@ -1307,7 +1307,7 @@ try:
 	else:
 		diffractometer_sample_scannables += [kphi]  # @UndefinedVariable
 
-	diffractometer_sample_scannables += [azihkl, beta]
+	diffractometer_sample_scannables += [azihkl]
 	diffractometer_sample_scannables += [delta_axis_offset]
 
 	d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample', diffractometer_sample_scannables)
@@ -1811,8 +1811,7 @@ for to_protect in protected_commands :
 
 print("-"*100)
 
-from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
-from gdascripts.scan import flyscans; print(flyscans.__doc__)
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn, flyscan_set_wait_for_beam  # @UnusedImport
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
