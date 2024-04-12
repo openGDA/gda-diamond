@@ -220,7 +220,7 @@ from i09shared.scan.cvscan import cvscan  # @UnusedImport
 if installation.isLive():
     from detector.iseg_instances import dldv, mcp_b, kenergy, int_spec, DLD_start, DLD_stop  # @UnusedImport
     from detector.iseg_channel_scannable_instances import *  # @UnusedImport
-    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2  # @UnresolvedImport
+    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc  # @UnresolvedImport
     from pseudodevices.bindingEnergyScannable import benergy  # @UnusedImport
 
 from i09shared.scan.miscan import miscan, clear_summed_data  # @UnusedImport
