@@ -1,5 +1,0 @@
-#! /bin/sh
-
-export BEAMLINE=b21
-exec /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient $@ 
-
