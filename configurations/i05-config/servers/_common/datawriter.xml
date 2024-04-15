@@ -164,8 +164,8 @@
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/manipulator:NXcollection/salong</value>
-								<value>instrument:NXinstrument/manipulator:NXcollection/sax</value>
-								<value>instrument:NXinstrument/manipulator:NXcollection/say</value>
+								<value>instrument/manipulator/sax</value>
+								<value>instrument/manipulator/say</value>
 							</list>
 						</property>
 						<property name="units">
@@ -212,7 +212,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXcollection/sax" />
+							value="instrument/manipulator/sax" />
 						<property name="units" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -225,7 +225,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXcollection/say" />
+							value="instrument/manipulator/say" />
 						<property name="units" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
