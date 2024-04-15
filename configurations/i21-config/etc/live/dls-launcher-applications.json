@@ -1,0 +1,45 @@
+[
+    {
+        "type": "group", 
+        "children": [
+            {
+                "type": "button", 
+                "text": "Start GDA Log", 
+                "command": "/dls_sw/i21/software/gda/config/bin/gdalog", 
+                "icon": "lgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start GDA Client", 
+                "command": "/dls_sw/i21/software/gda/config/bin/gdaclient", 
+                "icon": "cgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start GDA Servers", 
+                "command": "/dls_sw/i21/software/gda/config/bin/gdaservers", 
+                "icon": "sgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start GDA Client with Reset", 
+                "command": "/dls_sw/i21/software/gda/config/bin/gdaclient --reset", 
+                "icon": "cgda.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start Jupyter Notebook", 
+                "command": "/usr/bin/env go_jupyter.sh", 
+                "icon": "/usr/share/icons/gnome/16x16/apps/text-editor.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "Start DAWN", 
+                "command": "/usr/bin/env bash", 
+                "args": "-c 'module load dawn; cp -rf /dls_sw/i21/etc/DAWN_2.30 ~/.; dawn -data ~/DAWN_2.30'",
+                "icon": "/dls_sw/i21/software/icons/dawn_logo.png"
+            }
+        ], 
+        "name": "Data Acquisition"
+    }
+]

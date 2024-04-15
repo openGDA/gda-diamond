@@ -1,0 +1,11 @@
+<launcher>
+  <group name="Data Acquisition">
+    <button text="Start GDA Log" command="gdalog" icon="lgda.png"/>
+    <button text="Start GDA Client" command="gdaclient" icon="cgda.png"/>
+    <button text="Start GDA Servers" command="gdaservers.sh" icon="sgda.png"/>
+    <button text="Start GDA Client" command="gdaclient" args="--reset" icon="cgda.png"/>
+    <button text="Start Jupyter Notebook" command="go_jupyter.sh" icon="/usr/share/icons/gnome/16x16/apps/text-editor.png"/>
+    <button text="Start DAWN" command="gnome-terminal --command cp -rf /dls_sw/i21/etc/DAWN_2.30 ~/.; dawn.sh -data ~/DAWN_2.30" icon="/dls_sw/i21/software/icons/dawn_logo.png"/>
+ </group>
+</launcher>
+
