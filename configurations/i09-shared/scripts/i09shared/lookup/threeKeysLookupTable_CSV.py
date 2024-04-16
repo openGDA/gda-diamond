@@ -23,7 +23,7 @@ def get_fitting_coefficents(polarisation, energy, lut={}):
     max_energy=max(high_energies)
     limits=zip(low_energies, high_energies)
     if (energy<min_energy or energy > max_energy):
-        raise ValueError("Demanding energy must lie between %s and %s eV!"%(min_energy, max_energy))
+        raise ValueError("Demanding energy must lie between %s and %s keV!"%(min_energy, max_energy))
     else:
         for low, high in limits:
             if (energy >= low and energy < high): 
