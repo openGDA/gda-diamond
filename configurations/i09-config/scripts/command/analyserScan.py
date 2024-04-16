@@ -236,10 +236,16 @@ def analyserscan(*args):
                 filename = args[i]
             except IndexError:
                 raise IndexError("Next argument after " + ew4000.getName() + " needs to be a sequence file.")
-            filename = xmldir + filename;
+            #Check if file exists, if not try with xmldir path added
+            if not os.path.isfile(filename):
+                filename = os.path.join(xmldir, filename)
+
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
                 filename=FilenameUtil.convertSeparator(filename)
+
+            if not os.path.isfile(filename):
+                raise Exception("Unable to find file " + filename)
 
             if controller is not None:
                 controller.update(controller, SequenceFileChangeEvent(filename)) #update client sequence view
