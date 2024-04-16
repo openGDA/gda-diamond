@@ -1,13 +1,6 @@
 #!/bin/bash
+export GTK_OVERLAY_SCROLLING=0
 
-export GDA_CLIENT_VMARGS="-Xms256m -Xmx2048m"
+gdalog
 
-if [ "$1" == "i06-1" ] || [ "$1" == "i06" ]; then
-	export BEAMLINE=$1
-	source /dls_sw/$1/etc/$1_profile.sh
-	gda logpanel
-	gda client "${@:2}"	
-else
-	gda logpanel
-	gda client $*
-fi	
+nohup gda client "$@"

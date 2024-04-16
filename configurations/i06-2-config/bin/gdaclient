@@ -1,7 +1,6 @@
 #!/bin/bash
+export GTK_OVERLAY_SCROLLING=0
 
-export GDA_CLIENT_VMARGS="-Xms256m -Xmx2048m"
+gdalog
 
-gda logpanel
-gda client $*
-	
+nohup gda client "$@"

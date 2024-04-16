@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+  <group name="Data Acquisition">
+    <button text="Start GDA Client" command="gdaclient" args="--reset" icon="cgda.png"/>
+    <button text="Start GDA Servers" command="gdaservers"      icon="sgda.png"/>
+    <button text="Start GDA Log" command="gdalog"              icon="lgda.png"/>
+    <button text="Start Dawn"   command="module load dawn; dawn4G $*"  icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
+    <button text="LEEM Control" command="xfreerdp --ignore-certificate --no-nla -d DIAMOND -u i06detector -p !06u5er# -g 1600x1090 -k en-gb -K i06-ws013.diamond.ac.uk"  icon="/usr/share/pixmaps/gnome-computer.png"/>
+  </group>
+</launcher>

@@ -1,0 +1,19 @@
+CONTROL_MACHINE_NAME=i10-1-control.diamond.ac.uk
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, don't start the client on the server machine.
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+
+  echo Moving GDA Log Panel...
+  wmctrl -R "GDA Log Panel" -e 0,1921,0,1000,1000
+
+  zenity --title "Start the Client?" --width 300 --question --text "The GDA servers have restarted. Click Yes to start the GDA Client." --window-icon=question
+
+  if [ $? == 0 ] ; then # 0=Yes, 1=No
+    echo Starting GDA RCP Client...
+    echo
+    gda client -P -p $SPRING_PROFILES --reset
+    echo
+    for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
+  fi
+fi
