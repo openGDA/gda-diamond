@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
+	<import resource="../../servers/_common/b21_hatsaxs.xml" />
+	
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
