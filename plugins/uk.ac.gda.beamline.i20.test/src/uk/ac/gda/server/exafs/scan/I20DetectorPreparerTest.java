@@ -27,9 +27,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
@@ -67,7 +65,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I20DetectorPreparerTest {
 
-	private static MockedStatic<XMLHelpers> xmlHelpersMock;
+	private MockedStatic<XMLHelpers> xmlHelpersMock;
 
 	private Xspress2Detector xspressSystem;
 	private NexusXmap xmpaMca;
@@ -86,14 +84,9 @@ public class I20DetectorPreparerTest {
 	private MonoOptimisation monoOptimiser;
 
 
-	@BeforeClass
-	public static void initStaticMock() {
+	@Before
+	public void initStaticMock() {
 		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
-	}
-
-	@AfterClass
-	public static void releaseStaticMock() {
-		xmlHelpersMock.close();
 	}
 
 	@Before
@@ -154,6 +147,7 @@ public class I20DetectorPreparerTest {
 
 	@After
 	public void tearDown() {
+		xmlHelpersMock.close();
 		// Remove factories from Finder so they do not affect other tests
 		Finder.removeAllFactories();
 	}
