@@ -8,5 +8,10 @@
 #############
 #
 # This script should not be added to as it is being phased out
-gda --start logpanel $@
-gda --debug --restart servers $@
+
+if [ -z "$(pgrep gdalogpanel)" ]; then 
+	echo "Starting logpanel"
+	gda logpanel $@
+fi
+
+gda server $@

@@ -137,6 +137,8 @@
 		<property name="horizontalCrystalOffset" value="130" />
 		<property name="absoluteXPos" value="true" />
 		<property name="detectorAxisAngle" value="-20" />
+		<property name="minTheta" value="68" />
+		<property name="maxTheta" value="85" />
 	</bean>
 	
 	<bean id="lower_spectrometer_all_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
