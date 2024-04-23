@@ -1,8 +1,7 @@
 [
     {
         "args": "server",
-        "command": "/usr/bin/env /dls_sw/apps/gda_launcher/nightly/gda",
-        "icon": "sgda.png", 
+        "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",        "icon": "sgda.png", 
         "text": "Start GDA Servers (with no transient devices)", 
         "type": "button"
     }, 
