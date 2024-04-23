@@ -348,14 +348,15 @@ class ContinuousPgmGratingIDGapMoveController(ConstantVelocityMoveController, De
                                                         (self._grat_pitch_end_offset - self._pgm_runupdown) * 1000., self._pgm_grat_pitch_speed))
                 self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end_offset - self._pgm_runupdown) * 1000.)
 
-        if self.getIDGapMoveDirectionPositive():
-            energy_end_offset = self._move_step
-        else:
-            energy_end_offset = -self._move_step
-
-        self._id_gap_end_offset, phase_end = self.energy.get_ID_gap_phase_at_current_source_polarisation(self._move_end + energy_end_offset)  # @UnusedVariable
 
         if self.isIDMoveEnabled():
+            if self.getIDGapMoveDirectionPositive():
+                energy_end_offset = self._move_step
+            else:
+                energy_end_offset = -self._move_step
+
+            self._id_gap_end_offset, phase_end = self.energy.get_ID_gap_phase_at_current_source_polarisation(self._move_end + energy_end_offset)  # @UnusedVariable
+
             sleep(self.getIDStartDelayTime())
             if self.getIDGapMoveDirectionPositive():
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
