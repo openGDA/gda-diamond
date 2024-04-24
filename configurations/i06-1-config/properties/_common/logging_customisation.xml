@@ -3,6 +3,6 @@
 <included>
 
 	<!-- If this file exists it loads in shared/group customise logging levels-->
-	<include file="${gda.group.dir}/properties/_common/logging_customisation.xml" />
+	<include file="${gda.config}/../i06-shared/properties/_common/logging_customisation.xml" />
 
 </included>

@@ -1,7 +1,8 @@
 #!/bin/bash
-# The local gda script is required to be on the path until the Diamond Launcher scripts in
-# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
-# this cannot be done until all beamlines use the standard startup commands.
+
+gdalog
 
 export SPRING_PROFILES=xabs
-gda server -p $SPRING_PROFILES $*
+gda server restart -P -p $SPRING_PROFILES $*
+
+gda_servers_post_start
