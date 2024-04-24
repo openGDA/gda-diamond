@@ -103,4 +103,7 @@ class Energy_Scannable(ScannableMotionBase):
     def toString(self):
         return self.name + " : " + str(self.rawGetPosition())
 
+    def reloadTable(self):
+        table.reload()
+
 energy = Energy_Scannable("energy", dcm1energy, idgap)
