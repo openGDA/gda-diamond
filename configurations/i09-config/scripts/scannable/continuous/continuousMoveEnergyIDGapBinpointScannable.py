@@ -16,6 +16,7 @@ from time import sleep
 import i09shared.installation as installation
 import java
 from scannable.continuous.continuousEnergyMoveController import ContinuousEnergyMoveController
+from gda.device import DeviceException
 
 class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
     """ Since the bin points are slaved from a multi channel scaler card, motion will fail if there is
@@ -54,7 +55,7 @@ class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaControl
 
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
     def setOperatingContinuously(self, b):
-        if self.verbose: self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
+        if self.verbose: self.logger.info('setOperatingContinuously(%r) was %r' % (bool(b), bool(self._operating_continuously)))
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -140,9 +141,21 @@ class ContinuousMoveEnergyIDGapBinpointScannable(ContinuouslyScannableViaControl
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
-            raise DeviceException("%s: getPosition() is not supported during continuous operation" % self.name)
+            if self.name == "jenergy":
+                from gdaserver import pgmenergy, jgap # @UnresolvedImport
+                energy = pgmenergy.getPosition()
+                idgap = jgap
+                id_gap_demand = self._move_controller._energy.idgap(self._last_requested_position)
+            else:
+                from gdaserver import dcmenergy, igap # @UnresolvedImport
+                energy = dcmenergy.getPosition()
+                idgap = igap
+                id_gap_demand = self._move_controller._energy.idgap(self._last_requested_position, self._move_controller._energy.getOrder())
+            id_gap = idgap.getPosition()
+            return energy, self._last_requested_position, self._last_requested_position-energy, id_gap, id_gap_demand, id_gap_demand - id_gap
         else:
             return self._move_controller._energy.getPosition()
+
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
