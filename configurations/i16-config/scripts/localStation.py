@@ -229,7 +229,7 @@ from pd_LS340readback import DisplayEpicsPVClassLS, DisplayEpicsPVClassLS2 #@Unu
 from pd_LS340control import EpicsLScontrol
 from pd_LS340setpoint import EpicsLSsetpoint
 from pd_LakeshorePID import EpicsLakeshorePID
-from pd_WaitForBeam import WaitForBeamPDClass, TimeToMachineInjectionClass, WaitForInjectionPDClass, WaitForInjectionPDClass2 #@UnusedImport
+from pd_WaitForBeam import WaitForBeamPDClass, TimeToMachineInjectionClass, WaitForInjectionPDClass, wait_for_injection_scan_start, wait_for_beam_scan_start #@UnusedImport
 from pd_metadata_group import ReadPDGroupClass
 from pd_diffractometerbase import DiffoBaseClass
 from pd_x2000 import x2000scaClass
@@ -1811,7 +1811,7 @@ for to_protect in protected_commands :
 
 print("-"*100)
 
-from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn, flyscan_set_wait_for_beam  # @UnusedImport
+from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn  # @UnusedImport
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (

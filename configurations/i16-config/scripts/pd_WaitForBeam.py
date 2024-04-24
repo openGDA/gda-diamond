@@ -129,44 +129,12 @@ class WaitForInjectionPDClass(ScannableMotionBase):
 	def atScanStart(self):
 		print '===Injection mode pausing is enabled: '+self.pd.getName()+' must exceed '+str(self.due) 
 
-class WaitForInjectionPDClass2(ScannableMotionBase):
-	'''
-	PD to wait for beam injection during top-up mode
-	dev=WaitForInjectionPDClass(name, time_to_injectio_PV, due_time(sec), waitfor_time(sec) )
-	waits if injection is due within min_time (self.due)
-	This version gives the min time before injection (allow_time)
-	'''
-	def __init__(self, name,pd_to_monitor, due, waitfor):
-		self.setName(name);
-		self.setInputNames([])
-		self.pd=pd_to_monitor
-		self.setExtraNames(['allow_time']);
-		self.Units=[]
-		self.setOutputFormat(['%.1f'])
-		self.setOutputFormat([])
-		self.setLevel(6)
-		self.due=due
-		self.waitfor=waitfor
-		self.message_displayed=0
-
-	def getPosition(self):
-		#print "WaitForBeamPDClass.getPosition() called"		
-		if self.pd()>self.due:
-			return self.due
-		else:
-			while 1:
-				if self.pd()>self.due:
-					self.message_displayed=0
-					sleep(self.waitfor)
-					return self.due
-				else:
-					if self.message_displayed==0:
-						print '===  Waiting for injection on: '+time.ctime()
-						self.message_displayed=1
-					sleep(.5)
-
-	def isBusy(self):
-		return 0	
-
-	def atScanStart(self):
-		print '===Injection mode pausing is enabled: '+self.pd.getName()+' must exceed '+str(self.due) 
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
+from gdaserver import rc
+_timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
+wait_for_injection_scan_start = WaitWhileScannableBelowThreshold('wait_for_injection_scan_start', _timetoinjection, 60, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
+wait_for_injection_scan_start.setOperatingContinuously(True)
+wait_for_injection_scan_start.setInputNames([])
+wait_for_beam_scan_start = WaitWhileScannableBelowThreshold('wait_for_beam_scan_start', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10)
+wait_for_beam_scan_start.setOperatingContinuously(True)
+wait_for_beam_scan_start.setInputNames([])
