@@ -964,6 +964,8 @@ if USE_PIL3:
 		pil3_required = RequiredRoiManager(pil3_100k)
 		pil3_geometry = GeometryScannable('pil3_geometry', 'pilatus3',
 			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml')
+		# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
+		# as scans will fail with an inobvious error message if not
 	else:
 		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
 		localStation_warning("pil3 = NXProcessingDetectorWrapper (not NXDetector)")
