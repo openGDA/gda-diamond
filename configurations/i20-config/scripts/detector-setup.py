@@ -59,8 +59,8 @@ def setupXspress4() :
     # # Set to empty string, so that at scan start path is set to current visit directory.
     xspress4.setFilePath("");
     set_hdf5_filetemplate(basename)
-    xspress4.setMcaReadoutWaitTimeMs(3000)
-    xspress4.setReadoutWaitTimeMs(50)
+    xspress4.setMcaReadoutWaitTimeMs(500)
+    xspress4.getController().setCounterWaitTimeMs(50)
 
     print("Finished setting up Xspress4 detector")
 
