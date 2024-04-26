@@ -31,7 +31,7 @@ alias("list_watchdogs")
 timerScannable = TimeSinceScanStart("timerScannable")
 
 
-# experiment listener: writes visit to PV
+# experiment listener: writes visit to PV and copies template files
 from experiment_listener import ExperimentListener
 visit_pv = "BL11K-BL-SET-01:EXPERIMENTID" if is_live() else "ws413-AD-SIM-01:STAT:NDArrayPort"
 listener = ExperimentListener(visit_pv)
