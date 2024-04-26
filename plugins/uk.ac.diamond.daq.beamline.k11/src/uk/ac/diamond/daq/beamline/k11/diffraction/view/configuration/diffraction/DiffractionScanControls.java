@@ -44,13 +44,18 @@ public class DiffractionScanControls implements CompositeFactory, Reloadable {
 
 	private Text name;
 
-	private DataBindingContext bindingContext = new DataBindingContext();
+	private DataBindingContext bindingContext;
 
-	private List<Reloadable> reloadableControls = new ArrayList<>();
+	private List<Reloadable> reloadableControls;
 
+	private void resetCachedState() {
+		reloadableControls = new ArrayList<>();
+		bindingContext = new DataBindingContext();
+	}
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
+		resetCachedState();
 
 		var composite = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().applyTo(composite);

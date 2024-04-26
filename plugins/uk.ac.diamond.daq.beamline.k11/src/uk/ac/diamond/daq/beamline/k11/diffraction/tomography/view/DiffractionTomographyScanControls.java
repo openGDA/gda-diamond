@@ -57,14 +57,21 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 
 	private Text name;
 
-	private DataBindingContext bindingContext = new DataBindingContext();
+	private DataBindingContext bindingContext;
 
-	private List<Reloadable> reloadableControls = new ArrayList<>();
+	private List<Reloadable> reloadableControls;
 
 	private TrajectoryMutator trajectoryMutator = new TrajectoryMutator();
 
+	private void resetCachedState() {
+		reloadableControls = new ArrayList<>();
+		bindingContext = new DataBindingContext();
+	}
+
 	@Override
 	public Composite createComposite(Composite parent, int style) {
+		resetCachedState();
+
 		var composite = innerComposite(parent, 1, true);
 
 		createNameControl(composite);
