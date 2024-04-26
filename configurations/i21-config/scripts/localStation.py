@@ -197,7 +197,7 @@ from scannabledevices.checkbeamscannables import checkbeam, checkrc, checkfe, ch
 # GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
 from i21commands.checkedMotion import move, enable_arm_motion  # @UnusedImport
 
-from functions.go_founctions import go, goLH, goLV, goCL, goCR  # @UnusedImport
+from functions.go_founctions import go  # @UnusedImport
 
 print("create 'alltth' scannable")
 from scannabledevices.M5GroupScannable import alltth  # @UnusedImport
