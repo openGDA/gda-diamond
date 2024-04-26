@@ -9,7 +9,7 @@ from time import sleep
 from gdascripts.utils import caput
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdaserver import sgmpitch, fastshutter  # @UnresolvedImport
-from shutters.detectorShutterControl import primary, polarimeter, erio
+from shutters.detectorShutterControl import primary, polarimeter, erio, fsxas
 from gda.jython.commands.GeneralCommands import alias   
 from gda.device.scannable import DummyScannable
 
@@ -69,8 +69,9 @@ alias("acquireRIXS")
 def acquiredark(n, det, exposure_time, *args):
     '''collect dark image data without creating node link in subsequent scan data files.
     '''
-    erio()
+    fsxas()
     fastshutter("Closed")
     acquireImages(n, det, exposure_time, *args)
+    primary()
 
 alias("acquiredark")
