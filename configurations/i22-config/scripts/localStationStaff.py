@@ -17,7 +17,7 @@
 from gdascripts.mscanHandler import *
 from gdascripts import mscanHandler
 
-rds = mscanHandler.getRunnableDeviceService()
+rds = mscanHandler.runnableDeviceService
 p1xy_fly = rds.getRunnableDevice("BL22I-ML-SCAN-01")
 base_fly = rds.getRunnableDevice("BL22I-ML-SCAN-02")
 time_fly = rds.getRunnableDevice("BL22I-ML-SCAN-03")
