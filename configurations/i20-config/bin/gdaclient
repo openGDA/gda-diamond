@@ -1,2 +1,2 @@
 #!/bin/bash
-gda client "$@"
+gda client -f "$@"
