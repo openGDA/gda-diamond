@@ -78,7 +78,7 @@ class WaitForGas:
             
             record = records.get().getData().get(0)
             record_time = self.get_record_time(record)
-            if record.getValue() == self.target:
+            if record.getVal() == self.target:
                 # it's the transition to on;
                 # set on time as time from then to now
                 ontime = Duration.between(record_time, self.get_zone_time(now)).toMinutes()
