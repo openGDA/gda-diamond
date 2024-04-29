@@ -3,16 +3,39 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ES1_temperature_51" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="_es1_temp_51_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="30.0" />
 		<property name="upperLimit" value="40.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="ES1_temperature_52" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="_es1_temp_51_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="30.0" />
+		<property name="upperLimit" value="40.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es1_temp_51_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
+	<bean id="_es1_temp_52_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es1_temp_52_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es1_temp_52_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
 </beans>

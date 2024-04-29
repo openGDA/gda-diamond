@@ -3,14 +3,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ES2_sample_temperature" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="_es2_temp_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="30.0" />
-		<property name="upperLimit" value="40.0" />
+		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="ES2_heater_output" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="_es2_temp_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es2_temp_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="30.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
