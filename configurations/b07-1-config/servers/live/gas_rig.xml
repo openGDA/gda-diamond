@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="gr_pirg_04" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-PIRG-04:PRESSURE3_RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_pirg_06" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-PIRG-06:PRESSURE3_RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_01" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-01:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-01:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_02" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-02:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-02:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_03" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-03:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-03:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_04" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-04:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-04:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_05" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-05:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-05:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_06" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-06:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-06:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_07" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-07:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-07:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_08" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-08:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-08:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_09" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-09:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-09:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_10" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-10:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-10:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_11" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-11:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-11:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_12" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-12:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-12:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_13" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-13:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-13:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_mfc_14" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-MFC-14:MASS:FLOW:RD" />
+		<property name="pvNameSetPoint" value="BL07C-GA-MFC-14:SETPOINT:WR" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gr_line_switching_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-10:STA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
+	<bean id="gr_line_switching_valve_status" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-10:STA" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="gr_line_switching_valve_control" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-10:CON" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="gr_butterfly_valve_pressure" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-92:SETPRESSURE" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%3.2f" />
+	</bean>
+
+	<bean id="gr_butterfly_valve_position" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL07C-GA-VALVE-92:POSITION" />
+		<property name="pvNameSetPoint" value="BL07C-GA-VALVE-92:SETPOSITION" />
+		<property name="outputFormat" value="%3.2f" />
+	</bean>
+
+	<bean id="gr_butterfly_valve_mode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-92:CON"/>
+		<property name="readOnly" value="false"/>
+	</bean>
+
+	<bean id="gr_butterfly_valve_control" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-GA-VALVE-92:CON" />
+		<property name="canMove" value="true" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="gr_endstation_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-VA-VALVE-36:STA" />
+		<property name="readOnly" value="true" />
+	</bean>
+
+	<bean id="line_2_valve" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07C-GA-VALVE-94:STA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
+	<bean id="gr_sample_temp" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07C-EA-TCTRL-01:PV:RBV" />
+		<property name="canMove" value="false" />
+		<property name="outputFormat" value="%3.3f" />
+	</bean>
+
+	<bean id="gas_rig_controller" class="uk.ac.diamond.daq.gasrig.GasRigController">
+		<constructor-arg value="BL07C-GA-" />
+		<constructor-arg>
+			<list>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="7" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="46" />
+							<entry key="2" value="45" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="8" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="52" />
+							<entry key="2" value="51" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="9" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="58" />
+							<entry key="2" value="57" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="10" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="64" />
+							<entry key="2" value="63" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="11" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="70" />
+							<entry key="2" value="69" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="12" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="76" />
+							<entry key="2" value="75" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="13" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="82" />
+							<entry key="2" value="81" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="14" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="88" />
+							<entry key="2" value="87" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="5" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="34" />
+							<entry key="2" value="35" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="6" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="39" />
+							<entry key="2" value="40" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="1" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="14" />
+							<entry key="2" value="15" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="2" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="19" />
+							<entry key="2" value="20" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="3" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="24" />
+							<entry key="2" value="25" />
+						</map>
+					</constructor-arg>
+				</bean>
+				<bean class="uk.ac.diamond.daq.gasrig.GasRigFlowController">
+					<constructor-arg value="BL07C-GA-" />
+					<constructor-arg value="4" />
+					<constructor-arg>
+						<map>
+							<entry key="1" value="29" />
+							<entry key="2" value="30" />
+						</map>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+		<property name="v92ControlSleep" value="400" />
+	</bean>
+</beans>

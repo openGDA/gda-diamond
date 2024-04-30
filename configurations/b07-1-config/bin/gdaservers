@@ -1,17 +1,15 @@
 #!/bin/bash
 # The local gda script is required to be on the path 
 
-gda --start logpanel
-
 HW_RBV=`caget BL07C-EA-ENDST-01:CFG:HW_RBV`
 
 if grep -q 'TPOT' <<< "$HW_RBV"; then
-	echo "gda servers --springprofiles TPOT $*"
-	gda servers --springprofiles TPOT $*
+	echo "gda server restart --profile TPOT $*"
+	gda server restart --profile TPOT $*
 elif grep -q 'TCUP' <<< "$HW_RBV"; then
-	echo "gda servers --springprofiles TCUP $*"
-	gda servers --springprofiles TCUP $*
+	echo "gda server restart --profile TCUP $*"
+	gda server restart --profile TCUP $*
 else
-	echo "gda servers $*"
-	gda servers $*
+	echo "gda server $*"
+	gda server $*
 fi

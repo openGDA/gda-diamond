@@ -1,9 +1,9 @@
 # localStation.py
 # For beamline specific initialisation code.
 #
-import java
-from gda.configuration.properties import LocalProperties
 import sys
+from gda.configuration.properties import LocalProperties
+from uk.ac.diamond.daq.configuration import ConfigUtils
 from utils.ExceptionLogs import localStation_exceptions, localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
 
@@ -60,15 +60,14 @@ import installation
 meta_data_list = []  # other common metadata can be added here if required!
 if installation.isLive():
     meta_data_list = meta_data_list + [rga]  # @UndefinedVariable
-    end_station_configuration = int(caget("BL07C-EA-ENDST-01:CFG:HW_RBV"))
-    if end_station_configuration == 1:  # TPOT
+    if ConfigUtils.profileActive("TPOT"):
         print("add TPOT scannables to metadata list ...")
         try:
             meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
         except Exception as e:
             print("adding TPOT to metadata failed.")
             localStation_exception(sys.exc_info(), "adding TPOT to metadata error")
-    if end_station_configuration == 2:  # TCUP
+    if ConfigUtils.profileActive("TCUP"):
         print("add TCUP metadata scannables to be captured in data files.")
         try:
             meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
@@ -76,12 +75,10 @@ if installation.isLive():
             print("adding TCUP to metadata failed.")
             localStation_exception(sys.exc_info(), "adding TCUP to metadata error")
 else:
-    from java.lang import System  # @UnresolvedImport
-    spring_profiles = System.getProperty("gda.spring.profiles.active")
-    if "TPOT" in spring_profiles:
+    if ConfigUtils.profileActive("TPOT"):
         print("add TPOT metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
-    if "TCUP" in spring_profiles:
+    if ConfigUtils.profileActive("TCUP"):
         print("add TCUP metadata scannables to be captured in data files.")
         meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
 

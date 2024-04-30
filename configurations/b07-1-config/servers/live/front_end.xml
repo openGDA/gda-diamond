@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Front End Beam Permit -->
+	<bean id="feBeamPermit" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE07C-CS-BEAM-01:BLCON" />
+		<property name="statusPv" value="FE07C-CS-BEAM-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+
+
+</beans>
