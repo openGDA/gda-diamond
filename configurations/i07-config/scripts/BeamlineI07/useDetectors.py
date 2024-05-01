@@ -6,7 +6,7 @@ pvRootScaler   = "BL07I-EA-ADC-01";
 
 adc = AdcScalerClass('adc',pvRootScaler);
 ionc1 = AdcScalerChannelClass('ionc1',pvRootScaler, channel=0);
-ionc2 = AdcScalerChannelClass('ionc2',"BL07I-EA-ADC-02", channel=0);
+ionc2 = AdcScalerChannelClass('ionc2',"BL07I-EA-ADC-02", channel=4);
 ionsc1=ionc1;
 
 adc2 = AdcScalerChannelClass('adc2',pvRootScaler, channel=1);
