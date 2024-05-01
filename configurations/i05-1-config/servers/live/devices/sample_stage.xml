@@ -5,14 +5,17 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="smx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="accessControl" ref="xAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:SMX" />
 	</bean>
 
 	<bean id="smy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="accessControl" ref="yAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:SMY" />
 	</bean>
 
 	<bean id="smz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="accessControl" ref="zAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:SMZ" />
 	</bean>
 
@@ -20,7 +23,7 @@
 		<property name="accessControl" ref="polAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:POL" />
 	</bean>
-	
+
 	<bean id="polAccessControl" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="BL05J-EA-SM-01:POL:ENABLE:RBV" />
 		<property name="reversedPvLogic" value="true" />
@@ -30,7 +33,7 @@
 		<property name="accessControl" ref="azmAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:AZM" />
 	</bean>
-	
+
 	<bean id="azmAccessControl" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="BL05J-EA-SM-01:AZM:ENABLE:RBV" />
 		<property name="reversedPvLogic" value="true" />
@@ -39,5 +42,4 @@
 	<bean id="smdefocus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-SM-01:SMDF" />
 	</bean>
-
 </beans>
