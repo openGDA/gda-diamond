@@ -24,6 +24,7 @@ class Ecc100Axis(ScannableBase):
         self.ca_llimit = CAClient(self.pv_root + "ST_EOT_BWD")
         self.min_delay = 1 #1 second
         self.time_at_move = 0
+        self.offset = 0
         self.configure()
 
     def isBusy(self):
@@ -37,10 +38,11 @@ class Ecc100Axis(ScannableBase):
         return int(self.ca_inposition.caget()) != 1
 
     def getPosition(self):
-        return float(self.ca_position_rbv.caget())
+        return float(self.ca_position_rbv.caget()) + self.offset
 
     def asynchronousMoveTo(self, pos):
-        self.ca_position.caput(pos)
+        adjustedPos = pos - self.offset
+        self.ca_position.caput(adjustedPos)
         self.time_at_move = time()
 
     def configure(self):
