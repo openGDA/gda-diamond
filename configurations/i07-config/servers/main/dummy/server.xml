@@ -48,6 +48,7 @@
 		<import resource="detectors/pilatus2.xml" />
 		<import resource="detectors/pilatus3.xml" />
 		<import resource="detectors/excalibur.xml" />
+		<import resource="detectors/eiger.xml" />
 		<import resource="devices/*.xml" />
 		<import resource="transient.xml" />
 		<import resource="lakeshore.xml" />
