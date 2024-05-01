@@ -25,13 +25,11 @@ def createUserSetup():
 # sets the file path for both Pilatus detectors to the I07 defaults
 
 def setPilPaths():
-    pil1.setFile("pilatus1","p100kImage")
     pil2.setFile("pilatus2","p2mImage")
     pil3.setFile("pilatus3","p3Image")    
 #    pil3.setFilePath(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/pilatus3")
 #    pil3.setFileName("p3Image")
 #    print "pil3 path: " + pil3.getFilePath()
-#    print "p100k path: " + pil1.getFullFileName()
 #    print "p2m path:   " + pil2.getFullFileName()
 
 

@@ -106,18 +106,10 @@ try_execfile("BeamlineI07/createAdditionalMetadataDevices.py", "Metadata Header 
 
 try_execfile("BeamlineI07/createAlias.py")
 
-#try_execfile("BeamlineI07/useEpicsPilatus100K.py")
-try_execfile("BeamlineI07/useAreaDetectorPilatus1.py")
-
 #try_execfile("BeamlineI07/useEpicsPilatus2M.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
-#try_execfile("BeamlineI07/dcdRoi.py")
-try_execfile("BeamlineI07/movingRoi.py")
-
 try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
-
-try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
 
 try_execfile("BeamlineI07/useGigECams.py")
 

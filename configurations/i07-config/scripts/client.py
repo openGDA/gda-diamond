@@ -33,7 +33,6 @@ try:
 	#Pilatus path update
 	print
 	print "===================================================================";
-	pil1.setFile();
 	pil2.setFile();
 	pil3.setFile();
 	

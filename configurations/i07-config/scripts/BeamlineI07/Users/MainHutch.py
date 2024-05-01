@@ -39,7 +39,6 @@ try_execfile("BeamlineI07/Users/gotopeak.py")
 #print "*******************************************************************\n"
 #print "Current data directory: " + i07.getDataPath()
 #print "Operation link (for legacy apps): " + getoutput("readlink /dls/i07/data/operation") + "\n"
-#print "EH1 p100k path: " + pil1.getFullFileName()
 #print "EH1 p2m   path: " + pil2.getFullFileName()
 #print "EH2 p100k path: " + pil3.getFullFileName()
 #print "\n*******************************************************************"

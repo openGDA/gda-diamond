@@ -244,15 +244,3 @@ class DetectorAnalyserClass(ScannableMotionBase):
 			self.display();
 		
 		return result;
-
-
-##########################################
-
-#from Diamond.Analysis.Processors import DummyTwodPorcessor, MinMaxSumMeanDeviationProcessor;
-#from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
-#from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
-#from gda.analysis.io import PilatusTiffLoader
-
-#pil1stats = DetectorAnalyserClass("pil1stats", pil1, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
-#pil1stats.setAlive(True);
-
