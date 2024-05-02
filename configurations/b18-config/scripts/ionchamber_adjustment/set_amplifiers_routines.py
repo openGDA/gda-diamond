@@ -6,29 +6,30 @@ Adjusting amplifiers in the minimum number of steps possible, included possiblit
 '''
 
 from time import sleep
-#from gda.epics import CAClient
 from warnings import warn
-#import random
-#import numpy as np
+import random
 
-"""
-#list of amplification text and factors
-[get_amp_txt(amp_int) for amp_int in range(36)]
-['1 pA/V', '2 pA/V', '5 pA/V', '10 pA/V', '20 pA/V', '50 pA/V', '100 pA/V', '200 pA/V', '500 pA/V', '1 nA/V', '2 nA/V', '5 nA/V', '10 nA/V', '20 nA/V', '50 nA/V', '100 nA/V', '200 nA/V', '500 nA/V', '1 uA/V', '2 uA/V', '5 uA/V', '10 uA/V', '20 uA/V', '50 uA/V', '100 uA/V', '200 uA/V', '500 uA/V', '1 mA/V', '2 mA/V', '5 mA/V', '10 mA/V', '20 mA/V', '50 mA/V', '100 mA/V', '200 mA/V', '500 mA/V']
-[get_amp_factor(amp_int) for amp_int in range(36)]
-[1000000000000.0, 500000000000.0, 200000000000.0, 100000000000.0, 50000000000.0, 20000000000.0, 10000000000.0, 5000000000.0, 2000000000.0, 1000000000.0, 500000000.0, 200000000.0, 100000000.0, 50000000.0, 20000000.0, 10000000.0, 5000000.0, 2000000.0, 1000000.0, 500000.0, 200000.0, 100000.0, 50000.0, 20000.0, 10000.0, 5000.0, 2000.0, 1000.0, 500.0, 200.0, 100.0, 50.0, 20.0, 10.0, 5.0, 2.0]
-"""
+# lists for convert between value and index (0~35)
+val_list=['1','2','5','10','20','50','100','200','500']
+scale_list=['pA/V','nA/V','uA/V','mA/V']
 
-"""elif 'optimized' in old_status[ic]:
-                    print('counts_optimized')
-                    #counts oscillating between lowest_acceptable_I and max_I when amp is moving +/-1 step, stay in low counts 
-                    keep_values(ic)
-                    amps_ok[ic]=True"""
+def valueToIndex(val, scale): # val is actual value from val_list, same as scale from scale_list
+    ampl=int(val_list.index(val))+int(scale_list.index(scale))*9
+    return ampl
+
+def indexToValue(ampl): # ampl is 0~35
+    def scale():
+        return int(ampl/9)
+    def val():
+        return int(ampl-scale()*9)
+   
+    #return [val_list[val()],scale_list[scale()]]
+    return [val(),scale()]
+
 
 
 def get_amp_txt(amp_int):
-    val_list=['1','2','5','10','20','50','100','200','500']
-    scale_list=[' pA/V',' nA/V',' uA/V',' mA/V']
+
     scale_int=amp_int//9
     val_int=amp_int%9
     scale_txt=scale_list[scale_int]
@@ -38,8 +39,7 @@ def get_amp_txt(amp_int):
 def get_amp_factor(amp_int):
     scale_index=amp_int//9
     val_index=amp_int%9
-    val_list=['1','2','5','10','20','50','100','200','500']
-    scale_list=[' pA/V',' nA/V',' uA/V',' mA/V']
+ 
     #counts as if 1A current measured: 500mA/v -> 2, 20uA/V -> 1e4 1pA/V -> 1e12
     amp_factor=10**(3*(4-scale_index))/int(val_list[val_index])
     return amp_factor
@@ -82,10 +82,6 @@ def read_ampl_test(amps_to_set=[]):
         amps=amps_to_set
     return amps
     
-
-
-
-
     
 def isalive():  #determines if b18 detector rates is running
     status_alive=detectorMonitorDataProvider.getCollectionIsRunning()    
@@ -116,64 +112,62 @@ def read_chambers():
     result=read_from_stopped()
     return result
 
-def read_ampl():
+def read_ampl(): # index
     #note present implementation dos not have much sense 
-    ca1=CAClient()
-    val1=ca1.caget('BL18B-DI-STANF-04:SENS:SEL1')
-    val2=ca1.caget('BL18B-DI-STANF-05:SENS:SEL1')
-    val3=ca1.caget('BL18B-DI-STANF-06:SENS:SEL1')
-    scale1=ca1.caget('BL18B-DI-STANF-04:SENS:SEL2')
-    scale2=ca1.caget('BL18B-DI-STANF-05:SENS:SEL2')
-    scale3=ca1.caget('BL18B-DI-STANF-06:SENS:SEL2')
+
+    val1= i0_stanford_sensitivity.getPosition() 
+    val2= it_stanford_sensitivity.getPosition()
+    val3= iref_stanford_sensitivity.getPosition()
+    scale1= i0_stanford_sensitivity_units.getPosition()
+    scale2= it_stanford_sensitivity_units.getPosition()
+    scale3= iref_stanford_sensitivity_units.getPosition()
+    
     #convert the text code for amplification+scale into a number 
-    ampl1=int(val1)+int(scale1)*9
-    ampl2=int(val2)+int(scale2)*9
-    ampl3=int(val3)+int(scale3)*9
+    ampl1=valueToIndex(val1, scale1)
+    ampl2=valueToIndex(val2, scale2)
+    ampl3=valueToIndex(val3, scale3)
+
     print 'amplifiers:',[ampl1,ampl2,ampl3]
     return [ampl1,ampl2,ampl3]
 
-def set_ampl(ampl_arr):
+def set_ampl(ampl_arr): #ampl_arr is index array
     #sets amplifications according to read_ampl code i.e. integers starting from 0=1pa/v
-    #note present implementation of ion chamber sensitivity in GDA does not have much sense 
-    val_txt=['1','2','5','10','20','50','100','200','500']
-    ampl_txt=[' pA/V',' nA/V',' uA/V',' mA/V']
     
     ampl1=ampl_arr[0]
     ampl2=ampl_arr[1]
     ampl3=ampl_arr[2]
-    
-    ca1=CAClient()
+      
     #convert the text code for amplification+scale into a number 
-    scale1=int(ampl1/9)
-    scale2=int(ampl2/9)
-    scale3=int(ampl3/9)
+    scale1=indexToValue(ampl1)[1]
+    scale2=indexToValue(ampl2)[1]
+    scale3=indexToValue(ampl3)[1]
     
-    val1=ampl1-scale1*9
-    val2=ampl2-scale2*9
-    val3=ampl3-scale3*9
+    val1=indexToValue(ampl1)[0]
+    val2=indexToValue(ampl2)[0]
+    val3=indexToValue(ampl3)[0]
 
     print 'set_ampl:',ampl_arr
     print '\tscales and values:',scale1,val1, scale2,val2,scale3,val3
-    print '\tI0:',val_txt[val1], ampl_txt[scale1]
-    print '\tIt:',val_txt[val2], ampl_txt[scale2]
-    print '\tIref:',val_txt[val3], ampl_txt[scale3]
+    print '\tI0:',val_list[val1], scale_list[scale1]
+    print '\tIt:',val_list[val2], scale_list[scale2]
+    print '\tIref:',val_list[val3], scale_list[scale3]
     
     ampl1=int(val1)+int(scale1)*9
     ampl2=int(val2)+int(scale2)*9
     ampl3=int(val3)+int(scale3)*9
     
     if(val1>=0)and(val1<9):
-        ca1.caput('BL18B-DI-STANF-04:SENS:SEL1',val1)
+        i0_stanford_sensitivity.moveTo(val_list[val1])
     if(val2>=0)and(val2<9):
-        ca1.caput('BL18B-DI-STANF-05:SENS:SEL1',val2)
+        it_stanford_sensitivity.moveTo(val_list[val2])
     if(val3>=0)and(val3<9):
-        ca1.caput('BL18B-DI-STANF-06:SENS:SEL1',val3)
+        iref_stanford_sensitivity.moveTo(val_list[val3])
     if(scale1>=0)and(scale1<4):
-        ca1.caput('BL18B-DI-STANF-04:SENS:SEL2',scale1)
+        i0_stanford_sensitivity_units.moveTo(scale_list[scale1])
     if(scale2>=0)and(scale2<4):
-        ca1.caput('BL18B-DI-STANF-05:SENS:SEL2',scale2)
+        it_stanford_sensitivity_units.moveTo(scale_list[scale2])
     if(scale3>=0)and(scale3<4):
-        ca1.caput('BL18B-DI-STANF-06:SENS:SEL2',scale3)
+        iref_stanford_sensitivity_units.moveTo(scale_list[scale3])
 
     return [ampl1,ampl2,ampl3]
 
@@ -272,91 +266,6 @@ def adjust_sensitivities(amp_opt_array=[8,12,15]):
     print('intensities expected :',exp_counts)
     return amps_to_set
 
-"""
-def adjust_sensitivities():
-    def keep_values(ic):
-        amps_to_set[ic]=amps[ic]
-        expected_ints[ic]=ints[ic]
-    def adjust_low_counts(ic,max_I):
-        loop_ints=ints[ic]
-        loop_amps=amps[ic]
-        while loop_ints<max_I and loop_amps>=0:
-            loop_amps,loop_ints=increase_counts(loop_amps,loop_ints)
-        amps_to_set[ic],expected_ints[ic]=reduce_counts(loop_amps,loop_ints)
-    max_I=22000000
-    amps_ok=[False]*3
-    ic_status=['','','']
-    old_status=['','','']
-    loop_counter=0
-#    while amps_ok.count(True) is not 3 and beam_chk.atScanStart():
-    while amps_ok.count(True) is not 3:
-        loop_counter=loop_counter+1
-        print('loop : '+str(loop_counter))
-        amps_ok=[False]*3
-        sleep(0.1)
-        amps=read_ampl()
-        ints=read_chambers()[1:4] #only reading values from I0,It,Iref in position 1,2,3 of the array
-        ic_status=get_ic_status(amps,ints,max_I)
-        print 'amplifications = ',amps
-        print 'intensities = ',ints
-        print 'ion chambers status = ',ic_status
-        amps_to_set=[1,1,1] 
-        for a in range(len(amps)):
-            amps_to_set[a]=amps[a]
-        expected_ints=ints 
-        #loop on each ionchamber
-        for ic in range(3):
-            if ic_status[ic]=='ok':
-                    keep_values(ic)
-                    amps_ok[ic]=True
-            elif ic_status[ic]=='low':
-                if amps[ic]==0:
-                    keep_values(ic)
-                    amps_ok[ic]=True
-                    warn("\n Ionchamber "+str(ic)+"; Amplification at minimum value, intensities cannot be further optimised")
-                elif 'ok' in old_status[ic]:
-                    #counts oscillating around lowest_acceptable_I, no changes in amplification needed
-                    keep_values(ic)
-                    amps_ok[ic]=True
-                elif 'optimized' in old_status[ic]:
-                    #counts oscillating between lowest_acceptable_I and max_I when amp is moving +/-1 step, stay in low counts 
-                    keep_values(ic)
-                    amps_ok[ic]=True
-                else :
-                    #run a loop that optimizes the amplifications to be as close as possible to max_I without saturation
-                    adjust_low_counts(ic,max_I)
-                    print amps_to_set[ic],amps[ic]
-                    if abs(amps_to_set[ic]-amps[ic])<5:
-                        old_status[ic]=old_status[ic]+'_optimized'                
-            elif ic_status[ic]=='high':
-                if amps[ic]==35:
-                    keep_values(ic)
-                    warn("\n Ionchamber "+str(ic)+"; Amplification at maximum value, detector saturation cannot be avoided")
-                elif 'ok' in old_status[ic]:
-                    #counts oscillating around max_I value, one step change applied to stay in a safe count region
-                    #ok, no need to double check counts
-                    amps_to_set[ic],expected_ints[ic]=reduce_counts(amps[ic],ints[ic])
-                    amps_ok[ic]=True    
-                elif 'optimized' in old_status[ic]:
-                    # previous optimization loop did not work, avoid going in infinite loop 
-                    #goes down step by step until not saturated
-                    amps_to_set[ic],expected_ints[ic]=reduce_counts(amps[ic],ints[ic])    
-                else:    
-                    #changes scale unit and optimize during next loop         
-                    amps_to_set[ic],expected_ints[ic]=reduce_counts(min(35,amps[ic]+9),expected_ints[ic]) 
-            old_status[ic]=old_status[ic]+'_'+ic_status[ic]
-        print 'old_status: ',old_status
-        print amps_to_set,'\n',expected_ints,'\n',amps_ok
-        #set_ampl(amps_to_set)
-    print amps_ok
-    print 'amplifications to set :',amps_to_set
-    print 'intensities expected :',expected_ints
-    return amps_to_set
-
-#GC 20210424 needed to add this to path otherwise new directory structure will make it fail
-import sys
-sys.path.insert(1,'/dls_sw/b18/scripts/BEAMLINE_SCRIPTS/XRAY_EDGES_FLUOLINES')
-"""
 
 def adjust_sensitivities_edge(element='',line='K',pre_edge=50,post_edge=1000):
     import ionchamber_adjustment.Xray_edges as xe
@@ -488,17 +397,3 @@ def check_beam_on():
         beam_on=False
         warn('X-ray beam not on:'+warn_msg)
     return beam_on
-        
-"""
-
-# for test out of beamline only
-def read_ampl():
-    text_ampl=raw_input('ic amps: ').strip()
-    a,b,c=tuple([int(i) for i in text_ampl.split(' ')])
-    return [a,b,c]
-
-def read_chambers():
-    text_ampl=raw_input('ic counts: ').strip()
-    a,b,c=tuple([float(i) for i in text_ampl.split(' ')])
-    return [a,b,c]
-"""
