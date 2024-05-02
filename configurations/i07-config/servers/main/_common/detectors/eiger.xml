@@ -23,8 +23,7 @@
 		<property name="triggerMode" value="Internal Series" />
 	</bean>
 
-<!-- For PVA plugin -->
-
+	<!-- For PVA plugin -->
 
 	<bean id="eig_pva" class="gda.device.detector.NXDetector">
 		<property name="name" value="eig_pva" />
@@ -63,14 +62,10 @@
 			</bean>
 		</property>
 	</bean>
-	
-	
+
 	<!-- End PVA -->
-	
-	
-	
-	
-		<!-- Objects for Processing -->
+
+	<!-- Objects for Processing -->
 
 	<bean
 		class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"
@@ -103,7 +98,6 @@
 		<property name="useUidDataset" value="true" />
 	</bean>
 
-
 	<bean
 		class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"
 		id="eiger_swmr_verbose">
@@ -121,7 +115,7 @@
 		<constructor-arg index="4" ref="eiger_mask" />
 		<property name="useUidDataset" value="true" />
 	</bean>
-	
+
 	<bean
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
 		id="eiger_mask">
@@ -187,6 +181,5 @@
 		id="eiger_plotter">
 		<property name="plotName" value="Eiger" />
 	</bean>
-	
 
 </beans>

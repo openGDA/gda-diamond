@@ -47,15 +47,14 @@
 		<import resource="detectors/d1cam.xml" />
 		<import resource="detectors/d1acam.xml" />
 		<import resource="detectors/d4cam.xml" />
-		
 		<import resource="detectors/pilatus1.xml" />
 		<import resource="detectors/pilatus2.xml" />
 		<import resource="detectors/pilatus3.xml" />
 		<import resource="detectors/excalibur.xml" />
+		<import resource="detectors/eiger.xml" />
 		<import resource="detectors/malcolm.xml" />
 		<import resource="devices/*.xml" />
 		<import resource="transient.xml" />
 		<import resource="lakeshore.xml" />
-		
 	</beans>
 </beans>
