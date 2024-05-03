@@ -2,26 +2,28 @@ from time import sleep
 from gdascripts.utils import caget, caput, caput_wait
 from gda.device.scannable import ScannableBase
 
-def setRequiredXmapPVs():
+def setRequiredXmapPVs(max_e, binning):
 	try:
 			caput_wait("ME13C-EA-DET-01:CollectMode", 0) #MCA Spectra
 			caput_wait("ME13C-EA-DET-01:PresetMode", 1) #Real mode
-			caput_wait("ME13C-EA-DET-01:MCA1.NUSE", 2048) #binning
-			caput_wait("ME13C-EA-DET-01:DXP1:MaxEnergy", 20.48)
-			caput_wait("ME13C-EA-DET-01:DXP2:MaxEnergy", 20.48)
-			caput_wait("ME13C-EA-DET-01:DXP3:MaxEnergy", 20.48)
-			caput_wait("ME13C-EA-DET-01:DXP4:MaxEnergy", 20.48)
+			caput_wait("ME13C-EA-DET-01:MCA1.NUSE", binning) #binning
+			caput_wait("ME13C-EA-DET-01:DXP1:MaxEnergy", max_e)
+			caput_wait("ME13C-EA-DET-01:DXP2:MaxEnergy", max_e)
+			caput_wait("ME13C-EA-DET-01:DXP3:MaxEnergy", max_e)
+			caput_wait("ME13C-EA-DET-01:DXP4:MaxEnergy", max_e)
 	except:
 		print "WARNING: Could not ensure xmapMca settings are correct"
 
 
 enable_nexus()
 
-setRequiredXmapPVs()
+setRequiredXmapPVs(max_e = 20.48, binning=2048)
 sleep(2)
 
-
 class XmapPvSetter(ScannableBase):
+
+	max_energy = 20.48
+	binning = 2048
 
 	def __init__(self, name):
 		self.name = name
@@ -29,7 +31,7 @@ class XmapPvSetter(ScannableBase):
 		self.setInputNames({})
 
 	def atScanStart(self):
-		setRequiredXmapPVs()
+		setRequiredXmapPVs(self.max_energy, self.binning)
 
 	def getPosition(self):
 		return None
