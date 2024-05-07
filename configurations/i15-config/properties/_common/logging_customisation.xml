@@ -11,13 +11,16 @@
 	<!-- Classes for which TRACE messages are excessive
 	 -->
 	<logger name="gda.events.jms.JmsEventReceiver">										<level value="DEBUG"/></logger>
-	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">           				<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">						<level value="DEBUG"/></logger>
 	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.ActiveMQMessageConsumer">							<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
-	<logger name="org.apache.activemq.thread.PooledTaskRunner">           				<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.thread.PooledTaskRunner">							<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.util.ClassLoadingAwareObjectInputStream">			<level value="DEBUG"/></logger>
 	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ROIManager">				<level value="DEBUG"/></logger>
+	<logger name="uk.ac.gda.client.liveplot.SubLivePlotView">							<level value="DEBUG"/></logger>
+	<logger name="uk.ac.gda.menu">														<level value="DEBUG"/></logger>
 
 	<!-- Classes where we want all messages
 	 -->
