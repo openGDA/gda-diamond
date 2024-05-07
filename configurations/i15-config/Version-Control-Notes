@@ -5,7 +5,15 @@ creation of good 80 character wide commit messages.
 Note that this file should not be committed and should be reverted back to it's
 original state once all notes have been used.
 --------------------------------------------------------------------------------
-I15 (9.1)
+I15 (9.33)
 
 
+--------------------------------------------------------------------------------
+User facing release notes...
+
+The new way of loading the configuration has identified a circular reference
+with respect to the second zebra box. Since we no longer use this box, I have
+disabled the second zebra, and the unused devices associated with it.
+
+I15 is now using the new logpanel, as I15-1 have done for a while.
 --------------------------------------------------------------------------------
