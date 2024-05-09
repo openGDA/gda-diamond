@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
+		<property name="currentScannableName" value="rc" />
+	</bean>
+
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<!-- Note: The user name is retrieved from the baton holder -->
+		<property name="name" value="user" />
+	</bean>
+
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<property name="sourceName" value="source" />
+
+		<!-- Soft -->
+		<property name="insertionDeviceName" value="jgap" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="beamName" value="beam_pgm" />
+
+		<!-- Hard -->
+		<property name="additionalDeviceNames">
+			<set>
+				<!--insertionDevice-->
+				<value>igap</value>
+				<!--monochromator-->
+				<value>dcm</value>
+				<!--beam-->
+				<value>beam_dcm</value>
+			</set>
+		</property>
+
+		<property name="userDeviceName" value="user" />
+	</bean>
+</beans>

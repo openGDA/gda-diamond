@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
+	<bean id="pgmMonochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
+		<property name="name" value="pgm" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmenergy"/>
+					<property name="scannableName" value="pgmenergy"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmcff"/>
+					<property name="scannableName" value="pgmcff"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmgratingselect"/>
+					<property name="scannableName" value="pgmgratingselect"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmgratingspitch"/>
+					<property name="scannableName" value="pgmgratingspitch"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmgratingstrans"/>
+					<property name="scannableName" value="pgmgratingstrans"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmmirrorpitch"/>
+					<property name="scannableName" value="pgmmirrorpitch"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmmirrorselect"/>
+					<property name="scannableName" value="pgmmirrorselect"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmmirrortrans"/>
+					<property name="scannableName" value="pgmmirrortrans"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmtemp1"/>
+					<property name="scannableName" value="pgmtemp1"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pgmtemp2"/>
+					<property name="scannableName" value="pgmtemp2"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
+	<bean id="jgapNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="jgap" />
+		<property name="type" value="undulator" />
+		<property name="gapScannableName" value="jgap" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="soft_limit_min"/>
+					<property name="expression" value="@jgap.getLowerGdaLimits()"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.SpringExpressionField">
+					<property name="name" value="soft_limit_max"/>
+					<property name="expression" value="@jgap.getUpperGdaLimits()"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="beamNexusDevice1" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam_pgm" />
+		<property name="incidentEnergyScannableName" value="pgmenergy" />
+		<property name="incidentPolarizationScannableName" value="polarisation_wrapper" />
+	</bean>
+</beans>

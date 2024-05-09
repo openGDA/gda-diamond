@@ -17,6 +17,7 @@
 	</bean>
 	<bean id="pgmenergy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmenergy_motor" />
+		<property name="hardwareUnitString" value="eV"/>
 	</bean>
 	<bean id="pgmcff" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_cff_motor" />
