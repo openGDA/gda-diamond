@@ -136,6 +136,8 @@ try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
 try_execfile("BeamlineI07/useElectroChemValves.py")
 try_execfile("BeamlineI07/i07_mscan.py")
 
+from exc_threshold import excthresh # @UnusedImport
+
 try:
 	from gdaserver import d5i
 	add_default(d5i)
