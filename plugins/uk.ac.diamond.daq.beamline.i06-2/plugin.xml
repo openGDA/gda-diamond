@@ -120,21 +120,6 @@
                </with>
             </visibleWhen>
          </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
-               label="Sanpshot"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="activePartId">
-                  <equals
-                        value="uk.ac.diamond.daq.beamline.i06-2.medipix.live.stream.view.LiveStreamViewWithHistogram">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
