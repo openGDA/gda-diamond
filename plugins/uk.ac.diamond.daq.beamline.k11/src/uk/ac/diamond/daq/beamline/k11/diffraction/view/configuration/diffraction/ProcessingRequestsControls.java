@@ -36,8 +36,6 @@ import uk.ac.gda.client.exception.AcquisitionConfigurationException;
 import uk.ac.gda.client.properties.acquisition.AcquisitionConfigurationProperties;
 import uk.ac.gda.client.properties.acquisition.processing.FrameCaptureProperties;
 import uk.ac.gda.client.properties.acquisition.processing.ProcessingRequestProperties;
-import uk.ac.gda.core.tool.spring.AcquisitionFileContext;
-import uk.ac.gda.core.tool.spring.DiffractionContextFile;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
 import uk.ac.gda.ui.tool.processing.ProcessingRequestComposite;
@@ -97,17 +95,7 @@ public class ProcessingRequestsControls implements CompositeFactory, Reloadable 
 	}
 
 	private URL getDiffractionCalibrationMergeDirectory() {
-		return getClientContext().getDiffractionContext().getContextFile(DiffractionContextFile.DIFFRACTION_CALIBRATION_DIRECTORY);
-	}
-
-	private List<URL> getDefaultDiffractionCalibrationMergeFile() {
-		List<URL> urls = new ArrayList<>();
-		urls.add(getClientContext().getDiffractionContext().getContextFile(DiffractionContextFile.DIFFRACTION_DEFAULT_CALIBRATION));
-		return urls;
-	}
-
-	private AcquisitionFileContext getClientContext() {
-		return SpringApplicationContextFacade.getBean(AcquisitionFileContext.class);
+		return null;
 	}
 
 	private ProcessingRequestKeyFactory getProcessingRequestKeyFactory() {
