@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-
-		<property name="metadataEntries">
-			<list>
-
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
@@ -92,7 +87,4 @@
 					<property name="name" value="visit" />
 					<property name="defEntryName" value="defVisit" />
 				</bean>
-			</list>
-		</property>
-	</bean>
 </beans>
