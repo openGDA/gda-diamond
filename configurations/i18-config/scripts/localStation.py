@@ -26,6 +26,11 @@ from diffraction_calibration_appender import DiffractionAppenderManager
 from gdaserver import Xspress3Acquire
 from gdascripts.detectors.initialise_detector import initialise_detector
 
+def run_script(script_name):
+    print("--- Running '"+script_name+"' ---")
+    run(script_name)
+    print("")
+    
 def setup_monitors():
     global topupMonitor
     topupMonitor = TopupChecker()
@@ -190,6 +195,13 @@ def print_useful_info():
     """
     print(useful_info)
 
+def set_energy_output_format() :
+    out_format="%.4f"
+    print("Setting output format of energy scannables to : "+out_format)
+    dets = [energy_Si111, energy_Si311, energy_nogap_Si111, energy_nogap_Si311]
+    for d in dets :
+        d.setOutputFormat([out_format])
+
 def setup():
     print("Initialisation started...\n");
 
@@ -234,6 +246,7 @@ def setup():
         energy_scannable_for_scans = energy # @UndefinedVariable
     else:
         energy_scannable_for_scans = energy_nogap # @UndefinedVariable
+    set_energy_output_format()
     
     # simulation
     if not live_mode:
@@ -247,23 +260,27 @@ def setup():
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
 
     #  Make the spectrometer setup functions available
-    run "spectrometer-setup.py"
+    run_script("spectrometer-setup.py")
     if XESEnergyJohann is not None :
-        print("Setting initial values for XES spectrometer")
         if LocalProperties.isDummyModeEnabled() :
             setup_dummy_spectrometer(XESEnergyJohann)
         set_initial_crystal_values(XESEnergyJohann)
     
-    run "tfgSetup.py"
+    run_script("tfgSetup.py")
+    
     tfg=TFG()
     
-    run 'sleep_scannable.py'
+    run_script("sleep_scannable.py")
     
     # Setup xspress3 Odin live mode
     if not LocalProperties.isDummyModeEnabled() : 
         qexafs_xspress3Odin.setUseSwmrFileReading(True)
-        
-        print("\n...initialisation complete!")
+
+    run_script("qexafs_scans.py")
+    
+    run_script("detector_setup.py")
+    
+    print("\n...initialisation complete!")
     print_useful_info()
 
 print "Reconnect daserver command : reconnect_daserver() "
