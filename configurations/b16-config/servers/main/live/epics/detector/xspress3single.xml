@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xspress3Xsingle" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
+		<property name="controller" ref="xspress3XControllerSingle" />
+		<property name="defaultSubdirectory" value="xspress3X" />
+		<property name="configFileName" value="${gda.config}/templates/Xspress3XSingle_Parameters.xml" />
+		<property name="triggerModeForScans" value="0" />
+		<property name="maxNumberOfRois" value="10000" />
+	</bean>
+
+	<bean id="xspress3XControllerSingle"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL16B-EA-XSP3X-03" />
+		<property name="numElements" value="1" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
+		<property name="pvNameMap">
+			<map>
+				<entry key="ROI_RES_GRADE_BIN" value=":ROI1:BinY" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

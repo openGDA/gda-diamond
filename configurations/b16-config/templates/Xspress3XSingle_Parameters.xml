@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XspressParameters>
+    <detectorName>xspress3X</detectorName>
+    <resGrade>res-none</resGrade>
+    <regionType>Calculated from MCA</regionType>
+    <readoutMode>Regions Of Interest</readoutMode>
+    <editIndividualElements>false</editIndividualElements>
+    <deadtimeCorrectionEnergy>10.0</deadtimeCorrectionEnergy>
+    <DetectorElement>
+        <name>Element 0</name>
+        <number>0</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <onlyShowFF>false</onlyShowFF>
+    <showDTRawValues>false</showDTRawValues>
+    <saveRawSpectrum>false</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
+</XspressParameters>

@@ -97,4 +97,9 @@
 		<property name="maxDetectorElementCounts" value="500000" />
 	</bean>
 	
+	<bean id="xspress3XSingleElementViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="detectorName" value="xspress3Xsingle" />
+		<property name="maxDetectorElementCounts" value="500000" />
+	</bean>
+	
 </beans>
