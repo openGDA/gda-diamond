@@ -100,6 +100,6 @@ class M5GroupScannable(ScannableMotionBase):
             raise ValueError(INPUT_MESSAGE)
         self.sgmpitch_coeffs = [float(x) for x in value]
 
-from gdaserver import armtth,m5tth,m5hqry,m5hqx  # @UnresolvedImport
+from gdaserver import armtth,m5tth,m5hqry,m5hqx, sgmpitch  # @UnresolvedImport
 alltth = M5GroupScannable("alltth", armtth, m5tth, sgmpitch, m5hqry, m5hqx, m5hqry_coeffs = [342.9979644425, -0.2487741425, 0.0018219019], m5hqx_coeffs = [-363.5691038104, -2.1936146304, 0.0074169737], sgmpitch_coeffs = [2.30846094e+00,-1.45880208e-03,3.51562500e-05,-4.11458333e-07,2.34375000e-09,-5.20833333e-12])  # @UndefinedVariable
 
