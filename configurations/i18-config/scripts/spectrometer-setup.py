@@ -57,8 +57,8 @@ def setup_dummy_spectrometer(xesEnergyScannable, radiusValue=500.0) :
         for allowedToMove in allowedToMoveGrp.getGroupMembers() :
             allowedToMove.moveTo("true")
         
-    mid_theta = (spectrometerScannable.getMinTheta() + spectrometerScannable.getMaxTheta())*0.5
-    print "Moving to mid Bragg angle ("+str(mid_theta)+" degrees)"
+    mid_theta = (spectrometerScannable.getMinTheta() + spectrometerScannable.getMaxTheta() ) *0.5
+    print "Moving mid Beagg angle ("+str(mid_theta)+" degrees)"
     spectrometerScannable.moveTo(mid_theta)
     
     print("Finished")
@@ -179,7 +179,13 @@ def setup_axis_calculator(axis_calculator) :
     axis_calculator.setAxisAngle(pitch)
     axis_calculator.setOrigin(det_x, det_y)
 
+def set_xmap_use_tfg() :
+    xmapMca.setTfg(counterTimer01.getTimer())
+
 def set_xmap_live_time(time_sec) :
+    # clear the Tfg object, so that busy status is determined only by the detector
+    # xmapMca.setTfg(None)
+
     # Set the real preset mode to 'real time' : 
     CAClient.put("BL18I-EA-DET-07:PresetMode", 1)
     # Set the required 'preset real time' :

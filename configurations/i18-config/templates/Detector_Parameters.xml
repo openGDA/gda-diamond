@@ -5,12 +5,6 @@
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
-        <name>Silicon</name>
-        <detector>FFI0_vortex</detector>
-        <detector>xmapMca</detector>
-        <detector>counterTimer01</detector>
-    </detectorGroup>
-    <detectorGroup>
         <name>Xspress3</name>
         <detector>xspress3</detector>
         <detector>FFI0_xspress3</detector>
@@ -20,6 +14,12 @@
         <name>Xspress3Odin</name>
         <detector>xspress3Odin</detector>
         <detector>FFI0_xspress3Odin</detector>
+        <detector>counterTimer01</detector>
+    </detectorGroup>
+    <detectorGroup>
+        <name>Xmap</name>
+        <detector>xmapMca</detector>
+        <detector>FFI0_xmapMca</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <experimentType>Fluorescence</experimentType>    
