@@ -30,6 +30,7 @@
 	<import resource="Mar345.xml"/>
 	<import resource="MRIFurnace.xml"/>
 	<import resource="M1.xml"/>
+	<import resource="newmythen3.xml"/>
 	<import resource="OxfordCryoStream.xml"/>
 	<import resource="PhenixCryostat.xml"/>
 	<import resource="RobotNX100.xml"/>

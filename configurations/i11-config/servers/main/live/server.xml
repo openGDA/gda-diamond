@@ -42,7 +42,7 @@
 	<import resource="M1.xml"/>
 	<import resource="MachineStatus.xml"/>
 	<import resource="MACDetectors.xml"/>
-	<import resource="mythen3.xml"/>
+	<import resource="newmythen3.xml"/>
 	<!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="MCSSis3820.xml"/>
 	<import resource="MCS.xml"/>
