@@ -26,9 +26,13 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
+springprofiles="--springprofiles "`$here_absolute_path/generate-profile-list.py`
+#springprofiles="--springprofiles spectrometer,vortex"
+echo "# Setting Spring profile parameter : "$springprofiles
+
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################
 
-source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
+source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core $springprofiles "$@"

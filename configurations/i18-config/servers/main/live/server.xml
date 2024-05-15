@@ -14,12 +14,14 @@
 		</constructor-arg>
 	</bean>
 	
+<!-- 	Xspress3MCAMappingMonitor will stop MCA plugin on Xspress3 for any scans that use these detectors/malcolm blocks -->
 	<bean id="xspress3DetectorNames" class="java.util.ArrayList">
 		<constructor-arg>
 			<list value-type="java.lang.String">
 				<value>BL18I-ML-SCAN-01</value>
 				<value>BL18I-ML-SCAN-03</value>
-				<value>Xspress3A</value>
+				<value>BL18I-ML-SCAN-06</value>
+				<value>Xspress3Acquire</value>
 			</list>
 		</constructor-arg>
 	</bean>
@@ -30,6 +32,7 @@
 				<entry key="BL18I-ML-SCAN-01" value-ref="VM"/>
 				<entry key="BL18I-ML-SCAN-02" value-ref="VM"/>
 				<entry key="BL18I-ML-SCAN-03" value-ref="VM"/>
+				<entry key="BL18I-ML-SCAN-06" value-ref="VM"/>
 			</map>
 		</constructor-arg>
 	</bean>

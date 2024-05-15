@@ -36,6 +36,7 @@
 	<bean id="software_start_stop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 		<property name="adBase" ref="vma_adbase" />
 		<property name="restoreAcquireState" value="true" />
+		<property name="stopAquiringInPreparation" value="true" />
 	</bean>
 
 	<bean id="VMA" class="gda.device.detector.addetector.ADDetector">

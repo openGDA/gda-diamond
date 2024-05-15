@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
+		<property name="detectorGroupsMap">
+			<map>
+				<entry key="Fluorescence">
+					<list>
+						<value>Xspress3</value>
+						<value>Xspress3Odin</value>
+						<value>Xmap</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+
+		<property name="detectorTemplateMap">
+			<map>
+				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
+				<entry key="xspress3Odin" value="${gda.config}/templates/Xspress3Odin_Parameters.xml" />
+				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters_1e.xml" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

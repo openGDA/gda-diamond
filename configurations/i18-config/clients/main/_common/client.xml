@@ -18,7 +18,8 @@
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
 	<import resource="live_controls.xml"/>
 	<import resource="stream_views.xml" />
-	<import resource="medipix_live_view.xml" />
+	<import resource="live_views.xml" />
+	<import resource="detector_param_view.xml" />
 
 	<import resource="mapping_stage.xml" />
 	

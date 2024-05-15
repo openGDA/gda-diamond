@@ -23,9 +23,14 @@ from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, li
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from diffraction_calibration_appender import DiffractionAppenderManager
 
-from gdaserver import Xspress3A
+from gdaserver import Xspress3Acquire
 from gdascripts.detectors.initialise_detector import initialise_detector
 
+def run_script(script_name):
+    print("--- Running '"+script_name+"' ---")
+    run(script_name)
+    print("")
+    
 def setup_monitors():
     global topupMonitor
     topupMonitor = TopupChecker()
@@ -93,6 +98,7 @@ def setup_factories():
     theFactory.setQexafsDetectorPreparer(detectorPreparer);
     theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
     theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
+    global qexafs
     qexafs = theFactory.createQexafsConstantVelocityScan()
     
     mapFactory = MapFactory();
@@ -151,9 +157,9 @@ def setup_aliases():
 def fix_snapshot():
     # In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
     if live_mode:
-        initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Software")
+        initialise_detector("Xspress3", Xspress3Acquire.getAdBase().getBasePVName(), Xspress3Acquire.getNdArray().getBasePVName(), "Software")
     else:
-        initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Internal", "Single")
+        initialise_detector("Xspress3", Xspress3Acquire.getAdBase().getBasePVName(), Xspress3Acquire.getNdArray().getBasePVName(), "Internal", "Single")
         
 def set_energy_scannable(scannable):
     global xas
@@ -177,7 +183,7 @@ def print_useful_info():
      topup_watchdog.setEnabled(False)/(True)
      
     Disable/enable all watchdogs and monitors that require beam (topup_watchdog, beam_available_watchdog, topupMonitor, beamMonitor):
-     noBeamMode True/False
+     noBeamMode(True)/noBeamMode(False)
     
     Specify calibration and mask files for Excalibur:
      excalibur_metadata.set_calibration_file(...)
@@ -189,6 +195,13 @@ def print_useful_info():
     """
     print(useful_info)
 
+def set_energy_output_format() :
+    out_format="%.4f"
+    print("Setting output format of energy scannables to : "+out_format)
+    dets = [energy_Si111, energy_Si311, energy_nogap_Si111, energy_nogap_Si311]
+    for d in dets :
+        d.setOutputFormat([out_format])
+
 def setup():
     print("Initialisation started...\n");
 
@@ -199,6 +212,8 @@ def setup():
     
     setup_monitors()
     setup_watchdogs()
+    if not live_mode :
+        noBeamMode(True)
     
     global XASLoggingScriptController
     global elementListScriptController
@@ -215,8 +230,10 @@ def setup():
     global detectorPreparer
     sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
     sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
-    detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3) # @UndefinedVariable
-    
+    detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, raster_counterTimer01) # @UndefinedVariable
+    detectorPreparer.addQexafsDetectors("Xspress3", [raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3])
+    detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_counterTimer01, qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin])
+        
     global beamlinePreparer
     global samplePreparer
     global outputPreparer
@@ -229,6 +246,7 @@ def setup():
         energy_scannable_for_scans = energy # @UndefinedVariable
     else:
         energy_scannable_for_scans = energy_nogap # @UndefinedVariable
+    set_energy_output_format()
     
     # simulation
     if not live_mode:
@@ -240,19 +258,37 @@ def setup():
     fix_snapshot()
     set_energy_scannable(energy_scannable_for_scans)
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
-    print("\n...initialisation complete!")
-    print_useful_info()
-    
-    
+
     #  Make the spectrometer setup functions available
-    run "spectrometer-setup.py"
-    if LocalProperties.isDummyModeEnabled() :
-        setup_dummy_spectrometer(XESEnergyJohann)
-    set_initial_crystal_values(XESEnergyJohann)
+    run_script("spectrometer-setup.py")
+    if XESEnergyJohann is not None :
+        if LocalProperties.isDummyModeEnabled() :
+            setup_dummy_spectrometer(XESEnergyJohann)
+        set_initial_crystal_values(XESEnergyJohann)
     
-    run "tfgSetup.py"
+    run_script("tfgSetup.py")
+    
     tfg=TFG()
     
+    run_script("sleep_scannable.py")
     
+    # Setup xspress3 Odin live mode
+    if not LocalProperties.isDummyModeEnabled() : 
+        qexafs_xspress3Odin.setUseSwmrFileReading(True)
+
+    run_script("qexafs_scans.py")
+    
+    run_script("detector_setup.py")
+    
+    print("\n...initialisation complete!")
+    print_useful_info()
+
+print "Reconnect daserver command : reconnect_daserver() "
+def reconnect_daserver() :
+    print "Trying to reconnect to DAServer..."
+    daServer.reconnect()
+    counterTimer01.configure()
+    print "Ignore this error (it's 'normal'...)"
+    counterTimer01.getScaler().clear()
 
 setup()

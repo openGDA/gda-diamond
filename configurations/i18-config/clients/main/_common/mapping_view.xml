@@ -17,7 +17,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SnapshotCollectorSection">
 					<property name="snapshotCollectorName" value="vmaSnapshotCollector" />
-					<property name="collectSnapshotByDefault" value="true" />
+					<property name="collectSnapshotByDefault" value="false" />
 					<property name="detectorName" value="VMA" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
@@ -31,7 +31,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.I18SubmitScanSection" />
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
 			</list>
 		</property>
 	</bean>

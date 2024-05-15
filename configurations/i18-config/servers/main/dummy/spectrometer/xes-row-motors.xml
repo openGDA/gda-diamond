@@ -24,13 +24,11 @@
 	<gda:motor id="plus1_yaw" live-class="#dummy" />
 	<gda:motor id="plus1_pitch" live-class="#dummy" />
 
-	<gda:motor id="det_x" live-class="#dummy" />
-	<gda:motor id="det_y" live-class="#dummy" />
-	<gda:motor id="det_pitch" live-class="#dummy" />
+	<gda:motor id="xes_det_x" live-class="#dummy" />
+	<gda:motor id="xes_det_y" live-class="#dummy" />
+	<gda:motor id="xes_det_pitch" live-class="#dummy" />
 	
-	<gda:motor id="xtal_x" live-pvName="#dummy" />
-	<gda:motor id="spec_rot" live-pvName="#dummy" />
-	<gda:motor id="det_slit" live-pvName="#dummy" />
-	<gda:motor id="xes_slits" live-pvName="#dummy" />
+	<gda:motor id="xes_base_z" live-pvName="#dummy" />
+	<gda:motor id="xes_slit_y" live-pvName="#dummy" />
 
 </beans>
