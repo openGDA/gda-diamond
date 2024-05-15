@@ -3,16 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
-
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
 		<constructor-arg ref="terminallog_path_provider" />
 	</bean>
 
 	<bean class="gda.jython.logger.OutputTerminalAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger"/>
 	</bean>
 
@@ -22,12 +18,12 @@
 	</bean>
 
 	<bean class="gda.jython.logger.ScanDataPointAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger"/>
 	</bean>
 
 	<bean class="gda.jython.logger.BatonChangedAdapter">
-		<constructor-arg ref="jython_server_facade" />
+		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger"/>
 	</bean>
 </beans>

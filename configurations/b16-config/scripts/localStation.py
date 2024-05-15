@@ -1439,28 +1439,29 @@ if DebenRigEnabled:
 
 # From 1/10 Experiment
 # scan dummyx 0 20 1 bo1trig 0.1 waitForDetectorStart waitForDetectorStop w 10
-waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
-waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
-waitForDetectorStop.setLevel(11)
-w.setLevel(12)
-
-# Piezo oscillation stuff - remove after experiment is finished
-from scannable.epics.piezo_oscillator import create_osc_devices
-
-try:
-    (amc100_osc, amc100_det) = create_osc_devices("amc100", "BL16B-EA-AMC-01:AXIS0:OSC:")
-except:
-    print("amc100 objects not created - see logs")
-
-try:
-    (amc100ofb_osc, amc100ofb_det) = create_osc_devices("amc100ofb", "BL16B-EA-AMC-02:AXIS0:OSC:")
-except:
-    print("amc100ofb objects not created - see logs")
-
-try:
-    (aerotech_osc, aerotech_det) = create_osc_devices("aerotech", "BL16B-MO-ATCH-01:OSC:")
-except:
-    print("aerotech objects not created - see logs")
+if installation.isLive():
+	waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
+	waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
+	waitForDetectorStop.setLevel(11)
+	w.setLevel(12)
+	
+	# Piezo oscillation stuff - remove after experiment is finished
+	from scannable.epics.piezo_oscillator import create_osc_devices
+	
+	try:
+		(amc100_osc, amc100_det) = create_osc_devices("amc100", "BL16B-EA-AMC-01:AXIS0:OSC:")
+	except:
+		print("amc100 objects not created - see logs")
+	
+	try:
+		(amc100ofb_osc, amc100ofb_det) = create_osc_devices("amc100ofb", "BL16B-EA-AMC-02:AXIS0:OSC:")
+	except:
+		print("amc100ofb objects not created - see logs")
+	
+	try:
+		(aerotech_osc, aerotech_det) = create_osc_devices("aerotech", "BL16B-MO-ATCH-01:OSC:")
+	except:
+		print("aerotech objects not created - see logs")
 
 
 print_banner("Initialisation complete")

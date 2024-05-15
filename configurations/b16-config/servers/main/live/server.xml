@@ -3,24 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-				<value>file:${gda.core.dir}/properties/core_java.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
-
-	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
-
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
@@ -67,7 +50,6 @@
 	<import resource="epics/detector/dcam9.xml" />
 	<import resource="epics/detector/eiger.xml" />
 	<import resource="epics/detector/scaler_vortex.xml" />
-	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix_base.xml" />
 	<import resource="epics/detector/medipix4_base.xml" />
 	<import resource="epics/detector/medipix.xml" />
@@ -123,36 +105,10 @@
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template"
 			value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
 	</bean>
 
 	<import
-		resource="file:${gda.config}/servers/main/_common//terminal_logger.xml" />
-
-	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
-
-
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc">
-		<property name="projects">
-			<list merge="true">
-				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts" />
-					<property name="name" value="Scripts: Bimorph" />
-					<property name="type" value="CORE" />
-				</bean>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.epics/scripts" />
-					<property name="name" value="Scripts: Epics" />
-					<property name="type" value="CORE" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths"/>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-	</bean>
+		resource="file:${gda.config}/servers/main/_common/terminal_logger.xml" />
 
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -164,9 +120,6 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-
 	<import resource="transient/*" />
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+	
 </beans>

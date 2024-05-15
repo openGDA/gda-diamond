@@ -33,6 +33,4 @@
 		<property name="bottomUi" ref="simcam1_histogramBottomUI" />
 	</bean>
 	
-	<import resource="file://${gda.facility.dir}/clients/dummy/sim_camera.xml" />
-
 </beans>
