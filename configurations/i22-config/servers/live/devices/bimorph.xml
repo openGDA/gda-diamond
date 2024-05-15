@@ -5,7 +5,7 @@
 
 	<bean id="hfm_bimorph_controller" class="uk.ac.gda.bimorph.epics.CaenelsBimorph">
 		<property name="basePV" value="BL22I-OP-KBM-01"/>
-		<property name="groupSuffix" value="GROUP0"/>
+		<property name="groupSuffix" value="G0"/>
 		<property name="maxDelta" value="500"/>
 		<property name="minVoltage" value="-600"/>
 		<property name="maxVoltage" value="600"/>
@@ -20,7 +20,7 @@
 
 	<bean id="vfm_bimorph_controller" class="uk.ac.gda.bimorph.epics.CaenelsBimorph">
 		<property name="basePV" value="BL22I-OP-KBM-01"/>
-		<property name="groupSuffix" value="GROUP1"/>
+		<property name="groupSuffix" value="G1"/>
 		<property name="maxDelta" value="500"/>
 		<property name="minVoltage" value="-500"/>
 		<property name="maxVoltage" value="500"/>
