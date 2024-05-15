@@ -20,7 +20,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashSet;
@@ -32,6 +32,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -90,6 +91,13 @@ public class I18DetectorPreparerTest {
 		thePreparer = new I18DetectorPreparer(sensitivities, sensitivityUnits, ionchambers,
 				qexafs_counterTimer01);
 
+		// Setup the Finder so xspress3 object can be retrieved
+		final Factory factory = TestHelpers.createTestFactory();
+		factory.addFindable(xspress3);
+		Finder.addFactory(factory);
+
+		// Verify interaction from TestFactor#addFindable, no can use verifyNoMoreInteractions later on
+		verify(xspress3).getName();
 	}
 
 	@BeforeClass
@@ -143,7 +151,7 @@ public class I18DetectorPreparerTest {
 		xspressParams.setDetectorName(xspress3.getName());
 
 		// Setup static mock to make XMLHelpers return xspress3 parameters
-		Mockito.when(XMLHelpers.getBeanObject("/scratch/test/xml/path/", "Fluo_config.xml")).thenReturn(xspressParams);
+		Mockito.when(XMLHelpers.getBean(ArgumentMatchers.any())).thenReturn(xspressParams);
 
 		DetectorParameters detParams = new DetectorParameters();
 		detParams.setFluorescenceParameters(fluoParams);
@@ -151,8 +159,9 @@ public class I18DetectorPreparerTest {
 		fluoParams.setDetectorType(FluorescenceParameters.XSPRESS3_DET_TYPE);
 		fluoParams.setConfigFileName("Fluo_config.xml");
 
-		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
+		thePreparer.configure(null, detParams, null, "/scratch/test/xml/");
 		verify(xspress3).applyConfigurationParameters(xspressParams);
+		verify(xspress3).setFilePath("/scratch/test/nexus/");
 	}
 
 	@Test
@@ -185,6 +194,8 @@ public class I18DetectorPreparerTest {
 		thePreparer.beforeEachRepetition();
 
 		verify(ionchambers).setTimes(new Double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 });
+
+		verifyNoMoreInteractions(xspress3);
 	}
 
 	private Set<IonChamberParameters> makeIonChamberParameters() {
@@ -229,7 +240,7 @@ public class I18DetectorPreparerTest {
 		detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
-		verifyNoInteractions(xspress3);
+		verifyNoMoreInteractions(xspress3);
 
 		verify(sensitivities[0]).moveTo("1");
 		verify(sensitivityUnits[0]).moveTo("nA/V");

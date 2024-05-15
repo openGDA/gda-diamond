@@ -1,18 +1,23 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
+import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
-import gda.factory.Finder;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -21,13 +26,13 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.FluorescenceDetector;
-import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
+import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
-import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
+
+	private static final Logger logger = LoggerFactory.getLogger(I18DetectorPreparer.class);
 
 	private final TfgScalerWithFrames counterTimer01;
 
@@ -36,6 +41,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private BufferedDetector qexafsCounterTimer01;
 	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
 	private Map<String, List<BufferedDetector>> qexafsDetectorsMap = new HashMap<>();
+	private Detector activeDetector;
+	private String initialHdfPath = "";
 
 	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
 			BufferedDetector qexafsCounterTimer01) {
@@ -51,26 +58,43 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
-
+		activeDetector = null;
 		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)) {
 			// Get the fluorescence detector parameters bean
 			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
-			FluorescenceDetectorParameters params = (FluorescenceDetectorParameters) XMLHelpers.getBeanObject(experimentFullPath, fluorescenceParameters.getConfigFileName());
+			activeDetector = detectorPreparerFunctions.configureDetector(Paths.get(experimentFullPath, fluorescenceParameters.getConfigFileName()).toString());
 
-			// Check the detector object referenced by the bean exists on the server
-			String detName = params.getDetectorName();
-			FluorescenceDetector detObject = Finder.findOptionalOfType(detName, FluorescenceDetector.class).orElse(null);
-
-			if (detObject == null) {
-				String xmlFileName = experimentFullPath + fluorescenceParameters.getConfigFileName();
-				throw new IllegalArgumentException("Cannot configure detector using "+xmlFileName+" : No server side object called "+detName+" can be found!");
-			}
-
-			// Configure the detector
-			detObject.applyConfigurationParameters(params);
+			setupDetectorHdfPath(experimentFullPath);
 		}
-
 		controlAllIonC(detectorBean.getIonChambers());
+	}
+
+	private String getNexusDataFullPath(String xmlFilePath) {
+		String folder = xmlFilePath.replace("/xml/", "/");
+		return FilenameUtils.getFullPathNoEndSeparator(folder)+"/nexus/";
+	}
+
+	private void setupDetectorHdfPath(String experimentFullPath) throws DeviceException {
+		String hdfPath = getNexusDataFullPath(experimentFullPath);
+		logger.info("Setting hdf file path to : {}", hdfPath);
+		if (activeDetector instanceof Xspress3WithFullCalculationsDetector xsp3) {
+			initialHdfPath = xsp3.getFilePath();
+			xsp3.setFilePath(hdfPath);
+		} else {
+			initialHdfPath = DetectorHdfFunctions.setHdfFilePath(activeDetector, hdfPath);
+		}
+	}
+
+	private void restoreHdfFilePath() {
+		if (activeDetector instanceof Xspress3WithFullCalculationsDetector xsp3) {
+			xsp3.setFilePath("");
+		} else {
+			try {
+				DetectorHdfFunctions.setHdfFilePath(activeDetector, initialHdfPath);
+			}  catch (DeviceException e) {
+				logger.warn("Problem restoring {} hdf file path to {} at end of scan", activeDetector.getName(), initialHdfPath);
+			}
+		}
 	}
 
 	@Override
@@ -83,7 +107,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void completeCollection() {
-		// nothing here
+		restoreHdfFilePath();
 	}
 
 	@Override
