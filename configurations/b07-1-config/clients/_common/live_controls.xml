@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="endstation_configurations_control_1" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="group" value="PGM Control"/>
+		<property name="displayName" value="Script Runner"/>
+		<property name="horizontalLayout" value="false"/>
+		<property name="scripts">
+			<map>
+				<entry key="Open Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_ready_GDA.py"/>
+				<entry key="Close Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_close_GDA.py"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="endstation_configurations_control_2" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
+		<property name="group" value="PGM Control"/>
+		<property name="displayName" value="Script Runner"/>
+		<property name="horizontalLayout" value="false"/>
+		<property name="scripts">
+			<map>
+				<entry key="Open Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_ready_GDA.py"/>
+				<entry key="Close Beamline" value="/dls_sw/b07-1/scripts/Beamline/BL_close_GDA.py"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Photon Energy " />
+		<property name="group" value="PGM Control" />
+		<property name="scannableName" value="pgm_energy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="eV" />
+		<property name="increment" value="50" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="false"/>
+	</bean>
+
+	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="CFF " />
+		<property name="group" value="PGM Control" />
+		<property name="scannableName" value="pgm_cff" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.2" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="false"/>
+	</bean>
+
+	<bean id="exit_slit_x_gap" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="X gap size" />
+		<property name="group" value="Exit Slits" />
+		<property name="scannableName" value="s4c_xgapsize" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.2" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<bean id="exit_slit_y_gap" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Y gap size" />
+		<property name="group" value="Exit Slits" />
+		<property name="scannableName" value="s4c_ygapsize" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.2" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<!-- Sample manipulator controls -->
+
+	<bean id="sm_x_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="XP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_xp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.01" />
+		<property name="nonEditableIncrement" value="true" />
+		<property name="readOnly" value="true" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+
+	</bean>
+
+	<bean id="sm_y_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="YP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_yp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<bean id="sm_z_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ZP motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_zp" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<bean id="sm_polar_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Polar motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_polar_rotation" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.1" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<bean id="sm_azimuth_axis" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Azimuth motor" />
+		<property name="group" value="Sample Manipulator" />
+		<property name="scannableName" value="sm_azimuth_rotation" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.1" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<!-- Mirrors -->
+	<bean id="m4c_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M4C" />
+		<property name="group" value="Pitch" />
+		<property name="scannableName" value="m4c_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value="0.00001" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+	<bean id="m5c_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="M5C" />
+		<property name="group" value="Pitch" />
+		<property name="scannableName" value="m5c_pitch" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="deg" />
+		<property name="increment" value=" 0.0001" />
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+<!-- 		<property name="horizontalLayout" value="true"/> -->
+	</bean>
+
+	<!-- Shutters -->
+	<bean id="expt_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Experiment Shutter" />
+		<property name="scannableName" value="expt_shutter_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="expt_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Experiment Shutter" />
+		<property name="scannableName" value="expt_shutter_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+		<bean id="fast_shutter_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Fast Shutter" />
+		<property name="scannableName" value="fast_shutter_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="fast_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Fast Shutter" />
+		<property name="scannableName" value="fast_shutter_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+
+	<!-- Valves -->
+	<bean id="valve_25_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 25" />
+		<property name="scannableName" value="valve_25_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="valve_25_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 25" />
+		<property name="scannableName" value="valve_25_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+		<bean id="valve_22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 22" />
+		<property name="scannableName" value="valve_22_con" />
+		<property name="showStop" value="false" />
+	</bean>
+	<bean id="valve_22_status" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Valve 22" />
+		<property name="scannableName" value="valve_22_sta" />
+		<property name="readOnly" value="true" />
+		<property name="textWidth" value="100" />
+		<property name="textInput" value="true" />
+	</bean>
+
+	<bean id="pgm_control_set_1" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="photon_energy_control"/>
+				<ref bean="cff_control" />
+				<ref bean="endstation_configurations_control_1"/>
+
+				<ref bean="exit_slit_x_gap" />
+				<ref bean="exit_slit_y_gap" />
+				<ref bean="m4c_pitch_control" />
+				<ref bean="m5c_pitch_control" />
+				<ref bean="sm_x_axis"/>
+				<ref bean="sm_y_axis"/>
+				<ref bean="sm_z_axis"/>
+				<ref bean="sm_polar_axis"/>
+				<ref bean="sm_azimuth_axis"/>
+				<ref bean="expt_shutter_control"/>
+				<ref bean="expt_shutter_status"/>
+				<ref bean="fast_shutter_control"/>
+				<ref bean="fast_shutter_status"/>
+				<ref bean="valve_25_control"/>
+				<ref bean="valve_25_status"/>
+				<ref bean="valve_22_control"/>
+				<ref bean="valve_22_status"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_control_set_2" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="photon_energy_control"/>
+				<ref bean="cff_control" />
+				<ref bean="endstation_configurations_control_2"/>
+
+				<ref bean="exit_slit_x_gap" />
+				<ref bean="exit_slit_y_gap" />
+				<ref bean="m4c_pitch_control" />
+				<ref bean="m5c_pitch_control" />
+				<ref bean="sm_x_axis"/>
+				<ref bean="sm_y_axis"/>
+				<ref bean="sm_z_axis"/>
+				<ref bean="sm_polar_axis"/>
+				<ref bean="sm_azimuth_axis"/>
+				<ref bean="expt_shutter_control"/>
+				<ref bean="expt_shutter_status"/>
+				<ref bean="fast_shutter_control"/>
+				<ref bean="fast_shutter_status"/>
+				<ref bean="valve_25_control"/>
+				<ref bean="valve_25_status"/>
+				<ref bean="valve_22_control"/>
+				<ref bean="valve_22_status"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
