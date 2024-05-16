@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Live mode configuration for Andor detector -->
+
+	<bean id="andorBasePv" class="java.lang.String">
+		<constructor-arg value="BL18I-EA-DET-10" />
+	</bean>
+
+	<bean id="andorCamPort" class="java.lang.String">
+		<constructor-arg value="ZYLA.CAM" />
+	</bean>
+	<bean id="andorRoiPort" class="java.lang.String">
+		<constructor-arg value="ZYLA.roi" />
+	</bean>
+
+	<bean id="andor_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{andorBasePv}:CAM:" />
+	</bean>
+
+</beans>

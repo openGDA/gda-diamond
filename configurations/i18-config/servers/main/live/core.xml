@@ -7,27 +7,16 @@
 		or separate from the workspace -->
 	<!-- all other should use the uk.ac.diamond.daq.jython.api.scriptLocations 
 		extension point -->
-	<bean id="jython_script_paths" class="gda.jython.ScriptPaths">
-		<property name="projects">
-			<list>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="/dls_sw/i18/scripts"></property>
-					<property name="name" value="Scripts: User"></property>
-					<property name="type" value="USER"></property>
-				</bean>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path" value="${gda.config}/scripts"></property>
-					<property name="name" value="Scripts: Config"></property>
-					<property name="type" value="CONFIG"></property>
-				</bean>
-			</list>
-		</property>
-		<property name="startupScript" value="${gda.config}/scripts/localStation.py"></property>
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="/dls_sw/i18/scripts"></property>
+		<property name="name" value="Scripts: User"></property>
+		<property name="type" value="USER"></property>
 	</bean>
-
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import
-		resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts"></property>
+		<property name="name" value="Scripts: Config"></property>
+		<property name="type" value="CONFIG"></property>
+	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />

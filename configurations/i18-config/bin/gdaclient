@@ -4,7 +4,11 @@
 # this cannot be done until all beamlines use the standard startup commands.
 
 # primary client
-mainclient $* &
+ mainclient $* &
+
+# Sleep for a couple of seconds to avoid race condition trying to remove /dls_sw/i18/logs/gda-client-output.txt, and to ensure the two client log files have different names (from timestamps).
+
+sleep 2
 
 # secondary client with synoptic perspective
 synopticclient $* &

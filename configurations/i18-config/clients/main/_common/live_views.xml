@@ -24,5 +24,25 @@
 			</bean>
 		</property>
 	</bean>
-	
+
+	<bean id="andor_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="andor_camera_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Andor camera" />
+		<property name="arrayPv" value="#{andorBasePv}:ARR" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+							<constructor-arg ref="andor_camera_control" />
+						</bean>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewRoiControls">
+							<constructor-arg ref="andor_camera_control" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 </beans>

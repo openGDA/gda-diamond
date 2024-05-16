@@ -1,6 +1,8 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import gda.device.Detector;
 import gda.device.DeviceException;
@@ -10,6 +12,7 @@ import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
+import gda.factory.Finder;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -18,11 +21,11 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3;
-import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
-import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
+import uk.ac.gda.devices.detector.FluorescenceDetector;
+import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
@@ -31,22 +34,15 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
 	private BufferedDetector qexafsCounterTimer01;
-	private Xspress3BufferedDetector qexafsXspress3;
-	private Xspress3 xspress3;
-	private Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3;
 	private DetectorPreparerFunctions detectorPreparerFunctions = new DetectorPreparerFunctions();
+	private Map<String, List<BufferedDetector>> qexafsDetectorsMap = new HashMap<>();
 
 	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
-			Xspress3 xspress3, BufferedDetector qexafsCounterTimer01,
-			Xspress3BufferedDetector qexafsXspress3,
-			Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3) {
+			BufferedDetector qexafsCounterTimer01) {
 		detectorPreparerFunctions.setSensitivities(sensitivities);
 		detectorPreparerFunctions.setSensitivityUnits(sensitivityUnits);
 		this.counterTimer01 = ionchambers;
-		this.xspress3 = xspress3;
-		this.qexafsXspress3 = qexafsXspress3;
 		this.qexafsCounterTimer01 = qexafsCounterTimer01;
-		this.qexafsFFI0Xspress3 = qexafsFFI0Xspress3;
 	}
 
 	@Override
@@ -57,13 +53,21 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		this.detectorBean = detectorBean;
 
 		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)) {
+			// Get the fluorescence detector parameters bean
 			FluorescenceParameters fluorescenceParameters = detectorBean.getFluorescenceParameters();
-			String detType = fluorescenceParameters.getDetectorType();
-			String xmlFileName = experimentFullPath + fluorescenceParameters.getConfigFileName();
-			if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
-				xspress3.setConfigFileName(xmlFileName);
-				xspress3.loadConfigurationFromFile();
+			FluorescenceDetectorParameters params = (FluorescenceDetectorParameters) XMLHelpers.getBeanObject(experimentFullPath, fluorescenceParameters.getConfigFileName());
+
+			// Check the detector object referenced by the bean exists on the server
+			String detName = params.getDetectorName();
+			FluorescenceDetector detObject = Finder.findOptionalOfType(detName, FluorescenceDetector.class).orElse(null);
+
+			if (detObject == null) {
+				String xmlFileName = experimentFullPath + fluorescenceParameters.getConfigFileName();
+				throw new IllegalArgumentException("Cannot configure detector using "+xmlFileName+" : No server side object called "+detName+" can be found!");
 			}
+
+			// Configure the detector
+			detObject.applyConfigurationParameters(params);
 		}
 
 		controlAllIonC(detectorBean.getIonChambers());
@@ -91,10 +95,10 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 		// else Fluo
 		String detType = detectorBean.getFluorescenceParameters().getDetectorType();
-		if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
-			return new BufferedDetector[] { qexafsCounterTimer01, qexafsXspress3, qexafsFFI0Xspress3 };
+		if (!qexafsDetectorsMap.containsKey(detType) ) {
+			throw new UnsupportedOperationException("Detector type "+detType+" not supported");
 		}
-		throw new UnsupportedOperationException("Detector type not supported");
+		return qexafsDetectorsMap.get(detType).toArray(new BufferedDetector[] {});
 	}
 
 	@Override
@@ -103,10 +107,10 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	private Double[] getScanTimeArray() throws Exception {
-		if (scanBean instanceof XasScanParameters) {
-			return ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
-		} else if (scanBean instanceof XanesScanParameters) {
-			return XanesScanPointCreator.getScanTimeArray((XanesScanParameters) scanBean);
+		if (scanBean instanceof XasScanParameters xasParams) {
+			return ExafsScanPointCreator.getScanTimeArray(xasParams);
+		} else if (scanBean instanceof XanesScanParameters xanesParams) {
+			return XanesScanPointCreator.getScanTimeArray(xanesParams);
 		}
 		return new Double[0];
 	}
@@ -115,5 +119,17 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		for (int index = 0; index < ionChambersBean.size(); index++) {
 			detectorPreparerFunctions.setupAmplifierSensitivity(ionChambersBean.get(index), index);
 		}
+	}
+
+	public Map<String, List<BufferedDetector>> getQexafsDetectorsMap() {
+		return qexafsDetectorsMap;
+	}
+
+	public Map<String, List<BufferedDetector>> setQexafsDetectorsMap(Map<String, List<BufferedDetector>> qexafsDetectorMap) {
+		return this.qexafsDetectorsMap = new HashMap<>(qexafsDetectorMap);
+	}
+
+	public void addQexafsDetectors(String detectorType, List<BufferedDetector> detectors) {
+		qexafsDetectorsMap.put(detectorType, detectors);
 	}
 }

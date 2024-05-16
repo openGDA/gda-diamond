@@ -70,7 +70,7 @@
 		<property name="twoDHdfData" value="true" />
 	</bean>
 	
-	<bean id="qexafs_FFI0_xspress4Odin"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+	<bean id="qexafs_FFI0_xspress3Odin"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
 		<property name="qexafsXspress" ref="qexafs_xspress3Odin" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 		<property name="i0_channel" value="1" />

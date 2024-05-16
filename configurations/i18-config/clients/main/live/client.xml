@@ -7,6 +7,9 @@
 	<bean id="medipixBasePv" class="java.lang.String">
 		<constructor-arg value="BL18I-EA-DET-04" />
 	</bean>
+	<bean id="andorBasePv" class="java.lang.String">
+		<constructor-arg value="BL18I-EA-DET-10" />
+	</bean>
 
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 

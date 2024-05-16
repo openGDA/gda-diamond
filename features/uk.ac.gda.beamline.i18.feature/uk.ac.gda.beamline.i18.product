@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I18 Beamline" uid="uk.ac.gda.beamline.i18.product" id="uk.ac.gda.beamline.i18.product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I18 Beamline" uid="uk.ac.gda.beamline.i18.product" id="uk.ac.gda.beamline.i18.product" application="uk.ac.gda.client.application" version="9.34.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,18 +11,11 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.git.loc=/dls_sw/i18/software/gda_git
--Dgda.config=/dls_sw/i18/software/gda/config
--Djava.library.path=/dls_sw/i18/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/i18/software/gda/config/properties/live/java.properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i18/software/gda/config/jca/live/JCALibrary.properties
+      <vmArgs>-Dgda.config=/dls_sw/i18/software/gda/config
 -Dgda.mode=live
--Dgda.client.jython.automatic.interpreter=1
+-XX:+DisableExplicitGC
 -Xms512m
 -Xmx4g
--XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -35,7 +28,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -54,5 +46,12 @@
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
    </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

@@ -23,6 +23,12 @@
 			value="${gda.config}/templates/Vortex_Parameters_1e.xml" />
 		<property name="tfg" ref="tfg" />
 	</bean>
+	
+	<bean id="FFI0_xmapMca" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xmapMca" />
+		<property name="i0_channel" value="3" />
+		<property name="counterTimer" ref="counterTimer01" />
+	</bean>
 
  	<!--  This is only used in 'Fluorescence detector' view in client -->
 	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >

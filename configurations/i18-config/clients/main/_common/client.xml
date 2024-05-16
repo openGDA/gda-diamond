@@ -6,10 +6,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder/>
-	<import resource="file:${gda.facility.dir}/clients/_common/client.xml" />
-	
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<context:property-placeholder/>	
 	
 	<!-- Replaces the default region creation -->
 	<bean id="xanes_region_factory" class="uk.ac.gda.exafs.ui.SimplifiedXanesParametersProvider" />
@@ -18,7 +15,8 @@
 	<import resource="file://${gda.config}/clients/main/_common/mapping_view.xml" />
 	<import resource="live_controls.xml"/>
 	<import resource="stream_views.xml" />
-	<import resource="medipix_live_view.xml" />
+	<import resource="live_views.xml" />
+	<import resource="detector_param_view.xml" />
 
 	<import resource="mapping_stage.xml" />
 	
