@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ppb_es2_temp_1" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+	<bean id="ppb_es2_temp_2" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+	<bean id="ppb_es2_temp_3" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+	<bean id="ppb_es2_temp_4" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat" value="%5.2f" />
+	</bean>
+
+</beans>

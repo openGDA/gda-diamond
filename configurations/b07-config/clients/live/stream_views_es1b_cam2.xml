@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		define ES cameras and detectors Live Stream views
+	</description>
+
+	<!-- ES1B Cam 2 -->
+
+	<bean id="es1b_cam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}es1b2Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="es1b_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ES1B Cam 2" />
+		<property name="url" value="http://bl07b-di-serv-01.diamond.ac.uk:8084/ES1B.DCAM2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL07B-EA-ENDST-01:DCAM2:ARR" />
+		<property name="roiProvider" ref="es1b_cam2_roi" />
+		<property name="rgb" value="true" />
+		<property name="bottomUi" ref = "es1b_2_camera_controls_ui" />
+	</bean>
+
+
+	<!-- controlling live cross -->
+	<bean id="cross_x_es1b_cam2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-ENDST-01:DCAM2:MJPG:GX" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="cross_y_es1b_cam2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-ENDST-01:DCAM2:MJPG:GY" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="cross_spacing_es1b_cam2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-EA-ENDST-01:DCAM2:MJPG:GS" />
+		<property name="outputFormat" value="%1.0f" />
+	</bean>
+
+	<bean id="cross_toggle_es1b_cam2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07B-EA-ENDST-01:DCAM2:MJPG:GRID" />
+		<property name="readOnly" value="false"/>
+	</bean>
+
+	<bean id="es1b_cam2_cross" class="uk.ac.gda.client.live.stream.view.customui.EpicsCameraViewerGridControls">
+		<constructor-arg name="centreXControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="x" />
+				<property name="scannableName" value="cross_x_es1b_cam2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+				<property name="showIncrement" value="false" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="centreYControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="y" />
+				<property name="scannableName" value="cross_y_es1b_cam2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+				<property name="showIncrement" value="false" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="spacingControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="spacing" />
+				<property name="scannableName" value="cross_spacing_es1b_cam2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+				<property name="showIncrement" value="false" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="toggleControl">
+			<bean class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+				<property name="displayName" value="cross" />
+				<property name="scannableName" value="cross_toggle_es1b_cam2" />
+				<property name="horizontalLayout" value="true" />
+				<property name="showStop" value="false" />
+				<property name="incrementTextWidth" value="30" />
+				<property name="increment" value="10" />
+			</bean>
+		</constructor-arg>
+		<property name="secondaryId" value="es1b_cam2#MJPEG" />
+		<property name="spacingScannable" ref="cross_spacing_es1b_cam2" />
+		<property name="centreXScannable" ref="cross_x_es1b_cam2" />
+		<property name="centreYScannable" ref="cross_y_es1b_cam2" />
+		<property name="toggleScannable" ref="cross_toggle_es1b_cam2" />
+		<property name="plainCross" value="false" />
+		<property name="hideCentreXControl" value="true" />
+		<property name="hideCentreYControl" value="true" />
+		<property name="hideSpacingControl" value="true" />
+	</bean>
+
+	<!-- Camera controls -->
+
+	<bean id="es1b_2.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL07B-EA-ENDST-01:DCAM2:CAM:" />
+		<property name="initialDataType" value="UInt16" />
+		<property name="initialMinX" value="0" />
+		<property name="initialMinY" value="0" />
+		<property name="initialSizeX" value="1456" />
+		<property name="initialSizeY" value="1088" />
+		<property name="initialBinX" value="1" />
+		<property name="initialBinY" value="1" />
+	</bean>
+
+	<bean id="es1b_2_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="es1b_2.cam" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+
+	<bean id="es1b_2_camera_controls_ui" class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls" >
+		<constructor-arg ref="es1b_2_camera_control" />
+		<property name="changeExposureWhileCameraAcquiring" value="true" />
+		<property name="extensions">
+			<list>
+				<ref bean="es1b_cam2_cross" />
+			</list>
+		</property>
+	</bean>
+</beans>

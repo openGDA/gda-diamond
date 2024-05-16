@@ -15,7 +15,7 @@ from gdascripts.pd.epics_pds import * #@UnusedWildImport
 
 print "Load time utilities."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
-# Make time scannable 
+# Make time scannable
 # Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
 from gdascripts.scannable.timerelated import TimeSinceScanStart, clock, epoch  # @UnusedImport
 timeScannable = TimeSinceScanStart('timeScannable')
@@ -36,7 +36,7 @@ alias('mrscan')
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
 
-if installation.isLive():    
+if installation.isLive():
     from scannables.detector_output_processing import BekhoffAdcOutputProcessing
     #dummy_quotient = BekhoffAdcOutputProcessing('dummy_quotient', ds1, ds2, 'divide_detector_output')
     ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')  # @UndefinedVariable
