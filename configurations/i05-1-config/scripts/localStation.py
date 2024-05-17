@@ -12,7 +12,6 @@ from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
 from i05Shared.dirFileCommands import pwd, lwf, nwf, nfn
-from i05Shared.pathscanTable import pathscanTable
 from gda.factory import Finder
 
 print "Installing standard scans with processing"
@@ -31,7 +30,9 @@ from gdascripts import utils
 print "Loading Secondary Scannable Group Creator Script... "
 print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
 print "scan_creator.create_group_and_tuples()"
+
 from i05Shared.scan_creator import *
+from i05Shared.pathscanTable import pathscanTable
 print "-" *20
 
 print "Creating beamline specific devices...";
@@ -78,10 +79,10 @@ from i05Shared.resolutionEstimator import *
 estimateResolution()
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
-    # Run the beamline staff scripts
-    print "==================================================================="
-    print "Running i05-1 scripts."
-    # module location is /dls_sw/ixx/scripts/
-    from beamline.masterj import *
-    # run "beamline/masterj.py"
-    print "==================================================================="
+		# Run the beamline staff scripts
+		print "==================================================================="
+		print "Running i05-1 scripts."
+		# module location is /dls_sw/ixx/scripts/
+		from beamline.masterj import *
+		# run "beamline/masterj.py"
+		print "==================================================================="
