@@ -27,5 +27,6 @@
 	<import resource="topup.xml" />
 	<import resource="keithley.xml"/>
 	<import resource="IntensityProtection.xml"/>
-	
+	<import resource="Scaler1.xml"/>
+	<import resource="Scaler2.xml"/>
 </beans>
