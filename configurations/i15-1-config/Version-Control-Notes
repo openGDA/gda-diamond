@@ -5,10 +5,13 @@ creation of good 80 character wide commit messages.
 Note that this file should not be committed and should be reverted back to it's
 original state once all notes have been used.
 --------------------------------------------------------------------------------
-I15_1 (9.33)
+
+I15_1-1333 (9.33) Add ARC detector CameraConfiguration to Client
 
 --------------------------------------------------------------------------------
 User facing release notes...
+
+The GDA Client now has the option to open an ARC detector view.
 
 The new way of loading the configuration has identified a circular reference
 with respect to the second zebra box. Since we no longer use this box, I have
