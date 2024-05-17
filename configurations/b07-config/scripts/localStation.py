@@ -36,11 +36,10 @@ alias('mrscan')
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
 
-if installation.isLive():
-    from scannables.detector_output_processing import BekhoffAdcOutputProcessing
-    #dummy_quotient = BekhoffAdcOutputProcessing('dummy_quotient', ds1, ds2, 'divide_detector_output')
-    ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')  # @UndefinedVariable
-    ca36b_ca18b_quotient = BekhoffAdcOutputProcessing('ca36b_ca18b_quotient', ca36b, ca18b, 'divide_detector_output')  # @UndefinedVariable
+# if installation.isLive():
+from scannables.detector_output_processing import BekhoffAdcOutputProcessing
+ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')  # @UndefinedVariable
+ca36b_ca18b_quotient = BekhoffAdcOutputProcessing('ca36b_ca18b_quotient', ca36b, ca18b, 'divide_detector_output')  # @UndefinedVariable
 
 #check beam scannables
 from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
