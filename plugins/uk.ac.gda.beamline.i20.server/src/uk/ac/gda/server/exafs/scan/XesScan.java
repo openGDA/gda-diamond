@@ -354,13 +354,7 @@ public class XesScan extends XasScanBase implements XasScan {
 
 			// Store the spectrometer row fixed position(s)
 			for(var params : xesScanParameters.getActiveSpectrometerParameters().entrySet()) {
-				var specParams = xesScanParameters.getSpectrometerScanParameters();
-				int rowNum = params.getKey();
-				if (rowNum >= specParams.size()) {
-					logger.warn("Cannot move energy of spectrometer row {}. XesScanParameters only has settings for {} rows", rowNum+1, specParams.size());
-					continue;
-				}
-				String scnName = xesScanParameters.getScannableNameForRow(params.getKey());
+				String scnName = params.getKey();
 				double pos = params.getValue().getFixedEnergy();
 
 				Scannable energyScannable = getEnergyScannable(scnName);
