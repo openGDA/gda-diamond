@@ -17,4 +17,7 @@ The new way of loading the configuration has identified a circular reference
 with respect to the second zebra box. Since we no longer use this box, I have
 disabled the second zebra, and the unused devices associated with it.
 
+We are now logging to only the new graylog server rather than to both old and
+new graylog servers.
+
 --------------------------------------------------------------------------------
