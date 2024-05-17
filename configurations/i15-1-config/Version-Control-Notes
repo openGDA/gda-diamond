@@ -6,7 +6,12 @@ Note that this file should not be committed and should be reverted back to it's
 original state once all notes have been used.
 --------------------------------------------------------------------------------
 I15_1 (9.33)
+
 --------------------------------------------------------------------------------
 User facing release notes...
+
+The new way of loading the configuration has identified a circular reference
+with respect to the second zebra box. Since we no longer use this box, I have
+disabled the second zebra, and the unused devices associated with it.
 
 --------------------------------------------------------------------------------
