@@ -1,0 +1,29 @@
+================================================================================
+			Regression testing against beamline
+================================================================================
+Scan		Configuration	Dummy	Detector		Notes
+			NDW	DWE	LF	T	/Live						Baseline scan command
+----------- --- --- --	-	-----	-------	-------	----------------------------
+1044462		NSD				Live	NXPDW	pil3	scan hkl [0.9, 1, 1] [1.1, 1, 1] [0.1, 0.0, 0.0] pil3_100k 1
+1044463		NSD				Live	NXPDW	pil3	scan hkl [1, 0.9, 1] [1, 1.1, 1] [0.0, 0.1, 0.0] pil3_100k 1
+1044464		NSD				Live	NXPDW	pil3	scan hkl [1, 1, 0.9] [1, 1, 1.1] [0.0, 0.0, 0.1] pil3_100k 1
+1044465		NSD				Live	NXPDW	pil3	scan hkl [0.9, 0.9, 0.9] [1.1, 1.1, 1.1] [0.1, 0.1, 0.1] pil3_100k 1
+----------- --- --- --	-	-----	------	------------------------------------
+	NDW		NexusDataWriter				T		Template
+	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
+	DWE		DataWriterExtender			NXD		NXDetector
+	LF		Link Files					NDP		NexusDetectorProcessor
+
+See testing-notes/_Preparing_a_scan_for_archiving for process, but with
+
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-hkl-scan/
+VISIT=/dls/i16/data/2024/mm36772-1
+================================================================================
+Preconditions for these tests
+
+loadub('Si')
+calcub 7 8
+con gam 0 mu 0 phi phi()
+pos hkl [1,1,0]
+
+================================================================================

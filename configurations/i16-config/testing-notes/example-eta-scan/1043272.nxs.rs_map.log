@@ -1,0 +1,309 @@
+Parsing Namespace(all=False, step='0.002', volume=None, window=None, output_mode='Volume_HKL', location_mode='manual', binoculars_output=False, omit_poln=False, monitor=None, cores=None, memory=None, pixels=None, config=None, mask_file=None, output='processing/', images=None, debug=False, files=['1043272.nxs'])
+15:49:22,220 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+15:49:22,220 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+15:49:22,220 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [bundleresource://1.fwk1389774257:1/logback.xml]
+15:49:22,225 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@532a02d9 - URL [bundleresource://1.fwk1389774257:1/logback.xml] is not of type file
+15:49:22,269 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+15:49:22,270 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+15:49:22,271 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+15:49:22,276 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+15:49:22,290 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+15:49:22,293 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DebugFILE]
+15:49:22,300 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - No compression will be used
+15:49:22,301 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Will use the pattern /tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log for the active file
+15:49:22,302 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - The date pattern is 'yyyy-MM-dd' from file name pattern '/tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log'.
+15:49:22,302 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Roll-over at midnight.
+15:49:22,310 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Setting initial period to Thu Apr 25 15:26:49 BST 2024
+15:49:22,310 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+15:49:22,310 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+15:49:22,313 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Cleaning on start up
+15:49:22,314 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - first clean up after appender initialization
+15:49:22,314 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+15:49:22,314 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - Multiple periods, i.e. 32 periods, seem to have elapsed. This is expected at application start.
+15:49:22,316 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - Active log file name: /tmp/voo82358-msmapper.log
+15:49:22,316 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - File property is set to [/tmp/voo82358-msmapper.log]
+15:49:22,316 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.commons] to ERROR
+15:49:22,317 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [hdf.hdf5lib] to ERROR
+15:49:22,317 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ALL
+15:49:22,317 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DebugFILE] to Logger[ROOT]
+15:49:22,317 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+15:49:22,317 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+15:49:22,317 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7cbee484 - Registering current configuration as safe fallback point
+
+HDF5 plugin directory not found so trying with class loader
+15:49:22.757 INFO  1043272.nxs is a file from I16
+15:49:22.761 WARN  Could not find monitor
+15:49:22.783 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.795 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.796 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.797 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.798 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.799 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.799 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.800 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.801 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.802 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.803 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.803 WARN  Extent of volume was found to be [-3.932, -3.998, -0.444] to [-3.454, -3.848, 0.106]
+15:49:22.803 WARN  with shape = [241, 77, 277]
+15:49:22.837 INFO      Processing file 1/1: 1043272.nxs
+15:49:22.852 INFO  Selecting 11 images using slice: : with end 11
+15:49:22.852 INFO  Slicing image start:[0, 0, 0], stop:[1, 195, 487]
+15:49:22.882 INFO  Mapping image at [0]/[11] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:22.883 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:22.883 INFO  Chunk too small so decrementing parallelism to 8
+15:49:22.884 INFO  Chunk too small so decrementing parallelism to 7
+15:49:22.884 INFO  Chunk too small so decrementing parallelism to 6
+15:49:22.884 INFO  Chunk too small so decrementing parallelism to 5
+15:49:22.884 INFO  Chunk too small so decrementing parallelism to 4
+15:49:22.884 INFO  Chunk too small so decrementing parallelism to 3
+15:49:22.884 INFO  Splitting images to bands of 130 rows across 3 threads
+15:49:22.884 INFO  Chunk 0: 0 -> 130
+15:49:22.893 INFO  Chunk 1: 130 -> 260
+15:49:22.893 INFO  Chunk 2: 260 -> 390
+15:49:22.897 INFO  Slicing image start:[1, 0, 0], stop:[2, 195, 487]
+15:49:23.001 INFO  Skipping image at [1] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.001 INFO  Slicing image start:[2, 0, 0], stop:[3, 195, 487]
+15:49:23.007 INFO  Skipping image at [2] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.007 INFO  Slicing image start:[3, 0, 0], stop:[4, 195, 487]
+15:49:23.013 INFO  Skipping image at [3] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.013 INFO  Slicing image start:[4, 0, 0], stop:[5, 195, 487]
+15:49:23.019 INFO  Mapping image at [4]/[11] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.020 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 8
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 7
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 6
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 5
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 4
+15:49:23.020 INFO  Chunk too small so decrementing parallelism to 3
+15:49:23.020 INFO  Splitting images to bands of 130 rows across 3 threads
+15:49:23.020 INFO  Chunk 0: 0 -> 130
+15:49:23.021 INFO  Chunk 1: 130 -> 260
+15:49:23.021 INFO  Chunk 2: 260 -> 390
+15:49:23.021 INFO  Slicing image start:[5, 0, 0], stop:[6, 195, 487]
+15:49:23.113 INFO  Mapping image at [5]/[11] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.113 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 8
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 7
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 6
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 5
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 4
+15:49:23.114 INFO  Chunk too small so decrementing parallelism to 3
+15:49:23.114 INFO  Splitting images to bands of 130 rows across 3 threads
+15:49:23.114 INFO  Chunk 0: 0 -> 130
+15:49:23.114 INFO  Chunk 1: 130 -> 260
+15:49:23.114 INFO  Chunk 2: 260 -> 390
+15:49:23.114 INFO  Slicing image start:[6, 0, 0], stop:[7, 195, 487]
+15:49:23.182 INFO  Skipping image at [6] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.182 INFO  Slicing image start:[7, 0, 0], stop:[8, 195, 487]
+15:49:23.187 INFO  Mapping image at [7]/[11] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.188 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 8
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 7
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 6
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 5
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 4
+15:49:23.188 INFO  Chunk too small so decrementing parallelism to 3
+15:49:23.188 INFO  Splitting images to bands of 130 rows across 3 threads
+15:49:23.188 INFO  Chunk 0: 0 -> 130
+15:49:23.188 INFO  Chunk 1: 130 -> 260
+15:49:23.189 INFO  Chunk 2: 260 -> 390
+15:49:23.189 INFO  Slicing image start:[8, 0, 0], stop:[9, 195, 487]
+15:49:23.196 INFO  Skipping image at [8] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.196 INFO  Slicing image start:[9, 0, 0], stop:[10, 195, 487]
+15:49:23.201 INFO  Mapping image at [9]/[11] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.201 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 8
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 7
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 6
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 5
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 4
+15:49:23.202 INFO  Chunk too small so decrementing parallelism to 3
+15:49:23.202 INFO  Splitting images to bands of 130 rows across 3 threads
+15:49:23.202 INFO  Chunk 0: 0 -> 130
+15:49:23.202 INFO  Chunk 1: 130 -> 260
+15:49:23.202 INFO  Chunk 2: 260 -> 390
+15:49:23.202 INFO  Slicing image start:[10, 0, 0], stop:[11, 195, 487]
+15:49:23.209 INFO  Skipping image at [10] in /dls/i16/data/2024/mm36301-1/1043272.nxs
+15:49:23.209 INFO          processed 11 images
+15:49:24.199 WARN  Reduced to non-zero bounding box: [63, 5, 29] to [212, 33, 144]
+15:49:24.199 WARN  so now start = [-3.806, -3.9880000000000004, -0.386] for shape = [150, 29, 116]
+15:49:24.200 INFO  For 10 threads, processing took 1s (127ms/frame)
+15:49:24.200 INFO                 loading 11 frames took 0s (4ms/frame)
+15:49:24.333 INFO  Saving took 133ms

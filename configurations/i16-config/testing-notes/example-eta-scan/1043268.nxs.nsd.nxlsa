@@ -1,0 +1,2037 @@
+1043268.nxs:
+/
+  @file_name='/dls/i16/data/2024/mm36301-1/1043268.nxs'
+    entry:NXentry/
+                   @default='measurement'
+    entry/definition='NXmx'
+    entry/diamond_scan:NXcollection/
+    entry/diamond_scan/duration=16167 units=ms
+                                 @target='/entry/diamond_scan/duration'
+    entry/diamond_scan/end_time='2024-04-23T16:35:40.759'
+                                 @target='/entry/diamond_scan/end_time'
+    entry/diamond_scan/keys:NXcollection/
+    entry/diamond_scan/keys/uniqueKeys: (11,)
+    entry/diamond_scan/point_end_times: (11,)
+    entry/diamond_scan/point_start_times: (11,)
+    entry/diamond_scan/scan_command='scan eta 9.435084076459495 9.485084076459495 0.005 hkl rs_remap pil3_100k 1'
+                                     @target='/entry/diamond_scan/scan_command'
+    entry/diamond_scan/scan_dead_time=16168 units=ms
+    entry/diamond_scan/scan_dead_time_percent=100.00619
+    entry/diamond_scan/scan_estimated_duration=-1 units=ms
+    entry/diamond_scan/scan_fields: (21,)
+                                    @target='/entry/diamond_scan/scan_fields'
+    entry/diamond_scan/scan_finished: (1,)
+    entry/diamond_scan/scan_rank=1
+    entry/diamond_scan/scan_shape: (1,)
+                                   @target='/entry/diamond_scan/scan_shape'
+    entry/diamond_scan/start_time='2024-04-23T16:35:24.592'
+                                   @target='/entry/diamond_scan/start_time'
+    entry/duration=16167 units=ms
+                    @target='/entry/diamond_scan/duration'
+    entry/end_time='2024-04-23T16:35:40.759'
+                    @target='/entry/diamond_scan/end_time'
+    entry/experiment_identifier='cm37262-7'
+    entry/features: (3,)
+    entry/instrument:NXinstrument/
+    entry/instrument/PPR:NXcollection/
+                                       @local_name='PPR'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/PPR/name='PPR'
+    entry/instrument/PPR/ppchi=-45.922311913
+                                @decimals=5
+                                @local_name='PPR.ppchi'
+                                @target='/entry/instrument/PPR/ppchi'
+    entry/instrument/PPR/pppiezo1=0.0
+                                   @decimals=5
+                                   @local_name='PPR.pppiezo1'
+                                   @target='/entry/instrument/PPR/pppiezo1'
+    entry/instrument/PPR/pppiezo2=12345.012359999999
+                                   @decimals=5
+                                   @local_name='PPR.pppiezo2'
+                                   @target='/entry/instrument/PPR/pppiezo2'
+    entry/instrument/PPR/ppth1=-8.8988731624
+                                @decimals=5
+                                @local_name='PPR.ppth1'
+                                @target='/entry/instrument/PPR/ppth1'
+    entry/instrument/PPR/ppth2=-0.0005753244
+                                @decimals=5
+                                @local_name='PPR.ppth2'
+                                @target='/entry/instrument/PPR/ppth2'
+    entry/instrument/PPR/ppz1=7.0
+                               @decimals=5
+                               @local_name='PPR.ppz1'
+                               @target='/entry/instrument/PPR/ppz1'
+    entry/instrument/PPR/ppz2=10.0
+                               @decimals=5
+                               @local_name='PPR.ppz2'
+                               @target='/entry/instrument/PPR/ppz2'
+    entry/instrument/PPR.ppchi:NXpositioner/
+                                             @local_name='PPR'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/PPR.ppchi/name='PPR.ppchi'
+    entry/instrument/PPR.ppchi/value=-45.922311913
+                                      @decimals=5
+                                      @local_name='PPR.ppchi'
+                                      @target='/entry/instrument/PPR/ppchi'
+    entry/instrument/PPR.pppiezo1:NXpositioner/
+                                                @local_name='PPR'
+                                                @scan_role='monitor_per_scan'
+    entry/instrument/PPR.pppiezo1/name='PPR.pppiezo1'
+    entry/instrument/PPR.pppiezo1/value=0.0
+                                         @decimals=5
+                                         @local_name='PPR.pppiezo1'
+                                         @target='/entry/instrument/PPR/pppiezo1'
+    entry/instrument/PPR.pppiezo2:NXpositioner/
+                                                @local_name='PPR'
+                                                @scan_role='monitor_per_scan'
+    entry/instrument/PPR.pppiezo2/name='PPR.pppiezo2'
+    entry/instrument/PPR.pppiezo2/value=12345.012359999999
+                                         @decimals=5
+                                         @local_name='PPR.pppiezo2'
+                                         @target='/entry/instrument/PPR/pppiezo2'
+    entry/instrument/PPR.ppth1:NXpositioner/
+                                             @local_name='PPR'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/PPR.ppth1/name='PPR.ppth1'
+    entry/instrument/PPR.ppth1/value=-8.8988731624
+                                      @decimals=5
+                                      @local_name='PPR.ppth1'
+                                      @target='/entry/instrument/PPR/ppth1'
+    entry/instrument/PPR.ppth2:NXpositioner/
+                                             @local_name='PPR'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/PPR.ppth2/name='PPR.ppth2'
+    entry/instrument/PPR.ppth2/value=-0.0005753244
+                                      @decimals=5
+                                      @local_name='PPR.ppth2'
+                                      @target='/entry/instrument/PPR/ppth2'
+    entry/instrument/PPR.ppz1:NXpositioner/
+                                            @local_name='PPR'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/PPR.ppz1/name='PPR.ppz1'
+    entry/instrument/PPR.ppz1/value=7.0
+                                     @decimals=5
+                                     @local_name='PPR.ppz1'
+                                     @target='/entry/instrument/PPR/ppz1'
+    entry/instrument/PPR.ppz2:NXpositioner/
+                                            @local_name='PPR'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/PPR.ppz2/name='PPR.ppz2'
+    entry/instrument/PPR.ppz2/value=10.0
+                                     @decimals=5
+                                     @local_name='PPR.ppz2'
+                                     @target='/entry/instrument/PPR/ppz2'
+    entry/instrument/atime:NXcollection/
+                                         @local_name='atime'
+                                         @scan_role='monitor_per_point'
+    entry/instrument/atime/TimeSec: (11,)
+                                    @decimals=3
+                                    @local_name='atime.TimeSec'
+                                    @target='/entry/instrument/atime/TimeSec'
+    entry/instrument/atime/name='atime'
+    entry/instrument/atimetwo:NXcollection/
+                                            @local_name='atimetwo'
+                                            @scan_role='monitor_per_point'
+    entry/instrument/atimetwo/TimeFromEpoch: (11,)
+                                             @decimals=3
+                                             @local_name='atimetwo.TimeFromEpoch'
+                                             @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/instrument/atimetwo/name='atimetwo'
+    entry/instrument/attenuator:NXattenuator/
+    entry/instrument/attenuator/attenuator_transmission=0.46122351654711513
+    entry/instrument/beamline='i16'
+    entry/instrument/beamline_slits:NXcollection/
+                                                  @local_name='beamline_slits'
+                                                  @scan_role='monitor_per_scan'
+    entry/instrument/beamline_slits/name='beamline_slits'
+    entry/instrument/beamline_slits/s1xcentre=-0.012
+                                               @decimals=5
+                                               @local_name='beamline_slits.s1xcentre'
+    entry/instrument/beamline_slits/s1xgap=1.005
+                                            @decimals=5
+                                            @local_name='beamline_slits.s1xgap'
+    entry/instrument/beamline_slits/s1ycentre=-0.08
+                                               @decimals=5
+                                               @local_name='beamline_slits.s1ycentre'
+    entry/instrument/beamline_slits/s1ygap=0.9
+                                            @decimals=5
+                                            @local_name='beamline_slits.s1ygap'
+    entry/instrument/beamline_slits/s2xcentre=-0.0841375
+                                               @decimals=5
+                                               @local_name='beamline_slits.s2xcentre'
+    entry/instrument/beamline_slits/s2xgap=20.0009125
+                                            @decimals=5
+                                            @local_name='beamline_slits.s2xgap'
+    entry/instrument/beamline_slits/s2ycentre=-0.156
+                                               @decimals=5
+                                               @local_name='beamline_slits.s2ycentre'
+    entry/instrument/beamline_slits/s2ygap=20.0
+                                            @decimals=5
+                                            @local_name='beamline_slits.s2ygap'
+    entry/instrument/beamline_slits/s3xcentre=-4.101
+                                               @decimals=5
+                                               @local_name='beamline_slits.s3xcentre'
+    entry/instrument/beamline_slits/s3xgap=41.0995
+                                            @decimals=5
+                                            @local_name='beamline_slits.s3xgap'
+    entry/instrument/beamline_slits/s3ycentre=0.3495
+                                               @decimals=5
+                                               @local_name='beamline_slits.s3ycentre'
+    entry/instrument/beamline_slits/s3ygap=20.006
+                                            @decimals=5
+                                            @local_name='beamline_slits.s3ygap'
+    entry/instrument/beamline_slits/s4xcentre=-6.5195
+                                               @decimals=5
+                                               @local_name='beamline_slits.s4xcentre'
+    entry/instrument/beamline_slits/s4xgap=38.895
+                                            @decimals=5
+                                            @local_name='beamline_slits.s4xgap'
+    entry/instrument/beamline_slits/s4ycentre=-0.005
+                                               @decimals=5
+                                               @local_name='beamline_slits.s4ycentre'
+    entry/instrument/beamline_slits/s4ygap=27.9955
+                                            @decimals=5
+                                            @local_name='beamline_slits.s4ygap'
+    entry/instrument/beamline_slits/shtr3x=11.505
+                                            @decimals=2
+                                            @local_name='beamline_slits.shtr3x'
+    entry/instrument/beamline_slits/shtr3y=4.1850000000000005
+                                            @decimals=2
+                                            @local_name='beamline_slits.shtr3y'
+    entry/instrument/delta_axis_offset:NXpositioner/
+                                                     @local_name='delta_axis_offset'
+                                                     @scan_role='monitor_per_point'
+    entry/instrument/delta_axis_offset/name='delta_axis_offset'
+    entry/instrument/delta_axis_offset/value: (11,)
+                                              @decimals=5
+                                              @depends_on='entry/instrument/transformations/delta'
+                                              @local_name='delta_axis_offset.delta_axis_offset'
+                                              @target='/entry/instrument/delta_axis_offset/value'
+                                              @transformation_type='rotation'
+                                              @vector=array([ 0., -1.,  0.])
+    entry/instrument/delta_offset:NXpositioner/
+                                                @local_name='delta_offset'
+                                                @scan_role='monitor_per_scan'
+    entry/instrument/delta_offset/name='delta_offset'
+    entry/instrument/delta_offset/value=0
+                                         @decimals=5
+                                         @local_name='delta_offset.delta_offset'
+    entry/instrument/diffractometer_sample:NXcollection/
+                                                         @local_name='diffractometer_sample'
+                                                         @scan_role='monitor_per_scan'
+    entry/instrument/diffractometer_sample/alpha=6.955716790943596
+                                                  @decimals=5
+                                                  @local_name='diffractometer_sample.alpha'
+    entry/instrument/diffractometer_sample/azih=1.0
+                                                 @decimals=4
+                                                 @local_name='diffractometer_sample.azih'
+    entry/instrument/diffractometer_sample/azik=1.0
+                                                 @decimals=4
+                                                 @local_name='diffractometer_sample.azik'
+    entry/instrument/diffractometer_sample/azil=1.0
+                                                 @decimals=4
+                                                 @local_name='diffractometer_sample.azil'
+    entry/instrument/diffractometer_sample/beta=13.245771024526004
+                                                 @decimals=5
+                                                 @local_name='diffractometer_sample.beta'
+    entry/instrument/diffractometer_sample/betain=9.440112037103189
+                                                   @decimals=5
+                                                   @local_name='diffractometer_sample.betain'
+    entry/instrument/diffractometer_sample/betaout=15.385698645437897
+                                                    @decimals=5
+                                                    @local_name='diffractometer_sample.betaout'
+    entry/instrument/diffractometer_sample/chi=89.88475556572243
+                                                @decimals=5
+                                                @local_name='diffractometer_sample.chi'
+    entry/instrument/diffractometer_sample/delta=24.825861864267
+                                                  @decimals=5
+                                                  @local_name='diffractometer_sample.delta'
+    entry/instrument/diffractometer_sample/delta_axis_offset=8.8
+                                                              @decimals=5
+                                                              @local_name='diffractometer_sample.delta_axis_offset'
+    entry/instrument/diffractometer_sample/en=7.510001863606587
+                                               @decimals=4
+                                               @local_name='diffractometer_sample.en'
+    entry/instrument/diffractometer_sample/eta=9.440084076459499
+                                                @decimals=4
+                                                @local_name='diffractometer_sample.eta'
+    entry/instrument/diffractometer_sample/gam=-7.759e-07
+                                                @decimals=5
+                                                @local_name='diffractometer_sample.gam'
+    entry/instrument/diffractometer_sample/h=0.9399542146863054
+                                              @decimals=5
+                                              @local_name='diffractometer_sample.h'
+    entry/instrument/diffractometer_sample/k=1.0566272565337216
+                                              @decimals=5
+                                              @local_name='diffractometer_sample.k'
+    entry/instrument/diffractometer_sample/kphi=-3.81444
+                                                 @decimals=3
+                                                 @local_name='diffractometer_sample.kphi'
+    entry/instrument/diffractometer_sample/l=-0.00109791735557656
+                                              @decimals=5
+                                              @local_name='diffractometer_sample.l'
+    entry/instrument/diffractometer_sample/mu=-0.0001150058
+                                               @decimals=5
+                                               @local_name='diffractometer_sample.mu'
+    entry/instrument/diffractometer_sample/name='diffractometer_sample'
+    entry/instrument/diffractometer_sample/phi=-60.6824379576505
+                                                @decimals=5
+                                                @local_name='diffractometer_sample.phi'
+    entry/instrument/diffractometer_sample/psi=-84.52769237927723
+                                                @decimals=5
+                                                @local_name='diffractometer_sample.psi'
+    entry/instrument/dummypd:NXcollection/
+                                           @local_name='dummypd'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/dummypd/name='dummypd'
+    entry/instrument/dummypd/x=10.0
+                                @decimals=4
+                                @local_name='dummypd.x'
+    entry/instrument/dummypd/y=0.0
+                                @decimals=4
+                                @local_name='dummypd.y'
+    entry/instrument/dummypd/z=0.0
+                                @decimals=4
+                                @local_name='dummypd.z'
+    entry/instrument/en:NXpositioner/
+                                      @local_name='en'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/en/name='en'
+    entry/instrument/en/value=7.510004265291872
+                               @decimals=4
+                               @local_name='en.en'
+    entry/instrument/eta:NXpositioner/
+                                       @local_name='eta'
+                                       @scan_role='scannable'
+    entry/instrument/eta/name='eta'
+    entry/instrument/eta/soft_limit_max=115.0
+    entry/instrument/eta/soft_limit_min=-22.0
+    entry/instrument/eta/value: (11,) units=
+                                @decimals=4
+                                @local_name='eta.eta'
+                                @target='/entry/instrument/eta/value'
+    entry/instrument/gains_atten:NXcollection/
+                                               @local_name='gains_atten'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/gains_atten/Atten=5.0
+                                        @local_name='gains_atten.Atten'
+    entry/instrument/gains_atten/Transmission=0.46122351654711513
+                                               @decimals=4
+                                               @local_name='gains_atten.Transmission'
+    entry/instrument/gains_atten/diode_gain=0
+                                             @local_name='gains_atten.diode_gain'
+    entry/instrument/gains_atten/ic1_gain=3
+                                           @local_name='gains_atten.ic1_gain'
+    entry/instrument/gains_atten/ic2_gain=4
+                                           @local_name='gains_atten.ic2_gain'
+    entry/instrument/gains_atten/name='gains_atten'
+    entry/instrument/hkl:NXcollection/
+                                       @local_name='hkl'
+                                       @scan_role='monitor_per_point'
+    entry/instrument/hkl/h: (11,)
+                            @decimals=5
+                            @local_name='hkl.h'
+                            @target='/entry/instrument/hkl/h'
+    entry/instrument/hkl/k: (11,)
+                            @decimals=5
+                            @local_name='hkl.k'
+                            @target='/entry/instrument/hkl/k'
+    entry/instrument/hkl/l: (11,)
+                            @decimals=5
+                            @local_name='hkl.l'
+                            @target='/entry/instrument/hkl/l'
+    entry/instrument/hkl/name='hkl'
+    entry/instrument/hkl.h:NXpositioner/
+                                         @local_name='hkl'
+                                         @scan_role='monitor_per_point'
+    entry/instrument/hkl.h/name='hkl.h'
+    entry/instrument/hkl.h/value: (11,)
+                                  @decimals=5
+                                  @local_name='hkl.h'
+                                  @target='/entry/instrument/hkl/h'
+    entry/instrument/hkl.k:NXpositioner/
+                                         @local_name='hkl'
+                                         @scan_role='monitor_per_point'
+    entry/instrument/hkl.k/name='hkl.k'
+    entry/instrument/hkl.k/value: (11,)
+                                  @decimals=5
+                                  @local_name='hkl.k'
+                                  @target='/entry/instrument/hkl/k'
+    entry/instrument/hkl.l:NXpositioner/
+                                         @local_name='hkl'
+                                         @scan_role='monitor_per_point'
+    entry/instrument/hkl.l/name='hkl.l'
+    entry/instrument/hkl.l/value: (11,)
+                                  @decimals=5
+                                  @local_name='hkl.l'
+                                  @target='/entry/instrument/hkl/l'
+    entry/instrument/ic1monitor:NXcollection/
+                                              @local_name='ic1monitor'
+                                              @scan_role='monitor_per_point'
+    entry/instrument/ic1monitor/ic1monitor: (11,)
+                                            @decimals=6
+                                            @local_name='ic1monitor.ic1monitor'
+                                            @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/instrument/ic1monitor/name='ic1monitor'
+    entry/instrument/insertion_device:NXinsertion_device/
+    entry/instrument/insertion_device/gap=6.99985 units=mm
+                                           @local_name='idgap.idgap'
+    entry/instrument/insertion_device/harmonic=7
+                                                @local_name='uharmonic.Uharmonic'
+    entry/instrument/insertion_device/type='wiggler'
+    entry/instrument/jjslits:NXcollection/
+                                           @local_name='jjslits'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/jjslits/name='jjslits'
+    entry/instrument/jjslits/s5xgap=0.5
+                                     @decimals=5
+                                     @local_name='jjslits.s5xgap'
+    entry/instrument/jjslits/s5xtrans=-5e-05
+                                       @decimals=5
+                                       @local_name='jjslits.s5xtrans'
+    entry/instrument/jjslits/s5ygap=0.5002
+                                     @decimals=5
+                                     @local_name='jjslits.s5ygap'
+    entry/instrument/jjslits/s5ytrans=-0.00025
+                                       @decimals=5
+                                       @local_name='jjslits.s5ytrans'
+    entry/instrument/jjslits/s6xgap=3.0836
+                                     @decimals=5
+                                     @local_name='jjslits.s6xgap'
+    entry/instrument/jjslits/s6xtrans=1.3073
+                                       @decimals=5
+                                       @local_name='jjslits.s6xtrans'
+    entry/instrument/jjslits/s6ygap=0.009
+                                     @decimals=5
+                                     @local_name='jjslits.s6ygap'
+    entry/instrument/jjslits/s6ytrans=8.9065
+                                       @decimals=5
+                                       @local_name='jjslits.s6ytrans'
+    entry/instrument/jjslits/s7xgap=20.0824
+                                     @decimals=5
+                                     @local_name='jjslits.s7xgap'
+    entry/instrument/jjslits/s7xtrans=0.0112
+                                       @decimals=5
+                                       @local_name='jjslits.s7xtrans'
+    entry/instrument/jjslits/s7ygap=20.0426
+                                     @decimals=5
+                                     @local_name='jjslits.s7ygap'
+    entry/instrument/jjslits/s7ytrans=0.0009
+                                       @decimals=5
+                                       @local_name='jjslits.s7ytrans'
+    entry/instrument/kap:NXpositioner/
+                                       @local_name='kap'
+                                       @scan_role='monitor_per_point'
+    entry/instrument/kap/name='kap'
+    entry/instrument/kap/soft_limit_max=180.0
+    entry/instrument/kap/soft_limit_min=-180.0
+    entry/instrument/kap/value: (11,) units=deg
+                                @decimals=5
+                                @depends_on='entry/sample/transformations/theta'
+                                @local_name='kap.kap'
+                                @target='/entry/instrument/kap/value'
+                                @transformation_type='rotation'
+                                @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/instrument/kdelta:NXpositioner/
+                                          @local_name='kdelta'
+                                          @scan_role='monitor_per_point'
+    entry/instrument/kdelta/name='kdelta'
+    entry/instrument/kdelta/soft_limit_max=118.8
+    entry/instrument/kdelta/soft_limit_min=7.8
+    entry/instrument/kdelta/value: (11,) units=deg
+                                   @decimals=3
+                                   @depends_on='entry/instrument/transformations/gamma'
+                                   @local_name='kdelta.kdelta'
+                                   @target='/entry/instrument/kdelta/value'
+                                   @transformation_type='rotation'
+                                   @vector=array([0., 1., 0.])
+    entry/instrument/kgam:NXpositioner/
+                                        @local_name='kgam'
+                                        @scan_role='monitor_per_point'
+    entry/instrument/kgam/name='kgam'
+    entry/instrument/kgam/soft_limit_max=120.0
+    entry/instrument/kgam/soft_limit_min=-1.0
+    entry/instrument/kgam/value: (11,) units=deg
+                                 @decimals=3
+                                 @depends_on='.'
+                                 @local_name='kgam.kgam'
+                                 @target='/entry/instrument/kgam/value'
+                                 @transformation_type='rotation'
+                                 @vector=array([1., 0., 0.])
+    entry/instrument/kmu:NXpositioner/
+                                       @local_name='kmu'
+                                       @scan_role='monitor_per_point'
+    entry/instrument/kmu/name='kmu'
+    entry/instrument/kmu/soft_limit_max=80.0
+    entry/instrument/kmu/soft_limit_min=-1.0
+    entry/instrument/kmu/value: (11,) units=deg
+                                @decimals=3
+                                @depends_on='.'
+                                @local_name='kmu.kmu'
+                                @target='/entry/instrument/kmu/value'
+                                @transformation_type='rotation'
+                                @vector=array([1., 0., 0.])
+    entry/instrument/kphi:NXpositioner/
+                                        @local_name='kphi'
+                                        @scan_role='monitor_per_point'
+    entry/instrument/kphi/name='kphi'
+    entry/instrument/kphi/soft_limit_max=271.0
+    entry/instrument/kphi/soft_limit_min=-91.0
+    entry/instrument/kphi/value: (11,) units=deg
+                                 @decimals=3
+                                 @depends_on='entry/sample/transformations/kappa'
+                                 @local_name='kphi.kphi'
+                                 @target='/entry/instrument/kphi/value'
+                                 @transformation_type='rotation'
+                                 @vector=array([0., 1., 0.])
+    entry/instrument/kth:NXpositioner/
+                                       @local_name='kth'
+                                       @scan_role='monitor_per_point'
+    entry/instrument/kth/name='kth'
+    entry/instrument/kth/soft_limit_max=212.0
+    entry/instrument/kth/soft_limit_min=-90.0
+    entry/instrument/kth/value: (11,) units=deg
+                                @decimals=5
+                                @depends_on='entry/sample/transformations/mu'
+                                @local_name='kth.kth'
+                                @target='/entry/instrument/kth/value'
+                                @transformation_type='rotation'
+                                @vector=array([0., 1., 0.])
+    entry/instrument/mirrors:NXcollection/
+                                           @local_name='mirrors'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/mirrors/m1piezo=0.0
+                                      @decimals=3
+                                      @local_name='mirrors.m1piezo'
+    entry/instrument/mirrors/m1pitch=3.709
+                                      @decimals=5
+                                      @local_name='mirrors.m1pitch'
+    entry/instrument/mirrors/m1roll=0.117
+                                     @decimals=5
+                                     @local_name='mirrors.m1roll'
+    entry/instrument/mirrors/m1x=1.383
+                                  @decimals=5
+                                  @local_name='mirrors.m1x'
+    entry/instrument/mirrors/m1y=-2.202
+                                  @decimals=5
+                                  @local_name='mirrors.m1y'
+    entry/instrument/mirrors/m1yaw=0.403
+                                    @decimals=5
+                                    @local_name='mirrors.m1yaw'
+    entry/instrument/mirrors/m2bender=280.0
+                                       @decimals=5
+                                       @local_name='mirrors.m2bender'
+    entry/instrument/mirrors/m2pitch=3.71
+                                      @decimals=5
+                                      @local_name='mirrors.m2pitch'
+    entry/instrument/mirrors/m2roll=0.337
+                                     @decimals=5
+                                     @local_name='mirrors.m2roll'
+    entry/instrument/mirrors/m2x=14.02
+                                  @decimals=5
+                                  @local_name='mirrors.m2x'
+    entry/instrument/mirrors/m2y=1.728
+                                  @decimals=5
+                                  @local_name='mirrors.m2y'
+    entry/instrument/mirrors/m2yaw=0.003
+                                    @decimals=5
+                                    @local_name='mirrors.m2yaw'
+    entry/instrument/mirrors/m3pitch=0.22001560000000003
+                                      @decimals=3
+                                      @local_name='mirrors.m3pitch'
+    entry/instrument/mirrors/m3x=0.0
+                                  @decimals=3
+                                  @local_name='mirrors.m3x'
+    entry/instrument/mirrors/m4pitch=0.2197887
+                                      @decimals=3
+                                      @local_name='mirrors.m4pitch'
+    entry/instrument/mirrors/m4x=1.0751999999999988
+                                  @decimals=3
+                                  @local_name='mirrors.m4x'
+    entry/instrument/mirrors/name='mirrors'
+    entry/instrument/mono:NXcollection/
+                                        @local_name='mono'
+                                        @scan_role='monitor_per_scan'
+    entry/instrument/mono/T1dcmSi111=98.44022898781304
+                                      @decimals=2
+                                      @local_name='mono.T1dcmSi111'
+    entry/instrument/mono/T2dcmSi111=11.714438473268741
+                                      @decimals=2
+                                      @local_name='mono.T2dcmSi111'
+    entry/instrument/mono/bragg=-14.99119
+                                 @decimals=5
+                                 @local_name='mono.bragg'
+    entry/instrument/mono/dcmfinepitch=0.0
+                                        @decimals=5
+                                        @local_name='mono.dcmfinepitch'
+    entry/instrument/mono/dcmlat=-41.0102
+                                  @decimals=5
+                                  @local_name='mono.dcmlat'
+    entry/instrument/mono/dcmpitch=-20.162461
+                                    @decimals=5
+                                    @local_name='mono.dcmpitch'
+    entry/instrument/mono/dcmroll1=19.9522492
+                                    @decimals=5
+                                    @local_name='mono.dcmroll1'
+    entry/instrument/mono/dcmroll2=18.7135312
+                                    @decimals=5
+                                    @local_name='mono.dcmroll2'
+    entry/instrument/mono/en=7.510004265291872
+                              @decimals=4
+                              @local_name='mono.en'
+    entry/instrument/mono/name='mono'
+    entry/instrument/mono/perp=40.5409
+                                @decimals=5
+                                @local_name='mono.perp'
+    entry/instrument/monochromator:NXmonochromator/
+    entry/instrument/monochromator/energy=7.510004265291872
+                                           @local_name='en.en'
+    entry/instrument/mrwolf:NXcollection/
+                                          @local_name='mrwolf'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/mrwolf/Day=23
+                                 @local_name='mrwolf.Day'
+    entry/instrument/mrwolf/Hours=16
+                                   @local_name='mrwolf.Hours'
+    entry/instrument/mrwolf/Minutes=35
+                                     @local_name='mrwolf.Minutes'
+    entry/instrument/mrwolf/Month=4
+                                   @local_name='mrwolf.Month'
+    entry/instrument/mrwolf/Seconds=24
+                                     @local_name='mrwolf.Seconds'
+    entry/instrument/mrwolf/Year=2024
+                                  @local_name='mrwolf.Year'
+    entry/instrument/mrwolf/name='mrwolf'
+    entry/instrument/name='i16'
+    entry/instrument/nexus_meta_check:NXcollection/
+                                                    @local_name='nexus_meta_check'
+                                                    @scan_role='monitor_per_scan'
+    entry/instrument/nexus_meta_check/name='nexus_meta_check'
+    entry/instrument/nexus_meta_check/nexus_meta_check=0
+                                                        @local_name='nexus_meta_check.nexus_meta_check'
+    entry/instrument/nexus_meta_check/nexus_meta_message='/dls/i16/data/2024/mm36301-1/1043267.nxs missing /entry1/scan_dimensions'
+                                                          @local_name='nexus_meta_check.nexus_meta_message'
+    entry/instrument/offsets:NXcollection/
+                                           @local_name='offsets'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/offsets/base_z_offset=-13.964061657517318
+                                            @decimals=5
+                                            @local_name='offsets.base_z_offset'
+    entry/instrument/offsets/idgap_offset=0.5428020931790316
+                                           @decimals=5
+                                           @local_name='offsets.idgap_offset'
+    entry/instrument/offsets/m1y_offset=-15.727043657517317
+                                         @decimals=5
+                                         @local_name='offsets.m1y_offset'
+    entry/instrument/offsets/m2_coating_offset=11
+                                                @decimals=5
+                                                @local_name='offsets.m2_coating_offset'
+    entry/instrument/offsets/m2y_offset=-22.797043657517317
+                                         @decimals=5
+                                         @local_name='offsets.m2y_offset'
+    entry/instrument/offsets/name='offsets'
+    entry/instrument/offsets/ppy_offset=-21.161743657517317
+                                         @decimals=5
+                                         @local_name='offsets.ppy_offset'
+    entry/instrument/offsets/ztable_offset=-20.650073657517318
+                                            @decimals=5
+                                            @local_name='offsets.ztable_offset'
+    entry/instrument/p2:NXcollection/
+                                      @local_name='p2'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/p2/name='p2'
+    entry/instrument/p2/p2rot=310.1292
+                               @decimals=5
+                               @local_name='p2.p2rot'
+                               @target='/entry/instrument/p2/p2rot'
+    entry/instrument/p2/p2x1=10.0
+                              @decimals=5
+                              @local_name='p2.p2x1'
+                              @target='/entry/instrument/p2/p2x1'
+    entry/instrument/p2/p2y1=476.0
+                              @decimals=5
+                              @local_name='p2.p2y1'
+                              @target='/entry/instrument/p2/p2y1'
+    entry/instrument/p2/p2zbot=5e-06
+                                @decimals=5
+                                @local_name='p2.p2zbot'
+                                @target='/entry/instrument/p2/p2zbot'
+    entry/instrument/p2/p2ztop=700.0
+                                @decimals=5
+                                @local_name='p2.p2ztop'
+                                @target='/entry/instrument/p2/p2ztop'
+    entry/instrument/p2.p2rot:NXpositioner/
+                                            @local_name='p2'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/p2.p2rot/name='p2.p2rot'
+    entry/instrument/p2.p2rot/value=310.1292
+                                     @decimals=5
+                                     @local_name='p2.p2rot'
+                                     @target='/entry/instrument/p2/p2rot'
+    entry/instrument/p2.p2x1:NXpositioner/
+                                           @local_name='p2'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/p2.p2x1/name='p2.p2x1'
+    entry/instrument/p2.p2x1/value=10.0
+                                    @decimals=5
+                                    @local_name='p2.p2x1'
+                                    @target='/entry/instrument/p2/p2x1'
+    entry/instrument/p2.p2y1:NXpositioner/
+                                           @local_name='p2'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/p2.p2y1/name='p2.p2y1'
+    entry/instrument/p2.p2y1/value=476.0
+                                    @decimals=5
+                                    @local_name='p2.p2y1'
+                                    @target='/entry/instrument/p2/p2y1'
+    entry/instrument/p2.p2zbot:NXpositioner/
+                                             @local_name='p2'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/p2.p2zbot/name='p2.p2zbot'
+    entry/instrument/p2.p2zbot/value=5e-06
+                                      @decimals=5
+                                      @local_name='p2.p2zbot'
+                                      @target='/entry/instrument/p2/p2zbot'
+    entry/instrument/p2.p2ztop:NXpositioner/
+                                             @local_name='p2'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/p2.p2ztop/name='p2.p2ztop'
+    entry/instrument/p2.p2ztop/value=700.0
+                                      @decimals=5
+                                      @local_name='p2.p2ztop'
+                                      @target='/entry/instrument/p2/p2ztop'
+    entry/instrument/pa:NXcollection/
+                                      @local_name='pa'
+                                      @scan_role='monitor_per_scan'
+    entry/instrument/pa/dettrans=0.0
+                                  @decimals=5
+                                  @local_name='pa.dettrans'
+    entry/instrument/pa/mtthp=-89.35347746
+                               @decimals=5
+                               @local_name='pa.mtthp'
+    entry/instrument/pa/name='pa'
+    entry/instrument/pa/stokes=89.99954
+                                @decimals=5
+                                @local_name='pa.stokes'
+    entry/instrument/pa/thp=-44.49312
+                             @decimals=7
+                             @local_name='pa.thp'
+    entry/instrument/pa/tthp=0.930376
+                              @decimals=5
+                              @local_name='pa.tthp'
+    entry/instrument/pa/zp=-0.17409999999999926
+                            @decimals=3
+                            @local_name='pa.zp'
+    entry/instrument/pa_crystal:NXcollection/
+                                              @local_name='pa_crystal'
+                                              @scan_role='monitor_per_scan'
+    entry/instrument/pa_crystal/analyser_dspace=1.17729
+                                                 @decimals=5
+                                                 @local_name='pa_crystal.analyser_dspace'
+    entry/instrument/pa_crystal/analyser_id=4
+                                             @local_name='pa_crystal.analyser_id'
+                                             @target='/entry/instrument/pa_crystal/analyser_id'
+    entry/instrument/pa_crystal/analyser_name='Au111'
+                                               @local_name='pa_crystal.analyser_name'
+    entry/instrument/pa_crystal/analyser_order=2
+                                                @local_name='pa_crystal.analyser_order'
+                                                @target='/entry/instrument/pa_crystal/analyser_order'
+    entry/instrument/pa_crystal/name='pa_crystal'
+    entry/instrument/pa_crystal.analyser_id:NXpositioner/
+                                                          @local_name='pa_crystal'
+                                                          @scan_role='monitor_per_scan'
+    entry/instrument/pa_crystal.analyser_id/name='pa_crystal.analyser_id'
+    entry/instrument/pa_crystal.analyser_id/value=4
+                                                   @local_name='pa_crystal.analyser_id'
+                                                   @target='/entry/instrument/pa_crystal/analyser_id'
+    entry/instrument/pa_crystal.analyser_order:NXpositioner/
+                                                             @local_name='pa_crystal'
+                                                             @scan_role='monitor_per_scan'
+    entry/instrument/pa_crystal.analyser_order/name='pa_crystal.analyser_order'
+    entry/instrument/pa_crystal.analyser_order/value=2
+                                                      @local_name='pa_crystal.analyser_order'
+                                                      @target='/entry/instrument/pa_crystal/analyser_order'
+    entry/instrument/pa_detector:NXpositioner/
+                                               @local_name='pa_detector'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/pa_detector/name='pa_detector'
+    entry/instrument/pa_detector/pa_detector_name='Merlin'
+                                                   @local_name='pa_detector.pa_detector_name'
+    entry/instrument/pa_detector/value=4
+                                        @local_name='pa_detector.pa_detector_id'
+    entry/instrument/pa_jones:NXcollection/
+                                            @local_name='pa_jones'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/pa_jones/Isim=0.00028118955647976184
+                                    @decimals=4
+                                    @local_name='pa_jones.Isim'
+    entry/instrument/pa_jones/J00=8.02851455936334e-06
+                                   @decimals=4
+                                   @local_name='pa_jones.J00'
+    entry/instrument/pa_jones/J01=-0.9999999999677714
+                                   @decimals=4
+                                   @local_name='pa_jones.J01'
+    entry/instrument/pa_jones/J10=0.016768705734871603
+                                   @decimals=4
+                                   @local_name='pa_jones.J10'
+    entry/instrument/pa_jones/J11=1.3462779813843506e-07
+                                   @decimals=4
+                                   @local_name='pa_jones.J11'
+    entry/instrument/pa_jones/name='pa_jones'
+    entry/instrument/pil3_100k:NXdetector/
+                                           @local_name='pil3_100k'
+                                           @scan_role='detector'
+    entry/instrument/pil3_100k/calibration_date='0000-01-01 00:00:00'
+                                                 @local_name='pil3_geometry.calibration_date'
+    entry/instrument/pil3_100k/calibration_scan_number=-1
+                                                        @local_name='pil3_geometry.calibration_scan_number'
+    entry/instrument/pil3_100k/count_time: (11,)
+                                           @local_name='pil3_100k.count_time'
+    entry/instrument/pil3_100k/data (external link to 1043268-pilatus3_100k-files/1043268.hdf#/entry/instrument/detector/data): (11, 195, 487)
+                                     @NDArrayDimBinning=array([1, 1], dtype=int32)
+                                     @NDArrayDimOffset=array([0, 0], dtype=int32)
+                                     @NDArrayDimReverse=array([0, 0], dtype=int32)
+                                     @NDArrayNumDims=2
+                                     @signal=1
+    entry/instrument/pil3_100k/depends_on='/entry/instrument/pil3_100k/transformations/origin_offset'
+    entry/instrument/pil3_100k/local_name='pil3_100k'
+    entry/instrument/pil3_100k/max_val: (11,)
+                                        @local_name='pil3_100k.max_val'
+                                        @signal=array([1], dtype=int32)
+                                        @target='/entry/instrument/pil3_100k/max_val'
+    entry/instrument/pil3_100k/max_x: (11,)
+                                      @local_name='pil3_100k.max_x'
+                                      @signal=array([1], dtype=int32)
+                                      @target='/entry/instrument/pil3_100k/max_x'
+    entry/instrument/pil3_100k/max_y: (11,)
+                                      @local_name='pil3_100k.max_y'
+                                      @signal=array([1], dtype=int32)
+                                      @target='/entry/instrument/pil3_100k/max_y'
+    entry/instrument/pil3_100k/module:NXdetector_module/
+    entry/instrument/pil3_100k/module/data_origin: (2,)
+    entry/instrument/pil3_100k/module/data_size: (2,)
+    entry/instrument/pil3_100k/module/fast_pixel_direction: (1,) units=mm
+                                                            @depends_on='/entry/instrument/pil3_100k/module/module_offset'
+                                                            @local_name='pil3_geometry.fast_pixel_direction_value'
+                                                            @offset=array([0., 0., 0.]) mm
+                                                            @transformation_type='translation'
+                                                            @vector=array([ 0.7063757 ,  0.00183285, -0.70783474])
+    entry/instrument/pil3_100k/module/module_offset: (1,) units=mm
+                                                     @depends_on='/entry/instrument/pil3_100k/transformations/origin_offset'
+                                                     @offset=array([0., 0., 0.]) mm
+                                                     @transformation_type='translation'
+                                                     @vector=array([0., 0., 0.])
+    entry/instrument/pil3_100k/module/slow_pixel_direction: (1,) units=mm
+                                                            @depends_on='/entry/instrument/pil3_100k/module/module_offset'
+                                                            @local_name='pil3_geometry.slow_pixel_direction_value'
+                                                            @offset=array([0., 0., 0.]) mm
+                                                            @transformation_type='translation'
+                                                            @vector=array([4.41563000e-04, 9.99995312e-01, 3.03000900e-03])
+    entry/instrument/pil3_100k/polarization_analyser_jones_matrix=0.0
+                                                                   @local_name='polarization_analyser_jones_matrix.polarization_analyser_jones_matrix'
+    entry/instrument/pil3_100k/saturation_value: (1,)
+    entry/instrument/pil3_100k/sensor_material='Silicon'
+    entry/instrument/pil3_100k/sensor_thickness: (1,) units=mm
+    entry/instrument/pil3_100k/total: (11,)
+                                      @local_name='pil3_100k.total'
+                                      @signal=array([1], dtype=int32)
+                                      @target='/entry/instrument/pil3_100k/total'
+    entry/instrument/pil3_100k/transformations:NXtransformations/
+    entry/instrument/pil3_100k/transformations/origin_offset: (1,) units=mm
+                                                              @depends_on='/entry/instrument/transformations/offsetdelta'
+                                                              @offset=array([0., 0., 0.]) mm
+                                                              @transformation_type='translation'
+                                                              @vector=array([ 62.58314655, -18.31388151, 621.14621608])
+    entry/instrument/pil3_centre_i:NXpositioner/
+                                                 @local_name='pil3_centre_i'
+                                                 @scan_role='monitor_per_scan'
+    entry/instrument/pil3_centre_i/name='pil3_centre_i'
+    entry/instrument/pil3_centre_i/value=239
+                                          @decimals=5
+                                          @local_name='pil3_centre_i.pil3_centre_i'
+    entry/instrument/pil3_centre_j:NXpositioner/
+                                                 @local_name='pil3_centre_j'
+                                                 @scan_role='monitor_per_scan'
+    entry/instrument/pil3_centre_j/name='pil3_centre_j'
+    entry/instrument/pil3_centre_j/value=106
+                                          @decimals=5
+                                          @local_name='pil3_centre_j.pil3_centre_j'
+    entry/instrument/pol:NXpositioner/
+                                       @local_name='pol'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/pol/dettrans=0.0
+                                   @decimals=4
+                                   @local_name='pol.dettrans'
+    entry/instrument/pol/mtthp=-89.35347746
+                                @decimals=4
+                                @local_name='pol.mtthp'
+    entry/instrument/pol/name='pol'
+    entry/instrument/pol/thp=-44.49312
+                              @decimals=4
+                              @local_name='pol.thp'
+    entry/instrument/pol/tthp=0.930376
+                               @decimals=4
+                               @local_name='pol.tthp'
+    entry/instrument/pol/value=89.99954
+                                @decimals=4
+                                @local_name='pol.stokes'
+    entry/instrument/positions:NXcollection/
+                                             @local_name='positions'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/positions/Base_z=-0.4383715
+                                       @decimals=3
+                                       @local_name='positions.Base_z'
+    entry/instrument/positions/Base_z1=-0.4383715
+                                        @decimals=3
+                                        @local_name='positions.Base_z1'
+    entry/instrument/positions/Base_z2=-0.43837775
+                                        @decimals=3
+                                        @local_name='positions.Base_z2'
+    entry/instrument/positions/Base_z3=-0.43835925
+                                        @decimals=3
+                                        @local_name='positions.Base_z3'
+    entry/instrument/positions/base_y=21.885
+                                       @decimals=5
+                                       @local_name='positions.base_y'
+    entry/instrument/positions/name='positions'
+    entry/instrument/positions/spara=-1.313752472041223
+                                      @decimals=4
+                                      @local_name='positions.spara'
+    entry/instrument/positions/sperp=1.5407188134781686
+                                      @decimals=4
+                                      @local_name='positions.sperp'
+    entry/instrument/positions/sx=0.7001
+                                   @decimals=5
+                                   @local_name='positions.sx'
+    entry/instrument/positions/sy=1.8999
+                                   @decimals=5
+                                   @local_name='positions.sy'
+    entry/instrument/positions/sz=14.07448
+                                   @decimals=5
+                                   @local_name='positions.sz'
+    entry/instrument/positions/table_horiz=18.378125
+                                            @decimals=3
+                                            @local_name='positions.table_horiz'
+    entry/instrument/positions/table_vert=-7.12534
+                                           @decimals=3
+                                           @local_name='positions.table_vert'
+    entry/instrument/ppchitemp:NXcollection/
+                                             @local_name='ppchitemp'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/ppchitemp/name='ppchitemp'
+    entry/instrument/ppchitemp/ppchitemp=26.6
+                                          @decimals=9
+                                          @local_name='ppchitemp.ppchitemp'
+    entry/instrument/pppitch:NXpositioner/
+                                           @local_name='pppitch'
+                                           @scan_role='monitor_per_scan'
+    entry/instrument/pppitch/controller_record='BL16I-OP-QSYS-01:PITCH'
+    entry/instrument/pppitch/name='pppitch'
+    entry/instrument/pppitch/value=0.0295 units=deg
+                                    @decimals=5
+                                    @local_name='pppitch.pppitch'
+    entry/instrument/ppth1temp:NXcollection/
+                                             @local_name='ppth1temp'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/ppth1temp/name='ppth1temp'
+    entry/instrument/ppth1temp/ppth1temp=26.5
+                                          @decimals=9
+                                          @local_name='ppth1temp.ppth1temp'
+    entry/instrument/ppth2temp:NXcollection/
+                                             @local_name='ppth2temp'
+                                             @scan_role='monitor_per_scan'
+    entry/instrument/ppth2temp/name='ppth2temp'
+    entry/instrument/ppth2temp/ppth2temp=27.0
+                                          @decimals=9
+                                          @local_name='ppth2temp.ppth2temp'
+    entry/instrument/ppx:NXpositioner/
+                                       @local_name='ppx'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/ppx/controller_record='BL16I-OP-QSYS-01:X'
+    entry/instrument/ppx/name='ppx'
+    entry/instrument/ppx/value=9.1438 units=mm
+                                @decimals=5
+                                @local_name='ppx.ppx'
+    entry/instrument/ppy:NXpositioner/
+                                       @local_name='ppy'
+                                       @scan_role='monitor_per_scan'
+    entry/instrument/ppy/controller_record='BL16I-OP-QSYS-01:Y'
+    entry/instrument/ppy/name='ppy'
+    entry/instrument/ppy/value=-7.6372 units=mm
+                                @decimals=5
+                                @local_name='ppy.ppy'
+    entry/instrument/ppyaw:NXpositioner/
+                                         @local_name='ppyaw'
+                                         @scan_role='monitor_per_scan'
+    entry/instrument/ppyaw/controller_record='BL16I-OP-QSYS-01:YAW'
+    entry/instrument/ppyaw/name='ppyaw'
+    entry/instrument/ppyaw/value=-0.0261 units=deg
+                                  @decimals=5
+                                  @local_name='ppyaw.ppyaw'
+    entry/instrument/ppz1temp:NXcollection/
+                                            @local_name='ppz1temp'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/ppz1temp/name='ppz1temp'
+    entry/instrument/ppz1temp/ppz1temp=26.3
+                                        @decimals=9
+                                        @local_name='ppz1temp.ppz1temp'
+    entry/instrument/ppz2temp:NXcollection/
+                                            @local_name='ppz2temp'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/ppz2temp/name='ppz2temp'
+    entry/instrument/ppz2temp/ppz2temp=26.7
+                                        @decimals=9
+                                        @local_name='ppz2temp.ppz2temp'
+    entry/instrument/rc:NXpositioner/
+                                      @local_name='rc'
+                                      @scan_role='monitor_per_point'
+    entry/instrument/rc/name='rc'
+    entry/instrument/rc/value: (11,)
+                               @decimals=4
+                               @local_name='rc.rc'
+                               @target='/entry/instrument/rc/value'
+    entry/instrument/rs_remap:NXpositioner/
+                                            @local_name='rs_remap'
+                                            @scan_role='monitor_per_point'
+    entry/instrument/rs_remap/name='rs_remap'
+    entry/instrument/rs_remap/value: (11,)
+                                     @decimals=4
+                                     @local_name='rs_remap.rs_remap'
+                                     @target='/entry/instrument/rs_remap/value'
+    entry/instrument/s1:NXslit/
+    entry/instrument/s1/depends_on='s1transformations/x_centre'
+    entry/instrument/s1/s1transformations:NXtransformations/
+    entry/instrument/s1/s1transformations/x_centre=-0.012 units=mm
+                                                    @depends_on='s1transformations/y_centre'
+                                                    @local_name='s1xcentre.s1xcentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s1/s1transformations/y_centre=-0.08 units=mm
+                                                    @depends_on='s1transformations/z_centre'
+                                                    @local_name='s1ycentre.s1ycentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s1/s1transformations/z_centre=-26.4 units=m
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s1/x_gap=1.005 units=mm
+                               @local_name='s1xgap.s1xgap'
+    entry/instrument/s1/y_gap=0.9 units=mm
+                               @local_name='s1ygap.s1ygap'
+    entry/instrument/s2:NXslit/
+    entry/instrument/s2/depends_on='s2transformations/x_centre'
+    entry/instrument/s2/s2transformations:NXtransformations/
+    entry/instrument/s2/s2transformations/x_centre=-0.0841375 units=mm
+                                                    @depends_on='s2transformations/y_centre'
+                                                    @local_name='s2xcentre.s2xcentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s2/s2transformations/y_centre=-0.156 units=mm
+                                                    @depends_on='s2transformations/z_centre'
+                                                    @local_name='s2ycentre.s2ycentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s2/s2transformations/z_centre=-23.3 units=m
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s2/x_gap=20.0009125 units=mm
+                               @local_name='s2xgap.s2xgap'
+    entry/instrument/s2/y_gap=20.0 units=mm
+                               @local_name='s2ygap.s2ygap'
+    entry/instrument/s3:NXslit/
+    entry/instrument/s3/depends_on='s3transformations/x_centre'
+    entry/instrument/s3/s3transformations:NXtransformations/
+    entry/instrument/s3/s3transformations/x_centre=-4.101 units=mm
+                                                    @depends_on='s3transformations/y_centre'
+                                                    @local_name='s3xcentre.s3xcentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s3/s3transformations/y_centre=0.3495 units=mm
+                                                    @depends_on='s3transformations/z_centre'
+                                                    @local_name='s3ycentre.s3ycentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s3/s3transformations/z_centre=-17.3 units=m
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s3/x_gap=41.0995 units=mm
+                               @local_name='s3xgap.s3xgap'
+    entry/instrument/s3/y_gap=20.006 units=mm
+                               @local_name='s3ygap.s3ygap'
+    entry/instrument/s4:NXslit/
+    entry/instrument/s4/depends_on='s4transformations/x_centre'
+    entry/instrument/s4/s4transformations:NXtransformations/
+    entry/instrument/s4/s4transformations/x_centre=-6.5195 units=mm
+                                                    @depends_on='s4transformations/y_centre'
+                                                    @local_name='s4xcentre.s4xcentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s4/s4transformations/y_centre=-0.005 units=mm
+                                                    @depends_on='s4transformations/z_centre'
+                                                    @local_name='s4ycentre.s4ycentre'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s4/s4transformations/z_centre=-4.37 units=m
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s4/x_gap=38.895 units=mm
+                               @local_name='s4xgap.s4xgap'
+    entry/instrument/s4/y_gap=27.9955 units=mm
+                               @local_name='s4ygap.s4ygap'
+    entry/instrument/s5:NXslit/
+    entry/instrument/s5/depends_on='s5transformations/x_centre'
+    entry/instrument/s5/s5transformations:NXtransformations/
+    entry/instrument/s5/s5transformations/x_centre=-5e-05 units=mm
+                                                    @depends_on='s5transformations/y_centre'
+                                                    @local_name='s5xtrans.s5xtrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s5/s5transformations/y_centre=-0.00025 units=mm
+                                                    @depends_on='s5transformations/z_centre'
+                                                    @local_name='s5ytrans.s5ytrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s5/s5transformations/z_centre=-0.5 units=m
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s5/x_gap=0.5 units=mm
+                               @local_name='s5xgap.s5xgap'
+    entry/instrument/s5/y_gap=0.5002 units=mm
+                               @local_name='s5ygap.s5ygap'
+    entry/instrument/s6:NXslit/
+    entry/instrument/s6/depends_on='s6transformations/x_centre'
+    entry/instrument/s6/s6transformations:NXtransformations/
+    entry/instrument/s6/s6transformations/x_centre=1.3073 units=mm
+                                                    @depends_on='s6transformations/y_centre'
+                                                    @local_name='s6xtrans.s6xtrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s6/s6transformations/y_centre=8.9065 units=mm
+                                                    @depends_on='s6transformations/z_centre'
+                                                    @local_name='s6ytrans.s6ytrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s6/s6transformations/z_centre=57.0 units=mm
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s6/x_gap=3.0836 units=mm
+                               @local_name='s6xgap.s6xgap'
+    entry/instrument/s6/y_gap=0.009 units=mm
+                               @local_name='s6ygap.s6ygap'
+    entry/instrument/s7:NXslit/
+    entry/instrument/s7/depends_on='s7transformations/x_centre'
+    entry/instrument/s7/s7transformations:NXtransformations/
+    entry/instrument/s7/s7transformations/x_centre=0.0112 units=mm
+                                                    @depends_on='s7transformations/y_centre'
+                                                    @local_name='s7xtrans.s7xtrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([1., 0., 0.])
+    entry/instrument/s7/s7transformations/y_centre=0.0009 units=mm
+                                                    @depends_on='s7transformations/z_centre'
+                                                    @local_name='s7ytrans.s7ytrans'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 1., 0.])
+    entry/instrument/s7/s7transformations/z_centre=750.0 units=mm
+                                                    @depends_on='.'
+                                                    @transformation_type='translation'
+                                                    @vector=array([0., 0., 1.])
+    entry/instrument/s7/x_gap=20.0824 units=mm
+                               @local_name='s7xgap.s7xgap'
+    entry/instrument/s7/y_gap=20.0426 units=mm
+                               @local_name='s7ygap.s7ygap'
+    entry/instrument/source:NXsource/
+    entry/instrument/source/current=10.930495262145996 units=mA
+                                     @local_name='rc.rc'
+    entry/instrument/source/name='Diamond Light Source'
+    entry/instrument/source/probe='x-ray'
+    entry/instrument/source/type='Synchrotron X-ray Source'
+    entry/instrument/stokes_pars:NXcollection/
+                                               @local_name='stokes_pars'
+                                               @scan_role='monitor_per_scan'
+    entry/instrument/stokes_pars/name='stokes_pars'
+    entry/instrument/stokes_pars/p1=1.0
+                                     @decimals=4
+                                     @local_name='stokes_pars.p1'
+                                     @target='/entry/instrument/stokes_pars/p1'
+    entry/instrument/stokes_pars/p2=0.0
+                                     @decimals=4
+                                     @local_name='stokes_pars.p2'
+                                     @target='/entry/instrument/stokes_pars/p2'
+    entry/instrument/stokes_pars/p3=0
+                                     @decimals=4
+                                     @local_name='stokes_pars.p3'
+                                     @target='/entry/instrument/stokes_pars/p3'
+    entry/instrument/stokes_pars.p1:NXpositioner/
+                                                  @local_name='stokes_pars'
+                                                  @scan_role='monitor_per_scan'
+    entry/instrument/stokes_pars.p1/name='stokes_pars.p1'
+    entry/instrument/stokes_pars.p1/value=1.0
+                                           @decimals=4
+                                           @local_name='stokes_pars.p1'
+                                           @target='/entry/instrument/stokes_pars/p1'
+    entry/instrument/stokes_pars.p2:NXpositioner/
+                                                  @local_name='stokes_pars'
+                                                  @scan_role='monitor_per_scan'
+    entry/instrument/stokes_pars.p2/name='stokes_pars.p2'
+    entry/instrument/stokes_pars.p2/value=0.0
+                                           @decimals=4
+                                           @local_name='stokes_pars.p2'
+                                           @target='/entry/instrument/stokes_pars/p2'
+    entry/instrument/stokes_pars.p3:NXpositioner/
+                                                  @local_name='stokes_pars'
+                                                  @scan_role='monitor_per_scan'
+    entry/instrument/stokes_pars.p3/name='stokes_pars.p3'
+    entry/instrument/stokes_pars.p3/value=0
+                                           @decimals=4
+                                           @local_name='stokes_pars.p3'
+                                           @target='/entry/instrument/stokes_pars/p3'
+    entry/instrument/tcontrol:NXpositioner/
+                                            @local_name='tcontrol'
+                                            @scan_role='monitor_per_scan'
+    entry/instrument/tcontrol/Tcontrol_device='Lakeshore 336'
+                                               @local_name='tcontrol.Tcontrol_device'
+    entry/instrument/tcontrol/name='tcontrol'
+    entry/instrument/tcontrol/value=0
+                                     @local_name='tcontrol.Tcontrol_id'
+    entry/instrument/temperature_controller:NXcollection/
+                                                          @local_name='temperature_controller'
+                                                          @scan_role='monitor_per_scan'
+    entry/instrument/temperature_controller/Ta=300.005
+                                                @decimals=2
+                                                @local_name='temperature_controller.Ta'
+    entry/instrument/temperature_controller/Tb=299.139
+                                                @decimals=2
+                                                @local_name='temperature_controller.Tb'
+    entry/instrument/temperature_controller/Tc=0.0
+                                                @decimals=2
+                                                @local_name='temperature_controller.Tc'
+    entry/instrument/temperature_controller/Tchannel='0'
+                                                      @local_name='temperature_controller.Tchannel'
+    entry/instrument/temperature_controller/Td=0.0
+                                                @decimals=2
+                                                @local_name='temperature_controller.Td'
+    entry/instrument/temperature_controller/Theater=11.5
+                                                     @decimals=2
+                                                     @local_name='temperature_controller.Theater'
+    entry/instrument/temperature_controller/Tsample=300.005
+                                                     @decimals=2
+                                                     @local_name='temperature_controller.Tsample'
+    entry/instrument/temperature_controller/Tset=300.0
+                                                  @decimals=2
+                                                  @local_name='temperature_controller.Tset'
+    entry/instrument/temperature_controller/name='temperature_controller'
+    entry/instrument/transformations:NXtransformations/
+    entry/instrument/transformations/delta: (11,) units=deg
+                                            @decimals=3
+                                            @depends_on='entry/instrument/transformations/gamma'
+                                            @local_name='kdelta.kdelta'
+                                            @target='/entry/instrument/kdelta/value'
+                                            @transformation_type='rotation'
+                                            @vector=array([0., 1., 0.])
+    entry/instrument/transformations/gamma: (11,) units=deg
+                                            @decimals=3
+                                            @depends_on='.'
+                                            @local_name='kgam.kgam'
+                                            @target='/entry/instrument/kgam/value'
+                                            @transformation_type='rotation'
+                                            @vector=array([1., 0., 0.])
+    entry/instrument/transformations/offsetdelta: (11,)
+                                                  @decimals=5
+                                                  @depends_on='entry/instrument/transformations/delta'
+                                                  @local_name='delta_axis_offset.delta_axis_offset'
+                                                  @target='/entry/instrument/delta_axis_offset/value'
+                                                  @transformation_type='rotation'
+                                                  @vector=array([ 0., -1.,  0.])
+    entry/instrument/ubMeta:NXcollection/
+                                          @local_name='ubMeta'
+                                          @scan_role='monitor_per_scan'
+    entry/instrument/ubMeta/n_hkl: (3,)
+                                   @decimals=4
+                                   @local_name='ubMeta.n_hkl'
+    entry/instrument/ubMeta/name='ubMeta'
+    entry/instrument/ubMeta/ub_matrix: (1, 3, 3)
+                                       @decimals=4
+                                       @local_name='ubMeta.ub_matrix'
+    entry/instrument/ubMeta/unit_cell: (1, 6)
+                                       @decimals=4
+                                       @local_name='ubMeta.unit_cell'
+    entry/instrument/ubMeta/value='{"name": "Si", "crystal": "[u\'Si\', \'Cubic\', 5.43075, 5.43075, 5.43075, 90.0, 90.0, 90.0]", "reflist": {"1": {"tag": "PMN-PT Cal", "hkl": "[2.0, 2.0, 0.0]", "pos": "[0.0, 45.506592568631, 0.0, 21.615779612533522, 89.8849697396027, 0.8156414617715271]", "energy": 8.355, "time": "2024-04-15T13:38:37.405000"}, "2": {"tag": "None", "hkl": "[1.0, 1.0, 1.0]", "pos": "[0.0029165559, 47.604567584404, 0.0004819811, 0.00038459045067923235, -0.00030564598747089363, 0.048128233717679235]", "energy": 8.00000165462071, "time": "2022-05-11T14:03:22.555000"}, "3": {"tag": "None", "hkl": "[2.0, 2.0, 0.0]", "pos": "[89.059, 47.604569491183, 0.0004819811, 0.0, 66.1133, 89.13960000000003]", "energy": 8.00000165462071, "time": "2022-05-11T16:53:12.270000"}, "4": {"tag": "None", "hkl": "[1.0, 1.0, 1.0]", "pos": "[0.0, 28.616945118418, 0.0, 14.404482470315134, 124.54103444634556, -17.497186693450487]", "energy": 8.00000165462071, "time": "2022-05-11T18:33:57.698000"}, "5": {"tag": "None", "hkl": "[2.0, 2.0, 0.0]", "pos": "[0.0, 47.604592609806, 0.0, 23.848296304903204, 90.23926077020406, -167.90607842841453]", "energy": 7.9999961799579555, "time": "2022-05-15T11:53:36.477000"}, "6": {"tag": "None", "hkl": "[3.0, 1.0, 1.0]", "pos": "[0.0, 56.489871233159, 0.0, 28.594811280059382, 58.86950884396663, -142.37870524110656]", "energy": 7.9999961799579555, "time": "2022-05-15T12:39:57.944000"}, "7": {"tag": "None", "hkl": "[2.0, 2.0, 0.0]", "pos": "[0.0, 47.604567584404, 0.0004819811, 23.883839004165154, 89.61897580165345, 1.4129189873305944e-05]", "energy": 8.00000165462071, "time": "2022-05-11T16:56:01.242000"}, "8": {"tag": "None", "hkl": "[4.0, 0.0, 0.0]", "pos": "[0.0, 69.655198247246, 0.0, 34.8226594110945, 35.651018471093465, 30.000000000000497]", "energy": 8.0, "time": "2023-03-08T19:38:14.405000"}, "9": {"tag": "None", "hkl": "[3.0, 3.0, 3.0]", "pos": "[0.0, 95.746243004799, 0.0, 46.65935391150384, 89.75000000000021, -1.6342482922482304e-13]", "energy": 8.0, "time": "2023-03-08T19:28:04.656000"}, "10": {"tag": "DMS", "hkl": "[2.0, 2.0, 2.0]", "pos": "[0.0, 60.521473822181, 0.0, 30.23705912990267, 54.34306986629276, 148.49999999999966]", "energy": 7.85, "time": "2024-03-01T15:38:50.908000"}, "11": {"tag": "DMS", "hkl": "[2.0, 2.0, 0.0]", "pos": "[0.0021859132, 48.599591694267, 0.0, 23.9027073812971, 90.60149914752421, 9.947598300641403e-14]", "energy": 7.85, "time": "2024-03-01T15:28:31.653000"}, "12": {"tag": "None", "hkl": "[3.0, 3.0, 3.0]", "pos": "[0.0, 90.498526010922, 0.0, 45.26931190050499, 55.81080150204025, 79.49999999999999]", "energy": 8.355, "time": "2024-04-15T13:59:22.128000"}, "13": {"tag": "PMN-PT Cal", "hkl": "[3.0, 3.0, 3.0]", "pos": "[0.0, 90.498526010922, 0.0, 45.26931190050499, 55.81080150204025, 79.49999999999999]", "energy": 8.355, "time": "2024-04-15T13:59:34.391000"}}, "orientlist": {}, "tau": 0, "sigma": 0, "reference": {"n_hkl_configured": "[1.0, 1.0, 1.0]", "n_phi_configured": null}, "surface": {"n_hkl_configured": null, "n_phi_configured": "[0.0, 0.0, 1.0]"}, "u": null, "ub": null, "or0": 7, "or1": 8}'
+                                   @local_name='ubMeta.value'
+    entry/instrument/xtlinfo_extra:NXcollection/
+                                                 @local_name='xtlinfo_extra'
+                                                 @scan_role='monitor_per_scan'
+    entry/instrument/xtlinfo_extra/UB11=0.7133347063778328
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB11'
+    entry/instrument/xtlinfo_extra/UB12=-0.7024653912108547
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB12'
+    entry/instrument/xtlinfo_extra/UB13=0.5798818618532787
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB13'
+    entry/instrument/xtlinfo_extra/UB21=0.41120482175509704
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB21'
+    entry/instrument/xtlinfo_extra/UB22=-0.408875848568119
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB22'
+    entry/instrument/xtlinfo_extra/UB23=-1.0011484095286038
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB23'
+    entry/instrument/xtlinfo_extra/UB31=0.8127922207555894
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB31'
+    entry/instrument/xtlinfo_extra/UB32=0.8233649965156856
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB32'
+    entry/instrument/xtlinfo_extra/UB33=-0.0024271939592351074
+                                         @decimals=5
+                                         @local_name='xtlinfo_extra.UB33'
+    entry/instrument/xtlinfo_extra/UB_ref1='7'
+                                            @local_name='xtlinfo_extra.UB_ref1'
+    entry/instrument/xtlinfo_extra/UB_ref2='8'
+                                            @local_name='xtlinfo_extra.UB_ref2'
+    entry/instrument/xtlinfo_extra/a=5.43075
+                                      @decimals=5
+                                      @local_name='xtlinfo_extra.a'
+    entry/instrument/xtlinfo_extra/alpha1=90.0
+                                           @decimals=5
+                                           @local_name='xtlinfo_extra.alpha1'
+    entry/instrument/xtlinfo_extra/alpha2=90.0
+                                           @decimals=5
+                                           @local_name='xtlinfo_extra.alpha2'
+    entry/instrument/xtlinfo_extra/alpha3=90.0
+                                           @decimals=5
+                                           @local_name='xtlinfo_extra.alpha3'
+    entry/instrument/xtlinfo_extra/b=5.43075
+                                      @decimals=5
+                                      @local_name='xtlinfo_extra.b'
+    entry/instrument/xtlinfo_extra/c=5.43075
+                                      @decimals=5
+                                      @local_name='xtlinfo_extra.c'
+    entry/instrument/xtlinfo_extra/crystal_name='Si'
+                                                 @local_name='xtlinfo_extra.crystal_name'
+    entry/instrument/xtlinfo_extra/crystal_symmetry='Cubic'
+                                                     @local_name='xtlinfo_extra.crystal_symmetry'
+    entry/instrument/xtlinfo_extra/name='xtlinfo_extra'
+    entry/measurement:NXdata/
+                              @TimeFromEpoch_indices=array([0], dtype=int32)
+                              @TimeSec_indices=array([0], dtype=int32)
+                              @axes='eta'
+                              @delta_axis_offset_indices=array([0], dtype=int32)
+                              @eta_indices=array([0], dtype=int32)
+                              @h_indices=array([0], dtype=int32)
+                              @ic1monitor_indices=array([0], dtype=int32)
+                              @k_indices=array([0], dtype=int32)
+                              @kap_indices=array([0], dtype=int32)
+                              @kdelta_indices=array([0], dtype=int32)
+                              @kgam_indices=array([0], dtype=int32)
+                              @kmu_indices=array([0], dtype=int32)
+                              @kphi_indices=array([0], dtype=int32)
+                              @kth_indices=array([0], dtype=int32)
+                              @l_indices=array([0], dtype=int32)
+                              @rc_indices=array([0], dtype=int32)
+                              @rs_remap_indices=array([0], dtype=int32)
+                              @signal='rc'
+    entry/measurement/TimeFromEpoch: (11,)
+                                     @decimals=3
+                                     @local_name='atimetwo.TimeFromEpoch'
+                                     @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/measurement/TimeSec: (11,)
+                               @decimals=3
+                               @local_name='atime.TimeSec'
+                               @target='/entry/instrument/atime/TimeSec'
+    entry/measurement/delta_axis_offset: (11,)
+                                         @decimals=5
+                                         @depends_on='entry/instrument/transformations/delta'
+                                         @local_name='delta_axis_offset.delta_axis_offset'
+                                         @target='/entry/instrument/delta_axis_offset/value'
+                                         @transformation_type='rotation'
+                                         @vector=array([ 0., -1.,  0.])
+    entry/measurement/eta: (11,) units=
+                           @decimals=4
+                           @local_name='eta.eta'
+                           @target='/entry/instrument/eta/value'
+    entry/measurement/h: (11,)
+                         @decimals=5
+                         @local_name='hkl.h'
+                         @target='/entry/instrument/hkl/h'
+    entry/measurement/ic1monitor: (11,)
+                                  @decimals=6
+                                  @local_name='ic1monitor.ic1monitor'
+                                  @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/measurement/k: (11,)
+                         @decimals=5
+                         @local_name='hkl.k'
+                         @target='/entry/instrument/hkl/k'
+    entry/measurement/kap: (11,) units=deg
+                           @decimals=5
+                           @depends_on='entry/sample/transformations/theta'
+                           @local_name='kap.kap'
+                           @target='/entry/instrument/kap/value'
+                           @transformation_type='rotation'
+                           @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/measurement/kdelta: (11,) units=deg
+                              @decimals=3
+                              @depends_on='entry/instrument/transformations/gamma'
+                              @local_name='kdelta.kdelta'
+                              @target='/entry/instrument/kdelta/value'
+                              @transformation_type='rotation'
+                              @vector=array([0., 1., 0.])
+    entry/measurement/kgam: (11,) units=deg
+                            @decimals=3
+                            @depends_on='.'
+                            @local_name='kgam.kgam'
+                            @target='/entry/instrument/kgam/value'
+                            @transformation_type='rotation'
+                            @vector=array([1., 0., 0.])
+    entry/measurement/kmu: (11,) units=deg
+                           @decimals=3
+                           @depends_on='.'
+                           @local_name='kmu.kmu'
+                           @target='/entry/instrument/kmu/value'
+                           @transformation_type='rotation'
+                           @vector=array([1., 0., 0.])
+    entry/measurement/kphi: (11,) units=deg
+                            @decimals=3
+                            @depends_on='entry/sample/transformations/kappa'
+                            @local_name='kphi.kphi'
+                            @target='/entry/instrument/kphi/value'
+                            @transformation_type='rotation'
+                            @vector=array([0., 1., 0.])
+    entry/measurement/kth: (11,) units=deg
+                           @decimals=5
+                           @depends_on='entry/sample/transformations/mu'
+                           @local_name='kth.kth'
+                           @target='/entry/instrument/kth/value'
+                           @transformation_type='rotation'
+                           @vector=array([0., 1., 0.])
+    entry/measurement/l: (11,)
+                         @decimals=5
+                         @local_name='hkl.l'
+                         @target='/entry/instrument/hkl/l'
+    entry/measurement/rc: (11,)
+                          @decimals=4
+                          @local_name='rc.rc'
+                          @target='/entry/instrument/rc/value'
+    entry/measurement/rs_remap: (11,)
+                                @decimals=4
+                                @local_name='rs_remap.rs_remap'
+                                @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k:NXdata/
+                            @atime_indices=array([0], dtype=int32)
+                            @atimetwo_indices=array([0], dtype=int32)
+                            @axes=['eta', '.', '.']
+                            @delta_axis_offset_indices=array([0], dtype=int32)
+                            @eta_indices=array([0], dtype=int32)
+                            @hkl_h_indices=array([0], dtype=int32)
+                            @hkl_k_indices=array([0], dtype=int32)
+                            @hkl_l_indices=array([0], dtype=int32)
+                            @ic1monitor_indices=array([0], dtype=int32)
+                            @kap_indices=array([0], dtype=int32)
+                            @kdelta_indices=array([0], dtype=int32)
+                            @kgam_indices=array([0], dtype=int32)
+                            @kmu_indices=array([0], dtype=int32)
+                            @kphi_indices=array([0], dtype=int32)
+                            @kth_indices=array([0], dtype=int32)
+                            @rc_indices=array([0], dtype=int32)
+                            @rs_remap_indices=array([0], dtype=int32)
+                            @signal='data'
+    entry/pil3_100k/atime: (11,)
+                           @decimals=3
+                           @local_name='atime.TimeSec'
+                           @target='/entry/instrument/atime/TimeSec'
+    entry/pil3_100k/atimetwo: (11,)
+                              @decimals=3
+                              @local_name='atimetwo.TimeFromEpoch'
+                              @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/pil3_100k/data (external link to 1043268-pilatus3_100k-files/1043268.hdf#/entry/instrument/detector/data): (11, 195, 487)
+                          @NDArrayDimBinning=array([1, 1], dtype=int32)
+                          @NDArrayDimOffset=array([0, 0], dtype=int32)
+                          @NDArrayDimReverse=array([0, 0], dtype=int32)
+                          @NDArrayNumDims=2
+                          @signal=1
+    entry/pil3_100k/delta_axis_offset: (11,)
+                                       @decimals=5
+                                       @depends_on='entry/instrument/transformations/delta'
+                                       @local_name='delta_axis_offset.delta_axis_offset'
+                                       @target='/entry/instrument/delta_axis_offset/value'
+                                       @transformation_type='rotation'
+                                       @vector=array([ 0., -1.,  0.])
+    entry/pil3_100k/eta: (11,) units=
+                         @decimals=4
+                         @local_name='eta.eta'
+                         @target='/entry/instrument/eta/value'
+    entry/pil3_100k/hkl_h: (11,)
+                           @decimals=5
+                           @local_name='hkl.h'
+                           @target='/entry/instrument/hkl/h'
+    entry/pil3_100k/hkl_k: (11,)
+                           @decimals=5
+                           @local_name='hkl.k'
+                           @target='/entry/instrument/hkl/k'
+    entry/pil3_100k/hkl_l: (11,)
+                           @decimals=5
+                           @local_name='hkl.l'
+                           @target='/entry/instrument/hkl/l'
+    entry/pil3_100k/ic1monitor: (11,)
+                                @decimals=6
+                                @local_name='ic1monitor.ic1monitor'
+                                @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/pil3_100k/kap: (11,) units=deg
+                         @decimals=5
+                         @depends_on='entry/sample/transformations/theta'
+                         @local_name='kap.kap'
+                         @target='/entry/instrument/kap/value'
+                         @transformation_type='rotation'
+                         @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/pil3_100k/kdelta: (11,) units=deg
+                            @decimals=3
+                            @depends_on='entry/instrument/transformations/gamma'
+                            @local_name='kdelta.kdelta'
+                            @target='/entry/instrument/kdelta/value'
+                            @transformation_type='rotation'
+                            @vector=array([0., 1., 0.])
+    entry/pil3_100k/kgam: (11,) units=deg
+                          @decimals=3
+                          @depends_on='.'
+                          @local_name='kgam.kgam'
+                          @target='/entry/instrument/kgam/value'
+                          @transformation_type='rotation'
+                          @vector=array([1., 0., 0.])
+    entry/pil3_100k/kmu: (11,) units=deg
+                         @decimals=3
+                         @depends_on='.'
+                         @local_name='kmu.kmu'
+                         @target='/entry/instrument/kmu/value'
+                         @transformation_type='rotation'
+                         @vector=array([1., 0., 0.])
+    entry/pil3_100k/kphi: (11,) units=deg
+                          @decimals=3
+                          @depends_on='entry/sample/transformations/kappa'
+                          @local_name='kphi.kphi'
+                          @target='/entry/instrument/kphi/value'
+                          @transformation_type='rotation'
+                          @vector=array([0., 1., 0.])
+    entry/pil3_100k/kth: (11,) units=deg
+                         @decimals=5
+                         @depends_on='entry/sample/transformations/mu'
+                         @local_name='kth.kth'
+                         @target='/entry/instrument/kth/value'
+                         @transformation_type='rotation'
+                         @vector=array([0., 1., 0.])
+    entry/pil3_100k/rc: (11,)
+                        @decimals=4
+                        @local_name='rc.rc'
+                        @target='/entry/instrument/rc/value'
+    entry/pil3_100k/rs_remap: (11,)
+                              @decimals=4
+                              @local_name='rs_remap.rs_remap'
+                              @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k_max_val:NXdata/
+                                    @atime_indices=array([0], dtype=int32)
+                                    @atimetwo_indices=array([0], dtype=int32)
+                                    @axes='eta'
+                                    @delta_axis_offset_indices=array([0], dtype=int32)
+                                    @eta_indices=array([0], dtype=int32)
+                                    @hkl_h_indices=array([0], dtype=int32)
+                                    @hkl_k_indices=array([0], dtype=int32)
+                                    @hkl_l_indices=array([0], dtype=int32)
+                                    @ic1monitor_indices=array([0], dtype=int32)
+                                    @kap_indices=array([0], dtype=int32)
+                                    @kdelta_indices=array([0], dtype=int32)
+                                    @kgam_indices=array([0], dtype=int32)
+                                    @kmu_indices=array([0], dtype=int32)
+                                    @kphi_indices=array([0], dtype=int32)
+                                    @kth_indices=array([0], dtype=int32)
+                                    @rc_indices=array([0], dtype=int32)
+                                    @rs_remap_indices=array([0], dtype=int32)
+                                    @signal='max_val'
+    entry/pil3_100k_max_val/atime: (11,)
+                                   @decimals=3
+                                   @local_name='atime.TimeSec'
+                                   @target='/entry/instrument/atime/TimeSec'
+    entry/pil3_100k_max_val/atimetwo: (11,)
+                                      @decimals=3
+                                      @local_name='atimetwo.TimeFromEpoch'
+                                      @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/pil3_100k_max_val/delta_axis_offset: (11,)
+                                               @decimals=5
+                                               @depends_on='entry/instrument/transformations/delta'
+                                               @local_name='delta_axis_offset.delta_axis_offset'
+                                               @target='/entry/instrument/delta_axis_offset/value'
+                                               @transformation_type='rotation'
+                                               @vector=array([ 0., -1.,  0.])
+    entry/pil3_100k_max_val/eta: (11,) units=
+                                 @decimals=4
+                                 @local_name='eta.eta'
+                                 @target='/entry/instrument/eta/value'
+    entry/pil3_100k_max_val/hkl_h: (11,)
+                                   @decimals=5
+                                   @local_name='hkl.h'
+                                   @target='/entry/instrument/hkl/h'
+    entry/pil3_100k_max_val/hkl_k: (11,)
+                                   @decimals=5
+                                   @local_name='hkl.k'
+                                   @target='/entry/instrument/hkl/k'
+    entry/pil3_100k_max_val/hkl_l: (11,)
+                                   @decimals=5
+                                   @local_name='hkl.l'
+                                   @target='/entry/instrument/hkl/l'
+    entry/pil3_100k_max_val/ic1monitor: (11,)
+                                        @decimals=6
+                                        @local_name='ic1monitor.ic1monitor'
+                                        @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/pil3_100k_max_val/kap: (11,) units=deg
+                                 @decimals=5
+                                 @depends_on='entry/sample/transformations/theta'
+                                 @local_name='kap.kap'
+                                 @target='/entry/instrument/kap/value'
+                                 @transformation_type='rotation'
+                                 @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/pil3_100k_max_val/kdelta: (11,) units=deg
+                                    @decimals=3
+                                    @depends_on='entry/instrument/transformations/gamma'
+                                    @local_name='kdelta.kdelta'
+                                    @target='/entry/instrument/kdelta/value'
+                                    @transformation_type='rotation'
+                                    @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_val/kgam: (11,) units=deg
+                                  @decimals=3
+                                  @depends_on='.'
+                                  @local_name='kgam.kgam'
+                                  @target='/entry/instrument/kgam/value'
+                                  @transformation_type='rotation'
+                                  @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_val/kmu: (11,) units=deg
+                                 @decimals=3
+                                 @depends_on='.'
+                                 @local_name='kmu.kmu'
+                                 @target='/entry/instrument/kmu/value'
+                                 @transformation_type='rotation'
+                                 @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_val/kphi: (11,) units=deg
+                                  @decimals=3
+                                  @depends_on='entry/sample/transformations/kappa'
+                                  @local_name='kphi.kphi'
+                                  @target='/entry/instrument/kphi/value'
+                                  @transformation_type='rotation'
+                                  @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_val/kth: (11,) units=deg
+                                 @decimals=5
+                                 @depends_on='entry/sample/transformations/mu'
+                                 @local_name='kth.kth'
+                                 @target='/entry/instrument/kth/value'
+                                 @transformation_type='rotation'
+                                 @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_val/max_val: (11,)
+                                     @local_name='pil3_100k.max_val'
+                                     @signal=array([1], dtype=int32)
+                                     @target='/entry/instrument/pil3_100k/max_val'
+    entry/pil3_100k_max_val/rc: (11,)
+                                @decimals=4
+                                @local_name='rc.rc'
+                                @target='/entry/instrument/rc/value'
+    entry/pil3_100k_max_val/rs_remap: (11,)
+                                      @decimals=4
+                                      @local_name='rs_remap.rs_remap'
+                                      @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k_max_x:NXdata/
+                                  @atime_indices=array([0], dtype=int32)
+                                  @atimetwo_indices=array([0], dtype=int32)
+                                  @axes='eta'
+                                  @delta_axis_offset_indices=array([0], dtype=int32)
+                                  @eta_indices=array([0], dtype=int32)
+                                  @hkl_h_indices=array([0], dtype=int32)
+                                  @hkl_k_indices=array([0], dtype=int32)
+                                  @hkl_l_indices=array([0], dtype=int32)
+                                  @ic1monitor_indices=array([0], dtype=int32)
+                                  @kap_indices=array([0], dtype=int32)
+                                  @kdelta_indices=array([0], dtype=int32)
+                                  @kgam_indices=array([0], dtype=int32)
+                                  @kmu_indices=array([0], dtype=int32)
+                                  @kphi_indices=array([0], dtype=int32)
+                                  @kth_indices=array([0], dtype=int32)
+                                  @rc_indices=array([0], dtype=int32)
+                                  @rs_remap_indices=array([0], dtype=int32)
+                                  @signal='max_x'
+    entry/pil3_100k_max_x/atime: (11,)
+                                 @decimals=3
+                                 @local_name='atime.TimeSec'
+                                 @target='/entry/instrument/atime/TimeSec'
+    entry/pil3_100k_max_x/atimetwo: (11,)
+                                    @decimals=3
+                                    @local_name='atimetwo.TimeFromEpoch'
+                                    @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/pil3_100k_max_x/delta_axis_offset: (11,)
+                                             @decimals=5
+                                             @depends_on='entry/instrument/transformations/delta'
+                                             @local_name='delta_axis_offset.delta_axis_offset'
+                                             @target='/entry/instrument/delta_axis_offset/value'
+                                             @transformation_type='rotation'
+                                             @vector=array([ 0., -1.,  0.])
+    entry/pil3_100k_max_x/eta: (11,) units=
+                               @decimals=4
+                               @local_name='eta.eta'
+                               @target='/entry/instrument/eta/value'
+    entry/pil3_100k_max_x/hkl_h: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.h'
+                                 @target='/entry/instrument/hkl/h'
+    entry/pil3_100k_max_x/hkl_k: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.k'
+                                 @target='/entry/instrument/hkl/k'
+    entry/pil3_100k_max_x/hkl_l: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.l'
+                                 @target='/entry/instrument/hkl/l'
+    entry/pil3_100k_max_x/ic1monitor: (11,)
+                                      @decimals=6
+                                      @local_name='ic1monitor.ic1monitor'
+                                      @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/pil3_100k_max_x/kap: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/theta'
+                               @local_name='kap.kap'
+                               @target='/entry/instrument/kap/value'
+                               @transformation_type='rotation'
+                               @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/pil3_100k_max_x/kdelta: (11,) units=deg
+                                  @decimals=3
+                                  @depends_on='entry/instrument/transformations/gamma'
+                                  @local_name='kdelta.kdelta'
+                                  @target='/entry/instrument/kdelta/value'
+                                  @transformation_type='rotation'
+                                  @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_x/kgam: (11,) units=deg
+                                @decimals=3
+                                @depends_on='.'
+                                @local_name='kgam.kgam'
+                                @target='/entry/instrument/kgam/value'
+                                @transformation_type='rotation'
+                                @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_x/kmu: (11,) units=deg
+                               @decimals=3
+                               @depends_on='.'
+                               @local_name='kmu.kmu'
+                               @target='/entry/instrument/kmu/value'
+                               @transformation_type='rotation'
+                               @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_x/kphi: (11,) units=deg
+                                @decimals=3
+                                @depends_on='entry/sample/transformations/kappa'
+                                @local_name='kphi.kphi'
+                                @target='/entry/instrument/kphi/value'
+                                @transformation_type='rotation'
+                                @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_x/kth: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/mu'
+                               @local_name='kth.kth'
+                               @target='/entry/instrument/kth/value'
+                               @transformation_type='rotation'
+                               @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_x/max_x: (11,)
+                                 @local_name='pil3_100k.max_x'
+                                 @signal=array([1], dtype=int32)
+                                 @target='/entry/instrument/pil3_100k/max_x'
+    entry/pil3_100k_max_x/rc: (11,)
+                              @decimals=4
+                              @local_name='rc.rc'
+                              @target='/entry/instrument/rc/value'
+    entry/pil3_100k_max_x/rs_remap: (11,)
+                                    @decimals=4
+                                    @local_name='rs_remap.rs_remap'
+                                    @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k_max_y:NXdata/
+                                  @atime_indices=array([0], dtype=int32)
+                                  @atimetwo_indices=array([0], dtype=int32)
+                                  @axes='eta'
+                                  @delta_axis_offset_indices=array([0], dtype=int32)
+                                  @eta_indices=array([0], dtype=int32)
+                                  @hkl_h_indices=array([0], dtype=int32)
+                                  @hkl_k_indices=array([0], dtype=int32)
+                                  @hkl_l_indices=array([0], dtype=int32)
+                                  @ic1monitor_indices=array([0], dtype=int32)
+                                  @kap_indices=array([0], dtype=int32)
+                                  @kdelta_indices=array([0], dtype=int32)
+                                  @kgam_indices=array([0], dtype=int32)
+                                  @kmu_indices=array([0], dtype=int32)
+                                  @kphi_indices=array([0], dtype=int32)
+                                  @kth_indices=array([0], dtype=int32)
+                                  @rc_indices=array([0], dtype=int32)
+                                  @rs_remap_indices=array([0], dtype=int32)
+                                  @signal='max_y'
+    entry/pil3_100k_max_y/atime: (11,)
+                                 @decimals=3
+                                 @local_name='atime.TimeSec'
+                                 @target='/entry/instrument/atime/TimeSec'
+    entry/pil3_100k_max_y/atimetwo: (11,)
+                                    @decimals=3
+                                    @local_name='atimetwo.TimeFromEpoch'
+                                    @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/pil3_100k_max_y/delta_axis_offset: (11,)
+                                             @decimals=5
+                                             @depends_on='entry/instrument/transformations/delta'
+                                             @local_name='delta_axis_offset.delta_axis_offset'
+                                             @target='/entry/instrument/delta_axis_offset/value'
+                                             @transformation_type='rotation'
+                                             @vector=array([ 0., -1.,  0.])
+    entry/pil3_100k_max_y/eta: (11,) units=
+                               @decimals=4
+                               @local_name='eta.eta'
+                               @target='/entry/instrument/eta/value'
+    entry/pil3_100k_max_y/hkl_h: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.h'
+                                 @target='/entry/instrument/hkl/h'
+    entry/pil3_100k_max_y/hkl_k: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.k'
+                                 @target='/entry/instrument/hkl/k'
+    entry/pil3_100k_max_y/hkl_l: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.l'
+                                 @target='/entry/instrument/hkl/l'
+    entry/pil3_100k_max_y/ic1monitor: (11,)
+                                      @decimals=6
+                                      @local_name='ic1monitor.ic1monitor'
+                                      @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/pil3_100k_max_y/kap: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/theta'
+                               @local_name='kap.kap'
+                               @target='/entry/instrument/kap/value'
+                               @transformation_type='rotation'
+                               @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/pil3_100k_max_y/kdelta: (11,) units=deg
+                                  @decimals=3
+                                  @depends_on='entry/instrument/transformations/gamma'
+                                  @local_name='kdelta.kdelta'
+                                  @target='/entry/instrument/kdelta/value'
+                                  @transformation_type='rotation'
+                                  @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_y/kgam: (11,) units=deg
+                                @decimals=3
+                                @depends_on='.'
+                                @local_name='kgam.kgam'
+                                @target='/entry/instrument/kgam/value'
+                                @transformation_type='rotation'
+                                @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_y/kmu: (11,) units=deg
+                               @decimals=3
+                               @depends_on='.'
+                               @local_name='kmu.kmu'
+                               @target='/entry/instrument/kmu/value'
+                               @transformation_type='rotation'
+                               @vector=array([1., 0., 0.])
+    entry/pil3_100k_max_y/kphi: (11,) units=deg
+                                @decimals=3
+                                @depends_on='entry/sample/transformations/kappa'
+                                @local_name='kphi.kphi'
+                                @target='/entry/instrument/kphi/value'
+                                @transformation_type='rotation'
+                                @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_y/kth: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/mu'
+                               @local_name='kth.kth'
+                               @target='/entry/instrument/kth/value'
+                               @transformation_type='rotation'
+                               @vector=array([0., 1., 0.])
+    entry/pil3_100k_max_y/max_y: (11,)
+                                 @local_name='pil3_100k.max_y'
+                                 @signal=array([1], dtype=int32)
+                                 @target='/entry/instrument/pil3_100k/max_y'
+    entry/pil3_100k_max_y/rc: (11,)
+                              @decimals=4
+                              @local_name='rc.rc'
+                              @target='/entry/instrument/rc/value'
+    entry/pil3_100k_max_y/rs_remap: (11,)
+                                    @decimals=4
+                                    @local_name='rs_remap.rs_remap'
+                                    @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k_total:NXdata/
+                                  @atime_indices=array([0], dtype=int32)
+                                  @atimetwo_indices=array([0], dtype=int32)
+                                  @axes='eta'
+                                  @delta_axis_offset_indices=array([0], dtype=int32)
+                                  @eta_indices=array([0], dtype=int32)
+                                  @hkl_h_indices=array([0], dtype=int32)
+                                  @hkl_k_indices=array([0], dtype=int32)
+                                  @hkl_l_indices=array([0], dtype=int32)
+                                  @ic1monitor_indices=array([0], dtype=int32)
+                                  @kap_indices=array([0], dtype=int32)
+                                  @kdelta_indices=array([0], dtype=int32)
+                                  @kgam_indices=array([0], dtype=int32)
+                                  @kmu_indices=array([0], dtype=int32)
+                                  @kphi_indices=array([0], dtype=int32)
+                                  @kth_indices=array([0], dtype=int32)
+                                  @rc_indices=array([0], dtype=int32)
+                                  @rs_remap_indices=array([0], dtype=int32)
+                                  @signal='total'
+    entry/pil3_100k_total/atime: (11,)
+                                 @decimals=3
+                                 @local_name='atime.TimeSec'
+                                 @target='/entry/instrument/atime/TimeSec'
+    entry/pil3_100k_total/atimetwo: (11,)
+                                    @decimals=3
+                                    @local_name='atimetwo.TimeFromEpoch'
+                                    @target='/entry/instrument/atimetwo/TimeFromEpoch'
+    entry/pil3_100k_total/delta_axis_offset: (11,)
+                                             @decimals=5
+                                             @depends_on='entry/instrument/transformations/delta'
+                                             @local_name='delta_axis_offset.delta_axis_offset'
+                                             @target='/entry/instrument/delta_axis_offset/value'
+                                             @transformation_type='rotation'
+                                             @vector=array([ 0., -1.,  0.])
+    entry/pil3_100k_total/eta: (11,) units=
+                               @decimals=4
+                               @local_name='eta.eta'
+                               @target='/entry/instrument/eta/value'
+    entry/pil3_100k_total/hkl_h: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.h'
+                                 @target='/entry/instrument/hkl/h'
+    entry/pil3_100k_total/hkl_k: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.k'
+                                 @target='/entry/instrument/hkl/k'
+    entry/pil3_100k_total/hkl_l: (11,)
+                                 @decimals=5
+                                 @local_name='hkl.l'
+                                 @target='/entry/instrument/hkl/l'
+    entry/pil3_100k_total/ic1monitor: (11,)
+                                      @decimals=6
+                                      @local_name='ic1monitor.ic1monitor'
+                                      @target='/entry/instrument/ic1monitor/ic1monitor'
+    entry/pil3_100k_total/kap: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/theta'
+                               @local_name='kap.kap'
+                               @target='/entry/instrument/kap/value'
+                               @transformation_type='rotation'
+                               @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/pil3_100k_total/kdelta: (11,) units=deg
+                                  @decimals=3
+                                  @depends_on='entry/instrument/transformations/gamma'
+                                  @local_name='kdelta.kdelta'
+                                  @target='/entry/instrument/kdelta/value'
+                                  @transformation_type='rotation'
+                                  @vector=array([0., 1., 0.])
+    entry/pil3_100k_total/kgam: (11,) units=deg
+                                @decimals=3
+                                @depends_on='.'
+                                @local_name='kgam.kgam'
+                                @target='/entry/instrument/kgam/value'
+                                @transformation_type='rotation'
+                                @vector=array([1., 0., 0.])
+    entry/pil3_100k_total/kmu: (11,) units=deg
+                               @decimals=3
+                               @depends_on='.'
+                               @local_name='kmu.kmu'
+                               @target='/entry/instrument/kmu/value'
+                               @transformation_type='rotation'
+                               @vector=array([1., 0., 0.])
+    entry/pil3_100k_total/kphi: (11,) units=deg
+                                @decimals=3
+                                @depends_on='entry/sample/transformations/kappa'
+                                @local_name='kphi.kphi'
+                                @target='/entry/instrument/kphi/value'
+                                @transformation_type='rotation'
+                                @vector=array([0., 1., 0.])
+    entry/pil3_100k_total/kth: (11,) units=deg
+                               @decimals=5
+                               @depends_on='entry/sample/transformations/mu'
+                               @local_name='kth.kth'
+                               @target='/entry/instrument/kth/value'
+                               @transformation_type='rotation'
+                               @vector=array([0., 1., 0.])
+    entry/pil3_100k_total/rc: (11,)
+                              @decimals=4
+                              @local_name='rc.rc'
+                              @target='/entry/instrument/rc/value'
+    entry/pil3_100k_total/rs_remap: (11,)
+                                    @decimals=4
+                                    @local_name='rs_remap.rs_remap'
+                                    @target='/entry/instrument/rs_remap/value'
+    entry/pil3_100k_total/total: (11,)
+                                 @local_name='pil3_100k.total'
+                                 @signal=array([1], dtype=int32)
+                                 @target='/entry/instrument/pil3_100k/total'
+    entry/program_name='GDA 9.33.0'
+    entry/sample:NXsample/
+    entry/sample/beam:NXbeam/
+    entry/sample/beam/depends_on='transformations/direction'
+    entry/sample/beam/distance=0.0 units=mm
+    entry/sample/beam/extent=0.0
+                              @local_name='beamExtentScannable.beamExtentScannable'
+    entry/sample/beam/flux=0.0
+                            @local_name='fluxScannable.fluxScannable'
+    entry/sample/beam/incident_beam_divergence=0.0
+                                                @local_name='incidentBeamDivergenceScannable.incidentBeamDivergenceScannable'
+    entry/sample/beam/incident_energy=7.510001863606587
+                                       @local_name='en.en'
+    entry/sample/beam/incident_polarisation_stokes=0.0
+                                                    @local_name='incident_polarisation_stokes.incident_polarisation_stokes'
+    entry/sample/beam/incident_polarization=0.0
+                                             @local_name='incidentPolarizationScannable.incidentPolarizationScannable'
+    entry/sample/beam/incident_wavelength=0.16509209289806476 units=nm
+    entry/sample/beam/transformations:NXtransformations/
+    entry/sample/beam/transformations/direction: (1,)
+                                                 @vector=array([0., 0., 1.])
+    entry/sample/beam/transformations/reference_plane: (1,)
+                                                       @vector=array([1., 0., 0.])
+    entry/sample/depends_on='/entry/sample/transformations/phi'
+    entry/sample/surface_vector: (3,)
+    entry/sample/transformations:NXtransformations/
+    entry/sample/transformations/kappa: (11,) units=deg
+                                        @decimals=5
+                                        @depends_on='entry/sample/transformations/theta'
+                                        @local_name='kap.kap'
+                                        @target='/entry/instrument/kap/value'
+                                        @transformation_type='rotation'
+                                        @vector=array([ 0.        ,  0.64278762, -0.76604444])
+    entry/sample/transformations/mu: (11,) units=deg
+                                     @decimals=3
+                                     @depends_on='.'
+                                     @local_name='kmu.kmu'
+                                     @target='/entry/instrument/kmu/value'
+                                     @transformation_type='rotation'
+                                     @vector=array([1., 0., 0.])
+    entry/sample/transformations/phi: (11,) units=deg
+                                      @decimals=3
+                                      @depends_on='entry/sample/transformations/kappa'
+                                      @local_name='kphi.kphi'
+                                      @target='/entry/instrument/kphi/value'
+                                      @transformation_type='rotation'
+                                      @vector=array([0., 1., 0.])
+    entry/sample/transformations/theta: (11,) units=deg
+                                        @decimals=5
+                                        @depends_on='entry/sample/transformations/mu'
+                                        @local_name='kth.kth'
+                                        @target='/entry/instrument/kth/value'
+                                        @transformation_type='rotation'
+                                        @vector=array([0., 1., 0.])
+    entry/sample/ub_matrix: (1, 3, 3)
+    entry/sample/unit_cell: (1, 6)
+    entry/sample_name='Default Sample'
+    entry/scan_command='scan eta 9.435084076459495 9.485084076459495 0.005 hkl rs_remap pil3_100k 1'
+                        @target='/entry/diamond_scan/scan_command'
+    entry/scan_fields: (21,)
+                       @target='/entry/diamond_scan/scan_fields'
+    entry/scan_shape: (1,)
+                      @target='/entry/diamond_scan/scan_shape'
+    entry/start_time='2024-04-23T16:35:24.592'
+                      @target='/entry/diamond_scan/start_time'
+    entry/title_old='Scan of sample with GDA'
+    entry/user01:NXuser/
+    entry/user01/facility_user_id='i16user'
+    entry/user01/name='I16 User'

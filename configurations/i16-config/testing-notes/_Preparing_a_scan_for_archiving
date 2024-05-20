@@ -30,6 +30,7 @@ BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/985494 # For merlins
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/1022133 # For pil3
 BASELINE=$DEPLOYMENT/config/testing-notes/example-eta-scan/I16-634-hkl-mapper/2024010139 # For pil3
 
+export BASELINE
 echo -e "\nARCHIVE=$ARCHIVE\nBASELINE=$BASELINE\nVISIT=$VISIT\nSCAN=$SCAN\n"
 
 --------------------------------------------------------------------------------

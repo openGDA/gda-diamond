@@ -1,0 +1,109 @@
+Parsing Namespace(all=False, step='0.002', volume=None, window=None, output_mode='Volume_HKL', location_mode='manual', binoculars_output=False, omit_poln=False, monitor=None, cores=None, memory=None, pixels=None, config=None, mask_file=None, output='processing/', images=None, debug=False, files=['1044462.nxs'])
+18:44:46,849 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+18:44:46,850 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
+18:44:46,850 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [bundleresource://1.fwk1389774257:1/logback.xml]
+18:44:46,858 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@532a02d9 - URL [bundleresource://1.fwk1389774257:1/logback.xml] is not of type file
+18:44:46,896 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+18:44:46,896 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+18:44:46,897 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [STDOUT]
+18:44:46,902 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:44:46,915 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+18:44:46,917 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [DebugFILE]
+18:44:46,924 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - No compression will be used
+18:44:46,925 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Will use the pattern /tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log for the active file
+18:44:46,926 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - The date pattern is 'yyyy-MM-dd' from file name pattern '/tmp/voo82358-msmapper_%d{yyyy-MM-dd}.%i.log'.
+18:44:46,926 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Roll-over at midnight.
+18:44:46,933 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - Setting initial period to Wed May 01 17:44:05 BST 2024
+18:44:46,933 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+18:44:46,933 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7bb3a9fe - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+18:44:46,937 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1629454900 - Cleaning on start up
+18:44:46,938 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - first clean up after appender initialization
+18:44:46,938 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+18:44:46,938 |-INFO in c.q.l.core.rolling.helper.TimeBasedArchiveRemover - Multiple periods, i.e. 32 periods, seem to have elapsed. This is expected at application start.
+18:44:46,939 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - Active log file name: /tmp/voo82358-msmapper.log
+18:44:46,939 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[DebugFILE] - File property is set to [/tmp/voo82358-msmapper.log]
+18:44:46,940 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [org.apache.commons] to ERROR
+18:44:46,940 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger [hdf.hdf5lib] to ERROR
+18:44:46,940 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to ALL
+18:44:46,940 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [DebugFILE] to Logger[ROOT]
+18:44:46,940 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [STDOUT] to Logger[ROOT]
+18:44:46,940 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+18:44:46,941 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7cbee484 - Registering current configuration as safe fallback point
+
+HDF5 plugin directory not found so trying with class loader
+18:44:47.441 INFO  1044462.nxs is a file from I16
+18:44:47.445 WARN  Could not find monitor
+18:44:47.471 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+18:44:47.483 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+18:44:47.484 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+18:44:47.485 WARN  Extent of volume was found to be [-4.104, -6.8500000000000005, 3.16] to [-2.662, -6.246, 4.174]
+18:44:47.485 WARN  with shape = [723, 304, 509]
+18:44:47.782 INFO      Processing file 1/1: 1044462.nxs
+18:44:47.799 INFO  Selecting 3 images using slice: : with end 3
+18:44:47.799 INFO  Slicing image start:[0, 0, 0], stop:[1, 195, 487]
+18:44:47.829 INFO  Skipping image at [0] in /dls/i16/data/2024/mm36772-1/1044462.nxs
+18:44:47.829 INFO  Slicing image start:[1, 0, 0], stop:[2, 195, 487]
+18:44:47.834 INFO  Skipping image at [1] in /dls/i16/data/2024/mm36772-1/1044462.nxs
+18:44:47.834 INFO  Slicing image start:[2, 0, 0], stop:[3, 195, 487]
+18:44:47.840 INFO  Mapping image at [2]/[3] in /dls/i16/data/2024/mm36772-1/1044462.nxs
+18:44:47.841 WARN  Polarization state was missing in     @NX_class = NXbeam
+depends_on
+distance
+extent
+flux
+incident_beam_divergence
+incident_energy
+incident_polarisation_stokes
+incident_polarization
+incident_wavelength
+transformations/
+
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 8
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 7
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 6
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 5
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 4
+18:44:47.842 INFO  Chunk too small so decrementing parallelism to 3
+18:44:47.842 INFO  Splitting images to bands of 130 rows across 3 threads
+18:44:47.842 INFO  Chunk 0: 0 -> 130
+18:44:47.851 INFO  Chunk 1: 130 -> 260
+18:44:47.851 INFO  Chunk 2: 260 -> 390
+18:44:47.956 INFO          processed 3 images
+18:45:09.366 WARN  Reduced to non-zero bounding box: [62, 242, 176] to [296, 264, 311]
+18:45:09.366 WARN  so now start = [-3.98, -6.3660000000000005, 3.512] for shape = [235, 23, 136]
+18:45:09.366 INFO  For 10 threads, processing took 21s (7293ms/frame)
+18:45:09.366 INFO                 loading 3 frames took 0s (4ms/frame)
+18:45:09.539 INFO  Saving took 173ms

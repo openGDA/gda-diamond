@@ -1,0 +1,28 @@
+================================================================================
+			Regression testing against beamline
+================================================================================
+Scan		Configuration	Dummy	Detector		Notes
+			NDW	DWE	LF	T	/Live						Baseline scan command
+----------- --- --- --	-	-----	-------	-------	----------------------------
+867888		NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.02 31 pil3_100k 1 roi2
+971324		NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.02 21 BeamOK pil3_100k 1 roi1 roi2
+979681		NDW	DWE	LF		Live	NXPDW	merlin	scancn eta 0.01 21 merlin 1 merlinroi2
+985494		NDW	DWE	LF		Live	NXPDW	merlins	scancn eta 0.001 31 merlins 1
+----------- --- --- --	-	-----	------	------------------------------------
+1022133		NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.002 61 pil3_100k 1 roi2 roi1
+1043258		NDW	DWE	LF		Live	NXPDW	pil3	scancn eta 0.02 21 pil3_100k 1
+
+----------- --- --- --	-	-----	------	------------------------------------
+1043263		NSD				Live	NXD/NDP	pil3	scancn eta 0.02 21 pil3_100k 1
+1043267		NSD				Live	NXD/NDP	pil3	scancn eta 0.005 11 hkl MapperProc pil3_100k 1
+1043268		NSD				Live	NXD/NDP	pil3	scancn eta 0.005 11 hkl rs_remap pil3_100k 1
+1043269		NSD				Live	NXD/NDP	pil3	scancn eta 0.05 61 BeamOK pil3_100k 1
+1043272 	NSD				Live	NXD/NDP	pil3	scancn eta 0.005 11 hkl rs_remap pil3_100k 1
+----------- --- --- --	-	-----	------	------------------------------------
+	NDW		NexusDataWriter				T		Template
+	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
+	DWE		DataWriterExtender			NXD		NXDetector
+	LF		Link Files					NDP		NexusDetectorProcessor
+
+	See testing-notes/_Preparing_a_scan_for_archiving for process
+================================================================================

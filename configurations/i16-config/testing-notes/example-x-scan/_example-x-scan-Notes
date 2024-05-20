@@ -1,0 +1,18 @@
+================================================================================
+			Regression testing against beamline
+================================================================================
+Scan		Configuration	Dummy	Detector		Notes
+			NDW	DWE	LF	T	/Live						Baseline scan command
+----------- --- --- --	-	-----	-------	-------	----------------------------
+1043266		NSD				Live	NXPDW	merlin	scan x 1 10 1 autoProcessor merlin 1
+1044457		NSD				Live	NXPDW	bpm		scan x 1 3 1 bpm 0.001
+----------- --- --- --	-	-----	------	------------------------------------
+	NDW		NexusDataWriter				T		Template
+	NSD		NexusScanDataWriter			NXPDW	NxProcessingDetectorWrapper
+	DWE		DataWriterExtender			NXD		NXDetector
+	LF		Link Files					NDP		NexusDetectorProcessor
+
+See testing-notes/_Preparing_a_scan_for_archiving for process, but with
+
+ARCHIVE=$DEPLOYMENT/config/testing-notes/example-x-scan/
+================================================================================
