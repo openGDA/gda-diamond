@@ -5,7 +5,7 @@
 
 <included>
 
-	<!-- Use the central Graylog appender definition -->
+	<!-- Get the central Graylog appender definition -->
 	<include file="/dls_sw/dasc/graylog/graylog25_appender.xml" />
 
 	<!-- Wrap the included GrayLog appender to apply a filter
@@ -23,12 +23,15 @@
 	</appender>
 
 
-	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender
-		gets added to the root logger. It kind of looks like you are redefining the
-		root logger. If you set the level here it will override it on the core root
-		logger as the root logger can only have one overall level. -->
 	<root>
+		<!-- This looks like the root logger is being redefined, but it's
+			 actually adding another appender to the root logger. -->
 		<appender-ref ref="GrayLog_filtered" />
+		<!-- Unlike appender-ref, if you set the level here it will override
+			 it on the core root logger as the root logger can only have
+			 one overall level.
+		<level value="${gda.logging.root.level}" />
+		 -->
 	</root>
 
 </included>

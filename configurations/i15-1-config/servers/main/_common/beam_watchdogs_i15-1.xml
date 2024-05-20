@@ -4,6 +4,4 @@
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="beam_available_watchdog_i15-1.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/topup_watchdog.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 </beans>
