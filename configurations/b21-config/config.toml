@@ -24,9 +24,6 @@ profiles = ["eiger"]
 "uk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable" = "true"
 "org.dawb.editor.h5.use.default" = "false"
 
-[server.system]
-"java.awt.headless" = "true"
-
 [extras.dls]
 root = "../../dls-config"
 server.spring-xml = [

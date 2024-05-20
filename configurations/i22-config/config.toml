@@ -18,8 +18,6 @@ profiles = ["saxs", "waxs", "ncddetectors"]
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
-[server.system]
-"java.awt.headless" = "true"
 
 [extras.dls]
 root = "../../dls-config"
