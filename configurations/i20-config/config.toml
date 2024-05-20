@@ -10,7 +10,7 @@ properties = [
 logging = "properties/_common/logging_customisation.xml"
 
 [defaults]
-"gda.mode" = "live"
+"gda.mode" = "dummy"
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"

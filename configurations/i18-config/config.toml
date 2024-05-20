@@ -12,7 +12,7 @@ logging = "properties/_common/logging_customisation.xml"
 profiles = ["spectrometer", "vortex"]
 
 [defaults]
-"gda.mode" = "live"
+"gda.mode" = "dummy"
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
