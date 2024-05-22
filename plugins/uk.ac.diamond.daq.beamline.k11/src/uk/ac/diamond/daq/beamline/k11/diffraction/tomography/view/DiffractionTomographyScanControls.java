@@ -133,8 +133,8 @@ public class DiffractionTomographyScanControls implements Reloadable, CompositeF
 	private void createGridControls(Composite parent) {
 
 		var controls = new ShapeControls(this::getScanningParameters, List.of(DiffractionTomographyShapeDescriptor.POINT, DiffractionTomographyShapeDescriptor.SNAPPED_LINE, DiffractionTomographyShapeDescriptor.RECTANGLE));
-		controls.createComposite(parent, 0);
 		controls.setShapeResolver(this::findSuitableShape);
+		controls.createComposite(parent, SWT.IGNORE);
 		reloadableControls.add(controls);
 	}
 
