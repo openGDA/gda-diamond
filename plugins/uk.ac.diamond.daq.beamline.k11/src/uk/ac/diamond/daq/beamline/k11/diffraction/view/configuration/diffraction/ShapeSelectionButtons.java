@@ -50,7 +50,7 @@ public class ShapeSelectionButtons {
 	private Map<ToolItem, TrajectoryShape> buttonToShape = new HashMap<>();
 	private Set<Consumer<ShapeSelectionEvent>> listeners = new CopyOnWriteArraySet<>();
 
-	private Optional<ToolItem> previousSelection = Optional.empty();
+	private Optional<ToolItem> currentSelection = Optional.empty();
 
 	public ShapeSelectionButtons(Composite parent, List<ShapeDescriptor> shapes) {
 		ToolBar toolBar = new ToolBar(parent, SWT.FLAT | SWT.VERTICAL);
@@ -107,10 +107,10 @@ public class ShapeSelectionButtons {
 	private void sendShapeChangeEvent(SelectionEvent selectionEvent) {
 		var button = (ToolItem) selectionEvent.widget;
 		if (button.getSelection()) {
-			var event = new ShapeSelectionEvent(SelectionType.SHAPE_CHANGE, buttonToShape.get(button), previousSelection.map(buttonToShape::get));
+			if (currentSelection.isPresent() && currentSelection.get() == button) return;
+			var event = new ShapeSelectionEvent(SelectionType.SHAPE_CHANGE, buttonToShape.get(button), currentSelection.map(buttonToShape::get));
+			currentSelection = Optional.of(button);
 			sendEvent(event);
-		} else {
-			previousSelection = Optional.of(button);
 		}
 	}
 
