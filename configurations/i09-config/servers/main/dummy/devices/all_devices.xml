@@ -5,6 +5,8 @@
 
 	<import resource="analyser_eav.xml"/>
 	<import resource="analyser.xml"/>
+	<import resource="nixswr.xml"/>
+
 	<import resource="ES2.xml"/>
 	<import resource="BFM.xml"/>
 	<import resource="ExperimentHutchShutter.xml"/>
