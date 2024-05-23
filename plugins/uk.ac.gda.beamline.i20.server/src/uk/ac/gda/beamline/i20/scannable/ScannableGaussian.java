@@ -31,6 +31,7 @@ public class ScannableGaussian extends ScannableBase {
 	protected Scannable scannableForPosition;
 	protected Gaussian gaussian;
 	protected double currentPos;
+	protected double noiseLevel = 0;
 
 	public ScannableGaussian(String name, double centrePos, double fwhm, double area ) {
 		setName(name);
@@ -57,11 +58,19 @@ public class ScannableGaussian extends ScannableBase {
 		if( scannableForPosition != null )
 			rawAsynchronousMoveTo(scannableForPosition.getPosition());
 
-		return gaussian.val(currentPos);
+		return gaussian.val(currentPos) + (noiseLevel*Math.random());
 	}
 
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
+	}
+
+	public double getNoiseLevel() {
+		return noiseLevel;
+	}
+
+	public void setNoiseLevel(double noiseLevel) {
+		this.noiseLevel = noiseLevel;
 	}
 }

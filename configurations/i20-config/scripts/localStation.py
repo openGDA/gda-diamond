@@ -16,7 +16,7 @@ from gda.factory import Finder
 
 from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
-from uk.ac.gda.server.exafs.scan.preparers import BraggOffsetPreparer
+from uk.ac.gda.server.exafs.scan.preparers import BraggOffsetPreparer, XesPeakScanPreparer
 
 DAServer = Finder.find("DAServer")
 XASLoggingScriptController = Finder.find("XASLoggingScriptController")
@@ -56,6 +56,8 @@ run "medipix_functions.py"
 #  Make the spectrometer setup functions available
 run "spectrometer-setup.py"
 
+run "xes_peak_fit.py"
+
 # Setup the deferred moves and direct demand PVs for the spectrometer
 run 'setup-spectrometer-deferred-move-scannables.py'
 
@@ -87,7 +89,11 @@ def setup_detector_preparers() :
     braggOffsetPreparer.setDiagnosticDetector(d9_current_detector)
     braggOffsetPreparer.setUseDiagnosticDetector(False)
     
-    return ionchamberCheckerPreparer, braggOffsetPreparer
+    xesPeakScanPreparer = XesPeakScanPreparer()
+    xesPeakScanPreparer.setScanRunners([xesEnergyUpperPeakScan, xesEnergyLowerPeakScan, xesEnergyBothPeakScan])
+    xesPeakScanPreparer.setMonoScannable(bragg1WithOffset)
+    xesPeakScanPreparer.setRunPeakFinding(False)
+    return ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer
 
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupChecker)
@@ -97,8 +103,8 @@ detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
 detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(medipix2))
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
 
-ionchamberCheckerPreparer, braggOffsetPreparer = setup_detector_preparers()
-detectorPreparer.setPreparers([ionchamberCheckerPreparer, braggOffsetPreparer])
+ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer = setup_detector_preparers()
+detectorPreparer.setPreparers([ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer])
 
 samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)

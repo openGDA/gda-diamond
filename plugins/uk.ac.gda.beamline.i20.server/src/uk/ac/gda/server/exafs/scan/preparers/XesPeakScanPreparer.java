@@ -194,6 +194,14 @@ public class XesPeakScanPreparer implements DetectorPreparer {
 		return edgeEnergy + monoEnergyOffset;
 	}
 
+	public double getMonoEnergyOffset() {
+		return monoEnergyOffset;
+	}
+
+	public void setMonoEnergyOffset(double monoEnergyOffset) {
+		this.monoEnergyOffset = monoEnergyOffset;
+	}
+
 	/**
 	 * Return ScanRunner object that moves a scannable with given name.
 	 * @param scnName
