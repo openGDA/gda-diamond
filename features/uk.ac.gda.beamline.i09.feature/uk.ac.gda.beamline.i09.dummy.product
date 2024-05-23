@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.dummy" id="uk.ac.gda.beamline.i09.dummy_product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.dummy" id="uk.ac.gda.beamline.i09.dummy_product" application="uk.ac.gda.client.application" version="9.34.0" type="mixed" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -21,6 +21,18 @@ http://www.opengda.org
 
    <launcherArgs>
       <vmArgs>-Dgda.mode=dummy
+-Declipse.pluginCustomization=${project_loc:i09-config}/clients/plugin_customization.ini
+-Drun.in.eclipse=false
+-Dgda.instance.dir=${project_loc:i09-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.config=${project_loc:i09-config}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms512m
 -Xmx4g
 -Dpydev.funding.hide=true

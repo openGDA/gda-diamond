@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.product" id="uk.ac.gda.beamline.i09.product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.product" id="uk.ac.gda.beamline.i09.product" application="uk.ac.gda.client.application" version="9.34.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -20,10 +20,9 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=live
+-Declipse.pluginCustomization=../workspace_git/gda-diamond.git/configurations/i09-config/clients/plugin_customization.ini
 -Dgda.config=${project_loc:i09-config}
--Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties 
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.logs.dir=${workspace_loc}/../logs
