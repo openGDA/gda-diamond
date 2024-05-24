@@ -166,7 +166,7 @@
 		<property name="readArray" value="true" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="energyStepPerPixel" value="0.0877" />
-		<property name="dcmenergy" ref="dcmenergy"/>
+		<property name="dcmenergy" ref="dcmenergyEv"/>
 		<property name="pgmenergy" ref="pgmenergy"/>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
 	</bean>
@@ -197,7 +197,7 @@
 		</property>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="pgmEnergy" ref="pgmenergy" />
-		<property name="dcmEnergy" ref="dcmenergy" />
+		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
 	
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
