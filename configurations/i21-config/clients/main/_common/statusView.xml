@@ -49,7 +49,7 @@
 				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Status" />
-					<property name="columns" value="2" />
+					<property name="columns" value="3" />
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
@@ -58,6 +58,10 @@
 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory">
 								<property name="label" value="Beam" />
 								<property name="beamMonitor" ref="bm"/>
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.LaserScannerStatusCompositeFactory">
+								<property name="label" value="Laser" />
+								<property name="pvName" value="BL21I-MO-ARM-01:TTH:LASER:STATUS"/>
 							</bean>
 						</list>
 					</property>
