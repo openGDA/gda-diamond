@@ -1,7 +1,7 @@
 [
     {
-        "args": "servers", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda", 
+        "args": "server",
+        "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",
         "icon": "sgda.png", 
         "text": "Start GDA Servers (with no transient devices)", 
         "type": "button"
@@ -14,22 +14,22 @@
         "type": "button"
     }, 
     {
-        "args": "client", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
+        "args": "client --foreground",
+        "command": "/dls_sw/apps/gda_launcher/stable/gda",
         "icon": "cgda.png", 
         "text": "GDA Client", 
         "type": "button"
     }, 
     {
-        "args": "client --reset", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
+        "args": "client --foreground --reset",
+        "command": "/dls_sw/apps/gda_launcher/stable/gda",
         "icon": "cgda.png", 
         "text": "GDA Client with fresh workspace (gda client --reset)", 
         "type": "button"
     }, 
     {
-        "args": "logpanel", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/config/bin/gda", 
+        "args": "--foreground",
+        "command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
         "icon": "lgda.png", 
         "text": "GDA Log Panel", 
         "type": "button"

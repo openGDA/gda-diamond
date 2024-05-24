@@ -8,11 +8,14 @@ properties = [
 
 logging = "properties/_common/logging_customisation.xml"
 
+profiles = ["kbm"]
+
 [defaults]
 "gda.mode" = "dummy"
-"gda.install.git.loc"="/dls_sw/i16/software/gda/workspace_git"
 "uk.ac.diamond.scisoft.analysis.io.nocaching"="true"
 "uk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable"="true"
+"gda.jython.stopJythonScannablesOnStopAll"="false"
+"gda.jython.disableBatonControlOverVisitMetadataEntry"="true"
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
@@ -30,7 +33,8 @@ server.spring-xml = [
 	"servers/_common/mandelbrot_detectors.xml",
 	"servers/_common/solstice_scanning.xml",
 	"servers/${gda.mode}/icat_xml_creator.xml",
-	"servers/_common/file_registrar.xml"
+	"servers/_common/file_registrar.xml",
+	"servers/_common/dls_scripts.xml"
 ]
 
 client.spring-xml = [
