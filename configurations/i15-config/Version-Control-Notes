@@ -16,4 +16,8 @@ with respect to the second zebra box. Since we no longer use this box, I have
 disabled the second zebra, and the unused devices associated with it.
 
 I15 is now using the new logpanel, as I15-1 have done for a while.
+
+We are now logging to only the new graylog server rather than to both old and
+new graylog servers.
+
 --------------------------------------------------------------------------------
