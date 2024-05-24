@@ -9,8 +9,18 @@
         <number>0</number>
         <ROI>
             <name>ROI 1</name>
-            <windowStart>612</windowStart>
-            <windowEnd>660</windowEnd>
+            <windowStart>470</windowStart>
+            <windowEnd>550</windowEnd>
+    	</ROI>
+        <ROI>
+            <name>ROI 2</name>
+            <windowStart>640</windowStart>
+            <windowEnd>750</windowEnd>
+        </ROI>
+        <ROI>
+            <name>ROI 3</name>
+            <windowStart>950</windowStart>
+            <windowEnd>1140</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
