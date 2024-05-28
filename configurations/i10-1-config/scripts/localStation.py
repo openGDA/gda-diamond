@@ -28,7 +28,7 @@ if installation.isLive():
 if "hfm" in spring_profiles:
     # High Field Magnet support
     from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off  # @UnusedImport
-    from scannable.continuous.continuous_energy_scannables_hfm import energyh, mcsh16, mcsh17, mcsh18, mcsh19, mcsh20, mcsh21, mcsh22, mcsh23  # @UnusedImport
+    from scannable.continuous.continuous_energy_scannables_hfm import energy, mcsh16, mcsh17, mcsh18, mcsh19, mcsh20, mcsh21, mcsh22, mcsh23  # @UnusedImport
     if installation.isLive():
         try:
             from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
@@ -38,7 +38,7 @@ if "hfm" in spring_profiles:
 
 if "em" in spring_profiles:
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
-    from scannable.continuous.continuous_energy_scannables_em import energye, mcse16, mcse17, mcse18, mcse19, mcse20, mcse21, mcse22, mcse23  # @UnusedImport
+    from scannable.continuous.continuous_energy_scannables_em import energy, mcse16, mcse17, mcse18, mcse19, mcse20, mcse21, mcse22, mcse23  # @UnusedImport
 
 import gdascripts
 scan_processor.rootNamespaceDict = globals()
