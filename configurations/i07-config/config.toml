@@ -1,7 +1,10 @@
 server.spring-xml = "servers/main/${gda.mode}/server.xml"
 client.spring-xml = "clients/main/${gda.mode}/client.xml"
  
-properties = "properties/${gda.mode}/${gda.mode}_instance_java.properties"
+properties = [
+	"properties/_common/common_instance_java.properties",
+	"properties/${gda.mode}/${gda.mode}_instance_java.properties"
+]
  
 logging = "properties/_common/logging_customisation.xml"
  
@@ -13,6 +16,14 @@ profiles = ["eh1", "eh2"]
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+[client.system]
+"uk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable"=true
+"uk.ac.diamond.scisoft.analysis.rmiserverprovider.disable"=true
+"datavis.open.mode"="DESELECT_OTHERS"
+"datavis.open.script"=true
+"python.cachedir"="~/python.cachedir"
+
+
 [server.system]
 "java.awt.headless" = "true"
  
