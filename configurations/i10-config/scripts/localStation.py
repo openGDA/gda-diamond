@@ -82,6 +82,8 @@ import gdascripts
 scan_processor.rootNamespaceDict = globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+from scannable.checkgatevalvescannables import checkgv12  # @UnusedImport
+
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
