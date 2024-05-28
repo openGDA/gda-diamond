@@ -30,13 +30,8 @@
 	<beans profile="eh1">
 		<import resource="slits.xml" />
 		<import resource="server_epics.xml" />
-		<import resource="fastpil1.xml" />
-		<import resource="fastpil2.xml" />
-		<import resource="fastpil3.xml" />
-		<import resource="pilatus1_824.xml" />
 		<import resource="pilatus2_824.xml" />
 		<import resource="pilatus3_824.xml" />
-		<import resource="mpxAreaDetector.xml" />
 		<import resource="detectors/dcam1.xml" />
 		<import resource="detectors/dcam6.xml" />
 		<import resource="detectors/dcam7.xml" />
@@ -47,7 +42,6 @@
 		<import resource="detectors/d1cam.xml" />
 		<import resource="detectors/d1acam.xml" />
 		<import resource="detectors/d4cam.xml" />
-		<import resource="detectors/pilatus1.xml" />
 		<import resource="detectors/pilatus2.xml" />
 		<import resource="detectors/pilatus3.xml" />
 		<import resource="detectors/excalibur.xml" />

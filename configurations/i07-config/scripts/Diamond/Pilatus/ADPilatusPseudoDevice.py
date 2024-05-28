@@ -19,7 +19,6 @@ from gda.data import ObservablePathConstructor
 from gda.observable import IObserver
 from gda.data.metadata import MetadataBlaster
 
-from gda.jython import InterfaceProvider
 from gda.factory import Finder
 
 import scisoftpy as dnp;

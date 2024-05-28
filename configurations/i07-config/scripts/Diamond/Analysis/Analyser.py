@@ -562,23 +562,3 @@ class AnalyserWithRectangularROIClass(AnalyserDetectorClass):
 			return self.generateNexusData(result)
 		else:
 			return result;
-
-
-
-##########################################
-#Usage:
-#from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
-#from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
-#from gda.analysis.io import PilatusTiffLoader
-
-#from Diamond.Analysis.Analyser import AnalyserDetectorClass;
-#from Diamond.Analysis.Analyser import AnalyserWithRectangularROIClass;
-#from Diamond.Analysis.Processors import DummyTwodPorcessor, MinMaxSumMeanDeviationProcessor;
-
-
-#pil1stats = AnalyserDetectorClass("pil1stats", pil1, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
-#pil1stats.setAlive(True);
-
-#pil1roi = AnalyserWithRectangularROIClass("pil1roi", pil1, [MinMaxSumMeanDeviationProcessor()], panelName="Area Detector", iFileLoader=PilatusTiffLoader);
-#pil1roi.setAlive(True);
-#pil1roi.addRoi(240, 100, 100, 50);
