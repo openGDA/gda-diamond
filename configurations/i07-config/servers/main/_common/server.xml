@@ -51,14 +51,11 @@
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
 
-    <import resource="eh2/*.xml" />
-    
-	<bean id="dataservermanager"
-		class="gda.data.DataServerProcessManager">
-		<property name="executable"
-			value="/dls_sw/i07/software/temp/ds/x86_64/dataserver" />
-		<property name="customLoggingConfig"
-			value="/dls_sw/i07/etc/init/data_server_logging.xml" />
+	<import resource="eh2/*.xml" />
+
+	<bean id="dataservermanager" class="gda.data.DataServerProcessManager">
+		<property name="executable" value="/dls_sw/apps/dawn-data-server/1.0.0.202405161639/dawn-data-server" />
+		<property name="customLoggingConfig" value="/dls_sw/i07/etc/init/data_server_logging.xml" />
 	</bean>
 
 	<beans profile="eh1">
