@@ -71,13 +71,25 @@ def fpscan(*args):
         # single motor scan
         (motor, start, end, points, detector, count) = args
         pos(motor, start)
-        mscan(motor, axis, start, end, pts, points, cont, detector, count / float(1000))
+        if(points == 1) : #the mscan practice of treating the point positions as the centre of a region gives odd
+            #results when only a single point is requested.  This should make the points make more sense
+            halfwidth = (end-start) / 2.0
+            mscan(motor, axis, start + halfwidth, end + halfwidth, pts, points, cont, detector, count / float(1000))
+        else :
+            mscan(motor, axis, start, end, pts, points, cont, detector, count / float(1000))
 
     elif len(args) == 9:
         # dual motor scan
         (motor1, start1, end1, motor2, start2, end2, points, detector, count) = args
         pos(motor1, start1, motor2, start2)
-        mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
+        if(points == 1) : #the mscan practice of treating the point positions as the centre of a region gives odd
+            #results when only a single point is requested.  This should make the points make more sense
+            hw1 = (end1-start1) / 2.0
+            hw2 = (end2-start2) / 2.0
+            mscan(motor1, motor2, line, start1+hw1, start2+hw2, end1+hw1, end2+hw2, pts, points, cont, detector, count / float(1000))
+        else :
+            mscan(motor1, motor2, line, start1, start2, end1, end2, pts, points, cont, detector, count / float(1000))
+
     else:
         print "fpscan syntax:\n"
         print "Single motor:"
