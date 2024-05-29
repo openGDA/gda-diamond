@@ -33,6 +33,7 @@ import uk.ac.diamond.daq.mapping.api.document.event.ScanningAcquisitionChangeEve
 import uk.ac.diamond.daq.mapping.api.document.scanning.ScanningParameters;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument;
 import uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory;
+import uk.ac.gda.api.acquisition.TrajectoryShape;
 import uk.ac.gda.api.acquisition.parameters.DetectorDocument;
 import uk.ac.gda.core.tool.spring.SpringApplicationContextFacade;
 import uk.ac.gda.ui.tool.Reloadable;
@@ -76,7 +77,7 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 		var trajectories = parameters.getScanpathDocument().getTrajectories();
 		var points = trajectories.stream().map(this::points).reduce(1, (t1, t2) -> t1 * t2);
 		var step = trajectories.stream().map(this::stepSize)
-				.filter(result -> !result.isBlank()).collect(Collectors.joining());
+				.filter(result -> !result.isBlank()).collect(Collectors.joining(", "));
 
 		var summaryBuilder = new StringBuilder();
 		summaryBuilder.append("Points: ").append(points).append("; ");
@@ -90,24 +91,17 @@ public class SummaryComposite implements CompositeFactory, Reloadable {
 	private int points(Trajectory trajectory) {
 		return switch (trajectory.getShape()) {
 			case TWO_DIMENSION_POINT -> 1;
-			case ONE_DIMENSION_LINE, TWO_DIMENSION_LINE, STATIC_POINT -> pointsInAxis(trajectory.getAxes().get(0));
+			case STATIC_POINT, ONE_DIMENSION_LINE, TWO_DIMENSION_LINE -> trajectory.getAxes().stream().mapToInt(this::pointsInAxis).max().orElse(1);
 			case TWO_DIMENSION_GRID -> pointsInAxis(trajectory.getAxes().get(0)) * pointsInAxis(trajectory.getAxes().get(1));
 			default -> throw new IllegalArgumentException("Unrecognised shape: " + trajectory.getShape());
 		};
 	}
 
 	private String stepSize(Trajectory trajectory) {
-		return switch (trajectory.getShape()) {
-			case ONE_DIMENSION_LINE -> oneDLineStepSize(trajectory.getAxes().get(0));
-			case TWO_DIMENSION_LINE -> {
-				var x = trajectory.getAxes().get(0);
-				var y = trajectory.getAxes().get(1);
-				yield String.valueOf(Math.sqrt(Math.pow(x.calculatedStep(), 2) + Math.pow(y.calculatedStep(), 2)));
-			}
-			case TWO_DIMENSION_GRID -> trajectory.getAxes().stream().map(this::oneDLineStepSize).collect(Collectors.joining(","));
-			case STATIC_POINT, TWO_DIMENSION_POINT -> "";
-			default -> throw new IllegalArgumentException("Unrecognised shape: " + trajectory.getShape());
-		};
+		if (trajectory.getShape() == TrajectoryShape.STATIC_POINT || trajectory.getShape() == TrajectoryShape.TWO_DIMENSION_POINT) {
+			return "";
+		}
+		return trajectory.getAxes().stream().map(this::oneDLineStepSize).collect(Collectors.joining(", "));
 	}
 
 	private String oneDLineStepSize(ScannableTrackDocument line) {
