@@ -19,7 +19,7 @@ profile_pv_list = { "spectrometer":"BL18I-MO-DET-01:X.RBV", "vortex":"BL18I-EA-D
 profiles=[]
 for profile_name, pv in profile_pv_list.items() :
     if pv_exists(pv) :
-        profiles.append(profile_name)
+        profiles.append("-p "+profile_name)
 
 # Print comma separated list of profiles
-print(",".join(profiles))
+print(" ".join(profiles))
