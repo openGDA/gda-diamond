@@ -17,6 +17,9 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWrit
 	ndwc.getNexusTemplateFiles().clear()
 	# ddwf.getDataWriterExtenders().clear()
 
+	if len(ddwf.getDataWriterExtenders()) > 1:
+		ddwf.removeDataWriterExtender(ddwf.getDataWriterExtenders()[1])  # remove old diffcalc instance
+
 	nexusExtender = I16NexusExtender([
 		"/dls_sw/i16/scripts/pilatus_calibration/geometry.xml",
 		"/dls_sw/i16/scripts/pilatus_calibration/geometry_merlin.xml"])

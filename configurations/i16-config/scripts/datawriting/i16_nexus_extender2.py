@@ -610,7 +610,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
             sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
-            self.writeSample(nFile, sample, _sample.getPosition(), sampleDependsOn)
+            self.writeSample(nFile, sample, DIFFCALC.ub.ub.ubcalc.name, sampleDependsOn)
             instrument = nFile.getGroup("/entry1/instrument", False)
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
             self.writeDefinition(nFile, entry, "NXmx") # I16-644

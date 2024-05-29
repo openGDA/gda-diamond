@@ -11,6 +11,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 	self.maxEnergyChangeBeforeMovingMirrors=energy 	value to prevent mirrors or diffractomter moving for small  energy step
 	self.moveDiffWhenNotMovingMirrors=False		set this to True to move diffractometer to compensate for inverted beam movement
 	self.mirrormag=-0.666				ratio of vertical movement of focus to source (correct for normal focus)
+	self.moveppy=False    set this to False to stop ppy from moving when changing energy (Default True)
 	'''
 	def __init__(self,name,NoWarning=0):
 		self.name = name
@@ -29,6 +30,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		self.first_move=True
 		self.moveDiffWhenNotMovingMirrors=True
 		self.mirrormag=-0.666	#ratio of vertical movement of focus to source
+		self.moveppy = True
 
 	def getPosition(self):
 		self.beamheight=2*self.monogap*cos(self.braggpd()*pi/180)
@@ -50,7 +52,8 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 			#print "moving m2y to "+str(m1y_offset()+self.nextheight)
 			ztable.asynchronousMoveTo(ztable_offset()+self.nextheight)
 			base_z.asynchronousMoveTo(base_z_offset()+self.nextheight)
-			ppy.asynchronousMoveTo(ppy_offset()+self.nextheight)
+			if self.moveppy:
+				ppy.asynchronousMoveTo(ppy_offset()+self.nextheight)
 			self.last_height=self.nextheight	#last value where mirrors were adjusted
 		elif self.moveDiffWhenNotMovingMirrors==True:
 			base_z.asynchronousMoveTo(base_z_offset()+self.last_height+(self.nextheight-self.last_height)*self.mirrormag)
@@ -81,13 +84,14 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		self.ang=abs(self.braggpd())
 		self.beamheight=2*self.monogap*cos(self.braggpd()*pi/180)
 		print m1y,'\n',m2y,'\n',ztable,'\n',base_z
-		print '=== Old offsets:\n',m1y_offset,'\n',m2y_offset,'\n',ztable_offset,'\n',base_z_offset
+		print '=== Old offsets:\n',m1y_offset,'\n',m2y_offset,'\n',ztable_offset,'\n',base_z_offset,'\n',ppy_offset
 		m1y_offset(m1y()-self.beamheight)
 		#m2y_offset(m2y()-self.beamheight)
 		m2y_offset(m2y()-m2_coating_offset()-self.beamheight)
 		ztable_offset(ztable()-self.beamheight)
 		base_z_offset(base_z()[0]-self.beamheight)
-		ppy_offset(ppy()-self.beamheight)
+		if self.moveppy:
+			ppy_offset(ppy()-self.beamheight)
 		print '=== New offsets:\n',m1y_offset,'\n',m2y_offset,'\n',ztable_offset,'\n',base_z_offset,'\n',ppy_offset
 
 	def check_mirror_coating(self,newenergy):
