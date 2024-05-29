@@ -5,6 +5,7 @@
 
 	<import resource="transient/*" />
 	<import resource="scannable/motors.xml" />
-
+	<import resource="file:${gda.config}/servers/main/_common/script_projects.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/script_projects.xml" />
 
 </beans>

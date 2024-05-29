@@ -3,28 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-				<value>file:${gda.core.dir}/properties/core_java.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<import
 		resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
 
-	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
-
 	<import resource="motor/dcm.xml" />
-	<!-- <import resource="motor/dif.xml" /> -->
 	<import resource="motor/fc.xml" />
 	<import resource="motor/fcarm.xml" />
-	<!-- fcbase was dr1base, update doc -->
 	<import resource="motor/fcbase.xml" />
 	<import resource="motor/fcsamp.xml" />
 	<import resource="motor/m1.xml" />
@@ -64,21 +48,8 @@
 	<import resource="detector/scaler_vortex.xml" />
 	<import resource="detector/simad.xml" />
 	<import resource="detector/xspress3.xml" />
-<!-- 	<import resource="detector/xmap_vortex.xml" /> -->
-	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
-	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
 
 	<import resource="metadata.xml" />
-
-
-	<import resource="file:${gda.config}/servers/main/_common/abstract_command_server.xml" />
-
-	<bean id="script_paths" parent="common_script_paths"/>
-
-	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths"/>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-	</bean>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
@@ -123,9 +94,5 @@
 		<property name="level" value="100" />
 	</bean>
 
-	<!-- Exports objects over RMI -->
-	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
-
 	<import resource="transient/*" />
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>

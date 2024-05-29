@@ -95,6 +95,15 @@
                      value="uk.ac.gda.exafs.ui.views.xspress3XView">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress3X Single element"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.xspress3XSingleElementView">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -122,6 +131,12 @@
             class="gda.rcp.views.ViewFactoryFinder:xspress3XViewFactory"
             id="uk.ac.gda.exafs.ui.views.xspress3XView"
             name="XspressX view"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:xspress3XSingleElementViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress3XSingleElementView"
+            name="XspressX single element view"
             restorable="true">
       </view>
    </extension>

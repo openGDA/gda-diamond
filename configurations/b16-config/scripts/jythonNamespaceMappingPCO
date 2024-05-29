@@ -7,7 +7,7 @@ tomography_theta=tomoTheta
 tomography_shutter=ehshutter
 #tomography_shutter=eh_shtr_dummy
 
-tomography_translation=gtbX2
+tomography_translation=gtbX3
 #tomography_translation=ss1_X_dummy
 
 tomography_detector=pcoedge

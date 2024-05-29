@@ -6,8 +6,9 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 # Set up path and mode
-export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:${PATH}
+export PATH=/dls_sw/apps/gda_launcher/nightly:${PATH}
 export GDA_MODE=live
+export GDA_INSTANCE_NAME=${BEAMLINE}
 
 # Set up command completion for the gda command
 source /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda_core_completion

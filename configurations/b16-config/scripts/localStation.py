@@ -911,6 +911,34 @@ if installation.isLive() :
 	dcam9intensity2d = DetectorDataProcessorWithRoiForNexus('dcam9intensity2d', dcam9, [PixelIntensity()])
 	dcam9roi = DetectorDataProcessorWithRoiForNexus('dcam9roi', dcam9, [SumMaxPositionAndValue()])
 
+def configure_mini_fds(name, detector, snaps_detector):
+	wrapper = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		name, detector,	None, snaps_detector,
+		[],	panel_name_rcp=name,
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+	peak2d = DetectorDataProcessorWithRoiForNexus(name + "_peak2d", wrapper, [TwodGaussianPeak()])
+	max2d = DetectorDataProcessorWithRoiForNexus(name + "_max2d", wrapper, [SumMaxPositionAndValue()])
+	intensity2d = DetectorDataProcessorWithRoiForNexus(name + "_intensity2d", wrapper, [PixelIntensity()])
+	roi = DetectorDataProcessorWithRoiForNexus(name + "_roi", wrapper, [SumMaxPositionAndValue()])
+	return [wrapper, peak2d, max2d, intensity2d, roi]
+	
+if installation.isLive() :
+	[
+	mini_fds1,
+	mini_fds1_peak2d,
+	mini_fds1_max2d,
+	mini_fds1_intensity2d,
+	mini_fds1_roi
+	] = configure_mini_fds("mini_fds1", _mini_fds1, _mini_fds1_for_snaps)
+
+	[
+	mini_fds2, mini_fds2_peak2d,
+	mini_fds2_max2d,
+	mini_fds2_intensity2d,
+	mini_fds2_roi
+	] = configure_mini_fds("mini_fds2", _mini_fds2, _mini_fds2_for_snaps)
+ 
 if installation.isLive():
 	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'pslv1',
@@ -955,28 +983,22 @@ if installation.isLive():
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)"""
 
-	#balor_multi_peak2d = DetectorDataProcessorWithRoiForNexus('peak2d', balor_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
-	#balor_multi_max2d = DetectorDataProcessorWithRoiForNexus('max2d', balor_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
-	#balor_multi_intensity2d = DetectorDataProcessorWithRoiForNexus('intensity2d', balor_multi, [PixelIntensity()],prefix_name_to_extranames=False)
-
-
-if installation.isLive():
+def setup_xspress3_detector(detector):
 	try:
-		print "Setting up xspress3X detector."
+		print "Setting up "+ detector.getName() + " detector."
 		run("xspress_functions.py")
-		from gdaserver import xspress3X
-		basePvName = xspress3X.getController().getBasePv()
+		basePvName = detector.getController().getBasePv()
 		
 		# this collects a software frame if necessary, but sets trigger mode to TTL Veto Only
 		setup_xspress_detector(basePvName)
 		
 		# so correct here
-		xspress3X.setTriggerMode(0) # Software trigger mode
+		detector.setTriggerMode(0) # Software trigger mode
 		
 		setupResGrades(basePvName, False)
 		
 		set_hdf5_filetemplate(basePvName)
-		for c in range(1, xspress3X.getController().getNumElements()+1) :
+		for c in range(1, detector.getController().getNumElements()+1) :
 			# BL18B-EA-XSP3X-01:C2_SCAS:EnableCallbacks
 			scaPv = basePvName+":C%d_SCAS:"%(c)
 			mcaEnablePv = basePvName+":MCA%d:Enable"%(c)
@@ -990,8 +1012,12 @@ if installation.isLive():
 		print "Set detector to not apply DTC factors"
 		set_xspress_use_dtc(basePvName, False)
 	except:
-		print("Failed to configure Xspress3X")
+		print("Failed to configure " + detector.getName())
 
+if installation.isLive():
+	from gdaserver import xspress3X, xspress3Xsingle
+	setup_xspress3_detector(xspress3X)
+	setup_xspress3_detector(xspress3Xsingle)
 
 ###############################################################################
 ###                                TEMPORARY                                ###
@@ -1047,7 +1073,7 @@ if installation.isLive():
 	ai7prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai7prompt","BL16B-EA-RIM-01:AI7")
 	Braggtemp=pd_readPvAfterWaiting.ReadPvAfterWaiting("Braggtemp","BL16B-OP-DCM-01:TEMP:BRAGG")
 
-	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',False )
+ 	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',False )
 	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO1',True )
 	bo1trig = bo1trigBasic
 
@@ -1245,8 +1271,9 @@ if installation.isLive():  # TODO add dummy one! This detector is a permanent be
 		print("Could not create xmap2plotter - is the detector configured?")
 	
 try:
-	from gdaserver import xspress3X
+	from gdaserver import xspress3X, xspress3Xsingle
 	xsp3plotter = FluorescenceROIPlotter("xsp3plotter", xspress3X, roi_column_prefix="Element 0_")
+	xsp3singleplotter = FluorescenceROIPlotter("xsp3singleplotter", xspress3Xsingle, roi_column_prefix="Element 0_")
 except:
 	print("Could not create xsp3plotter - is xspress3X configured?")
 
@@ -1412,9 +1439,29 @@ if DebenRigEnabled:
 
 # From 1/10 Experiment
 # scan dummyx 0 20 1 bo1trig 0.1 waitForDetectorStart waitForDetectorStop w 10
-waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
-waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
-waitForDetectorStop.setLevel(11)
-w.setLevel(12)
+if installation.isLive():
+	waitForDetectorStart = scannable.condition.WaitForCondition('waitForDetectorStart', zebra_pulse1_input, 'val>0')
+	waitForDetectorStop = scannable.condition.WaitForCondition('waitForDetectorStop', zebra_pulse1_input, 'val<1')
+	waitForDetectorStop.setLevel(11)
+	w.setLevel(12)
+	
+	# Piezo oscillation stuff - remove after experiment is finished
+	from scannable.epics.piezo_oscillator import create_osc_devices
+	
+	try:
+		(amc100_osc, amc100_det) = create_osc_devices("amc100", "BL16B-EA-AMC-01:AXIS0:OSC:")
+	except:
+		print("amc100 objects not created - see logs")
+	
+	try:
+		(amc100ofb_osc, amc100ofb_det) = create_osc_devices("amc100ofb", "BL16B-EA-AMC-02:AXIS0:OSC:")
+	except:
+		print("amc100ofb objects not created - see logs")
+	
+	try:
+		(aerotech_osc, aerotech_det) = create_osc_devices("aerotech", "BL16B-MO-ATCH-01:OSC:")
+	except:
+		print("aerotech objects not created - see logs")
+
 
 print_banner("Initialisation complete")
