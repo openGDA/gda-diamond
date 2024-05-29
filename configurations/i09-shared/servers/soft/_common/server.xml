@@ -75,6 +75,7 @@
 	
 	<import resource="CommandServer.xml" />
 	<import resource="GDAMetadata.xml"/>
+	<import resource="nxmetadata.xml"/>
 	
 	<import resource="devices/all_devices.xml"/>
 
