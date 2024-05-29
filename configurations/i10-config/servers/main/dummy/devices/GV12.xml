@@ -12,5 +12,13 @@
 			</list>
 		</property>
 	</bean>
-
+	<bean id="gauge16" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">1.0e-7</value>
+		</property>
+		<property name="lowerLimit" value="1.0e-8" />
+		<property name="upperLimit" value="1.0e-5" />
+		<property name="increment" value="5.0e-7" />
+	</bean>
 </beans>

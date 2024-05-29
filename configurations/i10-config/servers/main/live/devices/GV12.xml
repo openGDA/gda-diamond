@@ -9,4 +9,10 @@
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 		<property name="readOnly" value="false"/>
 	</bean>
+	<bean id="gauge16" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL10I-VA-GAUGE-16:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
 </beans>
