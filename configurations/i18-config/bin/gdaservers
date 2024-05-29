@@ -8,5 +8,8 @@
 #############
 #
 # This script should not be added to as it is being phased out
-gdalog
-gda servers $*
+gda logpanel
+
+profiles=$(generate-profile-list.py)
+
+gda servers restart $profiles $*

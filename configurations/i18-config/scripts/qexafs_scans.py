@@ -87,16 +87,15 @@ qexafs_test.configure()
 qexafs_test.initializationCompleted()
 
 
-from gda.device.motor import DummyMotor
-dummy_motor = DummyMotor()
-dummy_motor.setName("dummy_motor")
-dummy_motor.configure()
-dummy_motor.setSpeed(1000)
+from gda.device.scannable import DummyScannable
+dummy_scannable = DummyScannable()
+dummy_scannable.setName("dummy_scannable")
+dummy_scannable.configure()
 
 from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 cont_scannable = QexafsTestingScannable()
 cont_scannable.setName("cont_scannable")
-cont_scannable.setMotor(dummy_motor)
+cont_scannable.setDelegateScannable(dummy_scannable)
 cont_scannable.setMaxMotorSpeed(1000)
 cont_scannable.configure()
 
