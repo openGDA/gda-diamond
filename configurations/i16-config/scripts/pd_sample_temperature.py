@@ -409,7 +409,10 @@ class TemperatureController(ScannableMotionBase):
         if channel is None:
             if self.pd_device_index() == 2:
                 return 'Ta'
-            return self.get_value(CHAN)
+            current_value = self.get_value(CHAN)
+            if not current_value:
+                return 'none'
+            return current_value
         try:
             channel = self.pvs[CH_OPT][channel]
         except TypeError:
