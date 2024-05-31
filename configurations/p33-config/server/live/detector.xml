@@ -5,7 +5,7 @@
 						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
 
 	<bean id="photodiode" class="gda.device.monitor.EpicsMonitor" >
-		<property name="pvName" value="BL33P-EA-AMP-01SourceVoltageRBV" />
+		<property name="pvName" value="BL33P-EA-AMP-01:Measurement" />
 	</bean>
 	
 </beans>
