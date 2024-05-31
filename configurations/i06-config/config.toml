@@ -26,6 +26,7 @@ server.spring-xml = [
 client.spring-xml = [
 	"clients/_common/serverFileListener.xml"
 ]
+
 [extras.i06-shared]
 root = "../i06-shared"
 server.spring-xml = [
@@ -34,4 +35,9 @@ server.spring-xml = [
 
 client.spring-xml = [
 	"clients/main/${gda.mode}/client.xml",
+]
+
+properties = [
+	"../i06-shared/properties/${gda.mode}/${gda.mode}_family_java.properties",
+	"../i06-shared/properties/_common/common_family_java.properties"
 ]

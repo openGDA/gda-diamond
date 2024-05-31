@@ -67,8 +67,8 @@ if beamline != "lab44" and beamline != "i06-2":
 
     from i06shared.constant import Close,CLOSE,cls,Open,OPEN,opn,Reset,RESET,ver,vertical,hor,horizontal,First,FIRST,Third,THIRD,FIFTH,Fifth,UNIAXIAL_X,UNIAXIAL_Y,UNIAXIAL_Z,SPHERICAL,PLANAR_XZ,QUADRANT_XY,CUBIC,uniaxialx,uniaxialy,uniaxialz,spherical,planar_xz,quadrant_xy,cubic,fixid,cvid,slaveid  # @UnusedImport
     from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
-    from i06shared.devices.usePGM import grating  # @UnusedImport
-    #Group the hexapod legs into list
+    from i06shared.devices.usePGM import grating  # @UnusedImportummyScannable(
+    #Group the hexapod legs into listlsl
     m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
     m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
@@ -86,6 +86,8 @@ if beamline != "lab44" and beamline != "i06-2":
     
     if installation.isLive():
         harmonic = HarmonicScannable("harmonic", __main__.smode, iddhar, iduhar)
+    else:
+        harmonic = DummyScannable("harmonic")
 
 print("-"*100)
 print("create command for 'acquire_flat_field' and 'remove_flat_field'\n")
