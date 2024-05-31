@@ -10,5 +10,6 @@ export PATH=/dls_sw/$BEAMLINE/software/gda/config/bin:${PATH}
 export GDA_MODE=live
 
 # Set up command completion for the gda command
+source /etc/profile.d/modules.sh
 module load gda_launcher
 source  <(gda completions bash)
