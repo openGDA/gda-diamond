@@ -8,4 +8,8 @@
 		<property name="pvName" value="BL33P-EA-AMP-01:Measurement" />
 	</bean>
 	
+	<bean id="photodiode2" class="gda.device.monitor.EpicsMonitor" >
+		<property name="pvName" value="BL33P-EA-AMP-02:Measurement" />
+	</bean>
+	
 </beans>
