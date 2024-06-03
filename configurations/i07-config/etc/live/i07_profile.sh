@@ -16,5 +16,6 @@ if [ -r "/dls_sw/$BEAMLINE/bin/i07_setup.sh" ]; then
 fi
 
 # Set up command completion for the gda command
+source /etc/profile.d/modules.sh
 module load gda_launcher
 source  <(gda completions bash)
