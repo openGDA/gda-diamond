@@ -2,4 +2,4 @@ from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImp
 scan_processor.rootNamespaceDict = globals()
 
 from gdascripts.scannable.timerelated import TimeSinceScanStart
-timerScannable = TimerSinceScanStart("timerScannable")
+timerScannable = TimeSinceScanStart("timerScannable")
