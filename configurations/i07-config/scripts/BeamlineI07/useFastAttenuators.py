@@ -1,9 +1,12 @@
 from gdaserver import fatt, exr, exv, excalibur, excalibur_atten, dcm1energy, transmissions_lookup_table
 from gda.configuration.properties import LocalProperties
-import time, datetime
+import time
+import datetime as fast_att_datetime
 from gdascripts.installation import isLive
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
+
+ird_service = ServiceProvider.getService(IRunnableDeviceService)
 
 add_default(fatt)
 
@@ -17,7 +20,6 @@ def autofon():
     exr.setDetector(excalibur_atten)
     exv.setDetector(excalibur_atten)
     LocalProperties.set("gda.beamline.auto.attenuation", True)
-    ird_service = ServiceProvider.getService(IRunnableDeviceService)
     exc_scan = ird_service.getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), True)
     print("Automatic attenuation enabled for exr, exv, exc and exs")
@@ -26,7 +28,6 @@ def autofoff():
     exr.setDetector(excalibur)
     exv.setDetector(excalibur)
     LocalProperties.set("gda.beamline.auto.attenuation", False)
-    ird_service = ServiceProvider.getService(IRunnableDeviceService)
     exc_scan = ird_service.getRunnableDevice("BL07I-ML-SCAN-01")
     setProcessingEnabled(exc_scan.getProcessing().getProcessorMap(), False)
     fatt.manualMode()
@@ -81,7 +82,7 @@ def list_transmissions(sort_key="Energy"):
         energy_unit = transmissions_lookup_table.lookupUnitString("Energy")
         t = get_transmissions(index)
         date = int(transmissions_lookup_table.lookupValue(index, "Date"))
-        print (str(int(index)) + ": " + filter_name + ", " + str(energy) + energy_unit + ", " + str(t[0]) + ", " + str(t[1]) + ", " + str(t[2]) + ", " + str(t[3]) + ", " + str(datetime.fromtimestamp(date)))
+        print (str(int(index)) + ": " + filter_name + ", " + str(energy) + energy_unit + ", " + str(t[0]) + ", " + str(t[1]) + ", " + str(t[2]) + ", " + str(t[3]) + ", " + str(fast_att_datetime.fromtimestamp(date)))
 
 def load_transmissions(index):
     fatt.setFilterTransmissions(get_transmissions(index))
