@@ -70,7 +70,7 @@ print "Adding ring_current as a default_scannable"
 add_default(ring_current)
 
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis, getXFieldInScanPlot  # @UnusedImport
-setXFieldInScanPlot(0)
+setXFieldInScanPlot(-1)
 
 from i05Shared.checkBeamlineHealth import *
 checkForBeamlineProblems()
