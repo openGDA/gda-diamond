@@ -4,6 +4,6 @@ gdalog
 
 #export SPRING_PROFILES evn variable so it can be passed to client launch script as well
 export SPRING_PROFILES=magnet
-gda server restart -P -p $SPRING_PROFILES $*
+gda -G server restart -P -p $SPRING_PROFILES $*
 
 gda_servers_post_start

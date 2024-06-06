@@ -2,6 +2,6 @@
 
 gdalog
 
-gda server restart $*
+gda -G server restart $*
 
 gda_servers_post_start
