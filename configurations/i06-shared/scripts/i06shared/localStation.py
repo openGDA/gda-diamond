@@ -51,8 +51,8 @@ if beamline != "lab44" and beamline != "i06-2":
     from i06shared.devices.ADC2Counters import ca111s,ca112s,ca113s,ca114s,ca121s,ca122s,ca123s,ca124s,adc2voltage,ca111,ca112,ca113,ca114,ca121,ca122,ca123,ca124,adc2current,ca111sr,ca112sr,ca113sr,ca114sr,ca121sr,ca122sr,ca123sr,ca124sr,adc2count  # @UnusedImport
     from i06shared.devices.ADC3Counters import ca131s,ca132s,ca133s,ca134s,ca141s,ca142s,ca143s,ca144s,adc3voltage,ca131,ca132,ca133,ca134,ca141,ca142,ca143,ca144,adc3current,ca131sr,ca132sr,ca133sr,ca134sr,ca141sr,ca142sr,ca143sr,ca144sr,adc3count  # @UnusedImport
     
+    from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
     if installation.isLive():
-        from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
         from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
         from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 
@@ -67,8 +67,8 @@ if beamline != "lab44" and beamline != "i06-2":
 
     from i06shared.constant import Close,CLOSE,cls,Open,OPEN,opn,Reset,RESET,ver,vertical,hor,horizontal,First,FIRST,Third,THIRD,FIFTH,Fifth,UNIAXIAL_X,UNIAXIAL_Y,UNIAXIAL_Z,SPHERICAL,PLANAR_XZ,QUADRANT_XY,CUBIC,uniaxialx,uniaxialy,uniaxialz,spherical,planar_xz,quadrant_xy,cubic,fixid,cvid,slaveid  # @UnusedImport
     from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
-    from i06shared.devices.usePGM import grating  # @UnusedImportummyScannable(
-    #Group the hexapod legs into listlsl
+    from i06shared.devices.usePGM import grating  # @UnusedImport
+    #Group the hexapod legs into list
     m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
     m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
@@ -83,11 +83,8 @@ if beamline != "lab44" and beamline != "i06-2":
     from i06shared.metadata.taperScannable import TaperScannable
     taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
     from i06shared.metadata.harmonicScannable import HarmonicScannable
-    
-    if installation.isLive():
-        harmonic = HarmonicScannable("harmonic", __main__.smode, iddhar, iduhar)
-    else:
-        harmonic = DummyScannable("harmonic")
+    harmonic = HarmonicScannable("harmonic", __main__.smode, iddhar, iduhar)
+
 
 print("-"*100)
 print("create command for 'acquire_flat_field' and 'remove_flat_field'\n")

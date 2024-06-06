@@ -3,6 +3,6 @@
 gdalog
 
 export SPRING_PROFILES=DD
-gda server restart -P -p $SPRING_PROFILES $*
+gda -G server restart -P -p $SPRING_PROFILES $*
 
 gda_servers_post_start
