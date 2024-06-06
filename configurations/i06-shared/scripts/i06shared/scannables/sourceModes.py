@@ -12,8 +12,6 @@ from time import sleep
 from gda.jython.commands import GeneralCommands
 from i06shared import installation
 
-gda_git_loc = LocalProperties.get(LocalProperties.GDA_GIT_LOC)
-
 class SourceMode(ScannableBase):
     '''
     implements the 4 X-ray beam source modes
@@ -35,9 +33,9 @@ class SourceMode(ScannableBase):
         self.setName(name)
         self.amIBusy=False
         self.mode=defaultmode
-        self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
-        self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
-        self.remove_zacscan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
+        self.idd_fast_energy_scan_script=str(LocalProperties.get("gda.config") + "/../i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
+        self.idu_fast_energy_scan_script=str(LocalProperties.get("gda.config") + "/../i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
+        self.remove_zacscan_script=str(LocalProperties.get("gda.config") + "/../i06-shared/scripts/i06shared/scan/remove_zacscan.py")
         if installation.isLive():
             GeneralCommands.run(self.idd_fast_energy_scan_script)
         
@@ -46,7 +44,7 @@ class SourceMode(ScannableBase):
     
     def rawAsynchronousMoveTo(self, mode):
         if mode not in SourceMode.SOURCE_MODES:
-            print "mode string is wrong: legal values are %s" % (SourceMode.SOURCE_MODES)
+            print("mode string is wrong: legal values are %s" % (SourceMode.SOURCE_MODES))
             return 
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == SourceMode.SOURCE_MODES[0]:
@@ -55,19 +53,19 @@ class SourceMode(ScannableBase):
             if installation.isLive():
                 GeneralCommands.run(self.idd_fast_energy_scan_script)
             else:
-                print ("zacscan is not available in DUMMY mode")
+                print("zacscan is not available in DUMMY mode")
         elif mode == SourceMode.SOURCE_MODES[1]:
             GeneralCommands.run(self.remove_zacscan_script)
             sleep(1)
             if installation.isLive():
                 GeneralCommands.run(self.idu_fast_energy_scan_script)
             else:
-                print ("zacscan is not available in DUMMY mode")
+                print("zacscan is not available in DUMMY mode")
         elif mode == SourceMode.SOURCE_MODES[2] or mode == SourceMode.SOURCE_MODES[3]:
             GeneralCommands.run(self.remove_zacscan_script)
             sleep(1)
         else:
-            print "Input mode is wrong: legal values %s or [SourceModeScannable.idd, SourceModeScannable.idu, SourceModeScannable.dpu, SourceModeScannable.dmu]." % (SourceMode.SOURCE_MODES)
+            print("Input mode is wrong: legal values %s or [SourceModeScannable.idd, SourceModeScannable.idu, SourceModeScannable.dpu, SourceModeScannable.dmu]." % (SourceMode.SOURCE_MODES))
             self.mode=SourceMode.SOURCE_MODES[4]
             raise ValueError("Input mode %s is not supported." % (str(mode)))
         self.mode=mode

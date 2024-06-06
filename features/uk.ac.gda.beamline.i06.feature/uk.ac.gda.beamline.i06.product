@@ -40,7 +40,6 @@ http://www.opengda.org
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Dpydev.funding.hide=true
--client
 -Xms256m
 -Xmx2048m
 -XX:+DisableExplicitGC
