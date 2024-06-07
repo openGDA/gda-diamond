@@ -5,22 +5,22 @@
             {
                 "type": "button",
                 "text": "Start I09-1 GDA Client",
-                "args": "client --foreground",
+                "args": "client",
                 "command": "/dls_sw/apps/gda_launcher/stable/gda",
                 "icon": "cgda.png"
             },
             {
                 "type": "button",
                 "text": "Start I09-1 GDA Client (Reset workspace)",
-                "args": "client --foreground --reset",
+                "args": "client --reset",
                 "command": "/dls_sw/apps/gda_launcher/stable/gda",
                 "icon": "cgda.png"
             },
             {
                 "type": "button",
                 "text": "Start I09-1 GDA Server",
-                "args": " ",
-                "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",
+                "args": "server",
+                "command": "/dls_sw/apps/gda_launcher/stable/gda",
                 "icon": "sgda.png"
             },
             {
