@@ -18,7 +18,7 @@ logging = "properties/_common/logging_customisation.xml"
  
 [extras.dls]
 root = "../../dls-config"
-server.spring-xml.common = [
+server.spring-xml = [
 	"servers/_common/machine_status.xml",
 	"servers/_common/beam_available_watchdog.xml",
 	"servers/_common/topup_watchdog.xml",
@@ -29,11 +29,8 @@ server.spring-xml.common = [
 	"servers/_common/constantVelocityDevice.xml",
 	"servers/_common/mandelbrot_detectors.xml",
 	"servers/_common/solstice_scanning.xml",
-	"servers/_common/mic.xml",
 	"servers/_common/file_registrar.xml",
 	"servers/${gda.mode}/icat_xml_creator.xml",
-]
-server.spring-xml.mode.dummy = [
 	"servers/dummy/mapping_motors.xml",
 	"servers/dummy/det.xml"
 ]
