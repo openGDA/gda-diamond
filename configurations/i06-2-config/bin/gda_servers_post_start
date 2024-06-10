@@ -1,4 +1,4 @@
-CONTROL_MACHINE_NAME=i21-control.diamond.ac.uk
+CONTROL_MACHINE_NAME=i06-2-control.diamond.ac.uk
 
 # Since the gda_servers_* scripts are run on both the client machine and on the
 # server machine in live mode, don't start the client on the server machine.

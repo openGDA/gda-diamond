@@ -55,7 +55,8 @@
 		<property name="framesFlush" value="0" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
-		<property name="pathErrorSuppressed" value="true" />	</bean>
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
 	
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="sim_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
@@ -69,7 +70,7 @@
 		<property name="pluginName" value="sim_RoiStats1" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -83,7 +84,7 @@
 		<property name="pluginName" value="sim_RoiStats2" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -97,7 +98,7 @@
 		<property name="pluginName" value="sim_RoiStats3" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -111,7 +112,7 @@
 		<property name="pluginName" value="sim_RoiStats4" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -125,7 +126,7 @@
 		<property name="pluginName" value="sim_RoiStats5" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -139,7 +140,7 @@
 		<property name="pluginName" value="sim_RoiStats6" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
