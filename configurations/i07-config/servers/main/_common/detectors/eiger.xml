@@ -123,9 +123,9 @@
 			<value type="java.lang.Integer">0</value>
 		</property>
 		<property name="maxThreshold" >
-			<value type="java.lang.Integer">1000</value>
+			<value type="java.lang.Integer">1000000000</value>
 		</property>
-		<property name="enabled" value="False" />
+		<property name="enabled" value="True" />
 	</bean>
 
 	<bean
