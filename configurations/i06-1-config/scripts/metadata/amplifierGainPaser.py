@@ -8,6 +8,7 @@ import random
 from gda.device.scannable import ScannableMotionBase
 from gda.epics.connection import EpicsController
 from i06shared import installation
+from gov.aps.jca import TimeoutException  # @UnresolvedImport
 
 
 GAIN_MODES = ["low noise", "high speed"]
@@ -43,7 +44,10 @@ class AmplifierGainParser(ScannableMotionBase):
         self.setOutputFormat(["%e", "%s"])
         self.EPICS_CONTROLLER = EpicsController.getInstance()
         if installation.isLive():
-            self.ch = self.EPICS_CONTROLLER.createChannel(pv_name)
+            try:
+                self.ch = self.EPICS_CONTROLLER.createChannel(pv_name)
+            except TimeoutException, e:
+                print("%s: %s" % (self.getName(), e.getMessage()))
         
     def getPosition(self):
         if installation.isDummy():
