@@ -11,4 +11,6 @@ export GDA_MODE=live
 export GDA_INSTANCE_NAME=${BEAMLINE}
 
 # Set up command completion for the gda command
-source /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda_core_completion
+if [[ $(command -v gda >/dev/null) ]]; then
+    source <(gda completions bash)
+fi

@@ -12,5 +12,6 @@ export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/p38-config
 export GDA_MODE=live
 
 # Set up command completion for the gda command
-source /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda_core_completion
-
+if [[ $(command -v gda >/dev/null) ]]; then
+    source <(gda completions bash)
+fi
