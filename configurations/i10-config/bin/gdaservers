@@ -2,6 +2,6 @@
 
 gdalog
 
-gda --host i10-control server restart -P -p windows7 $*
+gda -G --host i10-control server restart -P -p windows7 $*
 
 gda_servers_post_start
