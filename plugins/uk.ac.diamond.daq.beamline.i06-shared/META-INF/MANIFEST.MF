@@ -5,7 +5,7 @@ Bundle-SymbolicName: uk.ac.diamond.daq.beamline.i06-shared
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.diamond.daq.beamline.i06_shared.Activator
 Bundle-Vendor: Diamond Light Source Ltd
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.i06.shared
 Import-Package: com.google.common.base;version="30.1.0",
  gda.observable,

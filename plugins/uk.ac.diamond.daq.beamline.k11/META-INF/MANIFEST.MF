@@ -4,7 +4,7 @@ Bundle-Name: K11
 Bundle-SymbolicName: uk.ac.diamond.daq.beamline.k11;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Diamond Light Source
 Import-Package: com.fasterxml.jackson.databind;version="2.6.2",
  gda.configuration.properties,

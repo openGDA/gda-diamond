@@ -32,7 +32,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.analysis;bundle-version="8.50.0",
  uk.ac.gda.devices.xmap;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Export-Package: uk.ac.gda.beamline.i12
 Bundle-Vendor: Diamond Light Source

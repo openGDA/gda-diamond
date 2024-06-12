@@ -24,6 +24,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.dawnsci.plotting,
  org.slf4j.api
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i09-2

@@ -39,7 +39,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream,
  org.gda.tango
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: uk.ac.gda.beamline.i20_1,
  uk.ac.gda.exafs.data,
  uk.ac.gda.exafs.experiment.ui,
