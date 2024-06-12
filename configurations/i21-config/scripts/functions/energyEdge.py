@@ -46,7 +46,7 @@ def get_motor_positions(edge, grating, lookup_table):
         #if sgm grating select is not provided, get it from the device
         grating = str(scannables[0].getPosition())
     try:
-        positions = lookuptable[edge, grating]
+        positions = lookuptable[(edge, grating)]
     except KeyError as e:
         print("Lookup table does not have key (%s, %s)" % (edge, grating))
         raise e
