@@ -21,7 +21,7 @@ http://www.opengda.org
 
    <launcherArgs>
       <vmArgs>-Dgda.mode=dummy
--Declipse.pluginCustomization=../../workspace_git/gda-diamond.git/configurations/i09-2-config/clients/plugin_customization.ini
+-Declipse.pluginCustomization=${project_loc:i09-2-config}/clients/plugin_customization.ini
 -Dgda.config=${project_loc:i09-2-config}
 -Dgda.propertiesFile=${project_loc:i09-2-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-2-config}/properties/dummy/JCALibrary.properties
