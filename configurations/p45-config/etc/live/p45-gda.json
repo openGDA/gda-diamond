@@ -2,25 +2,25 @@
     {
         "type": "button",
         "text": "GDA Servers",
-        "command": "/usr/bin/env gda --restart servers",
+        "command": "/usr/bin/env gda-gui",
         "icon": "sgda.png"
     },
     {
         "type": "button",
         "text": "GDA Client",
-        "command": "/usr/bin/env gda client",
+        "command": "/usr/bin/env gda client --foreground",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "GDA Client with fresh workspace (gda --reset client)",
-        "command": "/usr/bin/env gda client --reset",
+        "command": "/usr/bin/env gda client --foreground --reset",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "GDA Log Panel",
-        "command": "/usr/bin/env gda logpanel",
+        "command": "/usr/bin/env gda-logpanel",
         "icon": "cgda.png"
     }
 ]
