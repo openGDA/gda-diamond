@@ -1,6 +1,6 @@
 #!/bin/bash
 export GTK_OVERLAY_SCROLLING=0
-if [ -z $GDA_LOG ] ; then
+if [[ -z "${GDA_LOG}" ]] ; then
 	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
 	if [ "X$LOGPANEL" == "X" ] ; then
 		nohup gda-logpanel -f 2>/dev/null &

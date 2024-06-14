@@ -4,4 +4,4 @@ export GTK_OVERLAY_SCROLLING=0
 gdalog
 
 export SPRING_PROFILES=em
-nohup gda client -P -p $SPRING_PROFILES $*
+gda client -P -p $SPRING_PROFILES $*
