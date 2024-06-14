@@ -3,6 +3,6 @@
 gdalog
 
 export SPRING_PROFILES=xabs
-gda -G server restart -P -p $SPRING_PROFILES $*
 
-gda_servers_post_start
+gda -G server restart -P -p $SPRING_PROFILES $*
+source gda_servers_post_start

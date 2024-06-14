@@ -55,9 +55,8 @@ class AmplifierGainParser(ScannableMotionBase):
         try:
             gainstring = self.EPICS_CONTROLLER.getValue(self.ch)
             return gain_map[gainstring]
-        except Exception :
-            import sys
-            return sys.exc_info()[:-1]
+        except:
+            return (-99999, "Failed to get GAIN MODE from device")
     
     def asynchronousMoveTo(self, new_pos):
         print("%s: read-only scannable" % (self.getName()))

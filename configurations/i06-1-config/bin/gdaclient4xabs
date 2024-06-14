@@ -3,4 +3,4 @@
 gdalog
 
 export SPRING_PROFILES=xabs
-nohup gda client -P -p $SPRING_PROFILES $*
+gda client -P -p $SPRING_PROFILES $*
