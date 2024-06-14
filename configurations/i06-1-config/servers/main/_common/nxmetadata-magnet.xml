@@ -43,12 +43,14 @@
 					<property name="scannableName" value="scm_amp_1"/>
 					<property name="componentName" value="scale"/>
 					<property name="componentIndex" value="0"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableComponentField">
 					<property name="name" value="amp_1_mode"/>
 					<property name="scannableName" value="scm_amp_1"/>
 					<property name="componentName" value="mode"/>
 					<property name="componentIndex" value="1"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 			</list>
 		</property>
