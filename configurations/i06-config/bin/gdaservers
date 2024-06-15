@@ -4,4 +4,4 @@ gdalog
 
 gda -G server restart $*
 
-gda_servers_post_start
+source gda_servers_post_start
