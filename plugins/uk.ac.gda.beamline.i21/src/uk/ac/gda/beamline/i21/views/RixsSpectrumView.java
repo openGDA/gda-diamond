@@ -64,7 +64,7 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 	private static final String ID = "uk.ac.gda.beamline.i21.views.spectrum.plot";
 	private IPlottingSystem<Composite> spectrumPlot;
 	private final AtomicReference<IImageTrace> activePaletteTrace = new AtomicReference<>(null);
-	private Text energyDispersion;
+	private Text energyResolution;
 	private Text slope;
 	private Text offset;
 	private static final int TEXT_WIDTH = 70;
@@ -122,7 +122,7 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 
 		final Label createLabel = toolkit.createLabel(inputParameters, "Energy Dispersion");
 		GridDataFactory.swtDefaults().applyTo(createLabel);
-		energyDispersion = makeTextForDouble(inputParameters, "1.0", boxWidthHint, "Set energy dispersion value", v);
+		energyResolution = makeTextForDouble(inputParameters, "1.0", boxWidthHint, "Set energy resolution (eV/pix)", v);
 
 		final Label createLabel2 = toolkit.createLabel(inputParameters, "Slope");
 		GridDataFactory.swtDefaults().applyTo(createLabel2);
@@ -199,7 +199,7 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 	private void updateSpectrum(AtomicReference<IImageTrace> activePaletteTrace, boolean rescale, IRegion region) {
 		spectrumPlot.setRescale(rescale);
 		Dataset transpose = DatasetUtils.transpose(activePaletteTrace.get().getData());
-		double energyDis = Double.parseDouble(energyDispersion.getText());
+		double energyRes = Double.parseDouble(energyResolution.getText());
 		double rslope = Double.parseDouble(slope.getText());
 		double[] rOrigin = {0, Double.parseDouble(offset.getText())};
 		if (region != null && region.getROI() instanceof RectangularROI rroi) {
@@ -210,8 +210,8 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		}
 		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, rOrigin, rslope, true, true);
 		// apply energy calibration
-		Dataset xValues = RixsImageReductionBase.makeEnergyScale(spectrum, 0, rOrigin[1], energyDis);
-		if (energyDis == 1.0) {
+		Dataset xValues = RixsImageReductionBase.makeEnergyScale(spectrum, 0, rOrigin[1], energyRes);
+		if (energyRes == 1.0) {
 			xValues.setName("Pixels");
 		} else {
 			xValues.setName("Energy loss");
