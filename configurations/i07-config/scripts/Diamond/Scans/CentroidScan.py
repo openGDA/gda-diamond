@@ -1,18 +1,4 @@
-
-import math
-import os, time;
-
-from gda.device.scannable import ScannableMotionBase, ScannableBase
-from gda.device import Scannable
-
-from gda.scan import ConcurrentScan
-from gda.scan import ScanPositionProviderFactory
-from gda.jython.commands.GeneralCommands import alias
-from gda.jython import InterfaceProvider
-from gda.jython import JythonServerFacade;
-from gda.configuration.properties import LocalProperties
-
-import java.lang.InterruptedException #@UnresolvedImport
+import time
 
 from Diamond.Scans.BasicScan import BasicScanClass;
 
@@ -24,9 +10,6 @@ class CentroidScanClass(BasicScanClass):
 
 		self.returnToCentre=True;
 
-#	def __call__(self, *args):
-#		BasicScanClass.__call__(self, *args);
-		
 	def postScanRestoration(self):
 		if self.returnToCentre:
 			for k, v in self.centreDict.iteritems():
@@ -58,7 +41,8 @@ class CentroidScanClass(BasicScanClass):
 				newArgs.extend(vp);
 			elif len(v) == 2:# v = [width, step]#The default centre position will be k's current position;
 				[width, step]=v;
-				centre=k.getPosition();
+				posn=k.getPosition();
+				centre = posn[0] if type(posn) is tuple else posn
 				self.centreDict[k]=centre;#To back up the centre position for after scan position restore
 				vp=[ centre-abs(width), centre+abs(width), step ];
 				newArgs.append(k);
