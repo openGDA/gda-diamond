@@ -6,7 +6,7 @@ from gda.device.scannable.scannablegroup import CoordinatedChildScannableMotor
 def setpos(motor, newpos):
 	if (type(newpos) != int and type(newpos) != float):
 		raise TypeError('Position must be given a value')
-	if (motor.getClass() == ScannableMotor):
+	if (isinstance(motor, ScannableMotor)):
 		motor.setPosition(float(newpos))
 		print "Offset changed"
 	elif (isinstance(motor, CoordinatedChildScannableMotionUnits)):
