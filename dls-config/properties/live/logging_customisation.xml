@@ -5,30 +5,98 @@
 
 <included>
 
-	<!-- Use the central Graylog appender definition -->
-	<include file="/dls_sw/dasc/graylog/graylog25_appender.xml" />
+	<!-- Graylog is a distributed log storage and analysis system. -->
 
-	<!-- Wrap the included GrayLog appender to apply a filter
-		this is done here because the central version is used by all GDA versions
-		including versions where SourceProcessFilter doesn't exist -->
-	<appender name="GrayLog_filtered" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="GrayLog" />
-		<filter class="gda.util.logging.SourceProcessFilter">
-			<contextSourceName>${GDA_SOURCE}</contextSourceName>
-		</filter>
-		<queueSize>1000</queueSize>
-		<discardingThreshold>0</discardingThreshold> <!-- This wont drop any messages unless the queue becomes full -->
-		<neverBlock>true</neverBlock> <!-- If the message queue becomes full this will drop messages instead of
-			blocking -->
+	<!-- Get the central Graylog host and port definitions
+
+		 This allows us to change the host and/or port independently of GDA deployments
+	 -->
+	<include file="/dls_sw/dasc/graylog/graylog_target.xml" />
+
+	<!-- Define GDA properties which come from a property definer -->
+	<define scope="local" name="gda.version" class="gda.util.GdaVersionPropertyDefiner" />
+	<define scope="local" name="local.jvmName" class="gda.util.logging.JvmNamePropertyDefiner" />
+
+	<!-- Many of the choices made in this file are discussed in the following resources
+			Graylog - User Guide        	https://confluence.diamond.ac.uk/x/egAWCw
+			Production Graylog Questions	https://confluence.diamond.ac.uk/x/gwngAg
+			Tickets in Graylog5_GDA Epic	https://jira.diamond.ac.uk/browse/DAQ-4669
+	 -->
+
+	<!-- The optimised Graylog cluster appender -->
+
+	<!-- Wrap the GelfUDPAppender with an AsyncAppender to ensure that logging never reduces client or server performance
+		http://logback.qos.ch/manual/appenders.html#AsyncAppender
+		https://web.archive.org/web/20181126112941/http://blog.takipi.com/how-to-instantly-improve-your-java-logging-with-7-logback-tweaks/
+	 -->
+	<appender name="GrayLog" class="ch.qos.logback.classic.AsyncAppender">
+		<!-- The GelfUDPAppender uses the GELF messaging format to send the messages to Graylog via UDP protocol message
+		     delivery, which is NOT guaranteed.
+		     See https://web.archive.org/web/20210805234119/https://docs.graylog.org/en/latest/pages/gelf.html
+		     The appender used here is from https://github.com/Moocar/logback-gelf and this definition was written for v0.3
+		 -->
+		<appender class="me.moocar.logbackgelf.GelfUDPAppender">
+			<!-- Graylog server details -->
+			<remoteHost>${gda.graylog.gelf.host}</remoteHost>
+			<port>${gda.graylog.gelf.udp.port}</port>
+
+			<!-- Apply SourceProcessFilter to messages to improve context of log messages -->
+			<filter class="gda.util.logging.SourceProcessFilter">
+				<contextSourceName>${GDA_SOURCE}</contextSourceName>
+			</filter>
+
+			<!-- Use GZIP compression we haven't tested if this is beneficial -->
+			<encoder class="me.moocar.logbackgelf.GZIPEncoder">
+				<layout class="me.moocar.logbackgelf.GelfLayout">
+					<shortMessageLayout class="ch.qos.logback.classic.PatternLayout">
+						<pattern>%level - %message</pattern>
+					</shortMessageLayout>
+					<fullMessageLayout class="ch.qos.logback.classic.PatternLayout">
+						<pattern>%message%n%rootException</pattern>
+					</fullMessageLayout>
+					<useLoggerName>true</useLoggerName>
+					<useThreadName>true</useThreadName> <!-- DAQ-1679 -->
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_application_name</key>
+						<value>gda</value> <!-- Set to 'gda' for all logging -->
+					</staticField>
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_beamline</key>
+						<value>${gda.beamline.name}</value>
+					</staticField>
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_mode</key>
+						<value>${gda.mode}</value>
+					</staticField>
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_username</key>
+						<value>${user.name}</value>
+					</staticField>
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_gdaVersion</key>
+						<value>${gda.version}</value> <!-- This is set above by the property definer -->
+					</staticField>
+					<staticField class="me.moocar.logbackgelf.Field">
+						<key>_jvmName</key>
+						<value>${local.jvmName}</value> <!-- This is set above by the property definer -->
+					</staticField>
+				</layout>
+			</encoder>
+		</appender>
+		<queueSize>1000</queueSize> <!-- Optimal queue size has yet to be determined -->
+		<discardingThreshold>0</discardingThreshold> <!-- Drop no messages before the queue is full -->
+		<neverBlock>true</neverBlock> <!-- If the message queue becomes full, drop messages instead of blocking -->
 	</appender>
 
-
-	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender
-		gets added to the root logger. It kind of looks like you are redefining the
-		root logger. If you set the level here it will override it on the core root
-		logger as the root logger can only have one overall level. -->
 	<root>
-		<appender-ref ref="GrayLog_filtered" />
+		<!-- This looks like the root logger is being redefined, but it's
+			 actually adding another appender to the root logger. -->
+		<appender-ref ref="GrayLog" />
+		<!-- Unlike appender-ref, if you set the level here it will override
+			 it on the core root logger as the root logger can only have
+			 one overall level.
+		<level value="${gda.logging.root.level}" />
+		 -->
 	</root>
 
 </included>

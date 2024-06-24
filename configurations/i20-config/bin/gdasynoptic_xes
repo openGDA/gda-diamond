@@ -1,8 +1,8 @@
 #!/bin/bash
 # Launch gda client with Synoptic perspective open by default.
-# The perspective for the lower row of the spectrometer is shown by default; if 'upper' is passed as command line parameter,
-# the perspective for the upper row is shown.
-# All command line parameters passed to this script are also passed on to the gda command (e.g. --reset, --debug etc).
+# The perspective for the lower row of the spectrometer is shown by default; if 'upper' or 'lower' is passed as command line parameter,
+# the perspective for the upper or lower row is show. If 'upper' or lower is not given, lower is used by default. 
+# All other parameters passed to this script are passed on to the gda command (e.g. --reset, --debug etc).
 
 # Set the perspective IDs and subdirectory parameters for the upper or lower row of the spectrometer 
 if [ "$1" == "upper" ]; then 
@@ -13,27 +13,14 @@ else
 	subdir="_lower_xes"
 fi
 
+# Make list of all arguments, remove first arg if it matches 'lower' or 'upper'
+all_args="$@"
+case $1 in 
+	upper | lower ) all_args=${@/"$1"/};;
+esac
+
 plugin_customization_file=/dls_sw/i20/software/gda_git/gda-diamond.git/plugins/uk.ac.gda.beamline.i20/plugin_customization_synoptic.ini
 echo "Source plugin customization file : "$plugin_customization_file
+echo "Initial perspective : "$perspective_id
 
-WORKSPACE_DIR=/scratch/gda_workspaces/$USER$subdir
-
-# Create the workspace directory if necessary
-if [ ! -d $WORKSPACE_DIR ]; then
-	echo "Creating new workspace directory : "$WORKSPACE_DIR
-	mkdir -p $WORKSPACE_DIR
-fi
-
-# Put the new file in the home directory (if stored in the workspace directory, it is wiped when starting gda client with --reset)
-new_customization_file=~/.plugin_customization$subdir.ini
-echo "Writing new plugin customization file to : "$new_customization_file
-
-# Copy the original plugin customization file and replace synoptic perspective IDs with ones for upper/lower spectrometer
-sed_command="s/uk.ac.gda.beamline.i20.SynopticPerspective.*/"$perspective_id"/"
-sed $sed_command $plugin_customization_file  > $new_customization_file
-
-# Set VMARGS environment variable so GDA uses the newly created plugin customization file
-export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization="$new_customization_file
-
-# Start the client
-gda client -Declipse.pluginCustomization=$new_customization_file --tag $USER$subdir "$@"
+gda client -f -Declipse.pluginCustomization=$plugin_customization_file --perspective=$perspective_id --tag $USER$subdir $all_args

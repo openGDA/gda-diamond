@@ -25,7 +25,7 @@
 	</bean>
 
 	<bean id="terminallog_path_provider" class="gda.data.metadata.IntransparentLogFilePathProvider">
-		<property name="pathTemplate" value="/dls/i09-2/data/$year$/$visit$/gdaterminal.log" />
+		<property name="pathTemplate" value="/dls/${gda.beamline.name}/data/$year$/$visit$/gdaterminal.log" />
 	</bean>
 
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">

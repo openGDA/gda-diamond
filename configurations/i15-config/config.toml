@@ -1,0 +1,70 @@
+server.spring-xml = [
+    "servers/main/${gda.mode}/server.xml",
+    "servers/main/_common/server.xml",
+]
+
+client.spring-xml = [
+    "clients/main/${gda.mode}/client.xml",
+    "clients/main/_common/client.xml",
+]
+
+properties = [
+	"properties/${gda.mode}/${gda.mode}_instance_java.properties",
+	"properties/_common/common_instance_java.properties",
+]
+
+logging = [
+	"properties/${gda.mode}/logging_customisation.xml",
+	"properties/_common/logging_customisation.xml",
+]
+
+# profiles are not required but profiles that should be enabled by default should be specified here
+# rather than in a properties file using gda.spring.profiles.active
+profiles = ["${gda.data.scan.datawriter.dataFormat}"]
+# profiles listed here should not be included in the list of optional profiles in the gda-conf.py
+# configuration at /dls_sw/$BEAMLINE/software/gda_versions/var/$BEAMLINE.cfg
+
+[defaults]
+"gda.mode" = "dummy"
+
+[system]
+"gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+
+[server.system]
+"java.awt.headless" = "true"
+
+[extras.dls]
+root = "../../dls-config/"
+
+server.spring-xml.common = [
+	"servers/_common/command_queue_processor.xml",
+	"servers/_common/machine_status.xml",
+	"servers/${gda.mode}/icat_xml_creator.xml",
+	"servers/_common/solstice_scanning.xml",
+]
+
+# IMPORTANT: Importing solstice_scanning.xml will start processing the
+#            scanning queue, so detectors must be created before doing this.
+#    ADVICE: Do it last or towards the end, scan will now start to run!
+
+server.spring-xml.mode.dummy = [
+	"servers/_common/mandelbrotDetector.xml",
+	"servers/_common/mandelbrot_detectors.xml",
+	"servers/_common/mapping_motors.xml",
+	"servers/dummy/det.xml",
+	"servers/dummy/mapping_motors.xml",
+]
+
+server.spring-xml.mode.live = [
+	"servers/_common/file_registrar.xml",
+]
+
+client.spring-xml = [
+	#"clients/_common/stage_controls_tree.xml",
+	"clients/_common/mapping_view.xml"
+]
+# If your beamline has a group level config (mx-config, i19-shared, etc), it should be added as
+# an additional 'extras' block
+
+#[extras.iXX-shared]
+#root = "<relative_path_to>/iXX-shared"
