@@ -126,6 +126,7 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load time utilities for creating timer objects."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
+timestamp = actualTimeClass('timestamp')
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
@@ -179,8 +180,8 @@ import gda
 from gda.device.scannable import DummyScannable
 ds = DummyScannable("ds")
 
-def psd(t,n=1.0):
-    scan(ds, 1.0, n, 1.0, mythen, t, Io, t, Ie, delta)  # @UndefinedVariable
+def psd(t,n=1.0, *others):
+    scan(ds, 1.0, n, 1.0, mythen, t, Io, t, Ie, delta, *others)  # @UndefinedVariable
     scaler2(1)  # @UndefinedVariable
 
 
@@ -267,17 +268,24 @@ adc2=AdcControl("adc2")
 print "create 'fg2' object to provide access to the 2nd Function generator device"
 from peloop.functiongenerator import FunctionGenerator
 fg2=FunctionGenerator("fg2")
-print "create 'tfg2' object to provide control of Time Frame Generator device"
-from peloop.tfg2 import TFG2
-tfg2=TFG2("tfg2")
 
-print "create 'pedata' object to capture the PE data from ADC2 device"
-from peloop.pedatacapturer import DataCapturer
-pedata=DataCapturer("pedata")
-print "create 'pel' object for PE Loop experiment"
-from tfg_peloop import PELoop
-pel=PELoop("pel", tfg2, fg2, adc2, pedata, mythen)  # @UndefinedVariable
-daserver=Finder.find("daserver")
+try:
+    from gdaserver import tfg
+except ImportError:
+    print 'tfg not available - not creating peloop tfg devices'
+else:
+    print "create 'tfg2' object to provide control of Time Frame Generator device"
+    from peloop.tfg2 import TFG2
+    tfg2=TFG2("tfg2")
+
+    print "create 'pedata' object to capture the PE data from ADC2 device"
+    from peloop.pedatacapturer import DataCapturer
+    pedata=DataCapturer("pedata")
+    print "create 'pel' object for PE Loop experiment"
+    from tfg_peloop import PELoop
+    pel=PELoop("pel", tfg2, fg2, adc2, pedata, mythen)  # @UndefinedVariable
+    daserver=Finder.find("daserver")
+
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create derivative scannable 'deriv' object to provide derivative value of enegry to elt1"
