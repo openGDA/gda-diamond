@@ -7,6 +7,10 @@
 		<constructor-arg value="eV_Deg_converter_Si111" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Si111/eV_Deg_converter.xml" />
 	</bean>
+	<bean id="eV_Deg_converter_Si333" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="eV_Deg_converter_Si333" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Si111/eV_Deg_converter_Si333.xml" />
+	</bean>
 	<bean id="Deg_dcm_perp_mm_converter_Si111" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="Deg_dcm_perp_mm_converter_Si111" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Si111/Deg_dcm_perp_mm_converter.xml" />

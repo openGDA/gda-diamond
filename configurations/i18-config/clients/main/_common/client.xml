@@ -17,6 +17,7 @@
 	<import resource="stream_views.xml" />
 	<import resource="live_views.xml" />
 	<import resource="detector_param_view.xml" />
+	<import resource="detector_rate_views.xml" />
 
 	<import resource="mapping_stage.xml" />
 	
