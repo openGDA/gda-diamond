@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="file:${gda.config}/servers/main/_common/sample_transfer/steps.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/sample_transfer/air_to_vacuum.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/sample_transfer/hotel_to_dome.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/sample_transfer/dome_to_hotel.xml" />
+
+	<bean class="uk.ac.gda.core.sampletransfer.SampleTransfer">
+		<constructor-arg>
+			<list>
+				<ref bean="air_to_vacuum"/>
+				<ref bean="hotel_to_dome_prepare"/>
+				<ref bean="hotel_to_dome_grip"/>
+				<ref bean="sample_into_dome"/>
+				<ref bean="remove_sample_from_dome"/>
+				<ref bean="park_sample_in_hotel"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+</beans>

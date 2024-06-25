@@ -4,17 +4,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="sample_x_coarse_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.5" />
-		<property name="maxPosition" value="27.5" />
-		<property name="position" value="11.3213" />
+		<property name="minPosition" value="-100.5" />
+		<property name="maxPosition" value="2700.5" />
+		<property name="position" value="-80.3213" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
 	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="sample_y_coarse_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="2.5" />
+		<property name="minPosition" value="-1100.0" />
+		<property name="maxPosition" value="112.5" />
 		<property name="position" value="2.19317" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>

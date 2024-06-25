@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="robot_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="robot_x_motor" />
+	</bean>
+	
+	<bean id="robot_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="robot_y_motor" />
+	</bean>
+	
+	<bean id="robot_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="robot_rot_motor" />
+	</bean>
+	
+	<bean id="robot" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="robot_x" />
+				<ref bean="robot_y" />
+				<ref bean="robot_rot" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
