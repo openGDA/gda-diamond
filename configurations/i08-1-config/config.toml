@@ -30,7 +30,7 @@ server.spring-xml.mode.dummy = [
     "servers/dummy/malcolmsims.xml"
 ]
 
-client.spring-xml.mode.common = [
+client.spring-xml.common = [
 	"clients/_common/serverFileListener.xml",
 	"clients/_common/mapping_controllers.xml"
 ]
