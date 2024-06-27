@@ -78,31 +78,37 @@
 		<property name="deferredControlPoint" ref="deferFlag" />
 	</bean>
 
-	<bean id="kphi_rockable" class="gda.device.scannable.ScannableMotor">
+	<bean id="kappa_fly" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sixcKappaEpicsMotor" />
+		<property name="outputFormat" value="%.3f" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
+	<bean id="kphi_fly" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcKphiEpicsMotor" />
 		<property name="outputFormat" value="%.3f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="kth_rockable" class="gda.device.scannable.ScannableMotor">
+	<bean id="kth_fly" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcKthEpicsMotor" />
 		<property name="outputFormat" value="%.5f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="kmu_rockable" class="gda.device.scannable.ScannableMotor">
+	<bean id="kmu_fly" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcMuEpicsMotor" />
 		<property name="outputFormat" value="%.3f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="kdelta_rockable" class="gda.device.scannable.ScannableMotor">
+	<bean id="kdelta_fly" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcDeltaEpicsMotor" />
 		<property name="outputFormat" value="%.3f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="kgam_rockable" class="gda.device.scannable.ScannableMotor">
+	<bean id="kgam_fly" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcGammaEpicsMotor" />
 		<property name="outputFormat" value="%.3f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
