@@ -700,9 +700,9 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 				self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
 				self.fesDetector.startROITimeSeries()
 				areadetector = self.fesController.getAreaDetector()
-				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,1,areadetector,pointTime])
+				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,numPoint-1,areadetector,pointTime])
 			else:
-				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,1])
+				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,numPoint-1])
 			theScan.runScan()
 		except:
 			exceptionType, exception, traceback=sys.exc_info()
