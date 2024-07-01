@@ -38,15 +38,15 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 	@Override
 	public void configure(IScanParameters scanParameters, ISampleParameters parameters) throws Exception {
 		this.parameters = (B18SampleParameters) parameters;
+
+		sampleEnvironmentIterator = new B18SampleEnvironmentIterator(this.parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
+				lakeshore_scannable, furnace_scannable, pulsetube_scannable, samplewheel_scannable, user_scannable);
+		sampleEnvironmentIterator.moveSampleStages();
 	}
 
 	@Override
 	public SampleEnvironmentIterator createIterator(String experimentType) {
-		sampleEnvironmentIterator = new B18SampleEnvironmentIterator(parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
-				lakeshore_scannable, furnace_scannable, pulsetube_scannable, samplewheel_scannable, user_scannable);
 		return sampleEnvironmentIterator;
-//		return new B18SampleEnvironmentIterator(parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
-//				lakeshore_scannable, furnace_scannable, pulsetube_scannable, samplewheel_scannable, user_scannable);
 	}
 
 	public B18SampleEnvironmentIterator getCurrentSampleEnvironmentIterator() {

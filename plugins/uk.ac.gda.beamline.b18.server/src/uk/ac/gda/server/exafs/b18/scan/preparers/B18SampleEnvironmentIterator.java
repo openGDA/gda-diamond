@@ -89,9 +89,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		return 1;
 	}
 
-	@Override
-	public void next() throws DeviceException, InterruptedException {
-
+	public void moveSampleStages() throws DeviceException, InterruptedException {
 		boolean enabled = parameters.getSampleWheelParameters().isWheelEnabled();
 		if (enabled) {
 			control_sample_wheel(parameters.getSampleWheelParameters());
@@ -120,6 +118,10 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 				control_pulsetube(parameters.getPulseTubeCryostatParameters());
 			}
 		}
+	}
+
+	@Override
+	public void next() throws DeviceException, InterruptedException {
 		currentSampleRepetitionNumber++;
 	}
 
