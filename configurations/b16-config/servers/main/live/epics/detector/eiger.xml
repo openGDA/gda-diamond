@@ -84,8 +84,6 @@
 		<constructor-arg index="4">
 			<null />
 		</constructor-arg>
-		<property name="detectorWidth" value="2068" />
-		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 	<bean
@@ -103,8 +101,6 @@
 		<constructor-arg index="4">
 			<null />
 		</constructor-arg>
-		<property name="detectorWidth" value="2068" />
-		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 	<bean
@@ -122,8 +118,6 @@
 		<constructor-arg index="4">
 			<null />
 		</constructor-arg>
-		<property name="detectorWidth" value="2068" />
-		<property name="detectorHeight" value="2162" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 	<bean
