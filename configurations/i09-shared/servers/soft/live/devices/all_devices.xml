@@ -20,5 +20,6 @@
 	<import resource="SS7.xml"/>
 	<import resource="ring.xml"/>
 	<import resource="frontEnd.xml"/>
+	<import resource="FEaptr3.xml"/>
 
 </beans>

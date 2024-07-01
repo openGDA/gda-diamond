@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<import resource="ID.xml"/>
 	<import resource="GBC1.xml"/>
 	<import resource="GBC2.xml"/>
@@ -28,4 +28,6 @@
 	<import resource="ring.xml"/>
 	<import resource="MachineStatus.xml"/>
 	<import resource="frontEnd.xml"/>
+	<import resource="FEaptr3.xml"/>
+	
 </beans>

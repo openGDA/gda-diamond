@@ -5,7 +5,7 @@
 
 	<import resource="ID.xml"/>
 	<import resource="DCM.xml"/>
-	
+
 	<import resource="HD2.xml"/>
 	<import resource="HD3.xml"/>
 	<import resource="HD4.xml"/>
@@ -15,4 +15,7 @@
 	<import resource="HS1.xml"/>
 	<import resource="HS2.xml"/>
 	<import resource="ChannelCutCrystal.xml"/>
+
+	<import resource="FEaptr4.xml"/>
+
 </beans>
