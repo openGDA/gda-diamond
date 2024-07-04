@@ -8,8 +8,23 @@
 		<property name="basePVName" value="BL11I-EA-DET-07:DET:" />
 	</bean>
 
+	<!-- 
 	<bean id="mythen3_nxcollectionstrategy" class="gda.device.detector.mythen3.Mythen3DetectorCollectionStrategy">
 		<constructor-arg ref="mythen3_adbase" />
+	</bean>
+	 -->
+
+	<bean id="mythen3_nxcollectionstrategy"
+			class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="adBase" ref="mythen3_adbase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="mythen3_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
@@ -43,6 +58,7 @@
 	<bean id="mythen3_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL11I-EA-DET-07:HDF:" />
 		<property name="file" ref="mythen3_ndfile" />
+		<property name="lazyOpen" value="true"/>
 	</bean>
 
 	<bean id="mythen" class="gda.device.detector.addetector.ADDetector">
