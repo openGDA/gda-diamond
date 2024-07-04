@@ -320,10 +320,6 @@ scanner = reader.BarcodeReader('scanner', 'BL11I-EA-BARCR-01:DATA:', 'BL11I-EA-R
 print '-----------------------------------------------------------------------------------------------------------------'
 
 ##### new objects must be added above this line ###############
-#print
-#print "=================================================================================================================";
-#print "Initialisation script complete."
-#print
 ###Must leave what after this line last.
 bm1=Finder.find("bm")
 bm1.on()
@@ -363,3 +359,9 @@ def align_pitch(centre=None):
 
 # Run any configuration needed for things under active development
 from config_tests import *
+# config_tests can be found in /dls_sw/i11/scripts/config_tests
+
+print
+print "=================================================================================================================";
+print "Initialisation script complete."
+print

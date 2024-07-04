@@ -40,4 +40,7 @@
 	<import resource="StoeFurnace.xml"/>
 	<import resource="CommandServer.xml"/>
 	<import resource="../_common/*.xml"/>
+
+	<bean id="terminallog_path_provider"
+			class="gda.data.SimpleObservablePathProvider"/>
 </beans>
