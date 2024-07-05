@@ -1,0 +1,86 @@
+--------------------------------------------------------------------------------
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507.xye
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507a.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507am.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m modules.list
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507amh.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
+                    --raw-data-high-index 17920
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272514.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272514amhb.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
+                    --raw-data-high-index 17920 \
+                    -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans
+
+--------------------------------------------------------------------------------
+$python reduction.py --help
+usage: reduction.py [-h] -d DATA -o OUT_FILE [-a ANGULAR_CALIBRATION]
+                    [-m MODULES] [-e ENCODER_POSITION] [-f FLAT_FIELD]
+                    [-b BAD_CHANNELS] [-s BIN_STEP]
+                    [--raw-data-low-index RAW_DATA_LOW_INDEX]
+                    [--raw-data-high-index RAW_DATA_HIGH_INDEX]
+
+Post-processor for mythen data; converts an uncalibrated .h5 file written by
+the detector into a calibrated and corrected .xye ASCII file.
+
+options:
+  -h, --help            show this help message and exit
+  -d DATA, --data DATA  Path to the HDF5 data file to reduce
+  -o OUT_FILE, --out-file OUT_FILE
+                        Path to write output .xye file
+  -a ANGULAR_CALIBRATION, --angular-calibration ANGULAR_CALIBRATION
+                        Path to the angular calibration file. If not provided,
+                        don't perform angular calibration.
+  -m MODULES, --modules MODULES
+                        Path to a file describing the modules that make up the
+                        detector. Modules should be listed in the same order
+                        that they will appear in the raw data file, which is
+                        specified in EPICS config. This will usually be the
+                        natural order of the modules, skipping any bad
+                        modules. If not provided, defaults to a
+                        {DEFAULT_NUM_MODULES}-module detector with no bad
+                        modules. Has no effect if -a/--angular-calibration is
+                        not provided.
+  -e ENCODER_POSITION, --encoder-position ENCODER_POSITION
+                        Encoder position of the diffractometer circle (added
+                        as an offset to all angles). Defaults to zero.
+  -f FLAT_FIELD, --flat-field FLAT_FIELD
+                        Path to the HDF5 flat-field data. If not provided,
+                        don't perform flat-field correction.
+  -b BAD_CHANNELS, --bad-channels BAD_CHANNELS
+                        Path to the bad channels file. If not provided, no bad
+                        channels are assumed.
+  -s BIN_STEP, --bin-step BIN_STEP
+                        Step size to use when histogramming data. Defaults to
+                        0.004 if not provided.
+  --raw-data-low-index RAW_DATA_LOW_INDEX
+                        Advanced option: truncate raw data to indices between
+                        (raw_data_low_index, raw_data_high_index) just after
+                        loading. Used in conjunction with --modules, this can
+                        be used to restrict the reduction to a limited subset
+                        of mythen3 data. The number of modules specified in
+                        --modules must match the total size of the data
+                        between raw_data_low_index and raw_data_high_index.
+                        Default is no truncation.
+  --raw-data-high-index RAW_DATA_HIGH_INDEX
+                        Advanced option: truncate raw data to indices between
+                        (raw_data_low_index, raw_data_high_index) just after
+                        loading. Used in conjunction with --modules, this can
+                        be used to restrict the reduction to a limited subset
+                        of mythen3 data. The number of modules specified in
+                        --modules must match the total size of the data
+                        between raw_data_low_index and raw_data_high_index.
+                        Default is no truncation.
+--------------------------------------------------------------------------------

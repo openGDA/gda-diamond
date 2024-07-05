@@ -90,6 +90,43 @@ def load_angular_calibration(filepath: str) -> dict[int, ModuleAngularCalibratio
     return calibrations
 
 
+def load_bad_channels(
+        filepath: str,
+        modules: np.ndarray,
+        raw_data_limits: tuple[Optional[int], Optional[int]],
+        ) -> np.ndarray:
+    """
+    File format is either
+        one module per line, with module identifier followed by filepath to the bad channels file
+        or a combined bad channels file with one line per bad channel
+    """
+    try:
+        bad_chan_filepath_from_module_id = {}
+        with open(filepath) as f:
+            for line in f:
+                module_id, bad_chan_filepath = line.split()
+                bad_chan_filepath_from_module_id[int(module_id)] = bad_chan_filepath
+    except:
+        return load_int_array_from_file(filepath)
+
+    print("modules", modules)
+    bad_channels = []
+    # If a module isn't in the module list, it's channels won't be in the data file either, so
+    # calculate channel numbers by the modules in use, not the module_id
+    for module, module_id in enumerate(modules):
+        if module_id in bad_chan_filepath_from_module_id.keys():
+            new_bad_channels = load_int_array_from_file(bad_chan_filepath_from_module_id[module_id])
+            if len(new_bad_channels) > 0:
+                aligned_bad_channels = new_bad_channels + module*STRIPS_PER_MODULE
+                bad_channels.append(aligned_bad_channels)
+
+    all_bad_channels = np.concatenate((bad_channels))
+    low_limit, high_limit = raw_data_limits
+    return all_bad_channels[
+        (all_bad_channels >= low_limit if low_limit else True) &
+        (all_bad_channels < high_limit if high_limit else True)]
+
+
 def get_single_angular_calibration(
     calib: ModuleAngularCalibration, encoder: float
 ) -> np.ndarray:
@@ -267,16 +304,17 @@ def main(
     - Writes a .xye formatted output file
 
     """
-    if bad_channels_filepath:
-        bad_channels = load_int_array_from_file(bad_channels_filepath)
-    else:
-        # Bad channels not provided, assume no bad channels.
-        bad_channels = np.array([], dtype=np.int64)
-
     if modules_filepath:
         modules = load_int_array_from_file(modules_filepath)
     else:
         modules = DEFAULT_MODULES
+
+    if bad_channels_filepath:
+        bad_channels = load_bad_channels(bad_channels_filepath, modules, raw_data_limits)
+        print(bad_channels)
+    else:
+        # Bad channels not provided, assume no bad channels.
+        bad_channels = np.array([], dtype=np.int64)
 
     if angular_calibration_filepath:
         calib_dict = load_angular_calibration(angular_calibration_filepath)
