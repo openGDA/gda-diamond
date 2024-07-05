@@ -37,6 +37,7 @@ def timing(name):
 
 def load_raw_data(
     file_path: str,
+    flatfield_not_data: bool,
     raw_data_limits: tuple[Optional[int], Optional[int]],
 ) -> np.ndarray:
     low_limit, high_limit = raw_data_limits
@@ -53,6 +54,9 @@ def load_raw_data(
         # - TODO: Medium-term: add a CLI option to this script to select the counter to use (0, 1 or 2)
         # - TODO: Long-term: in discussion with scientists, implement the different modes
         #                    which the counters can be used in.
+        if flatfield_not_data:
+            return f["flatfield"][low_limit:high_limit][()]
+
         return f["entry"]["data"]["data"][0, low_limit:high_limit, DEFAULT_COUNTER][()]
 
 
@@ -232,12 +236,13 @@ def mask_and_histogram(
 
 def load_and_histogram(
     filepath: str,
+    flatfield_not_data: bool,
     angles: np.ndarray,
     bad_channels: np.ndarray,
     bins: np.ndarray,
     raw_data_limits: tuple[Optional[int], Optional[int]],
 ) -> np.ndarray:
-    raw_data = load_raw_data(filepath, raw_data_limits)
+    raw_data = load_raw_data(filepath, flatfield_not_data, raw_data_limits)
 
     # In theory, we could support loading a flat field with a different set of modules compared
     # to the real data. That would add some complexity, and it's not obvious to me that it's
@@ -329,7 +334,7 @@ def main(
     bins = get_bins(angles, bin_step)
 
     histogrammed = load_and_histogram(
-        data_filepath, angles, bad_channels, bins, raw_data_limits
+        data_filepath, False, angles, bad_channels, bins, raw_data_limits
     )
     # Errors ~ poisson counting statistics
     histogrammed_errors = np.sqrt(histogrammed)
@@ -341,7 +346,7 @@ def main(
         # rather than histogrammed data, but that would break the property
         # that err = sqrt(counts) for the histogrammed data.
         flatfield_histogrammed = load_and_histogram(
-            flat_field_filepath, angles, bad_channels, bins, raw_data_limits
+            flat_field_filepath, True, angles, bad_channels, bins, raw_data_limits
         )
 
         counts = apply_flatfield_correction(histogrammed, flatfield_histogrammed)
