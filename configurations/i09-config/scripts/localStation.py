@@ -27,6 +27,8 @@ from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
 import i09shared.installation as installation
 from gda.device.scannable import PVScannable
 
+from gdascripts.metadata.nexus_metadata_class import meta # @UnusedImport
+
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
 print "=================================================================================================================";
