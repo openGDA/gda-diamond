@@ -8,3 +8,6 @@ default_deployment = "gda"
 [env]
 "GDA_MODE" = "live"
 "GDA_VAR" = "/dls_sw/i09-2/software/gda_var"
+
+[client.system]
+"eclipse.pluginCustomization" = "/dls_sw/i09-2/software/gda/config/clients/plugin_customization.ini"
