@@ -21,7 +21,7 @@ http://www.opengda.org
 
    <launcherArgs>
       <vmArgs>-Dgda.mode=dummy
--Declipse.pluginCustomization=${project_loc:i09-1-config}/clients/plugin_customization.ini
+-Declipse.pluginCustomization=${project_loc:i09-config}/clients/plugin_customization.ini
 -Dgda.config=${project_loc:i09-config}
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
