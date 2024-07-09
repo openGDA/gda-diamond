@@ -6,6 +6,7 @@
 
 	<import resource="analyser_eav.xml"/>
 	<import resource="analyser.xml"/>
+	<import resource="nixswr.xml"/>
 	<!-- <import resource="FrontEndAperture.xml"/> -->
 	<import resource="ID.xml" />
 	<import resource="BFM.xml" />
@@ -32,9 +33,9 @@
 	<import resource="topup.xml" />
 	<import resource="RFDMotors.xml" />
 	<import resource="Scaler1.xml" />
-	<import resource="Scaler2.xml" /> 
+	<import resource="Scaler2.xml" />
 	<import resource="Lakeshore.xml" />
 	<import resource="keithley.xml"/>
 	<import resource="IntensityProtection.xml"/>
-	
+
 </beans>

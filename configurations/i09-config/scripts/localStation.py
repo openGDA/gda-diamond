@@ -3,28 +3,25 @@
 # @author: Fajin Yuan
 # updated 19/06/2012
 import os
+import sys
+import gdascripts
+import i09shared.installation as installation
 from gda.factory import Finder
-import java
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
 from calibration.hard_energy_class import HardEnergy
 from i09shared.calibration.soft_energy_class import SoftEnergy
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.jython.commands.ScannableCommands import scan 
-from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
-    waittimeClass, waittimeClass2, actualTimeClass
+from gda.jython.commands.ScannableCommands import scan
+from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,waittimeClass, waittimeClass2, actualTimeClass
 from gda.configuration.properties import LocalProperties
-import gdascripts
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 from i09shared.analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
 from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
-import sys
-from java.lang import System
 from org.opengda.detector.electronanalyser.utils import FilenameUtil
 from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
-import i09shared.installation as installation
 from gda.device.scannable import PVScannable
 
 print "=================================================================================================================";
@@ -49,54 +46,54 @@ i09NumTracker = NumTracker("i09");
 print "    pwd : present working directory;"
 # function to find the working directory
 def pwd():
-    '''return the current working directory'''
-    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
-    return curdir
-    
+	'''return the current working directory'''
+	curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+	return curdir
+
 alias("pwd")
 print "    lwf : last working file path;"
 # function to find the last working file path
 def lwf():
-    '''return the absolute path of the last working file'''
-    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
-    filenumber = i09NumTracker.getCurrentFileNumber();
-    return os.path.join(curdir,str(filenumber))
-    
+	'''return the absolute path of the last working file'''
+	curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+	filenumber = i09NumTracker.getCurrentFileNumber();
+	return os.path.join(curdir,str(filenumber))
+
 alias("lwf")
 print "    nwf : next working file path;"
 # function to find the next working file path
 def nwf():
-    '''query the absolute path of the next working file'''
-    curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
-    filenumber = i09NumTracker.getCurrentFileNumber();
-    return os.path.join(curdir,str(filenumber+1))
-    
+	'''query the absolute path of the next working file'''
+	curdir = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+	filenumber = i09NumTracker.getCurrentFileNumber();
+	return os.path.join(curdir,str(filenumber+1))
+
 alias("nwf")
 print "    nfn : next file number;"
 # function to find the next scan number
 def nfn():
-    '''query the next file number'''
-    filenumber = i09NumTracker.getCurrentFileNumber();
-    return filenumber+1
-    
+	'''query the next file number'''
+	filenumber = i09NumTracker.getCurrentFileNumber();
+	return filenumber+1
+
 alias("nfn")
 print "    cfn : current file number;"
 # function to find the next scan number
 def cfn():
-    '''query the current file number'''
-    filenumber = i09NumTracker.getCurrentFileNumber();
-    return filenumber
-    
+	'''query the current file number'''
+	filenumber = i09NumTracker.getCurrentFileNumber();
+	return filenumber
+
 alias("cfn")
 print "    setSubdirectory('newdir/newsubdir')"
 # the subdirectory parts
 def setSubdirectory(dirname):
-    '''create a new sub-directory for data collection that follows'''
-    Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
-    try:
-        os.mkdir(pwd())
-    except :
-        pass
+	'''create a new sub-directory for data collection that follows'''
+	Finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+	try:
+			os.mkdir(pwd())
+	except :
+			pass
 print
 
 ### Create time Scannables
@@ -107,20 +104,20 @@ inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass2('Waittime')
 atime=actualTimeClass('atime')
 
-### Pipeline    
+### Pipeline
 def configureScanPipeline(length = None, simultaneousPoints = None):
-    lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
-    simultaneousProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_POINTS_TO_COMPUTE_SIMULTANEOUSELY
-    def show():
-        print "ScanDataPoint pipeline:"
-        print " " + lengthProp + " = " + LocalProperties.get(lengthProp, '4') # duplicated in ScannableCommands
-        print " " + simultaneousProp + " = " + LocalProperties.get(simultaneousProp, '3') # duplicated in ScannableCommands
-    if (length == None) or (simultaneousPoints == None):
-        show()
-    else:
-        LocalProperties.set(lengthProp, `length`)
-        LocalProperties.set(simultaneousProp, `simultaneousPoints`)
-        show()
+	lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
+	simultaneousProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_POINTS_TO_COMPUTE_SIMULTANEOUSELY
+	def show():
+		print "ScanDataPoint pipeline:"
+		print " " + lengthProp + " = " + LocalProperties.get(lengthProp, '4') # duplicated in ScannableCommands
+		print " " + simultaneousProp + " = " + LocalProperties.get(simultaneousProp, '3') # duplicated in ScannableCommands
+	if (length == None) or (simultaneousPoints == None):
+		show()
+	else:
+		LocalProperties.set(lengthProp, `length`)
+		LocalProperties.set(simultaneousProp, `simultaneousPoints`)
+		show()
 
 alias('configureScanPipeline')
 
@@ -152,26 +149,26 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "function to set wavelength >>>setwavelength(value)"
 def setlambda(wavelength):
-    wavelength=float(wavelength)
-    beam.setWavelength(wavelength)
+	wavelength=float(wavelength)
+	beam.setWavelength(wavelength)
 
 def setwavelength(wavelength):
-    setlambda(wavelength)
+	setlambda(wavelength)
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
 print "    To use this, you must place 'interruptable()' call as the 1st or last line in your for-loop."
 def interruptable():
-    GeneralCommands.pause()
+	GeneralCommands.pause()
 
 ###############################################################################
 ###                   Configure scan data processing                        ###
 ###############################################################################
 
 print "Importing analysis commands (findpeak, findcentroid & enable scan data processes)"
-findpeak=FindScanPeak 
-findcentroid=FindScanCentroid 
+findpeak=FindScanPeak
+findcentroid=FindScanCentroid
 
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -187,17 +184,17 @@ print "\nCreating camera exposure object ('sd1_camera_exposure')for SD1 camera"
 sd1_camera_exposure = CameraExposureChanger(sd1_cam)
 
 if installation.isLive():
-    print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
-    sd3_camera_exposure = PVScannable("sd3_camera_exposure", "BL09J-MO-SD-03:CAM:AcquireTime")
-    sd3_camera_exposure.configure()
-    
-    print "\nCreating camera exposure object ('xbpm_camera_exposure')for XBPM camera"
-    xbpm_camera_exposure = PVScannable("xbpm_camera_exposure", "BL09I-EA-XBPM-01:CAM:AcquireTime")
-    xbpm_camera_exposure.configure()
+	print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+	sd3_camera_exposure = PVScannable("sd3_camera_exposure", "BL09J-MO-SD-03:CAM:AcquireTime")
+	sd3_camera_exposure.configure()
+
+	print "\nCreating camera exposure object ('xbpm_camera_exposure')for XBPM camera"
+	xbpm_camera_exposure = PVScannable("xbpm_camera_exposure", "BL09I-EA-XBPM-01:CAM:AcquireTime")
+	xbpm_camera_exposure.configure()
 else:
-    print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
-    sd3_camera_exposure = CameraExposureChanger(sd3_cam)
-    
+	print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+	sd3_camera_exposure = CameraExposureChanger(sd3_cam)
+
 
 ###############################################################################
 ###                   Configure scannable output formats                        ###
@@ -220,8 +217,6 @@ alias("analyserscan")
 alias("analyserscan_v1")
 alias("analyserscancheck")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
-
-nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-ES-03:STAT:Total_RBV","","%d")
 
 # Import and setup function to create mathmatical scannables
 from i09shared.functions import functionClassFor2Scannables
@@ -254,7 +249,7 @@ jmetadata=[jgap,polarisation,pgm,sm1fpitch,sm3fpitch,sm4x,sm4y,sm4pitch,sm5pitch
 esmetadata=[hm3iamp20,sm5iamp8,hm3iamp20,sm5iamp8,smpmiamp39,smpm,lakeshore] #@UndefinedVariable
 meta_data_list = imetadata + jmetadata + esmetadata
 for each in meta_data_list:
-    meta_add(each)
+	meta_add(each)
 
 print("-"*100)
 print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\nAverage mode: keithley_a_average_mode, keithley_b_average_mode\nSweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
@@ -265,6 +260,6 @@ from i09shared.scan.miscan import miscan  # @UnusedImport
 
 print
 print "="*100;
-print "Initialisation script complete." 
+print "Initialisation script complete."
 print
 ###Must leave what after this line last.
