@@ -11,9 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-perspective uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective
-      </programArgs>
       <vmArgs>-Dgda.mode=dummy
+-Declipse.pluginCustomization=${project_loc:b07-1-config}/clients/plugin_customization.ini
 -Dgda.config=${project_loc:b07-1-config}
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Xms1g
