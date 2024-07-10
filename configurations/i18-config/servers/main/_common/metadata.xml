@@ -26,5 +26,8 @@
 	<bean class="gda.data.metadata.StoredMetadataEntry">
 		<property name="name" value="federalid" />
 	</bean>
-
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+		<property name="defaultValue" value="" />
+		<property name="defaultSubdirectory" value="" />
+	</bean>
 </beans>

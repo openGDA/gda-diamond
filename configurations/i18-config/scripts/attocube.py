@@ -10,8 +10,8 @@ def create_epics_scannablemotor(name, base_pv):
     scn_motor = ScannableMotor()
     scn_motor.setName(name)
     scn_motor.setMotor(motor)
+    scn_motor.setOutputFormat(["%.6g"])
     scn_motor.configure()
-    
     return scn_motor
 
     
