@@ -97,19 +97,16 @@
 	</bean>
 
 	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
-	<bean id="igapNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
-		<property name="name" value="igap" />
+	<bean id="iidNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="iid" />
 		<property name="type" value="undulator" />
 		<property name="gapScannableName" value="igap" />
 		<property name="customNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="soft_limit_min"/>
-					<property name="expression" value="@igap.getLowerGdaLimits()"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="soft_limit_max"/>
-					<property name="expression" value="@igap.getUpperGdaLimits()"/>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="iidvelocity"/>
+					<property name="scannableName" value="iidvelocity"/>
+					<property name="failOnError" value="false"/>
 				</bean>
 			</list>
 		</property>

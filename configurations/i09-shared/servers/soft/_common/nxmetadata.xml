@@ -53,19 +53,66 @@
 	</bean>
 
 	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
-	<bean id="jgapNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
-		<property name="name" value="jgap" />
+	<bean id="jidNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
+		<property name="name" value="jid" />
 		<property name="type" value="undulator" />
-		<property name="gapScannableName" value="jgap" />
 		<property name="customNodes">
 			<list>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="soft_limit_min"/>
-					<property name="expression" value="@jgap.getLowerGdaLimits()"/>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="jidvelocity"/>
+					<property name="scannableName" value="jidvelocity"/>
+					<property name="failOnError" value="false"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.SpringExpressionField">
-					<property name="name" value="soft_limit_max"/>
-					<property name="expression" value="@jgap.getUpperGdaLimits()"/>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="gap"/>
+					<property name="componentName" value="gap"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="polarisation"/>
+					<property name="componentName" value="polarisation"/>
+					<property name="scannableName" value="jidscannable"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="rowPhase"/>
+					<property name="componentName" value="rowPhase"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="mode"/>
+					<property name="componentName" value="mode"/>
+					<property name="scannableName" value="jidscannable"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="enabled"/>
+					<property name="componentName" value="enabled"/>
+					<property name="scannableName" value="jidscannable"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="topOuter"/>
+					<property name="componentName" value="topOuter"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="topInner"/>
+					<property name="componentName" value="topInner"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="bottomOuter"/>
+					<property name="componentName" value="bottomOuter"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+					<property name="name" value="bottomInner"/>
+					<property name="componentName" value="bottomInner"/>
+					<property name="scannableName" value="jidscannable"/>
+					<property name="units" value="mm"/>
 				</bean>
 			</list>
 		</property>

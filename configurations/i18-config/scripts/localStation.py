@@ -19,7 +19,7 @@ from mapping_scan_commands import static
 
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import AxialStepModel
-from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled
+from gdascripts.watchdogs.watchdogs import watchdogService, enableWatchdogs, disableWatchdogs, listWatchdogs, topup_watchdog, beam_available_watchdog, set_watchdog_enabled, is_watchdog_enabled
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from diffraction_calibration_appender import DiffractionAppenderManager
 
@@ -57,10 +57,6 @@ def setup_monitors():
     detectorFillingMonitor.setDuration(25.0)
     
     detectorFillingMonitor.configure()
-    
-    add_default(topupMonitor)
-    add_default(beamMonitor)
-    # don't add detectorFillingMonitor as a default
 
 def setup_watchdogs():
     topup_watchdog.setEnabled(True)
@@ -129,7 +125,7 @@ def setup_factories():
     
     map.setStage(1)
     
-    if live_mode and (beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'): # @UndefinedVariable
+    if live_mode and beam_available() :
         map.enableUseIDGap()
     else:
         map.disableUseIDGap()
@@ -137,6 +133,9 @@ def setup_factories():
     selectStage = StageSelector(map)
     alias("selectStage")
     selectStage(1)
+
+def beam_available() :
+    return beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'
 
 def setup_aliases():
     # Watchdogs
@@ -212,9 +211,10 @@ def setup():
     
     setup_monitors()
     setup_watchdogs()
-    if not live_mode :
-        noBeamMode(True)
-    
+    if not live_mode or not beam_available() :
+        print("Machine mode = "+beam_state.getPosition()+" - setting up watchdogs and monitors for 'no beam mode'")
+        noBeamMode(True) 
+
     global XASLoggingScriptController
     global elementListScriptController
     rcpController =                Finder.find("RCPController")
@@ -242,7 +242,7 @@ def setup():
     beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
     
     global energy_scannable_for_scans
-    if live_mode and (beam_state() == 'User' or beam_state() == 'BL Startup' or beam_state() == 'Special'): # @UndefinedVariable
+    if live_mode and beam_available() :
         energy_scannable_for_scans = energy # @UndefinedVariable
     else:
         energy_scannable_for_scans = energy_nogap # @UndefinedVariable
@@ -285,6 +285,7 @@ def setup():
 
 print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
+    daServer = counterTimer01.getScaler().getDaServer()
     print "Trying to reconnect to DAServer..."
     daServer.reconnect()
     counterTimer01.configure()

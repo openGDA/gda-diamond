@@ -24,6 +24,8 @@ from org.opengda.detector.electronanalyser.utils import FilenameUtil
 from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
 from gda.device.scannable import PVScannable
 
+from gdascripts.metadata.nexus_metadata_class import meta # @UnusedImport
+
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
 print "=================================================================================================================";

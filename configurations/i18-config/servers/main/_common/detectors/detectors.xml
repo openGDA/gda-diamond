@@ -213,4 +213,8 @@
 		<property name="port" value="20" />
 	</bean>
 
+	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
+		<property name="name" value="detectorMonitorDataProvider" />
+	</bean>
+
 </beans>

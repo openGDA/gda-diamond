@@ -17,7 +17,7 @@
 		<property name="sourceName" value="source" />
 
 		<!-- Soft -->
-		<property name="insertionDeviceName" value="jgap" />
+		<property name="insertionDeviceName" value="jid" />
 		<property name="monochromatorName" value="pgm" />
 		<property name="beamName" value="beam_pgm" />
 
@@ -25,7 +25,7 @@
 		<property name="additionalDeviceNames">
 			<set>
 				<!--insertionDevice-->
-				<value>igap</value>
+				<value>iid</value>
 				<!--monochromator-->
 				<value>dcm</value>
 				<!--beam-->
