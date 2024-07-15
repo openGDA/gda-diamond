@@ -978,6 +978,12 @@
 	<bean id="MotorZUpper_DPS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-DET-01:ZUPPER" />
 	</bean>
+	<bean id="MotorX_DPS_Beamstop" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-STOP-01:X" />
+	</bean>
+	<bean id="MotorY_DPS_Beamstop" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-STOP-01:Y" />
+	</bean>
 
 	<!-- Detector Slits DETS1 Motors -->
 	<bean id="MotorXPos_DETS1" class="gda.device.motor.EpicsMotor">
