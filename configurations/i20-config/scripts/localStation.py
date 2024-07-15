@@ -90,7 +90,7 @@ def setup_detector_preparers() :
     return ionchamberCheckerPreparer, braggOffsetPreparer
 
 #### preparers ###
-detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupChecker)
+detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupCheckerWithShutter)
 detectorPreparer.setFFI1(FFI1)
 detectorPreparer.setPluginsForMutableRoi(medipix1, getMedipixMutableRoiPlugins(medipix1))
 detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
@@ -172,7 +172,7 @@ def machineMode() :
     
 if LocalProperties.isDummyModeEnabled() :
     print("\nSetting default scannables for GDA 'dummy' mode")
-    remove_default([topupChecker])
+    remove_default([topupCheckerWithShutter])
     remove_default([absorberChecker])
 else : 
     # to speed up step scans
@@ -183,12 +183,12 @@ else :
     print("\nSetting default scannables for current machine mode (%s)"%(machineModeMonitor.getPosition()))
     if machineModeMonitor.getPosition() in noBeam :
         print "Removing absorber, shutter and topup checkers"        
-        remove_default([topupChecker])
+        remove_default([topupCheckerWithShutter])
         remove_default([absorberChecker])
         remove_default([shutterChecker])
         stopCryostat()
     else:
-        add_default([topupChecker])
+        add_default([topupCheckerWithShutter])
         add_default([absorberChecker])
         add_default([shutterChecker])
 add_default(detectorMonitorDataProvider)

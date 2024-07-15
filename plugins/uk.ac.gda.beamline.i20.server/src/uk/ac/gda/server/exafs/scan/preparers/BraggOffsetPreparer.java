@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableUtils;
 import uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable;
@@ -299,16 +298,7 @@ public class BraggOffsetPreparer implements DetectorPreparer {
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
 
-	private MonoEnergyRange getMonoRange(XanesScanParameters bean) throws DeviceException {
-		if (isXesMode()) {
-			if (bean.getScannableName().equals(monoOptimiser.getBraggScannable().getName())) {
-				return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
-			} else {
-				// Xes mode with Energy region scan for spectrometer energy : mono is already in correct position
-				double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
-				return new MonoEnergyRange(braggEnergy, braggEnergy);
-			}
-		}
+	private MonoEnergyRange getMonoRange(XanesScanParameters bean) {
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
 
