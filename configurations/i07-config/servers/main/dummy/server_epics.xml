@@ -677,6 +677,10 @@
 
     <bean id="MotorZUpper_DPS" class="gda.device.motor.DummyMotor"/>
 
+    <bean id="MotorX_DPS_Beamstop" class="gda.device.motor.DummyMotor"/>
+
+    <bean id="MotorY_DPS_Beamstop" class="gda.device.motor.DummyMotor"/>
+
     <!-- Detector Slits DETS1 Motors -->
     <bean id="MotorXPos_DETS1" class="gda.device.motor.DummyMotor"/>
 
