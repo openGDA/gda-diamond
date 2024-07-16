@@ -201,16 +201,17 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		Dataset transpose = DatasetUtils.transpose(activePaletteTrace.get().getData());
 		double energyRes = Double.parseDouble(energyResolution.getText());
 		double rslope = Double.parseDouble(slope.getText());
-		double[] rOrigin = {0, Double.parseDouble(offset.getText())};
+		double[] rOrigin = {0, 0};
 		if (region != null && region.getROI() instanceof RectangularROI rroi) {
 			// spectrum within ROI
 			Slice[] slicesFromRectangularROI = ROISliceUtils.getSlicesFromRectangularROI(rroi, 1);
 			rOrigin[0] = rroi.getIntPoint()[0]; // override X
 			transpose = transpose.getSliceView(slicesFromRectangularROI);
 		}
+		double elOffset = Double.parseDouble(offset.getText());
 		Dataset[] spectrum = RixsImageReductionBase.makeSpectrum(transpose, rOrigin, rslope, true, true);
 		// apply energy calibration
-		Dataset xValues = RixsImageReductionBase.makeEnergyScale(spectrum, 0, rOrigin[1], energyRes);
+		Dataset xValues = RixsImageReductionBase.makeEnergyScale(spectrum, 0, elOffset, energyRes);
 		if (energyRes == 1.0) {
 			xValues.setName("Pixels");
 		} else {
