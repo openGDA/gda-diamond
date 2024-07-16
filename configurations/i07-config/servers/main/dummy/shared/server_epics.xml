@@ -3,10 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- Beam Energy Epics Monitor -->
     <bean id="beamenergy" class="gda.device.monitor.DummyEpicsMonitor"/>
 
-    <!-- Ring Currrent Epics Monitor -->
     <bean id="ringcurrent" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="topup_time" class="gda.device.monitor.DummyEpicsMonitor"/>
 
 </beans>
