@@ -5,7 +5,6 @@
 
 
 	<import resource="analyser_eav.xml"/>
-	<import resource="analyser.xml"/>
 	<import resource="nixswr.xml"/>
 	<!-- <import resource="FrontEndAperture.xml"/> -->
 	<import resource="ID.xml" />

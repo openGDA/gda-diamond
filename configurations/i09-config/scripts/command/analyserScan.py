@@ -23,6 +23,8 @@ from gdascripts.scan.installStandardScansWithProcessing import scan
 ENABLEZEROSUPPLIES=False
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
+#Add to namespace so that it is findable during scans which is needed for extra region printing
+InterfaceProvider.getJythonNamespace().placeInJythonNamespace(zeroScannable.getName(), zeroScannable);
 
 def zerosupplies():
     caput("BL09I-EA-DET-01:CAM:ZERO_SUPPLIES", 1)
@@ -206,17 +208,12 @@ def allElementsAreTuplesOfNumbers(arg):
             return False
     return True
 
-from gda.configuration.properties import LocalProperties  
-from gda.device.scannable import ScannableBase
-from gda.device import Detector
-from gda.data.scan.datawriter import NexusScanDataWriter
-
 def analyserscan(*args):
     
     ''' a more generalised scan that extends standard GDA scan syntax to support 
     1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and 
     2. its corresponding path tuple (e.g. tuple of position lists), if exist, and
-    3. EW4000 analyser detector that takes a reion sequence file name as input, if exist, and
+    3. EW4000 analyser detector that takes a region sequence file name as input, if exist, and
     4. syntax 'analyserscan ew4000 "user.seq ...' for analyser scan only
     It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
     Thus it can be used anywhere the standard GDA 'scan' is used.
@@ -226,7 +223,6 @@ def analyserscan(*args):
     newargs=[]
     i=0;
     
-    scannables = []
     ew4000 = None
     
     while i < len(args):
@@ -234,7 +230,6 @@ def analyserscan(*args):
             
         if isinstance(arg,  EW4000):
             ew4000 = arg
-            controller = Finder.find("SequenceFileObserver")
             xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
             
             newargs.append(ew4000)
@@ -255,12 +250,6 @@ def analyserscan(*args):
             if not os.path.isfile(filename):
                 raise Exception("Unable to find file " + filename)
 
-            if controller is not None:
-                controller.update(controller, SequenceFileChangeEvent(filename)) #update client sequence view
-            sleep(2.0)
-            jython_server_status = InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
-            while (jython_server_status.isScriptOrScanPaused()):
-                sleep(1.0) # wait for user saving dirty file
             ew4000.loadSequenceData(filename)
             
         elif type(arg)==TupleType:
@@ -290,7 +279,7 @@ def analyserscan(*args):
          
     #This ensures zeroscannable doesn't ever sneak into scan and add useless extra dimension. 
     #Only ever added to newargs if no other scannable with suitable arguments qualifies.
-    if analyserscancheckneedszeroscannable(newargs):
+    if check_needs_zeroscannable(newargs):
         newargs.insert(0, 1)
         newargs.insert(0, 0)
         newargs.insert(0, 0)
@@ -298,33 +287,15 @@ def analyserscan(*args):
         
     if newargs[0] == ew4000:
         raise SyntaxError(ew4000.getName() + " with other scannables should be after scannable steps e.g 'analyserscan x 1 2 1 " + ew4000.getName() + " \"user.seq\" '")
-      
-    #For extra ew4000 region printing, give it only scannables 
-    for i in newargs:
-        if isinstance(i, ScannableBase) and not isinstance(i, Detector):
-            scannables.append(i)   
-    if ew4000 is not None and ew4000.isExtraRegionPrinting():
-        ew4000.configureExtraRegionPrinting(scannables)
-    
-    cached_file_at_scan_start_value = LocalProperties.check(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, False)
-    cached_datawriter_value =  LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT)
-    try:
-        #For region data to be written straight away rather than caching, the 
-        #file needs to be created at start of scan instead after the first 
-        #point in scan
-        LocalProperties.set(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, True)
-        LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusScanDataWriter")
-        scan(newargs)
-    finally:
-        LocalProperties.set(NexusScanDataWriter.PROPERTY_NAME_CREATE_FILE_AT_SCAN_START, cached_file_at_scan_start_value)
-        LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, cached_datawriter_value)
-        
+
+    scan(newargs)
+
     if ENABLEZEROSUPPLIES:
         zerosupplies()  # @UndefinedVariable
     
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
-def analyserscancheckneedszeroscannable(args):
+def check_needs_zeroscannable(args):
     """
     Loop through scannables with their arguments. We are checking to see if there is a 
     valid scannable for the scan e.g "scan x 1 2 1" OR "scan x (1, 2, 3)". If there isn't,
