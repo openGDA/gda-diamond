@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gda -G server restart -p V1$*
