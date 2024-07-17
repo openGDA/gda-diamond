@@ -12,6 +12,7 @@
 
    <launcherArgs>
       <vmArgs>-Dgda.mode=dummy
+-Declipse.pluginCustomization=${project_loc:b07-config}/clients/plugin_customization.ini
 -Dgda.config=${project_loc:b07-config}
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Xms1g

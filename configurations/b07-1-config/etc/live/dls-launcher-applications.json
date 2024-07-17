@@ -1,0 +1,61 @@
+[
+{
+	"type": "group",
+	"children": [
+		{
+				"type": "button",
+				"text": "Start GDA Client",
+				"args": "client",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda",
+				"icon": "cgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start GDA Client (Reset workspace)",
+				"args": "client --reset",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda",
+				"icon": "cgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start b07-1 GDA Servers",
+				"command": "/dls_sw/b07-1/software/gda/bin/gdaservers",
+				"icon": "sgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start GDA Log Panel",
+				"args": " ",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+				"icon": "lgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start Dawn",
+				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+		},
+		{
+				"type": "button",
+				"text": "Start Dawn (Reset Workspace)",
+				"args": "--reset",
+				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+		},
+		{
+				"type": "button",
+				"text": "SPECS Analyser PC",
+				"command": "/usr/bin/xfreerdp --ignore-certificate -a 24 -g 1800x900 -d DIAMOND -u b07-1detector -k en-gb -p '!b07-1d3t3ct0r#' b07-1-nap150-2",
+				"icon": "/dls_sw/b07-1/etc/preferences-desktop-remote-desktop.png"
+		},
+		{
+				"type": "button",
+				"text": "B07C beamline summary",
+				"args": "-o /dls_sw/b07-1/scripts/BOY/B07C_beamlineSummary_current.opi -s",
+				"command": "/dls_sw/prod/tools/RHEL7-x86_64/cs-studio/dls-4.7.3/prefix/bin/css.sh",
+				"icon": ""
+		}
+	 ],
+	"name": "Data Acquisition"
+}
+]
