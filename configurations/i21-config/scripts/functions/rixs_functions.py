@@ -1,5 +1,5 @@
 '''
-get RIXS data with hkl amd uvw metadata
+get RIXS data with hkl and uvw metadata
 
 Created on Jun 15, 2023
 

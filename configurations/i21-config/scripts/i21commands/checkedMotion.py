@@ -106,13 +106,13 @@ def check_if_move_legal(motor, new_position):
     '''
     if motor is alltth:
         motor = motor.armtth # Only need to check armtth motor in the group alltth motor
-        
+
     current_position = float(motor.getPosition())
     demand_position = float(new_position)
     if math.fabs(current_position - demand_position) <= MOTOR_POSITION_TOLERANCE:
         print("Motor '%s' is already in position." % (motor.getName()))
         return True
-    
+
     if motor is armtth:
         check_armtth_and_move_sgmr1_if_required(motor, new_position)    
         if math.fabs(current_position - demand_position) > MOTOR_POSITION_TOLERANCE:
@@ -164,16 +164,19 @@ def move(motor, new_position, sgmr1_val=None):
         motor.moveTo(new_position)
         print("sleep 5 seconds after %s move." % motor.getName())
         sleep (5)
-        
+
     #reset motor values
     if motor is armtth or motor is alltth:
         armtthoffset.moveTo(-0.1)
         if sgmr1_val:
             sgmr1.moveTo(sgmr1_val)
         print("%s moves completed at %s" % (motor.getName(), str(motor.getPosition())))
-            
+
         #switch off air supply
         switch_off_air_supply(motor)
+    if motor is sgmr1:
+        switch_off_air_supply(motor)
+
 try:
     from gda.jython.commands.GeneralCommands import alias
     alias("move")

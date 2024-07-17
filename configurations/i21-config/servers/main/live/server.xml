@@ -10,11 +10,6 @@
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
 	
-	<beans profile="xcamlive">
-		<import resource="nxmetadata.xml"/>
-	</beans>
-	<beans profile="xcamsimulation">
-		<import resource="nxmetadata_xcam_simulation.xml"/>
-	</beans>	
+	<import resource="nxmetadata.xml"/>
 
 </beans>

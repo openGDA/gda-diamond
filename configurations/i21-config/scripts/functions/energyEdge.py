@@ -12,7 +12,6 @@ Created on Oct 7, 2022
 @author: fy65
 '''
 import csv
-from gda.factory import Finder
 from time import sleep
 import os
 import numbers
@@ -95,6 +94,7 @@ def parse_lookup_table(lookup_table):
         filename = str(LocalProperties.get(GDA_CONGIG_PROPERTY) + "/" + lookup_table)
     lookuptable, header, units = load_lookup_table(filename) # @UnusedVariable
     scannable_names = header[1:]
+    from gda.factory import Finder
     scannables = [Finder.find(name) if name != 'energy' else energy for name in scannable_names]
     return lookuptable, scannables, filename, header, scannable_names, units
 

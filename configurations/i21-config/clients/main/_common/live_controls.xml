@@ -58,11 +58,11 @@
 		<property name="group" value="Beam" />
 		<property name="scannableName" value="m4femto1" />
 		<property name="readOnly" value="true"/>
-		<property name="userUnits" value="A"/>
+		<property name="userUnits" value="Amp"/>
 		<property name="textWidth" value="40"/>
 	</bean>	
 	<bean id="s5v1gap_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="s5v1gap" />
+		<property name="displayName" value="eslit" />
 		<property name="group" value="Beam" />
 		<property name="scannableName" value="s5v1gap" />
 		<property name="increment" value="1" />
@@ -76,7 +76,7 @@
 		<property name="displayName" value="" />
 		<property name="group" value="Beam" />
 		<property name="scannableName" value="feedbackState" />
-		<property name="textWidth" value="90"/>
+		<property name="textWidth" value="95"/>
 		<property name="userUnits" value="" />
 		<property name="readOnly" value="true"/>
 	</bean>	
@@ -318,8 +318,8 @@
 				<ref bean="polarisation_control" />
 				<ref bean="energy_s_control" />
 				<ref bean="cff_control" />
-				<ref bean="m4c1_control" />
 				<ref bean="s5v1gap_control" />
+				<ref bean="m4c1_control" />
 				<ref bean="feedback_state" />
 				<ref bean="sample_temperature_display" />
 				<ref bean="cryo_temperature_display" />

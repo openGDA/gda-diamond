@@ -50,6 +50,8 @@ class StokesParameters(ScannableMotionBase):
                 else:
                     return "Problem encountered while get the linear Arbitrary Angle in current source mode."
         else:
+            if str(pol) == "UNKNOWN":
+                return "polarisation returns 'UNKNOWN'! Please ensure polarisation is set correctly."
             return POLPARISATION_DICT[pol]
 
     def asynchronousMoveTo(self, npos):
