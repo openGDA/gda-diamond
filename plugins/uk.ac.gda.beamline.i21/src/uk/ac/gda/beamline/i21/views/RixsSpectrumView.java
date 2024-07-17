@@ -120,7 +120,7 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		Composite inputParameters = toolkit.createComposite(client);
 		GridLayoutFactory.swtDefaults().numColumns(6).applyTo(inputParameters);
 
-		final Label createLabel = toolkit.createLabel(inputParameters, "Energy Dispersion");
+		final Label createLabel = toolkit.createLabel(inputParameters, "Energy Resolution");
 		GridDataFactory.swtDefaults().applyTo(createLabel);
 		energyResolution = makeTextForDouble(inputParameters, "1.0", boxWidthHint, "Set energy resolution (eV/pix)", v);
 
