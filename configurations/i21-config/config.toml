@@ -13,6 +13,8 @@ logging = "properties/_common/logging_customisation.xml"
  
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+"gda.beamline.name" = "i21"
+
 [server.system]
 "java.awt.headless" = "true"
  
