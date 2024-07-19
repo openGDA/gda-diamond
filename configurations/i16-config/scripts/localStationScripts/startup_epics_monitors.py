@@ -83,19 +83,23 @@ showdelta=DisplayEpicsPVClass('showdelta','BL16I-MO-DIFF-01:ARM:DELTA.RBV', 'deg
 showgam=DisplayEpicsPVClass('showgam','BL16I-MO-DIFF-01:ARM:GAMMA.RBV', 'deg', '%.5f')
 showkap6=ReadPDGroupClass('showkap6',[showkphi,showkap,showkth, showmu, showdelta, showgam])
 
-
 blower_temp_c=DisplayEpicsPVClass('cyberstar_gas_blower_temp','BL16I-EA-BLOW-01:LOOP1:PV:RBV', 'C', '%.1f')
 
+import installation
 if installation.isLive():
-	ppchitemp=DisplayEpicsPVClass('ppchitemp', 'BL16I-OP-PPR-01:CHI:TEMP',      'deg', '%.9e'); ppchitemp.setLevel(9)
-	ppth1temp=DisplayEpicsPVClass('ppth1temp', 'BL16I-OP-PPR-01:S1:THETA:TEMP', 'deg', '%.9e'); ppth1temp.setLevel(9)
-	ppz1temp =DisplayEpicsPVClass('ppz1temp',  'BL16I-OP-PPR-01:S1:Z:TEMP',     'deg', '%.9e'); ppz1temp.setLevel(9)
-	ppth2temp=DisplayEpicsPVClass('ppth2temp', 'BL16I-OP-PPR-01:S2:THETA:TEMP', 'deg', '%.9e'); ppth2temp.setLevel(9)
-	ppz2temp =DisplayEpicsPVClass('ppz2temp',  'BL16I-OP-PPR-01:S2:Z:TEMP',     'deg', '%.9e'); ppz2temp.setLevel(9)
+	from localStationScripts.phase_plate_motor_temp_monitor import PhasePlateTempMonitor, MotorTempMonitor
+	ppchitemp=MotorTempMonitor('ppchitemp', 'BL16I-OP-PPR-01:CHI',      'deg', '%.9e'); ppchitemp.setLevel(9)
+	ppth1temp=MotorTempMonitor('ppth1temp', 'BL16I-OP-PPR-01:S1:THETA', 'deg', '%.9e'); ppth1temp.setLevel(9)
+	ppz1temp =MotorTempMonitor('ppz1temp',  'BL16I-OP-PPR-01:S1:Z',     'deg', '%.9e'); ppz1temp.setLevel(9)
+	ppth2temp=MotorTempMonitor('ppth2temp', 'BL16I-OP-PPR-01:S2:THETA', 'deg', '%.9e'); ppth2temp.setLevel(9)
+	ppz2temp =MotorTempMonitor('ppz2temp',  'BL16I-OP-PPR-01:S2:Z',     'deg', '%.9e'); ppz2temp.setLevel(9)
+	pptTempMonitor = PhasePlateTempMonitor('pptTempMonitor')
+	pptTempMonitor.addMotor(ppchitemp); pptTempMonitor.addMotor(ppth1temp); pptTempMonitor.addMotor(ppz1temp); pptTempMonitor.addMotor(ppth2temp); pptTempMonitor.addMotor(ppz2temp)
 else:
 	ppchitemp=DummyPD('ppchitemp') ; ppchitemp.Units=['deg'], ppchitemp.setOutputFormat(['%.9e']); ppchitemp.setLevel(9)
 	ppth1temp=DummyPD('ppth1temp') ; ppth1temp.Units=['deg']; ppth1temp.setOutputFormat(['%.9e']); ppth1temp.setLevel(9)
 	ppz1temp =DummyPD('ppz1temp')  ;  ppz1temp.Units=['deg'];  ppz1temp.setOutputFormat(['%.9e']);  ppz1temp.setLevel(9)
 	ppth2temp=DummyPD('ppth2temp') ; ppth2temp.Units=['deg']; ppth2temp.setOutputFormat(['%.9e']); ppth2temp.setLevel(9)
 	ppz2temp =DummyPD('ppz2temp')  ;  ppz2temp.Units=['deg'];  ppz2temp.setOutputFormat(['%.9e']);  ppz2temp.setLevel(9)
+	pptTempMonitor =DummyPD('pptTempMonitor'); pptTempMonitor.setOutputFormat(["%b"])
 
