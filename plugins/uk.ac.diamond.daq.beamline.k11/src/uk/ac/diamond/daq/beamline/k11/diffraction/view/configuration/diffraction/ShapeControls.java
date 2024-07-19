@@ -65,6 +65,9 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 
 	private ModelUpdater modelUpdater;
 
+	/** basic way to differentiate between a scan being loaded and a manual shape change */
+	private boolean reloading;
+
 	public ShapeControls(Supplier<ScanningParameters> scanningParameters, List<ShapeDescriptor> shapes) {
 		this.scanningParameters = scanningParameters;
 		this.shapes = shapes;
@@ -87,7 +90,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		GridLayoutFactory.fillDefaults().extendedMargins(10, 0, 0, 0).applyTo(controls);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false).applyTo(controls);
 
-		updateSelectionFromDocument();
+		updateShapeSelectionFromDocument();
 
 		initialiseMappingController();
 
@@ -134,9 +137,10 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		mappingController.initialise();
 	}
 
-	private void updateSelectionFromDocument() {
+	private void updateShapeSelectionFromDocument() {
 		var shape = getShape();
 		buttons.setSelection(shape);
+
 	}
 
 	private TrajectoryShape getShape() {
@@ -163,16 +167,19 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		var shape = event.selection();
 		var scan = scanningParameters.get().getScanpathDocument();
 
-		// mutate scan in place with new axes
-		ScanningParametersUtils.updateAxes(scan, axesCache.retrieve(shape));
+		if (!reloading) {
+			// mutate scan in place with new axes
+			ScanningParametersUtils.updateAxes(scan, axesCache.retrieve(shape));
 
-		// update shape in trajectory, if both axes are in trajectory
-		var oldTrajectory = scan.getTrajectories().stream()
-								.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.X)))
-								.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.Y)))
-								.findFirst();
+			// update shape in trajectory, if both axes are in trajectory
+			var oldTrajectory = scan.getTrajectories().stream()
+									.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.X)))
+									.filter(trajectory -> trajectory.getAxes().stream().anyMatch(scannable -> scannable.getAxis().equals(Axis.Y)))
+									.findFirst();
 
-		oldTrajectory.ifPresent(trajectory -> ScanningParametersUtils.updateTrajectoryShape(scan, trajectory, shape));
+			oldTrajectory.ifPresent(trajectory -> ScanningParametersUtils.updateTrajectoryShape(scan, trajectory, shape));
+
+		}
 
 		if (scanpathEditor != null) {
 			scanpathEditor.dispose();
@@ -208,10 +215,16 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		this.shapeResolver = Optional.of(shapeResolver);
 	}
 
+	private void updateModelInEditor() {
+		scanpathEditor.setModel(scanningParameters.get().getScanpathDocument());
+	}
+
 	@Override
 	public void reload() {
-		buttons.getSelection().ifPresent(shape -> axesCache.cache(shape, getAxes()));
-		updateSelectionFromDocument();
+		reloading = true;
+		updateShapeSelectionFromDocument();
+		updateModelInEditor();
+		reloading = false;
 	}
 
 	class ModelUpdater implements ApplicationListener<ScanningAcquisitionChangeEvent> {
@@ -220,7 +233,7 @@ public class ShapeControls implements CompositeFactory, Reloadable {
 		public void onApplicationEvent(ScanningAcquisitionChangeEvent event) {
 			if (!event.getSource().equals(ShapeControls.this) &&
 				event.getProperty().equals(UpdatedProperty.PATH)) {
-					scanpathEditor.setModel(scanningParameters.get().getScanpathDocument());
+					updateModelInEditor();
 				}
 		}
 
