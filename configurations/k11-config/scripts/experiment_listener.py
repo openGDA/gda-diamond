@@ -1,15 +1,18 @@
-from gda.epics import LazyPVFactory
-from uk.ac.diamond.osgi.services.ServiceProvider import getService
-from org.eclipse.scanning.api.event import IEventService
-from java.net import URI
-from gda.configuration.properties.LocalProperties import getBrokerURI
-from uk.ac.diamond.daq.experiment.api.EventConstants import EXPERIMENT_CONTROLLER_TOPIC
-from uk.ac.gda.api.io import PathConstructor
-from org.eclipse.scanning.api.event.bean import IBeanListener
+from gda.epics import LazyPVFactory  # @UnresolvedImport
+from uk.ac.diamond.osgi.services.ServiceProvider import getService  # @UnresolvedImport
+from org.eclipse.scanning.api.event import IEventService  # @UnresolvedImport
+from java.net import URI  # @UnresolvedImport
+from gda.configuration.properties.LocalProperties import getBrokerURI  # @UnresolvedImport
+from uk.ac.diamond.daq.experiment.api.EventConstants import EXPERIMENT_CONTROLLER_TOPIC  # @UnresolvedImport
+from org.eclipse.scanning.api.event.bean import IBeanListener  # @UnresolvedImport
+from uk.ac.diamond.daq.experiment.api.structure.ExperimentEvent import Transition  # @UnresolvedImport
+from uk.ac.diamond.daq.scanning import FilePathService  # @UnresolvedImport
+from java.io import File  # @UnresolvedImport
+from org.apache.commons.io import FileUtils  # @UnresolvedImport
 
 class ExperimentListener(IBeanListener):
     """
-    Writes the visit that an experiment is running in to a PV 
+    Triggers actions when experiment starts/ends
     """
     def __init__(self, pv):
         self.visit_pv = LazyPVFactory.newStringPV(pv)
@@ -21,12 +24,31 @@ class ExperimentListener(IBeanListener):
         return getService(IEventService).createSubscriber(jms_uri, topic)
     
     def beanChangePerformed(self, event):
-        visit = PathConstructor().getVisitDirectory()
-        self.write_visit(visit.split("/")[-1])
-    
-    def write_visit(self, visit):
-        self.visit_pv.putNoWait(visit)
+        write_visit(self.visit_pv)
+        if event.getBean().getTransition() == Transition.STARTED:
+            copy_template_files()
     
     def close(self):
         self.subscriber.removeListeners()
         self.subscriber.disconnect()
+
+
+def write_visit(visit_pv):
+    """ Writes the visit that an experiment is running in to a PV """
+    visit = FilePathService().getVisit()
+    visit_pv.putNoWait(visit)
+
+def copy_template_files():
+    """ Copies templates into data config directory """
+    file_path_service = FilePathService()
+    visit_config = file_path_service.getVisitConfigDir()
+
+    # existence of marker file indicates templates already copied
+    templates_copied = File(visit_config, ".templates_copied")
+    if templates_copied.exists(): return
+
+    templates_dir = File(file_path_service.getPersistenceDir(), "Standard_XML")
+    if templates_dir.exists():
+        FileUtils.copyDirectory(templates_dir, File(visit_config), False)
+        # write marker file
+        FileUtils.touch(templates_copied)
