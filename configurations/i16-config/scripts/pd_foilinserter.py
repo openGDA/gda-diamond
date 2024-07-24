@@ -1,11 +1,6 @@
-from inttobin import *
 from gda.epics import CAClient
-import string 
-import beamline_info as BLi
 from gda.device.scannable import ScannableMotionBase
-import time
-from time import sleep
-from mathd import *
+from mathd import exp
 
 class Foilinserter(ScannableMotionBase):
 	"""
@@ -20,6 +15,7 @@ class Foilinserter(ScannableMotionBase):
 		self.mat = mat
 		self.thickness = thickness #[microns]
 		self.configure()
+		self.target = None
 
 	def configure(self):
 		self.status=CAClient(self.pvstatus)
@@ -28,15 +24,11 @@ class Foilinserter(ScannableMotionBase):
 		self.client.configure()	
 
 	def isBusy(self):
-		#sleep(1)
-		return 0
+		return self.target is not None and int(self.status.caget()) != self.target
 	
 	def getPosition(self):
-		#start = time.clock()
 		self.getTransmission()
 		status=self.status.caget()
-		#end = time.clock()
-		#print "time taken = ", end-start
 		if status == '0':
 			return [0, 1]
 		elif status == '1':
@@ -46,23 +38,11 @@ class Foilinserter(ScannableMotionBase):
 
 	def asynchronousMoveTo(self,n):
 		if n=='in' or n=='IN' or n=='1' or n==1:
+			self.target = 1
 			self.client.caput('1')
 		elif n=='out' or n=='OUT' or n=='0' or n==0:
+			self.target = 0
 			self.client.caput('0')
-
-	def movein(self):
-		self.asynchronousMoveTo('in')
-		if self.getPosition() == '1':
-			return 'IN'
-		elif self.getPosition() == '0':
-			return 'OUT'
-
-	def moveout(self):
-		self.asynchronousMoveTo('out')
-		if self.getPosition() == '1':
-			return 'IN'
-		elif self.getPosition() == '0':
-			return 'OUT'
 
 	def getTransmission(self,_energy=None):
 		self.mat.getXproperties(_energy)
