@@ -1,38 +1,46 @@
-/dls_sw/i11/software/mythen/diamond/calibration
+--------------------------------------------------------------------------------
+Calibration files
+--------------------------------------------------------------------------------
+
+Original Mythen detector: /dls_sw/i11/software/mythen/diamond/calibration
+New Mythen 3 detector:    /dls_sw/i11/software/mythen3/diamond/calibration
+
+For the original Mythen detector, a single ang.off file was provided, but for
+Mythen3, separate module .off files were provided. These were concatenated to
+produce an ang.off file for use by the reduction.py script.
+
+Similarly, a set of badchannel .lists files were produced for Mythen (though
+only one appears to have been used), but for Mythen3, separate module .chans
+files were provided, so a bad.chans file was created to link the module id (0 to
+27) to the files for use by the reduction.py script.
+
+The flatfield was provided in h5 format for Mythen3.
+
+Since we were only testing with the first 14 modules, raw data was truncated to
+17920 channels, and a module file which only listed modules 0 to 13 was created
+for these tests.
+
+Finally, a manually entered encoder position (for the delta motor) was used. 
 
 --------------------------------------------------------------------------------
-python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507.xye
-
-python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507a.xye \
-                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off
-
-python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507am.xye \
-                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
-                    -m modules.list
-
-python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507amh.xye \
-                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
-                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
-                    --raw-data-high-index 17920
-
-python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272514.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272514amhb.xye \
-                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
-                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
-                    --raw-data-high-index 17920 \
-                    -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans
+Tests run, newest to oldest...
 
 python reduction.py -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
                     -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans \
                     -f /dls_sw/i11/software/mythen3/diamond/flatfield/flatField_15keV_th7500eV.h5 \
                     -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
                     --raw-data-high-index 17920 \
-                    -d /dls/i11/data/2024/cm37253-3/mythen3_1272514.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272514abfmh.xye
+                    -e 5.6 \
+                    -d /dls/i11/data/2024/cm37253-3/mythen3_1272517.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272517abfmhe.xye
+
+python reduction.py -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans \
+                    -f /dls_sw/i11/software/mythen3/diamond/flatfield/flatField_15keV_th7500eV.h5 \
+                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
+                    --raw-data-high-index 17920 \
+                    -d /dls/i11/data/2024/cm37253-3/mythen3_1272517.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272517abfmh.xye
 
 python reduction.py -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
                     -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans \
@@ -47,9 +55,35 @@ python reduction.py -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off 
                     -f /dls_sw/i11/software/mythen3/diamond/flatfield/flatField_15keV_th7500eV.h5 \
                     -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
                     --raw-data-high-index 17920 \
-                    -d /dls/i11/data/2024/cm37253-3/mythen3_1272517.hdf5 \
-                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272517abfmh.xye
+                    -d /dls/i11/data/2024/cm37253-3/mythen3_1272514.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272514abfmh.xye
 
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272514.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272514amhb.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
+                    --raw-data-high-index 17920 \
+                    -b /dls_sw/i11/software/mythen3/diamond/calibration/bad.chans
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507amh.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m /dls_sw/i11/software/mythen3/diamond/modules.0..17920 \
+                    --raw-data-high-index 17920
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507am.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off \
+                    -m modules.list
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507a.xye \
+                    -a /dls_sw/i11/software/mythen3/diamond/calibration/ang.off
+
+python reduction.py -d /dls/i11/data/2024/cm37253-3/mythen3_1272507.hdf5 \
+                    -o /dls/i11/data/2024/cm37253-3/mythen3_1272507.xye
+
+--------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 $python reduction.py --help
