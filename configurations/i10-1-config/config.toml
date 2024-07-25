@@ -3,7 +3,9 @@ client.spring-xml = "clients/main/${gda.mode}/client.xml"
  
 properties = [
 	"properties/${gda.mode}/${gda.mode}_instance_java.properties",
-	"properties/_common/common_instance_java.properties"
+	"properties/_common/common_instance_java.properties",
+	"../i10-shared/properties/${gda.mode}/${gda.mode}_family_java.properties",
+	"../i10-shared/properties/_common/common_family_java.properties"
 ]
 
 profiles = [ 
@@ -42,9 +44,4 @@ server.spring-xml = [
 
 client.spring-xml = [
 	"clients/main/${gda.mode}/client.xml",
-]
-
-properties = [
-	"../i10-shared/properties/${gda.mode}/${gda.mode}_family_java.properties",
-	"../i10-shared/properties/_common/common_family_java.properties"
 ]
