@@ -48,28 +48,27 @@
 		<property name="offlineValidation" value="true"/>
 	</bean>
 	
-	<bean id="sequenceviewfactory"
-		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewFactory">
+	<bean id="sequenceviewlivefactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewLiveFactory">
 		<property name="viewPartName" value="Sequence Editor" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
-		<property name="location" value="Diamond I09"/>
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 	</bean>
 	
-	<bean id="sequencecreatorfactory"
-		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceCreatorFactory">
+	<bean id="sequenceviewcreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewCreatorFactory">
 		<property name="viewPartName" value="Sequence Creator" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="regionValidator" ref="regionvalidatorForCreator"/>
 	</bean>
 	
-	<bean id="regionviewfactory"
-		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewFactory">
+	<bean id="regionviewlivefactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewLiveFactory">
 		<property name="viewPartName" value="Region Editor" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
@@ -93,8 +92,8 @@
 		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
 	
-	<bean id="regioncreatorfactory"
-		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionCreatorFactory">
+	<bean id="regionviewcreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewCreatorFactory">
 		<property name="viewPartName" value="Region Creator" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
 		<property name="camera" ref="analysercamera"/>
