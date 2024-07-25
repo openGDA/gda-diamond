@@ -92,4 +92,4 @@ else:
 	output_format = "%f %f %f"
 
 for line in binned_data:
-	print output_format % line
+	print(output_format % (line[0], line[1], line[2]))
