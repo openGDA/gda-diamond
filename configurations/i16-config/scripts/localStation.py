@@ -609,8 +609,8 @@ pitchup=pitchupClass()
 
 try:
 	### Various ###
-	localStation_print("   running localStationScripts/startup_epics_monitors.py")      # [TODO: Replace with imports]
-	run("localStationScripts/startup_epics_monitors")
+	localStation_print("   running localStationScripts/startup_epics_monitors.py")
+	from localStationScripts.startup_epics_monitors import *
 	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 except:
 	localStation_exception("running localStationScripts/startup_epics_monitors.py")
@@ -1563,6 +1563,7 @@ add_default(atime)
 add_default(atimetwo)
 add_default(ic1monitor)
 add_default(rc)  # @UndefinedVariable
+add_default(pptTempMonitor)
 if installation.isLive():
 	add_default(waitforinjection)
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
