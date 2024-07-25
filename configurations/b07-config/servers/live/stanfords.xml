@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-					http://www.springframework.org/schema/beans/spring-beans.xsd">
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ca16b_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07B-DI-IAMP-16:SENS:SEL1" />
@@ -382,6 +382,7 @@
 		<property name="amplifier" ref="ca16b_stanford"/>
 		<property name="adcChannel" value="1"/>
 		<property name="autoGain" value="false" />
+		<property name="writeAbsValues" value="true"/>
 	</bean>
 
 	<bean id="ca35b_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -396,6 +397,7 @@
 		<property name="amplifier" ref="ca35b_stanford"/>
 		<property name="adcChannel" value="1"/>
 		<property name="autoGain" value="false" />
+		<property name="writeAbsValues" value="true"/>
 	</bean>
 
 	<bean id="ca36b_stanford" class="gda.device.currentamplifier.EpicsStanfordAmplifer">
@@ -410,5 +412,6 @@
 		<property name="amplifier" ref="ca36b_stanford"/>
 		<property name="adcChannel" value="2"/>
 		<property name="autoGain" value="false" />
+		<property name="writeAbsValues" value="true"/>
 	</bean>
 </beans>
