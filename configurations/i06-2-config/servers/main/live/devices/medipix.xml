@@ -228,7 +228,7 @@
 		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-				<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
+				<property name="pvName" value="BL06K-EA-DET-01:CAM:QuadMerlinMode" />
 				<property name="expression" value="3"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
 				<property name="waitTimeInSeconds" value="0.5"/>
 				<property name="enabled" value="true" />
@@ -304,7 +304,7 @@
 		<property name="arrayPortName" value="mpxview.ROT"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-				<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode" />
+				<property name="pvName" value="BL06K-EA-DET-01:CAM:QuadMerlinMode" />
 				<property name="expression" value="1"/> <!--0:12 bit, 1:24 bit, 2:Tow Threshold, 3:Continuous RW, 4:Color, 5:Charge Summing  -->
 				<property name="waitTimeInSeconds" value="0.5"/>
 				<property name="enabled" value="true" />
