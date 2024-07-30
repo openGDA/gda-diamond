@@ -59,6 +59,7 @@
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="waitForFileArrival" value="false" />
 		<property name="alwaysPrepare" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
 	</bean>
 
 	<bean id="merlin_hdf5_filewriter_for_scans"
