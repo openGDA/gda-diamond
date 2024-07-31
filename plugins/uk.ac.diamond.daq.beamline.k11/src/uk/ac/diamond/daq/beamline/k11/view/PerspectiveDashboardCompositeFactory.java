@@ -20,22 +20,17 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 import static uk.ac.diamond.daq.client.gui.camera.CameraConfigurationView.openCameraConfigurationViewButton;
 import static uk.ac.gda.ui.tool.ClientSWTElements.STRETCH;
-import static uk.ac.gda.ui.tool.ClientSWTElements.composite;
 import static uk.ac.gda.ui.tool.ClientSWTElements.createClientCompositeWithGridLayout;
 import static uk.ac.gda.ui.tool.ClientSWTElements.innerComposite;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import gda.factory.Finder;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.diamond.daq.experiment.ui.ExperimentManager;
-import uk.ac.diamond.daq.experiment.ui.ExperimentUiUtils;
-import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverDialog;
 import uk.ac.gda.ui.tool.ClientSWTElements;
 
 
@@ -64,7 +59,6 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 		createSource(parent);
 		createStage(parent);
 		createCameraControl(parent);
-		createExperimentDriver(parent);
 	}
 
 	private void separator(Composite composite) {
@@ -102,19 +96,5 @@ public class PerspectiveDashboardCompositeFactory implements CompositeFactory {
 			var shutter = new ShutterWidget(shutterConfig).createControls(shutters);
 			gridData.applyTo(shutter);
 		});
-	}
-
-	private void createExperimentDriver(Composite parent) {
-		var composite = composite(parent, 1);
-		var button = new Button(composite, SWT.PUSH);
-		var image = ExperimentUiUtils.getImage(ExperimentUiUtils.CONFIGURE_ICON);
-		button.setImage(image);
-		button.addDisposeListener(dispose -> image.dispose());
-		button.setText("Experiment drivers");
-		button.addSelectionListener(SelectionListener.widgetSelectedAdapter(selection -> {
-			//FIXME what should experimentId be? experiment name? visit?
-			String experimentId = null;
-			new ExperimentDriverDialog(parent.getShell(), experimentId).open();
-		}));
 	}
 }
