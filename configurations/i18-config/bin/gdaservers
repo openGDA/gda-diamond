@@ -11,5 +11,5 @@
 gda logpanel
 
 profiles=$(generate-profile-list.py)
-
-gda servers restart $profiles $*
+echo "Profiles to use : $profiles"
+gda servers restart $profiles --debug $*

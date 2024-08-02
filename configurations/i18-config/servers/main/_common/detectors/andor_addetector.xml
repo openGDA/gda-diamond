@@ -54,8 +54,28 @@
 		<property name="filePathTemplate" value="$datadir$/nexus/" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
+		<property name="ndArrayPortVal" value="#{andorCamPort}" />
 	</bean>
-	
+
+
+	<bean id="andor_tiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="#{andorBasePv}:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="andor_tiff_single_image_per_file_writer"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="andor_tiff" />
+		<property name="fileNameTemplate" value="andor-$scan$" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+<!-- 		<property name="ndArrayPortVal" value="#{andorCamPort}" /> -->
+	</bean>
+
 <!-- Collection strategy decorator chain to stop the detector, restore the acquire time, image mode and trigger mode -->
 	<bean id="andor_stop_decorator" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
 		<property name="decoratee" ref="andor_acquire_time_decorator"/>
@@ -90,6 +110,17 @@
 		<property name="computeStats" value="true" />
 		<property name="readFilepath" value="True" /> <!-- Use the Hdf file writer during scans -->
 		<property name="readArray" value="False" /> <!-- Don't read the array data - it is too big, due to 'max array bytes' limit -->
+	</bean>
+
+	<bean id="andor_tiff_detector" class="gda.device.detector.NXDetector">
+		<property name="name" value="andor_tiff_detector" />
+		<property name="collectionStrategy" ref="andor_stop_decorator" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="andor_tiff_single_image_per_file_writer" />
+				<ref bean="andor_hdf5_writer" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="andor_camera_control" class="uk.ac.gda.epics.camera.CameraControlForLiveStream">

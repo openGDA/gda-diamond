@@ -43,11 +43,6 @@
 		</property>
 	</bean>
 	
-	<bean id="Xspress3MappingMonitor" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3MCAMappingMonitor" init-method="addScanParticipant">
-		<property name="xspress3Controller" ref="xspress3Controller" />
-		<property name="detectorNames" ref="xspress3DetectorNames"/>
-	</bean>
-	
 	<bean id="vmaSnapshotCollector" class="uk.ac.diamond.daq.scanning.DetectorCollectionScannable" init-method="register">
 		<property name="name" value="vmaSnapshotCollector" />
 		<property name="detector" ref="mjpegVmaDetector"/>

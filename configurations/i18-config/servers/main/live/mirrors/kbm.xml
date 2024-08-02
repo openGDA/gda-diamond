@@ -27,7 +27,7 @@
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:X" />
 	</bean>
 	<bean id="kb_hfm_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-OP-HFM-01:PITCH" />
+		<property name="pvName" value="BL18I-OP-KBM-01:HFM:PITCH" />
 	</bean>
 	<bean id="kb_hfm_bend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:BEND1" />

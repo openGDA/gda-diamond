@@ -3,10 +3,55 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- Extra GUI elements for setting up XANES and Sparse XANES scans -->
+	<import resource="xanes_elements.xml" />
+
+	<bean id="xanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
+		<property name="energyScannableName" value="energy" />
+		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
+		<property name="linesToTrackList" ref="linesToTrackList" />
+	</bean>
+	
+	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
+		<property name="energyScannableName" value="energy" />
+		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
+	</bean>
+
+	<bean id="submitScanSelector" class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSelector">
+		<property name="sections">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
+				<bean id="xanesSubmit" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+					<property name="description" value="XANES scan" />
+					<property name="buttonText" value="Submit XANES scan" />
+					<property name="submitScanButtonColour" value="BLUE" />
+					<property name="scriptFilePath"	value="scanning/submit_xanes_scan.py" />
+					<property name="outerScannableName" value="energy" />
+					<property name="xanesParametersSection" ref="xanesSection" />
+				</bean>
+				<bean id="sparseSubmit"	class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+					<property name="description" value="Sparse XANES scan" />
+					<property name="buttonText"	value="Submit Sparse XANES scan" />
+					<property name="submitScanButtonColour" value="PURPLE" />
+					<property name="scriptFilePath"	value="scanning/submit_sparse_xanes_scan.py" />
+					<property name="outerScannableName" value="energy" />
+					<property name="xanesParametersSection"	ref="sparseXanesSection" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scanTypeSelectionSection" class="uk.ac.diamond.daq.mapping.ui.experiment.SelectScanTypeSection">
+		<property name="submitScanSelector" ref="submitScanSelector" />
+	</bean>
+
+
 	<!-- Mapping view for I18 -->
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
+				<ref bean="scanTypeSelectionSection" />
+			
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.BeamlineConfigurationSection">
 					<property name="createSeparator" value="false" />
 				</bean>
@@ -19,6 +64,8 @@
 					<property name="detectorName" value="VMA" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
+				<ref bean="xanesSection" />
+				<ref bean="sparseXanesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.NexusTemplatesSection" />
@@ -29,7 +76,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
+				<ref bean="submitScanSelector" /> 
 			</list>
 		</property>
 	</bean>

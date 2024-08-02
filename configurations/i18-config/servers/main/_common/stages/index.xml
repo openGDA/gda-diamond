@@ -12,5 +12,7 @@
 	<import resource="table3.xml" />
 	<import resource="table3_deprecated.xml" />
 	
+	<import resource="goniometer.xml" />
+	<import resource="t1theta_energy_scannable.xml" />
 
 </beans>

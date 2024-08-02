@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  Convert energy (ev) to angle (deg)  -->
+	<bean id="t1theta_ev_deg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="t1theta_ev_deg_converter" />
+		<constructor-arg value="t1theta_lookup_table.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	
+	<!-- Convertor scannable - convert energy to pitch using lookup table then move the xps_pitch -->
+	<bean id="t1theta_energy_conv" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannableName" value="t1theta" />
+		<property name="convertorName" value="t1theta_ev_deg_converter" />
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	
+	<!--  Move energy then t1theta-->
+	<bean id="energy_t1theta" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="energy" />
+				<ref bean="t1theta_energy_conv" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+
+	<!--  Move energy_nogap then t1theta -->
+	<bean id="energy_nogap_t1theta" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="energy_nogap" />
+				<ref bean="t1theta_energy_conv" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	
+</beans>
