@@ -22,14 +22,14 @@
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="ringCurrent" />
+								<property name="scannable" ref="ringcurrent" />
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
 							</bean>
 
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="idGap" />
+								<property name="scannable" ref="idgap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 							</bean>

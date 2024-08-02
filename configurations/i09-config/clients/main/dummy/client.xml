@@ -6,12 +6,12 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 	
-	<bean id="idGap" class="gda.device.scannable.DummyScannable">
+	<bean id="idgap" class="gda.device.scannable.DummyScannable">
 		<constructor-arg index="0" value="idgap" />
 		<constructor-arg index="1" value="7" />
 	</bean>
 
-	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
+	<bean id="ringcurrent" class="gda.device.scannable.DummyScannable">
 		<constructor-arg index="0" value="ringcurrent" />
 		<constructor-arg index="1" value="300" />
 	</bean>
