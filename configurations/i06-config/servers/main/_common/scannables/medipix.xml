@@ -95,7 +95,7 @@
 
 
 	<bean id="zacmedipix" class="gda.device.detector.NXDetector">
-		<property name="name" value="medipix" />
+		<property name="name" value="zacmedipix" />
 		<property name="collectionStrategy" ref="medipixCollectionStrategy4zacscan" />
 		<property name="additionalPluginList">
 			<list>
@@ -139,21 +139,35 @@
 		<property name="level" value="7"/>
 	</bean>
 	
- 	<bean id="mpx" class="gda.device.detector.NXDetector">
-		<property name="name" value="mpx" />
-		<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="medipix_RoiStats1" />
-				<ref bean="medipix_RoiStats2" />
-				<ref bean="medipix_RoiStats3" />
-				<ref bean="medipix_RoiStats4" />
-				<ref bean="medipixHdf5Filewriter" />
-			</list>
+<!--  	<bean id="mpx" class="gda.device.detector.NXDetector"> -->
+<!-- 		<property name="name" value="mpx" /> -->
+<!-- 		<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" /> -->
+<!-- 		<property name="additionalPluginList"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="medipix_RoiStats1" /> -->
+<!-- 				<ref bean="medipix_RoiStats2" /> -->
+<!-- 				<ref bean="medipix_RoiStats3" /> -->
+<!-- 				<ref bean="medipix_RoiStats4" /> -->
+<!-- 				<ref bean="medipixHdf5Filewriter" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="level" value="7"/> -->
+<!-- 	</bean> -->
+	<bean id="mpx" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="mpx" />
+				<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" />
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="medipixHdf5Filewriter" />
+					</list>
+				</property>
+				<property name="level" value="7"/>
+			</bean>
 		</property>
-		<property name="level" value="7"/>
+		<property name="processor" ref="medipix_swmr_standard" />
 	</bean>
-
 <!-- ADDetector used in new scanning -->
 	<bean id="medipix_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="collectionStrategy" ref="medipixCollectionStrategy"/>
