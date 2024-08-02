@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Basic scannable Move the xps stage (table x pitch) -->
+	<bean id="xps_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="table_pitch_motor" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>	
+	
+	<!--  Convert energy (ev) to angle (deg)  -->
+	<bean id="xps_ev_deg_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="xps_ev_deg_converter" />
+		<constructor-arg value="gonio_lookup_table.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="Both" />
+	</bean>
+	
+	<!-- COnvertor scannable - convert energy to pitch using lookup table then move the xps_pitch -->
+	<bean id="xps_energy_conv" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannableName" value="xps_pitch" />
+		<property name="convertorName" value="xps_ev_deg_converter" />
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	
+	<!--  Move energy then xps_gonio -->
+	<bean id="energy_gonio" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="energy" />
+				<ref bean="xps_energy_conv" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+
+	<!--  Move energy_nogap then xps_gonio -->
+	<bean id="energy_nogap_gonio" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="energy_nogap" />
+				<ref bean="xps_energy_conv" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	
+</beans>
