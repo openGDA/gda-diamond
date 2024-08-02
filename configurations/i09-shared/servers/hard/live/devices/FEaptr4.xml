@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="feaptr4x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE09I-AL-APTR-04:X.VAL" />
+		<property name="pvName" value="FE09I-AL-APTR-04:X" />
 	</bean>
 
 	<bean id="feaptr4y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="FE09I-AL-APTR-04:Y.VAL" />
+		<property name="pvName" value="FE09I-AL-APTR-04:Y" />
 	</bean>
 
 </beans>
