@@ -20,6 +20,9 @@
 				<value>Element1</value>
 			</list>
 		</property>
+		<property name="collectionMode">
+			<value type="gda.device.detector.xmap.edxd.EDXDController.COLLECTION_MODES">MCA_SPECTRA</value>
+		</property>
 		<property name="alwaysRecordRawMCAs" value="true"/>
 		<property name="slave" value="false" />
 		<property name="configFileName" value="${gda.config}/xml/vortex_parameters.xml" />
@@ -31,8 +34,5 @@
 		<constructor-arg index="1" value="1" />
 		<property name="name" value="xmapFluorescenceDetector" />
 	</bean>
-
-
-
 
 </beans>
