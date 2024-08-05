@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dummy Malcolm Device -->
+<!-- 	<bean id="dummyMalcolmModel" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel"> -->
+<!-- 		<property name="name" value="dummyMalcolm"/> -->
+<!-- 		<property name="exposureTime" value="0.01"/> -->
+<!-- 		<property name="timeout" value="300"/> 5 minute timeout for testing -->
+<!-- 		<property name="axesToMove"> -->
+<!-- 			<list> -->
+<!-- 				<value>sample_x</value> -->
+<!-- 				<value>sample_y</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="dummyMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation"> -->
+<!-- 		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDevice"/> -->
+<!-- 		<property name="label" value="Dummy Malcolm Device"/> -->
+<!-- 		<property name="description" value="A dummy Malcolm device for testing"/> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="dummyMalcolmDevice" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register"> -->
+<!-- 		<property name="name" value="dummyMalcolm"/> -->
+<!-- 		<property name="model" ref="dummyMalcolmModel"/> -->
+<!-- 		<property name="deviceInformation" ref="dummyMalcolmInfo"/> -->
+		<!-- Whether this is the default device to use in a scan. Possibly should be set to true if/when we remove the Mandelbrot detector -->
+<!-- 		<property name="activated" value="false"/> -->
+<!-- 	</bean> -->
+
+
+<!-- web gui at : http://bl20i-ea-serv-05:8008  -->
+<!-- Malcolm scan for QXes -->
+	<bean id="malcolmScan01Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="QXes01" />
+		<property name="description" value="Quick XES scan 01" />
+	</bean>
+	<bean id="malcolmScan01Model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL20I-ML-SCAN-01" />
+		<property name="exposureTime" value="0.5" />
+		<property name="minExposureTime" value="0.01"/>
+	</bean>
+	<bean id="qXesScan01" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL20I-ML-SCAN-01" />
+		<property name="model" ref="malcolmScan01Model" />
+		<property name="deviceInformation" ref="malcolmScan01Info" />
+		<property name="activated" value="false" />
+	</bean>
+
+
+	<bean id="malcolmScan02Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="QXes02" />
+		<property name="description" value="Quick XES scan 02" />
+	</bean>
+	<bean id="malcolmScan02Model" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL20I-ML-SCAN-02" />
+		<property name="exposureTime" value="0.5" />
+		<property name="minExposureTime" value="0.01"/>
+	</bean>
+	<bean id="qXesScan02" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL20I-ML-SCAN-02" />
+		<property name="model" ref="malcolmScan02Model" />
+		<property name="deviceInformation" ref="malcolmScan02Info" />
+		<property name="activated" value="false" />
+	</bean>
+
+</beans>

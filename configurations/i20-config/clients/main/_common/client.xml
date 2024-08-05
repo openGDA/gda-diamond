@@ -68,7 +68,6 @@
 				<entry key="Fluorescence">
 					<list>
 						<value>Silicon</value>
-<!-- 						<value>Germanium</value> -->
 						<value>Xspress3</value>
 						<value>Xspress3X</value>
 						<value>Xspress4</value>
@@ -89,7 +88,6 @@
 		<property name="detectorTemplateMap">
 			<map>
 				<entry key="xmapMca" value="${gda.config}/var/templates/Vortex_Parameters.xml"/>
-<!-- 				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/> -->
 				<entry key="medipix1" value="${gda.config}/var/templates/Medipix1_Parameters.xml"/>
 				<entry key="medipix2" value="${gda.config}/var/templates/Medipix2_Parameters.xml"/>
 				<entry key="xspress3" value="${gda.config}/var/templates/Xspress3_Parameters.xml" />
