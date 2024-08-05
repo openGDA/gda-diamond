@@ -25,6 +25,8 @@ from diffraction_calibration_appender import DiffractionAppenderManager
 
 from gdaserver import Xspress3Acquire
 from gdascripts.detectors.initialise_detector import initialise_detector
+from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+from gdascripts.scan.gdascans import Rscan
 
 def run_script(script_name):
     print("--- Running '"+script_name+"' ---")
@@ -152,6 +154,12 @@ def setup_aliases():
     alias("meta_ll")
     alias("meta_ls")
     alias("meta_rm")
+    alias("meta_clear_alldynamical")
+    
+    # add 'rscan' (relative scan) command :
+    global rscan
+    rscan = Rscan()
+    alias(rscan)
 
 def fix_snapshot():
     # In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
@@ -169,7 +177,7 @@ def print_useful_info():
     ****************************************
     Useful commands:
     
-    Select energy scannable for scans:
+    Select energy scannable for XML (xas, xanes) scans:
      set_energy_scannable(energy_nogap_lut) # one of energy, energy_nogap, energy_lut, energy_nogap_lut
     
     Disable/enable all watchdogs:
@@ -190,6 +198,20 @@ def print_useful_info():
      
     To fix snapshots after detector IOC restart:
      fix_snapshot()
+     
+    Reload lookup table values from disk :
+     reload_lookup_tables()
+
+    Scannables to control Goniometer (BL18I-MO-TABLE-03:PITCH)
+     xps_pitch - move using angle
+     xps_energy_conv - move using energy (ev) (lookup table in lookuptables/gonio_lookup_table.txt)
+     
+    Energy scannables that also move Gonionmeter :
+     energy_gonio, energy_nogap_gonio
+     
+    Change energy conversion scannables between Si311 and Si111 :
+     setup_for_Si333() , setup_for_Si111()
+
     ****************************************
     """
     print(useful_info)
@@ -214,6 +236,10 @@ def setup():
     if not live_mode or not beam_available() :
         print("Machine mode = "+beam_state.getPosition()+" - setting up watchdogs and monitors for 'no beam mode'")
         noBeamMode(True) 
+
+    # Temporarily disable topup watchdog (for Excalibur experiment)
+    print("Disabling topup watchdog")
+    topup_watchdog.setEnabled(False)
 
     global XASLoggingScriptController
     global elementListScriptController
@@ -279,6 +305,8 @@ def setup():
     run_script("qexafs_scans.py")
     
     run_script("detector_setup.py")
+   
+    run_script("convert_to_Si333.py")
     
     print("\n...initialisation complete!")
     print_useful_info()
@@ -292,4 +320,29 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     counterTimer01.getScaler().clear()
 
+from gda.data.metadata import GDAMetadataProvider
+def set_subdirectory(subdir=None):
+    metadata=GDAMetadataProvider.getInstance()
+    if subdir is None : 
+        subdir = ""
+    print("Setting data subdirectory to : {}".format(subdir))
+    metadata.setMetadataValue("subdirectory", subdir)
+
+
+def pwd():
+    return InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+
+def reload_lookup_tables() :
+    print("Reloading lookup tables : ")
+    lut_objects = Finder.getFindablesOfType(gda.util.converters.LookupTableConverterHolder)
+    for conv_name, converter in lut_objects.items() :
+        print("\t"+conv_name)
+        converter.reloadConverter()
+
+def update_t1theta_lut(newpath) :
+    print("Updating path to t1theta lookup table : "+newpath)
+    t1theta_ev_deg_converter = t1theta_energy_conv.getConvertor()
+    t1theta_ev_deg_converter.setColumnDataFileName(newpath)
+    t1theta_ev_deg_converter.reloadConverter()
+    
 setup()
