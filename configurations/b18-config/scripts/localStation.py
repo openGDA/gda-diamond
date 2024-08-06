@@ -48,6 +48,7 @@ if xspress4IsPresent :
     print "Setting up Xspress4Odin detector objects"
     detectorPreparer.addDetectorNameMapping("xspress4Odin", "qexafs_xspress4Odin")
     detectorPreparer.addDetectorNameMapping("xspress4OdinFFI0", "qexafs_FFI0_xspress4Odin")
+    detectorPreparer.setDirForDetectorData(xspress4Odin.getName(), "xspress4Odin")
     qexafs_xspress4Odin.setUseSwmrFileReading(True)
 
     # TTL veto for step and continuous scans
@@ -195,7 +196,8 @@ run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupPilatus)
 
-run("continuous_scans.py")
+# run("continuous_scans.py")
+run("continuous_scans_new.py")
 run("meca_status.py")
 run("test-ionchamber-output.py")
 
@@ -255,6 +257,8 @@ if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"
     run("userStartupScript")
     print "User startup scripts finished"
+
+run("ionchamber_adjustment/set_amplifiers_routines.py")
 
 # Set the scaler dead frame time (for continuous detector scans with medipix)
 print 'Tfg frame dead time : set using qexafs_counterTimer01.setFrameDeadTime(1e-6) (time in seconds)'

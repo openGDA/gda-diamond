@@ -49,6 +49,7 @@ class TestIonchamberReadout(DefaultScannable):
         self.testResultString = "Not run yet"
         self.timeLastRun = "Not run yet"
         self.setExtraNames(["status"])
+        self.fixIonchamberFunction = None
         
     def setTfg(self, tfg) :
         self.tfg = tfg
@@ -72,8 +73,20 @@ class TestIonchamberReadout(DefaultScannable):
         self.dataName = dataName
         
     def atScanStart(self):
-        self.runCheck()
+        self.runCheckAndTryToFix()
     
+    def runCheckAndTryToFix(self):
+        stateOk = self.runCheck()
+        if not stateOk and self.fixIonchamberFunction != None :
+            firstTestResult = self.testResultString
+            funcName = self.fixIonchamberFunction.__name__
+            self.printAndLog("Ionchamber state was not ok - running "+str(funcName)+" to try and fix the problem")
+            self.fixIonchamberFunction()
+            self.printAndLog("Running ion chamber check again...")
+            self.runCheck()
+            secondTestResult = self.testResultString
+            self.testResultString = "Test result 1 : "+firstTestResult + ". Reconnected to DAServer. Test result 2 : "+secondTestResult
+            
     def runCheck(self):
         """
         Run data consistency check.
@@ -93,8 +106,9 @@ class TestIonchamberReadout(DefaultScannable):
             dataToCheck.append(d[dataIndex])
         
         self.timeLastRun = self.getTimeDateString()
-        self.checkData(dataToCheck)
+        stateOk = self.checkData(dataToCheck)
         self.testResultString = self.appendTimeString(self.testResultString, self.timeLastRun)
+        return stateOk
 
     
     def collectData(self):
@@ -229,6 +243,8 @@ ionchamberChecker.setCollectionTime(0.5)
 ionchamberChecker.setFirstPointCollectionTime(0.25)
 ionchamberChecker.setNumPoints(10);
 ionchamberChecker.setDataName("It")
+ionchamberChecker.fixIonchamberFunction = reconnect_daserver
+
 #print("Setting up monoOptimiser to run ion chamber test before bragg offset optimisation scans")
 #monoOptimiser.setIonchamberChecker(ionchamberChecker);
 #monoOptimiser.setRunIonchamberCheck(True) 
