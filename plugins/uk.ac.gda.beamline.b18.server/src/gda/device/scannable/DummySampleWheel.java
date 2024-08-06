@@ -24,8 +24,12 @@ public class DummySampleWheel extends ScannableBase {
 
 	double demand = 0;
 
-	private int numberOfFilters;
 	private Filter[] filters;
+	private String[] foils = new String[] { "Laser", "Ti Foil", "V Foil", "Cr Foil", "Mn Foil", "Fe Foil", "Co Foil",
+			"Ni Foil", "Cu Foil", "Zn Foil", "Y Foil", "Zr Foil", "Nb Foil", "Mo Foil", "Rh Foil", "Pd Foil",
+			"Ag Foil", "Cd Foil", "In Foil", "Sn Foil", "Sb Foil", "Ta Foil", "W Foil", "Pt Foil", "Au Foil",
+			"Pb Foil", "Se metal B18 Se(0)ref", "Ru metal B18 Ru(0)ref", " ", "Kl", "W_metal_pellet_2016", "SrO",
+			"As_empty", "Se reference", "NaBr_15mg_low_j", "CaSiO3_Mountjoy" };
 
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
@@ -64,24 +68,17 @@ public class DummySampleWheel extends ScannableBase {
 
 	public String[] getFilterNames() {
 		updateFilters();
-		String[] names = new String[numberOfFilters];
-		for (int i = 0; i < numberOfFilters; i++)
+		String[] names = new String[filters.length];
+		for (int i = 0; i < names.length; i++)
 			names[i] = filters[i].name;
 		return names;
 	}
 
 	public void updateFilters() {
-		filters = new Filter[numberOfFilters];
-		for (int i = 1; i <= numberOfFilters; i++)
-			filters[i - 1] = new Filter("Filter"+i, i);
-	}
+		filters = new Filter[foils.length];
+		for (int i = 1; i <= foils.length; i++)
+			filters[i - 1] = new Filter(foils[i-1].toString(), i);
 
-	public int getNumberOfFilters() {
-		return numberOfFilters;
-	}
-
-	public void setNumberOfFilters(int numberOfFilters) {
-		this.numberOfFilters = numberOfFilters;
 	}
 
 	class Filter {
@@ -90,9 +87,9 @@ public class DummySampleWheel extends ScannableBase {
 		private double pos;
 
 		public Filter(String name, double pos) {
-			//name = "Filter " + (int) Math.ceil(Math.random()*100);
-			this.name=name;
-			this.pos=pos;
+			// name = "Filter " + (int) Math.ceil(Math.random()*100);
+			this.name = name;
+			this.pos = pos;
 			updateName();
 			updatePos();
 		}
@@ -101,13 +98,13 @@ public class DummySampleWheel extends ScannableBase {
 		}
 
 		public void updatePos() {
-			//pos = Math.random()*10;
+			// pos = Math.random()*10;
 		}
 
 		public void go() {
 		}
 
-		public void setName(String name){
+		public void setName(String name) {
 			this.name = name;
 		}
 
@@ -119,7 +116,7 @@ public class DummySampleWheel extends ScannableBase {
 			return pos;
 		}
 
-		public void setPos(double pos){
+		public void setPos(double pos) {
 			this.pos = pos;
 		}
 	}

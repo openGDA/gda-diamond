@@ -10,7 +10,6 @@
 
 	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
 		<property name="name" value="samplewheel" />
-		<property name="numberOfFilters" value="36" />
 	</bean>
 
 	<bean id="samplewheel_pos_name" class="gda.device.enumpositioner.DummyEnumPositioner">

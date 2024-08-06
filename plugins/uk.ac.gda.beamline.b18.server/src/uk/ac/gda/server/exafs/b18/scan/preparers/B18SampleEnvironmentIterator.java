@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.DummySampleWheel;
 import gda.device.scannable.SampleWheel;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
@@ -382,13 +383,17 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			log("moving sample wheel to " + demand);
 			samplewheel_scannable.moveTo(demand);
 		} else {
+			String filter = bean.getFilter();
+			log("moving sample wheel to " + filter);
 			if (samplewheel_scannable instanceof SampleWheel wheel) {
-				String filter = bean.getFilter();
-				log("moving sample wheel to " + filter);
 				// Move to named filter, block until finished
 				wheel.moveToFilter(filter);
 				wheel.waitWhileBusy();
-			} else {
+			}	else if(samplewheel_scannable instanceof DummySampleWheel dwheel) {
+				// Move to named filter, block until finished
+				dwheel.moveToFilter(filter);
+				dwheel.waitWhileBusy();
+			}	else {
 				throw new IllegalArgumentException("Cannot move samplewheel using filter name - samplewheel_scannable is not correct type (SampleWheel class)");
 			}
 		}
