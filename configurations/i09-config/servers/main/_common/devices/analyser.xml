@@ -170,23 +170,22 @@
 		<property name="pgmenergy" ref="pgmenergy"/>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
 	</bean>
- 
+
 	<bean id="analyser_adarrayplugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.ADArrayPlugin">
 		<constructor-arg ref="analyser.arr" />
 		<property name="enabled" value="true" />
 		<property name="analyser" ref="analyser" />
 	</bean>
-	
+
 	<bean id="analyser_spectrumlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
 		<constructor-arg value="BL09I-EA-DET-01:CAM:INT_SPECTRUM_COPY" />
 		<constructor-arg value="BL09I-EA-DET-01:CAM:X_COUNT_RBV"/>
 		<property name="dataName" value="spectrum"/>
 		<property name="dataUnit" value="counts"/>
 	</bean>
-	
+
 	<bean id="SequenceFileObserver" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
-	
-		
+
 	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
 		<property name="name" value="regionvalidator"/>
 		<property name="lookupTablePathMap">
@@ -199,16 +198,23 @@
 		<property name="pgmEnergy" ref="pgmenergy" />
 		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
-	
+
+	<bean id="ew4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.EW4000CollectionStrategy">
+		<property name="name" value="ew4000CollectionStrategy" />
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
+		<property name="regionValidator" ref="regionvalidator"/>
+		<property name="analyser" ref="analyser" />
+		<property name="softXRayFastShutter" ref="fsj1"/>
+		<property name="hardXRayFastShutter" ref="fsi1"/>
+		<property name="scriptcontroller" ref="SequenceFileObserver"/>
+	</bean>
+
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
 		<property name="name" value="ew4000" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
-		<property name="analyser" ref="analyser" />
-		<property name="scriptcontroller" ref="SequenceFileObserver"/>
-		<property name="softXRayFastShutter" ref="fsj1"/>
-		<property name="hardXRayFastShutter" ref="fsi1"/>
 		<property name="topup" ref="topup"/>
-		<property name="regionValidator" ref="regionvalidator"/>
+		<property name="collectionStrategy" ref="ew4000CollectionStrategy"/>
+		<property name="clientFileAnnouncer" ref="client_file_announcer"/>
 	</bean>
 
 	<bean id="energy_width" class="gda.device.monitor.EpicsMonitor">
