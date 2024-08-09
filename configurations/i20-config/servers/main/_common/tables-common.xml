@@ -25,4 +25,10 @@
 	<gda:motor id="xes_sample_z" live-pvName="BL20I-EA-TABLE-02:Z" />
 	<gda:motor id="xes_sample_rot" live-pvName="BL20I-EA-TABLE-02:ROT" />
 
+<!-- Motors to control XES table jacks -->
+	<gda:motor id="xes_jack1" live-pvName="BL20I-EA-TABLE-02:BASE_Y1" />
+	<gda:motor id="xes_jack2" live-pvName="BL20I-EA-TABLE-02:BASE_Y2" />
+	<gda:motor id="xes_jack3" live-pvName="BL20I-EA-TABLE-02:BASE_Y3" />
+	<gda:motor id="xes_jack4" live-pvName="BL20I-EA-TABLE-02:BASE_Y4" />
+
 </beans>

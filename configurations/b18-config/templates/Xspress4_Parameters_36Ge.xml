@@ -438,7 +438,7 @@
             <roiEnd>841</roiEnd>
         </Region>
     </DetectorElement>
-    <onlyShowFF>false</onlyShowFF>
+    <onlyShowFF>true</onlyShowFF>
     <showDTRawValues>false</showDTRawValues>
     <saveRawSpectrum>false</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>

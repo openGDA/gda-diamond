@@ -77,8 +77,8 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d4_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL20I-DI-PHDGN-04:DIODE1" />
+	<bean id="d4_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-DIODE-01:Cur1:MeanValue_RBV" />
 	</bean>
 	<bean id="d4_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-04:MP" />
@@ -96,8 +96,8 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d5_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL20I-DI-PHDGN-05:DIODE" />
+	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-DIODE-01:Cur2:MeanValue_RBV" />
 	</bean>
 	<bean id="d5_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-05:MP" />
@@ -162,16 +162,16 @@
 	<bean id="d9_diode" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-DI-PHDGN-09:CON" />
 	</bean>
-	<bean id="d9_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL20I-DI-PHDGN-09:DIODE" />
+	<bean id="d9_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-DIODE-03:Cur1:MeanValue_RBV" />
 	</bean>
 	<bean id="d9_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-05:GAIN" />
 	</bean>
 
-	<bean id="d10_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL20I-DI-PHDGN-10:DIODE" />
-	</bean>
+	<bean id="d10_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20I-DI-DIODE-03:Cur2:MeanValue_RBV" />
+	</bean>	
 	<bean id="d10_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-06:GAIN" />
 	</bean>
