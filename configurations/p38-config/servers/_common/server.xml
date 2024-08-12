@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataPointCache" class="gda.scan.SortedScanDataPointCache"/>
+
+    <!-- Devices -->
+    <!-- <import resource="devices/dummy_malcolm.xml"/> -->
+
+    <import resource="metadata.xml" />
+    <import resource="datawriter.xml" />
+    <import resource="terminal_logger.xml"/>
+
+	<!-- GDA REST Server -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
+
+</beans>

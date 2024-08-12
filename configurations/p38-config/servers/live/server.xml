@@ -5,8 +5,4 @@
 
     <import resource="jython_server.xml"/>
     <import resource="devices/malcolm.xml" />
-
-	<!-- Do not remove anything below here -->
-    <import resource="file:${gda.config}/servers/main/_common/server.xml" />
-
 </beans>
