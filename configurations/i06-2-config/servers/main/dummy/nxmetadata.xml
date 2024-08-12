@@ -45,7 +45,7 @@
 							</bean>
 							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="mode"/>
-								<property name="value" value="24 bit"/><!-- there is no BL06I-EA-DET-02:CAM:QuadMerlinMode PV in ADSIM -->
+								<property name="value" value="24 bit"/><!-- there is no BL06K-EA-DET-01:CAM:QuadMerlinMode PV in ADSIM -->
 							</bean>
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->

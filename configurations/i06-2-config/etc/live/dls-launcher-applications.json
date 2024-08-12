@@ -26,6 +26,12 @@
                 "text": "Start Dawn Stable", 
                 "command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh", 
                 "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+            }, 
+            {
+                "type": "button", 
+                "text": "LEEM Control", 
+                "command": "/usr/bin/xfreerdp --ignore-certificate --no-nla -d DIAMOND -u i06detector -p !06u5er# -g 1380x1050 -k en-gb -K i06-2-ws004.diamond.ac.uk", 
+                "icon": "/usr/share/pixmaps/gnome-computer.png"
             }
         ], 
         "name": "Data Acquisition"

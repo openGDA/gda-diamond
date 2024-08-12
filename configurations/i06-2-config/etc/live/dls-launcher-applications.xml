@@ -6,5 +6,6 @@
     <button text="Start GDA Client"  command="/dls_sw/i06-2/software/gda/config/bin/gdaclient"   args="--reset" icon="/dls_sw/i06-2/software/gda/config/bin/icons/cgda.png"/>
     <button text="Start GDA Log"     command="/dls_sw/i06-2/software/gda/config/bin/gdalog"                     icon="/dls_sw/i06-2/software/gda/config/bin/icons/lgda.png"/>
     <button text="Start Dawn Stable" command="/dls_sw/apps/DawnDiamond/bin/dawn_release.sh"                     icon="/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"/>
-  </group>
+    <button text="LEEM Control" command="xfreerdp --ignore-certificate --no-nla -d DIAMOND -u i06detector -p !06u5er# -g 1380x1050 -k en-gb -K i06-2-ws004.diamond.ac.uk"  icon="/usr/share/pixmaps/gnome-computer.png"/>
+</group>
 </launcher>

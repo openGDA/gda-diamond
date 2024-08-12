@@ -9,6 +9,7 @@ added more scannables
 from i06shared import installation
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
+from time import sleep
 
 class EpicsLEEMPVClass(ScannableMotionBase):
     '''Create scannable to control and display each LEEM field parameters implemented in EPICS'''
@@ -55,7 +56,56 @@ class EpicsLEEMPVClass(ScannableMotionBase):
 
     def isBusy(self):
         return False
-    
+
+class EpicsLEEMCoupledScannable(ScannableMotionBase):
+    '''Create scannable to control and display each LEEM field parameters implemented in EPICS'''
+    def __init__(self, name, value_scannable, index_scannable, ps_index_value):
+        self.setName(name);
+        self.setInputNames([name])
+        self.value_scannable = value_scannable
+        self.index_scannable = index_scannable
+        self.setOutputFormat([value_scannable.getOutputFormat()[0]])
+        self.ps_index_value = ps_index_value
+        self.setLevel(5)
+        self.inScan = False
+        self.__busy = False
+        
+    def configure(self):
+        self.index_scannable.moveTo(self.ps_index_value)
+        sleep(0.5)
+
+    def atScanStart(self):
+        self.inScan = True
+        self.configure()    
+
+    def rawGetPosition(self):
+        if not self.inScan:
+            self.configure()
+        return self.value_scannable.getPosition()
+
+    def rawAsynchronousMoveTo(self,position):
+        self.__busy = True
+        if not self.inScan:
+            self.configure()
+        self.value_scannable.rawAsynchronousMoveTo(float(position))
+        sleep(0.1)
+        self.__busy = False
+
+    def isBusy(self):
+        return self.__busy
+
+    def atScanEnd(self):
+        self.inScan = False
+        self.__busy = False
+
+    def stop(self):
+        self.inScan = False
+        self.__busy = False
+
+    def atCommandFailure(self):
+        self.inScan = False
+        self.__busy = False
+
 leem_stv = EpicsLEEMPVClass('leem_stv', "BL06K-EA-LEEM-01:START:VOLTAGE", "BL06K-EA-LEEM-01:START:VOLTAGE:RBV", "V", formatstring="%.3f")
 leem_obj = EpicsLEEMPVClass('leem_obj', "BL06K-EA-LEEM-01:OBJECTIVE", "BL06K-EA-LEEM-01:OBJECTIVE:RBV", "mA", formatstring="%.3f")
 leem_objStigmA = EpicsLEEMPVClass('leem_objStigmA', "BL06K-EA-LEEM-01:OBJSTIGMA", "BL06K-EA-LEEM-01:OBJSTIGMA:RBV", "mA", formatstring="%.3f")
@@ -70,5 +120,8 @@ leem_rot = EpicsLEEMPVClass('leem_rot',"", "BL06K-EA-LEEM-01:CALC:ROT:ANGLE", "d
 leem_intermlens = EpicsLEEMPVClass('leem_intermlens', "BL06K-EA-LEEM-01:INTERM:LENS", "BL06K-EA-LEEM-01:INTERM:LENS:RBV", "mA", formatstring="%.3f")
 leem_FOV_A = EpicsLEEMPVClass('leem_FOV_A',"", "BL06K-EA-LEEM-01:FOV:RBV", "um", formatstring="%.2f", readonly=True)
 leem_FOV_B = EpicsLEEMPVClass('leem_FOV_B',"", "BL06K-EA-LEEM-01:FOVB:RBV", "um", formatstring="%.2f", readonly=True)
+leem_PS_index = EpicsLEEMPVClass('leem_PS_index',"BL06K-EA-LEEM-01:PS:INDEX", "BL06K-EA-LEEM-01:PS:INDEX", "", formatstring="%d")
+leem_PS_value = EpicsLEEMPVClass('leem_PS_value',"BL06K-EA-LEEM-01:PS", "BL06K-EA-LEEM-01:PS:RBV", "", formatstring="%.3f")
+leem_ill_eq_x = EpicsLEEMCoupledScannable('leem_ill_eq_x', leem_PS_value, leem_PS_index, 30)
+leem_ill_eq_y = EpicsLEEMCoupledScannable('leem_ill_eq_y', leem_PS_value, leem_PS_index, 31)
 
-    

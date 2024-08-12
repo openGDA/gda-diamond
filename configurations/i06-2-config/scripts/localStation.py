@@ -12,7 +12,7 @@ scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
     
-from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
+from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens, leem_PS_index, leem_PS_value, leem_ill_eq_x, leem_ill_eq_y  # @UnusedImport
 
 def picture(acqTime):
     scan(t,1,1,1,medipix,acqTime)  # @UndefinedVariable

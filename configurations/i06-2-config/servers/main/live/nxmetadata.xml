@@ -45,7 +45,7 @@
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="mode"/>
-								<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode"/>
+								<property name="pvName" value="BL06K-EA-DET-01:CAM:QuadMerlinMode"/>
 							</bean>
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="pixel_depth"/>
