@@ -888,7 +888,17 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
+    <bean id="DBS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="dbsx" />
+                <ref bean="dbsy" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+
     <!-- Detector Slits DETS1  -->
     <bean id="dets1hall" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorXPos_DETS1" />
