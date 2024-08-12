@@ -801,7 +801,6 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 #		Epics PVs for the channels:
 		self.chData=[]
-		# for i06 medipix ROIs collected from Time Series, not CH6 and CH7 DATA
 		for i in range(self.numberOfChannels-2 if beamline_name == "i06" else self.numberOfChannels):
 			self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
 			self.configChannel(self.chData[i])
