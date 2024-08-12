@@ -42,6 +42,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="useSWMR" value="true" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
@@ -66,6 +67,8 @@
 			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus3_100k" />
 		<property name="ndFile" ref="pilatus3_ndfile" />
+		<property name="fileNameTemplate" value=""/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files"/>
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="alwaysPrepare" value="true" />
@@ -84,9 +87,9 @@
 	<bean id="pilatus3_hdf5filewriter_for_scans"
 			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pilatus3_ndfile_hdf5" />
-		<property name="fileNameTemplate" value="" />
-		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
-		<property name="fileTemplate" value="%s%s%d.hdf" />
+		<property name="fileNameTemplate" value="$scan$-pilatus3_100k" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
