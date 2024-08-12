@@ -2,25 +2,28 @@
     {
         "type": "button",
         "text": "Start GDA Server",
-        "command": "/dls_sw/i11-1/software/gda/config/bin/gda servers",
+        "command": "/dls_sw/apps/gda_launcher/nightly/gda-gui",
         "icon": "sgda.png"
     },
     {
         "type": "button",
         "text": "Start GDA Client",
-        "command": "/dls_sw/i11-1/software/gda/config/bin/gda --start client",
+        "args": "client --foreground",
+        "command": "/dls_sw/apps/gda_launcher/nightly/gda",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "Start GDA Client (with reset)",
-        "command": "/dls_sw/i11-1/software/gda/config/bin/gda --start client --reset",
+        "args": "client --foreground --reset",
+        "command": "/dls_sw/apps/gda_launcher/nightly/gda",
         "icon": "cgda.png"
     },
     {
         "type": "button",
         "text": "Start GDA Log",
-        "command": "/dls_sw/i11-1/software/gda/config/bin/gda logpanel",
+        "args": "--foreground",
+        "command": "/dls_sw/apps/gda_launcher/nightly/gda-logpanel",
         "icon": "lgda.png"
     },
     {
