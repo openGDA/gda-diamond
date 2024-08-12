@@ -3,25 +3,26 @@
 #
 #    For user specific initialisation code on I07 Main Hutch.
 
-from commands import getoutput
 from os import path
-from os import system
+from gdaserver import topup_time
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
 
 try_execfile("BeamlineI07/Users/pvMonitors.py")
 
 print "Creating aliases to control shutter (shopen, shclose, shop, shcl)"
 try_execfile("BeamlineI07/Users/ShutterControl2.py")
 
-
-
 # TODO do we need checkdcm for the new DCM?
 # print "Setting up checkdcm to pause scans when t17 gets too hot: add 'checkdcm' to scan line"
-try_execfile("BeamlineI07/Users/waitAbove.py")
+#try_execfile("BeamlineI07/Users/waitAbove.py")
 #checkdcm = WaitAbove('checkdcm', dcm1t17, maximumThreshold=120, maximumToResume=90, secondsBetweenChecks=1,secondsToWaitAfterOK=5)
 
 print "Setting up checkbeam to pause scans when beam is down: add 'checkbeam' to scan line"
 try_execfile("BeamlineI07/Users/waitBelowAndShutter.py")
 checkbeam = WaitBelowAndShutter('checkbeam', scannableToMonitor=rc, minimumThreshold=20, shutterScannable=portshutter, shutterValue="Open", secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=15, idgap=idgap)
+checktopup = WaitWhileScannableBelowThreshold('checktopup', topup_time, 5, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
+checktopup.setExtraNames([checktopup.name])
+checktopup.reasonString = "Waiting for topup"
 
 # add automatic peak finding commands: peak, com, cen
 try_execfile("BeamlineI07/Users/gotopeak.py")
