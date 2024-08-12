@@ -3,33 +3,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
     <!--  ============================== Epics Eurotherm Devices ============== -->
-    
+
        <!-- Controller 1 Three loops -->
-        <!-- <bean id="etcontroller11" class="gda.device.temperature.EpicsEurotherm2kController">  comment out these devices 
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-     </bean>-->
-    
-    <bean id="temp11" class="gda.device.temperature.DummyTemp"> <!-- replace with gda.device.temperature.DummyTemp -->
+
+    <bean id="temp11" class="gda.device.temperature.DummyTemp"> 
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-<!--        <property name="controllerName" value="etcontroller1"/>-->
-        <!-- <property name="controller" ref= "etcontroller11"/>-->
     </bean>
 
-    <!-- <bean id="etcontroller12" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-     </bean> -->
-    
     <bean id="temp12" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -37,16 +22,8 @@
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-        <!-- <property name="controller" ref= "etcontroller12"/>-->
     </bean>
 
-   <!--  <bean id="etcontroller13" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-     </bean> -->
-    
     <bean id="temp13" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -54,19 +31,10 @@
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-        <!-- <property name="controller" ref= "etcontroller13"/>-->
     </bean>
-    
-    
-    
+
     <!-- Controller 2, Three loops -->
-   <!--  <bean id="etcontroller21" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-    </bean> -->
-    
+
     <bean id="temp21" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -74,16 +42,8 @@
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-        <!-- <property name="controller" ref = "etcontroller21"/>-->
     </bean>
 
-    <!-- <bean id="etcontroller22" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-    </bean> -->
-    
     <bean id="temp22" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -91,16 +51,8 @@
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-        <!-- <property name="controller" ref = "etcontroller22"/>-->
     </bean>
 
-    <!-- <bean id="etcontroller23" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="configureAtStartup" value="true"/>
-        <property name="maxRampRate" value = "10"/>
-        <property name="minRampRate" value = "0.01"/>
-        <property name="maxOutput" value = "100"/>
-    </bean>-->
-    
     <bean id="temp23" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -108,10 +60,36 @@
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1400"/>
         <property name="lowerTemp" value = "0"/>
-        <!-- <property name="controller" ref = "etcontroller23"/>-->
-    </bean> 
-   
-   
+    </bean>
+
+    <!-- Other Eurotherms, one loop each -->
+
+    <bean id="temp3" class="gda.device.temperature.DummyTemp">
+        <property name="configureAtStartup" value="true"/>
+        <property name="accuracy" value = "5"/>
+        <property name="polltime" value = "1000"/>
+        <property name="fileSuffix" value = "temp"/>
+        <property name="upperTemp" value = "1400"/>
+        <property name="lowerTemp" value = "0"/>
+    </bean>
+
+    <bean id="temp4" class="gda.device.temperature.DummyTemp">
+        <property name="configureAtStartup" value="true"/>
+        <property name="accuracy" value = "5"/>
+        <property name="polltime" value = "1000"/>
+        <property name="fileSuffix" value = "temp"/>
+        <property name="upperTemp" value = "1400"/>
+        <property name="lowerTemp" value = "0"/>
+    </bean>
+
+    <bean id="temp5" class="gda.device.temperature.DummyTemp">
+        <property name="configureAtStartup" value="true"/>
+        <property name="accuracy" value = "5"/>
+        <property name="polltime" value = "1000"/>
+        <property name="fileSuffix" value = "temp"/>
+        <property name="upperTemp" value = "1400"/>
+        <property name="lowerTemp" value = "0"/>
+    </bean>
 
     <!--  ============================== Epics MCA ============== -->
     <bean id="mca1" class="gda.device.detector.DummyDetector">
@@ -293,9 +271,6 @@
 
     <!--  ============================== Epics Monitor definition section ============== -->
     <!--  ============================== Monitor definition section ============================== -->
-    <!-- Fast shutter temp monitor -->
-    <bean id="temp3" class="gda.device.monitor.DummyEpicsMonitor"/>
-
     <!-- D4 inline diode" name="D4.INLINE" -->
     <bean id="d4i" class="gda.device.monitor.DummyEpicsMonitor"/>
 
