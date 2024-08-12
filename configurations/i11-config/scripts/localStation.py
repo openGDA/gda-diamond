@@ -126,6 +126,7 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load time utilities for creating timer objects."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
+timestamp = actualTimeClass('timestamp')
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
@@ -171,6 +172,23 @@ def setlambda(wavelength):
 def setwavelength(wavelength):
     setlambda(wavelength)
 
+
+def scantth(*args, **kwargs):
+    """
+    Wrapper around scan which ensures diffractometer gets set to step scan mode
+    to prevent mechanical vibrations, and then puts it back to cvscan mode at
+    the end of the scan.
+    """
+    # Change to step scan mode
+    caput("BL11I-MO-DIFF-01:WRITEMODE", 1)
+    try:
+        scan(tth, *args, **kwargs)  # @UndefinedVariable
+    finally:
+        # Put back to CV scan mode at the end.
+        caput("BL11I-MO-DIFF-01:WRITEMODE", 0)
+
+alias("scantth")
+
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Setup PSD or mythen detector system."
@@ -179,8 +197,8 @@ import gda
 from gda.device.scannable import DummyScannable
 ds = DummyScannable("ds")
 
-def psd(t,n=1.0):
-    scan(ds, 1.0, n, 1.0, mythen, t, Io, t, Ie, delta)  # @UndefinedVariable
+def psd(t,n=1.0, *others):
+    scan(ds, 1.0, n, 1.0, mythen, t, Io, t, Ie, delta, *others)  # @UndefinedVariable
     scaler2(1)  # @UndefinedVariable
 
 
@@ -201,17 +219,17 @@ print "    asynmove -- asynchronous, non-blocking move                      "
 #from avoidcollision import *  # @UnusedWildImport
 run("avoidcollision.py")
 
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "method to change MYTHEN flat field file dynamically, temporarily. "
-print "    >>>setMythenFlatFieldFile('flatfield_filename')"
-print "This must be called each time you reset_namespce or restart GDA servers"
-def setMythenFlatFieldFile(filename):
-    mythen_flat_field = gda.device.detector.mythen.data.MythenRawDataset(java.io.File(filename))
-    mythen.getDataConverter().setFlatFieldData(mythen_flat_field)  # @UndefinedVariable
+# print
+# print "-----------------------------------------------------------------------------------------------------------------"
+# print "method to change MYTHEN flat field file dynamically, temporarily. "
+# print "    >>>setMythenFlatFieldFile('flatfield_filename')"
+# print "This must be called each time you reset_namespce or restart GDA servers"
+# def setMythenFlatFieldFile(filename):
+#     mythen_flat_field = gda.device.detector.mythen.data.MythenRawDataset(java.io.File(filename))
+#     mythen.getDataConverter().setFlatFieldData(mythen_flat_field)  # @UndefinedVariable
 
-print 'Method to reprocess mythen files: process_mythen_scans'
-from mythen_processing import process_mythen_scans
+# print 'Method to reprocess mythen files: process_mythen_scans'
+# from mythen_processing import process_mythen_scans
 
 print
 print "---------------------------------------------------------numFrames--------------------------------------------------------"
@@ -267,17 +285,24 @@ adc2=AdcControl("adc2")
 print "create 'fg2' object to provide access to the 2nd Function generator device"
 from peloop.functiongenerator import FunctionGenerator
 fg2=FunctionGenerator("fg2")
-print "create 'tfg2' object to provide control of Time Frame Generator device"
-from peloop.tfg2 import TFG2
-tfg2=TFG2("tfg2")
 
-print "create 'pedata' object to capture the PE data from ADC2 device"
-from peloop.pedatacapturer import DataCapturer
-pedata=DataCapturer("pedata")
-print "create 'pel' object for PE Loop experiment"
-from tfg_peloop import PELoop
-pel=PELoop("pel", tfg2, fg2, adc2, pedata, mythen)  # @UndefinedVariable
-daserver=Finder.find("daserver")
+# try:
+#     from gdaserver import tfg
+# except ImportError:
+#     print 'tfg not available - not creating peloop tfg devices'
+# else:
+#     print "create 'tfg2' object to provide control of Time Frame Generator device"
+#     from peloop.tfg2 import TFG2
+#     tfg2=TFG2("tfg2")
+#
+#     print "create 'pedata' object to capture the PE data from ADC2 device"
+#     from peloop.pedatacapturer import DataCapturer
+#     pedata=DataCapturer("pedata")
+#     print "create 'pel' object for PE Loop experiment"
+#     from tfg_peloop import PELoop
+#     pel=PELoop("pel", tfg2, fg2, adc2, pedata, mythen)  # @UndefinedVariable
+#     daserver=Finder.find("daserver")
+
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create derivative scannable 'deriv' object to provide derivative value of enegry to elt1"
@@ -295,10 +320,6 @@ scanner = reader.BarcodeReader('scanner', 'BL11I-EA-BARCR-01:DATA:', 'BL11I-EA-R
 print '-----------------------------------------------------------------------------------------------------------------'
 
 ##### new objects must be added above this line ###############
-#print
-#print "=================================================================================================================";
-#print "Initialisation script complete."
-#print
 ###Must leave what after this line last.
 bm1=Finder.find("bm")
 bm1.on()
@@ -338,4 +359,9 @@ def align_pitch(centre=None):
 
 # Run any configuration needed for things under active development
 from config_tests import *
+# config_tests can be found in /dls_sw/i11/scripts/config_tests
 
+print
+print "=================================================================================================================";
+print "Initialisation script complete."
+print

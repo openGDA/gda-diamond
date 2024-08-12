@@ -4,6 +4,7 @@ import sys
 import string
 from optparse import OptionParser
 import math
+from operator import methodcaller
 
 usage = "%s [OPTIONS] files... > output_filename"
 parser = OptionParser(usage % "%prog")
@@ -17,7 +18,7 @@ def read_mythen_file(filename):
 	f = open(filename, "r")
 	lines = f.readlines()
 	f.close()
-	lines = map(string.split, map(string.strip, lines))
+	lines =list(map(methodcaller("split", " "), lines))
 	lines = [(float(x[0]), float(x[1]), float(x[2])) for x in lines]
 	return lines
 
@@ -82,7 +83,7 @@ if options.function not in ("mean", "max"):
 	print >>sys.stderr, "don't recognise function '%s' - use 'mean' or 'max'" % options.function
 	sys.exit(1)
 
-datasets = map(read_mythen_file, args)
+datasets = list(map(read_mythen_file, args))
 binned_data = bin_datasets(datasets, options.binsize, options.fillgaps, options.function)
 
 # format of count (integer or float) depends on merging function used

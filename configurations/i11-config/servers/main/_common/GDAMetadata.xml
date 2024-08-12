@@ -5,55 +5,40 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-		<property name="metadataEntries">
-			<list>
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="instrument" />
-					<property name="propertyName" value="gda.instrument" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facility" />
-					<property name="propertyName" value="gda.facility" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facilityType" />
-					<property name="propertyName" value="gda.facility.type" />
-				</bean>
-
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="probe" />
-					<property name="propertyName" value="gda.facility.probe" />
-				</bean>
-
-				<ref bean="beamCurrent" />
-
-				<ref bean="facilityMode" />
-
-				<ref bean="fillMode" />
-
-				<ref bean="beamEnergy" />
-
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="federalid" />
-				</bean>
-
-				<ref bean="subdirectory"/>
-				<ref bean="visit_metadata"/>
-
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="title" />
-					<property name="value" value="undefined" />
-				</bean>
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="note" />
-					<property name="value" value="undefined" />
-				</bean>
-			</list>
-		</property>
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="instrument" />
+		<property name="propertyName" value="gda.instrument" />
 	</bean>
+
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facility" />
+		<property name="propertyName" value="gda.facility" />
+	</bean>
+
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="facilityType" />
+		<property name="propertyName" value="gda.facility.type" />
+	</bean>
+
+	<bean class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="probe" />
+		<property name="propertyName" value="gda.facility.probe" />
+	</bean>
+
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="federalid" />
+	</bean>
+
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="title" />
+		<property name="value" value="undefined" />
+	</bean>
+
+	<bean class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="note" />
+		<property name="value" value="undefined" />
+	</bean>
+
 	<bean id="visit_metadata" class="gda.data.metadata.StoredMetadataEntry" >
 		<property name="name" value="visit"/>
 		<property name="value" value="${gda.defVisit}"/>
