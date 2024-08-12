@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 	<!-- ==================== GDA METADATA ==================== -->
-
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-		<property name="metadataEntries">
-			<list>
-				<ref bean="instrument" />
-				<ref bean="federalid" />
-				<ref bean="note" />
-				<ref bean="instrument.source.energy"/>
-				<ref bean="instrument.source.current"/>
-				<ref bean="subdirectory" />
-				<ref bean="title" />
-				<ref bean="visit" />
-			</list>
-		</property>
-	</bean>
-
 	<bean id="instrument" class="gda.data.metadata.PropertyMetadataEntry">
 		<property name="name" value="instrument" />
 		<property name="propertyName" value="gda.instrument" />
