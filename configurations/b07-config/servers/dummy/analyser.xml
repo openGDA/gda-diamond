@@ -25,4 +25,8 @@
 		<property name="recordName" value="#{basePv}:CONNECTED_RBV" />
 	</bean>
 
+	<bean id="snapshotImageSizeX" class="java.lang.Integer">
+		<constructor-arg value="24"/>
+	</bean>
+
 </beans>
