@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd"
+	profile="bco">
 
 	<gda:motor id="bco_pitch" live-pvName="BL21B-MO-TABLE-01:PITCH"/>
 	<gda:motor id="bco_roll" live-pvName="BL21B-MO-TABLE-01:ROLL"/>
