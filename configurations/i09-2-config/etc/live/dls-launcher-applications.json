@@ -1,49 +1,69 @@
 [
-	{
-		"type": "group",
-		"children": [
-			{
-				"type": "button",
-				"text": "Start GDA Client",
-				"args": "client",
-				"command": "/dls_sw/apps/gda_launcher/stable/gda",
-				"icon": "cgda.png"
-			},
-			{
-				"type": "button",
-				"text": "Start GDA Client (Reset workspace)",
-				"args": "client --reset",
-				"command": "/dls_sw/apps/gda_launcher/stable/gda",
-				"icon": "cgda.png"
-			},
-			{
-				"type": "button",
-				"text": "Start GDA Server",
-				"args": "server",
-				"command": "/dls_sw/apps/gda_launcher/stable/gda",
-				"icon": "sgda.png"
-			},
-			{
-				"type": "button",
-				"text": "Start GDA Log Panel",
-				"args": " ",
-				"command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
-				"icon": "lgda.png"
-			},
-			{
-				"type": "button",
-				"text": "Start Dawn",
-				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
-				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
-			},
-			{
-				"type": "button",
-				"text": "Start Dawn (Reset Workspace)",
-				"args": "--reset",
-				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
-				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
-			}
-		],
-		"name": "Data Acquisition"
-	}
+		{
+				"type": "group",
+				"children": [
+						{
+								"type": "button",
+								"text": "Start GDA Client V1",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaclientV1",
+								"icon": "cgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Client V2",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaclientV2",
+								"icon": "cgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Client V1 (Reset workspace)",
+								"args": "--reset",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaclientV1",
+								"icon": "cgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Client V2 (Reset workspace)",
+								"args": "--reset",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaclientV2",
+								"icon": "cgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Server V1",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaserversV1",
+								"icon": "sgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Server V2",
+								"command": "/dls_sw/i09-2/software/gda/bin/gdaserversV2",
+								"icon": "sgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start GDA Log Panel",
+								"args": " ",
+								"command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+								"icon": "lgda.png"
+						},
+						{
+								"type": "button",
+								"text": "Start Dawn",
+								"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+								"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+						},
+						{
+								"type": "button",
+								"text": "Start Dawn (Reset Workspace)",
+								"args": "--reset",
+								"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+								"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+						 }
+				],
+				"name": "Data Acquisition"
+		}
 ]
+
+
+

@@ -12,6 +12,7 @@
 		<property name="pvName" value="SR09J-MO-SERVC-01:CURRGAPD" />
 		<property name="useNameAsExtraName" value="true" />
 	</bean>
+
 	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 		<property name="useNameAsExtraName" value="true" />
@@ -21,12 +22,23 @@
 			</list>
 		</property>
 	</bean>
+
 	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
 		<property name="useNameAsExtraName" value="true" />
 	</bean>
-	<import resource="dld_controls_V2.xml"/>
-	<import resource="stream_views_V2.xml"/>
 
 	<import resource="../_common/client.xml" />
+
+		<!-- Choose between V1 and V2 versions -->
+	<beans profile="V2">
+		<import resource="dld_controls_V2.xml"/>
+		<import resource="stream_views_V2.xml"/>
+	</beans>
+
+	<beans profile="V1">
+		<import resource="dld_controls_V1.xml"/>
+		<import resource="stream_views_V1.xml"/>
+	</beans>
+
 </beans>

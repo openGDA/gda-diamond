@@ -27,7 +27,7 @@
 	<bean id="dld_accumimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.AccumImageXY"/>
 		<property name="displayName" value="DLD Accum Image XY" />
-		<property name="arrayPv" value="BL09K-EA-DET-01:ARR1" />
+		<property name="arrayPv" value="BL09K-EA-D-01:AccumImageXY" />
 		<property name="roiProvider" ref="dld_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
@@ -41,7 +41,7 @@
 				</property>
 				<property name="cameraState">
 					<bean id="dldCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-						<property name="pvName" value="BL09K-EA-DET-01:CAM:Acquire"/>
+						<property name="pvName" value="BL09K-EA-D-01:cam1:Acquire"/>
 						<property name="stateVariableName" value="i09-2.dld.live.stream.active"/>
 					</bean>
 				</property>
@@ -54,7 +54,7 @@
 	<bean id="dld_liveimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY"/>
 		<property name="displayName" value="DLD Live Image XY" />
-		<property name="arrayPv" value="BL09K-EA-DET-01:ARR" />
+		<property name="arrayPv" value="BL09K-EA-D-01:LiveImageXY" />
 		<property name="roiProvider" ref="dld_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
@@ -71,7 +71,7 @@
 				</property>
 				<property name="cameraState">
 					<bean id="dldCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-						<property name="pvName" value="BL09K-EA-DET-01:CAM:Acquire"/>
+						<property name="pvName" value="BL09K-EA-D-01:cam1:Acquire"/>
 						<property name="stateVariableName" value="i09-2.dld.live.stream.active"/>
 					</bean>
 				</property>

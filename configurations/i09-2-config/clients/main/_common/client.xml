@@ -7,5 +7,4 @@
 	<import resource="colours.xml" />
 	<import resource="live_controls.xml" />
 	<import resource="dld_controls_V2.xml"/>
-
 </beans>
