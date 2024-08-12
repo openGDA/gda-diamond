@@ -54,9 +54,9 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		this.timePerStepInnerLoop = timePerStepInnerLoop;
 	}
 
-	private boolean scanIsOneDimensional;
-
-	private double offsetGradient, offsetStartValue, energyOffsetStart;
+	private double offsetGradient;
+	private double offsetStartValue;
+	private double energyOffsetStart;
 	private double offsetMoveThreshold;
 
 	private boolean adjustBraggOffset;
@@ -152,15 +152,14 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 			return;
 		}
 
-		Scannable scannableToMonitor = monoOptimiser.getScannableToMonitor();
-		if ( scannableToMonitor instanceof TfgScalerWithFrames) {
-			Double[] timeFrames = new Double[numStepsPerInnerLoop];
+		if (monoOptimiser.getScannableToMonitor() instanceof TfgScalerWithFrames tfgScaler) {
+			// number of timeframes (measurements) is number of steps + 1
+			Double[] timeFrames = new Double[numStepsPerInnerLoop + 1];
 			Arrays.fill(timeFrames, timePerStepInnerLoop);
-			((TfgScalerWithFrames) scannableToMonitor).clearFrameSets();
-			((TfgScalerWithFrames) scannableToMonitor).setTimes(timeFrames);
-			scannableToMonitor.atScanLineStart();
+			tfgScaler.clearFrameSets();
+			tfgScaler.setTimes(timeFrames);
+			tfgScaler.atScanLineStart();
 		}
-
 	}
 
 	@Override
@@ -183,20 +182,16 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 				if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
 					// Mono is inner loop : optimise for low energy at start of each loop, adjust offset motor as normal,
 					if (energy < braggEnergyLastMove) {
-//						monoOptimiser.setProduceVetoOutput(false);
 						monoOptimiser.optimiseManual(this, energy);
 						setTimeFrames();
-//						monoOptimiser.setProduceVetoOutput(true);
 					}
 					adjustBraggOffsetMotor(energy);
 				} else {
 					// When XES is inner loop : each mono move corresponds to start of new line - optimise the
 					// bragg offset each time energy changes
 					if (Math.abs(energy - braggEnergyLastMove) > 1e-3 && monoOptimiser != null) {
-//						monoOptimiser.setProduceVetoOutput(false);
 						monoOptimiser.optimiseManual(this, energy);
 						setTimeFrames();
-//						monoOptimiser.setProduceVetoOutput(true);
 					}
 					// adjust bragg offset
 					adjustBraggOffsetMotor(energy);
@@ -227,12 +222,8 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		return scanType;
 	}
 
-	private int[] oneDimensionalScanTypes = {0, XesScanParameters.SCAN_XES_FIXED_MONO, XesScanParameters.FIXED_XES_SCAN_XAS,
-											XesScanParameters.FIXED_XES_SCAN_XANES };
-
 	public void setScanType(int scanType) {
 		this.scanType = scanType;
-		scanIsOneDimensional = Arrays.asList(oneDimensionalScanTypes).contains(scanType);
 	}
 
 	public double getOffsetLastMove() {

@@ -13,6 +13,7 @@ logging = "properties/_common/logging_customisation.xml"
 
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
+"uk.ac.diamond.daq.native_dir" = "/tmp"
 
 [extras.dls]
 root = "../../dls-config"

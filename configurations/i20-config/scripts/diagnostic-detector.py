@@ -57,6 +57,7 @@ class DiagnosticDetector(DetectorBase):
 # NB make sure scan rate of d9 current PV is set to 0.1 seconds, so it updates quickly in response to beam change.
 # e.g. caput BL20I-DI-PHDGN-09:DIODE:I.SCAN 9, 
 
+# 'collectionTime' should be longer than averaging time on the Tetramm.
 d9_current_detector = DiagnosticDetector("d9_current_detector", d9_current)
 d9_current_detector.setOutputFormat(["%.4f"])
 d9_current_detector.configure()

@@ -51,21 +51,11 @@ class TopupCheckerWithShutter(TopupChecker):
             self.moveShutter(ValvePosition.OPEN)
             
 
-print("Creating topup checker with shutter and adding it as default scannable")
-topupChecker2 = TopupCheckerWithShutter(topupChecker)
-topupChecker2.setName("topupChecker2")
-topupChecker2.setShutter(photonshutter)
-topupChecker2.configure()
-
-for scn in get_defaults() :
-    if scn.getName() == topupChecker2.getName() :
-        remove_default(scn)
-
-# Replace original topupChecker with the new one
-remove_default(topupChecker)
-add_default(topupChecker2)
-
-
+print("Creating topup checker with shutter")
+topupCheckerWithShutter = TopupCheckerWithShutter(topupChecker)
+topupCheckerWithShutter.setName("topupCheckerWithShutter")
+topupCheckerWithShutter.setShutter(photonshutter)
+topupCheckerWithShutter.configure()
 
 # For testing in dummy mode
 #topup.setFillTime(5.0)
