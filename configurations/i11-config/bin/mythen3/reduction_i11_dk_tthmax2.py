@@ -249,7 +249,9 @@ def mask_and_histogram(
     #counts = mask_bad_channel_counts(raw_counts, bad_channels)
     idx = np.ones_like(raw_counts).astype(bool)
     idx[bad_channels] = False
-
+    print(angles.shape)
+    print(idx.shape)
+    print(raw_counts.shape)
     histogram, _ = np.histogram(angles[idx], bins, weights=raw_counts[idx])
     histogram_bin_counts, _ = np.histogram(angles[idx], bins)
     print(bins[-10:])
@@ -365,7 +367,6 @@ def enlarge_the_gaps(array, starts, ends, enlargement_factor=10, small_enlargeme
 def fix_the_gaps(array):
     # we also want to not expand gaps which are only one wide...
     starts, ends = find_gaps(array)
-    print(starts, ends)
     enlarge_the_gaps(array, starts, ends)
     array[array < 0.01] = np.nan
 

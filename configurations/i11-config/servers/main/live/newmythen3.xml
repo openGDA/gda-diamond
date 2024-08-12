@@ -18,7 +18,7 @@
 			class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
 		<property name="pvName" value="BL11I-EA-SHTR-01:SHUTTER" />
 		<property name="expression" value="0"/> <!--0:OPEN, 1:CLOSE -->
-		<property name="waitTimeInSeconds" value="0.0"/>
+		<property name="waitTimeInSeconds" value="0.005"/>
 		<property name="enabled" value="true" />
 		<property name="restorePvValue" value="true" />
 		<property name="decoratee">
