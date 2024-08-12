@@ -60,7 +60,7 @@ class DiodeAverage(gda.device.scannable.ScannableMotionBase):
 				sleep(1)
 				topupTime = topup.getPosition()
 
-			sleep(0.2)
+			sleep(0.1)
 			readout = self.diode.getPosition()
 			average = average + readout
 		average = average/ self.numberOfPoints

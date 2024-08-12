@@ -1,5 +1,6 @@
 #! /bin/sh
 
 . /usr/share/Modules/init/sh
-module load dawn
+module load dawn 2>&1 >/dev/null
+
 exec dawn

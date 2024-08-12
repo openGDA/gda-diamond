@@ -42,7 +42,7 @@
 	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_base">
 		<property name="displayName" value="OAV - base" />
 		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
-		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAVC.mjpg.mjpg" />
+		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
 		<property name="sleepTime" value="500" />
 		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_base" />
 		<property name="topUi">
@@ -60,7 +60,7 @@
 	<bean class="uk.ac.gda.client.live.stream.view.CameraConfiguration" id="oav_camera_config_p1xy">
 		<property name="displayName" value="OAV - p1xy" />
 		<property name="arrayPv" value="BL22I-DI-OAV-01:ARR" />
-		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAVC.mjpg.mjpg" />
+		<property name="url" value="http://bl22i-di-serv-01.diamond.ac.uk:8081/OAV.CAM.mjpg.mjpg" />
 		<property name="sleepTime" value="500" />
 		<property name="calibratedAxesProvider" ref="oav_zoom_calibration_p1xy" />
 		<property name="topUi">

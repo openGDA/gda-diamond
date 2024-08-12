@@ -9,11 +9,14 @@
   <user fedid="rng73417" level="3" staff="true"/> <!-- Tim -->
   <user fedid="flo14131" level="3" staff="true"/> <!-- Thomas -->
   <user fedid="iao73719" level="3" staff="true"/> <!-- Abdul -->
+  <user fedid="ifp76392" level="2" staff="true"/> <!-- Elisabetta -->
   <user fedid="sgj38332" level="3" staff="true"/> <!-- Tom -->
   <user fedid="vgz78127" level="3" staff="true"/> <!-- Emily -->
+  <user fedid="tok56258" level="3" staff="true"/> <!-- Mostafa -->
 
   <!-- BEAMLINE USERS -->
   <!-- by default users have permission 1 -->
   <!-- level 2 will allow them to drive some extra motors (e.g. energy, dcm_pitch) -->
   <!-- with the current configuration all motors are accessible with level 3 -->
+  <user fedid="gdg98951" level="3" />
 </permissions>
