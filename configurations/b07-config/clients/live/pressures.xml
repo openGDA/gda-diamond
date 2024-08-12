@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+					http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--
+	Define some fast-changing live control beans on a client side.
+	Otherwise every time it changes - flow of events from server to client can overload ActiveMQ.
+	We also need to make similar beans on a server side such that users can use them in scripts
+	or Jython command line.
+	-->
+
+	<!-- Note there is a duplicate bean id="img22b" on server side -->
+	<bean id="img22b_client" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-IMG-22:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<!-- Note there is a duplicate bean id="img23b" on server side -->
+	<bean id="img23b_client" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-IMG-23:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+</beans>
