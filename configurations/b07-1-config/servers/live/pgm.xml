@@ -5,6 +5,7 @@
 
 	<bean id="pgm_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:ENERGY" />
+		<property name="missedTargetAction" value="IGNORE"/>
 	</bean>
 
 	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
