@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
+	<bean id="focus_scan_bean_base" class="uk.ac.diamond.daq.mapping.api.FocusScanBean" abstract="true">
+		<property name="focusScannableName" value="SampleZ" />
+		<property name="focusRange" value="0.5" />
+		<property name="numberOfFocusSteps" value="20" />
+		<property name="numberOfLinePoints" value="40" />
+		<property name="nameFilterRequired" value="True" />
+	</bean>
+
+</beans>
