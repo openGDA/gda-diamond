@@ -25,7 +25,6 @@ Visit http://www.opengda.org
 -Xms256m 
 -Xmx2048m
 -XX:+UseG1GC
--Dgda.config=${project_loc:i11-1-config}
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

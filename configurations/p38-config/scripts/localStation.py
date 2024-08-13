@@ -31,8 +31,8 @@ execfile(gdascripts + "/pd/time_pds.py")
 execfile(gdascripts + "/pd/dummy_pds.py")
 execfile(gdascripts + "/utils.py")
 
-from setup.installStandardScansWithProcessing import *
-scan_processor.rootNamespaceDict=globals()
+#from setup.installStandardScansWithProcessing import *
+#scan_processor.rootNamespaceDict=globals()
 
 try:
 	from setup import metadatatweaks

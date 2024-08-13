@@ -141,7 +141,8 @@ class CalibratedID(gda.device.scannable.ScannableMotionBase):
 
     def asynchronousMoveTo(self,X):
         if self.check() == 'ENABLED':
-            self.id_gap.asynchronousMoveTo(self.calculateposition(X)-0.005)
+            self.id_gap.asynchronousMoveTo(self.calculateposition(X)-0.025)
+            # 2024-06-26 change 0.005 to 0.025 to compensate for potentially incorrect ID gap motor readbacks
         else:
             print 'Not moving ID gap - access is disabled'
 

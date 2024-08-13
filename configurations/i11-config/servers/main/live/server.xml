@@ -42,7 +42,7 @@
 	<import resource="M1.xml"/>
 	<import resource="MachineStatus.xml"/>
 	<import resource="MACDetectors.xml"/>
-	<import resource="mythen3.xml"/>
+	<import resource="newmythen3.xml"/>
 	<!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="MCSSis3820.xml"/>
 	<import resource="MCS.xml"/>
@@ -58,6 +58,13 @@
 	<import resource="Spinner.xml"/>
 	<import resource="StoeFurnace.xml"/>
 	<import resource="../_common/*.xml"/>
+
+	<bean id="terminallog_path_provider"
+			class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log"/>
+		<property name="gdaMetadata" ref="GDAMetadata"/>
+	</bean>
+
 	<beans profile="eh2">
 		<import resource="eh2/*.xml"/>
 	</beans>
