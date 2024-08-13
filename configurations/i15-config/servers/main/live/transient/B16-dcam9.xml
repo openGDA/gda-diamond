@@ -92,6 +92,7 @@
 		<property name="fileNameTemplate" value="dcam9" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
 	</bean>
 
 	<bean id="dcam9_fimg_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">

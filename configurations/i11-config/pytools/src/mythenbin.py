@@ -59,7 +59,7 @@ def bin_datasets(datasets, binsize, fillgaps, function):
 				error = errors[index]
 			new_dataset.append((bin_angle, count, error))
 		elif fillgaps:
-			new_dataset.append((bin_angle, 0))
+			new_dataset.append((bin_angle, 0.0, 0.0))
 
 	return new_dataset
 
@@ -92,4 +92,4 @@ else:
 	output_format = "%f %f %f"
 
 for line in binned_data:
-	print output_format % line
+	print(output_format % (line[0], line[1], line[2]))

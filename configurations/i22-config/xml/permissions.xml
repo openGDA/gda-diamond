@@ -18,4 +18,5 @@
   <!-- by default users have permission 1 -->
   <!-- level 2 will allow them to drive some extra motors (e.g. energy, dcm_pitch) -->
   <!-- with the current configuration all motors are accessible with level 3 -->
+  <user fedid="gdg98951" level="3" />
 </permissions>

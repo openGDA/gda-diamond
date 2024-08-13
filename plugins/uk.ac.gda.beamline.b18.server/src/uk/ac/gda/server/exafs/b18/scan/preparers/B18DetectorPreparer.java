@@ -614,6 +614,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		detectorPreparerFunctions.setMutableRoiForMedipix(medipixDetector, mutableRoiForMedipix);
 	}
 
+	public void setDirForDetectorData(String detectorName, String subDirectory) {
+		detectorPreparerFunctions.setDirForDetectorData(detectorName,  subDirectory);
+	}
+
 	public Detector getDiffractionDetector() {
 		return diffractionDetector;
 	}

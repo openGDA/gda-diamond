@@ -323,7 +323,7 @@ def warn_amplifiers(ampl):
     return ok
 
 def adjust_sensitivities_2E(E1,E2):
-    print 'DG_edit_2018'
+    print 'Not DG_edit_2018'
     print ' adjusting amplifier settings at ',E1,' ev...'
     pos energy E1
     ampl_E1=adjust_sensitivities()

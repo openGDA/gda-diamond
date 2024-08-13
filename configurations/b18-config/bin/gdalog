@@ -1,1 +1,1 @@
-gda --mode=live --start logpanel
+gda logpanel -f

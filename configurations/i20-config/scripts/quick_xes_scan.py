@@ -1,18 +1,24 @@
 print("\nRunning quick_xes_scans.py")
 
 from org.eclipse.scanning.sequencer import ScanRequestBuilder
+from mapping_scan_commands import submit
 from org.eclipse.scanning.api.points.models import StaticModel, AxialStepModel, CompoundModel
 from uk.ac.diamond.osgi.services import ServiceProvider
-from mapping_scan_commands import submit, getRunnableDeviceService
+from org.eclipse.scanning.command.Services import getRunnableDeviceService
 from uk.ac.gda.api.io import PathConstructor
+from gda.device.scannable import PVScannable
 
-from __builtin__ import False, True, None
 from os import name
 
 XesMotorOffsetsLower = Finder.find("XesMotorOffsetsLower")
 XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
 
-axis_detector_map_malcolm = {XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
+# Path to script to show axis setup Edm screen :
+# /dls_sw/work/R3.14.12.7/support/BL20I-BUILDER/iocs/BL20I-MO-IOC-37/bin/linux-x86_64/stBL20I-MO-IOC-37-gui &
+
+# axis_detector_map_malcolm = {XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
+
+axis_detector_map_malcolm = {XESEnergyUpper : ("xes_01_xtal_all_pitch", "BL20I-ML-SCAN-02")}
 
 # axes for doing software malcolm scan (dummy mode).
 axis_detector_map_gda = {XESEnergyLower : ("lower_zero_pitch", "medipix2_addetector"),  XESEnergyUpper : ("upper_zero_pitch", "medipix1_addetector")}
@@ -101,6 +107,45 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     request = ScanRequestBuilder().withPathAndRegion(path_model, None).withDetectors(detectors).build()
     name_for_queue = "Qxes (Malcolm)" if use_malcolm else "Qxes"
     run_mapping_scan(request, scan_name=name_for_queue)
+
+def create_axis_control_scannables() :
+    qxes_upper_enable = PVScannable("qxes_upper_enable", "BL20I-EA-XES-01:CS3:UP:ENA")
+    qxes_lower_enable = PVScannable("qxes_lower_enable", "BL20I-EA-XES-02:CS3:LO:ENA")
+    qxes_lower_gain =   PVScannable("qxes_lower_gain",   "BL20I-EA-XES-02:CS3:LO:GAIN")
+    qxes_lower_offset = PVScannable("qxes_lower_offset", "BL20I-EA-XES-02:CS3:LO:OFFSET")
+
+    scannables = [qxes_upper_enable, qxes_lower_enable, qxes_lower_gain, qxes_lower_offset]
+    for scn in scannables : 
+        scn.configure()
+    return scannables
+
+def setup_panda_offsets() :
+    motor_order = ["C", "P1", "P2", "P3", "M1", "M2", "M3"]
+    spec_pitch_pv_base = "BL20I-EA-XES-0%d:XTAL:%s:PITCH"
+    panda_posbus_pv_pattern = "BL20I-EA-PANDA-0%d:DRV:POSBUS%d:SETPOS"
+    
+    # Generate PV names for the pitch positions (upper row, then lower row - in same order as motor_order list)
+    pitch_pvs=[]
+    for row in range(1, 3) :
+        pitch_pvs.extend(spec_pitch_pv_base%(row, xtl) for xtl in motor_order)
+        
+    ## Generate pv names that correspond to panda position capture for each motor (same order of motors as in pitch_pvs list)
+    posbus_pvs = []
+    for panda_idx in range(1, 5) :
+        max_val = 3 if panda_idx%2==0 else 4 
+        for pos_idx in range(max_val) :
+            posbus_pvs.append( panda_posbus_pv_pattern%(panda_idx, pos_idx))
+            print(panda_idx, pos_idx)
+    
+    # Compute the new posbus value for each pitch motor and apply to Panda 
+    mres_value = float(CAClient.get(pitch_pvs[0]+".MRES"))
+    print("Setting panda offset values using pitch readback (mres = %.4g)"%(mres_value))
+    for rbv_pv, posbus_pv in zip(pitch_pvs, posbus_pvs) :
+        readback = float(CAClient.get(rbv_pv+".RBV"))
+        #  Compute new posbus value : absolute value of readback/mres
+        new_posbus_val = math.fabs(readback/mres_value)
+        print("%s = %.4f , setting %s = %d"%(rbv_pv, readback, posbus_pv, new_posbus_val))
+        CAClient.put(posbus_pv, new_posbus_val)
 
 def test_qxes() :
     start = -7.7
@@ -227,19 +272,38 @@ def get_pitch_motors(xes_energy_scn):
 # run_qxes_scan_energy(XESEnergyLower, 2000, 2010, 0.5, 0.
 # restore_tmp_offsets(XESEnergyLower)
 
+def run_test_both() :
+    restore_tmp_offsets(XESEnergyUpper)
+    restore_tmp_offsets(XESEnergyLower)
+    sleep(1)
+    # prepare_for_scan(XESEnergyUpper, 6404)
+    # run_qxes_scan_energy(XESEnergyUpper, 6400, 6410, 0.25, 0.5, 5)
+    prepare_for_scan(XESEnergyUpper, 8264)
+    prepare_for_scan(XESEnergyLower, 8264)
+    run_qxes_scan_energy(XESEnergyUpper, 8264, 8268, 0.25, 0.5, 5)
+
+    restore_tmp_offsets(XESEnergyUpper)
+    restore_tmp_offsets(XESEnergyLower)
+
+    reset_medipix()
+    
 def run_test_upper() :
     restore_tmp_offsets(XESEnergyUpper)
     sleep(1)
-    prepare_for_scan(XESEnergyUpper, 6404)
-    run_qxes_scan_energy(XESEnergyUpper, 6400, 6410, 0.25, 0.5, 5)
+    # prepare_for_scan(XESEnergyUpper, 6404)
+    # run_qxes_scan_energy(XESEnergyUpper, 6400, 6410, 0.25, 0.5, 5)
+    prepare_for_scan(XESEnergyUpper, 8264)
+    run_qxes_scan_energy(XESEnergyUpper, 8264, 8268, 0.25, 0.5, 5)
+
     restore_tmp_offsets(XESEnergyUpper)
     reset_medipix()
 
 def run_test_lower() :
     restore_tmp_offsets(XESEnergyLower)
     sleep(1)
-    prepare_for_scan(XESEnergyLower, 7058)
-    run_qxes_scan_energy(XESEnergyLower, 7055, 7065, 0.25, 0.5, 5, outer_scannable=pos_time_scn)
+    prepare_for_scan(XESEnergyLower, 8264)
+    run_qxes_scan_energy(XESEnergyLower, 8264, 8268, 0.25, 1.0, 5, outer_scannable=pos_time_scn)
+    #run_qxes_scan_energy(XESEnergyLower, 8264, 8268, 0.25, 0.5)
     restore_tmp_offsets(XESEnergyLower)
     reset_medipix()
 
@@ -274,6 +338,9 @@ repetition_number_scn.configure()
 
 # c;ear the subdirectory, so data is written in top level of visit.
 set_subdirectory()
+
+
+qxes_upper_enable, qxes_lower_enable, qxes_lower_gain, qxes_lower_offset = create_axis_control_scannables()
 
 class PositionTimeScannable(ScannableBase) :
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="I11-1 GDA" uid="uk.ac.gda.beamline.i11-1.product" id="uk.ac.gda.beamline.i11-1.product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true">
+<product name="I11-1 GDA" uid="uk.ac.gda.beamline.i11-1.product" id="uk.ac.gda.beamline.i11-1.product" application="uk.ac.gda.client.application" version="9.34.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i11-1/icons/i11GDA.png"/>
@@ -25,7 +25,6 @@ Visit http://www.opengda.org
 -Xms256m 
 -Xmx2048m
 -XX:+UseG1GC
--Dgda.config=${project_loc:i11-1-config}
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

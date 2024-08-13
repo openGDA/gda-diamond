@@ -14,4 +14,4 @@ if [ -z "$(pgrep gdalogpanel)" ]; then
 	gda logpanel $@
 fi
 
-gda server $@
+gda -G server $@

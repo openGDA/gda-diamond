@@ -15,8 +15,8 @@
 
 	<bean id="plate1" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="I"/>
-		<constructor-arg index="1" value="8"/>
-		<constructor-arg index="2" value="12"/>
+		<constructor-arg index="1" value="16"/>
+		<constructor-arg index="2" value="24"/>
 		<property name="properties" >
 			<map>
 				<entry key="rgb" value="#{new org.eclipse.swt.graphics.RGB(0,0,255)}" />
