@@ -15,7 +15,7 @@
 						<gda:imotor id="tth" live-pvName="BL11I-MO-DIFF-01:2THETA" tolerances="0.1" />
 					</constructor-arg>
 				</bean>
-				<bean class="gda.device.scannable.RestrictedScannableManager.ParkableScannable" c:park="70" >
+				<bean class="gda.device.scannable.RestrictedScannableManager.ParkableScannable" c:park="70" > <!-- Just changing here wan't enough. -->
 					<constructor-arg name="scannable">
 						<gda:imotor id="delta" live-pvName="BL11I-MO-DIFF-01:DELTA" tolerances="0.1" />
 					</constructor-arg>

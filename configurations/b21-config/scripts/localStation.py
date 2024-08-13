@@ -94,6 +94,15 @@ import gda.util.ElogEntry
 device_list_html = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry("device list from gda", "gda", None, "BLB21", "BLB21-RUNL").addHtml(device_list_html).postAsync()
 
+def waxs_eiger_on():
+	ncddetectors.addDetector(finder.find('waxs_eiger'))
+
+def waxs_eiger_off():
+	ncddetectors.removeDetector(finder.find('waxs_eiger'))
+
+alias(waxs_eiger_on)
+alias(waxs_eiger_off)
+
 print 'Importing fast shutter control: fs'
 from tfgsetup import fs
 print "==================================================================="

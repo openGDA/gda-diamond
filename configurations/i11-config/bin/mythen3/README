@@ -1,0 +1,44 @@
+This is a simple python script for reducing data acquired from the new mythen3 detector on i11.
+
+The main differences between i11's new mythen3 detector and the older mythen2 detector are:
+- It writes files as .h5 from area detector, no longer writing any ascii raw files.
+- It has two rows of detector modules, offset from one another.
+  * In theory, this means that instead of taking two runs at slightly different angles and 
+    summing them, we can take a single run with the new mythen detector; gaps between the 
+    modules will be covered by module overlaps.
+  * HOWEVER, from a scientific perspective, this depends on no asymmetries being present in the
+    sample or the detector. Currently, it's not clear whether this assumption is true. It will need
+    testing and discussion with scientists. The scientists may actually want to produce two .xye files
+    for each single run of the mythen3 - one for module ids 0-13, the other for module ids 14-27.
+- Numbers of modules is different (28 total, 2 rows of 14).
+- All the calibration parameters are different (beamline offsets etc).
+
+Because there is some uncertainty in how the data should be handled, I have written the reduction
+process as a standalone, manual, python script (reduction.py) for the moment, so that it is easy to 
+experiment with. A set of corresponding unit tests is also available.
+
+The script currently expects to be run using modern python. The easiest way is:
+>>> module load python
+>>> python -m venv venv
+>>> source venv/bin/activate
+>>> python -m pip install -r requirements.txt
+>>> python -m pytest
+>>> python reduction.py --help
+>>> ...
+
+Once we have confirmed exactly how the data needs to be handled, there would be a few options:
+- Call this python script automatically at the end of each mythen3 run.
+- Convert the script to Jython (i.e. py2 compatibility) and call it there instead of in a separate
+  python process.
+- Refactor the existing MythenDetector Java classes to be able to handle Mythen3 as well as Mythen2.
+- Something else?
+
+
+The output format of this reduction script is .xye, which is an ASCII 3-column format where:
+X -> angle (degrees)
+Y -> counts
+E -> count error
+
+Each line contains the 3 numbers for X, Y and E, separated by a space.
+
+
