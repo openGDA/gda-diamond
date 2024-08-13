@@ -212,7 +212,7 @@
 	<bean id="img22_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="IMG 22 " />
 		<property name="group" value="...." />
-		<property name="scannableName" value="img22b" />
+		<property name="scannableName" value="img22b_client" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="50" />
 		<property name="showStop" value="false" />
@@ -223,7 +223,7 @@
 	<bean id="img23_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="IMG 23 " />
 		<property name="group" value="...." />
-		<property name="scannableName" value="img23b" />
+		<property name="scannableName" value="img23b_client" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="50" />
 		<property name="showStop" value="false" />
