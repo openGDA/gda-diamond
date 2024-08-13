@@ -25,14 +25,13 @@ class Foilinserter(ScannableMotionBase):
 
 	def isBusy(self):
 		return self.target is not None and int(self.status.caget()) != self.target
-	
+
 	def getPosition(self):
-		self.getTransmission()
 		status=self.status.caget()
 		if status == '0':
 			return [0, 1]
 		elif status == '1':
-			return [1, self.trans]
+			return [1, self.getTransmission()]
 		else:
 			return [None, None]
 
@@ -46,5 +45,4 @@ class Foilinserter(ScannableMotionBase):
 
 	def getTransmission(self,_energy=None):
 		self.mat.getXproperties(_energy)
-		self.trans = exp(-self.thickness/self.mat.AttenLength*1e4)
-		return self.trans
+		return exp(-self.thickness/self.mat.AttenLength*1e4)
