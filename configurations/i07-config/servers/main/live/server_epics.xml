@@ -117,25 +117,6 @@
 		<property name="controller" ref="etcontroller23" />
 	</bean>
 
-	<!-- Controller 3, one loop -->
-	<bean id="etcontroller3" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-TCTRL-03:LOOP1" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="temp3" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="etcontroller3" />
-	</bean>
-
 	<!-- Controller 4, one loop -->
 	<bean id="etcontroller4" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
@@ -172,6 +153,25 @@
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
 		<property name="controller" ref="etcontroller5" />
+	</bean>
+
+	<!-- Controller 6, one loop -->
+	<bean id="etcontroller6" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="configureAtStartup" value="true" />
+		<property name="basePVName" value="BL07I-EA-TCTRL-06:LOOP1" />
+		<property name="maxRampRate" value="10" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="100" />
+	</bean>
+
+	<bean id="temp6" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="5" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1400" />
+		<property name="lowerTemp" value="0" />
+		<property name="controller" ref="etcontroller6" />
 	</bean>
 
 	<!-- ============================== Epics MCA ============== -->

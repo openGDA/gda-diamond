@@ -64,15 +64,6 @@
 
     <!-- Other Eurotherms, one loop each -->
 
-    <bean id="temp3" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
     <bean id="temp4" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
@@ -83,6 +74,15 @@
     </bean>
 
     <bean id="temp5" class="gda.device.temperature.DummyTemp">
+        <property name="configureAtStartup" value="true"/>
+        <property name="accuracy" value = "5"/>
+        <property name="polltime" value = "1000"/>
+        <property name="fileSuffix" value = "temp"/>
+        <property name="upperTemp" value = "1400"/>
+        <property name="lowerTemp" value = "0"/>
+    </bean>
+
+    <bean id="temp6" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
