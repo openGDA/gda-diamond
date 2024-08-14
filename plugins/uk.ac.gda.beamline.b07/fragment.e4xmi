@@ -3,9 +3,6 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_xzgsALawEe2yoL2b0NBC_A" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.4">
     <elements xsi:type="basic:PartStack" xmi:id="_t8fegLatEe2yoL2b0NBC_A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.6">
       <children xsi:type="basic:Part" xmi:id="_vQHCgLatEe2yoL2b0NBC_A" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es1_control_set" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
-      <children xsi:type="basic:CompositePart" xmi:id="_u7dhUFleEe-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.compositepart.0" label="Scripts">
-        <children xsi:type="advanced:Placeholder" xmi:id="_u7dhUVleEe-EkO7vP-z71w" elementId="org.eclipse.ui.editorss"/>
-      </children>
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_MCyg4LSDEe2yJairNSqN8A" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.6">
@@ -27,10 +24,7 @@
       <children xsi:type="basic:PartSashContainer" xmi:id="_sXgfwToCEe-al_m86zVjtg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_sXgfwjoCEe-al_m86zVjtg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
           <children xsi:type="basic:PartStack" xmi:id="_sXgfwzoCEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.partstack.0" containerData="9000">
-            <children xsi:type="advanced:Placeholder" xmi:id="_sXgfxDoCEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_hBgiwToAEe-al_m86zVjtg"/>
-            <children xsi:type="basic:CompositePart" xmi:id="_sXgfxToCEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.compositepart.0" label="Scripts">
-              <children xsi:type="advanced:Placeholder" xmi:id="_sXgfxjoCEe-al_m86zVjtg" elementId="org.eclipse.ui.editorss"/>
-            </children>
+            <children xsi:type="advanced:Placeholder" xmi:id="_sXgfxDoCEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_gGK_oFowEe-EkO7vP-z71w"/>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_sXgfxzoCEe-al_m86zVjtg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.8" containerData="6000">
             <children xsi:type="basic:Part" xmi:id="_sXgfyDoCEe-al_m86zVjtg" elementId="gda.rcp.jythonterminalview" containerData="8000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI=""/>
@@ -43,6 +37,7 @@
           </children>
           <children xsi:type="basic:Part" xmi:id="_sXgfzToCEe-al_m86zVjtg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es2_control_set" containerData="7250" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls" iconURI=""/>
         </children>
+        <children xsi:type="advanced:Placeholder" xmi:id="_2kntMFoxEe-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.placeholder.1" ref="_tMP-sFooEe-EkO7vP-z71w"/>
       </children>
     </elements>
   </fragments>
@@ -52,10 +47,7 @@
       <children xsi:type="basic:PartSashContainer" xmi:id="_Ev-Rwc11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_Ev-Rws11Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
           <children xsi:type="basic:PartStack" xmi:id="_Ev-Rw811Ee2rDLwMcifEKQ" elementId="uk.ac.gda.beamline.b07.partstack.0" containerData="9000">
-            <children xsi:type="advanced:Placeholder" xmi:id="_b6b7QDoAEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_hBgiwToAEe-al_m86zVjtg"/>
-            <children xsi:type="basic:CompositePart" xmi:id="_Ev-Rxc11Ee2rDLwMcifEKQ" elementId="uk.ac.gda.beamline.b07.compositepart.0" label="Scripts">
-              <children xsi:type="advanced:Placeholder" xmi:id="_Ev-Rxs11Ee2rDLwMcifEKQ" elementId="org.eclipse.ui.editorss"/>
-            </children>
+            <children xsi:type="advanced:Placeholder" xmi:id="_b6b7QDoAEe-al_m86zVjtg" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_gGK_oFowEe-EkO7vP-z71w"/>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_Ev-Rx811Ee2rDLwMcifEKQ" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.8" containerData="6000">
             <children xsi:type="basic:Part" xmi:id="_Ev-RyM11Ee2rDLwMcifEKQ" elementId="gda.rcp.jythonterminalview" containerData="8000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI=""/>
@@ -68,10 +60,20 @@
           </children>
           <children xsi:type="basic:Part" xmi:id="_Ev-Rzc11Ee2rDLwMcifEKQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es2_control_set" containerData="7250" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls" iconURI=""/>
         </children>
+        <children xsi:type="advanced:Placeholder" xmi:id="_1QhBAFoxEe-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.placeholder.1" ref="_tMP-sFooEe-EkO7vP-z71w"/>
       </children>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_hBgiwDoAEe-al_m86zVjtg" featurename="sharedElements" parentElementId="IDEWindow">
-    <elements xsi:type="basic:Part" xmi:id="_hBgiwToAEe-al_m86zVjtg" elementId="uk.ac.gda.client.liveplotview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scan Plot" iconURI=""/>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_XE84wFoaEe-EkO7vP-z71w" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.3">
+    <elements xsi:type="advanced:Placeholder" xmi:id="_zI_KQFolEe-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.placeholder.111" ref="_tMP-sFooEe-EkO7vP-z71w"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_F-G2IFomEe-EkO7vP-z71w" featurename="sharedElements" parentElementId="IDEWindow">
+    <elements xsi:type="basic:PartStack" xmi:id="_tMP-sFooEe-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.partstack.111">
+      <children xsi:type="basic:Part" xmi:id="_AMKQMFonEe-EkO7vP-z71w" elementId="org.eclipse.ui.navigator.ProjectExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scripts" closeable="true"/>
+      <children xsi:type="basic:CompositePart" xmi:id="_uuAAIFo6Ee-EkO7vP-z71w" elementId="uk.ac.gda.beamline.b07.compositepart.0" visible="false" label="ScriptsEditor">
+        <children xsi:type="advanced:Placeholder" xmi:id="_uuAAIVo6Ee-EkO7vP-z71w" elementId="org.eclipse.ui.editorss" toBeRendered="false" visible="false"/>
+      </children>
+    </elements>
+    <elements xsi:type="basic:Part" xmi:id="_gGK_oFowEe-EkO7vP-z71w" elementId="uk.ac.gda.client.liveplotview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scan Plot" iconURI=""/>
   </fragments>
 </fragment:ModelFragments>
