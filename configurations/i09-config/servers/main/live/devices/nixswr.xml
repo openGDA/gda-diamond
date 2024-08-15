@@ -6,7 +6,7 @@
 		<property name="prefix" value="BL09I-MO-ES-03:CAM:" />
 	</bean>
 
-	<bean id="nixswr" class="gda.device.detector.NXDetector">
+	<bean id="nixswr" class="gda.device.detector.NXDetectorSimpleExtraNameFileStructure">
 		<property name="name" value="nixswr" />
 		<property name="collectionStrategy" ref="nixswrNXProcCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -55,10 +55,7 @@
 		<property name="initialEnableFilter" value="0" />
 	</bean>
 
-	<bean id="nixswrNXProcCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.NXDetectorSimpleExtraNameFileStructureDecorator">
-	<property name="detectorName" value="nixswr"/>
-	<property name="decoratee">
-		<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+	<bean id="nixswrNXProcCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="imageMode" value="2" />
 		<property name="decoratee">
@@ -90,7 +87,5 @@
 			</property>
 			</bean>
 		</property>
-		</bean>
-	</property>
 	</bean>
 </beans>
