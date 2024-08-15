@@ -5,7 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- The files which define the scannables common to dummy and live-->
-	<import resource="analyser_rotation.xml" />
 	<import resource="sample_stage.xml" />
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
@@ -15,10 +14,12 @@
 	<import resource="beam_coordinate_system.xml" />
 	<import resource="raw_sample_stage.xml"/>
 	<import resource="BeamMonitor.xml"/>
-	
+
 	<!-- analyser -->
 	<import resource="analyser.xml"/>
 	<import resource="analyser_mapping.xml"/>
+	<import resource="analyser_energy_range.xml" />
+	<import resource="analyser_rotation.xml" />
 
 	<!-- resolution calculator config -->
 	<import resource="resolution_calculator_config.xml"/>

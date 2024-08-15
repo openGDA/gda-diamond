@@ -1,0 +1,61 @@
+[
+		{
+				"type": "button",
+				"text": "Start GDA Client",
+				"args": "client --foreground",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda",
+				"icon": "cgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start GDA Client (Reset Workspace)",
+				"args": "client --foreground --reset",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda",
+				"icon": "cgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start GDA Server",
+				"args": "-G server",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda",
+				"icon": "sgda.png"
+		},
+		{
+				"type": "button",
+				"text": "Start GDA Logpanel",
+				"args": "",
+				"command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+				"icon": "lgda.png"
+		},
+		{
+				"type": "button",
+				"text": "i05-1 Electron Analyser EPICS screen",
+				"command": "/dls_sw/i05-1/etc/scientaEDM.sh"
+		},
+		{
+				"type": "button",
+				"text": "BL05I ARPES Synoptic",
+				"args": "$PORT BL05I-gui",
+				"command": "from_configure_ioc.sh",
+				"icon": "I05__SS.png"
+		},
+		{
+				"type": "button",
+				"text": "Start Dawn",
+				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+		},
+		{
+				"type": "button",
+				"text": "Start Dawn (Reset Workspace)",
+				"args": "--reset",
+				"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+				"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+		},
+		{
+				"type": "button",
+				"text": "Malcolm gui",
+				"args": "-i /dls_sw/work/common/python/malcolm/examples/j05_gui.py i05-1-ws001:5600",
+				"command": "dls-python"
+		}
+]
