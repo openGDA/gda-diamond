@@ -43,4 +43,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/pilatus.xml" />
 	<import resource="file:${gda.config}/servers/main/pilatus.xml" />
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/lambda.xml" />
+	<import resource="file:${gda.config}/servers/main/lambda.xml" />
+
 </beans>

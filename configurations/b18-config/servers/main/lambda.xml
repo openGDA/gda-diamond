@@ -1,0 +1,105 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="lambda_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="lambda_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="lambda_single_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator" >
+	    <property name="restoreAcquireTime" value="true" />
+	    <property name="restoreAcquirePeriod" value="true" />
+	    <property name="acquirePeriodExpression" value="#acquireTime + 0.1" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="lambda_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                        <property name="restoreTriggerMode" value="true" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="lambda_roi_provider" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+    
+    <bean id="lambda_roistat_mutable" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="#{lambdaBaseRoiPv}" />
+		<property name="baseStatsPVName" value="#{lambdaBaseStatPv}" />
+		<property name="roiInputNdArrayPort" value="#{lambdaCamPort}" />
+		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi" ref="lambda_roi_provider" />
+			</bean>
+		</property>
+	</bean>
+    
+    <bean id="lambda_ndstat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{lambdaBaseStatPv}" />
+	</bean>
+	<bean id="lambda_simple_stats" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<constructor-arg ref="lambda_ndstat"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+		
+	<bean id="lambda_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="lambda_adbase" />
+		<property name="ndFile" ref="lambda_ndfile" />
+		<property name="ndArray" ref="lambda_ndarray" />
+		<property name="ndStats" ref="lambda_stats" />
+		<property name="fileWriter" ref="lambda_hdf5_writer" />
+		<property name="collectionStrategy" ref="lambda_single_collection_strategy"/>
+	</bean>
+
+	<bean id="lambda_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="lambda_adbase" />
+		<constructor-arg ref="lambda_roi" />
+		<property name="useAcquireTimeMonitor" value="true" />
+	</bean>
+	
+	<bean id="lambda_nxdetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="lambda_nxdetector" />
+		<property name="collectionStrategy" ref="lambda_single_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="lambda_hdf5_writer" />
+<!-- 				<ref bean="lambda_simple_stats" /> -->
+				<ref bean="lambda_roistat_mutable" />
+
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="qexafs_lambda" class="gda.device.detector.nxdetector.BufferedNXDetector">
+		<property name="detector" ref="lambda_nxdetector" />
+		<property name="collectionStrategy" ref="lambda_multiple_nxcollectionstrategy" />
+		<property name="baseRoiPvName" value="#{lambdaBaseRoiPv}" />
+		<property name="baseStatPvName" value="#{lambdaBaseStatPv}" />
+		<property name="currentPointPointPvName" value="TS:TSCurrentPoint" />
+		<property name="maximumReadFrames" value="50" />
+	</bean>
+
+</beans>
