@@ -13,6 +13,7 @@
 				<ref bean="gv22" />
 				<ref bean="gv25" />
 				<ref bean="d21c_positioner" />
+				<ref bean="d9c_y_positioner" />
 			</list>
 		</constructor-arg>
 	</bean>
