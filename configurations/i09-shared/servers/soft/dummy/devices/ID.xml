@@ -27,4 +27,14 @@
 	</bean>
 	<bean id="jidvelocity" class="gda.device.scannable.DummyScannable"/>
 
+	<bean id="jidaccesscontrol" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>ENABLED</value>
+				<value>DISABLED</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

@@ -1,8 +1,8 @@
 # localStation.py
 # For beamline specific initialisation code.
 #
-import java
-from gda.configuration.properties import LocalProperties
+import java #@UnresolvedImport @UnusedImport
+from gda.configuration.properties import LocalProperties #@UnusedImport
 from calibration.hard_energy_class import HardEnergy
 
 print "=================================================================================================================";
@@ -36,6 +36,7 @@ print "-------------------------------------------------------------------------
 print "Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy"
 ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
 
+from i09shared.pseudodevices.checkid import checkiid #@UnusedImport
 from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
 
 print("=================================================================================================================")

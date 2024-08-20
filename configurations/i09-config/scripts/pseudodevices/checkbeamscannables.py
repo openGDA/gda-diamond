@@ -8,7 +8,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from i09shared.utils.ExceptionLogs import localStation_exception
 import sys
-from gdaserver import rc, topup_time, feBeamPermit, ew4000, fsi1, fsj1
+from gdaserver import rc, topup_time, feBeamPermit, ew4000, fsi1, fsj1 #@UnresolvedImport
 print "-"*100
 try:
     print "Creating checkbeam device composed of 3 conditions:"
@@ -21,7 +21,7 @@ try:
     #print "echo test"
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
     from gda.device.scannable.scannablegroup import ScannableGroup
-    from pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableState2
+    from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableState2
     
     checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0) 
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0) 
@@ -49,10 +49,9 @@ try:
     print " 'checkrc', 'checkfe', and 'checktopup_time'"
     print " Users can set the times between checks in seconds if required, it is default to 1.0 second."
     
-    from pseudodevices.pauseDetectorWhileMonitorBelowThreshold import PauseableDetector, PauseResumeDetectorScannable
+    from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import PauseableDetector, PauseResumeDetectorScannable
     detectorpausecontrol=PauseableDetector("detectorpausecontrol", "BL09I-EA-DET-01:CAM:", fastshutters=[fsi1, fsj1], secondsBetweenFastShutterDetector=2.0)
     checkdetector = PauseResumeDetectorScannable('checkdetector', detectorpausecontrol, checkedDevices={'Electron_Beam':checkrc, 'Front_End_Permit':checkfe, 'Top_up':checktopup_time}) 
 
 except:
     localStation_exception(sys.exc_info(), "creating checkdetector objects")
-

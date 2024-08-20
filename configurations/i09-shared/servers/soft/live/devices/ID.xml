@@ -7,6 +7,7 @@
 		<property name="accessControl" ref="jidblena" />
 		<property name="pvName" value="SR09J-MO-SERVC-01:BLGAPMTR" />
 	</bean>
+
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">
 		<property name="basePVName" value="SR09J-MO-SERVC-01" />
 		<property name="maxPhaseMotorPos" value="30.0" />
@@ -20,6 +21,13 @@
 	<bean id="jidblena" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="SR09J-MO-SERVC-01:IDBLENA" />
 	</bean>
+
+	<!-- ID access in scannable form so can be used via checkjid -->
+	<bean id="jidaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR09J-MO-SERVC-01:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
 	<bean id="jidvelocity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="SR09J-MO-SERVC-01:BLGSETVEL" />
 	</bean>
