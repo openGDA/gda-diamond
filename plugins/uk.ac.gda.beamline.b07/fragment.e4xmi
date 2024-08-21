@@ -18,7 +18,7 @@
     </elements>
     <elements xsi:type="basic:PartStack" xmi:id="_7GP1ULSEEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5" toBeRendered="false" visible="false"/>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_53c0YLwuEe2bJo8Iq2iPPg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspectivestack.0">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_53c0YLwuEe2bJo8Iq2iPPg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspectivestack.0" positionInList="before:uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective">
     <elements xsi:type="advanced:Perspective" xmi:id="_sXgfwDoCEe-al_m86zVjtg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/bold_2.png" tooltip="ES-2">
       <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
       <children xsi:type="basic:PartSashContainer" xmi:id="_sXgfwToCEe-al_m86zVjtg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
