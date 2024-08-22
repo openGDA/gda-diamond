@@ -75,7 +75,8 @@ alias('wh')
 
 from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMotion  # @UnusedImport
 from gdaserver import pimte, pixis  # @UnresolvedImport
-thpimte = NXDetectorWithRockingMotion("thpimte", th, pimte)  # @UndefinedVariable
+
+thpimte = NXDetectorWithRockingMotion("thpimte", th, pimte.getDetector())  # @UndefinedVariable
 thpixis = NXDetectorWithRockingMotion("thpixis", th, pixis)  # @UndefinedVariable
 
 import gdascripts
