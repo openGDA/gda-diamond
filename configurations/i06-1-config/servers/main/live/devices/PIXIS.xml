@@ -83,7 +83,7 @@
 			</bean>
 		</property>
 	</bean>	
-	
+
 	<!-- HDF5 plugin - multiple images in one file per scan -->
 	<bean id="pixisHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pixis_hdf5"/>
@@ -92,12 +92,9 @@
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="0" />
-		<property name="framesFlush" value="0" />
 		<property name="storeAttr" value="true" />
 		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
 		<property name="blocking" value="false" />
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
@@ -117,14 +114,14 @@
 		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
 		<property name="ndArrayPortVal" value="PIXIS1RX.RX"/>
 	</bean>
-	
+
 	<!-- The Object which gets the ROIs from the client over RMI -->
 	<bean id="pixis_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
 	<!-- Export it over RMI so the client can use it -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-	    <property name="serviceName" value="gda/pixisRoi" />
-	    <property name="service" ref="pixis_roi" />
-	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="serviceName" value="gda/pixisRoi" />
+		<property name="service" ref="pixis_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>	
 	<bean id="pixis_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="pixis_RoiStats1" />
@@ -134,10 +131,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -149,10 +146,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="1" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="1" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -164,10 +161,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="2" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="2" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -179,10 +176,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="3" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="3" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -194,10 +191,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="4" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="4" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -209,10 +206,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
-	            <property name="index" value="5" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pixis_roi" />
+				<property name="index" value="5" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
