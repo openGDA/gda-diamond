@@ -2,21 +2,21 @@
 		{
 				"type": "button",
 				"text": "Start GDA Client",
-				"args": "client --foreground",
+				"args": "client",
 				"command": "/dls_sw/apps/gda_launcher/stable/gda",
 				"icon": "cgda.png"
 		},
 		{
 				"type": "button",
 				"text": "Start GDA Client (Reset Workspace)",
-				"args": "client --foreground --reset",
+				"args": "client --reset",
 				"command": "/dls_sw/apps/gda_launcher/stable/gda",
 				"icon": "cgda.png"
 		},
 		{
 				"type": "button",
 				"text": "Start GDA Server",
-				"args": "-G server",
+				"args": "server",
 				"command": "/dls_sw/apps/gda_launcher/stable/gda",
 				"icon": "sgda.png"
 		},
