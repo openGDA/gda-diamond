@@ -92,12 +92,9 @@
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="0" />
-		<property name="framesFlush" value="0" />
 		<property name="storeAttr" value="true" />
 		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
 		<property name="blocking" value="false" />
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />

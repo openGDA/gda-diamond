@@ -77,7 +77,7 @@ from scannable.rocking.detectorWithRockingMotion import NXDetectorWithRockingMot
 from gdaserver import pimte, pixis  # @UnresolvedImport
 
 thpimte = NXDetectorWithRockingMotion("thpimte", th, pimte.getDetector())  # @UndefinedVariable
-thpixis = NXDetectorWithRockingMotion("thpixis", th, pixis)  # @UndefinedVariable
+thpixis = NXDetectorWithRockingMotion("thpixis", th, pixis.getDetector())  # @UndefinedVariable
 
 import gdascripts
 scan_processor.rootNamespaceDict = globals()
