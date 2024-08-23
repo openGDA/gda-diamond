@@ -36,6 +36,7 @@ print "-------------------------------------------------------------------------
 print "Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy"
 ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
 
+from i09shared.command.analyserScan import analyserscan #@UnusedImport
 from i09shared.pseudodevices.checkid import checkiid #@UnusedImport
 from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
 
