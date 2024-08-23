@@ -5,18 +5,20 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="AnalyserLiveClient" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserClientLiveDataDispatcher">
+		<property name="name" value="AnalyserLiveClient"/>
 		<property name="analyser" ref="analyser" />
-		<property name="arrayPV" value="BL05I-EA-DET-02:LatestData:ArrayData" />
-<!-- 		<property name="arrayPV" value="BL05I-EA-SIM-02:ARR:ArrayData" /> -->
-		<property name="frameNumberPV" value="BL05I-EA-DET-02:LatestData:ArrayCounter_RBV" />
+
+		<property name="arrayPV" value="BL05I-EA-DET-02:ARR:ArrayData" />
+		<property name="frameNumberPV" value="BL05I-EA-DET-02:ARR:ArrayCounter_RBV" />
+
 		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
 		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
-		
+
 		<property name="numScansPV" value="BL05I-EA-DET-02:CAM:NumScans_RBV"/>
 		<property name="progressCounterPV" value="BL05I-EA-DET-02:CAM:CompletedScans_RBV"/>
 		<!-- 		this PV can randomly generate 0 values in live mode -->
 <!-- 		<property name="progressCounterPV" value="BL05I-EA-DET-02:CAM:CurrentScanNumber_RBV"/> -->
-		
+
 		<property name="numStepsPV" value="BL05I-EA-DET-02:CAM:NumSteps_RBV"/>
 		<property name="currentStepPV" value="BL05I-EA-DET-02:CAM:CurrentStepNumber_RBV" />
 
