@@ -7,43 +7,43 @@
 <!-- Andor driver specific information for metadata -->
 	<bean id="Polandor_HAccumulatePeriod" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorAccumulatePeriod_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HShutterMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorShutterMode"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HExtShutterTrigger" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorShutterExTTL"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HPreampGain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorPreAmpGain_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HADCSpeed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorADCSpeed_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HVerticalShiftSpeed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorVSSpeed_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HVerticalShiftAmplitude" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorVSAmplitude_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HEMCCDGain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorEMGain_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HCoolerTemperature" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:Temperature_RBV"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HCoolerControl" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorCooler"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="Polandor_HBinningSizeX" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:BinX_RBV"/>
@@ -96,7 +96,6 @@
 		<property name="file" ref="Polandor_H_ndfile" />
 	</bean>
 
-	
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="Polandor_H_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
@@ -112,11 +111,11 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
-	        </bean>
-	    </property>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
 	<bean id="Polandor_H_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -127,10 +126,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="1" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="1" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -142,10 +141,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="2" />
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="2" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -157,10 +156,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="3" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="3" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -172,10 +171,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="4" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="4" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
@@ -187,10 +186,10 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
-	            <property name="index" value="5" /> 
-	        </bean>
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_H_roi" />
+				<property name="index" value="5" />
+			</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
