@@ -31,32 +31,88 @@
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="1" />
-		<property name="framesFlush" value="1" />
 		<property name="storeAttr" value="true" />
 		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
 		<property name="blocking" value="false" />
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 	<!-- used with live stream view -->
- 	<bean id="Polandor_H" class="gda.device.detector.NXDetector">
-		<property name="name" value="Polandor_H" />
-		<property name="collectionStrategy" ref="Polandor_HCollectionStrategy" />
-		<property name="additionalPluginList">
+<!-- 	<bean id="Polandor_H" class="gda.device.detector.NXDetector"> -->
+<!-- 		<property name="name" value="Polandor_H" /> -->
+<!-- 		<property name="collectionStrategy" ref="Polandor_HCollectionStrategy" /> -->
+<!-- 		<property name="additionalPluginList"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="Polandor_H_RoiStats1" /> -->
+<!-- 				<ref bean="Polandor_H_RoiStats2" /> -->
+<!-- 				<ref bean="Polandor_H_RoiStats3" /> -->
+<!-- 				<ref bean="Polandor_H_RoiStats4" /> -->
+<!-- 				<ref bean="Polandor_H_RoiStats5" /> -->
+<!-- 				<ref bean="Polandor_H_RoiStats6" /> -->
+<!-- 				<ref bean="Polandor_HHdf5Filewriter" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	<!-- Objects for Processing -->
+	<bean id="Polandor_H" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="Polandor_H" />
+				<property name="collectionStrategy" ref="Polandor_HCollectionStrategy" />
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="Polandor_HHdf5Filewriter" />
+					</list>
+				</property>
+				<property name="level" value="7"/>
+			</bean>
+		</property>
+		<property name="processor" ref="Polandor_H_swmr_standard" />
+	</bean>
+	<bean id="Polandor_H_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
+		<constructor-arg index="0" value="" />
+		<constructor-arg index="1" value="" />
+		<constructor-arg index="2" value="SDS" />
+		<constructor-arg index="3">
 			<list>
-				<ref bean="Polandor_H_RoiStats1" />
-				<ref bean="Polandor_H_RoiStats2" />
-				<ref bean="Polandor_H_RoiStats3" />
-				<ref bean="Polandor_H_RoiStats4" />
-				<ref bean="Polandor_H_RoiStats5" />
-				<ref bean="Polandor_H_RoiStats6" />
-				<ref bean="Polandor_HHdf5Filewriter" />
+				<ref bean="Polandor_H_stats_standard" />
+				<ref bean="Polandor_H_roistats_standard" />
+				<ref bean="Polandor_H_plotter" />
+			</list>
+		</constructor-arg>
+		<constructor-arg index="4" ref="Polandor_H_mask" />
+	</bean>
+	<bean id="Polandor_H_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator">
+		<property name="minThreshold">
+			<value type="java.lang.Integer">0</value>
+		</property>
+		<property name="maxThreshold" >
+			<value type="java.lang.Integer">1000000000</value>
+		</property>
+		<property name="enabled" value="false" />
+	</bean>
+	<bean id="Polandor_H_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enabledStats">
+			<list>
+<!-- 				<value>MAX_VAL</value> -->
+<!-- 				<value>MAX_X</value> -->
+<!-- 				<value>MAX_Y</value> -->
+<!-- 				<value>MIN_VAL</value> -->
+<!-- 				<value>MIN_X</value> -->
+<!-- 				<value>MIN_Y</value> -->
+<!-- 				<value>MEAN</value> -->
+				<value>SUM</value>
 			</list>
 		</property>
+	</bean>
+	<bean id="Polandor_H_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
+		<property name="plotName" value="Polandor_H: EPICS Array" />
+		<property name="statsProcessor" ref="Polandor_H_stats_standard" />
+	</bean>
+	<bean id="Polandor_H_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
+		<property name="plotName" value="Polandor_H: EPICS Array" />
 	</bean>
 
 <!-- ADDetector used in new scanning -->
