@@ -6,22 +6,38 @@
 
 
 	<!-- NXDetector -->
- 	<bean id="pixis_summed" class="gda.device.detector.NXDetector">
-		<property name="name" value="pixis_summed" />
-		<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pixis_summed_RoiStats1" />
-				<ref bean="pixis_summed_RoiStats2" />
-				<ref bean="pixis_summed_RoiStats3" />
-				<ref bean="pixis_summed_RoiStats4" />
-				<ref bean="pixis_summed_RoiStats5" />
-				<ref bean="pixis_summed_RoiStats6" />
-				<ref bean="pixisSummedHdf5Filewriter" />
-			</list>
+<!--  	<bean id="pixis_summed" class="gda.device.detector.NXDetector"> -->
+<!-- 		<property name="name" value="pixis_summed" /> -->
+<!-- 		<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" /> -->
+<!-- 		<property name="additionalPluginList"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="pixis_summed_RoiStats1" /> -->
+<!-- 				<ref bean="pixis_summed_RoiStats2" /> -->
+<!-- 				<ref bean="pixis_summed_RoiStats3" /> -->
+<!-- 				<ref bean="pixis_summed_RoiStats4" /> -->
+<!-- 				<ref bean="pixis_summed_RoiStats5" /> -->
+<!-- 				<ref bean="pixis_summed_RoiStats6" /> -->
+<!-- 				<ref bean="pixisSummedHdf5Filewriter" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	<bean id="pixis_summed" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="pixis_summed" />
+				<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" />
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="pixisSummedHdf5Filewriter" />
+					</list>
+				</property>
+				<property name="level" value="7"/>
+			</bean>
 		</property>
+		<property name="processor" ref="pixis_swmr_standard" />
 	</bean>
- 	<bean id="pixistiff_summed" class="gda.device.detector.NXDetector">
+
+	<bean id="pixistiff_summed" class="gda.device.detector.NXDetector">
 		<property name="name" value="pixistiff_summed" />
 		<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" />
 		<property name="additionalPluginList">
