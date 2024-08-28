@@ -4,6 +4,8 @@ from uk.ac.gda.server.exafs.b18.scan.preparers import B18BeamlinePreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18DetectorPreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18SamplePreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18OutputPreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import AdjustmentPreparer
+
 from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 # from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
@@ -33,6 +35,9 @@ sensitivity_units = [i0_stanford_sensitivity_units, it_stanford_sensitivity_unit
 offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
 offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
+adjustmentPreparer = AdjustmentPreparer()
+adjustmentPreparer.setDummyDetectorName("ionchamber_optimisation")
+adjustmentPreparer.setRunOnFirstRepetitionOnly(True)
 
 detectorPreparer = B18DetectorPreparer(qexafs_energy, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
 daServer = Finder.find("DAServer")
@@ -41,6 +46,7 @@ outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
 detectorPreparer.setDiffractionDetectors([pilatus_addetector]) #lambda_addetector
 detectorPreparer.addDetectorNameMapping("qexafs_pilatus", "qexafs_pilatus")
+detectorPreparer.setPreparers([adjustmentPreparer])
 
 ## Setup XspressOdin 
 xspress4IsPresent = 'xspress4Odin' in locals()
@@ -201,6 +207,8 @@ run_in_try_catch(setupPilatus)
 run("continuous_scans_new.py")
 run("meca_status.py")
 run("test-ionchamber-output.py")
+
+run 'ionchamber_adjustment/set_amplifiers_routines.py'
 
 ## setup detector preparer to use ionchamber checker
 detectorPreparer.setRunIonchamberChecker(True)

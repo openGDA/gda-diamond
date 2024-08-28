@@ -75,6 +75,8 @@
 		<property name="useCustomisedOutput" value="true" />
 	</bean>
 
+	<bean id="ionchamber_optimisation" class="gda.device.detector.DummyDetector" />
+	
 	<bean id="det1" class="gda.device.detector.DummyBufferedDetector">
 		<property name="inputNames">
 			<list>

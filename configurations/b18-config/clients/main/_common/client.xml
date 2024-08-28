@@ -59,6 +59,7 @@
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />
+				<entry key="ionchamber_optimisation" value="${gda.config}/templates/Ionchamber_Optimisation_Parameters.json" />
 			</map>
 		</property>
 	</bean>

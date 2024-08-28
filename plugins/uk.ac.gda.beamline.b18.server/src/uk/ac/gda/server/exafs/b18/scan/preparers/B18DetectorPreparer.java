@@ -53,11 +53,12 @@ import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
+import uk.ac.gda.server.exafs.scan.DetectorPreparerDelegate;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
-public class B18DetectorPreparer implements QexafsDetectorPreparer {
+public class B18DetectorPreparer extends DetectorPreparerDelegate implements QexafsDetectorPreparer {
 
 	private static final Logger logger = LoggerFactory.getLogger(B18DetectorPreparer.class);
 
@@ -124,6 +125,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.detectorBean = detectorBean;
 		this.experimentFullPath = experimentFullPath;
 		this.outputBean = outputBean;
+
+		runConfigure(scanBean, detectorBean, outputBean, experimentFullPath);
 
 		if (useNewDetectorConfiguration()) {
 			prepareDetectors(detectorBean.getDetectorConfigurations());
@@ -255,6 +258,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		} else if (runCheckerForRepetition()) {
 			runIonchamberCheckerNoThrow();
 		}
+
+		runBeforeEachRepetition();
+
 		setupIonchamberFrameTimes();
 	}
 
