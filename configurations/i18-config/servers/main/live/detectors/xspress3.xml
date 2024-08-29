@@ -3,13 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="xspress3Controller"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
-		<property name="epicsTemplate" value="BL18I-EA-XSP3-01" />
-		<property name="defaultNumberOfChannels" value="8" />
-		<property name="iocVersion3" value="true" />
-	</bean>
-	
 	<bean id="xspress3ControllerOdin"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
 		<property name="basePv" value="BL18I-EA-XSP-02" />
 		<property name="mainControlPrefix" value=":CAM" />

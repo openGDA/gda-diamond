@@ -3,25 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- Here we can use an EPICs simulator that A. Bark provides, to run it do:
-	export EPICS_CA_SERVER_PORT=6064
-	export EPICS_CA_REPEATER_PORT=6065
-	/home/rfj82980/iocs/xsp-ioc/bin/linux-x86_64/simpleExample
- -->
-<!-- 	<bean id="xspress3Controller" -->
-<!-- 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller"> -->
-<!-- 		<property name="epicsTemplate" value="TEST-EA-XSP3-01" /> -->
-<!-- 		<property name="numberOfChannels" value="10" /> -->
-<!-- 		<property name="epicsVersion2" value="true" /> -->
-<!-- 	</bean> -->
-
-	<bean id="xspress3Controller"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg index="0" ref= "tfg"/>
-		<constructor-arg index="1" ref= "daserver"/>
-		<property name="numberOfChannels" value="8" />
-	</bean>
-
 	<bean id="xspress3ControllerOdin"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
 		<property name="numElements" value="8" />
 		<property name="numMcaChannels" value="4096" />

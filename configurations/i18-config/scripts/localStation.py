@@ -23,7 +23,6 @@ from gdascripts.watchdogs.watchdogs import watchdogService, enableWatchdogs, dis
 from gdascripts.malcolm.malcolm import reset_malcolm_after_scan
 from diffraction_calibration_appender import DiffractionAppenderManager
 
-from gdaserver import Xspress3Acquire
 from gdascripts.detectors.initialise_detector import initialise_detector
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 from gdascripts.scan.gdascans import Rscan
@@ -93,11 +92,11 @@ def setup_factories():
     xas = theFactory.createEnergyScan();
     xanes = xas
     
-    theFactory.setQexafsDetectorPreparer(detectorPreparer);
-    theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
-    theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
-    global qexafs
-    qexafs = theFactory.createQexafsConstantVelocityScan()
+    #theFactory.setQexafsDetectorPreparer(detectorPreparer);
+    #theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
+    # theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
+    #global qexafs
+    #qexafs = theFactory.createQexafsConstantVelocityScan()
     
     mapFactory = MapFactory();
     mapFactory.setBeamlinePreparer(beamlinePreparer);
@@ -161,13 +160,6 @@ def setup_aliases():
     rscan = Rscan()
     alias(rscan)
 
-def fix_snapshot():
-    # In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
-    if live_mode:
-        initialise_detector("Xspress3", Xspress3Acquire.getAdBase().getBasePVName(), Xspress3Acquire.getNdArray().getBasePVName(), "Software")
-    else:
-        initialise_detector("Xspress3", Xspress3Acquire.getAdBase().getBasePVName(), Xspress3Acquire.getNdArray().getBasePVName(), "Internal", "Single")
-        
 def set_energy_scannable(scannable):
     global xas
     xas.setEnergyScannable(scannable)
@@ -195,9 +187,6 @@ def print_useful_info():
     Specify calibration and mask files for Excalibur:
      excalibur_metadata.set_calibration_file(...)
      excalibur_metadata.set_mask_file(...)
-     
-    To fix snapshots after detector IOC restart:
-     fix_snapshot()
      
     Reload lookup table values from disk :
      reload_lookup_tables()
@@ -257,7 +246,6 @@ def setup():
     sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
     sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
     detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, raster_counterTimer01) # @UndefinedVariable
-    detectorPreparer.addQexafsDetectors("Xspress3", [raster_counterTimer01, raster_xspress3, raster_FFI0_xspress3])
     detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_counterTimer01, qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin])
         
     global beamlinePreparer
@@ -281,7 +269,6 @@ def setup():
     
     setup_factories()
     setup_aliases()
-    fix_snapshot()
     set_energy_scannable(energy_scannable_for_scans)
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
 

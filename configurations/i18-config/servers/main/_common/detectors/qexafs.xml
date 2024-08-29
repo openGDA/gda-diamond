@@ -45,17 +45,6 @@
 		<property name="collectionStrategy" ref="counterTimer01CollectionStrategy" />
 	</bean>
 
-	<bean id="Xspress3FFI0CollectionStrategy"
-		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
-		<constructor-arg ref="qexafs_FFI0_xspress3" />
-	</bean>
-
-	<bean id="qexafsXspress3FFI0" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="qexafsXspress3FFI0" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
-		<property name="collectionStrategy" ref="Xspress3FFI0CollectionStrategy" />
-	</bean>
-
 	<bean id="zebraBraggAngle" class="gda.device.zebra.ZebraScannableMotor">
 		<!-- <property name="name" value="zebraBraggAngle" /> -->
 		<property name="motor" ref="dcm_bragg_motor" />

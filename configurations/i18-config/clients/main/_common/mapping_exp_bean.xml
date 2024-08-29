@@ -14,16 +14,6 @@
 		<property name="detectorParameters">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Xspress3Acquire" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="Xspress3Acquire" />
-							<property name="exposureTime" value="0.1" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="VMA" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">

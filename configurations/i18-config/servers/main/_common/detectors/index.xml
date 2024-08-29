@@ -19,9 +19,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
 	<import resource="xspress3.xml" />
 	
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
-	<import resource="xspress3_addetector.xml" />
-	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/VMA_addetector.xml" />
 	<import resource="VMA_addetector.xml" />
 	
