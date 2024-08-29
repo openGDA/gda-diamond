@@ -13,7 +13,8 @@ def pv_exists(pv_name) :
 
 
 # key = name of spring profile, value = name of PV to check
-profile_pv_list = { "spectrometer":"BL18I-MO-DET-01:X.RBV", "vortex":"BL18I-EA-DET-07:CollectMode" }
+profile_pv_list = { "spectrometer":"BL18I-MO-DET-01:X.RBV", "vortex":"BL18I-EA-DET-07:CollectMode",
+"andor":"BL18I-EA-DET-10:CAM:PortName_RBV", "medipix": "BL18I-EA-DET-04:DET:PortName_RBV" }
 
 # Determine which spring profiles to use based on which PVs are present :
 profiles=[]
