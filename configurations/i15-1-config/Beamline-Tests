@@ -1,13 +1,16 @@
 To run all beamline tests, all that is needed is to import them and run them:
 
-from beamline_test import run_tests
-run_tests()
+    from beamline_test import run_tests
+    run_tests()
 
-To run all beamline tests, except email tests, run:
+To run all beamline tests, except the email tests, run:
 
-run_tests(marks='not email')
+    run_tests(marks='not email')
 
-This requires marks support to be available.
+To run just the simple scan tests, for checking plot colours, run:
 
-Note, support for marks was cherry picked from change/36289/1 onto the
-GDA 9.27 release branch for i15-1, to enable testing.
+    run_tests(marks='plotting')
+
+To run all but email and plotting, run:
+
+    run_tests(marks="not (email or plotting)")
