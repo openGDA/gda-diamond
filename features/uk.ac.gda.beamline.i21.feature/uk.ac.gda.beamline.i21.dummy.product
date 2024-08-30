@@ -23,9 +23,6 @@ See &lt;http://www.opengda.org/&gt;
 -Drun.in.eclipse=false
 -Declipse.pluginCustomization=${project_loc:i21-config}/plugin_customization.ini
 -Dgda.config=${project_loc:i21-config}
--Dgda.logs.dir=/scratch/gda/logs/i21
--Dgda.data=/scratch/gda/data/i21
--Dgda.var=/scratch/gda/var/i21
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true

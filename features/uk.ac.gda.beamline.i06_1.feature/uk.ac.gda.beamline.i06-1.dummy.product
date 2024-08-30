@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i06-1.dummy.product" uid="uk.ac.gda.beamline.i06-1.dummy" id="uk.ac.gda.beamline.i06_1.dummy_product" application="uk.ac.gda.client.application" version="9.36.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="uk.ac.gda.beamline.i06-1.dummy.product" uid="uk.ac.gda.beamline.i06-1.dummy" id="uk.ac.gda.beamline.i06_1.dummy_product" application="uk.ac.gda.client.application" version="9.36.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i06_1/icons/schematic_I06_sm.png"/>
@@ -16,26 +16,14 @@
    <launcherArgs>
       <programArgs>-consolelog
       </programArgs>
-      <vmArgs>-Dgda.instance.dir=${project_loc:i06-1-config}
--Dgda.group.dir=${project_loc:i06-shared}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.spring.profiles.active=DD,magnet,xabs
--Dgda.core.dir=${project_loc:core-config}
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Declipse.pluginCustomization=${project_loc:i06-1-config}/pluginCustomization.ini
+      <vmArgs>-Declipse.pluginCustomization=${project_loc:i06-1-config}/pluginCustomization.ini
 -Dgda.config=${project_loc:i06-1-config}
--Dgda.propertiesFile=${project_loc:i06-1-config}/properties/dummy/dummy_instance_java.properties
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i06-1-config}/properties/dummy/JCALibrary.properties
--Dgda.gui.beans.xml=${project_loc:i06-1-config}/clients/main/dummy/client.xml
 -Dgda.mode=dummy
--Dgda.data=/scratch/i06-1/data
--Dgda.var=/scratch/gda_versions/var
--Dgda.logs.dir=/scratch/i06-1/logs
--Dpython.cachedir=/scratch/gda_versions/var/python.cachedir
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Dpydev.funding.hide=true
--Dgda.spring.profiles.active=DD,xabs,magnet
 -Xms256m
 -Xmx2048m
 -XX:+DisableExplicitGC
