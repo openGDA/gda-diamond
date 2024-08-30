@@ -20,7 +20,7 @@ def test_single_point_scan_is_not_refused():
 	#   arc.filename = '/dls/i15-1/data/2022/cm31137-3/processing/testSaveSim.hdf5' # 2023-07-20
 	#   arc.calibrationFilePath = u'/dls_sw/i15-1/scripts/notebooks/arc_40keV.json'
 
-	collect_arc(sampleid=first_valid_sample, exposure_time=10, frames=1, monitorsPerScan=[],
+	collect_arc(sampleid=first_valid_sample, exposure_time=10, tths=None, frames=1, monitorsPerScan=[],
 				monitorsPerPoint=[],comment="",f2="auto",preSleep=None,blocking=True,samX=None)
 
 def test_multiple_point_scan_completes():
@@ -32,5 +32,5 @@ def test_multiple_point_scan_completes():
 	arc.dummy_mode = True # Do not try to actually run the live detector
 	arc.filename = "/dls_sw/i15-1/scripts/Xpdf/ProcessingFiles/arc_sim_1_frame.hdf5"
 
-	collect_arc(sampleid=first_valid_sample, exposure_time=10, frames=2, monitorsPerScan=[],
+	collect_arc(sampleid=first_valid_sample, exposure_time=10, tths=None, frames=2, monitorsPerScan=[],
 				monitorsPerPoint=[],comment="",f2="auto",preSleep=None,blocking=True,samX=None)
