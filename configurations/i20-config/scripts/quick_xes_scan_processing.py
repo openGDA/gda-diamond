@@ -6,6 +6,7 @@ from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 from os.path import dirname, basename
 from __builtin__ import False
 from time import sleep
+from gda.exafs.xes  import XesUtils
 
 
 # Load single dataset from Nexus file, then close immediately.
@@ -129,7 +130,8 @@ class QuickXesNexusProcessor :
         
         self.add_time_values()
 
-            
+        self.add_active_row_info()
+
     def get_i1_values(self) :
         return self.load_dataset(self.I1DataPath)
     
@@ -158,7 +160,7 @@ class QuickXesNexusProcessor :
     # using XES energy scannable
     def get_energy(self, XESEnergyScannable, pitch) :
         bragg_angle = 90 - math.fabs(pitch) # Bragg angle = 90 - pitch (degrees)
-        return XESEnergyScannable.convertAngleToEnergy(bragg_angle)
+        return XesUtils.getFluoEnergy(bragg_angle, XESEnergyScannable.getMaterialType(), XESEnergyScannable.getCrystalCut())
     
     def add_time_axis_link(self):
         # Link target for 'dummy' malcolm scans
@@ -254,7 +256,8 @@ class QuickXesNexusProcessor :
             
     def add_lower_row_derived_values(self, pitch_vals):
             
-        print("Adding axis parameters for lower row")
+        self.show_info("Adding axis parameters for lower row")
+        
         # Add link to offset and gain datasets in PANDABOX-01 file
         panda_hdf_path=self.get_panda_file_path("01")
         
@@ -271,8 +274,8 @@ class QuickXesNexusProcessor :
         self.add_link(nexus_gain_path, panda_hdf_path+"#"+panda_gain_path, True)
         
         #Read the first offset and gain value (they should be all the same)
-        offset_val = self.load_dataset(nexus_offset_path)[0][0]
-        gain_val = self.load_dataset(nexus_gain_path)[0][0]
+        offset_val = self.load_dataset(nexus_offset_path).data[0]
+        gain_val = self.load_dataset(nexus_gain_path).data[0]
         
         print("Offset : %.4f , Gain : %.4f"%(offset_val, gain_val))
         
@@ -281,8 +284,22 @@ class QuickXesNexusProcessor :
         self.add_dataset(self.processedPath+"/lower_pitch_values", list(lower_pitch_vals))
         
         energy_vals = [self.get_energy(XESEnergyLower, pitch) for pitch in lower_pitch_vals]
+        print("Lower energy values : "+str(energy_vals))
         self.add_dataset(self.processedPath+"/XESEnergyLower", energy_vals)
      
+    def add_active_row_info(self) :
+        self.show_info("Adding enabled row information")
+        if LocalProperties.isDummyModeEnabled() :
+            lower_enabled=1
+            upper_enabled=1
+        else :
+            lower_enabled = caget("BL20I-EA-XES-02:CS3:LO:ENA:RBV")
+            upper_enabled = caget("BL20I-EA-XES-01:CS3:UP:ENA:RBV")
+            
+        self.add_dataset(self.processedPath+"/xes_upper_enabled", upper_enabled)
+        self.add_dataset(self.processedPath+"/xes_lower_enabled", lower_enabled)
+
+        
     def add_time_values(self) :
         self.show_info("Adding time axis values")
         group_path=self.processedPath
@@ -293,7 +310,6 @@ class QuickXesNexusProcessor :
         # read the time data (make sure we are dealing with floats so DatasetFactory.createfroMObject is happy 
         # (dummy malcolm uses 64-bit ints for time data)
         start_times_data = self.load_dataset(start_times_path).astype(float)
-        self.scan_rank = self.get_scan_rank()
         
         # add relative time and spectrum start time data
         self.add_dataset(group_path+"/relative_point_start_times", self.get_relative_times(start_times_data).tolist())
@@ -308,6 +324,7 @@ class ScanHooks(ScanHookParticipant) :
         self.setName(name)
         self.run_post_processing = False
         self.sleep_time_sec = 3
+        self.filename = ""
         
     def atPrepareForScan(self, scanModel):
         # Look at scannable names and work out if processing is required at end of the scan
@@ -339,8 +356,11 @@ class ScanHooks(ScanHookParticipant) :
         if LocalProperties.isDummyModeEnabled() :
             scanProcessor.setup_dummy()
         scanProcessor.filename = self.filename
-        scanProcessor.add_processed_data()
+        run_in_try_catch(scanProcessor.add_processed_data)
         
 scanEndHook = ScanHooks("scanEndHook")
 scanEndHook.addScanParticipant()
 
+scanProcessor = QuickXesNexusProcessor()
+
+add_reset_hook(scanEndHook.removeScanParticipant)
