@@ -9,7 +9,6 @@
 		<property name="focusRange" value="0.5" />
 		<property name="numberOfFocusSteps" value="20" />
 		<property name="numberOfLinePoints" value="40" />
-		<property name="nameFilterRequired" value="True" />
 	</bean>
 
 </beans>
