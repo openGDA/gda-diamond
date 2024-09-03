@@ -41,4 +41,5 @@
 	<import resource="user_patch_panel.xml" />
 	<import resource="malcolm.xml" />
 	<import resource="keithley.xml" />
+	<import resource="access_control.xml" />
 </beans>

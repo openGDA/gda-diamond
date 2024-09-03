@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:X:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
+	</bean>
+
+	<bean id="yAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:Y:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
+	</bean>
+
+	<bean id="zAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:Z:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
+	</bean>
+
+	<bean id="polAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:POL:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
+	</bean>
+
+	<bean id="azmAccessControl" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="BL05J-EA-SM-01:AZM:ENABLE:RBV" />
+		<property name="reversedPvLogic" value="true" />
+	</bean>
+
+</beans>

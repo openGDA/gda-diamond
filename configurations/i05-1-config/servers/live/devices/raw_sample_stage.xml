@@ -9,29 +9,14 @@
 		<property name="pvName" value="BL05J-EA-SM-01:X" />
 	</bean>
 
-	<bean id="xAccessControl" class="gda.epics.AccessControl">
-		<property name="accessControlPvName" value="BL05J-EA-SM-01:X:ENABLE:RBV" />
-		<property name="reversedPvLogic" value="true" />
-	</bean>
-
 	<bean id="ssy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="yAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:Y" />
 	</bean>
 
-	<bean id="yAccessControl" class="gda.epics.AccessControl">
-		<property name="accessControlPvName" value="BL05J-EA-SM-01:Y:ENABLE:RBV" />
-		<property name="reversedPvLogic" value="true" />
-	</bean>
-
 	<bean id="ssz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="zAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:Z" />
-	</bean>
-
-	<bean id="zAccessControl" class="gda.epics.AccessControl">
-		<property name="accessControlPvName" value="BL05J-EA-SM-01:Z:ENABLE:RBV" />
-		<property name="reversedPvLogic" value="true" />
 	</bean>
 
 </beans>
