@@ -16,27 +16,40 @@ def fsxas():
     else:
         caput(SOURCE_CONTROL_PV, 0)
 
-def primary():
+def erio():
     if installation.isDummy():
         print("set '%s' to 1" % SOURCE_CONTROL_PV)
     else:
         caput(SOURCE_CONTROL_PV, 1)
 
-def polarimeter():
+def primary():
     if installation.isDummy():
-        print("set '%s'to 2" % SOURCE_CONTROL_PV)
+        print("set '%s' to 2" % SOURCE_CONTROL_PV)
     else:
         caput(SOURCE_CONTROL_PV, 2)
 
-def erio():
+def spare():
     if installation.isDummy():
-        print("set '%s' to 3" % SOURCE_CONTROL_PV)
+        print("set '%s'to 3" % SOURCE_CONTROL_PV)
     else:
         caput(SOURCE_CONTROL_PV, 3)
     
+def polpi():
+    if installation.isDummy():
+        print("set '%s'to 4" % SOURCE_CONTROL_PV)
+    else:
+        caput(SOURCE_CONTROL_PV, 4)
+
+def polsigma():
+    if installation.isDummy():
+        print("set '%s'to 5" % SOURCE_CONTROL_PV)
+    else:
+        caput(SOURCE_CONTROL_PV, 5)
     
 alias("fsxas")
-alias("primary")
-alias("polarimeter")
 alias("erio")
+alias("primary")
+alias("spare")
+alias("polpi")
+alias("polsigma")
 

@@ -104,7 +104,7 @@ else:
     m2fpsetpoint=DummyDisplayEpicsPVClass('m2fpsetpoint', 0.0, 50.0, 'px', '%.10f')
 
 
-from shutters.detectorShutterControl import fsxas, erio, primary, polarimeter  # @UnusedImport
+from shutters.detectorShutterControl import fsxas, erio, primary, spare, polpi, polsigma  # @UnusedImport
 from lights.chamberLight import lightOff, lightOn  # @UnusedImport
 
 print("create clever amplifier scannables: cleverd7femto1, cleverd7femto2")
