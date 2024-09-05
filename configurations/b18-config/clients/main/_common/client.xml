@@ -8,6 +8,7 @@
 	<import resource="live_controls.xml" />
 	<import resource="medipix.xml" />
 	<import resource="pilatus.xml" />
+	<!--import resource="lambda.xml" /-->
 	<import resource="../${gda.mode}/epics-cameras.xml" />
 	<import resource="robot-controls.xml" />
 	<import resource="sample-parameters-view-config.xml" />
@@ -24,6 +25,11 @@
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
+	</bean>
+	
+	<bean id="xspress2ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="detectorName" value="xspress2system" />
+		<property name="maxDetectorElementCounts" value="500000" />
 	</bean>
 
 	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
@@ -54,11 +60,14 @@
 			<map>
 				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters.xml"/>
 				<entry key="medipix" value="${gda.config}/templates/Medipix_Parameters.xml"/>
+				<entry key="xspress2system" value="${gda.config}/templates/Xspress_Parameters9.xml" />
 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 <!-- 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME4.xml" /> -->
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />
+				<!--entry key="lambda_addetector" value="${gda.config}/templates/Lambda_Parameters.xml" /-->
+				<entry key="ionchamber_optimisation" value="${gda.config}/templates/Ionchamber_Optimisation_Parameters.json" />
 			</map>
 		</property>
 	</bean>

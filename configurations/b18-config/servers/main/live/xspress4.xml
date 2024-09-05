@@ -22,7 +22,7 @@
 			<map>
 				<!-- Point to the PVs in the metawriter -->
 				<entry key="HDF_FULL_FILENAME_RBV" value=":META:OutputFile_RBV" />
-				<entry key="NUM_CAPTURED_RBV" value=":META:FramesWritten_RBV" />
+				<entry key="NUM_CAPTURED_RBV" value="1:NumCaptured_RBV" />  <!--  :META:FramesWritten_RBV -->
 			</map>
 		</property>
 	</bean>

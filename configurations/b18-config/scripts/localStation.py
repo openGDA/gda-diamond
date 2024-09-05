@@ -4,6 +4,8 @@ from uk.ac.gda.server.exafs.b18.scan.preparers import B18BeamlinePreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18DetectorPreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18SamplePreparer
 from uk.ac.gda.server.exafs.b18.scan.preparers import B18OutputPreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import AdjustmentPreparer
+
 from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 # from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
@@ -33,13 +35,25 @@ sensitivity_units = [i0_stanford_sensitivity_units, it_stanford_sensitivity_unit
 offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
 offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
+adjustmentPreparer = AdjustmentPreparer()
+adjustmentPreparer.setDummyDetectorName("ionchamber_optimisation")
+adjustmentPreparer.setRunOnFirstRepetitionOnly(True)
 
 detectorPreparer = B18DetectorPreparer(qexafs_energy, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01)
 daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-detectorPreparer.setDiffractionDetector(pilatus_addetector)
+detectorPreparer.setDiffractionDetectors([pilatus_addetector, lambda_addetector])
+detectorPreparer.addDetectorNameMapping("qexafs_pilatus", "qexafs_pilatus")
+detectorPreparer.setPreparers([adjustmentPreparer])
+
+if 'xspress2system' in locals() :
+    print("Setting up Xspress2 detector objects")
+    detectorPreparer.addDetectorNameMapping("xspress2system", "qexafs_xspress2")
+    detectorPreparer.addDetectorNameMapping("xspress2FFI0", "qexafs_xspress2_FFI0")
+else :
+    print("Xspress2 detector not present")
 
 ## Setup XspressOdin 
 xspress4IsPresent = 'xspress4Odin' in locals()
@@ -263,5 +277,9 @@ run("ionchamber_adjustment/set_amplifiers_routines.py")
 # Set the scaler dead frame time (for continuous detector scans with medipix)
 print 'Tfg frame dead time : set using qexafs_counterTimer01.setFrameDeadTime(1e-6) (time in seconds)'
 print 'Deadtime is currently set to : '+str(qexafs_counterTimer01.getFrameDeadTime())+" secs"
+
+print("Setting normal (non inverted) Veto options for output 0 and output 1")
+daServer.sendCommand("tfg setup-veto veto0-inv 0")
+daServer.sendCommand("tfg setup-veto veto1-inv 0")
 
 print "Initialization Complete";
