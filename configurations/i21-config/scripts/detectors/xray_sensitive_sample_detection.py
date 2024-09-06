@@ -12,10 +12,10 @@ from gdaserver import andor, fastshutter, y, z  # @UnresolvedImport
 from gda.device.detector.nxdetector import NXCollectionStrategyPlugin
 from detectors.MotionCoupledDetector import ExposureLimitedDetector
 
-exposure_limited_cs = ExposureLimitedCollectionStrategy("exposure_limited_cs", andor, fastshutter, exposure_time_limit = 0.1, motors = [y,z], beam_size = None, sample_size = None, sample_centre = None)
+exposure_limited_cs = ExposureLimitedCollectionStrategy("exposure_limited_cs", andor.getDetector(), fastshutter, exposure_time_limit = 0.1, motors = [y,z], beam_size = None, sample_size = None, sample_centre = None)
 
 #filter out collection strategy
-additional_plugins = [plugin for plugin in andor.getAdditionalPluginList() if not isinstance(plugin, NXCollectionStrategyPlugin)]
+additional_plugins = [plugin for plugin in andor.getDetector().getAdditionalPluginList() if not isinstance(plugin, NXCollectionStrategyPlugin)]
 
 el_andor = ExposureLimitedDetector("el_andor", exposure_limited_cs, additional_plugins)
 el_andor.setAddCollectTimeMs(True)
