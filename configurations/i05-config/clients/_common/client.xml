@@ -5,6 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="monitoring_controls.xml" />
+	<import resource="slicing_view_config.xml"/>
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 </beans>
