@@ -8,7 +8,7 @@ from gda.factory import Finder
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 import os
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
-from org.opengda.detector.electronanalyser.nxdetector import EW4000
+from org.opengda.detector.electronanalyser.nxdetector import EW4000, IAnalyserSequence
 from time import sleep
 from gda.jython import InterfaceProvider, JythonStatus
 import time
@@ -113,7 +113,7 @@ def analyserscancheck(*args):
                 
         i = i + 1
         
-    sequence = ew4000.loadSequenceData(filename)
+    sequence = ew4000.setSequenceFile(filename)
     regions = sequence.getRegion()
     print("")
     
@@ -213,8 +213,8 @@ def analyserscan(*args):
     ''' a more generalised scan that extends standard GDA scan syntax to support 
     1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and 
     2. its corresponding path tuple (e.g. tuple of position lists), if exist, and
-    3. EW4000 analyser detector that takes a region sequence file name as input, if exist, and
-    4. syntax 'analyserscan ew4000 "user.seq ...' for analyser scan only
+    3. detector that takes a region sequence file name as input, if exist, and
+    4. syntax 'analyserscan detector "user.seq ...' for analyser scan only
     It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
     Thus it can be used anywhere the standard GDA 'scan' is used.
     '''
@@ -223,22 +223,22 @@ def analyserscan(*args):
     newargs=[]
     i=0;
     
-    ew4000 = None
+    sequence_detector = None
     
     while i < len(args):
         arg = args[i]
             
-        if isinstance(arg,  EW4000):
-            ew4000 = arg
+        if isinstance(arg,  IAnalyserSequence):
+            sequence_detector = arg
             xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
             
-            newargs.append(ew4000)
+            newargs.append(sequence_detector)
             try:
                 #Get file name and skip over this argument as only needed for setup, should not be added to newargs
                 i = i + 1
                 filename = args[i]
             except IndexError:
-                raise IndexError("Next argument after " + ew4000.getName() + " needs to be a sequence file.")
+                raise IndexError("Next argument after " + sequence_detector.getName() + " needs to be a sequence file.")
             #Check if file exists, if not try with xmldir path added
             if not os.path.isfile(filename):
                 filename = os.path.join(xmldir, filename)
@@ -250,7 +250,7 @@ def analyserscan(*args):
             if not os.path.isfile(filename):
                 raise Exception("Unable to find file " + filename)
 
-            ew4000.loadSequenceData(filename)
+            sequence_detector.setSequenceFile(filename)
             
         elif type(arg)==TupleType:
             if allElementsAreScannable(arg):
@@ -285,8 +285,8 @@ def analyserscan(*args):
         newargs.insert(0, 0)
         newargs.insert(0, zeroScannable)
         
-    if newargs[0] == ew4000:
-        raise SyntaxError(ew4000.getName() + " with other scannables should be after scannable steps e.g 'analyserscan x 1 2 1 " + ew4000.getName() + " \"user.seq\" '")
+    if newargs[0] == sequence_detector:
+        raise SyntaxError(sequence_detector.getName() + " with other scannables should be after scannable steps e.g 'analyserscan x 1 2 1 " + sequence_detector.getName() + " \"user.seq\" '")
 
     scan(newargs)
 
