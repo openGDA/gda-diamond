@@ -75,6 +75,7 @@ public abstract class StatusView extends ViewPart {
 	private Double timeToRefillAlarmThreshold;
 	private boolean showBeamlineReadiness = true;
 	private BeamlineReadinessDisplay beamlineReadinessDisplay;
+	private DetectorCoverDisplay detectorCoverDisplay;
 
 	//private
 
@@ -107,7 +108,7 @@ public abstract class StatusView extends ViewPart {
 		final Group grpDetectorCover = createGroup(content, "Detector Cover", 1);
 		DetectorCoverParameters displayParams = getDetectorCoverParameters();
 		createNumericComposite(grpDetectorCover, displayParams.getScannableName(), "Position", "mm", 1, 1000);
-		new DetectorCoverDisplay(grpDetectorCover, displayParams);
+		detectorCoverDisplay = new DetectorCoverDisplay(grpDetectorCover, displayParams);
 
 		// Beamline status
 		final Group grpBeamline = createGroup(content, "Beamline", 2);
@@ -310,6 +311,7 @@ public abstract class StatusView extends ViewPart {
 	@Override
 	public void dispose() {
 		beamlineReadinessDisplay.dispose();
+		detectorCoverDisplay.dispose();
 	}
 
 }
