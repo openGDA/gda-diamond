@@ -58,7 +58,6 @@ Created on 12th Oct 2021
 from gdascripts.utils import frange
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
-import _bytecodetools
 from i21commands.checkedMotion import enable_arm_motion
 
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
@@ -71,16 +70,16 @@ LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 x_sample_pi0 = -1.357
 y_sample_pi0 = -1.5
 z_sample_pi0 = -0.9
-phi_sample_pi0 = -50.7 
-chi_sample_pi0 = 0.0 
+phi_sample_pi0 = -50.7
+chi_sample_pi0 = 0.0
 
 enable_sample_collection = True
 
 x_ctape_pi0 = +0.39
 y_ctape_pi0 = -1.5
 z_ctape_pi0 = -3.5
-phi_ctape_pi0 = -50.7 
-chi_ctape_pi0 = 0.0 
+phi_ctape_pi0 = -50.7
+chi_ctape_pi0 = 0.0
 
 enable_ctape_collection = True
 
@@ -169,7 +168,7 @@ if do_survey_collection:
     print("collect data at sample z positions in survey scan: %r" % z_sample_pi0_list_survey)
     sample_pi0_positions_survey = [(x_sample_pi0, y_sample_pi0, z) for z in z_sample_pi0_list_survey]
     print("collect data at sample positions in survey scan: %r" % sample_pi0_positions_survey)
-    
+
     if enable_ctape_collection:
         total_number_of_data_files_to_be_collected += number_of_iterations_survey
         total_number_of_images_to_be_collected += number_of_iterations_survey * ctape_no_images
@@ -198,7 +197,7 @@ if do_energy_map_collection:
         total_number_of_data_files_to_be_collected += len(en_list) * number_of_iterations_map
         total_number_of_images_to_be_collected += len(en_list) * number_of_iterations_map * sample_no_images
         total_exposure_time_requested += len(en_list) * number_of_iterations_map * sample_exposure_time * sample_no_images
-        
+
 print("\ntotal number of files to collect %r" % total_number_of_data_files_to_be_collected)
 print("Total number of images to be collected: %r" %  (total_number_of_images_to_be_collected))
 import datetime
@@ -223,7 +222,7 @@ def move_energy_to(energy_val, spech_val):
     energy.waitWhileBusy()
     spech.waitWhileBusy()
     print('RIXS at Energy = %.2f, and spech=%.2f' % (energy_val, spech_val))
-    
+
 ##################################################################
 ## Define survey scan function
 ##################################################################
@@ -234,7 +233,7 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
     from scannabledevices.checkbeamscannables import checkbeam
     from acquisition.darkImageAcqusition import add_dark_image_link, remove_dark_image_link
     global number_of_data_files_collected_so_far,number_of_images_collected_so_far,number_of_data_files_to_be_collected,number_of_images_to_be_collected
-    
+
     points_done =[]
     print("\nStart Survey scan data collection ...")
     for sample_pos in sample_positions:
@@ -276,9 +275,9 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
                 print("Number of images collected so far: %r" % number_of_images_collected_so_far)
                 print("Number of images to go: %r" % number_of_images_to_be_collected)
                 print('******************************************************************')
-            
+
             points_done.append(sample_pos)
-        
+
         except Exception, e:
             print("Survey scan data collection interrupted. Points not collected yet are: %r" % ([x for x in sample_positions if x not in points_done]))
             raise e
@@ -288,7 +287,7 @@ def survey_scan_at_fixed_energy(sample_positions, energy_spech_pair, phi_sample,
                 
             if enable_ctape_collection and ctape_image_link_added:
                 remove_ctape_image(det)
-            
+
 #################################################################################################
 ## Define energy and sample mapping scan function - energy changes with z position changes
 ##################################################################################################
@@ -326,7 +325,7 @@ def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, phi_
                     print("Number of images to go: %r" % number_of_images_to_be_collected)
                     print('******************************************************************')
                     ctape_data_collected = True
-                
+
                 if enable_sample_collection:
                     add_dark_image_link(det, dark_image_filename) 
                     print("move to sample position %r ..." % ([x_sample_pi0, y_val, z_val]))
@@ -346,7 +345,7 @@ def energy_sample_raster_scan(energy_spech_z_tuples, y_sample_pi0_list_map, phi_
                     print("Number of images to go: %r" % number_of_images_to_be_collected)
                     print('******************************************************************')
                     remove_dark_image_link(det)
-                    
+
                 inner_points_done.append(y_val)
             out_points_done.append((en_val, spech_val, z_val))
         except Exception, e:
@@ -362,13 +361,13 @@ if answer == "y":
 
     from gdaserver import th, s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
-    from shutters.detectorShutterControl import primary, polarimeter
+    from shutters.detectorShutterControl import primary, polpi
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
 
     s5v1gap.moveTo(exit_slit)
-    
+
     ##################################################################
     #We acquire some dark images before the E scan:
     ##################################################################
@@ -377,26 +376,26 @@ if answer == "y":
     remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
     remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
     dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
-    
+
     ######################################
     # moving diode to 0
     ######################################
     difftth.asynchronousMoveTo(0)
-    
+
     if detector_to_use in [andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
-        polarimeter()
-    fastshutter('Open')    
-    
+        polpi()
+    fastshutter('Open')
+
     th.asynchronousMoveTo(th_val)
-    
+
     # change polarization
     go(en_val, polarisation_val)
-    
+
     difftth.waitWhileBusy()
     th.waitWhileBusy()
-    
+
     #################################################################
     ###################### ACQUIRING DATA ###########################
     #################################################################
@@ -405,13 +404,13 @@ if answer == "y":
     number_of_images_collected_so_far = 0
     number_of_data_files_to_be_collected = total_number_of_data_files_to_be_collected
     number_of_images_to_be_collected = total_number_of_images_to_be_collected
-    
+
     #############################################################
     ###################### Survey Scans #########################
     #############################################################    
     if do_survey_collection:        
         survey_scan_at_fixed_energy(sample_pi0_positions_survey, energy_spech_pair, phi_sample_pi0, chi_sample_pi0, phi_ctape_pi0, chi_ctape_pi0, detector_to_use, dark_image_filename)
-    
+
     #############################################################
     ######################## Energy map #########################
     #############################################################

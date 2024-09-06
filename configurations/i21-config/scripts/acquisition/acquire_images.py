@@ -9,8 +9,8 @@ from time import sleep
 from gdascripts.utils import caput
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdaserver import sgmpitch, fastshutter  # @UnresolvedImport
-from shutters.detectorShutterControl import primary, polarimeter, erio, fsxas
-from gda.jython.commands.GeneralCommands import alias   
+from shutters.detectorShutterControl import primary, polpi, erio, fsxas
+from gda.jython.commands.GeneralCommands import alias
 from gda.device.scannable import DummyScannable
 
 ENABLE_ENCODER_LIGHT_CONTROL=False
@@ -41,14 +41,14 @@ def acquireImages(n, det, exposure_time, *args):
             clearEncoderLoss()
             sleep(0.1)
             sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
-                
+
 
 def clearEncoderLoss():
     '''clear encloder loss
     '''
     caput("BL21I-OP-SGM-01:PITCH:ELOSSRC.A", 0)
     sleep(2.0)
-         
+
 alias("clearEncoderLoss")
     
 def acquireRIXS(n, det, exposure_time, *args):
@@ -59,7 +59,7 @@ def acquireRIXS(n, det, exposure_time, *args):
     if det is andor:
         primary()
     elif det is Polandor_H:
-        polarimeter()
+        polpi()
     fastshutter("Open")
     lightOff()
     acquireImages(n, det, exposure_time, *args)

@@ -122,7 +122,7 @@ spech_val_fix = 1411.620  #Spech corresponding to the resonant energy
 #####################################################################################
 
 #the following line override sample_no_images
-imageno_list = [6, 6, 12] # it allows to collect a different number of images for different th 
+imageno_list = [6, 6, 12] # it allows to collect a different number of images for different th
 th_list =      [15,45,75]  #[round(x, 3) for x in frange(15,75.01,30)]
 phi_list = [round(x, 0) for x in frange(-60,60.01,10)]
 energy_list = [879.4] #[round(x, 3) for x in frange(925,935,0.4)]
@@ -169,7 +169,7 @@ def generate_points(level1_list_of_tuples, level2_list_of_tuples, level3_list, l
                         if index3 % 2 == 1:
                             for pol_val in reversed(level4_list):
                                 total_points.append(th_imageno + energy_spech + (phi_val,) + (pol_val,))
-                       
+
         if index1 % 2 == 1:
             for index2, energy_spech in enumerate(reversed(level2_list_of_tuples)):
                 if index2 % 2 == 0:
@@ -188,7 +188,7 @@ def generate_points(level1_list_of_tuples, level2_list_of_tuples, level3_list, l
                         if index3 % 2 == 1:
                             for pol_val in reversed(level4_list):
                                 total_points.append(th_imageno + energy_spech + (phi_val,) + (pol_val,))
-                                
+
     return total_points
 
 point_list = generate_points(theta_imageno_pairs, energy_spech_pairs, phi_list, polarisation_list)
@@ -231,9 +231,9 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 def collect_ctape_data(x_ctape, y_ctape, z_ctape, det, no_images, exposure_time):
     from gdaserver import xyz_stage, m4c1  # @UnresolvedImport
     from scannabledevices.checkbeamscannables import checkbeam
-    from acquisition.acquireCarbonTapeImages import acquire_ctape_image   
+    from acquisition.acquireCarbonTapeImages import acquire_ctape_image
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected
-    
+
     print("move to ctape position %r" % [x_ctape, y_ctape, z_ctape])
     xyz_stage.moveTo([x_ctape, y_ctape, z_ctape])
     ctape_image_link_added = acquire_ctape_image(no_images, det, exposure_time, m4c1, exposure_time, checkbeam)
@@ -254,7 +254,7 @@ def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_t
     from acquisition.acquire_images import acquireRIXS
     from acquisition.darkImageAcqusition import add_dark_image_link
     global number_of_data_files_collected_so_far, number_of_images_collected_so_far, number_of_data_files_to_be_collected, number_of_images_to_be_collected
-    
+
     dark_image_link_added = add_dark_image_link(det, dark_image_filename)
     print("move to sample position %r" % [x_sample, y_sample, z_sample])
     xyz_stage.moveTo([x_sample, y_sample, z_sample])
@@ -274,7 +274,7 @@ def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_c
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
     from acquisition.darkImageAcqusition import remove_dark_image_link
     from gdaserver import chi  # @UnresolvedImport
-    
+
     if enable_ctape_collection:
         chi.moveTo(chi_ctape)
         ctape_image_link_added = collect_ctape_data(x_ctape, y_ctape, z_ctape, det, ctape_no_images, ctape_exposure_time)
@@ -287,51 +287,51 @@ def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_c
         remove_dark_image_link(det)
 
 if answer == "y":
-    
+
     ########################################################################
     ### Users don't change lines below this line.
     ########################################################################
     from gdaserver import s5v1gap, difftth, fastshutter # @UnresolvedImport
-    
+
     s5v1gap.moveTo(exit_slit)
-    
+
     ######################################
     # moving diode to 0
     ######################################
     difftth.moveTo(0)
-    
+
     ##################################################################
     #We acquire some dark images before the E scan:
     ##################################################################
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
-    
+
     energy.moveTo(dark_image_energy)
     remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
     remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
     dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
-    
+
     ###########################################
     # shutter control
     ###########################################
-    from shutters.detectorShutterControl import primary, polarimeter
-    
+    from shutters.detectorShutterControl import primary, polpi
+
     if detector_to_use in [andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
-        polarimeter()
-    fastshutter('Open')    
-    
+        polpi()
+    fastshutter('Open')
+
     energy.moveTo(energy_list[0]) ###do this really required???
-    
+
     ############################################################
     ################# ACQUIRING DATA ###########################
     ############################################################
-    
+
     from gdaserver import th, phi, spech  # @UnresolvedImport
     from functions.go_founctions import go
-    
+
     for th_val,no_images,energy_val,spech_val,phi_val,pol_val in point_list:
         print("move th to %f ..." % th_val)
         th.asynchronousMoveTo(th_val)
@@ -349,10 +349,10 @@ if answer == "y":
         spech.waitWhileBusy()
         phi.waitWhileBusy()
         print("all motions are completed!")
-        
+
         print('\n%s RIXS at th = %.3f, phi = %.3f, Energy = %.3f and spech = %.3f' % (pol_val, th_val, phi_val, energy_val, spech_val))
         collect_data(x_sample_pi0, y_sample_pi0, z_sample_pi0, chi_sample_pi0, x_ctape_pi0, y_ctape_pi0, z_ctape_pi0, chi_ctape_pi0, detector_to_use, ctape_no_images, ctape_exposure_time, no_images, sample_exposure_time, dark_image_filename)
-        
+
     ##########################################
     
     # move spech to the optimised position for qscan (resonance)

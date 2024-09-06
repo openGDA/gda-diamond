@@ -32,7 +32,7 @@ spech_original = 1415.87
 
 # INSERT SHIFT FOR CURRENT ENERGY AND SPECTROMETER GRATING AT SPECGAMMA DEFINED BY SPECGAMMAVAL
 shift = 115 # shift of beam in the vertical direction by moving sgmpitch by 0.002 deg at specgamma=specgammaval
-specgammaval = 20# Please do not change!! the nominal angle for the vertical shift defined above 
+specgammaval = 20 # Please do not change!! the nominal angle for the vertical shift defined above
 
 step_number = 6
 
@@ -71,11 +71,11 @@ sgmpitch_spech_scannable_group.addGroupMember(sgmpitch, spech_wraper)
 
 s5v1gap.moveTo(s5v1gap_val)
 
-from shutters.detectorShutterControl import primary, polarimeter
+from shutters.detectorShutterControl import primary, polpi
 if detector_to_use in [andor, xcam]:
     primary()
 elif detector_to_use is Polandor_H:
-    polarimeter()
+    polpi()
 fastshutter('Open')
 
 #collec data using nested scan
@@ -83,7 +83,7 @@ from gda.jython.commands.ScannableCommands import scan
 scan(sgmpitch_spech_scannable_group, sgmpicth_spech_pair_positions, detector_to_use, exposure_time)
 
 print('All scans are done!!!')
-    
+
 from i21commands.checkedMotion import move
 move(spech, spech_original)
 sgmpitch.moveTo(sgmpitch_original)

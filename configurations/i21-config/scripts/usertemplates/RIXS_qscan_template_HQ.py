@@ -70,7 +70,7 @@ LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
 
 tth = 150.0
 tth_m5hq = tth + 4.0
-tth_m5lq = tth - 4.0 
+tth_m5lq = tth - 4.0
 
 ## this script currently only support either m5hq or m5lq, but not both at the same time!
 use_high_q_m5 = True
@@ -99,7 +99,7 @@ y_sample_pi0 = +0.7
 z_sample_pi0 = +1.6
 phi_sample_pi0 = 0
 chi_sample_pi0 = 0
- 
+
 x_ctape_pi0 = +0.39
 y_ctape_pi0 = -1.5
 z_ctape_pi0 = -3.5
@@ -107,7 +107,7 @@ phi_ctape_pi0 = 0
 chi_ctape_pi0 = 0
 
 th_offset_pi0 = +2.8+2.393
- 
+
 ############################################################################
 # User Section - definition of the sample and ctape position along (pi,pi)
 ############################################################################
@@ -123,9 +123,9 @@ y_ctape_pipi=-2.0
 z_ctape_pipi=-2.8
 phi_ctape_pipi= 45
 chi_ctape_pipi= 45
- 
+
 th_offset_pipi = +2.8+2.393
- 
+
 #############################################
 # User Section - defining exit slit opening
 #############################################
@@ -151,7 +151,7 @@ sample_no_images = 2
 ctape_no_images = 1
 
 sample_exposure_time = 30
-ctape_exposure_time = 30 
+ctape_exposure_time = 30
 
 #####################################################################
 ################# Q range and steps #################################
@@ -201,7 +201,7 @@ def calculate_theta_value_for_q(th_offset, qlist, tth_m5q, h, k):
         except ValueError, e:
             print("\nCalculate theta value from q failed at qval = %.4f, th_offset = %.4f, tth_m5q = %.4f, energy = %.4f" % (qval, th_offset, tth_m5q, E_initial))
             raise e
-        th_list.append(thval)    
+        th_list.append(thval)
     return th_list
 
 if use_high_q_m5:
@@ -263,15 +263,15 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
     print('\nscan between q= %.4f and q= %.4f using the M5hq mirror, s5v1gap = %d, %s, energy = %.2f'%(q_th_pair_list[0][0], q_th_pair_list[len(q_th_pair_list)-1][0], exit_slit, pol, E_initial))
     for qval, thval in q_th_pair_list:
         th.asynchronousMoveTo(thval)
-        meta.addScalar("Q", "H", qval) 
-        
+        meta.addScalar("Q", "H", qval)
+
         print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for ctape at %r' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, ctape))
         phi.asynchronousMoveTo((phi_ctape))
         chi.asynchronousMoveTo(chi_ctape)
         th.waitWhileBusy()
         phi.waitWhileBusy()
         chi.waitWhileBusy()
-       
+
         try:
             xyz_stage.moveTo(ctape)
             ctape_image_link_added = acquire_ctape_image(ctape_no_images, det, ctape_exposure_time, m4c1, ctape_exposure_time, checkbeam)
@@ -284,7 +284,7 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
             print("Number of images collected so far: %r" % number_of_images_collected_so_far)
             print("Number of images to go: %r" % number_of_images_to_be_collected)
             print('******************************************************************')
-        
+
             dark_image_link_added = add_dark_image_link(det, dark_image_filename)
             print('Total number of points is %d. Point number %d is at qtrans_inplane=%.4f, th=%.3f for sample at %r)' % (len(q_th_pair_list), number_of_data_files_collected_so_far + 1.0, qval, thval, sample))
             phi.asynchronousMoveTo((phi_sample))
@@ -292,7 +292,7 @@ def collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape
             xyz_stage.moveTo(sample)
             phi.waitWhileBusy()
             chi.waitWhileBusy()
-            acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)    
+            acquireRIXS(sample_no_images, det, sample_exposure_time, m4c1, sample_exposure_time, checkbeam)
             number_of_data_files_collected_so_far += 1
             number_of_images_collected_so_far += sample_no_images
             number_of_data_files__to_be_collected -= 1
@@ -320,18 +320,18 @@ if answer == "y":
     ############################################################
     ################# ACQUIRING DATA ###########################
     from gdaserver import  s5v1gap, difftth, fastshutter  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polarimeter    
+    from shutters.detectorShutterControl import primary, polpi
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
-    
+
     s5v1gap.moveTo(exit_slit)
-    
+
     ######################################
     # moving diode to 0
     ######################################
     difftth.moveTo(0)
-    
+
     ##################################################################
     #We acquire some dark images before the scan:
     ##################################################################
@@ -344,13 +344,13 @@ if answer == "y":
     if detector_to_use in [andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
-        polarimeter()
+        polpi()
     fastshutter('Open')
-    
+
     #################### HQ MIRROR ###########################    
     for pol, phi_ctape, phi_sample, chi_ctape, chi_sample, ctape, sample, q_th_pair_list in collection_positions:
         go(E_initial, pol)
         collect_data(q_th_pair_list, ctape, sample, phi_ctape, phi_sample, chi_ctape, chi_sample, pol, detector_to_use, dark_image_filename)
-    
+
 #####################################################################
 print('Macro is completed !!!')

@@ -214,7 +214,7 @@ def collect_data(ctape, sample, point_list, det, dark_image_filename):
             print("Number of images collected so far: %r" % number_of_images_collected_so_far)
             print("Number of images to go: %r" % number_of_images_to_be_collected)
             print('******************************************************************')
-            
+
             dark_image_link_added = add_dark_image_link(det, dark_image_filename)
             print("move to sample position %r" % sample)
             xyz_stage.moveTo(sample)
@@ -243,16 +243,16 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 if answer == "y":
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from gdaserver import s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polarimeter
+    from shutters.detectorShutterControl import primary, polpi
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
-    
+
     #####################################
     # defining exit slit opening
     #####################################
-    s5v1gap.moveTo(exit_slit)    
-    
+    s5v1gap.moveTo(exit_slit)
+
     ##################################################################
     #We acquire some dark images before the E scan:
     ##################################################################
@@ -261,27 +261,27 @@ if answer == "y":
     remove_dark_image_link(detector_to_use) # ensure any previous dark image file link is removed
     remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
     dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
-    
+
     ######################################
     # moving diode to 0
     ######################################
-    difftth.moveTo(0)    
-    
+    difftth.moveTo(0)
+
     #################################################################
     #Defining E_initial
     #################################################################
     
-    E_initial = energy_list[0] ## was 'E_initial = 931'
+    E_initial = energy_list[0] ## was 'E_initial = 931
     E_end = energy_list[-1]
-    
+
     #################################################################
     ###################### ACQUIRING DATA ###########################
     #################################################################
     if detector_to_use in [andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
-        polarimeter()
-    fastshutter('Open')    
+        polpi()
+    fastshutter('Open')
 
     # collecting data with given parameters
     from gdaserver import phi, chi  # @UnresolvedImport
@@ -297,11 +297,11 @@ if answer == "y":
         chi.waitWhileBusy()
         collect_data(ctape, sample, point_list, detector_to_use, dark_image_filename)
         i += 1
-    
-            
+
+
     #################################################
     #################################################
-    
+
     # move spech to the optimised position for qscan (resonance)    
     energy.asynchronousMoveTo(energy_val_fix)
     enable_arm_motion()

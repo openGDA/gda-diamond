@@ -215,15 +215,15 @@ if enable_pi0_collection:
     for hval in h_list:
         th_val, true_tth_val, armtth_val = calculate_th_tth_from_h_l(hval, l_val, th_offset_sample_pi0)
         h_points_pi0.append((th_val, true_tth_val, armtth_val, hval, l_val))
-    print("Collection points for H Scan with fixed L at pi0: %r" % h_points_pi0)  
+    print("Collection points for H Scan with fixed L at pi0: %r" % h_points_pi0)
     total_number_of_points_to_be_collected += len(h_points_pi0)
-    
+
 if enable_pipi_collection:
     h_points_pipi = []
     for hval in h_list:
         th_val, true_tth_val, armtth_val = calculate_th_tth_from_h_l(hval, l_val, th_offset_sample_pipi)
         h_points_pipi.append((th_val, true_tth_val, armtth_val, hval, l_val))
-    print("Collection points for H Scan with fixed L at pipi: %r" % h_points_pipi)  
+    print("Collection points for H Scan with fixed L at pipi: %r" % h_points_pipi)
     total_number_of_points_to_be_collected += len(h_points_pipi)
 
 ################################################################################
@@ -279,31 +279,31 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
     chi.asynchronousMoveTo(chi_offset)
     phi.waitWhileBusy()
     chi.waitWhileBusy()
-    
+
     for th_val, true_tth_val, armtth_val, h_val, l_val in point_list:
     
         energy.asynchronousMoveTo(energy_val_instrument)
     
         print ('th=%.3f, m5tth=%.3f and true_tth=%.3f for h0=%.3f and l=%.3f\n'%(th_val,armtth_val,true_tth_val,h_val,l_val))
         gv17('Close')
-        
+
         #Motor position correction for arm tth :
         print ('move m5hqx to %f ...' % calc_m5hqx(armtth_val))
         m5hqx.asynchronousMoveTo(calc_m5hqx(armtth_val))
         print ('move sgmpitch to %f ...' % calc_sgmpitch(armtth_val))
         sgmpitch.asynchronousMoveTo(calc_sgmpitch(armtth_val))
-        
+
         #move rest of the motors:    
         print ('rotating theta to %f ...' % th_val)
         th.asynchronousMoveTo(th_val)
         print ('rotating collecting mirror to %f ...' % armtth_val)
         m5tth.asynchronousMoveTo(armtth_val)
-        
+
         #Rotate the arm:
         print ('rotating arm with detector to %f ...' % armtth_val) 
         move(armtth,armtth_val,sgmr1_val=sgmr1_val_fix,specl_val=specl_val_fix)
         print ('arm rotation completed')
-        
+
         #make sure all motor motions complete
         energy.waitWhileBusy()
         m5hqx.waitWhileBusy()
@@ -311,16 +311,16 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
         th.waitWhileBusy()
         m5tth.waitWhileBusy()
         print("all motions are completed\n")
-    
+
         # configure metadata to capture
         meta.addScalar("Q", "H", h_val) 
         meta.addScalar("Q", "K", 0) 
         meta.addScalar("Q", "L", l_val) 
-    
+
         #Open Gate valve between sample vessel and detector
         gv17('Reset')
         gv17('Open')
-    
+
         try:
             ###Collect data
             print("move to ctape position %r" % ctape_pi0)
@@ -336,7 +336,7 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
             print("Number of images collected so far: %r" % number_of_images_collected_so_far)
             print("Number of images to go: %r" % number_of_images_to_be_collected)
             print('******************************************************************\n')
-            
+
             dark_image_link_added = add_dark_image_link(det, dark_image_filename)
             print("move to sample position %r" % sample_pi0)
             xyz_stage.moveTo(sample)
@@ -356,11 +356,11 @@ def collect_data(point_list, det, ctape, sample, phi_offset, chi_offset, dark_im
             if ctape_image_link_added:
                 # able next line if you want to explicitly remove the node link to ctape data collected above from any subsequent scan.
                 remove_ctape_image(det)
-    
+
         ### !!!remove dynamic metadata items if you don't want any side effect for future data collection into data files.
         meta.rm("Q", "H")
         meta.rm("Q", "K")
-        meta.rm("Q", "L")  
+        meta.rm("Q", "L")
 
 answer = "y"
 
@@ -369,11 +369,11 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 
 if answer == "y":
     from gdaserver import phi, chi, s5v1gap, spech, fastshutter  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polarimeter
+    from shutters.detectorShutterControl import primary, polpi
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
-    
+
     s5v1gap.asynchronousMoveTo(exit_slit)
     energy.asynchronousMoveTo(energy_val_instrument)
     enable_arm_motion()
@@ -382,7 +382,7 @@ if answer == "y":
     s5v1gap.waitWhileBusy()
     spech.waitWhileBusy()
     energy.waitWhileBusy()
-    
+
     ###########################################
     # Dark Image                                                                #
     #############################################################################
@@ -391,13 +391,13 @@ if answer == "y":
     remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
     dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
     energy.moveTo(energy_val_fix)
-    
+
     # shutter control based on detector to use for data collection
     if detector_to_use in [andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
-        polarimeter()
-    fastshutter('Open')   
+        polpi()
+    fastshutter('Open')
 
     if enable_pi0_collection:
         ############################################################################
@@ -405,7 +405,7 @@ if answer == "y":
         ############################################################################
         if enable_l_scan_at_fixed_h:
             collect_data(l_points_pi0, detector_to_use, ctape_pi0, sample_pi0, phi_offset_pi0, chi_offset_pi0, dark_image_filename)  
-            
+
         ############################################################################
         #                 H scan with fixed L   (not valid for hexagonal symmetry) #
         ############################################################################
@@ -418,11 +418,11 @@ if answer == "y":
         ############################################################################
         if enable_l_scan_at_fixed_h:
             collect_data(l_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi, dark_image_filename)  
-            
+
         ############################################################################
         #                 H scan with fixed L   (not valid for hexagonal symmetry) #
         ############################################################################
         if enable_h_scan_at_fixed_l:
             collect_data(h_points_pipi, detector_to_use, ctape_pipi, sample_pipi, phi_offset_pipi, chi_offset_pipi, dark_image_filename)  
-        
+
 print ('macro is finished')

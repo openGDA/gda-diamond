@@ -14,9 +14,9 @@ from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import NexusScanDataWriter
 from org.eclipse.dawnsci.analysis.api.tree import Node
 import os
-from gda.jython.commands.GeneralCommands import alias   
+from gda.jython.commands.GeneralCommands import alias
 from acquisition.acquire_images import acquireImages
-from shutters.detectorShutterControl import primary, polarimeter
+from shutters.detectorShutterControl import primary, polpi
 from gdaserver import fastshutter, andor, Polandor_H # @UnresolvedImport
 
 def acquire_flat_field(num_images, detector, acquire_time, *args):
@@ -26,7 +26,7 @@ def acquire_flat_field(num_images, detector, acquire_time, *args):
     if detector is andor:
         primary()
     elif detector is Polandor_H:
-        polarimeter()
+        polpi()
     fastshutter("Open")
     acquireImages(num_images, detector, acquire_time, *args)
     entry_name = str(LocalProperties.get(NexusScanDataWriter.PROPERTY_NAME_ENTRY_NAME, NexusScanDataWriter.DEFAULT_ENTRY_NAME)) 
@@ -35,13 +35,12 @@ def acquire_flat_field(num_images, detector, acquire_time, *args):
     filename = os.path.basename(str(last_scan_file()))
     meta.addLink(detector.getName(), NXdetector.NX_FLATFIELD, external_link_path, filename)
     print("A link to flat field image data at '%s#%s' \nwill be added to detector '%s' as '%s' in subsequent scan data files \nwhen this detector is used until it is removed\n" % (filename, external_link_path, detector.getName(), NXdetector.NX_FLATFIELD))
-    
+
 alias("acquire_flat_field")
 
-    
 def remove_flat_field(detector):
     '''remove current flat field link metadata device
     '''
     meta.rm(str(detector.getName()), str(NXdetector.NX_FLATFIELD))
 
-alias("remove_flat_field") 
+alias("remove_flat_field")

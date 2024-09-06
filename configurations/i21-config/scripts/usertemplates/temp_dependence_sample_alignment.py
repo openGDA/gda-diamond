@@ -7,7 +7,7 @@ Created on 12th Oct 2021
 from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
 from gdaserver import fy2_i, s5v1gap,th,fastshutter,gv17,difftth,m5tth,draincurrent_i,diff1_i,z  # @UnresolvedImport
 from gdascripts.scan.installStandardScansWithProcessing import rscan
-from shutters.detectorShutterControl import erio, primary, polarimeter
+from shutters.detectorShutterControl import erio, primary, polpi
 
 #########################################################################
 
@@ -25,9 +25,8 @@ z_sample = 0.0
 z_start_relative = -0.8
 z_stop_relative = 0.9
 z_step_relative = 0.05
- 
 
-    
+
 ########################################
 #User Section - Defining CCD parameters
 ########################################
@@ -79,7 +78,7 @@ rscan(z, -0.8, 0.9, 0.05, draincurrent_i, 1, diff1_i, 1, fy2_i, 1)
 if detector_to_use in [andor, xcam]:
     primary()
 if detector_to_use is Polandor_H:
-    polarimeter()
+    polpi()
 
 # Then we open the valve between the SGM and the detector:
 gv17('Open')
