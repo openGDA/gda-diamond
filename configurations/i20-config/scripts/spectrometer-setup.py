@@ -76,9 +76,6 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
 
     # Set some positions so Bragg calculation can work correctly
     spectrometerScannable.getRadiusScannable().moveTo(radiusValue)
-    if spectrometerScannable.getSpectrometerX() != None : 
-        spectrometerScannable.getSpectrometerX().moveTo(radiusValue)
-         
     spectrometerScannable.getDetYScannable().moveTo(475.0)
 
     # Set the crystal cuts
@@ -101,8 +98,8 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
     
     
 # Set the demand value precisions in XES bragg objects
-XESBraggUpper.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
-XESBraggLower.setMotorDemandPrecisions([0.0, 0.0, 0.0035, 0.0])
+XESBraggUpper.setAnalyserDemandPrecision([0.0, 0.0, 0.0035, 0.0])
+XESBraggLower.setAnalyserDemandPrecision([0.0, 0.0, 0.0035, 0.0])
 
 # Set the GDA tolerance and number of retries on each ScannableMotor
 setAnalyserMoveTolerances(XESEnergyLower, [0.005, 0.005, 0.005, 0.005], 3)
