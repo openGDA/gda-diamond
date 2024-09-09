@@ -110,6 +110,8 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     y_positions = dnp.arange(y_min, y_max, y_step)
     num_y_positions = len(y_positions)
 
+    all_nexus_file_names = []
+    
     for idx, energy in enumerate(energies):
         
         print("\nPreparing Sparse XANES scan %d of %d"%(idx+1, num_scans))
@@ -151,6 +153,8 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         smetadata.setType(ScanMetadata.MetadataType.ENTRY)
         smetadata.addField("sparse_y_positions", sparse_pos_y_str)
         smetadata.addField("sparse_y_index", sparse_ind_y_str)
+        smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
+
         print("%d sparse Y positions"%(len(rand_y_positions)))
         print("Positions : %s"%(sparse_pos_y_str))
         print("Indices   : %s"%(sparse_ind_y_str))
@@ -175,4 +179,6 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         print("Submitting %s "%(scan_name))
 
         submit(request, block=True, name=scan_name)
+        all_nexus_file_names.append(filename_listener.file_name)
+        print("File path "+filename_listener.file_name)
 

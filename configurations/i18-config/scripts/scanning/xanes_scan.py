@@ -2,7 +2,10 @@ import sys
 import traceback
 from mapping_scan_commands import submit
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel #@Unresolvedimport
+from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
+
 import scisoftpy as dnp
+
 
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     try:
@@ -66,13 +69,25 @@ def run_scan_request(scanRequest, xanesEdgeParams):
 
     print("Total scans: {}".format(len(all_energies)))
 
+    all_nexus_file_names = []
+
     # Now loop round for each step model
     scan_number = 1
 
     for energy in all_energies :
         scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number, len(all_energies), energy)
+
+        # set the scan metadata to include list of all nexus files in the stack of scans run so far
+        smetadata = ScanMetadata()
+        smetadata.setType(ScanMetadata.MetadataType.ENTRY)
+        smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
+        scanRequest.setScanMetadata([smetadata])
+        
         print(scan_name)
         energy_scannable.moveTo(energy*1000)
         submit(scanRequest, block=True, name=scan_name)
+        
+        all_nexus_file_names.append(filename_listener.file_name)
+        
         scan_number += 1
 

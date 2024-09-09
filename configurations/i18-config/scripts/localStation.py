@@ -346,3 +346,38 @@ def update_t1theta_lut(newpath) :
     t1theta_ev_deg_converter.reloadConverter()
     
 setup()
+
+from uk.ac.diamond.osgi.services.ServiceProvider import getService  # @UnresolvedImport
+from gda.configuration.properties.LocalProperties import getBrokerURI  # @UnresolvedImport
+from org.eclipse.scanning.api.event.bean import IBeanListener  # @UnresolvedImport
+from org.eclipse.scanning.api.event import IEventService  # @UnresolvedImport
+from java.net import URI  # @UnresolvedImport
+
+class FilenameListener(IBeanListener):
+    """
+    Triggers actions when experiment starts/ends
+    """
+    def __init__(self):
+        self.subscriber = self.create_subscriber()
+        self.subscriber.addListener(self)
+        self.file_name = ""
+
+    def create_subscriber(self):
+        topic = "org.eclipse.scanning.status.topic"
+        jms_uri = URI(getBrokerURI())
+        return getService(IEventService).createSubscriber(jms_uri, topic)
+    
+    def beanChangePerformed(self, event):
+        scan_bean = event.getBean()
+        # print("Bean change performed "+str(scan_bean))
+        if scan_bean.getPoint() > 0 :
+            self.file_name = scan_bean.getFilePath()
+        else :
+            self.file_name = ""
+    
+    def close(self):
+        self.subscriber.removeListener(self)
+        self.subscriber.disconnect()
+        
+filename_listener = FilenameListener()
+add_reset_hook(filename_listener.close)
