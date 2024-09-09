@@ -18,7 +18,7 @@ XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
 
 # axis_detector_map_malcolm = {XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
 
-axis_detector_map_malcolm = {XESEnergyUpper : ("xes_01_xtal_all_pitch", "BL20I-ML-SCAN-02")}
+axis_detector_map_malcolm = {XESEnergyBoth : ("xes_01_xtal_all_pitch", "BL20I-ML-SCAN-02"), XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
 
 # axes for doing software malcolm scan (dummy mode).
 axis_detector_map_gda = {XESEnergyLower : ("lower_zero_pitch", "medipix2_addetector"),  XESEnergyUpper : ("upper_zero_pitch", "medipix1_addetector")}
@@ -35,7 +35,7 @@ def run_mapping_scan(scan_request, scan_name="QXES") :
         print("Exception running scan",e)
 
 def run_qxes_scan_energy(xes_energy_scn, energy_start, energy_end, energy_step, exposure_time=0.1, num_reps=1, outer_scannable=None, use_malcolm = True, continuous_scan = True, is_alternating=True):
-    pitch_start, pitch_end, pitch_step = calculate_scan_pitch_for_scan(xes_energy_scn, energy_start, energy_end, energy_step)
+    pitch_start, pitch_end, pitch_step = calculate_pitch_for_scan(xes_energy_scn, energy_start, energy_end, energy_step)
     if num_reps > 1 and outer_scannable is not None :
         run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, num_reps, outer_scannable, use_malcolm, continuous_scan, is_alternating)
     else :
@@ -108,51 +108,111 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     name_for_queue = "Qxes (Malcolm)" if use_malcolm else "Qxes"
     run_mapping_scan(request, scan_name=name_for_queue)
 
-def create_axis_control_scannables() :
-    qxes_upper_enable = PVScannable("qxes_upper_enable", "BL20I-EA-XES-01:CS3:UP:ENA")
-    qxes_lower_enable = PVScannable("qxes_lower_enable", "BL20I-EA-XES-02:CS3:LO:ENA")
-    qxes_lower_gain =   PVScannable("qxes_lower_gain",   "BL20I-EA-XES-02:CS3:LO:GAIN")
-    qxes_lower_offset = PVScannable("qxes_lower_offset", "BL20I-EA-XES-02:CS3:LO:OFFSET")
-
-    scannables = [qxes_upper_enable, qxes_lower_enable, qxes_lower_gain, qxes_lower_offset]
-    for scn in scannables : 
-        scn.configure()
-    return scannables
-
-def setup_panda_offsets() :
-    motor_order = ["C", "P1", "P2", "P3", "M1", "M2", "M3"]
-    spec_pitch_pv_base = "BL20I-EA-XES-0%d:XTAL:%s:PITCH"
-    panda_posbus_pv_pattern = "BL20I-EA-PANDA-0%d:DRV:POSBUS%d:SETPOS"
+class HardwarePreparer() :
     
-    # Generate PV names for the pitch positions (upper row, then lower row - in same order as motor_order list)
-    pitch_pvs=[]
-    for row in range(1, 3) :
-        pitch_pvs.extend(spec_pitch_pv_base%(row, xtl) for xtl in motor_order)
+    def reset_medipix(self) :
+        print("Setting Medipix trigger mode to internal, PositionMode to 0 and XML layout path to default")
         
-    ## Generate pv names that correspond to panda position capture for each motor (same order of motors as in pitch_pvs list)
-    posbus_pvs = []
-    for panda_idx in range(1, 5) :
-        max_val = 3 if panda_idx%2==0 else 4 
-        for pos_idx in range(max_val) :
-            posbus_pvs.append( panda_posbus_pv_pattern%(panda_idx, pos_idx))
-            print(panda_idx, pos_idx)
+        # PV name - value pairs to be set on each medipix
+        posMode = ":HDF5:PositionMode", 0
+        triggerMode = ":CAM:TriggerMode", 0
+        layout = ":HDF5:XMLFileName", ""
+        value_pairs = [posMode, triggerMode, layout]
+        
+        # Generate Medipix basePV names from ADBase on medipix ADDetector objects
+        detectors = [medipix1_addetector, medipix2_addetector]
+        base_pvs = [det.getAdBase().getBasePVName().replace(":CAM:","") for det in detectors]
     
-    # Compute the new posbus value for each pitch motor and apply to Panda 
-    mres_value = float(CAClient.get(pitch_pvs[0]+".MRES"))
-    print("Setting panda offset values using pitch readback (mres = %.4g)"%(mres_value))
-    for rbv_pv, posbus_pv in zip(pitch_pvs, posbus_pvs) :
-        readback = float(CAClient.get(rbv_pv+".RBV"))
-        #  Compute new posbus value : absolute value of readback/mres
-        new_posbus_val = math.fabs(readback/mres_value)
-        print("%s = %.4f , setting %s = %d"%(rbv_pv, readback, posbus_pv, new_posbus_val))
-        CAClient.put(posbus_pv, new_posbus_val)
+        for basename in base_pvs :
+            for value_pair in value_pairs :
+                pv_name = basename+value_pair[0]
+                pv_value = value_pair[1]
+                # eet appropriate caput method to use - in case dealing with a string
+                caput_pv_value = CAClient.putStringAsWaveform if isinstance(pv_value, str) else CAClient.put
+                print("Caput %s %s"%(pv_name, str(pv_value)))
+                caput_pv_value(pv_name, pv_value)
 
-def test_qxes() :
-    start = -7.7
-    end = -7.4
-    step_size = 0.01
-    exp_time = 0.1
-    run_qxes_scan(XESEnergyLower, start, end, step_size, exp_time, use_malcolm = True, continuous_scan = True)
+    def setup_panda_offsets(self, debug=False) :
+        motor_order = ["C", "P1", "P2", "P3", "M1", "M2", "M3"]
+        spec_pitch_pv_base = "BL20I-EA-XES-0%d:XTAL:%s:PITCH"
+        panda_posbus_pv_pattern = "BL20I-EA-PANDA-0%d:DRV:POSBUS%d:SETPOS"
+        
+        # Generate PV names for the pitch positions (upper row, then lower row - in same order as motor_order list)
+        pitch_pvs=[]
+        for row in 1, 2 :
+            pitch_pvs.extend(spec_pitch_pv_base%(row, xtl) for xtl in motor_order)
+            
+        ## Generate pv names that correspond to panda position capture for each motor (same order of motors as in pitch_pvs list)
+        posbus_pvs = []
+        for panda_idx in 1, 2, 3, 4 :
+            max_val = 3 if panda_idx%2==0 else 4 
+            for pos_idx in range(max_val) :
+                posbus_pvs.append( panda_posbus_pv_pattern%(panda_idx, pos_idx))
+                if debug :
+                    print(panda_idx, pos_idx)
+        
+        # Compute the new posbus value for each pitch motor and apply to Panda 
+        mres_value = float(CAClient.get(pitch_pvs[0]+".MRES"))
+        print("Setting panda offset values using pitch readback (mres = %.4g)"%(mres_value))
+        
+        if LocalProperties.isDummyModeEnabled() :
+            print("Skipping - dummy mode enabled")
+            return
+        
+        for rbv_pv, posbus_pv in zip(pitch_pvs, posbus_pvs) :
+            readback = float(CAClient.get(rbv_pv+".RBV"))
+            #  Compute new posbus value : absolute value of readback/mres
+            new_posbus_val = math.fabs(readback/mres_value)
+            if debug : 
+                print("%s = %.4f , setting %s = %d"%(rbv_pv, readback, posbus_pv, new_posbus_val))
+            CAClient.put(posbus_pv, new_posbus_val)
+
+class XesAxisControl : 
+    def __init__(self) :
+        self.create_axis_control_scannables()
+
+    def create_axis_control_scannables(self) :
+        self.upper_enable = PVScannable("qxes_upper_enable", "BL20I-EA-XES-01:CS3:UP:ENA")
+        self.lower_enable = PVScannable("qxes_lower_enable", "BL20I-EA-XES-02:CS3:LO:ENA")
+        self.lower_gain =   PVScannable("qxes_lower_gain",   "BL20I-EA-XES-02:CS3:LO:GAIN")
+        self.lower_offset = PVScannable("qxes_lower_offset", "BL20I-EA-XES-02:CS3:LO:OFFSET")
+        
+        scannables = [self.upper_enable, self.lower_enable, self.lower_gain, self.lower_offset]
+        for scn in scannables : 
+            scn.configure()
+
+    def calculate_gain_offset(self, start_energy_upper, end_energy_upper, start_energy_lower, end_energy_lower) :
+        """
+            Calculate the malcolm scan pitch 'offset' and 'gain' from upper and lower row start
+            and end energies so that : pitch_lower = pitch_upper*gain + offset
+            
+            Return : gain, offset
+        """
+        upper_pitches = calculate_pitch_for_scan(XESEnergyUpper, start_energy_upper, end_energy_upper, 1.0)
+        lower_pitches = calculate_pitch_for_scan(XESEnergyLower, start_energy_lower, end_energy_lower, 1.0)
+        gain = (lower_pitches[0] - lower_pitches[1])/(upper_pitches[0] - upper_pitches[1])
+        offset = lower_pitches[0] - upper_pitches[0]*gain
+        return gain, offset
+    
+    def prepare_gain_offset(self, row1_start, row1_end, row2_start, row2_end) :
+        gain, offset = self.calculate_gain_offset(row1_start, row1_end, row2_start, row2_end)
+        print("Enabling both spectrometer rows and setting gain and offset to : %.4g, %.4g"%(gain, offset))
+        
+        if LocalProperties.isDummyModeEnabled() :
+            print("Skipping - dummy mode enabled")
+            return
+
+        self.lower_gain.moveTo(gain)
+        self.lower_offset.moveTo(offset)
+        
+    def convert_bool(self, istrue):
+        return 1 if istrue else 0 
+    
+    def enable_upper(self, enable):
+        self.upper_enable.moveTo(self.convert_bool(enable))
+    
+    def enable_lower(self, enable) :
+        self.lower_enable.moveTo(self.convert_bool(enable))
 
 # Return the name of the current data directory (including subdirectory)
 def pwd() :
@@ -203,30 +263,42 @@ def restore_offsets(xes_energy_scn, offset_dir="/dls/i20/data/2023/cm33869-5/xml
     offsets_object = motor_offset_store_map[xes_energy_scn]
     offsets_object.loadOffsets(offset_dir, offset_file)
     
-def prepare_for_scan(xes_energy_scn, start_energy) :
-    #calculate the pitch start, end, step size for given energy parameters
-    pitch_vals = calculate_scan_pitch_for_scan(xes_energy_scn, start_energy, start_energy+1, 1.0)
+
+def prepare_pitch_offsets(xes_energy_scn, xes_energy) :
     
     # move to initial energy
-    print("Moving %s to energy %.4f"%(xes_energy_scn.getName(), start_energy))
-    xes_energy_scn.moveTo(start_energy)
+    print("Moving %s to energy %.4f"%(xes_energy_scn.getName(), xes_energy))
+    xes_energy_scn.moveTo(xes_energy)
     sleep(2)
     print("Finished move")
-    # set current pitch value of each analyser to match central analyser
-    set_analyser_pitch_offsets(xes_energy_scn, pitch_vals[0])
-    return pitch_vals
 
-def calculate_scan_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step_energy):
+    #calculate the pitch for given energy
+    pitch_value = calculate_pitch(xes_energy_scn, xes_energy)
     
-    # calculate the start and energy spectrometer positions for the start and end energies
-    start_positions = xes_energy_scn.getPositionsMap(start_energy)
-    end_positions = xes_energy_scn.getPositionsMap(end_energy)
+    print("Setting pitch of all analysers to %.4f :"%(pitch_value))
     
-    # get the pitch start and end pitch value for the central analayser
+    # set current pitch value of each analyser to match central analyser
+    pitch_motors = [cryst.getPitchMotor() for cryst in xes_energy_scn.getXes().getCrystalsList()]
+    for pitch_mot in pitch_motors :
+        print("\t%s = %.4f"%(pitch_mot.getName(), pitch_value))
+        pitch_mot.setPosition(pitch_value)
+
+def calculate_pitch(xes_energy_scn, energy) :
+    # Get positions of all motors in spectrometer for given energy
+    position = xes_energy_scn.getPositionsMap(energy)
+    # motors for central analyser
     central_analyser = getAnalyserCrystal(xes_energy_scn, 0)
-    central_pitch_name = central_analyser.getPitchMotor().getName()
-    start_pitch = start_positions[central_pitch_name]
-    end_pitch = end_positions[central_pitch_name]
+    # return the pitch value
+    return position[central_analyser.getPitchMotor().getName()]
+
+def calculate_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step_energy):
+    if isinstance(xes_energy_scn, ScannableGroup) :
+        print("Using pitch values using first scannable in %s group"%(xes_energy_scn.getName()))
+        xes_energy_scn = xes_energy_scn.getGroupMembers()[0]
+    print("Calculating pitch using %s"%(xes_energy_scn.getName()))
+    
+    start_pitch = calculate_pitch(xes_energy_scn, start_energy)
+    end_pitch = calculate_pitch(xes_energy_scn, end_energy)
 
     # Calculate the pitch step size
     grad = (end_pitch - start_pitch)/(end_energy - start_energy)
@@ -239,48 +311,17 @@ def calculate_scan_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step
 
     return start_pitch, end_pitch, step_pitch
 
-def calculate_offset_gain(start_energy_upper, end_energy_upper, start_energy_lower, end_energy_lower) :
-    """
-        Calculate the malcolm scan pitch 'offset' and 'gain' from upper and lower row start
-        and end energies so that : pitch_lower = pitch_upper*gain + offset
-        
-        Return : gain, offset
-    """
-    upper_pitches = calculate_scan_pitch_for_scan(XESEnergyUpper, start_energy_upper, end_energy_upper, 1.0)
-    lower_pitches = calculate_scan_pitch_for_scan(XESEnergyLower, start_energy_lower, end_energy_lower, 1.0)
-    gain = (lower_pitches[0] - lower_pitches[1])/(upper_pitches[0] - upper_pitches[1])
-    offset = lower_pitches[0] - upper_pitches[0]*gain
-    return gain, offset
-
-
-def set_analyser_pitch_offsets(xes_energy_scn, pitch_value) :
-    print("Setting pitch of all analysers to %.4f :"%(pitch_value))
-    ### store the offsets first!
-    for pitch_mot in get_pitch_motors(xes_energy_scn) :
-        print("\t%s = %.4f"%(pitch_mot.getName(), pitch_value))
-        pitch_mot.setPosition(pitch_value)
-        
-def get_pitch_motors(xes_energy_scn):
-    pitch_motors = []
-    for cryst in xes_energy_scn.getXes().getCrystalsList() :
-        pitch_motors.append(cryst.getPitchMotor())
-    return pitch_motors
-
-# restore_offsets(XESEnergyLower, offset_file="lowerOffset_ZnKb_141123")
-# save_tmp_offsets(XESEnergyLower)
-# prepare_for_scan(XESEnergyLower, 2000)
-# run_qxes_scan_energy(XESEnergyLower, 2000, 2010, 0.5, 0.
-# restore_tmp_offsets(XESEnergyLower)
-
 def run_test_both() :
     restore_tmp_offsets(XESEnergyUpper)
     restore_tmp_offsets(XESEnergyLower)
     sleep(1)
-    # prepare_for_scan(XESEnergyUpper, 6404)
-    # run_qxes_scan_energy(XESEnergyUpper, 6400, 6410, 0.25, 0.5, 5)
-    prepare_for_scan(XESEnergyUpper, 8264)
-    prepare_for_scan(XESEnergyLower, 8264)
-    run_qxes_scan_energy(XESEnergyUpper, 8264, 8268, 0.25, 0.5, 5)
+
+    prepare_pitch_offsets(XESEnergyUpper, 8270)
+    prepare_pitch_offsets(XESEnergyLower, 8270)
+    
+    xes_axis_control.prepare_gain_offset(8270, 8290, 8270, 8290)
+    
+    run_qxes_scan_energy(XESEnergyBoth, 8270, 8290, 0.5, 0.5, 5)
 
     restore_tmp_offsets(XESEnergyUpper)
     restore_tmp_offsets(XESEnergyLower)
@@ -290,9 +331,9 @@ def run_test_both() :
 def run_test_upper() :
     restore_tmp_offsets(XESEnergyUpper)
     sleep(1)
-    # prepare_for_scan(XESEnergyUpper, 6404)
+    # prepare_pitch_offsets(XESEnergyUpper, 6404)
     # run_qxes_scan_energy(XESEnergyUpper, 6400, 6410, 0.25, 0.5, 5)
-    prepare_for_scan(XESEnergyUpper, 8264)
+    prepare_pitch_offsets(XESEnergyUpper, 8264)
     run_qxes_scan_energy(XESEnergyUpper, 8264, 8268, 0.25, 0.5, 5)
 
     restore_tmp_offsets(XESEnergyUpper)
@@ -301,46 +342,20 @@ def run_test_upper() :
 def run_test_lower() :
     restore_tmp_offsets(XESEnergyLower)
     sleep(1)
-    prepare_for_scan(XESEnergyLower, 8264)
+    prepare_pitch_offsets(XESEnergyLower, 8264)
     run_qxes_scan_energy(XESEnergyLower, 8264, 8268, 0.25, 1.0, 5, outer_scannable=pos_time_scn)
     #run_qxes_scan_energy(XESEnergyLower, 8264, 8268, 0.25, 0.5)
     restore_tmp_offsets(XESEnergyLower)
     reset_medipix()
 
-def reset_medipix() :
-    print("Setting Medipix trigger mode to internal, PositionMode to 0 and XML layout path to default")
-    
-    # PV name - value pairs to be set on each medipix
-    posMode = ":HDF5:PositionMode", 0
-    triggerMode = ":CAM:TriggerMode", 0
-    layout = ":HDF5:XMLFileName", ""
-    value_pairs = [posMode, triggerMode, layout]
-    
-    # Generate Medipix basePV names from ADBase on medipix ADDetector objects
-    detectors = [medipix1_addetector, medipix2_addetector]
-    base_pvs = [det.getAdBase().getBasePVName().replace(":CAM:","") for det in detectors]
 
-    for basename in base_pvs :
-        for value_pair in value_pairs :
-            pv_name = basename+value_pair[0]
-            pv_value = value_pair[1]
-            # eet appropriate caput method to use - in case dealing with a string
-            caput_pv_value = CAClient.putStringAsWaveform if isinstance(pv_value, str) else CAClient.put
-            print("Caput %s %s"%(pv_name, str(pv_value)))
-            caput_pv_value(pv_name, pv_value)
+def test_qxes() :
+    start = -7.7
+    end = -7.4
+    step_size = 0.01
+    exp_time = 0.1
+    run_qxes_scan(XESEnergyLower, start, end, step_size, exp_time, use_malcolm = True, continuous_scan = True)
 
-if not LocalProperties.isDummyModeEnabled() :
-    reset_medipix()
-
-from gda.device.scannable import DummyScannable, TimeScannable
-repetition_number_scn = DummyScannable("repetition_number_scn")
-repetition_number_scn.configure()
-
-# c;ear the subdirectory, so data is written in top level of visit.
-set_subdirectory()
-
-
-qxes_upper_enable, qxes_lower_enable, qxes_lower_gain, qxes_lower_offset = create_axis_control_scannables()
 
 class PositionTimeScannable(ScannableBase) :
     
@@ -375,7 +390,9 @@ class PositionTimeScannable(ScannableBase) :
     def getPosition(self):
         return [self.scn_to_move.getPosition(), self.time_scn.getPosition()]
 
-
+from gda.device.scannable import DummyScannable, TimeScannable
+repetition_number_scn = DummyScannable("repetition_number_scn")
+repetition_number_scn.configure()
 
 pos_time_scn = PositionTimeScannable()
 pos_time_scn.setup("pos_time_scn")
@@ -383,22 +400,88 @@ pos_time_scn.setScannableToMove(repetition_number_scn)
 pos_time_scn.setUseUtcTime(True)
 
 
-"""
-Energy scan params : start, end, step size, time per point, 
-Move spectrometer analysers into position for given energy
-Store the current values of the Epics offsets (for pitch motors)
-Take pitch of central analyser, set the current position of p1, p2, p3, m1, m2, m3 to match it (use setPosition() method on scannable)
+def prepare_run_qxes_scan(scannable_name, energy_start, energy_end, energy_step_size, integration_time, 
+                          row2_energy_start=None, row2_energy_step_size=None,
+                          is_alternating=False, num_reps=1, mono_energy=None, use_malcolm=True) :
+    
+    xes_energy_scannable = Finder.find(scannable_name) 
+    if xes_energy_scannable is None : 
+        raise ValueError("Scannable called "+scannable_name+" was not found")
+    
 
-Use : XESEnergyLower.getPositionsMap(energy) to compute positions for start, end energies
-Get pitch motors from : getAnalyserCrystal(xesEnergyScn, crystalIndex) and analyserCrystal.getPitchMotor()
-"""
+    xes_scannables = xes_energy_scannable,
+    xes_energies = energy_start,
 
-"""
-Testing 10/1/2024
-XESEnergyLower :
-    8030.27 eV
-    offsets saved to tmp/tmp_current_offsets_XESEnergyLower.xml
+    if xes_energy_scannable == XESEnergyBoth : 
+        
+        # Validate the params
+        warnings = ""
+        if row2_energy_start is None :
+            row2_energy_start = energy_start
+            warnings += "Row 2 start energy value has not been given. Using start energy from row 1 ("+str(energy_start)+")\n"
+        if row2_energy_step_size is None :
+            row2_energy_step_size = energy_step_size
+            warnings += "nRow 2 energy step size value has not been given. Using step size from row 1 ("+str(energy_step_size)+")\n"
+            
+        if len(warnings) > 0 :
+            print(warnings)
+
+        xes_scannables = XESEnergyUpper, XESEnergyLower
+        xes_energies = energy_start, row2_energy_start
+
+    print("Running Qxes scan using : "+str(xes_scannables))
+    print("Time per point : %.2f sec"%(integration_time))
+    print("Row 1 energy start, stop, step : %.4g, %.4g, %.4g\n"%(energy_start, energy_end, energy_step_size))
+    if row2_energy_start is not None : 
+        print("Row 2 energy start, step : %.4g, %.4g\n"%(row2_energy_start, row2_energy_step_size))
+
+    if mono_energy is not None : 
+        print("Moving mono to %.4g eV"%(mono_energy))
+        bragg1WithOffset.moveTo(mono_energy)
+
+    # Save the current pitch offsets, set new offsets so that pitch values are all the same for start energy
+    for scn, energy in zip(xes_scannables, xes_energies) :
+        restore_tmp_offsets(scn)
+        sleep(1)
+        prepare_pitch_offsets(scn, energy)
+    
+    # Set the 'gain' and 'offset' parameters for row2 based on row1
+    if xes_energy_scannable == XESEnergyBoth : 
+        # Calculate row2 end energy from number of row1 steps and row2 step size.
+        num_steps = int( (energy_end-energy_start)/energy_step_size)
+        row2_energy_end = row2_energy_start + row2_energy_step_size*abs(num_steps)
+        xes_axis_control.prepare_gain_offset(energy_start, energy_end, row2_energy_start, row2_energy_end)
+        xes_axis_control.enable_lower(True)
+        xes_axis_control.enable_upper(True)
+    else :
+        xes_axis_control.prepare_gain_offset(energy_start, energy_end, energy_start, energy_end)
+        xes_axis_control.enable_lower(xes_energy_scannable == XESEnergyLower)
+        xes_axis_control.enable_upper(xes_energy_scannable == XESEnergyUpper)
+        
+    print("Upper row enable : "+str(xes_axis_control.upper_enable.getPosition()))
+    print("Lower row enable : "+str(xes_axis_control.lower_enable.getPosition()))
+
+    if bragg1WithOffset.isBusy() :
+        print("Waiting for mono to finish moving before starting scan")
+        bragg1WithOffset.waitWhileBusy()
+    
+    xes_hardare_preparer.setup_panda_offsets()
+    
+    run_qxes_scan_energy(XESEnergyBoth, energy_start, energy_end, energy_step_size, integration_time, num_reps, 
+                         outer_scannable=pos_time_scn, is_alternating=is_alternating, use_malcolm=use_malcolm)
+
+    for scn in xes_scannables :
+        restore_tmp_offsets(scn)
+    
+    reset_medipix()
 
 
-"""
+# clear the subdirectory, so data is written in top level of visit.
+set_subdirectory()
+
+xes_hardare_preparer = HardwarePreparer()
+xes_axis_control = XesAxisControl()
+
+reset_medipix = xes_hardare_preparer.reset_medipix
+reset_medipix()
 
