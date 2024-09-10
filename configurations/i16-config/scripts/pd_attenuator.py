@@ -10,6 +10,8 @@ class Atten(ScannableMotionBase):
 		self.setOutputFormat(['%4.6f','%4.10f'])
 		self.foils = FoilList
 		self.Position = [0]*len(FoilList)
+		self.bin=None
+		self.target=None
 
 	def getTransmission(self,energy=None,numero=None):
 		positions = self.Position
@@ -24,14 +26,16 @@ class Atten(ScannableMotionBase):
 		return self.transmission
 
 	def getPosition(self,energy=None):
-		posn = 0
-		for k in range(len(self.foils)):
-			self.Position[k] = self.foils[k]()[0]
-			if self.Position[k]==1:
-				posn = posn+2**k
-		return [float(posn), self.getTransmission()]
+		if self.bin is None or (self.target is not None and self.bin != self.target):
+			self.bin = 0
+			for k in range(len(self.foils)):
+				self.Position[k] = self.foils[k]()[0]
+				if self.Position[k]==1:
+					self.bin = self.bin+2**k
+		return [float(self.bin), self.getTransmission()]
 
 	def asynchronousMoveTo(self,numero):
+		self.target=int(numero)
 		stringa=int2bin(int(numero))
 		if int(numero)>=2**len(self.foils):
 			print "Error: number too high"
