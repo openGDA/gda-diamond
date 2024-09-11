@@ -52,7 +52,7 @@ else:
     run("dummy/scanning/xanes_scan.py")
     run("dummy/scanning/sparse_xanes_scan.py")
     run("dummy/scanning/standards_scan.py")
-    run("dummy/scanning/tomo_scan.py")
+    run("dummy/scanning/tomography_scan.py")
     run("dummy/scanning/ptychography_scan.py")
     run("dummy/cross_hairs.py")
     run("dummy/gui_automation.py")
