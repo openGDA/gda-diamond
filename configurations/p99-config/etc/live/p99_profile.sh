@@ -7,11 +7,10 @@ if [ ! -n "$BEAMLINE" ]; then
   exit 1
 fi
 
-# Set up path and mode
-export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/p99-config/bin:${PATH}
-export GDA_MODE=live
+export GDA_INSTANCE_NAME=${BEAMLINE}
 
-# Set up command completion for the gda command
-if [[ $(command -v gda >/dev/null) ]]; then
-    source <(gda completions bash)
-fi
+export GDA_WORKSPACE_PARENT=/dls_sw/$BEAMLINE/software/gda
+export GDA_INSTANCE_CONFIG=${GDA_WORKSPACE_PARENT}/workspace_git/gda-diamond.git/configurations/k11-config
+
+export PATH=$PATH:/dls_sw/apps/gda_launcher/nightly
+export GDA_MODE=live
