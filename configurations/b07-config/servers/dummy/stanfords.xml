@@ -345,6 +345,7 @@
 		</property>
 	</bean>
 
+	<bean id="ca16b" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="ca35b" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="ca36b" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="ca18b" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
