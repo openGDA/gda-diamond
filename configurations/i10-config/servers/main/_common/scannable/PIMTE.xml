@@ -74,6 +74,7 @@
 	<bean id="pimte_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" value="pimte_cam: EPICS Array" />
 		<property name="statsProcessor" ref="pimte_stats_standard" />
+		<property name="detectorName" value="pimte"/>
 	</bean>
 	<bean id="pimte_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="pimte_cam: EPICS Array" />

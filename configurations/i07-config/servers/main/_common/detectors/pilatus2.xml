@@ -121,6 +121,7 @@
 		id="pilatus2_roistats_standard">
 		<property name="plotName" value="Pilatus 2" />
 		<property name="statsProcessor" ref="pilatus2_stats_standard" />
+		<property name="detectorName" value="pilatus2_det"/>
 	</bean>
 	
 	<bean
@@ -128,6 +129,7 @@
 		id="pilatus2_roistats_verbose">
 		<property name="plotName" value="Pilatus 2" />
 		<property name="statsProcessor" ref="pilatus2_stats_verbose" />
+		<property name="detectorName" value="pilatus2_det"/>
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"

@@ -88,6 +88,7 @@
 	<bean id="medipix_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" value="medipix: EPICS Array" />
 		<property name="statsProcessor" ref="medipix_stats_standard" />
+		<property name="detectorName" value="medipix"/>
 	</bean>
 	<bean id="medipix_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="medipix: EPICS Array" />

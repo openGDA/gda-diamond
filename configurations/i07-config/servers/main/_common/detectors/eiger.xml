@@ -133,6 +133,7 @@
 		id="eiger_roistats_standard">
 		<property name="plotName" value="Eiger" />
 		<property name="statsProcessor" ref="eiger_stats_standard" />
+		<property name="detectorName" value="eiger"/>
 	</bean>
 
 	<bean
@@ -140,6 +141,7 @@
 		id="eiger_roistats_verbose">
 		<property name="plotName" value="Eiger" />
 		<property name="statsProcessor" ref="eiger_stats_verbose" />
+		<property name="detectorName" value="eiger"/>
 	</bean>
 
 	<bean

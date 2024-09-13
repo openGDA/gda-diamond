@@ -111,6 +111,7 @@
 	<bean id="andor_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" value="andor: EPICS Array" />
 		<property name="statsProcessor" ref="andor_stats_standard" />
+		<property name="detectorName" value="andor"/>
 	</bean>
 	<bean id="andor_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="andor: EPICS Array" />
