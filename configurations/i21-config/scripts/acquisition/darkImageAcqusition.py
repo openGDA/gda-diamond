@@ -15,7 +15,7 @@ from gda.jython.commands.GeneralCommands import alias
 from gdascripts.metadata.nexus_metadata_class import meta
 from gdaserver import fastshutter  # @UnresolvedImport
 from org.eclipse.dawnsci.analysis.api.tree import Node
-from shutters.detectorShutterControl import erio, primary
+from shutters.detectorShutterControl import primary, fsxas
 from utils.beamline import last_scan_file
 from acquisition.acquire_images import acquireImages
 
@@ -25,7 +25,7 @@ def acquire_dark_image(num_images, detector, acquire_time, *args):
     '''collect number of dark images from the given detector when shutter is closed, and return the data file name.
     '''
     print("\nAcquire dark image ...")
-    erio()
+    fsxas()
     fastshutter('Closed')
     acquireImages(num_images, detector, acquire_time, *args)
     primary()
