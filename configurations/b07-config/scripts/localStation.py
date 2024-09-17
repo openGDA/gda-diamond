@@ -61,12 +61,14 @@ s2b_list = [s2b_xsize,s2b_ysize,s2b_xcentre,s2b_ycentre] # @UndefinedVariable
 s3b_list = [s3b_xsize,s3b_ysize,s3b_xcentre,s3b_ycentre] # @UndefinedVariable
 s4b_list = [s4b_xgapsize,s4b_ygapsize,s4b_z] # @UndefinedVariable
 metadata_group1 = s1b_list + s2b_list + s3b_list + s4b_list
+
 m1b_list = [m1b_x,m1b_y,m1b_pitch,m1b_roll,m1b_yaw,m1b_mask_temp,m1b_mirror_temp,m1b_chiller] # @UndefinedVariable
 m1c_list = [m1c_mirror_temp,m1c_mask_temp] # @UndefinedVariable
 m3b_list = [m3b_x,m3b_y,m3b_pitch,m3b_roll,m3b_yaw] # @UndefinedVariable
 m4b_list = [m4b_x,m4b_y,m4b_pitch,m4b_roll,m4b_yaw,m4b_y_base,m4b_y_base_positioner,m4b_y_combined,m4b_mirror] # @UndefinedVariable
 m5b_list = [m5b_x,m5b_y,m5b_pitch,m5b_roll,m5b_yaw,m5b_y_base,m5b_y_base_positioner,m5b_y_combined,m5b_mirror] # @UndefinedVariable
 metadata_group2 = m1b_list + m1c_list + m3b_list + m4b_list + m5b_list
+
 d1b_list = [d1b_y] # @UndefinedVariable
 d2b_list = [d2b_y,d2b_y_positioner] # @UndefinedVariable
 d3b_list = [d3b_y,d3b_y_positioner] # @UndefinedVariable
@@ -78,6 +80,7 @@ d8b_list = [d8b_y,d8b_y_positioner] # @UndefinedVariable
 d9b_list = [d9b_y,d9b_y_positioner] # @UndefinedVariable
 d10b_list = [d10b_x,d10b_x_positioner] # @UndefinedVariable
 metadata_group3 = d1b_list + d2b_list + d3b_list + d4b_list + d5b_list + d6b_list + d7b_list + d8b_list + d9b_list + d10b_list
+
 d21b_list = [d21b_y,d21b_y_positioner] # @UndefinedVariable
 sm21b_list = [sm21b_x,sm21b_y,sm21b_z,sm21b_roty] # @UndefinedVariable
 sm52b_list = [sm52b_x,sm52b_y,sm52b_z,sm52b_roty,sm52b_rotz,sm52b_xp,sm52b_yp,sm52b_zp] # @UndefinedVariable
@@ -88,7 +91,11 @@ other_list = [img22b,img23b,cap21b,cap22b,_es2_temp_temperature_monitor,_es2_tem
 es1_list = [_es1_temp_51_temperature_monitor, _es1_temp_51_setpoint_monitor, _es1_temp_51_output_monitor, _es1_temp_52_temperature_monitor, _es1_temp_52_setpoint_monitor, _es1_temp_52_output_monitor]  # @UndefinedVariable
 mfc_list = [mfc1, mfc2, mfc3, mfc4, mfc5, mfc6, mfc7, mfc8] # @UndefinedVariable
 metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list + es1_list
-meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4
+
+stanfords_list = [ca16b, ca35b, ca36b, stanford_amplifiers]# @UndefinedVariable
+metadata_group5 = stanfords_list
+
+meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4 + metadata_group5
 
 [meta_add(each) for each in meta_data_list]
 [meta_add(each) for each in patch_panel_ES1.getGroupMembersAsArray()]# @UndefinedVariable
