@@ -59,28 +59,28 @@ print("-"*100)
 import installation
 meta_data_list = []  # other common metadata can be added here if required!
 if installation.isLive():
-    meta_data_list = meta_data_list + [rga]  # @UndefinedVariable
-    if ConfigUtils.profileActive("TPOT"):
-        print("add TPOT scannables to metadata list ...")
-        try:
-            meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
-        except Exception as e:
-            print("adding TPOT to metadata failed.")
-            localStation_exception(sys.exc_info(), "adding TPOT to metadata error")
-    if ConfigUtils.profileActive("TCUP"):
-        print("add TCUP metadata scannables to be captured in data files.")
-        try:
-            meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
-        except Exception as e:
-            print("adding TCUP to metadata failed.")
-            localStation_exception(sys.exc_info(), "adding TCUP to metadata error")
+		meta_data_list = meta_data_list + [rga]  # @UndefinedVariable
+		if ConfigUtils.profileActive("TPOT"):
+				print("add TPOT scannables to metadata list ...")
+				try:
+						meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
+				except Exception as e:
+						print("adding TPOT to metadata failed.")
+						localStation_exception(sys.exc_info(), "adding TPOT to metadata error")
+		if ConfigUtils.profileActive("TCUP"):
+				print("add TCUP metadata scannables to be captured in data files.")
+				try:
+						meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
+				except Exception as e:
+						print("adding TCUP to metadata failed.")
+						localStation_exception(sys.exc_info(), "adding TCUP to metadata error")
 else:
-    if ConfigUtils.profileActive("TPOT"):
-        print("add TPOT metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
-    if ConfigUtils.profileActive("TCUP"):
-        print("add TCUP metadata scannables to be captured in data files.")
-        meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
+		if ConfigUtils.profileActive("TPOT"):
+				print("add TPOT metadata scannables to be captured in data files.")
+				meta_data_list = meta_data_list + [sm_xp, sm_yp, sm_zp, sm_polar_rotation, sm_azimuth_rotation]  # @UndefinedVariable
+		if ConfigUtils.profileActive("TCUP"):
+				print("add TCUP metadata scannables to be captured in data files.")
+				meta_data_list = meta_data_list + [sm2_xp, sm2_yp, sm2_zp]  # @UndefinedVariable
 
 patch_panel_list = [ppc_temp_1, ppc_temp_2, ppc_temp_3, ppc_temp_4, ppc_ai_1, ppc_ai_2, ppc_ai_3, ppc_ai_4, ppc_ao_1, ppc_ao_2, ppc_ao_3, ppc_ao_4, ppc_di_1, ppc_di_2, ppc_di_3, ppc_di_4, ppc_do_5, ppc_do_6, ppc_do_7, ppc_do_8]  # @UndefinedVariable
 crystal_monochromator_list = [ccmc_x, ccmc_y, ccmc_z]  # @UndefinedVariable
@@ -88,8 +88,12 @@ diagnosis_list = [d9c_y_positioner, d9c_y]  # @UndefinedVariable
 meta_data_list = meta_data_list + patch_panel_list + crystal_monochromator_list + diagnosis_list
 
 for each in meta_data_list:
-    meta_add(each)
+		meta_add(each)
 
+print("-"*100)
+from scannables.pgm_energy_multilayer_grating import pgm_energy_mlg
+help(pgm_energy_mlg)
+print("-"*100)
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
@@ -103,10 +107,10 @@ from gda.device.scannable import PVScannable  # @UnusedImport
 print("-"*100)
 
 if len(localStation_exceptions) > 0:
-    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+		simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
 for localStationException in localStation_exceptions:
-    simpleLog(localStationException)
+		simpleLog(localStationException)
 
 print("**************************************************")
 print("localStation.py completed.")
