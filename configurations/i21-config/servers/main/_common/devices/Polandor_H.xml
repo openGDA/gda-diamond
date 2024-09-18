@@ -110,6 +110,7 @@
 	<bean id="Polandor_H_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" value="Polandor_H: EPICS Array" />
 		<property name="statsProcessor" ref="Polandor_H_stats_standard" />
+		<property name="detectorName" value="Polandor_H"/>
 	</bean>
 	<bean id="Polandor_H_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="Polandor_H: EPICS Array" />

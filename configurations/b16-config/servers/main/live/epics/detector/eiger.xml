@@ -125,6 +125,7 @@
 		id="eiger_roistats">
 		<property name="plotName" value="eiger" />
 		<property name="statsProcessor" ref="eiger_stats" />
+		<property name="detectorName" value="eiger"/>
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"

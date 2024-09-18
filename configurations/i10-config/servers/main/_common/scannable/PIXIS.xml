@@ -73,6 +73,7 @@
 	<bean id="pixis_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
 		<property name="plotName" value="pixis_cam: EPICS Array" />
 		<property name="statsProcessor" ref="pixis_stats_standard" />
+		<property name="detectorName" value="pixis"/>
 	</bean>
 	<bean id="pixis_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
 		<property name="plotName" value="pixis_cam: EPICS Array" />

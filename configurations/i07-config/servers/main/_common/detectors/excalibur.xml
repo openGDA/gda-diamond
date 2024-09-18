@@ -147,6 +147,7 @@
 		id="excalibur_roistats_standard">
 		<property name="plotName" value="Excalibur" />
 		<property name="statsProcessor" ref="excalibur_stats_standard" />
+		<property name="detectorName" value="excalibur"/>
 	</bean>
 	
 	<bean
@@ -154,6 +155,7 @@
 		id="excalibur_roistats_verbose">
 		<property name="plotName" value="Excalibur" />
 		<property name="statsProcessor" ref="excalibur_stats_verbose" />
+		<property name="detectorName" value="excalibur"/>
 	</bean>
 
 	<bean class="gda.device.detector.nexusprocessor.DatasetStats"
