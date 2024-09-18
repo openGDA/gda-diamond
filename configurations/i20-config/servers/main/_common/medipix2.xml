@@ -31,11 +31,6 @@
 <!-- ROI providers and plugins -->
 	<bean id="medipix2_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
 
-<!-- 	<bean id="medipix2_plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider"> -->
-<!-- 		<constructor-arg value="medipix2" /> -->
-<!-- 		<constructor-arg value="1" /> -->
-<!-- 	</bean> -->
-
 	<bean id="medipix2_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="0" />
 		<property name="ystart" value="0" />
@@ -57,10 +52,6 @@
 	            <property name="liveStreamRoiProvider" ref="medipix2_plotserver_roi_provider" />
 	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 	        </bean>
-<!-- 			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
-<!-- 				<constructor-arg ref="medipix2_plotserver_roi_provider" /> -->
-<!-- 				<constructor-arg value="0" /> -->
-<!-- 			</bean> -->
 		</property>
 	</bean>
 
@@ -87,26 +78,34 @@
 		<property name="streamName" value="FFI1_medipix2" />
 	</bean>
 
-<!--  Make some lists of nx plugins to use for the medipix -->
-	<util:list id="plugins_plotserver_roi_medipix2">
-		<ref bean="medipix2_roistat_plotserver" />
-		<ref bean="medipix2_FFI0" />
-		<ref bean="medipix2_hdf5" />
-	</util:list>
+<!--  ARR plugin, using NDArrayImpl-->
+	<bean id="medipix2_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{medipix2BasePv}:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{medipix2BasePv}:ARR:" />
+				<property name="initialArrayPort" value="#{medipix2CamPort}" />
+				<property name="initialEnableCallbacks" value="1" />
+			</bean>
+		</property>
+	</bean>
 
-	<util:list id="plugins_mutable_roi_medipix2">
-		<ref bean="medipix2_roistat_mutable" />
-		<ref bean="medipix2_FFI0" />
-		<ref bean="medipix2_hdf5" />
-	</util:list>
-
-<!-- Put plugins into a findable so they can be retrieved easily later on -->
+<!-- ARR plugin wrapping NDArrayImpl - needed to convert NDArrayImpl to ADArrayPlugin needed for NXDetector object -->
+	<bean id="medipix2_adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="medipix2_ndarray" />
+		<property name="enabled" value="true"/>
+	</bean>
+	
+	<!-- Put plugins into a findable so they can be retrieved easily later on -->
 	<bean id="medipix2_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
-				<entry key="plugins_plotserver_roi" value-ref="plugins_plotserver_roi_medipix2" />
-				<entry key="plugins_mutable_roi" value-ref="plugins_mutable_roi_medipix2" />
-				<entry key="basePvName" value="#{medipix2BasePv}" />
+				<entry key="ffi0_plugin"  value-ref="medipix2_FFI0" />
+				<entry key="plot_roi_plugin" value-ref="medipix2_roistat_plotserver" />
+				<entry key="mutable_roi_plugin" value-ref="medipix2_roistat_mutable" />
+				<entry key="hdf5_plugin" value-ref="medipix2_hdf5" />
+				<entry key="adarray_plugin" value-ref="medipix2_adarrayplugin" />
+				<entry key="basePvName" value="#{medipixBasePv}" />
 			</util:map>
 		</property>
 	</bean>
@@ -114,8 +113,7 @@
 	<bean id="medipix2" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix2" />
 		<property name="collectionStrategy" ref="medipix2_nxcollectionstrategy" />
-<!-- 		<property name="additionalPluginList" ref="plugins_plotserver_roi" /> -->
-		<property name="additionalPluginList" ref="plugins_mutable_roi_medipix2" />
+		<!--  AdditionalPluginList is set in Jython using plugins from medipix2_plugins map  -->
 	</bean>
 
 	<bean id="qexafs_medipix2" class="gda.device.detector.nxdetector.BufferedNXDetector">
@@ -165,18 +163,6 @@
             </bean>
         </property>
     </bean>
-   
-<!--  ARR plugin -->
-	<bean id="medipix2_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="#{medipix2BasePv}:ARR:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="#{medipix2BasePv}:ARR:" />
-				<property name="initialArrayPort" value="#{medipix2CamPort}" />
-				<property name="initialEnableCallbacks" value="1" />
-			</bean>
-		</property>
-	</bean>
 
 	<bean id="medipix2_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="medipix2_adbase" />

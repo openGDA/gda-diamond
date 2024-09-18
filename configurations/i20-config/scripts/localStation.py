@@ -98,10 +98,10 @@ def setup_detector_preparers() :
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupCheckerWithShutter)
 detectorPreparer.setFFI1(FFI1)
-detectorPreparer.setPluginsForMutableRoi(medipix1, getMedipixMutableRoiPlugins(medipix1))
 detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
-detectorPreparer.setPluginsForMutableRoi(medipix2, getMedipixMutableRoiPlugins(medipix2))
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
+
+setup_default_medipix_plugins()
 
 ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer = setup_detector_preparers()
 detectorPreparer.setPreparers([ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer])

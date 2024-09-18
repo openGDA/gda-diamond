@@ -5,6 +5,24 @@ from gda.epics import CAClient
 defaultDetector=medipix1
 
 
+def get_medipix_plugins(detector_object, use_roi_plotserver=True, use_hdf_writer=True) :
+    plugin_objects = getPluginsFromFindableObjectHolder(detector_object)
+    
+    all_plugins = []
+    if use_roi_plotserver : 
+        all_plugins.append(plugin_objects.get("plot_roi_plugin"))
+    else : 
+        all_plugins.append(plugin_objects.get("mutable_roi_plugin"))
+    
+    all_plugins.append(plugin_objects.get("ffi0_plugin"))
+    
+    if use_hdf_writer :
+        all_plugins.append(plugin_objects.get("hdf5_plugin"))
+    else :
+        all_plugins.append(plugin_objects.get("adarray_plugin"))
+
+    return all_plugins
+
 # Function for setting exposure time and setting continuous acquisition
 # Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
 # (injected using setExposureTimeCmd )
@@ -20,36 +38,17 @@ def setMedipixExposureAndStart(exposureTime) :
 def getPluginsFromFindableObjectHolder(detectorObject):
     return Finder.find(detectorObject.getName()+"_plugins")
 
-# Retrieve the NXdetector mutableROI plugin list for a medipix detector : 
-def getMedipixMutableRoiPlugins(detectorObject):
-    pluginHolder = getPluginsFromFindableObjectHolder(detectorObject)
-    return pluginHolder.get("plugins_mutable_roi")
-
-# Retrieve the NXdetector  plotserver ROI plugin list : 
-def getMedipixPlotserverRoiPlugins(detectorObject):
-    pluginHolder = getPluginsFromFindableObjectHolder(detectorObject)
-    return pluginHolder.get("plugins_plotserver_roi")
-
 # Retrieve the basePv name for a Medipix detector : 
 def getMedipixBasePvName(detectorObject):
-    pluginHolder = getPluginsFromFindableObjectHolder(detectorObject)
-    return pluginHolder.get("basePvName")
+    return getPluginsFromFindableObjectHolder(detectorObject).get("basePvName")
 
 def getMedipixMutableRoi(detectorObject):
     return Finder.find(detectorObject.getName()+"_roi")
 
-
-# Find the the 2 'additional plugin' lists : one to  use ROI from plotserver and one to use mutable ROI
-def setupMedipixPlugins(detectorObject=defaultDetector) :
+def setupMedipixPvs(detectorObject=defaultDetector) :
     
     # Get the PV name and plotserver roi plugin object
     basePvName = getMedipixBasePvName(detectorObject)
-    
-    # Get plotserver roi plugin list object
-    plotserverPlugins = getMedipixPlotserverRoiPlugins(detectorObject)
-
-    # Set the initial plugin list on the detector
-    detectorObject.setAdditionalPluginList(plotserverPlugins)
     
     #set array input port and callbacks for ARR plugin (so live stream works correctly)
     try :
@@ -62,16 +61,15 @@ def setupMedipixPlugins(detectorObject=defaultDetector) :
     except (Exception, java.lang.Throwable) as err:
         print "Problem setting callbacks and array port for medipix :ARR plugin", err
 
-def setUseMedipixRoiFromGui(useRoiFromGui, detectorObject=defaultDetector):
-    plotserverRoiPlugins = getMedipixPlotserverRoiPlugins(detectorObject)
-    mutableRoiPlugins = getMedipixMutableRoiPlugins(detectorObject)
-
-    if useRoiFromGui :
-        print "Using "+detectorObject.getName()+" ROI from GUI"
-        detectorObject.setAdditionalPluginList(plotserverRoiPlugins)
-    else :
-        print "Using "+detectorObject.getName()+" ROI from Jython"
-        detectorObject.setAdditionalPluginList(mutableRoiPlugins)
+def setupMedipixPlugins(use_roi_from_gui=True, use_hdf_writer=True, detector_object=defaultDetector):
+    print("Setting plugin chain on {} :  using ROI from GUI = {}, use HDF writer = {}".format(detector_object.getName(), str(use_roi_from_gui), str(use_hdf_writer)))
+    plugin_list = get_medipix_plugins(detector_object, use_roi_plotserver=use_roi_from_gui, use_hdf_writer=use_hdf_writer)
+    detector_object.setAdditionalPluginList(plugin_list)
+    
+    if "detectorPreparer" in globals() :
+        print("Setting up mutable ROI plugins for "+detector_object.getName()+" on detectorPreparer")
+        mutable_roi_plugin_chain = get_medipix_plugins(detector_object, use_roi_plotserver=False, use_hdf_writer=use_hdf_writer)
+        detectorPreparer.setPluginsForMutableRoi(detector_object, mutable_roi_plugin_chain)
 
 def setMedipixRoi(xstart, ystart, xsize, ysize, detectorObject=defaultDetector) :
     print "Setting "+detectorObject.getName()+" Jython ROI"
@@ -88,13 +86,28 @@ def showMedipixRoi(detectorObject=defaultDetector) :
     print "Jython ROI for %s : start = (%d, %d), size = (%d, %d)"%(detectorObject.getName(), roi.getXstart(), roi.getYstart(),  roi.getXsize(), roi.getYsize())
 
 
-setupMedipixPlugins(medipix1)
-setupMedipixPlugins(medipix2)
+setupMedipixPvs(medipix1)
+setupMedipixPvs(medipix2)
+
+def setup_default_medipix_plugins() :
+    setupMedipixPlugins(use_roi_from_gui=True, use_hdf_writer=True, detector_object=medipix1)
+    setupMedipixPlugins(use_roi_from_gui=True, use_hdf_writer=True, detector_object=medipix2)
 
 medipix_roi = getMedipixMutableRoi(medipix1)
 medipix2_roi = getMedipixMutableRoi(medipix2)
 
-print "Set Medipix to use ROI from GUI : 'setUseMedipixRoiFromGui(True)'. Set to False to use ROI from Jython"
+print """Use setupMedipixPlugins to set Medipix plugin chain to be used for data collection.  Parameters : 
+
+    use_roi_from_gui=True -Set to True (default value) to use detector roi from Gui. 
+                            Set to False to use ROi specific by setMedipixRoi function
+    
+    use_hdf_writer=True  If set to True (default value) Epics Hdf writer plugin will an create Hdf file containing the
+                        image data. If set to False, GDA will read the image data from the 'Array' plugin and
+                        store it directly in the Nexus file)
+
+    detector_object=medipix1. Detector to apply settings to (use medipix1 or medipix2)
+"""
+
 print "Set Medipix Jython ROI : 'setMedipixRoi(xstart, xsize, ystart, ysize)'"
 print "Show Medipix Jython ROI : showMedipixRoi()"
 print "Use medipix1 or medipix2 as the last parameter to choose a particular detector (e.g. showMedipixRoi(medipix2)) "
