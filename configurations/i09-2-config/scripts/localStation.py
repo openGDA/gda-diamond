@@ -244,6 +244,8 @@ meta_data_list += [analyser_slit]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
 
+from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
+
 print("=================================================================================================================")
 print("localStation.py Initialisation script complete.")
 

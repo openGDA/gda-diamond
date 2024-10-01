@@ -35,3 +35,8 @@ extraDetectors = ""
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy"
 ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
+
+from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
+
+print("=================================================================================================================")
+print("localStation.py Initialisation script complete.")

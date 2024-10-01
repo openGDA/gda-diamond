@@ -260,7 +260,8 @@ print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
 from i09shared.scan.miscan import miscan  # @UnusedImport
 
-print
+from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
+
 print "="*100;
 print "Initialisation script complete."
 print
