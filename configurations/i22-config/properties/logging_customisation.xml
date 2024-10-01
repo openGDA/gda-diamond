@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This is intended as an example file to show how the logging levels can 
-	be customised at the instance config level -->
+<!-- This list overrides the logger level for individual classes. The level
+	 specified is the lowest level that will be logged, so
+		TRACE will pass everything,
+		DEBUG will filter out TRACE messages,
+		INFO will also filter out DEBUG messages,
+		WARN will filter out INFO messages, while
+		ERROR will filter out INFO messages too. 
+	 If you want any TRACE messages though, the gda.logging.root.level
+	 property imust be set to TRACE or ALL and the GDA server restarted
+ -->
 
 <included>
-	<!-- <logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" /> -->
-	<logger name="gda.device.motor.EpicsMotor" level="INFO" />
-	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
-	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" level="INFO" />
-	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" level="INFO" />
-	<logger name="org.springframework" level="INFO" />
-	<logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
-	<logger name="gda.device.detector.DummyDAServer" level="INFO" />
-	<logger name="gda.device.detector.DAServer" level="INFO" />
-	<logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
-	<logger name="org.apache.http" level="INFO" />
-	<logger name="gda.scan.MultithreadedScanDataPointPipeline" level="INFO" />
-	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
-	<root>
-		<level value="DEBUG"/>
-	</root>
+		<logger level="DEBUG"	name="gda" />
+		<logger value="TRACE"	name="gda.device.detector.areadetector" />
+		<logger level="INFO"	name="gda.device.detector.DAServer" />
+		<logger level="INFO"	name="gda.device.detector.DummyDAServer" />
+		<logger level="INFO"	name="gda.device.motor.EpicsMotor"/>
+		<logger level="DEBUG"	name="gda.device.motor.MoveEventQueue"/>
+		<logger level="DEBUG"	name="gda.events.jms.JmsEventReceiver"/>
+		<logger level="DEBUG"	name="gda.i22.linkam"/>
+		<logger level="DEBUG"	name="gda.jython.batoncontrol.BatonManager"/>
+		<logger level="DEBUG"	name="gda.observable.ObservableComponent"/>
+		<logger level="INFO"	name="gda.scan.MultithreadedScanDataPointPipeline" />
+		<logger level="INFO"	name="gda.scan.ScanDataPointPopulatorAndPublisher" />
+		<logger level="DEBUG"	name="gdascripts" />
+		<logger level="INFO"	name="hdf.hdf5lib" />
+		<logger level="DEBUG"	name="org.apache.activemq" />
+		<logger level="INFO"	name="org.apache.http" />
+		<logger level="DEBUG"	name="org.dawnsci" />
+		<logger level="INFO"	name="org.eclipse.dawnsci" />
+		<logger level="INFO"	name="org.springframework" />
+		<logger level="DEBUG"	name="uk.ac.diamond" />
+<!--	<logger level="ERROR"	name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" />	 -->
+		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" />
+		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" />
+		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" />
+ 		<logger level="DEBUG"	name="uk.ac.gda" />
+		<logger level="DEBUG"	name="uk.ac.gda.client.liveplot.SubLivePlotView" />
+		<logger level="DEBUG"	name="uk.ac.gda.menu.JythonControlsFactory" />
+		<logger level="DEBUG"	name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" />
 </included>
