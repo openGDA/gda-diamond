@@ -260,10 +260,10 @@ print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
 from i09shared.scan.miscan import miscan  # @UnusedImport
 
-from gdaserver import nixswr_count, nixswr_time # @UnresolvedImport @UnusedImport
+from gdaserver import nixswr_repeat, nixswr_time # @UnresolvedImport @UnusedImport
 print("-"*100)
-print("Installed object nixswr_count, measure with nixswr camera that takes input the number of frames to acquire.")
-print("\tSynatx: scan scannable 1 2 1 nixswr_count 10")
+print("Installed object nixswr_repeat, measure with nixswr camera that takes input the number of frames to acquire.")
+print("\tSynatx: scan scannable 1 2 1 nixswr_repeat 10")
 print("Installed object nixswr_time, measure with nixswr camera that takes input the amount of time to acquire over (in seconds).")
 print("\tSynatx: scan scannable 1 2 1 nixswr_time 0.001")
 

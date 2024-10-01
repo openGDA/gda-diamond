@@ -6,28 +6,8 @@
 		<property name="prefix" value="BL09I-MO-ES-03:CAM:" />
 	</bean>
 
-	<bean id="nixswr_count" class="gda.device.detector.NXDetector">
-		<property name="name" value="nixswr_count" />
-		<property name="collectionStrategy" ref="nixswrNXProcCollectionStrategyNumFrames" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="nixswr_roiStats_NX" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="nixswr_time" class="gda.device.detector.NXDetector">
-		<property name="name" value="nixswr_time" />
-		<property name="collectionStrategy" ref="nixswrNXProcCollectionStrategyTime" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="nixswr_roiStats_NX" />
-			</list>
-		</property>
-	</bean>
-
 	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
-	<bean id=" nixswr_roiStats_NX" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	<bean id="nixswr_roiStats_NX" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="nixswr_roiStats" />
 		<property name="baseRoiPVName" value="BL09I-MO-ES-03:ROI1:" />
 		<property name="baseStatsPVName" value="BL09I-MO-ES-03:STAT1:" />
@@ -62,7 +42,7 @@
 		<property name="initialEnableHighClip" value="0" />
 		<property name="initialEnableLowClip" value="0" />
 		<property name="initialEnableFilter" value="0" />
-		<property name="datatypeout" value="10"/> <!-- Automatic  -->
+		<property name="dataTypeOut" value="10"/> <!-- Automatic  -->
 	</bean>
 
 	<bean id="nixswrNXProcCollectionStrategyNumFrames" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
@@ -134,6 +114,26 @@
 					</bean>
 				</property>
 			</bean>
+		</property>
+	</bean>
+
+	<bean id="nixswr_repeat" class="gda.device.detector.NXDetector">
+		<property name="name" value="nixswr_count" />
+		<property name="collectionStrategy" ref="nixswrNXProcCollectionStrategyNumFrames" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="nixswr_roiStats_NX" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="nixswr_time" class="gda.device.detector.NXDetector">
+		<property name="name" value="nixswr_time" />
+		<property name="collectionStrategy" ref="nixswrNXProcCollectionStrategyTime" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="nixswr_roiStats_NX" />
+			</list>
 		</property>
 	</bean>
 
