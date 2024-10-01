@@ -5,7 +5,7 @@ from gda.scan import ScanPositionProviderFactory
 from uk.ac.diamond.daq.concurrent import Async
 from java.lang import ThreadLocal
 
-import logging
+from org.slf4j import LoggerFactory
 from time import sleep
 from setup import rate
 
@@ -77,7 +77,7 @@ class Linkam(ScannableBase):
 
     def __init__(self, name, pv, fmt='%.2f', tolerance=0.2):
         self._ramping_thread = ThreadLocal()
-        self._logger = logging.getLogger('gda.i22.linkam.' + name)
+        self._logger = LoggerFactory.getLogger('gda.i22.linkam.' + name)
         self.name = name
         self.tolerance = tolerance
         self.pv = pv
@@ -116,7 +116,7 @@ class Linkam(ScannableBase):
 
     @setpoint.setter
     def setpoint(self, target):
-        self._logger.debug('Setting setpoint to %s', target)
+        self._logger.debug('Setting setpoint to {}', target)
         if abs(self.temp - target) > self.tolerance and not self.running:
             self.running = True
         self._pv.set(self.SETPOINT, target)
@@ -132,7 +132,7 @@ class Linkam(ScannableBase):
 
     @ramp_rate.setter
     def ramp_rate(self, rate):
-        self._logger.debug('Setting ramp rate to %s', rate)
+        self._logger.debug('Setting ramp rate to {}', rate)
         self._pv.set(self.RATE, rate)
 
     @property
@@ -144,7 +144,7 @@ class Linkam(ScannableBase):
     def pump_control(self, value):
         if isinstance(value, str):
             value = NAME_TO_CTRL[value.lower()]
-        self._logger.debug('Setting pump control to %s', CTRL_TO_NAME[value])
+        self._logger.debug('Setting pump control to {}', CTRL_TO_NAME[value])
         self._pv.set(self.PUMP_CTRL, value)
 
     @property
@@ -155,7 +155,7 @@ class Linkam(ScannableBase):
     def pump_speed(self, speed):
         if self.pump_control == 'Auto':
             raise ValueError("Can't set the pump speed in auto mode")
-        self._logger.debug('Setting pump speed to %s', speed)
+        self._logger.debug('Setting pump speed to {}', speed)
         self._pv.set(self.PUMP_SPEED, speed)
         
     @property
@@ -205,7 +205,7 @@ class Linkam(ScannableBase):
     def running(self, run_state):
         if isinstance(run_state, str):
             run_state = 1 if run_state.lower() == 'on' else 0
-        self._logger.debug('Setting running state to %s', run_state)
+        self._logger.debug('Setting running state to {}', run_state)
         self._pv.set(self.START, 1 if run_state else 0)
 
     def start(self):
@@ -268,7 +268,7 @@ class Linkam(ScannableBase):
 
     def ramps(self, *ramps):
         ramps = ((self.temp,),) + ramps
-        self._logger.info('Running ramps: %s', ramps)
+        self._logger.info('Running ramps: {}', ramps)
         time = 0
         for prev, curr in zip(ramps, ramps[1:]):
             if abs(curr[0] - prev[0]) < self.tolerance: # hold
@@ -281,19 +281,19 @@ class Linkam(ScannableBase):
         return ScanPositionProviderFactory.create([i*self.interval for i in range(steps)])
 
     def run_ramps(self, *ramps):
-        self._logger.info("Starting to run %d ramps", len(ramps))
+        self._logger.info("Starting to run {} ramps", len(ramps))
         self._ramping_thread.set(True) # override the isBusy check if we're the ones being busy
         ramps = ((self.temp,),) + ramps
         try:
             if self.moving:
                 raise ValueError('Linkam is already busy')
             for prev, curr in zip(ramps, ramps[1:]):
-                self._logger.info('Starting ramp %s', curr)
+                self._logger.info('Starting ramp {}', curr)
                 if abs(curr[0] - prev[0]) < self.tolerance: # hold
-                    self._logger.info("Holding at current temp for %f", curr[1])
+                    self._logger.info("Holding at current temp for {}", curr[1])
                     sleep(curr[1])
                 else: # ramp
-                    self._logger.info('Moving to %f at %f C/s', curr[0], curr[1])
+                    self._logger.info('Moving to {} at {} C/s', curr[0], curr[1])
                     self.ramp_rate = curr[1]
                     self(curr[0])
         except:
