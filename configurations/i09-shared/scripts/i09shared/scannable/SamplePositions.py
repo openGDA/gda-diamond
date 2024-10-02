@@ -1,3 +1,4 @@
+from gda.configuration.properties import LocalProperties
 from gda.device import DeviceException
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
@@ -8,51 +9,50 @@ import logging
 import copy
 from collections import OrderedDict
 
-from gda.configuration.properties import LocalProperties
 BEAMLINE = LocalProperties.get("gda.beamline.name")
 
-beamline_scannables = []
+beamline_sp_scannables = []
 
 if BEAMLINE == "i09":
     from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
-    beamline_scannables.append(smpmx)
-    beamline_scannables.append(smpmy)
-    beamline_scannables.append(smpmz)
-    beamline_scannables.append(smpmpolar)
+    beamline_sp_scannables.append(smpmx)
+    beamline_sp_scannables.append(smpmy)
+    beamline_sp_scannables.append(smpmz)
+    beamline_sp_scannables.append(smpmpolar)
 
 elif BEAMLINE == "i09-1":
     from gdaserver import hsmpmx, hsmpmy, hsmpmz, hsmpmpolar #@UnresolvedImport
-    beamline_scannables.append(hsmpmx)
-    beamline_scannables.append(hsmpmy)
-    beamline_scannables.append(hsmpmz)
-    beamline_scannables.append(hsmpmpolar)
+    beamline_sp_scannables.append(hsmpmx)
+    beamline_sp_scannables.append(hsmpmy)
+    beamline_sp_scannables.append(hsmpmz)
+    beamline_sp_scannables.append(hsmpmpolar)
 
 elif BEAMLINE == "i09-2":
     from gdaserver import sx1, sx2, sx3, sy, sz1, sz2 #@UnresolvedImport
-    beamline_scannables.append(sx1)
-    beamline_scannables.append(sx2)
-    beamline_scannables.append(sx3)
-    beamline_scannables.append(sy)
-    beamline_scannables.append(sz1)
-    beamline_scannables.append(sz2)
+    beamline_sp_scannables.append(sx1)
+    beamline_sp_scannables.append(sx2)
+    beamline_sp_scannables.append(sx3)
+    beamline_sp_scannables.append(sy)
+    beamline_sp_scannables.append(sz1)
+    beamline_sp_scannables.append(sz2)
 else:
     raise RuntimeError("{} is not yet supported with this class.".format(BEAMLINE))
 
 class SamplePositions(ScannableBase):
     """
     Syntax:
-    1: sp.new(output_filename=None, override=False, number_of_positions=60) - Create a new set of sample positions to be saved to a file.
+    1: sp.new(output_filename=None, override=False) - Create a new set of sample positions to be saved to a file.
         If output_filename=None, create file using default. If file already exists, overwrite must be True. Otherwise will throw error.
     2: sp.loadpos(input_filename = None, output_filename = None) - Store positions from existing file into scannable.
         If file_to_load=None, load the default file. If output_filename=None, then use the existing file to save and override new positions to.
     3: sp.savepos(key) - Save the current sample manipulator positions to a key in an OrderedDict. Will also be saved to file.
     4: sp.changekey(oldkey, newkey) - Change an existing key storing sample positions to a new one.
-    5: sp.addkey(newkey) - Add a new key with default position values.
-    6: sp.addkeys(number_of_keys) - Add a number of new keys with default position values. Takes integer as input.
-    7: sp.removekey(key) - Remove an existing key holding sample positions
-    8: sp.addexcluded(scannable) - Add a sample manipulator scannable which will be ignored for saving and storing positions.
-    9: sp.removeexcluded(scannable) - Allow a sample manipulator scannable to take part in saving and storing positions again.
-    10: sp.sortkeys() - Sort the keys in numerical and then alphabetical order.
+    5: sp.removekey(key) - Remove an existing key holding sample positions
+    6: sp.addexcluded(scannable) - Add a sample manipulator scannable which will be ignored for moving and displaying positions.
+    7: sp.removeexcluded(scannable) - Allow a sample manipulator scannable to take part in moving and displaying positions again.
+    8: sp.sortkeys() - Sort the keys in numerical and then alphabetical order.
+    9: pos sp "1a" - Move the sample manipulator to the positions saved at "1a". Scannables excluded will not be moved.
+    10: scan sp ("1a", "1b", "1c", ...) - Scan the sample manipulator over the positions saved at ("1a", "1b", "1c", ...). Scannables excluded will not be moved.
     """
 
     DEFAULT_POSITION = None
@@ -87,6 +87,7 @@ class SamplePositions(ScannableBase):
         scannable: str, Scannable
             Scannable name or scannable object to search through getScannables() to exclude
         """
+        self.checkConfiguration()
         #Check this is a valid scannable
         scannable = self.getScannables()[self.getScannableIndex(scannable)]
         self._EXCLUDED_SCANNABLES.append(scannable)
@@ -106,6 +107,7 @@ class SamplePositions(ScannableBase):
         scannable: str, Scannable
             Scannable name or scannable object to remove from exclude_scannables
         """
+        self.checkConfiguration()
         #If provided a string, search for scannable obj equivalent via getName()
         if isinstance(scannable, basestring):
             scannable = self.getScannables()[self.getScannableIndex(scannable)]
@@ -152,25 +154,17 @@ class SamplePositions(ScannableBase):
             json.dump(data, f, indent = 4)
         self.logger.info("Saved to file: %s", filename)
 
-    def new(self, output_filename = None, override = False, number_of_positions = 60):
+    def new(self, output_filename = None, override = False):
         """
         Configure number of new positions that can be stored and saved to a file.
 
         Parameters
         ----------
         output_filename : str, optional
-            Default is None. The output_filename path to save new positions. Can be absolute or relative path from processing directory. If None, uses objects name. Will override existing file.
+            Default is None. The output_filename path to save new positions. Can be absolute or relative path from data directory. If None, uses objects name. Will override existing file.
         override: boolean, optional
             Default is False. Stops overriding existing positions file unless explicitly given argument. Raises OSError if False and file already exists
-        number_of_positions : int, optional
-            Default is 60. The number of new initial positions to be created.
         """
-
-        if not isinstance(number_of_positions, int):
-            raise DeviceException("number_of_positions must be an integer")
-
-        if number_of_positions < 1:
-            raise DeviceException("number_of_positions must be greater than zero.")
 
         output_filename = self._createDefaultFileName(output_filename)
 
@@ -186,8 +180,6 @@ class SamplePositions(ScannableBase):
 
         self._cached_file_data = OrderedDict()
         self._cached_file_data["positions"] = OrderedDict()
-        for i in range(number_of_positions):
-            self._getCachedPositions()[str(i + 1)] = self._createDefaultPosition()
 
         if self.isScannablesExcluded():
             self._cached_file_data["excluded_scannables"] = self.getExcludedScannableNames()
@@ -197,22 +189,21 @@ class SamplePositions(ScannableBase):
         self._configured = True
         self._filename = output_filename
 
-        print("Number of positions: {}".format(self.getMaxPosIndex()))
-        print("Saving new positions to {}\n".format(self.getFilename()))
+        print("Saving new positions to output_filename: {}\n".format(self.getFilename()))
 
-    def loadpos(self, file_to_load = None, output_filename = None):
+    def loadpos(self, input_filename = None, output_filename = None):
         """
         Load existing positions from a file.
 
         Parameters
         ----------
         input_filename : str, optional
-            Default is None. The input_filename path to read in positions. Can be absolute or relative path from processing directory. If None, uses objects name.
+            Default is None. The input_filename path to read in positions. Can be absolute or relative path from data directory. If None, uses objects name.
         output_filename : str, optional
-            Default is None. The output_filename path to save new positions. Can be absolute or relative path from processing directory. If None, uses objects name. Will override existing file.
+            Default is None. The output_filename path to save new positions. Can be absolute or relative path from data directory. If None, uses objects name. Will override existing file.
         """
 
-        input_filename = self._createDefaultFileName(file_to_load)
+        input_filename = self._createDefaultFileName(input_filename)
         output_filename = self._createDefaultFileName(output_filename)
 
         with open(input_filename) as f:
@@ -230,9 +221,9 @@ class SamplePositions(ScannableBase):
 
         self._configured = True
 
-        print("Loaded positions from file {}".format(input_filename))
+        print("Loaded positions from input_file {}".format(input_filename))
         print("Number of positions: {}".format(self.getMaxPosIndex()))
-        print("Saving new positions to {}\n".format(self.getFilename()))
+        print("Saving new positions to output_filename: {}\n".format(self.getFilename()))
 
     def savepos(self, key):
         """
@@ -274,48 +265,11 @@ class SamplePositions(ScannableBase):
         else:
             print("Saved position: \"{}\" : {}".format(key, new_pos_row_filtered))
 
-    def addkey(self, key):
-        """
-        Add a new key to the positions using default positions
-
-        Parameters
-        ----------
-        key: the key to add to the positions
-        """
-        self.checkConfiguration()
-        default_positions = self._createDefaultPosition()
-        self._getCachedPositions()[str(key)] = default_positions
-        print("Added key with default positions")
-        print("{}: {}".format(key, default_positions))
-
-    def addkeys(self, number_of_keys):
-        """
-        Create a number of new keys using the default position
-
-        Parameters
-        ----------
-        number_of_keys: int
-            The number of new keys to create
-        """
-        self.checkConfiguration()
-        number_of_positions = len(self.getSavedPositions())
-        i = 1
-        saved_positions = self._getCachedPositions()
-        default_position = self._createDefaultPosition()
-
-        while i < number_of_keys + 1:
-            new_key = i + number_of_positions
-            if new_key not in saved_positions:
-                saved_positions[str(new_key)] = default_position
-            else:
-                number_of_keys = number_of_keys + 1
-            i = i + 1
-        print("Successfully added {} default keys".format(number_of_keys))
-
     def sortkeys(self):
         """
         Sort the keys in numerical and then alphabetical order
         """
+        self.checkConfiguration()
         # helper function to perform sort
         def num_sort(ordered_dict_tuple):
             if ordered_dict_tuple[0].isnumeric():
@@ -410,7 +364,7 @@ class SamplePositions(ScannableBase):
 
     def checkConfiguration(self):
         if not self._configured:
-            raise DeviceException("\n{} is not configured. Please use: \n\t{}.new(output_filename, override, number_of_positions) \nOR \n\t{}.loadpos(file_to_load, output_filename)".format(self.getName(), self.getName(), self.getName()))
+            raise DeviceException("\n{} is not configured. Please use: \n\t{}.new(output_filename=None, override=False) \nOR \n\t{}.loadpos(file_to_load=None, output_filename=None)".format(self.getName(), self.getName(), self.getName()))
 
     def _createDefaultFileName(self, filename = None):
         """
@@ -537,6 +491,6 @@ def key_value_positions_to_str(key_positions):
     return string
 
 print("-"*100)
-sp = SamplePositions("sp", beamline_scannables)
-print("Creating sample positioner object sp. Store many sample manipulator position components, save them to a file and/or move sample manipulator to previously saved positions.")
+sp = SamplePositions("sp", beamline_sp_scannables)
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 print(sp.__doc__.replace("\n", "", 1))
