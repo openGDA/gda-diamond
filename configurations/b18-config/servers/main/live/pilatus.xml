@@ -83,7 +83,7 @@
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
-						<property name="triggerMode" value="3"/>
+						<property name="triggerMode" value="1"/> <!-- 1: Ext. Enable, 3:Mult. Trigger -->
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
