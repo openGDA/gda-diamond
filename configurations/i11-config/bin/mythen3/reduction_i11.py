@@ -398,7 +398,8 @@ def do_the_delta_iteration(
         angles = get_angular_calibrations(calib_dict, modules, delta)
         bins = get_bins(angles, bin_step, two_theta_min, two_theta_max)
 
-        raw_data = f_in["entry/mythen_nx/data"][i, :, 0]
+        raw_data = f_in["entry/mythen_nx/data"][i, :, 0] # use this for multi-counter
+        #raw_data = f_in["entry/mythen_nx/data"][i, :] # use this for single counter i.e. 1285344.nxs
 
         histogrammed = mask_and_histogram(raw_data, angles, bad_channels, bins)
         fix_the_gaps(histogrammed)
