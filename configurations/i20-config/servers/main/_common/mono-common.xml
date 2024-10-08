@@ -53,19 +53,6 @@
 		<property name="motor" ref="crystal34_roll_motor" />
 	</bean>
 
-	<bean id="jena_crystal1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal1_pitch_motor" />
-	</bean>
-	<bean id="jena_crystal2_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal2_roll_motor" />
-	</bean>
-	<bean id="jena_crystal34_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal34_roll_motor" />
-	</bean>
-
 	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

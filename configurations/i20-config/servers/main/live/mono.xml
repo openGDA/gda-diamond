@@ -20,22 +20,12 @@
 		<property name="pvName" value="BL20I-OP-QCM-01:OFFSET" />
 	</bean>
 	<bean id="crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH:FBMTR" />
-	</bean>
-	<bean id="crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL:FBMTR" />
-	</bean>
-	<bean id="crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL:FBMTR" />
-	</bean>
-
-	<bean id="jena_crystal1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL1:PITCH" />
 	</bean>
-	<bean id="jena_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL2:ROLL" />
 	</bean>
-	<bean id="jena_crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="crystal34_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL34:ROLL" />
 	</bean>
 
