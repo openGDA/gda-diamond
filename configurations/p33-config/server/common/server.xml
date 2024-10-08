@@ -15,6 +15,7 @@
 
 	<import resource="jython_server_facade.xml" />
 
+	<import resource="scannables.xml" />
 	<import resource="stage.xml" />
 	<import resource="detector.xml" />
 
