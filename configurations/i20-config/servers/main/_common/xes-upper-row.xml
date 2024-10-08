@@ -134,7 +134,6 @@
 		<property name="crystalsAllowedToMove" ref="upper_crystalsAllowedToMove" />
 		<property name="trajectoryStepSize" value="0.02" />
 		<property name="horizontalCrystalOffset" value="130" />
-		<property name="absoluteXPos" value="true" />
 		<property name="detectorAxisAngle" value="-20" />
 		<property name="upperRow" value="true" />
 		<property name="minTheta" value="68" />
