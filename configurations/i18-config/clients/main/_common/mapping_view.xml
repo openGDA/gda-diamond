@@ -37,6 +37,10 @@
 					<property name="outerScannableName" value="energy" />
 					<property name="xanesParametersSection"	ref="sparseXanesSection" />
 				</bean>
+				<bean id="tomoSubmit" class="uk.ac.diamond.daq.mapping.ui.experiment.I18SubmitScanSection">
+					<property name="description" value="Tomography scan" />
+					<property name="buttonText"	value="Submit tomography scan" />
+				</bean>
 			</list>
 		</property>
 	</bean>

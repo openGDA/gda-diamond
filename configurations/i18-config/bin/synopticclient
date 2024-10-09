@@ -8,7 +8,8 @@ plugin_customization_file="/dls_sw/i18/software/gda/workspace_git/gda-diamond.gi
 
 profiles=$(generate-profile-list.py)
 
-tag="${USER}_synoptic"
+#Base the config directory on the username (with chars following @ removed)
+tag="${USER%@*}_synoptic"
 
 gda client -f --plugin-customisation $plugin_customization_file $profiles --tag $tag  $*
 

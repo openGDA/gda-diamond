@@ -3,7 +3,13 @@ from uk.ac.gda.devices.detector.xspress4 import XspressPvProviderBase
 
 andor_camera_control = Finder.find("andor_camera_control")
 
+def object_exists(object_name) :
+    return object_name in globals().keys()
+
 def setup_andor() :
+    if not object_exists("andor") :
+        return 
+    
     basePv = andor.getAdBase().getBasePVName().replace("CAM:","")
 
     if not XspressPvProviderBase.pvExists(basePv+":CAM:Status_RBV") :
@@ -18,7 +24,13 @@ def setup_andor() :
     CAClient.put(basePv+"ARR:EnableCallbacks", 1)
     
 def setup_xmap() :
+    if not object_exists("xmapMca") :
+        return 
+
     xmapMca.setHardwareTriggeredMode(True)
+    xmapMca.setSleepTimeBeforeReadoutMs(200)
+    CAClient.put("BL18I-EA-DET-07:StatusAll.SCAN", 9)
+    CAClient.put("BL18I-EA-DET-07:ReadAll.SCAN", 9)
     
 def setup_xspress3Odin() :
     if LocalProperties.isDummyModeEnabled() :

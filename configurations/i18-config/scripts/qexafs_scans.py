@@ -35,7 +35,7 @@ class QexafsTest(ZebraQexafsScannable):
     
     def asynchronousMoveTo(self, position_ev):
         position_kev = float(position_ev)/1000.0
-        print(position_kev)
+        print("Moving %s to %.4f keV"%(self.getName(), position_kev))
         super(QexafsTest, self).asynchronousMoveTo(position_kev)
     
     def setMaxSpeed(self, max_speed):
@@ -64,28 +64,29 @@ class QexafsTest(ZebraQexafsScannable):
 #from gda.util import CrystalParameters
 #CrystalParameters.CrystalSpacing.Si_111.getLabel()
 
-zebra = zebraContinuousMoveController.getZebra()
+zebra = Finder.find("zebra")
 
-qexafs_test = QexafsTest()
-qexafs_test.setZebraDevice(zebra)
-qexafs_test.setPcEncType(3) # encoder 4
+qexafs_energy = QexafsTest()
+qexafs_energy.setZebraDevice(zebra)
+qexafs_energy.setPcEncType(3) # encoder 4
 
-qexafs_test.setAccelPV("BL18I-MO-DCM-01:ENERGY.ACCL") 
-qexafs_test.setXtalSwitchPV("BL18I-MO-DCM-01:MP:X:SELECT") # Crystal type PV (Si311 or Si111)
-qexafs_test.setBraggMaxSpeedPV("BL18I-MO-DCM-01:ENERGY.VMAX")
-qexafs_test.setBraggCurrentSpeedPV("BL18I-MO-DCM-01:ENERGY.VELO")
-qexafs_test.setEnergySwitchPV("nothing")
+basePv = "BL18I-MO-DCM-01:"
+qexafs_energy.setAccelPV(basePv+"ENERGY.ACCL") 
+qexafs_energy.setXtalSwitchPV(basePv+"MP:X:SELECT") # Crystal type PV (Si311 or Si111)
+qexafs_energy.setBraggMaxSpeedPV(basePv+"ENERGY.VMAX")
+qexafs_energy.setBraggCurrentSpeedPV(basePv+"ENERGY.VELO")
+qexafs_energy.setEnergySwitchPV("nothing")
 
 # set motor object to control energy motor (BL18I-MO-DCM-01:ENERGY)
-qexafs_test.setMotor(sc_energy_motor.getMotor())
-# qexafs_test.setMaxSpeed(1) # can also set max speed - kev per second - if don't want to use the value from the motor record
+qexafs_energy.setMotor(sc_energy_motor.getMotor())
+# qexafs_energy.setMaxSpeed(1) # can also set max speed - kev per second - if don't want to use the value from the motor record
 
-qexafs_test.setName("qexafs_test")
-qexafs_test.setOutputFormat(["%7.7g"])  # extra decimal places
-qexafs_test.configure()
+qexafs_energy.setName("qexafs_energy")
+qexafs_energy.setOutputFormat(["%7.7g"])  # extra decimal places
+qexafs_energy.configure()
 
 # call to set flag to indicate epics channels have been configured
-qexafs_test.initializationCompleted()
+qexafs_energy.initializationCompleted()
 
 
 from gda.device.scannable import DummyScannable

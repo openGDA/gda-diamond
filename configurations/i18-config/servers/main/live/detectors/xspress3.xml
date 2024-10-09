@@ -12,9 +12,11 @@
 		<property name="numScalers" value="8" />
 		<property name="pvNameMap">
 			<map>
-				<!-- Point to the PVs in the metawriter -->
+				<!-- Point some of the HDF writer to the PVs in the metawriter -->
 				<entry key="HDF_FULL_FILENAME_RBV" value=":META:OutputFile_RBV" />
-				<entry key="NUM_CAPTURED_RBV" value=":META:FramesWritten_RBV" />
+				
+<!-- 				Set number of captured Hdf frames PV to point to the frame writer num captured frames PV  -->
+				<entry key="NUM_CAPTURED_RBV" value="1:NumCaptured_RBV" />
 			</map>
 		</property>
 	</bean>

@@ -77,6 +77,9 @@ def noBeamMode(noBeam):
     
 
 def setup_factories():
+    # creates qexafs_energy scannable
+    run_script("qexafs_scans.py")
+
     theFactory = XasScanFactory();
     theFactory.setBeamlinePreparer(beamlinePreparer);
     theFactory.setDetectorPreparer(detectorPreparer);
@@ -92,11 +95,10 @@ def setup_factories():
     xas = theFactory.createEnergyScan();
     xanes = xas
     
-    #theFactory.setQexafsDetectorPreparer(detectorPreparer);
-    #theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
-    # theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
-    #global qexafs
-    #qexafs = theFactory.createQexafsConstantVelocityScan()
+    theFactory.setQexafsDetectorPreparer(detectorPreparer);
+    theFactory.setQexafsEnergyScannable(qexafs_energy); # @UndefinedVariable
+    global qexafs
+    qexafs = theFactory.createQexafsScan()
     
     mapFactory = MapFactory();
     mapFactory.setBeamlinePreparer(beamlinePreparer);
@@ -289,8 +291,6 @@ def setup():
     if not LocalProperties.isDummyModeEnabled() : 
         qexafs_xspress3Odin.setUseSwmrFileReading(True)
 
-    run_script("qexafs_scans.py")
-    
     run_script("detector_setup.py")
    
     run_script("convert_to_Si333.py")
