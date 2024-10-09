@@ -13,7 +13,9 @@
     <gda:motor id="dcm_pitch" live-pvName="BL22I-MO-DCM-01:XTAL2:PITCH" protectionLevel="2" />
     <gda:motor id="dcm_perp" live-pvName="BL22I-MO-DCM-01:PERP" protectionLevel="3" />
     <gda:motor id="dcm_xtrans" live-pvName="BL22I-MO-DCM-01:X" protectionLevel="3" />
-    <gda:motor id="dcm_energy" live-pvName="BL22I-MO-DCM-01:ENERGY" protectionLevel="3" />
+    <gda:motor id="dcm_energy" live-pvName="BL22I-MO-DCM-01:ENERGY" protectionLevel="2" />
+    <!-- Note that if "dcm_energy" protectionLevel is higher than "energy" protectionLevel, see ncddetecto5rs.xml,
+              then users won't be able to change energy as expected. -->
     <gda:motor id="dcm_offset" live-pvName="BL22I-MO-DCM-01:OFFSET" protectionLevel="3" />
 
     <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
