@@ -42,3 +42,14 @@ E -> count error
 Each line contains the 3 numbers for X, Y and E, separated by a space.
 
 
+see ![this link](https://confluence.diamond.ac.uk/x/O4xnE) on confluence for more details about the autoprocessing
+
+Also note that the overall process is roughly: 
+1. gda does scan
+2. gzc sees message and triggers processing
+3. process is recorded in ispyb
+4. "the process" is run this bash script /dls_sw/apps/wrapper-scripts/mythen_process.sh
+5. That script calls reduction_i11.py which is in this repo
+6. Often, this process is run by the gzc on wilson via a slurm submission, but in this 
+    case we just run it as a subprocess on the control machine where the gzc happens to
+    be running.
