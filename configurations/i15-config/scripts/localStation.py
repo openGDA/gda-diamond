@@ -479,6 +479,22 @@ try:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
 	try:
+		def pil3_tiffs_on():
+			caput("BL15I-CS-IOC-12:AUTORESTART", "1")
+			caput("BL15I-CS-IOC-12:START", "1")
+			simpleLog("pil3_tiffs_on completed, use 'pil3_tiffs_off' to stop writing pil3 tif and cbf files")
+	
+		def pil3_tiffs_off():
+			caput("BL15I-CS-IOC-12:AUTORESTART", "0")
+			caput("BL15I-CS-IOC-12:STOP", "1")
+			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to startp writing pil3 tif and cbf files")
+
+		alias("pil3_tiffs_on")
+		alias("pil3_tiffs_off")
+	except:
+		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler")
+
+	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
@@ -489,6 +505,7 @@ try:
 		caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0")
 		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off")
 		caput("BL15I-EA-PILAT-03:HDF5:XMLFileName", "0")
+		pil3_tiffs_on()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 
