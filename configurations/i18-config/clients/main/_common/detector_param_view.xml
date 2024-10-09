@@ -8,7 +8,6 @@
 			<map>
 				<entry key="Fluorescence">
 					<list>
-						<value>Xspress3</value>
 						<value>Xspress3Odin</value>
 						<value>Xmap</value>
 					</list>
@@ -18,7 +17,6 @@
 
 		<property name="detectorTemplateMap">
 			<map>
-				<entry key="xspress3" value="${gda.config}/templates/Xspress3_Parameters.xml" />
 				<entry key="xspress3Odin" value="${gda.config}/templates/Xspress3Odin_Parameters.xml" />
 				<entry key="xmapMca" value="${gda.config}/templates/Vortex_Parameters_1e.xml" />
 			</map>

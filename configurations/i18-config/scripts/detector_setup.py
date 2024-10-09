@@ -3,7 +3,13 @@ from uk.ac.gda.devices.detector.xspress4 import XspressPvProviderBase
 
 andor_camera_control = Finder.find("andor_camera_control")
 
+def object_exists(object_name) :
+    return object_name in globals().keys()
+
 def setup_andor() :
+    if not object_exists("andor") :
+        return 
+    
     basePv = andor.getAdBase().getBasePVName().replace("CAM:","")
 
     if not XspressPvProviderBase.pvExists(basePv+":CAM:Status_RBV") :
@@ -18,27 +24,13 @@ def setup_andor() :
     CAClient.put(basePv+"ARR:EnableCallbacks", 1)
     
 def setup_xmap() :
-    xmapMca.setHardwareTriggeredMode(True)
-
-def setup_xspress3() :
-    if LocalProperties.isDummyModeEnabled() :
+    if not object_exists("xmapMca") :
         return 
-    
-    basePv = xspress3.getController().getEpicsTemplate()
-    if not XspressPvProviderBase.pvExists(basePv+":DetectorState_RBV") :
-        print("Not setting up xspress3 - PVs are not present")
-        return
-    
-    xspress3.setPrefix("xspress3")
-    xspress3.setDefaultSubDirectory("nexus")
-    xspress3.setFileTemplate("%s%s%d.hdf5")
-    xspress3.setFilePath("")
-    xspress3.setReadDataFromFile(True) # to ensure Hdf file writing is used during scans
 
-    cont = xspress3.getController()
-    basePv = cont.getEpicsTemplate()
-    
-    setup_xspress_detector(basePv)
+    xmapMca.setHardwareTriggeredMode(True)
+    xmapMca.setSleepTimeBeforeReadoutMs(200)
+    CAClient.put("BL18I-EA-DET-07:StatusAll.SCAN", 9)
+    CAClient.put("BL18I-EA-DET-07:ReadAll.SCAN", 9)
     
 def setup_xspress3Odin() :
     if LocalProperties.isDummyModeEnabled() :
@@ -53,13 +45,13 @@ def setup_xspress3Odin() :
     
 def setup_ffi0_channel(i0_channel=2) : 
     print("Setting I0 channel on FFI0 detectors to "+str(i0_channel))
-    ffi0_detectors = [FFI0_xspress3, raster_FFI0_xspress3, FFI0_xspress3Odin, qexafs_FFI0_xspress3Odin, FFI0_xmapMca]
+    ffi0_detectors = [FFI0_xspress3Odin, qexafs_FFI0_xspress3Odin, FFI0_xmapMca]
+
     for det in ffi0_detectors : 
         det.setI0_channel(i0_channel)
 
 run_in_try_catch(setup_andor)
 run_in_try_catch(setup_xmap)
-run_in_try_catch(setup_xspress3)
 run_in_try_catch(setup_xspress3Odin)
 
 setup_ffi0_channel()

@@ -17,6 +17,7 @@
 				<value>%.6f</value>
 			</list>
 		</property>
+		<property name="hardwareTriggeredMode" value="true" />
 		<property name="alwaysRecordRawMCAs" value="true" />
 		<property name="slave" value="false" />
 		<property name="configFileName"

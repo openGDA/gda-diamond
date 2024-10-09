@@ -22,6 +22,13 @@
 		<constructor-arg value="1" />
 		<constructor-arg type="java.lang.String" value="StoT" />
 	</bean>
+	<bean id="harmonic1_converter_Si333" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="harmonic1_converter_Si333" />
+		<constructor-arg value="Si111/lookuptable_harmonic1_333.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="1" />
+		<constructor-arg type="java.lang.String" value="StoT" />
+	</bean>
 	<bean id="harmonic3_converter_Si111" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic3_converter_Si111" />
 		<constructor-arg value="Si111/lookuptable_harmonic3.txt" />
@@ -107,11 +114,17 @@
 		<constructor-arg value="56.187" />
 		<constructor-arg value="72.000" />
 	</bean>
+	<bean id="harmonic1_Si333" class="gda.util.converters.util.RangeandConverterNameHolder">
+		<constructor-arg value="harmonic1_Si333" />
+		<constructor-arg value="harmonic1_converter_Si333" />
+		<constructor-arg value="56.187" />
+		<constructor-arg value="72.000" />
+	</bean>
 	<bean id="harmonic3_Si111" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic3_Si111" />
 		<constructor-arg value="harmonic3_converter_Si111" />
 		<constructor-arg value="24.801" />
-		<constructor-arg value="56.187" />
+		<constructor-arg value="56.186" />
 	</bean>
 	<bean id="harmonic5_Si111" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5_Si111" />

@@ -1,5 +1,11 @@
 #!/bin/bash
-# This is required to be on the path until the Diamond Launcher scripts in 
-# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
-# this cannot be done until all beamlines use the standard startup commands. 
-gda logpanel $*
+
+# Find the window ID of logpanel currently running on local machine
+logpanel_window_id=$(wmctrl -l | awk -vHOST=$(hostname) '{if ($0~HOST && $0~"GDA Log Panel") print $1}')
+
+if [ -z "$logpanel_window_id" ]
+then
+	gda-logpanel $* &
+else 
+	wmctrl -i -R $logpanel_window_id
+fi
