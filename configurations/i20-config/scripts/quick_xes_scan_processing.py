@@ -220,7 +220,11 @@ class QuickXesNexusProcessor :
         # link to the ROI counts (FF)
         self.add_link(group_path+"/FF_medipix1", self.medipixDataPath%(1))
         self.add_link(group_path+"/FF_medipix2", self.medipixDataPath%(2))
-        self.add_link(group_path+"/I1", self.I1DataPath)
+
+        panda_hdf_path=self.get_panda_file_path("01")
+        panda_i1_data_path="/entry/I1.data/I1.data"
+        
+        self.add_link(group_path+"/I1", panda_hdf_path+"#"+panda_i1_data_path, True)
 
         ## Add the FFI1 values - convert to list from array first so Nexus writing is happy
         self.add_dataset(group_path+"/FFI1_medipix1", self.get_ff_i1(1).tolist())
@@ -289,16 +293,10 @@ class QuickXesNexusProcessor :
      
     def add_active_row_info(self) :
         self.show_info("Adding enabled row information")
-        if LocalProperties.isDummyModeEnabled() :
-            lower_enabled=1
-            upper_enabled=1
-        else :
-            lower_enabled = caget("BL20I-EA-XES-02:CS3:LO:ENA:RBV")
-            upper_enabled = caget("BL20I-EA-XES-01:CS3:UP:ENA:RBV")
-            
+        lower_enabled = lower_xes_enable.getPosition()
+        upper_enabled = upper_xes_enable.getPosition()
         self.add_dataset(self.processedPath+"/xes_upper_enabled", upper_enabled)
         self.add_dataset(self.processedPath+"/xes_lower_enabled", lower_enabled)
-
         
     def add_time_values(self) :
         self.show_info("Adding time axis values")
@@ -350,7 +348,7 @@ class ScanHooks(ScanHookParticipant) :
         print("Stopping medipix detectors")
         medipix1.stop()
         medipix2.stop()
-        sleep(1)
+        sleep(4) # 1 sec is too short
         
         scanProcessor = QuickXesNexusProcessor()
         if LocalProperties.isDummyModeEnabled() :

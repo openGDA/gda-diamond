@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XesScanParameters>
+    <shouldValidate>true</shouldValidate>
+    <scanType>1</scanType>
+    <scanColourType>0</scanColourType>
+    <element>Fe</element>
+    <edge>K</edge>
+    <monoEnergy>15000.0</monoEnergy>
+    <loopChoice>E0 outer, Ef inner</loopChoice>
+    <monoInitialEnergy>2000.0</monoInitialEnergy>
+    <monoFinalEnergy>15000.0</monoFinalEnergy>
+    <monoStepSize>0.01</monoStepSize>
+    <scanFileName></scanFileName>
+    <additionalCrystal0>false</additionalCrystal0>
+    <additionalCrystal1>true</additionalCrystal1>
+    <additionalCrystal2>true</additionalCrystal2>
+    <additionalCrystal3>false</additionalCrystal3>
+    <spectrometerScanParameters>
+        <scannableName>XESEnergyUpper</scannableName>
+        <initialEnergy>2000.0</initialEnergy>
+        <finalEnergy>2100.0</finalEnergy>
+        <stepSize>1.0</stepSize>
+        <integrationTime>1.0</integrationTime>
+        <fixedEnergy>2000.0</fixedEnergy>
+        <scanFileName></scanFileName>
+        <offsetsStoreName></offsetsStoreName>
+    </spectrometerScanParameters>
+    <spectrometerScanParameters>
+        <scannableName>XESEnergyLower</scannableName>
+        <initialEnergy>2000.0</initialEnergy>
+        <finalEnergy>2100.0</finalEnergy>
+        <stepSize>1.0</stepSize>
+        <integrationTime>1.0</integrationTime>
+        <fixedEnergy>2000.0</fixedEnergy>
+        <scanFileName></scanFileName>
+        <offsetsStoreName></offsetsStoreName>
+    </spectrometerScanParameters>
+</XesScanParameters>

@@ -7,6 +7,7 @@ from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.command.Services import getRunnableDeviceService
 from uk.ac.gda.api.io import PathConstructor
 from gda.device.scannable import PVScannable
+from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 
 from os import name
 
@@ -34,14 +35,20 @@ def run_mapping_scan(scan_request, scan_name="QXES") :
     except Exception as e:
         print("Exception running scan",e)
 
-def run_qxes_scan_energy(xes_energy_scn, energy_start, energy_end, energy_step, exposure_time=0.1, num_reps=1, outer_scannable=None, use_malcolm = True, continuous_scan = True, is_alternating=True):
+def run_qxes_scan_energy(xes_energy_scn, energy_start, energy_end, energy_step, exposure_time=0.1, num_reps=1, outer_scannable=None,
+                         use_malcolm = True, continuous_scan = True, is_alternating=True, scan_metadata=None):
+    
     pitch_start, pitch_end, pitch_step = calculate_pitch_for_scan(xes_energy_scn, energy_start, energy_end, energy_step)
+    
     if num_reps > 1 and outer_scannable is not None :
-        run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, num_reps, outer_scannable, use_malcolm, continuous_scan, is_alternating)
+        run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, num_reps, outer_scannable,
+                                 use_malcolm, continuous_scan, is_alternating, scan_metadata=scan_metadata)
     else :
-        run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, use_malcolm, continuous_scan)
+        run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time,
+                            use_malcolm, continuous_scan, scan_metadata=scan_metadata)
 
-def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, use_malcolm = True, continuous_scan = True):
+def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, use_malcolm = True, 
+                        continuous_scan = True, scan_metadata=None):
     
     # lookup detector and axis name to use for given XESEnergyScannable object
     axis_det_pair = axis_detector_map_malcolm[xes_energy_scn] if use_malcolm else axis_detector_map_gda[xes_energy_scn]
@@ -67,10 +74,14 @@ def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, expo
     
     # Generate ScanRequest using the builder
     request = ScanRequestBuilder().withPathAndRegion(path_model, None).withDetectors(detectors).build()
+    if scan_metadata is not None :
+        request.setScanMetadata([scan_metadata])
+    
     name_for_queue = "Qxes (Malcolm)" if use_malcolm else "Qxes"
     run_mapping_scan(request, scan_name=name_for_queue)
 
-def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, num_reps=2, outer_scannable=None, use_malcolm = True, continuous_scan = True, is_alternating=True):
+def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, num_reps=2, outer_scannable=None, 
+                             use_malcolm = True, continuous_scan = True, is_alternating=True, scan_metadata=None):
     
     # lookup detector and axis name to use for given XESEnergyScannable object
     axis_det_pair = axis_detector_map_malcolm[xes_energy_scn] if use_malcolm else axis_detector_map_gda[xes_energy_scn]
@@ -93,7 +104,7 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     
     # Create model for outer axis : dummy scannable that just tracks the current repetition number
     path_model_outer = AxialStepModel(outer_scannable.getName(), 0, num_reps-1, 1)
-    path_model_outer.setContinuous(False)
+    path_model_outer.setContinuous(True)
 
     # Model for the inner axis : step scan style model with single axis
     path_model_inner = AxialStepModel(axis_name, pitch_start, pitch_end, pitch_step)
@@ -105,6 +116,9 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     
     # Generate ScanRequest using the builder
     request = ScanRequestBuilder().withPathAndRegion(path_model, None).withDetectors(detectors).build()
+    if scan_metadata is not None :
+        request.setScanMetadata([scan_metadata])
+    
     name_for_queue = "Qxes (Malcolm)" if use_malcolm else "Qxes"
     run_mapping_scan(request, scan_name=name_for_queue)
 
@@ -172,10 +186,16 @@ class XesAxisControl :
         self.create_axis_control_scannables()
 
     def create_axis_control_scannables(self) :
-        self.upper_enable = PVScannable("qxes_upper_enable", "BL20I-EA-XES-01:CS3:UP:ENA")
-        self.lower_enable = PVScannable("qxes_lower_enable", "BL20I-EA-XES-02:CS3:LO:ENA")
-        self.lower_gain =   PVScannable("qxes_lower_gain",   "BL20I-EA-XES-02:CS3:LO:GAIN")
-        self.lower_offset = PVScannable("qxes_lower_offset", "BL20I-EA-XES-02:CS3:LO:OFFSET")
+        if LocalProperties.isDummyModeEnabled() :
+            self.upper_enable = DummyScannable("qxes_upper_enable")
+            self.lower_enable = DummyScannable("qxes_lower_enable")
+            self.lower_gain = DummyScannable("qxes_lower_gain")
+            self.lower_offset = DummyScannable("qxes_lower_offset")
+        else :
+            self.upper_enable = PVScannable("qxes_upper_enable", "BL20I-EA-XES-01:CS3:UP:ENA")
+            self.lower_enable = PVScannable("qxes_lower_enable", "BL20I-EA-XES-02:CS3:LO:ENA")
+            self.lower_gain =   PVScannable("qxes_lower_gain",   "BL20I-EA-XES-02:CS3:LO:GAIN")
+            self.lower_offset = PVScannable("qxes_lower_offset", "BL20I-EA-XES-02:CS3:LO:OFFSET")
         
         scannables = [self.upper_enable, self.lower_enable, self.lower_gain, self.lower_offset]
         for scn in scannables : 
@@ -381,7 +401,7 @@ class PositionTimeScannable(ScannableBase) :
     def rawAsynchronousMoveTo(self, position):
         # print("Sleeping for %s sec"%(self.move_sleep_time_sec))
         sleep(self.move_sleep_time_sec)
-        # print("Moving %s to %s"%(self.getName(), str(position)))
+        print("Moving %s to %s"%(self.scn_to_move.getName(), str(position)))
         self.scn_to_move.rawAsynchronousMoveTo(position)
     
     def isBusy(self) :
@@ -400,17 +420,15 @@ pos_time_scn.setScannableToMove(repetition_number_scn)
 pos_time_scn.setUseUtcTime(True)
 
 
-def prepare_run_qxes_scan(scannable_name, energy_start, energy_end, energy_step_size, integration_time, 
+def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy_step_size, integration_time, 
                           row2_energy_start=None, row2_energy_step_size=None,
-                          is_alternating=False, num_reps=1, mono_energy=None, use_malcolm=True) :
+                          is_alternating=True, num_reps=1, mono_energy=None, use_malcolm=True) :
     
-    xes_energy_scannable = Finder.find(scannable_name) 
     if xes_energy_scannable is None : 
         raise ValueError("Scannable called "+scannable_name+" was not found")
-    
 
     xes_scannables = xes_energy_scannable,
-    xes_energies = energy_start,
+    xes_energies = (energy_start+energy_end)*0.5,
 
     if xes_energy_scannable == XESEnergyBoth : 
         
@@ -426,8 +444,11 @@ def prepare_run_qxes_scan(scannable_name, energy_start, energy_end, energy_step_
         if len(warnings) > 0 :
             print(warnings)
 
+        num_steps = int( (energy_end-energy_start)/energy_step_size)
+        row2_energy_end = row2_energy_start + row2_energy_step_size*abs(num_steps)
+
         xes_scannables = XESEnergyUpper, XESEnergyLower
-        xes_energies = energy_start, row2_energy_start
+        xes_energies = (energy_start+energy_end)*0.5, (row2_energy_start+row2_energy_end)*0.5
 
     print("Running Qxes scan using : "+str(xes_scannables))
     print("Time per point : %.2f sec"%(integration_time))
@@ -467,8 +488,14 @@ def prepare_run_qxes_scan(scannable_name, energy_start, energy_end, energy_step_
     
     xes_hardare_preparer.setup_panda_offsets()
     
-    run_qxes_scan_energy(XESEnergyBoth, energy_start, energy_end, energy_step_size, integration_time, num_reps, 
-                         outer_scannable=pos_time_scn, is_alternating=is_alternating, use_malcolm=use_malcolm)
+    # setup metadata object to record current bragg1 energy
+    smetadata = ScanMetadata()
+    smetadata.setType(ScanMetadata.MetadataType.ENTRY)
+    smetadata.addField("bragg1_energy", str(bragg1WithOffset.getPosition()))
+    
+    run_qxes_scan_energy(XESEnergyLower, energy_start, energy_end, energy_step_size, integration_time, num_reps, 
+                         outer_scannable=pos_time_scn, is_alternating=is_alternating, use_malcolm=use_malcolm,
+                         scan_metadata=smetadata)
 
     for scn in xes_scannables :
         restore_tmp_offsets(scn)
@@ -481,6 +508,8 @@ set_subdirectory()
 
 xes_hardare_preparer = HardwarePreparer()
 xes_axis_control = XesAxisControl()
+upper_xes_enable = xes_axis_control.upper_enable
+lower_xes_enable = xes_axis_control.lower_enable
 
 reset_medipix = xes_hardare_preparer.reset_medipix
 reset_medipix()
