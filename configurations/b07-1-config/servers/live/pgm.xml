@@ -36,13 +36,13 @@
 		<property name="recordName" value="BL07C-OP-PGM-01:MIRRORSELECT" />
 	</bean>
 
-	<bean id="pgm_override" class="gda.device.enumpositioner.EpicsSimpleBinary">
+	<bean id="pgm_override" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL07C-OP-PGM-01:MVTYPEOVRD:RAPIDALL:CMD" />
-		<property name="positions">
-			<list>
-				<value>No Override</value>
-				<value>Override</value>
-			</list>
+		<property name="values">
+			<map>
+				<entry key="Auto" value="Auto"/>
+				<entry key="Rapid" value="Rapid"/>
+			</map>
 		</property>
 	</bean>
 
