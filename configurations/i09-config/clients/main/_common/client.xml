@@ -8,4 +8,5 @@
 	<import resource="monitor_controls.xml" />
 	<import resource="feedback_controls.xml" />
 	<import resource="live_controls.xml"/>
+	<import resource="analyser.xml"/>
 </beans>
