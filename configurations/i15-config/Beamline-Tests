@@ -1,0 +1,12 @@
+To run all beamline tests, all that is needed is to import them and run them:
+
+    from beamline_test import run_tests
+    run_tests()
+
+To run all beamline tests, except the email tests, run:
+
+    run_tests(marks='not email')
+
+To run just the simple scan tests, for checking plot colours, run:
+
+    run_tests(marks='plotting')

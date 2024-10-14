@@ -5,7 +5,7 @@ from gda.scan import ScanPositionProviderFactory
 from uk.ac.diamond.daq.concurrent import Async
 from java.lang import ThreadLocal
 
-import logging
+from org.slf4j import LoggerFactory
 from time import sleep
 from setup import rate
 
@@ -77,7 +77,7 @@ class Linkam(ScannableBase):
 
     def __init__(self, name, pv, fmt='%.2f', tolerance=0.2):
         self._ramping_thread = ThreadLocal()
-        self._logger = logging.getLogger('gda.i22.linkam.' + name)
+        self._logger = LoggerFactory.getLogger('gda.i22.linkam.' + name)
         self.name = name
         self.tolerance = tolerance
         self.pv = pv
@@ -116,7 +116,7 @@ class Linkam(ScannableBase):
 
     @setpoint.setter
     def setpoint(self, target):
-        self._logger.debug('Setting setpoint to %s', target)
+        self._logger.debug('Setting setpoint to {}', target)
         if abs(self.temp - target) > self.tolerance and not self.running:
             self.running = True
         self._pv.set(self.SETPOINT, target)
@@ -132,7 +132,7 @@ class Linkam(ScannableBase):
 
     @ramp_rate.setter
     def ramp_rate(self, rate):
-        self._logger.debug('Setting ramp rate to %s', rate)
+        self._logger.debug('Setting ramp rate to {}', rate)
         self._pv.set(self.RATE, rate)
 
     @property
@@ -144,7 +144,7 @@ class Linkam(ScannableBase):
     def pump_control(self, value):
         if isinstance(value, str):
             value = NAME_TO_CTRL[value.lower()]
-        self._logger.debug('Setting pump control to %s', CTRL_TO_NAME[value])
+        self._logger.debug('Setting pump control to {}', CTRL_TO_NAME[value])
         self._pv.set(self.PUMP_CTRL, value)
 
     @property
@@ -155,7 +155,7 @@ class Linkam(ScannableBase):
     def pump_speed(self, speed):
         if self.pump_control == 'Auto':
             raise ValueError("Can't set the pump speed in auto mode")
-        self._logger.debug('Setting pump speed to %s', speed)
+        self._logger.debug('Setting pump speed to {}', speed)
         self._pv.set(self.PUMP_SPEED, speed)
         
     @property
@@ -205,16 +205,21 @@ class Linkam(ScannableBase):
     def running(self, run_state):
         if isinstance(run_state, str):
             run_state = 1 if run_state.lower() == 'on' else 0
-        self._logger.debug('Setting running state to %s', run_state)
+        self._logger.debug('Setting running state to {}', run_state)
         self._pv.set(self.START, 1 if run_state else 0)
 
-    def start(self):
+    def start(self): # This function does not appear to be used
+        self._logger.trace("start() running was {}", self.running)
         self.running = True
+        if (abs(self.temp - self.setpoint) > self.tolerance):
+            self._logger.warn('start() Current temperature {} is not within tolerance {} of current setpoint {}', self.temp, self.tolerance, self.setpoint)
+            print('Current temperature is not within tolerance of current setpoint!')
 
     def stop(self):
         # self.running = False
         self.setpoint = self.temp
         if self._ramp_future is not None:
+            self.logger.debug("Stopping ramp future")
             self._ramp_future.cancel(True)
             self._ramp_future = None
 
@@ -232,10 +237,14 @@ class Linkam(ScannableBase):
             return self.temp,
 
     def isBusy(self):
+        self._logger.trace("isBusy moving {} or {} (_ramping_thread={} and _ramp_future={} and _ramp_future.isDone())",
+                self.moving, "false" if self._ramp_future is None else self._ramp_future.isDone(), self._ramping_thread.get(), self._ramp_future)
         return (not self._ramping_thread.get() and self._ramp_future is not None and not self._ramp_future.isDone()) or self.moving
     
     @property
     def moving(self):
+        self._logger.trace("moving: running {} and {} (abs(temp {} - setpoint {})={} > tolerance {})", self.running,
+               abs(self.temp - self.setpoint) > self.tolerance, self.temp, self.setpoint, abs(self.temp - self.setpoint), self.tolerance)
         return abs(self.temp - self.setpoint) > self.tolerance and self.running
 
     def _temp_update(self, src, temp):
@@ -268,7 +277,7 @@ class Linkam(ScannableBase):
 
     def ramps(self, *ramps):
         ramps = ((self.temp,),) + ramps
-        self._logger.info('Running ramps: %s', ramps)
+        self._logger.info('Running ramps: {}', ramps)
         time = 0
         for prev, curr in zip(ramps, ramps[1:]):
             if abs(curr[0] - prev[0]) < self.tolerance: # hold
@@ -277,25 +286,32 @@ class Linkam(ScannableBase):
                 time += float(abs(curr[0] - prev[0])) * 60/curr[1]
         print('Expected run time ~%f' %time)
         steps = int(time // self.interval) + 2 # +1 to counter truncating to int, +1 to include end point
+        self._logger.trace("ramps({}) with interval {} requires {} steps with time {} where _ramp_future was {}",
+            ramps, self.interval, steps, time, self._ramp_future)
         self._ramp_future = Async.submit(lambda: self.run_ramps(*ramps[1:]))
+        self._logger.trace("ramps({}) with interval {} requires {} steps with time {} where _ramp_future now {}",
+            ramps, self.interval, steps, time, self._ramp_future)
         return ScanPositionProviderFactory.create([i*self.interval for i in range(steps)])
 
-    def run_ramps(self, *ramps):
-        self._logger.info("Starting to run %d ramps", len(ramps))
+    def run_ramps(self, *ramps): # Note that as this is run Async, errors in here will be swallowed & the function will stop running
+        self._logger.trace("run_ramps({})", ramps)
+        self._logger.info("Starting to run {} ramps", len(ramps))
         self._ramping_thread.set(True) # override the isBusy check if we're the ones being busy
         ramps = ((self.temp,),) + ramps
         try:
             if self.moving:
                 raise ValueError('Linkam is already busy')
             for prev, curr in zip(ramps, ramps[1:]):
-                self._logger.info('Starting ramp %s', curr)
+                self._logger.info('Starting ramp {}', curr)
+                self._logger.trace('run_ramps: prev={} curr={}', prev, curr)
                 if abs(curr[0] - prev[0]) < self.tolerance: # hold
-                    self._logger.info("Holding at current temp for %f", curr[1])
+                    self._logger.info("Holding at current temp for {}", curr[1])
                     sleep(curr[1])
                 else: # ramp
-                    self._logger.info('Moving to %f at %f C/s', curr[0], curr[1])
+                    self._logger.info('Moving to {} at {} C/s', curr[0], curr[1])
                     self.ramp_rate = curr[1]
-                    self(curr[0])
+                    self(curr[0]) # This calls self.setpoint(curr[0])
+                # We should probably check if we should be exiting early at some point
         except:
             self._logger.error("Failed to run ramps", exc_info=True)
 

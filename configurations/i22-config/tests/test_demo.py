@@ -71,6 +71,8 @@ def test_single_xray_frame(main):
     from setup import tfgsetup
     tfgsetup.setupTfg(1, 800, 200)
     staticscan(main.ncddetectors)
+    # Note, if this test fails with a Pilatus error, then fillow the DAQ
+    # System Reboot process at https://confluence.diamond.ac.uk/x/yR2RBQ
 
 @pytest.mark.mode('live', reason="Relies on shared file system permissions")
 def test_permissions(config):
@@ -81,6 +83,16 @@ def test_permissions(config):
     assert UserUtilities.groupCanWrite('i22_staff', path.join(config, 'scripts', 'sampleEnvironment'))
     assert UserUtilities.groupCanWrite('i22_staff', path.join(config, 'scripts', 'templatesRepository'))
     assert UserUtilities.groupCanWrite('i22_staff', path.join(config, 'etc', 'i22.cfg'))
+
+""" To fix permissions, in the config folder, run
+setfacl -R -m         group:i22_staff:rwx \
+           -m default:group:i22_staff:rwx \
+    xml/permissions.xml \
+    scripts/beamlineScripts \
+    scripts/sampleEnvironment \
+    scripts/templatesRepository \
+    etc/i22.cfg
+"""
 
 def test_2d_scan(scan_command, main, meta, gaussian_2d):
     x,y,g = gaussian_2d

@@ -51,6 +51,8 @@
     <bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
         <property name="bragg" ref="dcm_energy"/>
         <property name="protectionLevel" value="2"/>
+        <!-- Note that if "dcm_energy" protectionLevel is higher than "energy" protectionLevel, see devices/dcm.xml,
+                  then users won't be able to change energy as expected. -->
     </bean>
 
     <bean id="sao1" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">

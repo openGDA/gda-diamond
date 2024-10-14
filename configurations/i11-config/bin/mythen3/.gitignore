@@ -1,3 +1,4 @@
 venv
 .jython_cache
 .ipynb_checkpoints
+mythen_process.sh

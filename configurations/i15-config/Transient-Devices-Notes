@@ -46,7 +46,7 @@ For example:
                 "type": "button"
             }, 
             {
-                "args": "/dls_sw/i15/software//gda_versions/var/i15.cfg", 
+                "args": "/dls_sw/i15/etc/i15.cfg", 
                 "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py", 
                 "icon": "sgda.png",
                 "text": "Start GDA Servers (with transient devices)",
@@ -63,14 +63,14 @@ Similarly:
 /dls_sw/i15/etc/dls-launcher-applications/dls-launcher-applications.xml
 --------------------------------------------------------------------------------
     <button text="Start GDA Servers (with no transient devices)"   command="/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config/bin/gda" args="servers"                         icon="sgda.png"/>
-    <button text="Start GDA Servers (with transient devices)"      command="/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py" args="/dls_sw/i15/software//gda_versions/var/i15.cfg" icon="sgda.png"/>
+    <button text="Start GDA Servers (with transient devices)"      command="/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py" args="/dls_sw/i15/etc/i15.cfg" icon="sgda.png"/>
 --------------------------------------------------------------------------------
 
 The configuration should list all profiles which the user can choose, along with
 the default initial state of those options:
 
 --------------------------------------------------------------------------------
-/dls_sw/i15/software/gda_versions/var/i15.cfg
+/dls_sw/i15/etc/i15.cfg
 --------------------------------------------------------------------------------
 [options]
 

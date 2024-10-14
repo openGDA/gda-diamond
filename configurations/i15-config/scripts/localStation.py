@@ -26,7 +26,7 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
-ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
+ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-03:'))
 
 import scannables.MerlinColourModeThresholdsScannable
 mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts', PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
@@ -479,6 +479,22 @@ try:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
 	try:
+		def pil3_tiffs_on():
+			caput("BL15I-CS-IOC-12:AUTORESTART", "1")
+			caput("BL15I-CS-IOC-12:START", "1")
+			simpleLog("pil3_tiffs_on completed, use 'pil3_tiffs_off' to stop writing pil3 tif and cbf files")
+	
+		def pil3_tiffs_off():
+			caput("BL15I-CS-IOC-12:AUTORESTART", "0")
+			caput("BL15I-CS-IOC-12:STOP", "1")
+			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to startp writing pil3 tif and cbf files")
+
+		alias("pil3_tiffs_on")
+		alias("pil3_tiffs_off")
+	except:
+		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler")
+
+	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
@@ -489,6 +505,7 @@ try:
 		caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0")
 		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off")
 		caput("BL15I-EA-PILAT-03:HDF5:XMLFileName", "0")
+		pil3_tiffs_on()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 

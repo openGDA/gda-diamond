@@ -1,3 +1,9 @@
+# See https://alfred.diamond.ac.uk/documentation/amygdala/config/amygdala_server.html
+# Used by /etc/systemd/system/gda_launcher.service
+#     and /etc/systemd/system/gda_launcher_nightly.service
+# which is configured through /dls_sw/i15/etc/gda_launcher.toml
+# backed up to https://gitlab.diamond.ac.uk/daq/beamline-etc/i15-etc
+
 server.spring-xml = [
     "servers/main/${gda.mode}/server.xml",
     "servers/main/_common/server.xml",
@@ -65,3 +71,5 @@ client.spring-xml = [
 
 #[extras.iXX-shared]
 #root = "<relative_path_to>/iXX-shared"
+
+
