@@ -7,4 +7,9 @@
 		<property name="name" value="metashop"/>
 	</bean>
 	
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory" />
+		<property name="value" value="" />
+	</bean>
+	
 </beans>
