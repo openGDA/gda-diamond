@@ -3,4 +3,4 @@ export GTK_OVERLAY_SCROLLING=0
 
 gdalog
 
-gda client -P -p "windows7" $*
+gda -G client -P -p "windows7" $*
