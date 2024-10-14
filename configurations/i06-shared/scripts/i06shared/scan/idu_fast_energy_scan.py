@@ -42,9 +42,7 @@ if beamline_name =="i06-1":
     fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iduenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
 elif beamline_name =="i06":
     fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iduenergy', 'pgmenergy', 'ROI1', 'ROI2'], ['roi1io1', 'roi1io2', 'roi2io1', 'roi2io2'],elementCounter=fastScanElementCounter);
-    # setup area detector mean value capture
-    fesData.setupAreaDetectorROITimeSeries(root_pv ="BL06I-EA-DET-02", time_series_start_pvs=[":STAT1:TS:TSAcquire", ":STAT2:TS:TSAcquire"], time_series_waveform_pvs = [":STAT1:TSMeanValue", ":STAT2:TSMeanValue"])
-    
+
     if ENABLE_KB_RASTERING:
         #configure KB Mirror rastering
         KEYSIGHT_KB_Rastering_Control_PV="BL06I-EA-SGEN-01:PERIOD"
