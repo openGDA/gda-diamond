@@ -45,8 +45,10 @@ def setup_xspress3Odin() :
     
 def setup_ffi0_channel(i0_channel=2) : 
     print("Setting I0 channel on FFI0 detectors to "+str(i0_channel))
-    ffi0_detectors = [FFI0_xspress3Odin, qexafs_FFI0_xspress3Odin, FFI0_xmapMca]
-
+    ffi0_detectors = [FFI0_xspress3Odin, qexafs_FFI0_xspress3Odin]
+    if "FFI0_xmapMca" in globals() :
+        ffi0_detector.append(FFI0_xmapMca)
+    
     for det in ffi0_detectors : 
         det.setI0_channel(i0_channel)
 

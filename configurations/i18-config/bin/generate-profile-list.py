@@ -17,7 +17,7 @@ profile_pv_list = { "spectrometer":"BL18I-MO-DET-01:X.RBV", "vortex":"BL18I-EA-D
 "andor":"BL18I-EA-DET-10:CAM:PortName_RBV", "medipix": "BL18I-EA-DET-04:DET:PortName_RBV" }
 
 # Determine which spring profiles to use based on which PVs are present :
-profiles=[]
+profiles=["-P"]
 for profile_name, pv in profile_pv_list.items() :
     if pv_exists(pv) :
         profiles.append("-p "+profile_name)
