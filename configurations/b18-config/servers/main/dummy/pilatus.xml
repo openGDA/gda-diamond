@@ -30,8 +30,9 @@
 			    <property name="acquirePeriodExpression" value="#acquireTime + 0.001" />
 
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
 						<property name="restoreTriggerMode" value="true" />
+						<property name="triggerMode" value="1"/>
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
