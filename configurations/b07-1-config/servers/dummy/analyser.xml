@@ -27,6 +27,10 @@
 		</property>
 	</bean>
 
+	<bean id="snapshotImageSizeX" class="java.lang.Integer">
+		<constructor-arg value="25"/>
+	</bean>
+
 	<bean id="analyser_sledge_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>
