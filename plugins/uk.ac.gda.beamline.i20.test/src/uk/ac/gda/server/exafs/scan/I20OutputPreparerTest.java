@@ -52,7 +52,7 @@ public class I20OutputPreparerTest {
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
 	private TfgScalerWithFrames ionchambers;
 	private Xspress2Detector xspressSystem;
-	private Xmap xmpaMca;
+	private Xmap xmapMca;
 	private I20DetectorPreparer i20DetectorPreparer;
 	private I20OutputPreparer thePreparer;
 	private NXMetaDataProvider metashop;
@@ -72,17 +72,18 @@ public class I20OutputPreparerTest {
 
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
-		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
+		xmapMca = (Xmap) createMock(Xmap.class, "xmapMca");
 
 		i20DetectorPreparer = Mockito.mock(I20DetectorPreparer.class);
 		List<Detector> detList = new ArrayList<Detector>();
 		detList.add(ionchambers);
 		detList.add(xspressSystem);
-		detList.add(xmpaMca);
+		detList.add(xmapMca);
 		Mockito.when(i20DetectorPreparer.getDetectors()).thenReturn(detList);
 
 		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers,
-				xmpaMca, i20DetectorPreparer);
+				i20DetectorPreparer);
+		thePreparer.setXMap(xmapMca);
 		thePreparer.setDatawriterconfig(datawriterconfig);
 
 	}
@@ -114,7 +115,7 @@ public class I20OutputPreparerTest {
 //		Mockito.verify(xspressSystem).setOnlyDisplayFF(true);
 //		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(true);
 //		Mockito.verify(xspressSystem).setSaveRawSpectrum(true);
-		Mockito.verify(xmpaMca).setSaveRawSpectrum(true);
+		Mockito.verify(xmapMca).setSaveRawSpectrum(true);
 
 	}
 
@@ -139,7 +140,7 @@ public class I20OutputPreparerTest {
 //		Mockito.verify(xspressSystem).setOnlyDisplayFF(false);
 //		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(false);
 //		Mockito.verify(xspressSystem).setSaveRawSpectrum(false);
-		Mockito.verify(xmpaMca).setSaveRawSpectrum(false);
+		Mockito.verify(xmapMca).setSaveRawSpectrum(false);
 	}
 
 	@Test

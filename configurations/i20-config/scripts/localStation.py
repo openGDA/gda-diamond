@@ -31,14 +31,14 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-xmapController = Finder.find("xmapcontroller")
-if LocalProperties.get("gda.mode") == "live":
-    from vortex_elements import VortexElements
-    vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
-    vortexDetector = Finder.find("vortexDetector")
-else :
-    # In dummy mode, set event processing times to be consistent with number of elements on detector.
-    xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
+if "xmapMca" and "xmapController" in locals() : 
+    if LocalProperties.isDummyModeEnabled() : 
+        # In dummy mode, set event processing times to be consistent with number of elements on detector.
+        xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
+    else :
+        from vortex_elements import VortexElements
+        vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
+        vortexDetector = Finder.find("vortexDetector")
 
 # Create DTC_energy scannable to set, get the XSpress4 DTC energy value
 run 'xspress4_dtc_energy_scannable.py'
@@ -95,9 +95,8 @@ def setup_detector_preparers() :
     xesPeakScanPreparer.setRunPeakFinding(False)
     return ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer
 
-#### preparers ###
-detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix1, topupCheckerWithShutter)
-detectorPreparer.setFFI1(FFI1)
+#### preparers ###    
+detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, medipix1, topupCheckerWithShutter)
 detectorPreparer.setMutableRoi(medipix1, getMedipixMutableRoi(medipix1))
 detectorPreparer.setMutableRoi(medipix2, getMedipixMutableRoi(medipix2))
 
@@ -107,8 +106,13 @@ ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer = setup_dete
 detectorPreparer.setPreparers([ionchamberCheckerPreparer, braggOffsetPreparer, xesPeakScanPreparer])
 
 samplePreparer = I20SamplePreparer(filterwheel)
-outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
+outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
+
+if "xmapMca" in locals() :
+    detectorPreparer.setXMap(xmapMca)
+    detectorPreparer.setFFI1(FFI1)
+    outputPreparer.setXMap(xmapMca)
 
 XesOffsetsLower=Finder.find("XesOffsetsLower")
 XesOffsetsUpper=Finder.find("XesOffsetsUpper")
