@@ -75,7 +75,7 @@ public class B18DetectorPreparerTest {
 	private Scannable[] offsets;
 	private Scannable[] offsets_units;
 	private List<Scannable> ionc_gas_injector_scannables;
-	private DetectorBase diffractionDetector;
+	private List<Detector> diffractionDetectors;
 	private Xspress2Detector xspressDetector;
 	private NexusXmap xmapMca;
 	private Xspress3Detector xspress3Detector;
@@ -89,8 +89,14 @@ public class B18DetectorPreparerTest {
 	@Before
 	public void setup() throws Exception {
 		xmlHelpersMock = Mockito.mockStatic(XMLHelpers.class);
-		diffractionDetector = createMock(DetectorBase.class, "diffractionDetector");
+
+		diffractionDetectors = new ArrayList<Detector>();
+		Detector diffractionDetector = createMock(DetectorBase.class, "diffractionDetector");
 		Mockito.when(diffractionDetector.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
+		Detector diffractionDetector2 = createMock(DetectorBase.class, "diffractionDetector2");
+		Mockito.when(diffractionDetector2.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
+		diffractionDetectors.add(diffractionDetector);
+		diffractionDetectors.add(diffractionDetector2);
 
 		xspressDetector = createMock(Xspress2Detector.class, "xspressDetector");
 		xmapMca = createMock(NexusXmap.class, "vortexConfig");
@@ -135,7 +141,7 @@ public class B18DetectorPreparerTest {
 
 		thePreparer = new B18DetectorPreparer(energy_scannable, sensitivities, sensitivity_units,
 				offsets, offsets_units, ionc_gas_injector_scannables, ionchambers);
-		thePreparer.setDiffractionDetector(diffractionDetector);
+		thePreparer.setDiffractionDetectors(diffractionDetectors);
 		XspressParameters xspressParams = new XspressParameters();
 		xspressParams.setDetectorName(xspressDetector.getName());
 		Xspress3Parameters xspress3Params = new Xspress3Parameters();
@@ -207,10 +213,13 @@ public class B18DetectorPreparerTest {
 		thePreparer.collectDiffractionData();
 
 		Mockito.verify(energy_scannable).moveTo(10000.0);
-		Mockito.verify(diffractionDetector).setCollectionTime(1.2);
 
-		Mockito.verify(diffractionDetector).collectData();
-		Mockito.verify(diffractionDetector).readout();
+		for(var d: diffractionDetectors) {
+
+			Mockito.verify(d).setCollectionTime(1.2);
+			Mockito.verify(d).collectData();
+			Mockito.verify(d).readout();
+		}
 	}
 
 	@Test

@@ -2,6 +2,7 @@ package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,8 +62,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private static final Logger logger = LoggerFactory.getLogger(B18DetectorPreparer.class);
 
 	private Scannable energy_scannable;
-	private Detector diffractionDetector;
-	private String diffractionDetectorFilenameTemplate = "/%d-pilatus";
+	private List<Detector> diffractionDetectors;
+	private String diffractionDetectorFilenameTemplate = "/%d-diffraction";
 
 	private List<Scannable> ionc_gas_injector_scannables;
 
@@ -100,9 +101,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		stringSubstitutionMapQexafs.put("finalEnergy", QEXAFSParameters::getFinalEnergy);
 	}
 
-	public B18DetectorPreparer(Scannable energy_scannable,
-			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
-			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers) {
+	public B18DetectorPreparer(Scannable energy_scannable, Scannable[] sensitivities, Scannable[] sensitivity_units,
+			Scannable[] offsets, Scannable[] offset_units, List<Scannable> ionc_gas_injector_scannables,
+			TfgScalerWithFrames ionchambers) {
 		this.energy_scannable = energy_scannable;
 		detectorPreparerFunctions.setSensitivities(sensitivities);
 		detectorPreparerFunctions.setSensitivityUnits(sensitivity_units);
@@ -156,7 +157,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		detectorPreparerFunctions.setConfigFileDirectory(experimentFullPath);
 		detectorPreparerFunctions.setDataDirectory(experimentFullPath.replace("/xml/", "/"));
 
-		Map<String,Double> map = getStringSubstitutions(scanBean);
+		Map<String, Double> map = getStringSubstitutions(scanBean);
 		detectorConfigs.stream().forEach(config -> replaceStrings(config, map));
 
 		detectorPreparerFunctions.configure(detectorConfigs);
@@ -167,7 +168,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			return;
 		}
 		logger.info("Applying scan parameter substitutions to 'before scan' and 'after scan' script commands");
-		Map<String,Double> map = getStringSubstitutions(scanBean);
+		Map<String, Double> map = getStringSubstitutions(scanBean);
 		outputBean.setBeforeFirstRepetition(replaceStrings(outputBean.getBeforeFirstRepetition(), map));
 		outputBean.setBeforeScriptName(replaceStrings(outputBean.getBeforeScriptName(), map));
 		outputBean.setAfterScriptName(replaceStrings(outputBean.getAfterScriptName(), map));
@@ -182,7 +183,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	 * @param config
 	 * @param stringSubs key=string to replace, value=replacement value
 	 */
-	private void replaceStrings(DetectorConfig config, Map<String,Double> stringSubs) {
+	private void replaceStrings(DetectorConfig config, Map<String, Double> stringSubs) {
 		String scriptCommand = config.getScriptCommand();
 		if (StringUtils.isEmpty(scriptCommand)) {
 			return;
@@ -196,7 +197,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			return null;
 		}
 		logger.info("Replacing strings in Jython string : {}", jythonString);
-		for(Entry<String, Double> entry:stringSubs.entrySet()) {
+		for (Entry<String, Double> entry : stringSubs.entrySet()) {
 			if (jythonString.contains(entry.getKey())) {
 				jythonString = jythonString.replace(entry.getKey(), entry.getValue().toString());
 			}
@@ -205,17 +206,15 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	/**
-	 * Generate string substitution values using the supplied scan bean
-	 * and substitution map ({@link #stringSubstitutionMapQexafs}).
+	 * Generate string substitution values using the supplied scan bean and substitution map ({@link #stringSubstitutionMapQexafs}).
 	 *
 	 * @param scanBean
 	 * @return map of new values (key = string value to be replaced, value = new value, from scanBean)
 	 */
 	private Map<String, Double> getStringSubstitutions(IScanParameters scanBean) {
 		if (scanBean instanceof QEXAFSParameters) {
-			QEXAFSParameters params = (QEXAFSParameters)scanBean;
-			return stringSubstitutionMapQexafs.entrySet()
-					.stream()
+			QEXAFSParameters params = (QEXAFSParameters) scanBean;
+			return stringSubstitutionMapQexafs.entrySet().stream()
 					.collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().apply(params)));
 		}
 		return Collections.emptyMap();
@@ -234,7 +233,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	 */
 	public void collectDiffractionData() throws Exception {
 		IExperimentDetectorParameters detParams = getDetectorParameters();
-		if ( detParams != null && detParams.isCollectDiffractionImages() ) {
+		if (detParams != null && detParams.isCollectDiffractionImages()) {
 			collectDiffractionData(detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
 		}
 	}
@@ -244,8 +243,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			return detectorBean.getFluorescenceParameters();
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase(DetectorParameters.TRANSMISSION_TYPE)) {
 			return detectorBean.getTransmissionParameters();
-		}
-		else
+		} else
 			return null;
 	}
 
@@ -264,17 +262,18 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		if (ionchamberCheckerRunInterval <= 0) {
 			return false;
 		}
-		int repNumber = getRepetitionNumber()-1;
-		return repNumber % ionchamberCheckerRunInterval  == 0;
+		int repNumber = getRepetitionNumber() - 1;
+		return repNumber % ionchamberCheckerRunInterval == 0;
 	}
 
 	private void beforeFirstRepetition() throws Exception {
 		if (useNewDetectorConfiguration()) {
 			// Find the config that uses the detector
-			Optional<DetectorConfig> diffractionConfig = detectorBean.getDetectorConfigurations()
-					.stream()
-					.filter(conf -> conf.getDetectorName().equals(diffractionDetector.getName()))
+			List<String> detectorNames = diffractionDetectors.stream().map(Scannable::getName).toList();
+			Optional<DetectorConfig> diffractionConfig = detectorBean.getDetectorConfigurations().stream()
+					.filter(conf ->	detectorNames.contains(conf.getDetectorName()))
 					.findFirst();
+
 			if (diffractionConfig.isPresent() && diffractionConfig.get().isUseDetectorInScan()) {
 				File mythenFile = Paths.get(experimentFullPath, diffractionConfig.get().getConfigFileName()).toFile();
 				MythenParameters mythenBean = (MythenParameters) XMLHelpers.getBean(mythenFile);
@@ -286,14 +285,14 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	/**
-	 *  Run the ionchamber checker without catching and logging any exceptions
+	 * Run the ionchamber checker without catching and logging any exceptions
 	 *
 	 * @throws DeviceException
 	 */
 	public void runIonchamberCheckerNoThrow() {
 		try {
 			runIonchamberChecker();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.warn("Exception running ionchamber checker : {}. Continuing with rest of scan", e.getMessage(), e);
 		}
 	}
@@ -382,20 +381,18 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			}
 
 			InterfaceProvider.getTerminalPrinter().print(
-					"Changing gas of " + ion_chamber.getName() + " to " + gas_report_string + " for "
+					"Changing gas of " + ion_chamber.getName() + " to "	+ gas_report_string + " for "
 							+ ion_chamber.getPercentAbsorption() + " % absorption");
-			ionc_gas_injector_scannables.get(ion_chamber_num).moveTo(
-					new Object[] { purge_pressure, purge_period, gas_fill1_pressure, gas_fill1_period,
+			ionc_gas_injector_scannables.get(ion_chamber_num)
+					.moveTo(new Object[] { purge_pressure, purge_period, gas_fill1_pressure, gas_fill1_period,
 							gas_fill2_pressure, gas_fill2_period, gas_select_val, flushString });
 		}
 	}
 
-
 	protected void collectDiffractionData(double energy, double collectionTime, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
-		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4,
-				experimentFullPath.length());
+		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4, experimentFullPath.length());
 		String nexusSubFolder = experimentFolderName + "/" + outputBean.getNexusDirectory();
 		String asciiSubFolder = experimentFolderName + "/" + outputBean.getAsciiDirectory();
 
@@ -403,21 +400,26 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 		energy_scannable.moveTo(energy);
 
-		diffractionDetector.setCollectionTime(collectionTime);
+		for (var d : diffractionDetectors) {
+			d.setCollectionTime(collectionTime);
+		}
 
-		StaticScan staticscan = new StaticScan(new Scannable[] { diffractionDetector, energy_scannable});
+		List<Scannable> args = new ArrayList<>(diffractionDetectors);
+		args.add(energy_scannable);
+
+		StaticScan staticscan = new StaticScan(args.toArray(new Scannable[] {}));
 
 		// use the Factory to enable unit testing - which would use a DummyDataWriter
 		DataWriterFactory datawriterFactory = new DefaultDataWriterFactory();
 		DataWriter datawriter = datawriterFactory.createDataWriter();
 		if (datawriter instanceof XasAsciiNexusDataWriter) {
 			((XasAsciiNexusDataWriter) datawriter).setRunFromExperimentDefinition(false);
-			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + diffractionDetectorFilenameTemplate+".nxs");
-			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + diffractionDetectorFilenameTemplate+".dat");
+			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + diffractionDetectorFilenameTemplate + ".nxs");
+			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + diffractionDetectorFilenameTemplate + ".dat");
 			staticscan.setDataWriter(datawriter);
 		}
 
-		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image using "+diffractionDetector.getName()+"...");
+		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image using " + staticscan.getDetectors() + "...");
 		staticscan.run();
 		InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
 
@@ -439,7 +441,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	private List<String> getQxafsDetectorNames() throws Exception {
-		//create list of all detector names in use :
+		// create list of all detector names in use :
 		List<String> detectorNames = detectorBean.getDetectorConfigurations()
 				.stream()
 				.filter(DetectorConfig::isUseDetectorInScan)
@@ -479,18 +481,17 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	/**
 	 * Generate a list of names of buffered detectors for a detector group.
-	 * i.e. Loop over the detector names in the named group and replace each with corresponding
-	 * one from {@link #bufferedDetectorNameMap}
+	 * i.e. Loop over the detector names in the named group and replace each with corresponding one from {@link #bufferedDetectorNameMap}
 	 *
 	 * @param detectorGroupName
 	 * @return list of names of buffered detectors
 	 */
 	private List<String> getBufferedDetectorsForGroup(String detectorGroupName) {
 		logger.debug("Getting buffered detectors for detector group {}", detectorGroupName);
-		Optional<String[]> detectors = detectorBean.getDetectorGroups().stream().
-			filter(detGroup -> detGroup.getName().equalsIgnoreCase(detectorGroupName)).
-			map(DetectorGroup::getDetector).
-			findFirst();
+		Optional<String[]> detectors = detectorBean.getDetectorGroups().stream()
+				.filter(detGroup -> detGroup.getName().equalsIgnoreCase(detectorGroupName))
+				.map(DetectorGroup::getDetector)
+				.findFirst();
 
 		if (detectors.isPresent()) {
 			List<String> detectorList = Arrays.asList(detectors.get());
@@ -504,7 +505,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	/**
-	 *  Create list of buffered detector names from detectorList in same order as stored in the map
+	 * Create list of buffered detector names from detectorList in same order as stored in the map
 	 * (i.e. ionchambers first, FFI0s last)
 	 * @param detectorList
 	 * @return buffered detector names
@@ -512,10 +513,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private List<String> getBufferedDetectorNames(List<String> detectorList) {
 		// Create list of buffered detector name in same order as stored in the map
 		// (i.e. ionchambers first, FFI0s last)
-		return bufferedDetectorNameMap.entrySet().stream().
-				filter(bufDet -> detectorList.contains(bufDet.getKey())).
-				map(Entry::getValue).
-				collect(Collectors.toList());
+		return bufferedDetectorNameMap.entrySet().stream()
+				.filter(bufDet -> detectorList.contains(bufDet.getKey()))
+				.map(Entry::getValue)
+				.collect(Collectors.toList());
 	}
 
 	protected BufferedDetector[] createBufferedDetArray(List<String> names) throws Exception {
@@ -615,15 +616,15 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	public void setDirForDetectorData(String detectorName, String subDirectory) {
-		detectorPreparerFunctions.setDirForDetectorData(detectorName,  subDirectory);
+		detectorPreparerFunctions.setDirForDetectorData(detectorName, subDirectory);
 	}
 
-	public Detector getDiffractionDetector() {
-		return diffractionDetector;
+	public List<Detector> getDiffractionDetectors() {
+		return diffractionDetectors;
 	}
 
-	public void setDiffractionDetector(Detector diffractionDetector) {
-		this.diffractionDetector = diffractionDetector;
+	public void setDiffractionDetectors(List<Detector> diffractionDetectors) {
+		this.diffractionDetectors = diffractionDetectors;
 	}
 
 	public Scannable getIonchamberChecker() {
@@ -660,8 +661,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	/**
 	 * Set how often the checker should be run when performing multiple repetition scans :
- 	 * 0 = first repetition only, 1 = every repetition, 2 = every other rep etc.
- 	 *
+	 * 0 = first repetition only, 1 = every repetition, 2 = every other rep etc.
+	 *
 	 * @param ionchamberCheckerRunInterval
 	 */
 	public void setIonchamberCheckerRunInterval(int ionchamberCheckerRunInterval) {
