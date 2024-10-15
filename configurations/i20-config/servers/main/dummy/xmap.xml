@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfElements" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<!-- <property name="numberOfROIs" value="5" /> -->
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="xmapControllerName" value="xmapcontroller" />
+
+<!-- 		Value determined by procedure in DTC_for_vortex.doc and is a list,
+ 			one value for each element  -->
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+ 		<property name="extraNames">
+			<list>
+				<value>Element1</value>
+				<value>Element1_ROI 1</value>
+				<value>FF</value>
+			</list>
+		</property>
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+	</bean>
+	
+	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<!--property name="scaler" ref="CalMemory" / -->
+		<property name="counterTimer" ref="I1" />
+		<property name="extraNames">
+			<list>
+				<value>FFI1</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
+	</bean>
+		
+</beans>

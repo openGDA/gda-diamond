@@ -27,69 +27,10 @@
 		</property>
 	</bean>
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfElements" value="4" />
-		<property name="numberOfBins" value="1024" />
-		<!-- <property name="numberOfROIs" value="5" /> -->
-	</bean>
-
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-
-<!-- 		Value determined by procedure in DTC_for_vortex.doc and is a list,
- 			one value for each element  -->
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
- 		<property name="extraNames">
-			<list>
-				<value>Element1</value>
-				<value>Element1_ROI 1</value>
-				<value>FF</value>
-			</list>
-		</property>
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-	</bean>
-
 	<bean id="Stanford01" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
-	
-<!-- 	<bean id="xspress2controller" -->
-<!-- 		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController"> -->
-<!-- 		<property name="daServer" ref="DAServer" /> -->
-<!-- 		<property name="tfg" ref="tfg" /> -->
-<!-- 		<property name="xspressSystemName" value="xsp1" /> -->
-
-<!-- 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" /> -->
-<!-- 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" /> -->
-<!-- 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" /> -->
-<!-- 		<property name="fullMCABits" value="12" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector"> -->
-<!-- 		<property name="controller" ref="xspress2controller" /> -->
-<!-- 		<property name="configFileName" -->
-<!-- 			value="${gda.config}/var/templates/Xspress_Parameters.xml" /> -->
-<!-- 		<property name="dtcConfigFileName" -->
-<!-- 			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" /> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<list> -->
-<!-- 				<value>%.2f</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
 
 	<bean id="tfg" class="gda.device.timer.Etfg">
 		<property name="daServerName" value="DAServer" />
@@ -154,28 +95,6 @@
 				<value>%.4f</value>
 				<value>%.2f</value>
 				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
-
-<!-- 	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0"> -->
-<!-- 		<property name="xspress" ref="xspress2system" /> -->
-<!-- 		<property name="i0_channel" value="0" /> -->
-<!-- 		<property name="counterTimer" ref="ionchambers" /> -->
-<!-- 	</bean> -->
-
-	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
-		<property name="xmap" ref="xmapMca" />
-		<!--property name="scaler" ref="CalMemory" / -->
-		<property name="counterTimer" ref="I1" />
-		<property name="extraNames">
-			<list>
-				<value>FFI1</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.6f</value>
 			</list>
 		</property>
 	</bean>
@@ -453,5 +372,9 @@
 			</list>
 		</property>
 	</bean>
+	
+	<beans profile="xmap">
+		<import resource="xmap.xml" />
+	</beans>
 
 </beans>
