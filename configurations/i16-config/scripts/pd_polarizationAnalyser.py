@@ -438,12 +438,23 @@ class PolarisationAnalyser(ScannableMotionBase):
         pol.moveIn() # returns motors to positions before pol.moveOut()
         pol.zpIn() # returnz zp only to "in" position
         pol.direct_beam('diode')  # moves thp to 0, zp out, tthp,dettrans to direct beam position
-
+        # Offsets
+        pol.scattering_direction(-1)  # thp scattering +1 up, -1 down
+        pol.thp_offset_0(0)  # sigma thp offset
+        pol.thp_offset_90(0)  # pi thp offset
+        pol.tthp_offset_0(0)  # sigma tthp offset
+        pol.tthp_offset_90(0)  # pi tthp offset
+        pol.dettrans_offset_0(0)  # sigma dettrans offset
+        pol.dettrans_offset_90(0)  # pi dettrans offset
+        pol.mtthp_offset_0(0)  # sigma mtthp offset (merlin only)
+        pol.mtthp_offset_90(0)  # pi mtthp offset (merlin only)
+    
     Calibration:
     Motor offsets are determined by maximising the reflected intensity at Stokes angles 0 and 90
     Example:
         pol.setCrystal('PG001', 6)
         pol.setDetector('Merlin')
+        pol.reset_offsets()
         pol.calcPos(0)
         pos pol 0
         scancn thp 0.05 31 merlin 1
@@ -923,6 +934,7 @@ PA_ANALYSER_DATABASE = [
     ('LiF110', 2.84066, 2),
     ('LiF100', 4.0173, 2),
     ('Mo100', 3.1473, 2),
+    ('MgO100', 4.213, 1),
     ('MgO111', 2.43122, 1),
     ('MnO100', 4.4449, 2),
     ('Pb111', 2.85214, 1),
