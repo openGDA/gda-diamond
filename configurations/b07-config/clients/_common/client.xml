@@ -8,6 +8,7 @@
 
 
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="photon_energy_provider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="live_controls.xml"/>
 
