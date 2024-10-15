@@ -159,6 +159,7 @@ alias('mrscan')
 
 # check beam scannables
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
+from i09shared.pseudodevices.checkid import checkjid # @UnusedImport
 
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")

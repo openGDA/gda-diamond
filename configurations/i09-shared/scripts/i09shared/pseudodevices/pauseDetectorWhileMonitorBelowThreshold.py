@@ -1,5 +1,5 @@
 '''
-extending check beam codes to pause and resume a pauseable detector during scan or data collection. 
+extending check beam codes to pause and resume a pauseable detector during scan or data collection.
 Created on 1 May 2019
 
 @author: fy65
@@ -14,12 +14,12 @@ from gda.device.scannable import ScannableMotionBase
 
 class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
     '''
-    pause acquisition of a given detector while any status of given scannables returns False, 
+    pause acquisition of a given detector while any status of given scannables returns False,
     and resume detector acquisition when the status of all monitored scannables returns True.
-    
+
     An ExecutorService is used to run a check beam process at each data point during detector exposure period,
     and will pause or resume the given detector depending on the returns of checked scannables.
-    
+
     Users can set the time in seconds between checks, the default value is 1.0 second.
     '''
     def __init__(self, name, detectorToControl, checkedDevices={}):  # @UndefinedVariable
@@ -27,10 +27,10 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
         self.setInputNames([name])
         self.setOutputFormat(['%f'])
         self.secondsBetweenChecks=1.0
-        
+
         self.detector=detectorToControl
         self.checkedDevices=checkedDevices
-        
+
         self.executor=None
         self.runThread=False
         self.lastStatus=True
@@ -39,32 +39,32 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
         for k in checkedDevices.keys():
             self.lastStatusDict[k]=True
         self.shutterClosedByMe=None
-            
+
     def isBusy(self):
         return False
-    
+
     def asynchronousMoveTo(self, secondsBetweenChecks):
         self.secondsBetweenChecks=secondsBetweenChecks
-        
+
     def getPosition(self):
         return self.secondsBetweenChecks
-        
+
     def atScanStart(self):
         print "create a ExecutorService ... "
         self.executor=Executors.newSingleThreadExecutor()
-        
+
     def atScanEnd(self):
         self.runThread=False
         self.shutdownExecutor()
-        
+
     def stop(self):
         self.runThread=False
         self.shutdownExecutor()
-        
+
     def atCommandFailure(self):
         self.runThread=False
         self.shutdownExecutor()
-        
+
     def shutdownExecutor(self):
         if self.executor is not None:
             print " Suhutdown the ExecutorService ..."
@@ -75,22 +75,22 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
             except InterruptedException:
                 self.executor.shutdownNow()
             self.executor=None
-            
+
     def __del__(self):
         #triggered when use 'reset_namespace'
         self.shutdownExecutor()
-                
+
     def atPointStart(self):
         self.runThread=True
         if self.executor is None:
             raise Exception("ExecutorService is None!!!")
         self.future=self.executor.submit(self)
-        
+
     def atPointEnd(self):
         self.runThread=False
         if not self.future.isDone():
             self.future.cancel(True)
-            
+
     def handleStatusChange(self,statusdict):
         ## check for status change to provide feedback:
         status=all(statusdict.values())
@@ -115,7 +115,7 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
 
         if not status and not self.lastStatus:
             pass # beam still down
-        
+
         if not status and self.lastStatus:
             if statusdict['Electron_Beam'] != self.lastStatusDict['Electron_Beam']:
                 print "*** Electron_Beam down at: " + reprtime() + " , will pause detector exposure..."
@@ -128,7 +128,7 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
             if not self.detector.isPaused():
                 self.detector.pause()
         self.lastStatusDict=statusdict.copy()
-            
+
     def run(self):
         #TODOs - did not pause analyser tested with checkbeam_d
         status={}
@@ -141,20 +141,20 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
 class WaitForScannableState2(WaitWhileScannableBelowThresholdMonitorOnly):
     '''Useful mainly for waiting for a shutter or beamline front-end to open
     '''
-    
+
     def __init__(self, name, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp=None, readyStates=['Open'], faultStates=['Fault']):
         WaitWhileScannableBelowThresholdMonitorOnly.__init__( self, name, scannableToMonitor, None, secondsBetweenChecks, secondsToWaitAfterBeamBackUp )
         self.readyStates = readyStates
         self.faultStates = faultStates
-    
+
     def atScanStart(self):
         readyStatesString = self.readyStates[0] if len(self.readyStates)==1 else str(self.readyStates)
         print '=== Beam checking enabled: '+self.scannableToMonitor.getName()+' must be in state: ' + readyStatesString+', currently '+str(self._getStatus())
         self.statusRemainedGoodSinceLastGetPosition = True
-        
+
     def getPosition(self):
         return WaitWhileScannableBelowThresholdMonitorOnly.getPosition(self)
-        
+
     def _getStatus(self):
         pos = self.scannableToMonitor.getPosition()
         if type(pos) in (type(()), type([])):
@@ -180,7 +180,7 @@ class WaitForScannableState2(WaitWhileScannableBelowThresholdMonitorOnly):
         if not status and self.lastStatus:
             print "*** " + self.name + ": not ready: " + reprtime() + " . Pausing scan..."
             self.lastStatus = False
-                        
+
 class PauseableDetector():
     '''Implement pause and resume acquisition for a detector, e.g. VG Scienta electron analyser
     '''
@@ -189,7 +189,7 @@ class PauseableDetector():
         self.pvname=pvname
         self.incli=CAClient(pvname+"PAUSE")
         self.outcli=CAClient(pvname+"PAUSE_RBV")
-        self.statecli=CAClient(pvname+"DetectorState_RBV") 
+        self.statecli=CAClient(pvname+"DetectorState_RBV")
         self.pvcli=CAClient(pvname+"ACQ_MODE")
         self.incli.configure()
         self.outcli.configure()
@@ -198,7 +198,7 @@ class PauseableDetector():
         self.fastshutters=fastshutters
         self.secondsBetweenFastShutterDetector=secondsBetweenFastShutterDetector
         self.shutterClosedByMe=None
-        
+
     def pause(self):
         if (int(self.statecli.caget())==1): #currently acquire
             self.incli.caput(1) # pause detector acquisition
@@ -208,8 +208,8 @@ class PauseableDetector():
                     if shutter.getPosition() == 'Out':
                         print "Close fast shutter %s after pausing detector acquisition" % shutter.getName()
                         shutter.moveTo('In')
-                        self.shutterClosedByMe=shutter            
-        
+                        self.shutterClosedByMe=shutter
+
     def resume(self):
         if (int(self.statecli.caget())==1): #currently acquire
             if self.shutterClosedByMe is not None and int(self.pvcli.caget())==0: #in Swept mode
@@ -218,7 +218,40 @@ class PauseableDetector():
                 self.shutterClosedByMe=None
                 sleep(self.secondsBetweenFastShutterDetector)
             self.incli.caput(0) # resume detector acquisition
-        
+
     def isPaused(self):
         return int(self.outcli.caget())==1
-            
+
+class WaitForScannableStateAndHandleShutter(WaitForScannableState2):
+    def __init__(self, name, shutters, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp=None, readyStates=['Open'], faultStates=['Fault']):
+        self.shutters = shutters
+        super(WaitForScannableStateAndHandleShutter, self).__init__(name, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp, readyStates, faultStates)
+
+    def atScanStart(self):
+        super(WaitForScannableStateAndHandleShutter, self).atScanStart()
+        #Always reset this back to True so that if pausing of detector is ever interrupted, i'e stop scan, it will check to close shutters again
+        self.lastStatus = True
+
+    def handleStatusChange(self, status):
+        lastStatus = self.lastStatus
+
+        super(WaitForScannableStateAndHandleShutter, self).handleStatusChange(status)
+
+        if not status and lastStatus:
+            print "Closing shutters... "
+            self.previousStates = {}
+            for shutter in self.shutters:
+                shutterpos = shutter.getPosition()
+                self.previousStates[shutter] = shutterpos
+                if shutterpos == "Out":
+                    shutter.moveTo("In")
+                    print shutter.getName() + " closed"
+
+        if status and not lastStatus:
+            print "Opening shutters..."
+            for shutter in self.shutters:
+                prevShutterPos = self.previousStates[shutter]
+                if prevShutterPos == "Out":
+                    shutter.moveTo("Out")
+                    print shutter.getName() + " opened"
+            self.previousStates= {}

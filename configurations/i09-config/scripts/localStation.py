@@ -180,6 +180,7 @@ alias('mrscan')
 
 #check beam scannables
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
+from i09shared.pseudodevices.checkid import checkjid, checkiid # @UnusedImport
 #create 'move' command
 run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")  # @UndefinedVariable
 

@@ -6,11 +6,20 @@
 		<property name="accessControl" ref="iidblena" />
 		<property name="pvName" value="SR09I-MO-SERVC-01:BLGAPMTR" />
 	</bean>
+
 	<!-- MCR ID Control -->
 	<bean id="iidblena" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="SR09I-MO-SERVC-01:IDBLENA" />
 	</bean>
+
+	<!-- ID access in scannable form so can be used via checkiid -->
+	<bean id="iidaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR09I-MO-SERVC-01:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
 	<bean id="iidvelocity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="SR09I-MO-SERVC-01:BLGSETVEL" />
 	</bean>
+
 </beans>

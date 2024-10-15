@@ -28,7 +28,6 @@ try:
     checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0) 
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
-    
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
