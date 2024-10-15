@@ -16,7 +16,7 @@
 		<property name="yStartPV" value="BL07C-EA-DET-01:CAM:Y_MIN_RBV" />
 		<property name="yEndPV" value="BL07C-EA-DET-01:CAM:Y_MAX_RBV" />
 		<property name="yUnitsPV" value="BL07C-EA-DET-01:CAM:Y_UNITS_RBV" />
-		<property name="photonEnergy" ref="pgm_energy" />
+		<property name="photonEnergy" ref="photon_energy_provider" />
 		<property name="lowEnergyPV" value="BL07C-EA-DET-01:CAM:LOW_ENERGY_RBV" />
 		<property name="highEnergyPV" value="BL07C-EA-DET-01:CAM:HIGH_ENERGY_RBV" />
 		<property name="workFunction" value="0.0" />
