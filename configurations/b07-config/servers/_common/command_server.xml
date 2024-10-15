@@ -5,6 +5,12 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="/dls_sw/b07/scripts/" />
+		<property name="name" value="Scripts: User" />
+		<property name="type" value="USER" />
+	</bean>
+
+	<bean class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.config}/scripts" />
 		<property name="name" value="Scripts: Config" />
 		<property name="type" value="CONFIG" />
