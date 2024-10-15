@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<alias name="sim_adbase" alias="lambda_adbase" />
+	<alias name="sim_roi" alias="lambda_roi" />
+	<alias name="sim_stats" alias="lambda_stats" />
+	<alias name="sim_array" alias="lambda_ndarray" />
+	<alias name="sim_file_hdf5" alias="lambda_ndfile" />
+	<alias name="sim_hdf5" alias="lambda_hdf5" />
+
+	<bean id="lambdaCamPort" class="java.lang.String">
+		<constructor-arg value="ADSIM.CAM" />
+	</bean>
+
+	<bean id="lambdaBaseRoiPv" class="java.lang.String">
+		<constructor-arg value="#{sim_pvbase}:ROI:" />
+	</bean>
+
+	<bean id="lambdaBaseStatPv" class="java.lang.String">
+		<constructor-arg value="#{sim_pvbase}:STAT:" />
+	</bean>
+
+	<bean id="lambda_multiple_nxcollectionstrategy" class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator" >
+			    <property name="restoreAcquireTime" value="true" />
+			    <property name="restoreAcquirePeriod" value="true" />
+			    <property name="acquirePeriodExpression" value="#acquireTime + 0.001" />
+
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="lambda_adbase" />
+								<property name="readoutTime" value="0" />
+							</bean>
+						</property>
+
+					</bean>
+				</property>
+
+			</bean>
+		</property>
+	</bean>
+
+</beans>
