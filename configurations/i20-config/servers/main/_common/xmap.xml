@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<!--property name="scaler" ref="CalMemory" / -->
+		<property name="counterTimer" ref="ionchambers" />
+		<property name="extraNames">
+			<list>
+				<value>FFI0</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
+	</bean>
+
+<!-- 	FLuorescense detector wrapper for Vortex. imh 4/11/2016 -->
+	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >
+		<constructor-arg index="0" ref="xmapMca" />
+		<constructor-arg index="1" value="4" />
+		<property name="mcaCollectionUsesTfg" value="true" />
+	</bean>
+
+</beans>

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>I0</value>
@@ -33,7 +33,7 @@
 		</property>
 	</bean>
 	
-		<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
 				<value>Time</value>
@@ -86,13 +86,6 @@
 				<value>%.2f</value>
 			</list>
 		</property>
-	</bean>
-	
-	<bean id="If" class="gda.device.detector.XesIf">
-		<property name="xmap" ref="xmapMca" />
-		<property name="gdhist" ref="CalMemory" />
-		<property name="scaler" ref="ionchambers" />
-		<property name="ifChannelNumber" value="4" />
 	</bean>
 	
 	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">

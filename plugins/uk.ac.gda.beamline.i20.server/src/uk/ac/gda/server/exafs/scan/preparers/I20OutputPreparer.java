@@ -51,7 +51,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
-	private Xmap xmapMca;
+	private Xmap xmap;
 	private IDetectorParameters detectorBean;
 	private I20OutputParameters i20OutputParams;
 	private I20DetectorPreparer detectorPreparer;
@@ -61,10 +61,9 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
-			Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
+			I20DetectorPreparer detectorPreparer) {
 		super(datawriterconfig, metashop);
 		this.datawriterconfig_xes = datawriterconfig_xes;
-		this.xmapMca = xmapMca;
 		this.detectorPreparer = detectorPreparer;
 	}
 
@@ -75,7 +74,9 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		this.detectorBean = detectorBean;
 		this.scanBean = scanBean;
 		this.i20OutputParams = (I20OutputParameters) outputParameters;
-		xmapMca.setSaveRawSpectrum(i20OutputParams.isVortexSaveRawSpectrum());
+		if (xmap != null) {
+			xmap.setSaveRawSpectrum(i20OutputParams.isVortexSaveRawSpectrum());
+		}
 	}
 
 	@Override
@@ -183,5 +184,9 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	public void setXesEnergyAxisName(String axisName) {
 		this.xesEnergyAxisName = axisName;
+	}
+
+	public void setXMap(Xmap xmapMca) {
+		this.xmap = xmapMca;
 	}
 }

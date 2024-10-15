@@ -154,7 +154,8 @@ public class I20DetectorPreparerTest {
 
 	private I20DetectorPreparer makePreparer() {
 		I20DetectorPreparer thePreparer = new I20DetectorPreparer(sensitivities, sensitivity_units, offset, offset_units,
-				ionchambers, I1, xmpaMca, medipix, topupChecker);
+				ionchambers, I1, medipix, topupChecker);
+		thePreparer.setXMap(xmpaMca);
 		thePreparer.setFFI1(ffI1);
 		return thePreparer;
 	}
@@ -307,7 +308,7 @@ public class I20DetectorPreparerTest {
 		preparer.configure(I20PreparersTestUtils.createXanesBean(), detParams, new I20OutputParameters(), experimentFullPath);
 
 		// Check XMap detector has been set correctly by using detector object located using finder and parameters file
-		assertEquals(preparer.getVortex().getName(), xmpaMca.getName());
+		assertEquals(preparer.getXMap().getName(), xmpaMca.getName());
 		Mockito.verify(xmapFluoDetector).applyConfigurationParameters(vortexParams);
 		Mockito.verify(xmpaMca).setConfigFileName(Paths.get(experimentFullPath, fluoParams.getConfigFileName()).toString());
 		Mockito.verify(xspressSystem, Mockito.never()).applyConfigurationParameters(ArgumentMatchers.any(XspressParameters.class));

@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           
+	<!-- 	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" /> 
+
+	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<!--property name="scaler" ref="CalMemory" / -->
+		<property name="counterTimer" ref="I1" />
+		<property name="i0_channel" value="1" />
+		<property name="extraNames">
+			<list>
+				<value>FFI1</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.6f</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

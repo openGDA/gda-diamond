@@ -68,7 +68,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 	private TfgScalerWithFrames i1;
 	private TfgXMapFFoverI0 ffI1;
 
-	private Xmap vortex;
+	private Xmap xmap;
 	private NXDetector medipix;
 	private TopupChecker topupChecker;
 	private IScanParameters scanBean;
@@ -84,7 +84,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 
 	public I20DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
-			Xmap vortex, NXDetector medipix, TopupChecker topupChecker) {
+			NXDetector medipix, TopupChecker topupChecker) {
 		selectedXspressDetector = null;
 		detectorPreparerFunctions.setSensitivities(sensitivities);
 		detectorPreparerFunctions.setSensitivityUnits(sensitivity_units);
@@ -92,7 +92,6 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		detectorPreparerFunctions.setOffsetUnits(offset_units);
 		this.ionchambers = ionchambers;
 		this.i1 = I1;
-		this.vortex = vortex;
 		this.medipix = medipix;
 		this.topupChecker = topupChecker;
 	}
@@ -102,7 +101,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		detectors.add(selectedXspressDetector);
 		detectors.add(ionchambers);
 		detectors.add(i1);
-		detectors.add(vortex);
+		detectors.add(xmap);
 		detectors.add(medipix);
 		return detectors;
 	}
@@ -150,7 +149,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		detectorPreparerFunctions.setConfigFilename(configuredDetector, xmlFileName);
 
 		if (configuredDetector instanceof Xmap xmap) {
-			vortex = xmap;
+			this.xmap = xmap;
 		} else {
 			selectedXspressDetector = configuredDetector;
 			hdfFilePathBeforeScan = DetectorHdfFunctions.setHdfFilePath(selectedXspressDetector, getNexusDataFullPath());
@@ -376,12 +375,12 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 		return selectedXspressDetector;
 	}
 
-	public Xmap getVortex() {
-		return vortex;
+	public Xmap getXMap() {
+		return xmap;
 	}
 
-	public void setVortex(Xmap vortex) {
-		this.vortex = vortex;
+	public void setXMap(Xmap xmap) {
+		this.xmap = xmap;
 	}
 
 	public boolean isXesMode() {
