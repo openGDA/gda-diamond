@@ -22,7 +22,7 @@ class ContinuousMotorScannable(QexafsTestingScannable) :
         
     def atScanLineStart(self):
         # set the tfg to use internal triggered frames (each inner loop of the scan)
-        self.bufferedScaler.setUseInternalTriggeredFrames(True)
+        self.bufferedScaler.setUseExternalTriggers(False)
         
     def atScanStart(self):
         # this ensures that tfg is only configured during call to setContinuousMode(True).
