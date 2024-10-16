@@ -44,12 +44,20 @@ public class XesScanPositionProvider implements ScanPositionProvider {
 		secondaryPoints = generateSecondaryPoints(start, primaryPoints.size(), step);
 	}
 
+	public void createSecondaryPoints() {
+		secondaryPoints = primaryPoints;
+	}
+
 	private List<Double> generatePrimaryPoints(double start, double stop, double step) {
 		List<Double> points = new ArrayList<>();
-		double currentPoint = start;
-		while(currentPoint <= stop) {
+		double currentPoint = Math.min(start, stop);
+		double finalPoint = Math.max(start, stop);
+		while(currentPoint <= finalPoint) {
 			points.add(currentPoint);
-			currentPoint += step;
+			currentPoint += Math.abs(step);
+		}
+		if (start > stop) {
+			return points.reversed();
 		}
 		return points;
 	}

@@ -202,7 +202,7 @@ public class XesScan extends XasScanBase implements XasScan {
 		positionProvider.createPrimaryPoints(specParameters.getInitialEnergy(), specParameters.getFinalEnergy(), specParameters.getStepSize());
 		if (xesScanParameters.getScanColourType() == ScanColourType.ONE_COLOUR) {
 			// One colour : second secondary points match the primary ones
-			positionProvider.createSecondaryPoints(specParameters.getInitialEnergy(), specParameters.getStepSize());
+			positionProvider.createSecondaryPoints();
 		} else if (secondaryParams != null) {
 			// Two colour : Secondary points set from secondary params
 			positionProvider.createSecondaryPoints(secondaryParams.getInitialEnergy(), secondaryParams.getStepSize());

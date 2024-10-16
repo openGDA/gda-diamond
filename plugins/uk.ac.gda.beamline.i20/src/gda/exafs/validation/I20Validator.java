@@ -19,14 +19,19 @@
 package gda.exafs.validation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
 import gda.exafs.scan.ExafsValidator;
 import gda.exafs.scan.ScanObject;
+import gda.exafs.xes.IXesEnergyScannable;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -146,9 +151,21 @@ public class I20Validator extends ExafsValidator {
 		int scanType = xesScanParams.getScanType();
 		SpectrometerScanParameters specParams = xesScanParams.getSpectrometerScanParameters().get(index);
 
+		double[] energyRange = {getMinEnergy(), getMaxEnergy()};
+
+		// Try to get the allowed energy range from the XES energy scannable
+		Optional<IXesEnergyScannable> xesEnergy = Finder.findOptionalOfType(specParams.getScannableName(), IXesEnergyScannable.class);
+		if (xesEnergy.isPresent()) {
+			try {
+				energyRange = xesEnergy.get().getEnergyRange();
+			} catch (DeviceException e) {
+				logger.error("Problemm look up energy range from "+xesEnergy.get().getName()+" - using default range "+Arrays.asList(energyRange), e);
+			}
+		}
 		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 			checkBounds("Integration Time", specParams.getIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
-			checkEnergyRange("XES", specParams.getInitialEnergy(), specParams.getFinalEnergy(), errors);
+			checkBounds("XES Initial energy", specParams.getInitialEnergy(), energyRange[0], energyRange[1], errors);
+			checkBounds("XES Final energy", specParams.getFinalEnergy(), energyRange[0], energyRange[1], errors);
 
 			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 				checkEnergyRange("Mono", xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy(), errors);
