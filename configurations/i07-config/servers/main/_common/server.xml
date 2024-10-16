@@ -43,7 +43,6 @@
 	<import resource="eh2_scannables.xml" />
 
 	<import resource="solstice_scanning_defaults.xml" />
-	<import resource="fatt_transmissions.xml" />
 	<import resource="energy_id_gap_lookup.xml" />
 
 	<import resource="detectors/dcam2.xml" />

@@ -19,6 +19,7 @@
 	<import resource="detectors/dcam4.xml" />
 	<import resource="detectors/dcam5.xml" />
 	<import resource="server_core.xml" />
+	<import resource="fatt_transmissions.xml" />
 
 	<import resource="shared/*.xml" />
 	<import resource="eh2/*.xml" />
