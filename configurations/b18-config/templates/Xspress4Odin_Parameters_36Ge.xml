@@ -7,7 +7,7 @@
     <editIndividualElements>false</editIndividualElements>
     <deadtimeCorrectionEnergy>10.0</deadtimeCorrectionEnergy>
     <DetectorElement>
-        <name>Element 0</name>
+        <name>Element_0</name>
         <number>0</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -19,7 +19,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 1</name>
+        <name>Element_1</name>
         <number>1</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -31,7 +31,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 2</name>
+        <name>Element_2</name>
         <number>2</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -43,7 +43,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 3</name>
+        <name>Element_3</name>
         <number>3</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -55,7 +55,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 4</name>
+        <name>Element_4</name>
         <number>4</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -67,7 +67,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 5</name>
+        <name>Element_5</name>
         <number>5</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -79,7 +79,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 6</name>
+        <name>Element_6</name>
         <number>6</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -91,7 +91,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 7</name>
+        <name>Element_7</name>
         <number>7</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -103,7 +103,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 8</name>
+        <name>Element_8</name>
         <number>8</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -115,7 +115,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 9</name>
+        <name>Element_9</name>
         <number>9</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -127,7 +127,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 10</name>
+        <name>Element_10</name>
         <number>10</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -139,7 +139,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 11</name>
+        <name>Element_11</name>
         <number>11</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -151,7 +151,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 12</name>
+        <name>Element_12</name>
         <number>12</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -163,7 +163,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 13</name>
+        <name>Element_13</name>
         <number>13</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -175,7 +175,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 14</name>
+        <name>Element_14</name>
         <number>14</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -187,7 +187,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 15</name>
+        <name>Element_15</name>
         <number>15</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -199,7 +199,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 16</name>
+        <name>Element_16</name>
         <number>16</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -211,7 +211,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 17</name>
+        <name>Element_17</name>
         <number>17</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -223,7 +223,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 18</name>
+        <name>Element_18</name>
         <number>18</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -235,7 +235,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 19</name>
+        <name>Element_19</name>
         <number>19</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -247,7 +247,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 20</name>
+        <name>Element_20</name>
         <number>20</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -259,7 +259,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 21</name>
+        <name>Element_21</name>
         <number>21</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -271,7 +271,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 22</name>
+        <name>Element_22</name>
         <number>22</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -283,7 +283,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 23</name>
+        <name>Element_23</name>
         <number>23</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -295,7 +295,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 24</name>
+        <name>Element_24</name>
         <number>24</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -307,7 +307,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 25</name>
+        <name>Element_25</name>
         <number>25</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -319,7 +319,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 26</name>
+        <name>Element_26</name>
         <number>26</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -331,7 +331,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 27</name>
+        <name>Element_27</name>
         <number>27</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -343,7 +343,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 28</name>
+        <name>Element_28</name>
         <number>28</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -355,7 +355,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 29</name>
+        <name>Element_29</name>
         <number>29</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -367,7 +367,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 30</name>
+        <name>Element_30</name>
         <number>30</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -379,7 +379,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 31</name>
+        <name>Element_31</name>
         <number>31</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -391,7 +391,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 32</name>
+        <name>Element_32</name>
         <number>32</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -403,7 +403,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 33</name>
+        <name>Element_33</name>
         <number>33</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -415,7 +415,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 34</name>
+        <name>Element_34</name>
         <number>34</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
@@ -427,7 +427,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element 35</name>
+        <name>Element_35</name>
         <number>35</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
