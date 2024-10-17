@@ -11,6 +11,10 @@
 		<constructor-arg value="BL18B-EA-PILAT-01" />
 	</bean>
 
+	<bean id="lambdaBasePv" class="java.lang.String">
+		<constructor-arg value="BL18B-EA-LAMBD-01" />
+	</bean>
+
 	<import resource="../_common/client.xml" />
 <!-- 	<import resource="rga.xml" /> -->
 	
