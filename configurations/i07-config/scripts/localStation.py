@@ -113,7 +113,7 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
 try_execfile("BeamlineI07/useGigECams.py")
 
-try_execfile("BeamlineI07/useEuroThermo.py")
+from BeamlineI07.useEuroThermo import etoutput11, etoutput12, etoutput13, etoutput21, etoutput22, etoutput23, etoutput3, etoutput4, etoutput5
 
 # Replaces metadata set up in setSrsDataFileHeader.py
 try_execfile("BeamlineI07/configureMetadata.py")
