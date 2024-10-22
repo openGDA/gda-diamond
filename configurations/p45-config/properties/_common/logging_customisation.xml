@@ -4,7 +4,10 @@
 	be customised at the instance config level -->
 
 <included>
-
-	<logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" />
-
+	<logger level="DEBUG" name="gda.jython.batoncontrol.BatonManager" />
+	<logger level="DEBUG" name="gda.observable.ObservableComponent" />
+	<logger level="DEBUG" name="gda.util.logging.LogbackUtils" />
+	<logger level="DEBUG" name="org.apache.activemq.ActiveMQSession" />
+	<logger level="DEBUG" name="uk.ac.diamond.daq.concurrent.Async" />
+	<logger level="ERROR" name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" />
 </included>
