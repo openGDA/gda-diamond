@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.diamond.daq.beamline.p33.feature"
       label="GDA Lab P33"
-      version="9.36.0.qualifier">
+      version="9.37.0.qualifier">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
