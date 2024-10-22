@@ -16,11 +16,15 @@
 		<constructor-arg name="scannableMotor" ref="load" />
 		<constructor-arg name="quantityName" value="Load" />
 		<constructor-arg name="quantityUnits" value="MPa" />
-		<property name="readouts">
-			<map>
-				<entry key="load" value-ref="load" />
-			</map>
+
+		<property name="driverSignals">
+			<list>
+				<bean class="uk.ac.diamond.daq.experiment.api.driver.DriverSignal">
+					<constructor-arg name="signalName" value="Load" />
+					<constructor-arg name="scannableName" value="load" />
+					<constructor-arg name="drivable" value="true" />
+				</bean>
+			</list>
 		</property>
 	</bean>
-
 </beans>
