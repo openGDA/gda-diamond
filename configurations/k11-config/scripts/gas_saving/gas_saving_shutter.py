@@ -30,10 +30,15 @@ class GasSavingShutter(EnumPositionerBase):
         
         self.shutter.addIObserver(lambda source, argument: self.notifyIObservers(self, argument))
 
-        
     def isBusy(self):
         return self.moving.is_set()
-    
+
+    def moveTo(self, position):
+        ''' normal blocking moveTo followed by status check'''
+        EnumPositionerBase.moveTo(self, position)
+        if self.getPositionerStatus() == EnumPositionerStatus.ERROR:
+            raise DeviceException(self.getName() + " is in error state")
+
     def rawGetPosition(self):
         return self.shutter.getPosition()
     
