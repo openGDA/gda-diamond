@@ -1,6 +1,4 @@
 
-from time import sleep;
-
 from gda.device.scannable import ScannableBase
 
 class EuroThermoLoopOutputClass(ScannableBase):
@@ -8,27 +6,27 @@ class EuroThermoLoopOutputClass(ScannableBase):
 		self.setName(name);
 		self.setInputNames([name]);
 		self.setExtraNames([]);
-
-#		self.refObj1 = vars(gdamain)[refObj1];
+		self.setOutputFormat(["%.1f"])
 		self.controller = controller;
-
+		self.is_busy = False;
+		self.target = None
 
 	def getPosition(self):
-		y = self.controller.getOutput();
-		return y;
+		return self.controller.getOutput()
 
 	def asynchronousMoveTo(self, newPosition):
 		self.controller.setOutput(newPosition);
-		sleep(2);
-		
+		self.target = newPosition
+		self.is_busy = True
 
 	def isBusy(self):
-		result = False;
-		return result;
+		if self.is_busy :
+			self.is_busy = abs(self.getPosition() - self.target) >= 0.01
+		return self.is_busy
 
 	def toString(self):
-		format= '%s: ' + self.getOutputFormat()[0];
-		s=format % (self.getName(), self.getPosition());
+		format_str= '%s: ' + self.getOutputFormat()[0];
+		s=format_str % (self.getName(), self.getPosition());
 		return s;
 
 	def toFormattedString(self):
