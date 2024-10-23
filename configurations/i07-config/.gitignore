@@ -25,6 +25,7 @@ cachedir/
 .jython_cache/
 .cmdHistory.txt
 gdaserver.py
+*.launch
 
 
 ### Build output ###

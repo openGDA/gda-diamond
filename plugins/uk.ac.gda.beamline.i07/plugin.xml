@@ -192,18 +192,27 @@
                mnemonic="F">
             <command
                   commandId="uk.ac.gda.client.sixd.command.newpymodule"
+                  icon="platform:/plugin/org.eclipse.ui.ide/icons/full/etool16/newfile_wiz.png"
                   label="New Jython Script"
                   style="push">
             </command>
             <command
                   commandId="org.dawnsci.datavis.model.fileopen"
+                  icon="platform:/plugin/org.eclipse.wst.xml.ui/icons/full/obj16/dtdfile.gif"
                   label="Open Datafile..."
                   mnemonic="."
                   style="push">
             </command>
             <command
                   commandId="uk.ac.gda.client.sixd.command.openscript"
+                  icon="platform:/plugin/org.eclipse.wst.xml.ui/icons/full/obj16/XSDFile.gif"
                   label="Open Script..."
+                  style="push">
+            </command>
+            <command
+                  commandId="uk.ac.gda.client.sixd.command.saveasscript"
+                  icon="platform:/plugin/org.eclipse.ui/icons/full/etool16/saveas_edit.png"
+                  label="Save Script As..."
                   style="push">
             </command>
             <command
@@ -399,6 +408,11 @@
             defaultHandler="uk.ac.gda.client.sixd.commands.NewJythonModuleHandler"
             id="uk.ac.gda.client.sixd.command.newpymodule"
             name="New Jython Script">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.client.sixd.commands.ScriptDirSaveAsFileHandler"
+            id="uk.ac.gda.client.sixd.command.saveasscript"
+            name="Save Script As...">
       </command>
    </extension>
    <extension
