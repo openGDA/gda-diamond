@@ -20,7 +20,9 @@ package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
@@ -46,6 +48,7 @@ import gda.device.scannable.ScannableUtils;
 import gda.factory.FindableBase;
 import gda.jython.InterfaceProvider;
 import gda.scan.ConcurrentScan;
+import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanPlotSettings;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 
@@ -262,7 +265,7 @@ public class MonoOptimisation extends FindableBase {
 		} finally {
 			// Switch veto output back on
 			setProduceVetoOutput(true);
-			scanPreparer.afterCollection();
+			scanPreparer.afterCollection(null);
 		}
 	}
 
@@ -334,7 +337,7 @@ public class MonoOptimisation extends FindableBase {
 			scan.waitForDetectorReadoutAndPublishCompletion();
 		} finally {
 			applySavedTfgSettings();
-			scanPreparer.afterCollection();
+			scanPreparer.afterCollection(scan.getStatus());
 		}
 
 		return scan.getDataWriter().getCurrentFileName();
@@ -702,6 +705,18 @@ public class MonoOptimisation extends FindableBase {
 		scanPreparer.useDiagnosticDetector = useDiagnosticDetector;
 	}
 
+	/**
+	 * Set to true to set Bragg offset to zero after a failed/aborted scan
+	 * @param restore
+	 */
+	public void setZeroBraggOffsetAfterFailure(boolean restore) {
+		if (restore) {
+			scanPreparer.safePositions = Map.of(scannableToMove, 0.0);
+		} else {
+			scanPreparer.safePositions = Collections.emptyMap();
+		}
+	}
+
 	private OptimisationScanPreparer scanPreparer = new OptimisationScanPreparer();
 
 	/**
@@ -713,6 +728,8 @@ public class MonoOptimisation extends FindableBase {
 		private EnumPositioner photonShutter;
 		private EnumPositioner diagnosticPositioner;
 		private boolean useDiagnosticDetector;
+
+		private Map<Scannable, Object> safePositions = Collections.emptyMap();
 
 		private String[] diagnosticPositions = {"In", "Out"};
 		private enum DiagnosticPosition {IN, OUT}
@@ -734,8 +751,22 @@ public class MonoOptimisation extends FindableBase {
 		 * <li> Always remove the diagnostic out of the beam
 		 * @throws DeviceException
 		 */
-		public void afterCollection() throws DeviceException {
+		public void afterCollection(ScanStatus scanStatus) throws DeviceException {
 			moveDiagnostic(DiagnosticPosition.OUT);
+			moveToSafePositions(scanStatus);
+		}
+
+		private void moveToSafePositions(ScanStatus scanStatus) throws DeviceException {
+			if (safePositions.isEmpty()) {
+				return;
+			}
+			List<ScanStatus> finishedEarly = List.of(ScanStatus.COMPLETED_AFTER_FAILURE, ScanStatus.COMPLETED_AFTER_STOP, ScanStatus.COMPLETED_EARLY);
+			if (finishedEarly.contains(scanStatus)) {
+				logger.info("Tidying up after aborted/failed scan (status : {})", scanStatus);
+				for(var ent : safePositions.entrySet()) {
+					moveScannable(ent.getKey(), ent.getValue());
+				}
+			}
 		}
 
 		/**
@@ -759,7 +790,7 @@ public class MonoOptimisation extends FindableBase {
 			moveScannable(photonShutter, shutterPosition);
 		}
 
-		private void moveScannable(EnumPositioner positioner, String position) throws DeviceException {
+		private void moveScannable(Scannable positioner, Object position) throws DeviceException {
 			InterfaceProvider.getTerminalPrinter().print("Moving "+positioner.getName()+" to "+position);
 			logger.info("Moving {} to {} position", positioner.getName(), position);
 			positioner.moveTo(position);

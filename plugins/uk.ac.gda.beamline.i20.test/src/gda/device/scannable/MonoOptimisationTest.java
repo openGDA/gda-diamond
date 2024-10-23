@@ -39,6 +39,8 @@ import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
+import gda.device.MotorException;
+import gda.device.MotorStatus;
 import gda.device.Scannable;
 import gda.device.enumpositioner.ValvePosition;
 import uk.ac.diamond.osgi.services.ServiceProvider;
@@ -53,7 +55,7 @@ import uk.ac.gda.beamline.i20.scannable.ScannableGaussian;
 public class MonoOptimisationTest {
 
 	private MonoOptimisation optimisation;
-	private Scannable offsetMotor;
+	private DummyScannableMotorWithExceptions offsetMotor;
 	private Scannable braggMotor;
 	private double area = 1.0;
 	private final double centrePos = 0.1;
@@ -68,7 +70,7 @@ public class MonoOptimisationTest {
 	private static final String OUT = "Out";
 
 	public void prepareScannables() {
-		offsetMotor = new DummyScannableMotor();
+		offsetMotor = new DummyScannableMotorWithExceptions();
 		offsetMotor.setName("braggOffsetMotor");
 
 		braggMotor = new DummyScannableMotor();
@@ -82,6 +84,8 @@ public class MonoOptimisationTest {
 		optimisation.setOffsetEnd(1);
 		optimisation.setOffsetNumPoints(21);
 		optimisation.setFitToPeakPointsOnly(true);
+		optimisation.setBraggScannable(braggMotor);
+		optimisation.setZeroBraggOffsetAfterFailure(false);
 
 		photonShutter = createMock(EnumPositioner.class, "photonShutter");
 		diodePositioner = createMock(EnumPositioner.class, "diodePositioner");
@@ -89,7 +93,42 @@ public class MonoOptimisationTest {
 		optimisation.setPhotonShutter(photonShutter);
 		optimisation.setDiagnosticPositioner(diodePositioner);
 		optimisation.setUseDiagnosticDetector(false);
+	}
 
+	/**
+	 * Dummy scannable that throws an exception a certain number of steps into a scan.
+	 */
+	private class DummyScannableMotorWithExceptions extends DummyScannableMotor {
+		private int stepsBeforeThrowing;
+		private int currentStepNumber;
+
+		@Override
+		public void asynchronousMoveTo(Object position) throws DeviceException {
+			if (stepsBeforeThrowing > 0 && currentStepNumber > stepsBeforeThrowing) {
+				throw new MotorException(MotorStatus.FAULT, "Random dummy motor fault");
+			}
+			currentStepNumber++;
+			super.rawAsynchronousMoveTo(position);
+		}
+
+		@Override
+		public void atScanStart() {
+			currentStepNumber = 0;
+		}
+
+		@Override
+		public void atCommandFailure() {
+			currentStepNumber = 0;
+		}
+
+		@Override
+		public void atScanEnd() {
+			currentStepNumber = 0;
+		}
+
+		public void setStepsBeforeThrowing(int stepsBeforeThrowing) {
+			this.stepsBeforeThrowing = stepsBeforeThrowing;
+		}
 	}
 
 	private <T extends Scannable> T createMock(Class<T> clazz, String name) {
@@ -124,8 +163,6 @@ public class MonoOptimisationTest {
 
 		intialShutterPositions();
 
-
-		optimisation.setBraggScannable(braggMotor);
 		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
 
 		// Check fitted width and position are within acceptable tolerance
@@ -157,7 +194,6 @@ public class MonoOptimisationTest {
 		TestHelpers.setUpTest(MonoOptimisationTest.class, "testOffsetValuesInMonoMoveScannable", true);
 
 		// Run optimisation ...
-		optimisation.setBraggScannable(braggMotor);
 		optimisation.optimise(lowMonoEnergy, highMonoEnergy);
 
 		Gaussian gaussLow = optimisation.getFittedGaussianLowEnergy();
@@ -250,7 +286,6 @@ public class MonoOptimisationTest {
 
 		intialShutterPositions();
 
-		optimisation.setBraggScannable(braggMotor);
 		optimisation.setUseDiagnosticDetector(false);
 		optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
 
@@ -271,7 +306,6 @@ public class MonoOptimisationTest {
 
 		intialShutterPositions();
 
-		optimisation.setBraggScannable(braggMotor);
 		optimisation.setUseDiagnosticDetector(true);
 		optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
 
@@ -283,6 +317,33 @@ public class MonoOptimisationTest {
 
 		// diode position must be 'out' after the scan
 		inorder.verify(diodePositioner).moveTo(OUT);
+	}
+
+	@Test
+	public void testBraggOffsetSetToZeroAfterFailure() throws Exception {
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testBraggOffsetSetToZeroAfterFailure", true);
+
+		optimisation.setZeroBraggOffsetAfterFailure(false);
+		offsetMotor.setStepsBeforeThrowing(5);
+
+		// This tests that exception is thrown correctly by the dummy motor
+		try {
+			optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
+		} catch(Exception e) {
+			// catch exception thrown by motor, Bragg offset should be in last place it was moved to in the scan (i.e. -0.5)
+			Double offsetPosition = ScannableUtils.objectToArray(offsetMotor.getPosition())[0];
+			assertEquals(-0.5, offsetPosition, 1e-3);
+		}
+
+		// This tests that the offset is restored correctly.
+		optimisation.setZeroBraggOffsetAfterFailure(true);
+		try {
+			optimisation.optimise(lowMonoEnergy, lowMonoEnergy);
+		} catch(Exception e) {
+			// catch exception thrown by motor, Bragg offset should be moved to zero
+			Double offsetPosition = ScannableUtils.objectToArray(offsetMotor.getPosition())[0];
+			assertEquals("Bragg offset position not set correctly after failed scan", 0.0, offsetPosition, 1e-3);
+		}
 	}
 
 
