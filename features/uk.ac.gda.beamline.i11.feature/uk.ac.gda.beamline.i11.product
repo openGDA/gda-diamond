@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="I11 GDA" uid="uk.ac.gda.beamline.i11.product" id="uk.ac.gda.beamline.i11.product" application="uk.ac.gda.client.application" version="9.37.0" useFeatures="true" includeLaunchers="true">
+<product name="I11 GDA" uid="uk.ac.gda.beamline.i11.product" id="uk.ac.gda.beamline.i11.product" application="uk.ac.gda.client.application" version="9.37.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i11/icons/i11GDA.png"/>
@@ -27,7 +27,8 @@ PyDev http://pydev.org/
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.mode=dummy
+      <vmArgs>-Dgda.config=${workspace_loc:i11-config}
+-Dgda.mode=dummy
 -Xms1g
 -Xmx4g
 -XX:-UseCompressedOops

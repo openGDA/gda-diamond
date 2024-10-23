@@ -21,9 +21,10 @@ Visit http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.mode=dummy
--Xms256m 
--Xmx2048m
+      <vmArgs>-Dgda.config=${workspace_loc:i11-1-config}
+-Dgda.mode=dummy
+-Xms1g
+-Xmx4g
 -XX:+UseG1GC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
