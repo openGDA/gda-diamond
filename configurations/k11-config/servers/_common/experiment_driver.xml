@@ -60,5 +60,65 @@
 			</list>
 		</property>
 	</bean>
+	
+		<bean id="GTS_X" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="gts_x" />
+		<constructor-arg name="quantityName" value="X" />
+		<constructor-arg name="quantityUnits" value="mm" />
+			<property name="driverSignals">
+			<list>
+				<bean class="uk.ac.diamond.daq.experiment.api.driver.DriverSignal">
+					<constructor-arg name="signalName" value="X" />
+					<constructor-arg name="scannableName" value="gts_x" />
+					<constructor-arg name="drivable" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GTS_Y" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="gts_y" />
+		<constructor-arg name="quantityName" value="Y" />
+		<constructor-arg name="quantityUnits" value="mm" />
+			<property name="driverSignals">
+			<list>
+				<bean class="uk.ac.diamond.daq.experiment.api.driver.DriverSignal">
+					<constructor-arg name="signalName" value="Y" />
+					<constructor-arg name="scannableName" value="gts_y" />
+					<constructor-arg name="drivable" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GTS_Z" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="gts_z" />
+		<constructor-arg name="quantityName" value="Z" />
+		<constructor-arg name="quantityUnits" value="mm" />
+			<property name="driverSignals">
+			<list>
+				<bean class="uk.ac.diamond.daq.experiment.api.driver.DriverSignal">
+					<constructor-arg name="signalName" value="Z" />
+					<constructor-arg name="scannableName" value="gts_z" />
+					<constructor-arg name="drivable" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GTS_Theta" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
+		<constructor-arg name="scannableMotor" ref="gts_theta" />
+		<constructor-arg name="quantityName" value="Rotation" />
+		<constructor-arg name="quantityUnits" value="deg" />
+			<property name="driverSignals">
+			<list>
+				<bean class="uk.ac.diamond.daq.experiment.api.driver.DriverSignal">
+					<constructor-arg name="signalName" value="Rotation" />
+					<constructor-arg name="scannableName" value="gts_theta" />
+					<constructor-arg name="drivable" value="true" />
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 </beans>
