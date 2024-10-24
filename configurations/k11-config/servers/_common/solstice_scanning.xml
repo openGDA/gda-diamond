@@ -13,11 +13,12 @@
 	
 	
 	<!-- Watchdogs -->
-	<bean id="fe_shutter_open" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate" >
-		<property name="name" value="fe_checker" />
+	<!-- Pauses the scan if either fe_shutter or portshutter are in any position other than open -->
+	<bean id="fe_shutters_open" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate" >
+		<property name="name" value="frontend_checker" />
 		<property name="model">
 			<bean class="org.eclipse.scanning.api.device.models.ExpressionWatchdogModel">
-				<property name="expression" value="fe_shutter.equalsIgnoreCase('Open')" />
+				<property name="expression" value="fe_shutter.equalsIgnoreCase(&quot;Open&quot;) &amp;&amp; portshutter.equalsIgnoreCase(&quot;Open&quot;)" />
 				<property name="message" value="Front end shutter is closed" />
 			</bean>
 		</property>
