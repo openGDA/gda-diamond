@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <XspressDeadTimeParameters>
     <DetectorDeadTimeElement>
-        <name>Element0</name>
+        <name>Element_0</name>
         <number>0</number>
         <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
         <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
@@ -9,7 +9,7 @@
         <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
-        <name>Element1</name>
+        <name>Element_1</name>
         <number>1</number>
         <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
         <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
@@ -17,7 +17,7 @@
         <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
-        <name>Element2</name>
+        <name>Element_2</name>
         <number>2</number>
         <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
         <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
@@ -25,7 +25,7 @@
         <processDeadTimeInWindowGradient>0.0</processDeadTimeInWindowGradient>
     </DetectorDeadTimeElement>
     <DetectorDeadTimeElement>
-        <name>Element3</name>
+        <name>Element_3</name>
         <number>3</number>
         <processDeadTimeAllEventGradient>0.0</processDeadTimeAllEventGradient>
         <processDeadTimeAllEventOffset>0.0</processDeadTimeAllEventOffset>
