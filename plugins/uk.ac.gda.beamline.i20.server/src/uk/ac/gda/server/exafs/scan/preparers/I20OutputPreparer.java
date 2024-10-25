@@ -17,6 +17,9 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,11 +31,13 @@ import org.slf4j.LoggerFactory;
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.AsciiMetadataConfig;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.scan.ScanPlotSettings;
+import uk.ac.gda.beans.exafs.DetectorConfig;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -44,13 +49,17 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
+import uk.ac.gda.beans.medipix.MedipixParameters;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I20OutputPreparer extends OutputPreparerBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(I20OutputPreparer.class);
 
 
-	private AsciiDataWriterConfiguration datawriterconfig_xes;
+	private AsciiDataWriterConfiguration xesDatawriterconfig;
+	private AsciiDataWriterConfiguration xasDatawriterconfig;
+
 	private Xmap xmap;
 	private IDetectorParameters detectorBean;
 	private I20OutputParameters i20OutputParams;
@@ -59,11 +68,12 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	private String xesEnergyAxisName ="";
 
-	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
+	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig_xas,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
 			I20DetectorPreparer detectorPreparer) {
-		super(datawriterconfig, metashop);
-		this.datawriterconfig_xes = datawriterconfig_xes;
+		super(datawriterconfig_xas, metashop);
+		this.xasDatawriterconfig = datawriterconfig_xas;
+		this.xesDatawriterconfig = datawriterconfig_xes;
 		this.detectorPreparer = detectorPreparer;
 	}
 
@@ -74,16 +84,50 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		this.detectorBean = detectorBean;
 		this.scanBean = scanBean;
 		this.i20OutputParams = (I20OutputParameters) outputParameters;
+
+		if (scanBean instanceof XesScanParameters) {
+			setDatawriterconfig(xesDatawriterconfig);
+		} else {
+			setDatawriterconfig(xasDatawriterconfig);
+		}
+
 		if (xmap != null) {
 			xmap.setSaveRawSpectrum(i20OutputParams.isVortexSaveRawSpectrum());
+		}
+		if (scanBean instanceof XesScanParameters) {
+			try {
+				resetAsciiStaticMetadataList();
+				addMedipixRoisToAsciiHeader();
+				updateAsciiMetadata();
+			} catch (Exception e) {
+				logger.error("Problem adding Medipix ROI information to Ascii header", e);
+			}
+		}
+	}
+
+	private void addMedipixRoisToAsciiHeader() throws Exception {
+		List<DetectorConfig> detConfigs = detectorBean.getDetectorConfigurations();
+		for(var conf : detConfigs) {
+			if (conf.isUseDetectorInScan() && conf.getDetectorName().startsWith(("medipix"))) {
+				File xmlFile = Paths.get(detectorPreparer.getExperimentXmlFullPath(), conf.getConfigFileName()).toFile();
+				MedipixParameters medipixParams = XMLHelpers.readBean(xmlFile, MedipixParameters.class);
+				List<String> rois = new ArrayList<>();
+				for(var roiRegion : medipixParams.getRegionList()) {
+					rois.add(String.format("%s : start = (%d, %d), size = (%d, %d)", roiRegion.getRoiName(),
+							roiRegion.getXRoi().getRoiStart(), roiRegion.getYRoi().getRoiStart(),
+							roiRegion.getXRoi().getRoiSize(), roiRegion.getYRoi().getRoiSize()));
+				}
+				String roiString = conf.getDetectorName()+" ROI : "+String.join(", ", rois);
+				logger.info("Adding Medipix ROI to Ascii header : {}", roiString);
+				AsciiMetadataConfig metadataConfig = new AsciiMetadataConfig();
+				metadataConfig.setLabel(roiString);
+				addAsciiMetadata(metadataConfig);
+			}
 		}
 	}
 
 	@Override
 	public AsciiDataWriterConfiguration getAsciiDataWriterConfig(IScanParameters scanParameters) {
-		if (scanParameters instanceof XesScanParameters || detectorPreparer.isXesMode()) {
-			return datawriterconfig_xes;
-		}
 		return getDatawriterconfig();
 	}
 

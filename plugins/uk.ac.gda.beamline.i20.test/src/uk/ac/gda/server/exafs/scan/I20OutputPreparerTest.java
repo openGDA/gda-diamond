@@ -18,7 +18,9 @@
 
 package uk.ac.gda.server.exafs.scan;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +37,9 @@ import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
-import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
+import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
@@ -48,7 +50,7 @@ import uk.ac.gda.server.exafs.scan.preparers.I20OutputPreparer;
 
 public class I20OutputPreparerTest {
 
-	private AsciiDataWriterConfiguration datawriterconfig;
+	private AsciiDataWriterConfiguration datawriterconfig_xas;
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
 	private TfgScalerWithFrames ionchambers;
 	private Xspress2Detector xspressSystem;
@@ -59,15 +61,10 @@ public class I20OutputPreparerTest {
 
 	@Before
 	public void setup() {
-
 //		// mock the metashop and add it to the Finder. Yuck, but then we can see calls to it.
 		metashop = Mockito.mock(NXMetaDataProvider.class);
-//		Mockito.when(metashop.getName()).thenReturn("metashop");
-//		ObjectFactory factory = new ObjectFactory();
-//		factory.addFindable(metashop);
-//		Finder.addFactory(factory);
 
-		datawriterconfig = Mockito.mock(AsciiDataWriterConfiguration.class);
+		datawriterconfig_xas = Mockito.mock(AsciiDataWriterConfiguration.class);
 		datawriterconfig_xes = Mockito.mock(AsciiDataWriterConfiguration.class);
 
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
@@ -81,11 +78,10 @@ public class I20OutputPreparerTest {
 		detList.add(xmapMca);
 		Mockito.when(i20DetectorPreparer.getDetectors()).thenReturn(detList);
 
-		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers,
+		thePreparer = new I20OutputPreparer(datawriterconfig_xas, datawriterconfig_xes, metashop, ionchambers,
 				i20DetectorPreparer);
 		thePreparer.setXMap(xmapMca);
-		thePreparer.setDatawriterconfig(datawriterconfig);
-
+		thePreparer.setDatawriterconfig(datawriterconfig_xas);
 	}
 
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
@@ -105,9 +101,7 @@ public class I20OutputPreparerTest {
 		outputBean.setVortexSaveRawSpectrum(true);
 
 		TransmissionParameters transParams = I20PreparersTestUtils.createTransmissionParameters();
-		DetectorParameters detBean = new DetectorParameters();
-		detBean.setTransmissionParameters(transParams);
-		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+		DetectorParameters detBean = I20PreparersTestUtils.createDetectorParameters(transParams);
 
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
@@ -130,9 +124,7 @@ public class I20OutputPreparerTest {
 		outputBean.setVortexSaveRawSpectrum(false);
 
 		TransmissionParameters transParams = I20PreparersTestUtils.createTransmissionParameters();
-		DetectorParameters detBean = new DetectorParameters();
-		detBean.setTransmissionParameters(transParams);
-		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+		DetectorParameters detBean = I20PreparersTestUtils.createDetectorParameters(transParams);
 
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
@@ -144,18 +136,28 @@ public class I20OutputPreparerTest {
 	}
 
 	@Test
-	public void testGetCorrectWriterConfiguration() {
-		XanesScanParameters scanBean = I20PreparersTestUtils.createXanesBean();
-		AsciiDataWriterConfiguration configFromXanes = thePreparer.getAsciiDataWriterConfig(scanBean);
-		assertTrue(configFromXanes == datawriterconfig);
+	public void testGetCorrectWriterConfiguration() throws DeviceException {
 
-		XasScanParameters xasScan = new XasScanParameters();
-		AsciiDataWriterConfiguration configFromXas = thePreparer.getAsciiDataWriterConfig(xasScan);
-		assertTrue(configFromXas == datawriterconfig);
+		I20OutputParameters outputBean = new I20OutputParameters();
+		outputBean.setXspressOnlyShowFF(true);
+		outputBean.setXspressSaveRawSpectrum(false);
+		outputBean.setXspressShowDTRawValues(true);
+		outputBean.setVortexSaveRawSpectrum(false);
 
-		XesScanParameters xesScan = new XesScanParameters();
-		AsciiDataWriterConfiguration configFromXes = thePreparer.getAsciiDataWriterConfig(xesScan);
-		assertTrue(configFromXes == datawriterconfig_xes);
+		TransmissionParameters transParams = I20PreparersTestUtils.createTransmissionParameters();
+		DetectorParameters detBean = I20PreparersTestUtils.createDetectorParameters(transParams);
+
+		IScanParameters scanBean = I20PreparersTestUtils.createXanesBean();
+		thePreparer.configure(outputBean, scanBean, detBean, null);
+		assertSame(datawriterconfig_xas, thePreparer.getAsciiDataWriterConfig(scanBean));
+
+		scanBean = new XasScanParameters();
+		thePreparer.configure(outputBean, scanBean, detBean, null);
+		assertSame(datawriterconfig_xas, thePreparer.getAsciiDataWriterConfig(scanBean));
+
+		scanBean = new XesScanParameters();
+		thePreparer.configure(outputBean, scanBean, detBean, null);
+		assertSame(datawriterconfig_xes, thePreparer.getAsciiDataWriterConfig(scanBean));
 	}
 
 	@Test
@@ -169,16 +171,10 @@ public class I20OutputPreparerTest {
 		outputBean.setVortexSaveRawSpectrum(false);
 
 		FluorescenceParameters fluoParams = I20PreparersTestUtils.createGeFluoParameters();
-		DetectorParameters detBean = new DetectorParameters();
-		detBean.setFluorescenceParameters(fluoParams);
-		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
+		DetectorParameters detBean = I20PreparersTestUtils.createDetectorParameters(fluoParams);
 
 		thePreparer.configure(outputBean, scanBean, detBean, null);
-
-		ScanPlotSettings sps = thePreparer.getPlotSettings();
-
-		assertTrue(sps != null);
-
+		assertNotNull(thePreparer.getPlotSettings());
 
 		I20OutputParameters outputBean2 = new I20OutputParameters();
 		outputBean2.setXspressOnlyShowFF(false);
@@ -187,11 +183,7 @@ public class I20OutputPreparerTest {
 		outputBean2.setVortexSaveRawSpectrum(false);
 
 		thePreparer.configure(outputBean2, scanBean, detBean, null);
-
-		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
-
-		assertTrue(sps2 != null);
-
+		assertNotNull(thePreparer.getPlotSettings());
 	}
 
 	@Test
@@ -205,39 +197,19 @@ public class I20OutputPreparerTest {
 		outputBean.setVortexSaveRawSpectrum(false);
 
 		FluorescenceParameters fluoParams = I20PreparersTestUtils.createGeFluoParameters();
-		DetectorParameters detBean = new DetectorParameters();
-		detBean.setFluorescenceParameters(fluoParams);
-		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-
+		DetectorParameters detBean = I20PreparersTestUtils.createDetectorParameters(fluoParams);
 		thePreparer.configure(outputBean, scanBean, detBean, null);
-
-		ScanPlotSettings sps = thePreparer.getPlotSettings();
-
-		assertTrue(sps == null);
-
+		assertNull(thePreparer.getPlotSettings());
 
 		FluorescenceParameters fluoParams2 = I20PreparersTestUtils.createSiFluoParameters();
-		DetectorParameters detBean2 = new DetectorParameters();
-		detBean2.setFluorescenceParameters(fluoParams2);
-		detBean2.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-
+		DetectorParameters detBean2 = I20PreparersTestUtils.createDetectorParameters(fluoParams2);
 		thePreparer.configure(outputBean, scanBean, detBean2, null);
-
-		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
-
-		assertTrue(sps2 == null);
+		assertNull(thePreparer.getPlotSettings());
 
 		TransmissionParameters transParams = I20PreparersTestUtils.createTransmissionParameters();
-		DetectorParameters detBean3 = new DetectorParameters();
-		detBean3.setTransmissionParameters(transParams);
-		detBean3.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
-
-		thePreparer.configure(outputBean, scanBean, detBean2, null);
-
-		ScanPlotSettings sps3 = thePreparer.getPlotSettings();
-
-		assertTrue(sps3 == null);
-
+		DetectorParameters detBean3 = I20PreparersTestUtils.createDetectorParameters(transParams);
+		thePreparer.configure(outputBean, scanBean, detBean3, null);
+		assertNull(thePreparer.getPlotSettings());
 	}
 
 }

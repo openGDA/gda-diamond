@@ -402,4 +402,8 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 	public void setCorrectForDarkCurrent(boolean correctForDarkCurrent) {
 		this.correctForDarkCurrent = correctForDarkCurrent;
 	}
+
+	public String getExperimentXmlFullPath() {
+		return experimentXmlFullPath;
+	}
 }

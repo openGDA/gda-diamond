@@ -94,4 +94,18 @@ public class I20PreparersTestUtils {
 		return transParams;
 	}
 
+	protected static DetectorParameters createDetectorParameters(FluorescenceParameters params) {
+		DetectorParameters detBean = new DetectorParameters();
+		detBean.setFluorescenceParameters(params);
+		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
+		return detBean;
+	}
+
+	protected static DetectorParameters createDetectorParameters(TransmissionParameters params) {
+		DetectorParameters detBean = new DetectorParameters();
+		detBean.setTransmissionParameters(params);
+		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+		return detBean;
+	}
+
 }
