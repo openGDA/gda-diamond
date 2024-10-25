@@ -8,6 +8,7 @@
 	<import resource="live_controls.xml" />
 	<import resource="medipix.xml" />
 	<import resource="pilatus.xml" />
+	<import resource="lambda.xml" />
 	<import resource="../${gda.mode}/epics-cameras.xml" />
 	<import resource="robot-controls.xml" />
 	<import resource="sample-parameters-view-config.xml" />
@@ -59,7 +60,7 @@
 				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />
-				<entry key="ionchamber_optimisation" value="${gda.config}/templates/Ionchamber_Optimisation_Parameters.json" />
+				<entry key="lambda_addetector" value="${gda.config}/templates/Lambda_Parameters.xml" />
 			</map>
 		</property>
 	</bean>
