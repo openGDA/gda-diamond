@@ -11,7 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+      <vmArgs>-Dgda.config=${workspace_loc:i22-config}
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Xms1g
 -Xmx4g
 -XX:-UseCompressedOops

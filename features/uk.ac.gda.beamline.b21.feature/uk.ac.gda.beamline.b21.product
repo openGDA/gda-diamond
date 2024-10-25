@@ -11,7 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Xms1g
+      <vmArgs>-Dgda.config=${workspace_loc:b21-config}
+-Dgda.mode=dummy
+-Xms1g
 -Xmx4g
 -XX:-UseCompressedOops
       </vmArgs>
