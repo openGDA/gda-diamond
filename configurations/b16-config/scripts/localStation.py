@@ -911,7 +911,7 @@ if installation.isLive() :
 	dcam9intensity2d = DetectorDataProcessorWithRoiForNexus('dcam9intensity2d', dcam9, [PixelIntensity()])
 	dcam9roi = DetectorDataProcessorWithRoiForNexus('dcam9roi', dcam9, [SumMaxPositionAndValue()])
 
-def configure_mini_fds(name, detector, snaps_detector):
+def configure_fds(name, detector, snaps_detector):
 	wrapper = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		name, detector,	None, snaps_detector,
 		[],	panel_name_rcp=name,
@@ -925,20 +925,20 @@ def configure_mini_fds(name, detector, snaps_detector):
 	
 if installation.isLive() :
 	[
-	mini_fds1,
-	mini_fds1_peak2d,
-	mini_fds1_max2d,
-	mini_fds1_intensity2d,
-	mini_fds1_roi
-	] = configure_mini_fds("mini_fds1", _mini_fds1, _mini_fds1_for_snaps)
+	fds1,
+	fds1_peak2d,
+	fds1_max2d,
+	fds1_intensity2d,
+	fds1_roi
+	] = configure_fds("fds1", _fds1, _fds1_for_snaps)
 
 	[
-	mini_fds2, mini_fds2_peak2d,
-	mini_fds2_max2d,
-	mini_fds2_intensity2d,
-	mini_fds2_roi
-	] = configure_mini_fds("mini_fds2", _mini_fds2, _mini_fds2_for_snaps)
- 
+	fds2, fds2_peak2d,
+	fds2_max2d,
+	fds2_intensity2d,
+	fds2_roi
+	] = configure_fds("fds2", _fds2, _fds2_for_snaps)
+
 if installation.isLive():
 	pslv1 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		'pslv1',

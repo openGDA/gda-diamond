@@ -305,5 +305,62 @@
 		<property name="bottomUi" ref="eiger_histogramBottomUI" />
 	</bean>
 
+	<bean id="fds1_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="fds1_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="fds1_histogramTopUI" />
+	</bean>
+	<bean id="fds1_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="fds1_camera_control" />
+	</bean>
+	<bean id="fds1_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="fds1_controlsUI" />
+				<ref bean="fds1_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fds1_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="FDS 1" />
+		<property name="pvAccessPv" value="BL16B-EA-FDS-01:PVA:ARRAY" />
+		<property name="topUi" ref="fds1_topUI" />
+		<property name="bottomUi" ref="fds1_histogramBottomUI" />
+	</bean>
+
+	<bean id="fds2_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="fds2_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="fds2_histogramTopUI" />
+	</bean>
+	<bean id="fds2_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="fds2_camera_control" />
+	</bean>
+	<bean id="fds2_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="fds2_controlsUI" />
+				<ref bean="fds2_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fds2_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="FDS 2" />
+		<property name="pvAccessPv" value="BL16B-EA-FDS-02:PVA:ARRAY" />
+		<property name="topUi" ref="fds2_topUI" />
+		<property name="bottomUi" ref="fds2_histogramBottomUI" />
+	</bean>
 
 </beans>

@@ -54,8 +54,8 @@
 	<import resource="epics/detector/medipix4_base.xml" />
 	<import resource="epics/detector/medipix.xml" />
 	<import resource="epics/detector/medipix4.xml" />
-	<import resource="epics/detector/mini_fds1.xml" />
-	<import resource="epics/detector/mini_fds2.xml" />
+	<import resource="epics/detector/fds1.xml" />
+	<import resource="epics/detector/fds2.xml" />
 	<import resource="epics/detector/pcoedge.xml" />
 	<import resource="epics/detector/pco4000.xml" />
 	<import resource="epics/detector/tomoscan_dummies.xml" />
