@@ -64,7 +64,7 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter':
             writer = writers[0]
             ndfile = writer.getNdFile()
-            detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV(), ndfile.getFileNumber_RBV())
+            detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV())
             nexusPaths = ["/entry1/instrument/%s" % self.name, "/entry1/%s" % self.name]
             datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
             nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())

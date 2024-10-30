@@ -292,6 +292,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         size = float(positionXml.find("size").text)
         units = positionXml.find("units").text
         DETECTOR_TRANSFORMATIONS[detName][0][TRANSFORMATION_VECTOR] = position
+        DETECTOR_TRANSFORMATIONS[detName][0][TRANSFORMATION_SIZE] = [size]
         DETECTOR_TRANSFORMATIONS[detName][0][TRANSFORMATION_UNITS] = units
         for axisXml in detXml.findall("axis"):
             axisName = axisXml.attrib['name']

@@ -89,7 +89,7 @@
 		<property name="ndFileHDF5" ref="pilatus3_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="$scan$-pilatus3_100k" />
 		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s%05d.hdf" />
+		<property name="fileTemplate" value="%s%s.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
