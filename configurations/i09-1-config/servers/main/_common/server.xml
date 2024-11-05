@@ -6,16 +6,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-
-	<!--  object to provide recording of metadata in Nexus files -->
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop"/>
-	</bean>
-
 	<import resource="devices/all_devices.xml"/>
-
-	<import resource="jython_server_facade.xml" />
 	<import resource="nexus_datawriter.xml"/>
 
 </beans>

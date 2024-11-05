@@ -4,7 +4,7 @@ from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
 from threading import Timer
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from i09shared.dataGenerator.CounterTimer import countTimer
 from i09shared.dataGenerator.waveformDataGenerator import WaveformDataGenerator
 import time

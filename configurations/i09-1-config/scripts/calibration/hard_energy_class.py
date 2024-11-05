@@ -167,3 +167,7 @@ class HardEnergy(ScannableMotionBase):
         """formats what to print to the terminal console."""
         return self.name + " : " + str(self.rawGetPosition())
 
+print("-"*100)
+print("Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy")
+ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
+print("")

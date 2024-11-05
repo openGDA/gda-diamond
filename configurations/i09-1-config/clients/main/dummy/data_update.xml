@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="basePv" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="TEST-SPECS-01"/>
+		<constructor-arg type="java.lang.String" value="TEST-SPECS-02"/>
 	</bean>
 
 	<bean id="pv_provider" class="uk.ac.diamond.daq.devices.specs.phoibos.api.AnalyserPVProvider">

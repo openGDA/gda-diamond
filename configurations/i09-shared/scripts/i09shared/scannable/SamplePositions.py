@@ -11,32 +11,18 @@ from collections import OrderedDict
 
 BEAMLINE = LocalProperties.get("gda.beamline.name")
 
-beamline_sp_scannables = []
-
 if BEAMLINE == "i09":
     from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
-    beamline_sp_scannables.append(smpmx)
-    beamline_sp_scannables.append(smpmy)
-    beamline_sp_scannables.append(smpmz)
-    beamline_sp_scannables.append(smpmpolar)
-
+    beamline_sp_scannables = [smpmx, smpmy, smpmz, smpmpolar]
 elif BEAMLINE == "i09-1":
     from gdaserver import hsmpmx, hsmpmy, hsmpmz, hsmpmpolar #@UnresolvedImport
-    beamline_sp_scannables.append(hsmpmx)
-    beamline_sp_scannables.append(hsmpmy)
-    beamline_sp_scannables.append(hsmpmz)
-    beamline_sp_scannables.append(hsmpmpolar)
-
+    beamline_sp_scannables= [hsmpmx, hsmpmy, hsmpmz, hsmpmpolar]
 elif BEAMLINE == "i09-2":
-    from gdaserver import sx1, sx2, sx3, sy, sz1, sz2 #@UnresolvedImport
-    beamline_sp_scannables.append(sx1)
-    beamline_sp_scannables.append(sx2)
-    beamline_sp_scannables.append(sx3)
-    beamline_sp_scannables.append(sy)
-    beamline_sp_scannables.append(sz1)
-    beamline_sp_scannables.append(sz2)
+    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc #@UnresolvedImport
+    beamline_sp_scannables = [sx1, sx2, sx3, sy, sz1, sz2, sxc]
 else:
     raise RuntimeError("{} is not yet supported with this class.".format(BEAMLINE))
+
 
 class SamplePositions(ScannableBase):
     """

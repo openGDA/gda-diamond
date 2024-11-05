@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="BeamlineInfo.xml"/>
-	<import resource="BeamInfo.xml"/>
 	<import resource="ID.xml"/>
 	<import resource="PGM.xml"/>
 	<import resource="SD1.xml"/>

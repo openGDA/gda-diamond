@@ -9,7 +9,7 @@ Created on Oct 31, 2022
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from threading import Thread
 
 ISEG_DEVICE = "BL09K-EA-PSU-01:0"

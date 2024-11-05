@@ -63,18 +63,11 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 	</bean>
 
-	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
-	</bean>
-
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar 
 		class -->
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	
-	<import resource="CommandServer.xml" />
-	<import resource="GDAMetadata.xml"/>
 	<import resource="nxmetadata.xml"/>
 	
 	<import resource="devices/all_devices.xml"/>

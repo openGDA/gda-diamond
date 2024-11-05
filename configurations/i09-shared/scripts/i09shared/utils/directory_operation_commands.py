@@ -5,7 +5,7 @@ from gda.jython.commands.GeneralCommands import alias
 
 import os
 
-print "-----------------------------------------------------------------------------------------------------------------"
+print("-"*100)
 print "create directory operation commands: "
 num_tracker = NumTracker("i09");
 

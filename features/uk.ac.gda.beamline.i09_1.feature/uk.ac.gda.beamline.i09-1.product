@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline I09-1" uid="uk.ac.gda.beamline.i09-1.product" id="uk.ac.gda.beamline.i09-1.product" application="uk.ac.gda.client.application" version="9.37.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="Beamline I09-1" uid="uk.ac.gda.beamline.i09-1.product" id="uk.ac.gda.beamline.i09-1.product" application="uk.ac.gda.client.application" version="9.37.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -33,12 +33,16 @@ uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i09-1" />
+      location="uk.ac.gda.beamline.i09-1"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
    <launcher name="gda-i09-1">
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

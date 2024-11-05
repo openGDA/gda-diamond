@@ -73,7 +73,7 @@ def analyserpathscan(scannables, path, *args):
             sleep(2.0)
             while (InterfaceProvider.getJythonServerStatusProvider().isScriptOrScanPaused()):
                 sleep(1.0)
-            arg.loadSequenceData(filename)
+            arg.setSequenceFile(filename)
             i=i+1
     pathscan(scannables, path, newargs)
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))

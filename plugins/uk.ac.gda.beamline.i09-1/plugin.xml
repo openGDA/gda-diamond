@@ -20,6 +20,18 @@
                name="appName"
                value="Beamline I09-1">
          </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
       </product>
    </extension>
    <extension

@@ -2,195 +2,103 @@
 # Description: For beamline specific initialisation.
 # @author: Fajin Yuan
 # updated 19/06/2012
-import os
-import sys
-import gdascripts
+import os #@UnusedImport
+import sys #@UnusedImport
+import gdascripts #@UnusedImport
 import java
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from gda.factory import Finder
 from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
-from calibration.hard_energy_class import HardEnergy
-from i09shared.calibration.soft_energy_class import SoftEnergy
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.jython.commands.ScannableCommands import scan
-from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,waittimeClass, waittimeClass2, actualTimeClass
 from gda.configuration.properties import LocalProperties
-from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
-from i09shared.analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
-from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
-from org.opengda.detector.electronanalyser.utils import FilenameUtil
 from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
 from gda.device.scannable import PVScannable
 
-from gdascripts.metadata.nexus_metadata_class import meta # @UnusedImport
+print("="*100)
+print("Performing beamline specific initialisation code (i09).")
+print("="*100)
 
-print "=================================================================================================================";
-print "Performing beamline specific initialisation code (i09).";
-print "=================================================================================================================";
+from i09shared.localstation import * #@UnusedWildImport
 
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Set if scan returns to the original positions on completion."
-print "    scansReturnToOriginalPositions=0, not return to its start position (the default);"
-print "    scansReturnToOriginalPositions=1, return to its start position;"
-scansReturnToOriginalPositions=0;
-print
+print "Custom i09 initialisation code.";
 
 ###############################################################################
-###                            Generic Functions                            ###
+###               Configure scan data processing and scan commands          ###
 ###############################################################################
-from i09shared.utils.directory_operation_commands import pwd, lwf, nwf, nfn, cfn, setSubdirectory, getSubdirectory #@UnusedImport
-
-### Create time Scannables
-print "Creating time scannables"
-from i09shared.timerelated import clock, t, dt, w #@UnusedImport
-showtime=showtimeClass('Showtime')
-inctime=showincrementaltimeClass('inctime')
-waittime=waittimeClass2('Waittime')
-atime=actualTimeClass('atime')
-
-### Pipeline
-def configureScanPipeline(length = None, simultaneousPoints = None):
-	lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
-	simultaneousProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_POINTS_TO_COMPUTE_SIMULTANEOUSELY
-	def show():
-		print "ScanDataPoint pipeline:"
-		print " " + lengthProp + " = " + LocalProperties.get(lengthProp, '4') # duplicated in ScannableCommands
-		print " " + simultaneousProp + " = " + LocalProperties.get(simultaneousProp, '3') # duplicated in ScannableCommands
-	if (length == None) or (simultaneousPoints == None):
-		show()
-	else:
-		LocalProperties.set(lengthProp, `length`)
-		LocalProperties.set(simultaneousProp, `simultaneousPoints`)
-		show()
-
-alias('configureScanPipeline')
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
-beam = Finder.find("beam")
-print "create 'beamline' object for access beamline parameters such as data directory"
-beamline=Finder.find("beamline")
-
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
-from gdascripts.pd.epics_pds import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load time utilities for creating timer objects."
-from gdascripts.pd.time_pds import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
-print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import * #@UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load common physical constants"
-from gdascripts.constants import * #@UnusedWildImport
-print
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "function to set wavelength >>>setwavelength(value)"
-def setlambda(wavelength):
-	wavelength=float(wavelength)
-	beam.setWavelength(wavelength)
-
-def setwavelength(wavelength):
-	setlambda(wavelength)
-
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
-print "    To use this, you must place 'interruptable()' call as the 1st or last line in your for-loop."
-def interruptable():
-	GeneralCommands.pause()
-
-###############################################################################
-###                   Configure scan data processing                        ###
-###############################################################################
-
-print "Importing analysis commands (findpeak, findcentroid & enable scan data processes)"
-findpeak=FindScanPeak
-findcentroid=FindScanCentroid
-
+print("-"*100)
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
-
+print("")
 
 ###############################################################################
-###                   Configure camera bases                                    ###
+###                    Import additional scan commands                      ###
 ###############################################################################
+from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
+from command.analyserscancheck import zerosupplies, analyserscancheck # @UnusedImport
 
+# Install regional scan
+print("-"*100)
+print("Installing regional scan 'mrscan'")
+from gdascripts.scan.RegionalScan import RegionalScanClass
+mrscan = RegionalScanClass()
+alias('mrscan')
+print("Use mrscan motor (R1, R2, ... R3) for multiple-region scan")
+print("where the region Rx is defined by a [start, stop, step] list and all regions are grouped in a tuple")
+print("For example: \n\tmrscan testMotor1 ([0, 5, 1], [6,10,0.1], [10,15,1]) dummyCounter1 0.1")
+print("")
+
+# the following requires new NexusScanDataWriter to work!
+# from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
+from i09shared.scan.miscan import miscan  # @UnusedImport
+
+###############################################################################
+###                         Import useful scannables                        ###
+###############################################################################
+print("-"*100)
+# Import and setup function to create mathematical scannables
+from i09shared.functions import functionClassFor2Scannables
+functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
+from i09shared.functions.functionClassFor2Scannables import ScannableFunctionClassFor2Scannables #@UnusedImport
+print("Importing utility mathmatical scannable class ScannableFunctionClassFor2Scannables " + functionClassFor2Scannables.ScannableFunctionClassFor2Scannables.__doc__) #@UndefinedVariable
+
+###############################################################################
+###                          Configure camera bases                         ###
+###############################################################################
 from i09shared.pseudodevices.CameraExposureChanger import CameraExposureChanger
-
-print "\nCreating camera exposure object ('sd1_camera_exposure')for SD1 camera"
+print("-"*100)
+print("Creating camera exposure object ('sd1_camera_exposure')for SD1 camera")
 sd1_camera_exposure = CameraExposureChanger(sd1_cam)
 
 if installation.isLive():
-	print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+	print("Creating camera exposure object ('sd3_camera_exposure')for SD3 camera")
 	sd3_camera_exposure = PVScannable("sd3_camera_exposure", "BL09J-MO-SD-03:CAM:AcquireTime")
 	sd3_camera_exposure.configure()
 
-	print "\nCreating camera exposure object ('xbpm_camera_exposure')for XBPM camera"
+	print("Creating camera exposure object ('xbpm_camera_exposure')for XBPM camera")
 	xbpm_camera_exposure = PVScannable("xbpm_camera_exposure", "BL09I-EA-XBPM-01:CAM:AcquireTime")
 	xbpm_camera_exposure.configure()
 else:
-	print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+	print("Creating camera exposure object ('sd3_camera_exposure')for SD3 camera")
 	sd3_camera_exposure = CameraExposureChanger(sd3_cam)
-
-
-###############################################################################
-###                   Configure scannable output formats                        ###
-###############################################################################
-globals()['sm3pitch'].setOutputFormat(["%10.1f"])
+print("")
 
 ###############################################################################
 #     Import i/j energy, harmonic order. gap and polarisation instances       #
 ###############################################################################
 from scannable.energy_poloarisation_order_gap_instances import LH,LV,CR,CL,LH3,jenergy_s,polarisation,jenergypolarisation,ienergy_order,jenergy_order, ienergy_s  # @UnusedImport
 from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
-
-###############################################################################
-#                      Import analyserscan commands                           #
-###############################################################################
-print "Create an 'analyserscan' command for scanning the electron analyser."
-from i09shared.command.analyserScan import analyserscan # @UnusedImport
-from command.analyserscancheck import zerosupplies, analyserscancheck # @UnusedImport
-alias("zerosupplies")
-alias("analyserscan")
-alias("analyserscan_v1")
-alias("analyserscancheck")
-print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
-
-# Import and setup function to create mathmatical scannables
-from i09shared.functions import functionClassFor2Scannables
-functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-
-# I09-70 Create a empty string to hold detectors to be used with the GUI
-extraDetectors = ""
-
-# Install regional scan
-print "Installing regional scan 'mrscan'"
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
-
-#check beam scannables
-from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
-from i09shared.pseudodevices.checkid import checkjid, checkiid # @UnusedImport
-#create 'move' command
-run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")  # @UndefinedVariable
-
-from scannable.continuous.continuous_energy_scannables import ienergy,jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables import ienergy, jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
 from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
+###############################################################################
+###                        Metadata saved for each scan                     ###
+###############################################################################
+#ToDo - This should be changed to importing meta and this defined in springbeans
 print("-"*100)
-print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
+print("Setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
 from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
 import metashop  # @UnusedImport
 print("Can now add meta data items to be captured in data files.")
@@ -200,14 +108,32 @@ esmetadata=[hm3iamp20,sm5iamp8,hm3iamp20,sm5iamp8,smpmiamp39,smpm,lakeshore] #@U
 meta_data_list = imetadata + jmetadata + esmetadata
 for each in meta_data_list:
 	meta_add(each)
+print("")
 
+###############################################################################
+###                       Check condition scannables                        ###
+###############################################################################
+from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
+from i09shared.pseudodevices.checkid import checkjid, checkiid # @UnusedImport
+
+###############################################################################
+###                           Create move command                           ###
+###############################################################################
+from command.checkedMotion import move, moveWithinLimits, IENERGY_MOVE_LIMIT, JENERGY_MOVE_LIMIT # @UnusedImport
+
+###############################################################################
+###            Add help text for gdaserver keithley2600 object              ###
+###############################################################################
 print("-"*100)
-print("keithley2600 control objects:\nGeneral operation: keithley_a, keithley_b\nAverage mode: keithley_a_average_mode, keithley_b_average_mode\nSweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
+print("keithley2600 control objects:")
+print("General operation: keithley_a, keithley_b")
+print("Average mode: keithley_a_average_mode, keithley_b_average_mode")
+print("Sweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
+print("")
 
-# the following requires new NexusScanDataWriter to work!
-# from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
-from i09shared.scan.miscan import miscan  # @UnusedImport
-
+###############################################################################
+###                      Reflectivity camera help text                      ###
+###############################################################################
 from gdaserver import nixswr_repeat, nixswr_time # @UnresolvedImport @UnusedImport
 print("-"*100)
 print("Installed detector nixswr_repeat, measure with nixswr camera that takes input the number of frames to acquire. Cannot be used with pos command.")
@@ -215,16 +141,19 @@ print("\tSynatx: scan scannable 1 2 1 nixswr_repeat 10")
 print("Installed detector nixswr_time, measure with nixswr camera that takes input the amount of time to acquire over (in seconds). Cannot be used with pos command.")
 print("\tSynatx: scan scannable 1 2 1 nixswr_time 0.001")
 
+NIXSWR_TOTAL_PV = java.net.InetAddress.getLocalHost().getHostName().split(".")[0] + "-AD-SIM-01:STAT:Total_RBV"
 if installation.isLive():
 	NIXSWR_TOTAL_PV = "BL09I-MO-ES-03:STAT:Total_RBV"
-else:
-	NIXSWR_TOTAL_PV = java.net.InetAddress.getLocalHost().getHostName().split(".")[0] + "-AD-SIM-01:STAT:Total_RBV"
 print("Adding nixswr scannable of class DisplayEpicsPVClass, single exposure which gets pv: " + NIXSWR_TOTAL_PV)
 nixswr = DisplayEpicsPVClass("nixswr", NIXSWR_TOTAL_PV, "", "%d")
+print("")
 
+###############################################################################
+###                   Save SamplePosition scannable                         ###
+###############################################################################
 from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
 
-print "="*100;
-print "Initialisation script complete."
-print
+print("="*100)
+print("localStation.py Initialisation script complete.")
+print("="*100)
 ###Must leave what after this line last.

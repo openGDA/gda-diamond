@@ -13,7 +13,7 @@
 			</bean>
 		</property>
 		<property name="photonEnergyProvider" ref="dcmenergyEv" />
-		<property name="workFunction" value="4.5" />
+		<property name="workFunction" value="0.0" />
 		<!-- GDA will attempt to read actual value from EPICS during configure stage. -->
 		<property name="detectorEnergyWidth" value="0.134" />
 	</bean>

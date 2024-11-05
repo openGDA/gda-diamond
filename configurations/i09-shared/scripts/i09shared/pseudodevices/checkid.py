@@ -3,7 +3,7 @@ from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import Wait
 from gda.configuration.properties import LocalProperties
 BEAMLINE = LocalProperties.get("gda.beamline.name")
 
-print "-"*100
+print("-"*100)
 shutters = []
 
 if BEAMLINE == "i09":
@@ -25,3 +25,5 @@ if BEAMLINE == "i09-1" or BEAMLINE == "i09":
     from gdaserver import  iidaccesscontrol #@UnresolvedImport
     print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
     checkiid = WaitForScannableStateAndHandleShutter('checkiid', shutters, iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+
+print("")

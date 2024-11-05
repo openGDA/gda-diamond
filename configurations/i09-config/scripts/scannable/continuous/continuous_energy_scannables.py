@@ -20,6 +20,7 @@ print ("    2. 'jI0'     - soft X-ray I0 scannable used in 'cvscan' ONLY")
 print ("    3. 'sdc'     - sample drain current scannable used in 'cvscan' ONLY")
 print ("    4. 'ienergy' - Hard X-ray energy scannable that works with both 'cvscan' and 'scan' command")
 print ("    5. 'iI0'     - Hard X-ray I0 scannable used in 'cvscan' ONLY")
+print("")
 
 # ES2 Scaler controller:  BL09L-VA-SCLR-01:MCA-01:
 #mcscontroller  = McsWaveformChannelController('mcscontroller', 'BL09L-VA-SCLR-01:MCA-01:', channelAdvanceInternalNotExternal=True); mcscontroller.verbose=True
