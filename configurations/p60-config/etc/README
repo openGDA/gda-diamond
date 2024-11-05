@@ -1,0 +1,4 @@
+These files set the beamline workstation environment.
+To be installed into /dls_sw/p60/etc/ manually.
+
+Important: /etc/profile.d/gda_environment.sh depends on the presence of /dls_sw/p60/etc/p60_profile.sh.

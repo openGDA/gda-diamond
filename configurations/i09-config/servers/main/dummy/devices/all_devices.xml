@@ -5,7 +5,6 @@
 
 	<import resource="analyser_eav.xml"/>
 	<import resource="nixswr.xml"/>
-
 	<import resource="ES2.xml"/>
 	<import resource="BFM.xml"/>
 	<import resource="ExperimentHutchShutter.xml"/>
@@ -30,4 +29,5 @@
 	<import resource="IntensityProtection.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="Scaler2.xml"/>
+
 </beans>

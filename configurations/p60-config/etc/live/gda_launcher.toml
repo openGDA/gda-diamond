@@ -1,0 +1,16 @@
+
+log_directory = "/dls_sw/p60/logs"
+server_runtime_root = "gda_server"
+client_runtime_root = "/scratch"
+layout.client = "client/gda-p60"
+
+
+deployment_root = "/dls_sw/p60/software/gda_versions"
+default_deployment = "gda"
+
+[env]
+"GDA_MODE" = "live"
+"GDA_VAR" = "/dls_sw/p60/software/gda_var"
+
+[client.system]
+"eclipse.pluginCustomization" = "/dls_sw/p60/software/gda/config/clients/plugin_customization.ini"
