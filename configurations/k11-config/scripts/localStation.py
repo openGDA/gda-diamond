@@ -1,35 +1,33 @@
-from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
-from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
-from gda.jython.commands.GeneralCommands import run
-from gdascripts.scannable.timerelated import TimeSinceScanStart
-from java.io import FileNotFoundException
+
+from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnresolvedImport @UnusedImport
+from gda.jython.commands.GeneralCommands import run, alias, add_reset_hook  # @UnresolvedImport
+from gdascripts.scannable.timerelated import TimeSinceScanStart  # @UnresolvedImport
+from java.io import FileNotFoundException  # @UnresolvedImport
 import sys
 from k11_utilities import is_live
 
 print("Initialisation Started");
 
-run("k11_utilities.py")
-
+# standard scans, fit peak, etc
+from gdascripts.scan.installStandardScansWithProcessing import *  # @NOSONAR
 scan_processor.rootNamespaceDict = globals()  # @UndefinedVariable
 
-# For access to new mscan mapping scan command.
-print("Adding mscan mapping scan command. Use help(mscan) to get information on how to use it.")
-#run('mapping_scan_commands.py')
-from gdascripts.mscanHandler import *
+from gdascripts.mscanHandler import *  # all mscan functions @NOSONAR
 
 run("jythonscannables.py")
 
-# Watchdogs
+if is_live():
+    run("pco_pixel_size.py")  # adds pixel size pseudoscannables to metadata
+
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
-alias("enable_watchdogs")
-alias("disable_watchdogs")
-alias("list_watchdogs")
+alias(enable_watchdogs)
+alias(disable_watchdogs)
+alias(list_watchdogs)
 
 # timer scannable
 # e.g. expose d1_det for 1 second every 5 seconds for 1 minute from now:
 # scan timerScannable 0 60 5 d1_det 1
 timerScannable = TimeSinceScanStart("timerScannable")
-
 
 # experiment listener: writes visit to PV and copies template files
 from experiment_listener import ExperimentListener
