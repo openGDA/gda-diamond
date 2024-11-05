@@ -1,6 +1,6 @@
-from gda.device.enumpositioner import EnumPositionerBase
-from gda.device import DeviceException
-from gdaserver import beam_selector_readback, imaging_hint_positioner
+from gda.device.enumpositioner import EnumPositionerBase  # @UnresolvedImport
+from gda.device import DeviceException  # @UnresolvedImport
+from gdaserver import beam_selector_readback, imaging_hint_positioner  # @UnresolvedImport
 
 class BeamSelector(EnumPositionerBase):
     

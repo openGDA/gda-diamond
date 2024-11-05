@@ -1,6 +1,4 @@
-from gda.configuration.properties import LocalProperties
-from gda.device import Scannable
-from gda.jython.commands.GeneralCommands import ls_names
+from gda.configuration.properties import LocalProperties  # @UnresolvedImport
 from java.util.function import Predicate, Consumer  # @UnresolvedImport
 
 print("Running k11_utilities.py")
@@ -8,9 +6,6 @@ print("Running k11_utilities.py")
 def is_live():
     mode = LocalProperties.get("gda.mode")
     return mode =="live"
-
-def ls_scannables():
-    ls_names(Scannable)
 
 
 class JPredicate(Predicate):
