@@ -20,7 +20,7 @@ logging = [
 
 # profiles are not required but profiles that should be enabled by default should be specified here
 # rather than in a properties file using gda.spring.profiles.active
-profiles = ["trans","xps5","hexapod"]
+profiles = ["trans","hexapod"] #,"xps5"
 # profiles listed here should not be included in the list of optional profiles in the gda-conf.py
 # configuration at /dls_sw/$BEAMLINE/software/gda_versions/var/$BEAMLINE.cfg
 
