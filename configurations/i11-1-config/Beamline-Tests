@@ -10,3 +10,7 @@ To run all beamline tests, except the email tests, run:
 To run just the simple scan tests, for checking plot colours, run:
 
     run_tests(marks='plotting')
+    
+Note that if scans complain about the "butlerArm" then run:
+
+    remove_default butler_position_warning
