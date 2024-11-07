@@ -1,87 +1,17 @@
 from org.eclipse.scanning.sequencer import ScanRequestBuilder #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 from org.eclipse.scanning.api.points.models import CompoundModel #@Unresolvedimport
-from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel,AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI #@Unresolvedimport
+from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel
+
+from scanning.xanes_utils import submit_scan, get_models, get_energies, get_x_dimensions, get_y_dimensions
 
 import scisoftpy as dnp
-from mapping_scan_commands import submit
-
-"""
-Get the energy model and the map model
-"""
-def get_models(scanRequest):
-    compound_model = scanRequest.getCompoundModel()
-    print("Original compound model: {}".format(compound_model))
-    
-    models = compound_model.getModels()
-    if not models.size() > 1:
-        print("Only one scan model found: have you forgotten to define dcm_enrg as an outer scannable?")
-        return;
-    
-    dcm_enrg_model = models.get(0)
-    
-    models.pop(0)
-    map_model = models.get(0)
-    
-    return dcm_enrg_model, map_model
-
-
-def generate_range(step_model) :
-    vals=[]
-    vals.extend(dnp.arange(step_model.getStart(), step_model.getStop(), step_model.getStep()))
-    return vals;
-
-"""
-Get energy points to scan
-"""
-def get_energies(energy_model):
-    energies = []
-    if isinstance(energy_model,AxialMultiStepModel):
-        print("Multistep model")
-        energy_models = energy_model.getStepModels()
-        for ee in energy_models:
-            step_energies = generate_range(ee)
-            print("sub_region",ee.getStart(), ee.getStop(), ee.getStep())
-            energies.extend(step_energies)
-    elif isinstance(energy_model,AxialStepModel):
-        step_energies = generate_range(energy_model)
-        energies.extend(step_energies)
-    elif isinstance(energy_model,AxialArrayModel):
-        step_energies = energy_model.getPositions()
-        energies.extend(step_energies)
-    return energies
-
-"""
-Get the y dimensions of the bounding box
-"""
-def get_y_dimensions(map_model):
-    map_box = map_model.getBoundingBox()
-    
-    y_min = map_box.getyAxisStart()
-    y_range = map_box.getyAxisLength()
-    y_max = y_min + y_range
-    y_step = y_range/map_model.getyAxisPoints()
-    
-    return y_min, y_max, y_range, y_step
-
-"""
-Get the x dimensions of the bounding box
-"""
-def get_x_dimensions(map_model):
-    map_box = map_model.getBoundingBox()
-    
-    x_min = map_box.getxAxisStart()
-    x_range = map_box.getxAxisLength()
-    x_max = x_min + x_range
-    x_step = x_range/map_model.getxAxisPoints()
-    
-    return x_min, x_max, x_range, x_step
-
 
 def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
 
     sparse_parameters = xanesEdgeParams.getSparseParameters()
+    rows_percentage = 1.0
     if sparse_parameters is not None:
         rows_percentage = float(sparse_parameters.getPercentage())/100
 
@@ -183,7 +113,10 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
         print("Submitting %s "%(scan_name))
 
-        submit(request, block=True, name=scan_name)
+        result = submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
+        if result == False :
+            submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
+            
         all_nexus_file_names.append(filename_listener.file_name)
         print("File path "+filename_listener.file_name)
 

@@ -1,12 +1,13 @@
 import sys
 import traceback
-from mapping_scan_commands import submit
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 from org.eclipse.scanning.api.points import MapPosition
 
 import scisoftpy as dnp
 from org.slf4j import LoggerFactory
+
+from scanning.xanes_utils import submit_scan
 
 xanes_logger = LoggerFactory.getLogger("xanes_scan")
 
@@ -18,30 +19,6 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams):
         xanes_logger.error(msg, traceback.format_exc())
         print(msg)
         print(traceback.format_exc())
-        
-def submit_scan(scanRequest, block=True, name="", raise_on_failure = False) :
-    """
-        Submit scan and handle any exceptions :
-        * Interrupted exception is raised
-        * Other exception types are logged, and raised if raise_on_failure = True,
-        
-        Function return True if scan ran successfully, False otherwise
-    """
-    try :
-        submit(scanRequest, block=block, name=name)
-        return True
-    except java.lang.InterruptedException as e :
-        raise e
-    except Exception as e:
-        msg="XANES scan terminated abnormally: {}".format(sys.exc_info()[0])
-        xanes_logger.warn("{} {}",msg, traceback.format_exc())
-
-        if raise_on_failure :
-            raise e
-        
-        print(msg)
-        print(traceback.format_exc()) 
-        return False
     
 from gda.jython import JythonServerFacade, ScriptBase
 def wait_if_paused() :
@@ -55,6 +32,9 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     print("scanRequest = {}".format(scanRequest))
     print("xanesEdgeParams = {}".format(xanesEdgeParams))
 
+    sparse_parameters = xanesEdgeParams.getSparseParameters()
+    print("Sparse parameters : {}".format(sparse_parameters))
+    
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
 
