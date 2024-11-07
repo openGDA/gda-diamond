@@ -158,7 +158,8 @@ from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
 #                      Import analyserscan commands                           #
 ###############################################################################
 print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
+from i09shared.command.analyserScan import analyserscan # @UnusedImport
+from command.analyserscancheck import zerosupplies, analyserscancheck # @UnusedImport
 alias("zerosupplies")
 alias("analyserscan")
 alias("analyserscan_v1")
