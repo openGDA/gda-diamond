@@ -14,11 +14,10 @@ print("=============================================================")
 
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
-	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
+	from localStationConfiguration import USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
-	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
 	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = False
@@ -31,8 +30,8 @@ except:
 	USE_PIL3 = True
 	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -54,7 +53,7 @@ global Finder, pos, add_default, meta
 global idgap
 global bragg, perp
 
-global sixckappa, sixckappa_fly, euler_cryo, sixckappa_cryo, cryophi
+global sixckappa, sixckappa_fly
 global delta_axis_offset
 global azir, psi, psic, hkl
 global setDatadirPropertyFromPersistanceDatabase, pitchupClass
@@ -112,7 +111,6 @@ if installation.isDummy():
 	from lab84.installVarDataFromBeamlineIfNotPresent import install_cache_data
 	install_cache_data()
 	
-	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = True
 	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = True
@@ -120,8 +118,8 @@ if installation.isDummy():
 	USE_PIL1 = False
 	USE_PIL2 = False
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
-		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
-				(USE_CRYO_GEOMETRY,    USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
+		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
+				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
@@ -240,19 +238,6 @@ from spechelp import * #@UnusedWildImport # aliases man objects
 from scannable.MoveThroughOrigin import MoveThroughOriginScannable #@UnusedImport
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
-if USE_CRYO_GEOMETRY:
-	_cryophi = euler_cryo.phi
-	_cryophi.setUpperGdaLimits(165)
-	_cryophi.setLowerGdaLimits(-165)
-	exec("cryophi = MoveThroughOriginScannable(euler_cryo.phi)")
-	#cryophi.name = "cryophi"
-	exec("sixckappa_cryo = DeferredScannableGroup()")
-	sixckappa_cryo.setGroupMembers([cryophi, sixckappa.kap, sixckappa.kth, sixckappa.kmu, sixckappa.kdelta, sixckappa.kgam])
-	sixckappa_cryo.setName("sixckappa_cryo")
-	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
-	sixckappa_cryo.configure()
-
-
 alias("jobs")
 
 if not USE_NEXUS:
@@ -284,18 +269,9 @@ note.rootNamespaceDict=globals()
 ###############################################################################
 ### Expose wrapped motors for Coordinated motion
 localStation_print("Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement")
-if USE_CRYO_GEOMETRY:
-	sixc = sixckappa_cryo #@UndefinedVariable
-	# NOTE: To switch cryophi between a real epics motor and the dummy axis sometimes used edit:
-	#    /i16-config/servers/main/common/scannable/motor/sixckappa.xml
-	# This axis is found on the Epics synoptic under 'ANC1' button: BL16I-MO-ANC-01:P1
-	#
-	# Diffcalc instructions here: http://confluence.diamond.ac.uk/display/I16/Diffcalc or http://confluence.diamond.ac.uk/x/855TAQ
-else:
-	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
-	kphi=sixc.kphi
 
-kap, kth, kmu, kdelta, kgam = sixc.kap, sixc.kth, sixc.kmu, sixc.kdelta, sixc.kgam
+sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
+kap, kth, kmu, kdelta, kgam, kphi = sixc.kap, sixc.kth, sixc.kmu, sixc.kdelta, sixc.kgam, sixc.kphi
 kphi_fly, kap_fly, kth_fly, kmu_fly, kdelta_fly, kgam_fly = sixckappa_fly.kphi_fly, sixckappa_fly.kap_fly, sixckappa_fly.kth_fly, sixckappa_fly.kmu_fly, sixckappa_fly.kdelta_fly, sixckappa_fly.kgam_fly
 
 SIXC_MOTOR_NAMES = ['sixcKphiMotor', 'sixcKappaMotor', 'sixcKthMotor', 'sixcMuMotor', 'sixcDeltaMotor','sixcGammaMotor']
@@ -442,24 +418,7 @@ localStation_print("Creating diffractometer base scannable base_z")
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15 @UndefinedVariable
 
-if USE_CRYO_GEOMETRY:
-	# u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'
-	# The standard euler device causes an offset to be applied to phi to account for any kappa rotation.
-	# This correction is not applicable to the cryo-phi geometry. Create a coordinated motion group which
-	# will ensure kmu, kdelta & kgam are moved in a coordinated way (cryophi will not).
-	euler =  DeferredScannableGroup()
-	euler.setName("euler")
-	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
-	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
-	euler.configure()
-	phi = euler.phi
-	chi = euler.chi
-	eta = euler.eta
-	exec("mu=euler.mu")
-	exec("delta=euler.delta")
-	exec("gam=euler.gam")
-else:
-	run("localStationScripts/startup_diffractometer_euler")
+run("localStationScripts/startup_diffractometer_euler")
 
 if not USE_DIFFCALC:
 	localStation_warning("setting up diffractometer, using Allesandro's code instead of diffcalc")
@@ -1297,11 +1256,7 @@ try:
 
 	diffractometer_sample_scannables += [hklverbose.psi, hklverbose.alpha, hklverbose.beta, hklverbose.betain, hklverbose.betaout]
 	diffractometer_sample_scannables += [en]
-
-	if USE_CRYO_GEOMETRY:
-		diffractometer_sample_scannables += [cryophi]
-	else:
-		diffractometer_sample_scannables += [kphi]  # @UndefinedVariable
+	diffractometer_sample_scannables += [kphi]  # @UndefinedVariable
 
 	diffractometer_sample_scannables += [azihkl]
 	diffractometer_sample_scannables += [delta_axis_offset]
@@ -1393,12 +1348,6 @@ def meta_minimal():
 alias("meta_std")
 alias("meta_minimal")
 
-if USE_CRYO_GEOMETRY:
-	try:
-		test=meta_ls()
-	except:
-		localStation_exception("testing meta_ls() when USE_CRYO_GEOMETRY = True, /i16-config/servers/main/_common/nxmetadata.xml is probably configured for kphi not cryophi.")
-
 # Define a function which turns any scannable into one which doesn't pause the
 # scan if it's moving.
 from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
@@ -1446,12 +1395,7 @@ def asyncScannable(scannable, targetPosition):
 alias(asyncScannable)
 ###Default Scannables###
 try:
-	if USE_CRYO_GEOMETRY:
-		default_scannable_names = ["cryophi"]
-	else:
-		default_scannable_names = ["kphi"]
-	default_scannable_names += ["kap", "kth", "kmu", "kdelta", "kgam"]
-	for scannable_name in default_scannable_names:
+	for scannable_name in SIXC_SCANNABLEMOTOR_NAMES:
 		add_default(asyncMonitor(jythonNameMap[scannable_name]))
 	add_default(jythonNameMap["delta_axis_offset"])
 except:

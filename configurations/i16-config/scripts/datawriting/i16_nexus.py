@@ -1,10 +1,9 @@
-from datawriting.i16_nexus_extender2 import I16NexusExtender, set_diffcalc_instance, use_cryo
+from datawriting.i16_nexus_extender2 import I16NexusExtender, set_diffcalc_instance
 from gda.configuration.properties import LocalProperties
 from gda.data.scan.datawriter import DefaultDataWriterFactory, NexusDataWriterConfiguration
 from gda.factory import Finder
 
 set_diffcalc_instance(diffcalc if USE_DIFFCALC else None)
-use_cryo(USE_CRYO_GEOMETRY)
 
 #PDW.returnPathAsImageNumberOnly = True
 

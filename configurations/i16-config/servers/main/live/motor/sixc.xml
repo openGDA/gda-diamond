@@ -75,18 +75,6 @@
 		<property name="pvName" value="BL16I-MO-DIFF-01:ARM:DELTA" />
 	</bean>
 
-	<bean id="sixcCryoPhiMotor"
-			class="gda.device.motor.DummyMotor" >
-		<property name="speed" value="360000000" />
-	</bean>
-	<!-- Use DummyMotor ^^^ when USE_CRYO_GEOMETRY = False otherwise use EpicMotor vvv
-	<bean id="sixcCryoPhiMotor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-MO-ANC-01:P1" />
-		<property name="assertHomedBeforeMoving" value="false" />
-	</bean>
-	 -->
-
 	<bean id="deferFlag"
 			class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves"/>

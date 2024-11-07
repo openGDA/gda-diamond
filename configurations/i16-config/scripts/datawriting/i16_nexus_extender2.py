@@ -23,10 +23,6 @@ def set_diffcalc_instance(diffcalc):
     global DIFFCALC
     DIFFCALC = diffcalc
 
-def use_cryo(cryo):
-    global USE_CRYO_GEOMETRY
-    USE_CRYO_GEOMETRY = cryo
-
 EVOLT_TO_JOULE = 1.60217657e-19
 PLANCK = 6.62606957e-34
 LIGHTSPEED = 299792458.
@@ -609,7 +605,7 @@ class I16NexusExtender(DataWriterExtenderBase):
                 self.logger.debug("crystalInfo is None, DIFFCALC is {}", DIFFCALC)
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
-            sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
+            sampleDependsOn = "/entry1/sample/transformations/phi"
             self.writeSample(nFile, sample, DIFFCALC.ub.ub.ubcalc.name, sampleDependsOn)
             instrument = nFile.getGroup("/entry1/instrument", False)
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")

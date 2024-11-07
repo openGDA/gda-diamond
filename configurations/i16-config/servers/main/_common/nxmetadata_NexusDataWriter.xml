@@ -76,11 +76,6 @@
 						</property>
 					</bean>
 				</entry>
-				<!-- Note only one of kphi (below) and cryophi (further below) should ever be commented out at the same time.
-					* When USE_CRYO_GEOMETRY = True, comment out kphi and uncomment cryophi
-					* When USE_CRYO_GEOMETRY = False, comment out cryophi and uncomment kphi
-					Note, this annoyance will go away when tickets I16-658, I16-659 and I16-629 are completed.
-				 -->
 				<entry key="kphi">
 					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
 						<property name="paths"
@@ -142,25 +137,6 @@
 					</bean>
 				</entry>
 
-				<!-- Note only one of kphi (above) and cryophi (below) should ever be commented out at the same time.
-					* When USE_CRYO_GEOMETRY = True, comment out kphi and uncomment cryophi
-					* When USE_CRYO_GEOMETRY = False, comment out cryophi and uncomment kphi
-					Note, this annoyance will go away when tickets I16-658, I16-659 and I16-629 are completed.
-				<entry key="cryophi">
-					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
-						<property name="paths"
-								value="sample:NXsample/transformations:NXtransformations/cryophi" />
-						<property name="depends_on"
-								value="entry1/sample/transformations/phi" />
-						<property name="units" value="deg" />
-						<property name="vector">
-							<list>
-								<list><value>0.567744</value><value>-0.0003651</value><value>0.82389</value></list>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				-->
 				<entry key="x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"

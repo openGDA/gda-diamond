@@ -66,10 +66,5 @@
 		<property name="speed" value="360000000" />
 	</bean>
 
-	<bean id="sixcCryoPhiMotor" class="gda.device.motor.DummyMotor" >
-		<property name="speed" value="360000000" />
-		<property name="retryDeadband" value="0.01" />
-	</bean>
-
 	<bean id="deferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
 </beans>

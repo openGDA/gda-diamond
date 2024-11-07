@@ -120,25 +120,7 @@
 		</property>
 	</bean>
 
-	<!-- Sample transform chain: . < kmu < kth < kap < kphi < cryophi -->
-
-	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
-		<property name="name" value="cryophi" />
-		<property name="transformation">
-			<bean class="org.eclipse.scanning.device.Transformation">
-				<property name="type" value="ROTATION" />
-				<property name="dependsOn" value="entry1/instrument/kphi" />
-				<property name="size" value="0" />
-				<property name="vector">
-					<list>
-						<value>0.567744</value>
-						<value>-0.0003651</value>
-						<value>0.82389</value>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
+	<!-- Sample transform chain: . < kmu < kth < kap < kphi -->
 
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="kphi" />
