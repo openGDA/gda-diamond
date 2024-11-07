@@ -3,19 +3,46 @@ import traceback
 from mapping_scan_commands import submit
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
+from org.eclipse.scanning.api.points import MapPosition
 
 import scisoftpy as dnp
+from org.slf4j import LoggerFactory
 
+xanes_logger = LoggerFactory.getLogger("xanes_scan")
 
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     try:
         run_scan_request(scanRequest, xanesEdgeParams)
-    except (KeyboardInterrupt):
-        print("XANES scan interrupted by user")
     except:
-        print("XANES scan terminated abnormally: {}".format(sys.exc_info()[0]))
+        msg="XANES scan script terminated abnormally: {}".format(sys.exc_info()[0])
+        xanes_logger.error(msg, traceback.format_exc())
+        print(msg)
         print(traceback.format_exc())
+        
+def submit_scan(scanRequest, block=True, name="", raise_on_failure = False) :
+    """
+        Submit scan and handle any exceptions :
+        * Interrupted exception is raised
+        * Other exception types are logged, and raised if raise_on_failure = True,
+        
+        Function return True if scan ran successfully, False otherwise
+    """
+    try :
+        submit(scanRequest, block=block, name=name)
+        return True
+    except java.lang.InterruptedException as e :
+        raise e
+    except Exception as e:
+        msg="XANES scan terminated abnormally: {}".format(sys.exc_info()[0])
+        xanes_logger.warn("{} {}",msg, traceback.format_exc())
 
+        if raise_on_failure :
+            raise e
+        
+        print(msg)
+        print(traceback.format_exc()) 
+        return False
+    
 from gda.jython import JythonServerFacade, ScriptBase
 def wait_if_paused() :
     if ScriptBase.isPaused() == True :
@@ -86,14 +113,26 @@ def run_scan_request(scanRequest, xanesEdgeParams):
         smetadata.addField("edge_name", element_edge_string)
         scanRequest.setScanMetadata([smetadata])
         
+        # Update the beamline configuration to move the mono to the scan energy
+        position_map = scanRequest.getStartPosition()
+        if position_map is None :
+            position_map = MapPosition()
+        position_map.put(energy_scannable.getName(), energy*1000)
+        scanRequest.setStartPosition(position_map)
+        
         # Add processing to scan request to reconstruct the map after final energy has been collected
         if energy == all_energies[-1] :  
             print("Adding processing to reconstruct the map after final energy point")
             scanRequest.getProcessingRequest().getRequest().put("xanes-map-stack", [])
         
-        print(scan_name)
-        energy_scannable.moveTo(energy*1000)
-        submit(scanRequest, block=True, name=scan_name)
+        print(scan_name)        
+        
+        # Run scan and attempt a 2nd time if if goes wrong. Catch exceptions so subsequent scans are run.
+        result = submit_scan(scanRequest, block=True, name=scan_name, raise_on_failure=False)
+        if result == False :
+            submit_scan(scanRequest, block=True, name=scan_name, raise_on_failure=False)
+            
+        print("current energy : {}".format(energy_scannable.getPosition()))
         
         all_nexus_file_names.append(filename_listener.file_name)
         
