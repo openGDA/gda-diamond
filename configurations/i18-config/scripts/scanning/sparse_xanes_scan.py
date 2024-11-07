@@ -89,12 +89,13 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     energies = get_energies(energy_model)
     num_scans = len(energies)
     
+    element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
+    print("Element and edge : {}".format(element_edge_string))
     print("Number of scans: {}".format(num_scans))
     print("Energies: {}".format(energies))
 
     print("Energy axis : %s"%(energy_model.getName()))
-    # energy_scannable = Finder.find(energy_model.getName())
-    energy_scannable = energy_nogap
+    energy_scannable = Finder.find(energy_model.getName())    
 
     x_axis_name = map_model.getxAxisName()
     y_axis_name = map_model.getyAxisName()
@@ -154,12 +155,12 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         smetadata.addField("sparse_y_positions", sparse_pos_y_str)
         smetadata.addField("sparse_y_index", sparse_ind_y_str)
         smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
-
+        smetadata.addField("edge_name", element_edge_string)
+        
         print("%d sparse Y positions"%(len(rand_y_positions)))
         print("Positions : %s"%(sparse_pos_y_str))
         print("Indices   : %s"%(sparse_ind_y_str))
         
-                  # .withPathAndRegion(cm, region) \
         # create request
         request = ScanRequestBuilder() \
                   .withPathAndRegion(cm, None) \
@@ -169,6 +170,10 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
                   .withProcessingRequest(scanRequest.getProcessingRequest()) \
                   .build()
                   
+        # Add processing to scan request to reconstruct the map after final energy has been collected
+        if energy == energies[-1] :
+            print("Adding processing to reconstruct the map after final energy point")
+            request.getProcessingRequest().getRequest().put("xanes-map-stack", [])
 
         # Move the monochromator
         print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*1000))

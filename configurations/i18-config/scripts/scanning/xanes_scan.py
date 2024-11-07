@@ -31,18 +31,20 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
 
+    element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
+
     models = compound_model.getModels()
 
     # Extract step model(s) for dcm_enrg
     dcm_enrg_model = models.get(0)
+    print("Energy model : %s"%(type(dcm_enrg_model)))
     if isinstance(dcm_enrg_model, AxialStepModel):
         step_models = [dcm_enrg_model]
     elif isinstance(dcm_enrg_model, AxialMultiStepModel):
         step_models = dcm_enrg_model.getModels()
 
     print("Energy model scannable : "+dcm_enrg_model.getName())
-    # energy_scannable = Finder.find(dcm_enrg_model.getName())
-    energy_scannable = energy_nogap
+    energy_scannable = Finder.find(dcm_enrg_model.getName())
 
     # Extract processing file name.
     processingRequest = scanRequest.getProcessingRequest()
@@ -81,7 +83,13 @@ def run_scan_request(scanRequest, xanesEdgeParams):
         smetadata = ScanMetadata()
         smetadata.setType(ScanMetadata.MetadataType.ENTRY)
         smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
+        smetadata.addField("edge_name", element_edge_string)
         scanRequest.setScanMetadata([smetadata])
+        
+        # Add processing to scan request to reconstruct the map after final energy has been collected
+        if energy == all_energies[-1] :  
+            print("Adding processing to reconstruct the map after final energy point")
+            scanRequest.getProcessingRequest().getRequest().put("xanes-map-stack", [])
         
         print(scan_name)
         energy_scannable.moveTo(energy*1000)
