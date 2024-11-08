@@ -29,13 +29,9 @@ mu_offset=pd_offset.Offset('mu_offset')
 #except NameError:
 
 local_sixckappa = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("sixckappa")
-local_euler_cryo = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("euler_cryo")
 
-if InterfaceProvider.getJythonNamespace().getFromJythonNamespace("USE_CRYO_GEOMETRY"): # if USE_CRYO_GEOMETRY:
-    delta_axis_offset = pd_offset.OffsetDualScannable('delta_axis_offset', (local_sixckappa.kdelta, local_euler_cryo.delta))
-else:
-    delta_axis_offset = pd_offset.Offset('delta_axis_offset', local_sixckappa.kdelta)
-    
+delta_axis_offset = pd_offset.Offset('delta_axis_offset', local_sixckappa.kdelta)
+
 idgap_offset=pd_offset.Offset('idgap_offset')
 bragg_offset=pd_offset.Offset('bragg_offset')
 uharmonic = pd_offset.Offset('Uharmonic'); uharmonic.setOutputFormat(['%.0f'])

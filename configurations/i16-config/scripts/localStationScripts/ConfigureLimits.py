@@ -14,10 +14,8 @@ NOMINAL_LIMITS = {
 				'gam'	: (-1, 120),
 				'kth'	: (-90, 212),
 				'kap'	: (-180, 180),
+				'kphi'	: (-91, 271)
 			}
-
-if not USE_CRYO_GEOMETRY:
-	NOMINAL_LIMITS['kphi'] = (-91, 271)
 
 kgam_minus_kmu_min = -1
 #kth_minus_kdelta_max_MODE1 = 80
@@ -34,26 +32,20 @@ for scn_name, lower_upper_tuple in NOMINAL_LIMITS.iteritems():
 	lower, upper = lower_upper_tuple
 	setlm_no_offset(jythonNameMap[scn_name], lower, upper)
 
-if not USE_CRYO_GEOMETRY:
+if EKCM.getEuleriantoKmode() == 1:
+	print "e2k mode is 1: This is the standard vertical mode of the diffractometer"
+	print "               The kappa counter weight is upstream with kth=0"
+	print
+	print "Setting appropriate limits:"
+	kth_minus_kdelta_max = kth_minus_kdelta_max_MODE1 ###check this one
+	print "   kth_minus_kdelta_max:", kth_minus_kdelta_max
 
-	if EKCM.getEuleriantoKmode() == 1:
-		print "e2k mode is 1: This is the standard vertical mode of the diffractometer"
-		print "               The kappa counter weight is upstream with kth=0"
-		print
-		print "Setting appropriate limits:"
-		kth_minus_kdelta_max = kth_minus_kdelta_max_MODE1 ###check this one
-		print "   kth_minus_kdelta_max:", kth_minus_kdelta_max
-
-	elif EKCM.getEuleriantoKmode() == 2:
-		print "e2k mode is 2: This is a special, infrequently used, vertical mode of the diffractometer"
-		print "               The kappa counter weight is downstream with kth=0"
-		print "Setting appropriate limits"
-		kth_minus_kdelta_max = kth_minus_kdelta_max_MODE2 ###check this one
-		print "   kth_minus_kdelta_max:", kth_minus_kdelta_max
-
-else:
-	print "In this cryo geometry mode choose limits as we would in the standard eulerian e2k mode of 1"
-	kth_minus_kdelta_max = kth_minus_kdelta_max_MODE1
+elif EKCM.getEuleriantoKmode() == 2:
+	print "e2k mode is 2: This is a special, infrequently used, vertical mode of the diffractometer"
+	print "               The kappa counter weight is downstream with kth=0"
+	print "Setting appropriate limits"
+	kth_minus_kdelta_max = kth_minus_kdelta_max_MODE2 ###check this one
+	print "   kth_minus_kdelta_max:", kth_minus_kdelta_max
 
 ################################################################################
 ### put new limits in here ###
