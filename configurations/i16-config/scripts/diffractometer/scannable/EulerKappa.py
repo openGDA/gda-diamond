@@ -7,7 +7,7 @@ def n(n):
 
 class EulerKappa(ScannableMotionWithScannableFieldsBase):
 
-	def __init__(self, name, coordinatatedMotionKappaScannable):
+	def __init__(self, name, coordinatatedMotionKappaScannable, is_fly=False):
 		"""coordinatatedMotionKappaScannable must have input fields:
 		      	<ref bean="muC" />
 				<ref bean="deltaC" />
@@ -19,12 +19,15 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		self.name = name
 		self.kappa = coordinatatedMotionKappaScannable
 
-		self.setInputNames(('phi','chi','eta', 'mu', 'delta', 'gam'))
+		if not is_fly:
+			self.setInputNames(('phi','chi','eta', 'mu', 'delta', 'gam'))
+		else :
+			self.setInputNames(('phi_fly','chi_fly','eta_fly', 'mu_fly', 'delta_fly', 'gam_fly'))
 		self.setOutputFormat(['% 5.5f']*6)
 
 		self.ekcm = EulerianKconversionModes.EulerianKconversionModes()
 
-		# Note mu, delta and gam limits must be stored in the kappa device					
+		# Note mu, delta and gam limits must be stored in the kappa device
 		self.mu_tolerance = .001
 		self.last_move_involved_chi = False
 

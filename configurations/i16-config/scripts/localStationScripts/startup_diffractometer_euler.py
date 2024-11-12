@@ -6,7 +6,7 @@ EKCM.setEuleriantoKmode(1)
 
 from diffractometer.scannable.EulerKappa import EulerKappa
 
-euler = EulerKappa('euler',sixc)
+euler = EulerKappa('euler',sixc, False)
 
 phi = euler.phi
 chi = euler.chi
@@ -24,13 +24,13 @@ BLobjects.my_mu = mu
 BLobjects.my_delta = delta
 BLobjects.my_gam = gam
 
-euler_fly = EulerKappa('euler',sixckappa_fly)
+euler_fly = EulerKappa('euler',sixckappa_fly, True)
 
-phi_fly = euler_fly.phi
-chi_fly = euler_fly.chi
-eta_fly = euler_fly.eta
-mu_fly = euler_fly.mu
-delta_fly = euler_fly.delta
-gam_fly = euler_fly.gam
+phi_fly = euler_fly.phi_fly
+chi_fly = euler_fly.chi_fly
+eta_fly = euler_fly.eta_fly
+mu_fly = euler_fly.mu_fly
+delta_fly = euler_fly.delta_fly
+gam_fly = euler_fly.gam_fly
 
 print "... Leaving: startup_diffractometer_euler.py >>>"
