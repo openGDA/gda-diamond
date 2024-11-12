@@ -3,7 +3,7 @@ import traceback
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 from org.eclipse.scanning.api.points import MapPosition
-
+from gda.data import NumTracker
 import scisoftpy as dnp
 from org.slf4j import LoggerFactory
 
@@ -11,9 +11,11 @@ from scanning.xanes_utils import submit_scan
 
 xanes_logger = LoggerFactory.getLogger("xanes_scan")
 
-def run_xanes_scan_request(scanRequest, xanesEdgeParams):
+
+
+def run_xanes_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs):
     try:
-        run_scan_request(scanRequest, xanesEdgeParams)
+        run_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs)
     except:
         msg="XANES scan script terminated abnormally: {}".format(sys.exc_info()[0])
         xanes_logger.error(msg, traceback.format_exc())
@@ -27,7 +29,7 @@ def wait_if_paused() :
         ScriptBase.checkForPauses()
         print "Continuing"
         
-def run_scan_request(scanRequest, xanesEdgeParams):
+def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_retries=0) :
     print("Running XANES scan")
     print("scanRequest = {}".format(scanRequest))
     print("xanesEdgeParams = {}".format(xanesEdgeParams))
@@ -81,10 +83,20 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     all_nexus_file_names = []
 
     # Now loop round for each step model
-    scan_number = 1
-
-    for energy in all_energies :
-        scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number, len(all_energies), energy)
+    
+    # Use the NumTracker to get the number of the next Nexus file to be created
+    num_tracker = NumTracker()
+    nexus_scan_number = num_tracker.getCurrentFileNumber() + 1
+    
+    # Setup Nexus file path format 
+    beamline_name = LocalProperties.get("gda.beamline.name")
+    visit_folder = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+    nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d.nxs"
+    print("Nexus file path format : {}".format(nexus_name_format))
+    print("Add all scans to queue : "+str(not block_on_submit))
+    
+    for scan_number, energy in enumerate(all_energies) :
+        scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number+1, len(all_energies), energy)
 
         # set the scan metadata to include list of all nexus files in the stack of scans run so far
         smetadata = ScanMetadata()
@@ -108,13 +120,12 @@ def run_scan_request(scanRequest, xanesEdgeParams):
         print(scan_name)        
         
         # Run scan and attempt a 2nd time if if goes wrong. Catch exceptions so subsequent scans are run.
-        result = submit_scan(scanRequest, block=True, name=scan_name, raise_on_failure=False)
-        if result == False :
-            submit_scan(scanRequest, block=True, name=scan_name, raise_on_failure=False)
-            
-        print("current energy : {}".format(energy_scannable.getPosition()))
+        result = submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
+        if result == False and num_retries > 0 :
+            submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
+            nexus_scan_number += 1
         
-        all_nexus_file_names.append(filename_listener.file_name)
-        
-        scan_number += 1
-
+        # Add the scan just run/submitted to the list of all nexus file names
+        all_nexus_file_names.append(nexus_name_format%(nexus_scan_number))
+        nexus_scan_number += 1
+                

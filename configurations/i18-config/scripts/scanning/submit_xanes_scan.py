@@ -13,4 +13,4 @@ scanRequest = marshaller_service.unmarshal(scanRequestJson, ScanRequest)
 xanesEdgeParams = marshaller_service.unmarshal(customParams, XanesEdgeParameters)
 
 run("scanning/xanes_scan.py")
-run_xanes_scan_request(scanRequest, xanesEdgeParams)
+run_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=False)
