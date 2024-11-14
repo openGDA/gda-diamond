@@ -5,6 +5,7 @@
 import os
 import sys
 import gdascripts
+import java
 import i09shared.installation as installation
 from gda.factory import Finder
 from gda.data import NumTracker
@@ -209,10 +210,17 @@ from i09shared.scan.miscan import miscan  # @UnusedImport
 
 from gdaserver import nixswr_repeat, nixswr_time # @UnresolvedImport @UnusedImport
 print("-"*100)
-print("Installed object nixswr_repeat, measure with nixswr camera that takes input the number of frames to acquire.")
+print("Installed detector nixswr_repeat, measure with nixswr camera that takes input the number of frames to acquire. Cannot be used with pos command.")
 print("\tSynatx: scan scannable 1 2 1 nixswr_repeat 10")
-print("Installed object nixswr_time, measure with nixswr camera that takes input the amount of time to acquire over (in seconds).")
+print("Installed detector nixswr_time, measure with nixswr camera that takes input the amount of time to acquire over (in seconds). Cannot be used with pos command.")
 print("\tSynatx: scan scannable 1 2 1 nixswr_time 0.001")
+
+if installation.isLive():
+	NIXSWR_TOTAL_PV = "BL09I-MO-ES-03:STAT:Total_RBV"
+else:
+	NIXSWR_TOTAL_PV = java.net.InetAddress.getLocalHost().getHostName().split(".")[0] + "-AD-SIM-01:STAT:Total_RBV"
+print("Adding nixswr scannable of class DisplayEpicsPVClass, single exposure which gets pv: " + NIXSWR_TOTAL_PV)
+nixswr = DisplayEpicsPVClass("nixswr", NIXSWR_TOTAL_PV, "", "%d")
 
 from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
 
