@@ -777,6 +777,10 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 	pvDataChannel03 = 'BL06I-MO-FSCAN-01:CH3DATA'
 	pvDataChannel04 = 'BL06I-MO-FSCAN-01:CH4DATA'
 	...
+	pvDataChannel05 = 'BL06I-MO-FSCAN-01:CH5DATA'
+	pvDataChannel06 = 'BL06I-MO-FSCAN-01:CH6DATA'
+	pvDataChannel07 = 'BL06I-MO-FSCAN-01:CH7DATA'
+	pvDataChannel08 = 'BL06I-MO-FSCAN-01:CH8DATA'
 	"""	
 	def setupEpics(self, rootPV):
 		#Epics PV for the Number of elements available
@@ -785,7 +789,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 #		Epics PVs for the channels:
 		self.chData=[]
-		for i in range(self.numberOfChannels-2 if beamline_name == "i06" else self.numberOfChannels):
+		for i in range(self.numberOfChannels):
 			self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
 			self.configChannel(self.chData[i])
 		
