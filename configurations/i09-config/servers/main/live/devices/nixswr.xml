@@ -60,6 +60,7 @@
 						<property name="autoResetFilter" value="0"/>
 						<property name="filterType" value="2" /> <!-- Sum -->
 						<property name="processDataTypeOut" value="10"/>
+						<property name="applyProcessDataTypeOutSettings" value="false"/>
 						<property name="restoreState" value="true"/>
 						<property name="skipFrame" value="true"/>
 						<property name="useFramesNumber" value="true"/>
@@ -96,6 +97,7 @@
 						<property name="autoResetFilter" value="0"/>
 						<property name="filterType" value="2" /> <!-- Sum -->
 						<property name="processDataTypeOut" value="10"/>
+						<property name="applyProcessDataTypeOutSettings" value="false"/>
 						<property name="restoreState" value="true"/>
 						<property name="skipFrame" value="true"/>
 						<property name="useFramesNumber" value="false"/>
