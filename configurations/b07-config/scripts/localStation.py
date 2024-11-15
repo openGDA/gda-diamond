@@ -92,7 +92,7 @@ es1_list = [_es1_temp_51_temperature_monitor, _es1_temp_51_setpoint_monitor, _es
 mfc_list = [mfc1, mfc2, mfc3, mfc4, mfc5, mfc6, mfc7, mfc8] # @UndefinedVariable
 metadata_group4 = d21b_list + sm21b_list + sm52b_list + ring_list + pgm_list + shutter_list + other_list + es1_list
 
-stanfords_list = [ca16b, ca35b, ca36b, stanford_amplifiers]# @UndefinedVariable
+stanfords_list = [ca18b, stanford_amplifiers]# @UndefinedVariable
 metadata_group5 = stanfords_list
 
 meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4 + metadata_group5
