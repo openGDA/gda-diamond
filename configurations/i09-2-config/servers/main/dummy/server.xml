@@ -5,7 +5,8 @@
 
 	<import resource="GDAMetadata.xml" />
 	<import resource="devices/all_devices.xml" />
-	
+
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
+	<import resource="../_common/devices/DLD_SUMMED_V2.xml"/>
 </beans>
