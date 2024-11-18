@@ -5,7 +5,9 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="nano_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="pvBase" value="BL05J-PS-SHTR-01" />
+		<property name="controlPv" value="BL05J-PS-SHTR-01:CON" />
+		<property name="statusPv" value="BL05J-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
 </beans>

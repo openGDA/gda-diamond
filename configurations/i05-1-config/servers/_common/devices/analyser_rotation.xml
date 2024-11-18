@@ -7,5 +7,4 @@
 	<bean id="anapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="anapolar_motor" />
 	</bean>
-
 </beans>

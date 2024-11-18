@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="AnalyserPVConfig" class = "uk.ac.gda.apres.ui.config.AnalyserPVConfig">
+		<property name="analyserEnergyAxisPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:X_SCALE_RBV" />
+		<property name="analyserEnergyAxisCountPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:X_COUNT_RBV" />
+		<property name="analyserAngleAxisPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Y_SCALE_RBV" />
+		<property name="analyserAngleAxisCountPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Y_COUNT_RBV" />
+		<property name="analyserLensModePv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LENS_MODE_RBV" />
+		<property name="analyserAcquisitionModePv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ACQ_MODE_RBV" />
+		<property name="analyserManufacturerPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Manufacturer_RBV"/>
+	</bean>
+
+	<!-- Data dispatchers with events-->
+
+	<bean id="AnalyserLiveDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.ArpesLiveDataDispatcherE4">
+		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
+		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:IMAGE" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="eventTopic">
+			<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_LIVE_DATA_UPDATE_TOPIC"/>
+		</property>
+	</bean>
+
+	<bean id="AnalyserSumLiveDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.ArpesLiveDataDispatcherE4">
+		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
+		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:IMAGE" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="sumFrames" value="true"/>
+		<property name="eventTopic">
+			<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_SUM_DATA_UPDATE_TOPIC"/>
+		</property>
+	</bean>
+
+	<bean id="AnalyserSweptLiveNew" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.ArpesLiveDataDispatcherE4">
+		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
+		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:IMAGE" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="eventTopic">
+			<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_SWEPT_DATA_UPDATE_TOPIC"/>
+		</property>
+	</bean>
+
+	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
+		<property name="currentPointPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CURRENT_POINT_RBV" />
+		<property name="maxSweepPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="percentagePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PROGRESS_RBV" />
+		<property name="currentIterationPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV"/>
+	</bean>
+
+	<bean id="analyser_lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LENS_MODE" />
+	</bean>
+
+	<bean id="analyser_pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PASS_ENERGY" />
+	</bean>
+
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ELEMENT_SET" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CENTRE_ENERGY_RBV" />
+		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CENTRE_ENERGY" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:STEP_TIME" />
+	</bean>
+
+</beans>

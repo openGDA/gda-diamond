@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!-- Beamline live controls -->
+
+	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Photon Energy " />
+		<property name="group" value="." />
+		<property name="scannableName" value="energy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="exit_slit_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="PGM Exit Slit " />
+		<property name="group" value="." />
+		<property name="scannableName" value="exit_slit" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.01" />
+	</bean>
+
+	<bean id="s2_ysize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="S2 Ysize " />
+		<property name="group" value="." />
+		<property name="scannableName" value="s2_ysize" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="s2_xsize_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="S2 Xsize " />
+		<property name="group" value="." />
+		<property name="scannableName" value="s2_xsize" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="mm" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="nano_shutter_toggle_button" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="nano_shutter"/>
+		<property name="buttonTooltip" value="Control Nano Shutter"/>
+		<property name="group" value="." />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value="Close Nano Shutter" />
+				<entry key="Closed" value="Open Nano Shutter" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value="pos nano_shutter 'Close'" />
+				<entry key="Closed" value="pos nano_shutter 'Open'" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="nano_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value=" Status " />
+		<property name="group" value="." />
+		<property name="scannableName" value="nano_shutter" />
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Open" value-ref="green_colour" />
+				<entry key="Opening" value-ref="blue_colour" />
+				<entry key="Closed" value-ref="red_colour" />
+				<entry key="Closing" value-ref="magenta_colour" />
+				<entry key="Fault" value-ref="yellow_colour" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="beamline_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="photon_energy_control" />
+				<ref bean="exit_slit_control" />
+				<ref bean="s2_ysize_control" />
+				<ref bean="s2_xsize_control" />
+				<ref bean="nano_shutter_toggle_button" />
+				<ref bean="nano_shutter_status" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Analyser live controls -->
+
+	<bean id="analyser_lens_mode_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Lens Mode " />
+		<property name="group" value="" />
+		<property name="scannableName" value="analyser_lens_mode" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0.2" />
+		<property name="showStop" value="false"/>
+	</bean>
+
+	<bean id="analyser_pass_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Pass Energy " />
+		<property name="group" value="" />
+		<property name="scannableName" value="analyser_pass_energy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="1" />
+		<property name="showStop" value="false"/>
+	</bean>
+
+
+	<bean id="analyser_polar_rotation_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Anapolar " />
+		<property name="group" value="" />
+		<property name="scannableName" value="anapolar" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="1" />
+		<property name="showStop" value="false"/>
+	</bean>
+
+	<bean id="raw_centre_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Centre Energy" />
+		<property name="group" value="." />
+		<property name="scannableName" value="raw_centre_energy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="eV" />
+		<property name="increment" value="1" />
+		<property name="showStop" value="false"/>
+	</bean>
+
+	<bean id="acquire_time_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Acquire Time" />
+		<property name="group" value="." />
+		<property name="scannableName" value="acquire_time" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="userUnits" value="s" />
+		<property name="increment" value="1" />
+		<property name="showStop" value="false"/>
+	</bean>
+
+	<bean id="analyser_start_continuous" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="analyser.startContinuous()" />
+		<property name="buttonText" value="START analyser!" />
+		<property name="group" value="" />
+	</bean>
+
+	<bean id="analyser_stop_continuous" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="analyser.zeroSupplies()" />
+		<property name="buttonText" value="STOP analyser!" />
+		<property name="group" value="." />
+	</bean>
+
+	<bean id="analyser_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="analyser_lens_mode_control" />
+				<ref bean="analyser_pass_energy_control" />
+				<ref bean="analyser_polar_rotation_control" />
+				<ref bean="raw_centre_energy_control" />
+				<ref bean="acquire_time_control" />
+				<ref bean="analyser_start_continuous" />
+				<ref bean="analyser_stop_continuous" />
+			</list>
+		</property>
+	</bean>
+</beans>

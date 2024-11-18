@@ -7,5 +7,4 @@
 	<bean id="anapolar_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="deg" />
 	</bean>
-
 </beans>
