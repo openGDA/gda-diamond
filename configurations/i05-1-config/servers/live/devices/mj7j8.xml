@@ -34,4 +34,7 @@
 		<property name="userUnits" value="V" />
 	</bean>
 
+	<bean id="mj7j8_mirror" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL05J-OP-RFM-01:MIRCTRL:RBV:MIRROR" />
+	</bean>
 </beans>

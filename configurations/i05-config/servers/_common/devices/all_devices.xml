@@ -6,5 +6,6 @@
 	<import resource="tenma_psu.xml" />
 	<import resource="combined_gonio.xml" />
 	<import resource="resolution_calculator_config.xml" />
+	<import resource="m4m5.xml"/>
 	
 </beans>

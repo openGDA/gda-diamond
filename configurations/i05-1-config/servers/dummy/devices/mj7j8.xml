@@ -31,5 +31,15 @@
 	<bean id="mj7j8_fpitch" class="gda.device.scannable.DummyUnitsScannable">
 		<property name="userUnits" value="V" />
 	</bean>
-
+	
+	<bean id="mj7j8_mirror" class="gda.device.enumpositioner.DummyEnumPositioner">
+			<property name="positions">
+				<list>
+					<value>None</value>
+					<value>MJ8</value>
+					<value>MJ7</value>
+					<value>Reference</value>
+				</list>
+			</property>
+	</bean>
 </beans>

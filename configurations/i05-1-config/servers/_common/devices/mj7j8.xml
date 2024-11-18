@@ -38,6 +38,7 @@
 				<ref bean="mj7j8_pitch" />
 				<ref bean="mj7j8_roll" />
 				<ref bean="mj7j8_fpitch" />
+				<ref bean="mj7j8_mirror" />
 			</list>
 		</property>
 	</bean>

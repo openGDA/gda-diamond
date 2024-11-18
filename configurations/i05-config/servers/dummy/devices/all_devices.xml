@@ -12,6 +12,7 @@
 	<import resource="analyser_over_exposure.xml" />
 	<import resource="tenma_psu.xml" />
 	<import resource="mbs_slits.xml" />
+	<import resource="m4m5.xml" />
 
 	<!-- Femtos -->
 	<import resource="femto.xml" />
@@ -32,7 +33,7 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="5" />
 	</bean>
-	
+
 	<bean id="exit_slit" class="gda.device.scannable.DummyUnitsScannable">
 		<property name="inputNames">
 			<list>
