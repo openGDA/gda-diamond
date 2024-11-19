@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<bean id="air_to_vacuum" class="uk.ac.gda.core.sampletransfer.Sequence">
+		    <constructor-arg value="AIR_TO_VACUUM"/>
+		    <constructor-arg>
+			    <list>
+					<ref bean="check_no_sample_in_dome"/>
+					<ref bean="stop_axis_detector"/>
+					<ref bean="check_axis_detector_stopped"/>
+					<ref bean="turn_led_on"/>
+					<ref bean="sample_robot_park"/>
+					<ref bean="check_hotel_transfer"/>
+					<ref bean="check_leica_end_station"/>
+					<ref bean="check_sample_holder"/>
+					<ref bean="check_leica_detached"/>
+					<ref bean="turn_led_off"/>
+				</list>
+			</constructor-arg>
+	</bean>
+	
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="robot_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-ROBOT-01:X" />
+	</bean>
+	
+	<bean id="robot_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-ROBOT-01:Y" />
+	</bean>
+	
+	<bean id="robot_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-EA-ROBOT-01:ROTN" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="stop_axis_detector" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Stopping Axis detector"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry>
+					<key>
+						<bean class="gda.device.scannable.PVScannable">
+							<property name="pvName" value="ws418-AD-SIM-01:CAM:Acquire"/>
+						</bean>
+					</key>
+					<value>0</value>
+				</entry>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="led_toggle_dummy" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL08J-EA-DET-05:CAM:Acquire"/>
+	</bean>
+		
+	<bean id="turn_led_on" class="uk.ac.gda.core.sampletransfer.CameraControlAction">
+		<constructor-arg name="description" value="Switching LED and cameras on"/>
+		<constructor-arg name="scannable" ref="led_toggle_dummy"/>
+		<constructor-arg name="cameraControls">
+			<list>
+	    		<ref bean="sim_camera_control"/>
+		    </list>
+		</constructor-arg>
+		<constructor-arg name="startAcquiring" value="True"/>
+	</bean>
+	
+	<bean id="turn_led_off" class="uk.ac.gda.core.sampletransfer.CameraControlAction">
+		<constructor-arg name="description" value="Switching LED and cameras off "/>
+		<constructor-arg name="scannable" ref="led_toggle_dummy"/>
+		<constructor-arg name="cameraControls">
+			<list>
+	    		<ref bean="sim_camera_control"/>
+		    </list>
+		</constructor-arg>
+		<constructor-arg name="startAcquiring" value="False"/>
+	</bean>
+
+</beans>

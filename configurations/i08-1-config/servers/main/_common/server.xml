@@ -34,6 +34,13 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate.xml" />
+	
+	<!-- Sample Transfer -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/led.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/valves.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_hotel.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/robot.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/sample_transfer/steps.xml" />
 
 	<!-- Monitors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/processing_monitor.xml" />
@@ -58,6 +65,11 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/osa.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
+	
+	<!-- Sample transfer -->
+	<import resource="file:${gda.config}/servers/main/_common/sample_transfer/sample_transfer.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/sample_hotel.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/robot.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 

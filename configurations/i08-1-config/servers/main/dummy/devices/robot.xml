@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="robot_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-110.5" />
+		<property name="maxPosition" value="270.5" />
+		<property name="position" value="11.3213" />
+		<property name="timeToVelocity" value="0.5" />
+		<property name="speed" value="80" />
+	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
+	</bean>
+	
+	<bean id="robot_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-130.0" />
+		<property name="maxPosition" value="2000.5" />
+		<property name="position" value="2.19317" />
+		<property name="speed" value="80" />
+		<property name="timeToVelocity" value="2.2" />
+	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
+	</bean>
+	
+	<bean id="robot_rot_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="position" value="0.021969" />
+		<property name="speed" value="80" />
+		<property name="timeToVelocity" value="0.5" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+	
+</beans>

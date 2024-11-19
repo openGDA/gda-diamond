@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+		
+	<bean id="check_no_sample_in_dome" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is there a sample in dome?" />
+	</bean>
+	
+	<bean id="check_axis_detector_stopped" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is the detector acquisition stopped?" />
+	</bean>
+	
+	<bean id="check_leica_detached" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is Leica VCT retracted and detached?" />
+	</bean>
+	
+	<bean id="check_hotel_transfer" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is hotel in transfer position?" />
+	</bean>
+	
+	<bean id="check_leica_end_station" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is sample transfer with the Leica VCT into end station?" />
+	</bean>
+
+	<bean id="check_sample_holder" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is sample holder block properly inserted?" />
+	</bean>
+	
+	<bean id="check_robot_park" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is sample robot in park position and no sample in dome?" />
+	</bean>
+	
+	<bean id="check_sample_gripped" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is the sample gripped?" />
+	</bean>
+	
+	<bean id="check_sample_coarse_x_transfer" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is sample coarse x in transfer position?" />
+	</bean>
+	
+	<bean id="check_beam_perpendicular" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is sample perpendicular to beam?" />
+	</bean>
+		
+	<bean id="check_hotel_rot_last" class="uk.ac.gda.core.sampletransfer.ClientAction">
+		<constructor-arg value="Is hotel rotation at the last sample selected position?" />
+	</bean>
+	
+	<bean id="sample_robot_park" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving sample robot to park position"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap"
+			 key-type="gda.device.Scannable"
+			  value-type="java.lang.Double">
+			  <entry key-ref="robot_x" value="11"/>
+			  <entry key-ref="robot_y" value="6.5"/>
+			  <entry key-ref="robot_rot" value="90"/>
+			 </util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="record_positions" class="uk.ac.gda.core.sampletransfer.RecordPositionsAction">
+		<constructor-arg name="description" value="Recording ZonePlateZ and sample coarse positions"/>
+		<constructor-arg name="scannables">
+			<util:list id="scannables" value-type="gda.device.Scannable">
+				<ref bean="ZonePlateZ" />
+				<ref bean="sample_x_coarse" />
+				<ref bean="sample_y_coarse" />
+			</util:list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_zone_plate_z" class="uk.ac.gda.core.sampletransfer.MoveRelativeAction">
+		<constructor-arg name="description" value="Moving ZonePlateZ by -15 from current position"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="ZonePlateZ" value="-15"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_park_sample_zero" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving sample robot to park position and hotel_rot to 0"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_rot" value="90"/>
+				<entry key-ref="robot_x" value="11"/>
+				<entry key-ref="robot_y" value="6.5"/>
+				<entry key-ref="hotel_rot" value="0"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_sample_coarse_transfer" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving to SampleCoarse.X.Transfer and SampleCoarse.Y.Transfer"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="sample_x_coarse" value="6"/>
+				<entry key-ref="sample_y_coarse" value="-1.9"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="move_hotel_rot_sample" class="uk.ac.gda.core.sampletransfer.MoveSampleAction">
+		<constructor-arg name="description" value="Moving Hotel.Rot to sample selection"/>
+		<constructor-arg>
+			<ref bean="hotel_rot"/>
+		</constructor-arg>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap"
+			key-type="uk.ac.gda.core.sampletransfer.SampleSelection" value-type="java.lang.Double">
+				<entry key="A" value="-90"/>
+				<entry key="B" value="-90"/>
+				<entry key="C" value="90"/>
+				<entry key="D" value="110"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_rot_sample" class="uk.ac.gda.core.sampletransfer.MoveSampleAction">
+		<constructor-arg name="description" value="Moving Robot.Rot to sample selection"/>
+		<constructor-arg>
+			<ref bean="robot_rot"/>
+		</constructor-arg>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap"
+			key-type="uk.ac.gda.core.sampletransfer.SampleSelection" value-type="java.lang.Double">
+				<entry key="A" value="177"/>
+				<entry key="B" value="169.5"/>
+				<entry key="C" value="177"/>
+				<entry key="D" value="169.5"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_y_sample" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving Robot.Y to sample selection"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_y" value="-7.8"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_x_sample" class="uk.ac.gda.core.sampletransfer.MoveSampleAction">
+		<constructor-arg name="description" value="Grip sample in hotel with Robot.X.Selector"/>
+		<constructor-arg>
+			<ref bean="robot_x"/>
+		</constructor-arg>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap"
+			key-type="uk.ac.gda.core.sampletransfer.SampleSelection" value-type="java.lang.Double">
+				<entry key="A" value="3"/>
+				<entry key="B" value="2.5"/>
+				<entry key="C" value="3"/>
+				<entry key="D" value="4"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="lift_sample_up" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Lift sample up with Robot.Y.Park"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_y" value="6.5"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_rot_dome" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Position sample above dome with Robot.Rot.Dome"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_rot" value="4.5"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_x_dome" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Position sample above dome with Robot.X.Dome"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_x" value="15"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_y_dome" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Position sample in dome with Robot.Y.Dome"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_y" value="-2.5"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_sample_coarse_x_ops" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving to SampleCoarse.Ops"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="sample_x_coarse" value="0"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_x_park" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving to Robot.X.Park"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_x" value="11"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_y_park" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving to Robot.Y.Park"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_y" value="6.5"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_robot_rot_park" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving to Robot.Rot.Park"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="robot_rot" value="90"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_ZPz_recorded_position" class="uk.ac.gda.core.sampletransfer.MoveRecordedPositionsAction">
+		<constructor-arg name="description" value="Moving ZPz to recorded position"/>
+		<constructor-arg name="scannables">
+			<util:list id="scannables" value-type="gda.device.Scannable">
+				<ref bean="ZonePlateZ" />
+			</util:list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_sample_coarse_y_transfer" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving sample coarse Y to transfer position"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="sample_y_coarse" value="-1.9"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_sample_coarse_rot_transfer" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Align SampleCoarse.Rot perpendicular to beam"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="sample_rotation" value="0"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="move_sample_coarse_x_transfer" class="uk.ac.gda.core.sampletransfer.MoveScannablesAction">
+		<constructor-arg name="description" value="Moving sample coarse x to transfer position"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="sample_x_coarse" value="6"/>
+			</util:map>
+		</constructor-arg>
+	</bean>
+	
+</beans>
