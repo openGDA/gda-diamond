@@ -334,11 +334,6 @@
 						</list>
 					</property>
 				</bean>
-				<!-- I16-637 -->
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="polarization_analyser_jones_matrix"/>
-					<property name="scannableName" value="polarization_analyser_jones_matrix"/>
-				</bean>
 			</list>
 		</property>
 	</bean>

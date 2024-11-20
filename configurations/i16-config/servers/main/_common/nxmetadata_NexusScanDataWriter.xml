@@ -15,44 +15,63 @@
 					<property name="name" value="definition"/>
 					<property name="value" value="NXmx" />
 				</bean>
-				<bean class="org.eclipse.scanning.device.ScalarField">
-					<property name="name" value="features"/>
-					<property name="value">
-						<list>
-							<value>3</value>
-							<value>6</value>
-							<value>-4539647395532570642</value>
-						</list>
-					</property>
-				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="title_old"/>
+					<property name="name" value="title"/>
 					<property name="scannableName" value="_title"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="sample_name"/>
-					<property name="scannableName" value="_sample"/>
+				<bean class="org.eclipse.scanning.device.LinkedField">
+					<property name="name" value="end_time_estimated"/>
+					<property name="linkPath" value="/entry/diamond_scan/end_time"/>
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="source" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+	<bean id="source" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register"> 
 		<property name="name" value="source" />
-		<property name="sourceName" value="Diamond Light Source" />
-		<property name="currentScannableName" value="rc" />
 	</bean>
 
 	<bean id="insertion_device" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
 		<property name="name" value="insertion_device" />
-		<property name="type" value="WIGGLER" />
+		<property name="type" value="UNDULATOR" />
 		<property name="gapScannableName" value="idgap" />
 		<property name="harmonicScannableName" value="uharmonic" />
+		<property name="taperScannableName" value="taperScannable"/>
 	</bean>
 
 	<bean id="monochromator" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
 		<property name="name" value="monochromator" />
-		<property name="energyScannableName" value="en" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="energy"/>
+					<property name="scannableName" value="en"/>
+					<property name="units" value="keV"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="chemical_formula" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="chemical_formula"/>
+	</bean>
+
+	<bean id="electric_field" class="gda.device.monitor.DummyEpicsMonitor" />
+
+	<bean id="magnetic_field" class="gda.device.monitor.DummyEpicsMonitor" />
+
+	<bean id="pressure" class="gda.device.monitor.DummyEpicsMonitor" />
+	
+	<bean id="incidentBeamDivergenceScannable" class="gda.device.monitor.DummyEpicsMonitor" />
+	
+	<bean id="incidentPolarizationScannable" class="gda.device.monitor.DummyEpicsMonitor" />
+	
+	<bean id="beamExtentScannable" class="gda.device.monitor.DummyEpicsMonitor" />
+	
+	<bean id="fluxScannable" class="gda.device.monitor.DummyEpicsMonitor" />
+
+	<bean id="taperScannable" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mrad"/>
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
@@ -61,6 +80,34 @@
 		<property name="nexusClass" value="NXsample"/>
 		<property name="childNodes">
 			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="name"/>
+					<property name="scannableName" value="_sample"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="chemical_formula"/>
+					<property name="scannableName" value="chemical_formula"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="temperature"/>
+					<property name="scannableName" value="Tsample"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="electric_field"/>
+					<property name="scannableName" value="electric_field"/>
+					<property name="units" value="V" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="magnetic_field"/>
+					<property name="scannableName" value="magnetic_field"/>
+					<property name="units" value="T" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pressure"/>
+					<property name="scannableName" value="pressure"/>
+					<property name="units" value="Pa" />
+				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
 					<property name="value" value="/entry/sample/transformations/phi"/>
@@ -81,6 +128,31 @@
 					<property name="scannableName" value="ubMeta"/>
 					<property name="componentIndex" value="3"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="orientation_matrix"/>
+					<property name="scannableName" value="orientation_matrix_meta"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="diffcalc"/>
+					<property name="nexusClass" value="NXnote"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="description"/>
+								<property name="scannableName" value="diffcalc_name_meta"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="type"/>
+								<property name="value" value="application/json"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableComponentField">
+								<property name="name" value="data"/>
+								<property name="scannableName" value="ubMeta"/>
+								<property name="componentIndex" value="0"/>
+							</bean>
+						</list>
+					</property>
+				</bean> 
 			</list>
 		</property>
 	</bean>
@@ -91,22 +163,38 @@
 		<property name="category" value="NX_SAMPLE"/>
 		<property name="nexusClass" value="NXbeam"/>
 		 ?>
-		<property name="incidentEnergyScannableName" value="en" /> <!-- incident_energy -->
-		<property name="incidentBeamDivergenceScannableName" value="incidentBeamDivergenceScannable" />
 		<property name="incidentPolarizationScannableName" value="incidentPolarizationScannable" />
-		<property name="beamExtentScannableName" value="beamExtentScannable" />
-		<property name="fluxScannableName" value="fluxScannable" />
 		<property name="customNodes">
 			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="incident_energy"/>
+					<property name="scannableName" value="en"/>
+					<property name="units" value="keV"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="incident_beam_divergence"/>
+					<property name="scannableName" value="incidentBeamDivergenceScannable"/>
+					<property name="units" value="mrad"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="extent"/>
+					<property name="scannableName" value="beamExtentScannable"/>
+					<property name="units" value="um"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="flux"/>
+					<property name="scannableName" value="fluxScannable"/>
+					<property name="units" value="s/cm^2"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.SpringExpressionField">
 					<property name="name" value="incident_wavelength"/>
 					<property name="expression" value="1e9 * 6.62606957e-34 * 299792458 / (@en.getPosition() * 1000 * 1.60217657e-19)"/>
 					<!--                  wavelength = 1e9 * PLANCK *         LIGHTSPEED / (energy           * 1000 * EVOLT_TO_JOULE) -->
 					<property name="units" value="nm"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="incident_polarisation_stokes"/>
-					<property name="scannableName" value="incident_polarisation_stokes"/>
+				<bean class="org.eclipse.scanning.device.LinkedField">
+					<property name="name" value="incident_polarization_stokes"/>
+					<property name="linkPath" value="/entry/instrument/stokes_pars/value"/>
 				</bean>
 				<?ignore vvvvvv Note that the beam direction transformation is specific to i16 vvvvvv ?>
 				<bean class="org.eclipse.scanning.device.ScalarField">

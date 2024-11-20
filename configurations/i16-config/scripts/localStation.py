@@ -304,20 +304,6 @@ if USE_DUMMY_IDGAP_MOTOR:
 	with overwriting:  # @UndefinedVariable
 		exec("idgap=dummyClass('idgap')")
 
-# TODO: This shouldn't be necessary, try removing it.
-#       Look for "Overwriting scannable 'c1'" etc. in logs
-#       Look for uses in scans, try to replicate at desk
-from gda.device.monitor import EpicsMonitor
-from scannable.MonitorWrapper import MonitorWrapper #@UnusedImport
-toPrint = ''
-localStation_print("Wrapping Monitors...")
-for objname in dir():
-	if isinstance(eval(objname),EpicsMonitor):
-		toPrint+= objname + " "
-		with overwriting:  # @UndefinedVariable
-			exec(objname + " = MonitorWrapper(" + objname + ")")
-localStation_print("Wrapped the monitors: " + toPrint)
-
 ### Create dummy Scannables
 localStation_print("Creating dummy scannables")
 dummy = dummyClass('Dummy')
@@ -806,6 +792,7 @@ delshow=ReadPDGroupClass('delshow',[delta]); delshow.setLevel(8); #delshow.setEx
 kapshow=ReadPDGroupClass('kapshow',[kap]); kapshow.setLevel(8); #kapshow.setExtraNames(['kapshow']);kapshow.setOutputFormat(['%.6f']) @UndefinedVariable
 
 if installation.isLive():
+	from gda.device.monitor import EpicsMonitor
 	localStation_print("Creating kth_read and delta_read")
 	kth_read=EpicsMonitor()
 	kth_read.setPvName('BL16I-MO-DIFF-01:SAMPLE:KTHETA.RBV')
@@ -1431,14 +1418,6 @@ try:
 except:
 	localStation_exception("setting default scannables")
 
-if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-	incidentBeamDivergenceScannable = DummyScannable('incidentBeamDivergenceScannable', 0)
-	incidentPolarizationScannable = DummyScannable('incidentPolarizationScannable', 0)
-	beamExtentScannable = DummyScannable('beamExtentScannable', 0)
-	fluxScannable = DummyScannable('fluxScannable', 0)
-	incident_polarisation_stokes = DummyScannable('incident_polarisation_stokes', 0)
-	polarization_analyser_jones_matrix = DummyScannable('polarization_analyser_jones_matrix', 0)
-
 ###############################################################################
 ###                          Recent developments                            ###
 ###############################################################################
@@ -1583,49 +1562,24 @@ if installation.isLive():
 	except:
 		localStation_exception("running localStationScripts/startup_pie725 script")
 
-if USE_NEXUS:
-	try:
-		class TextsScannable (ScannableBase):
-			def __init__(self, name, contents):
-				self.name = name
-				self.contents = contents
-		
-			def getPosition(self):
-				return self.contents
-		
-			def rawAsynchronousMoveTo(self, contents):
-				self.contents = contents
-		
-			def isBusy(self):
-				return False
-		
-		_title = TextsScannable('title', 'Scan of sample with GDA')
-		
-		def title(title = None):
-			if not title == None:
-				_title.rawAsynchronousMoveTo(title)
-			return _title.getPosition()
-		
-		alias(title)
-		
-		_sample= TextsScannable('sample', 'Default Sample')
-		
-		def sample(sampleName = None):
-			if not sampleName == None:
-				_title.rawAsynchronousMoveTo(title)
-			return _title.getPosition()
-		
-		alias(sample)
+try:
+	from localStationScripts.user_input_meta import input_metadata, _title, _sample
+	class OrientationMatrixMeta(ScannableBase) :
+	    def getPosition(self) :
+	        pos_list = ubcalc.U.tolist()
+	        return [[pos_list[0], pos_list[1], pos_list[2]]]
+	orientation_matrix_meta = OrientationMatrixMeta()
+	orientation_matrix_meta.name = "orientation_matrix"
 
-		run("datawriting/i16_nexus")
-	except:
-		localStation_exception("running datawriting/i16_nexus script")
-else:
-	#clear extenders possible configured already
-	writerMap = Finder.getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
-	ddwf = writerMap.get("DefaultDataWriterFactory")
-	for dwe in ddwf.getDataWriterExtenders():
-		ddwf.removeDataWriterExtender(dwe)
+	class DiffcalcNameMeta(ScannableBase) :
+	    def getPosition(self) :
+	        return ubcalc.name
+	diffcalc_name_meta = DiffcalcNameMeta()
+	diffcalc_name_meta.name = "diffcalc_name"
+	run("datawriting/i16_nexus")
+except:
+	localStation_exception("running datawriting/i16_nexus script")
+
 
 if USE_ROCKING_SCANNABLES:
 	try:
