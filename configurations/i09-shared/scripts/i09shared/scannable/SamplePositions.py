@@ -43,8 +43,8 @@ class SamplePositions(ScannableBase):
     Syntax:
     1: sp.new(output_filename=None, override=False) - Create a new set of sample positions to be saved to a file.
         If output_filename=None, create file using default. If file already exists, overwrite must be True. Otherwise will throw error.
-    2: sp.loadpos(input_filename = None, output_filename = None) - Store positions from existing file into scannable.
-        If file_to_load=None, load the default file. If output_filename=None, then use the existing file to save and override new positions to.
+    2: sp.loadpos(input_filename=None, output_filename = None) - Store positions from existing file into scannable.
+        If input_filename=None, load the default file. If output_filename=None, then use the input_filename to save and override new positions to.
     3: sp.savepos(key) - Save the current sample manipulator positions to a key in an OrderedDict. Will also be saved to file.
     4: sp.changekey(oldkey, newkey) - Change an existing key storing sample positions to a new one.
     5: sp.removekey(key) - Remove an existing key holding sample positions
@@ -200,10 +200,12 @@ class SamplePositions(ScannableBase):
         input_filename : str, optional
             Default is None. The input_filename path to read in positions. Can be absolute or relative path from data directory. If None, uses objects name.
         output_filename : str, optional
-            Default is None. The output_filename path to save new positions. Can be absolute or relative path from data directory. If None, uses objects name. Will override existing file.
+            Default is None. The output_filename path to save new positions. Can be absolute or relative path from data directory. If None, uses input_filename. Will override existing file.
         """
 
         input_filename = self._createDefaultFileName(input_filename)
+        if output_filename == None:
+            output_filename = input_filename
         output_filename = self._createDefaultFileName(output_filename)
 
         with open(input_filename) as f:
@@ -281,7 +283,7 @@ class SamplePositions(ScannableBase):
         sorted_dict = OrderedDict(sorted(saved_positions.items(), key=num_sort))
         self._cached_file_data["positions"] = sorted_dict
 
-        print("Successfully sorted and keys!")
+        print("Successfully sorted the keys!")
 
     def changekey(self, oldkey, newkey):
         """
