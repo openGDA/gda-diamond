@@ -4,7 +4,7 @@ Created on 15 May 2013
 @author: fy65
 '''
 from gda.factory import Finder
-from org.opengda.detector.electronanalyser.nxdetector import EW4000, IConfigureSequenceDetector
+from org.opengda.detector.electronanalyser.nxdetector import EW4000
 from gdascripts.utils import caput
 from gda.device import Scannable
 from gdaserver import dcmenergyEv, pgmenergy, analyser #@UnresolvedImport
