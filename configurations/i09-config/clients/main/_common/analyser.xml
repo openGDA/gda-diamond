@@ -54,6 +54,7 @@
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="analyserElementSetPV" value="BL09I-EA-DET-01:CAM:ELEMENT_SET"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="ew4000" ref="ew4000"/>
 	</bean>
