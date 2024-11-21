@@ -1,0 +1,455 @@
+entry/:
+  NX_class@: NXentry
+  mpes_peem_entry/:
+    NX_class@: NXsubentry
+    default@: # Declares which NXdata group contains the data to be shown by default
+    definition: NXmpes_peem # Official NeXus NXDL schema to which this subentry conforms
+    title: /entry/title # Extended title for entry
+    start_time: /entry/start_time # Starting time of measurement
+    end_time: /entry/end_time # Ending time of measurement
+    method: PEEM # [XPS, ARXPS, UPS, ARPES, HAXPES, NAPXPS, PEEM, ESCA, trARPES, spin-ARPES, momentum microscopy]
+    experiment_identifier: /entry/experiment_identifier 
+    experiment_description: 'NA' # Brief summary of the experiment, including key objectives.
+    collection_identifier: /entry/experiment_identifier # User or Data Acquisition defined group of NeXus files or NXentry
+    collection_description: 'NA' # Brief summary of the collection, including grouping criteria.
+    entry_identifier: /entry/diamond_scan/entry_identifier # unique identifier for the measurement, defined by the facility.
+    duration: /entry/duration # Duration of measurement
+    collection_time: /entry/diamond_scan/scan_estimated_duration # Time transpired actually collecting data i.e. taking out time when collection was suspended
+    run_cycle: NaN # Such as “2007-3”. Some user facilities organize their beam time into run cycles.
+    program_name: /entry/program_name # Name of program used to generate this file
+    revision: NaN # re-calibration, reprocessing, new analysis, etc.
+    pre_sample_flightpath: NaN # distance to the component which gives the T0 signal to the detector electronics
+    experiment_documentation: "Not Set" # Description of the full experiment (document in pdf, latex, …)
+    notes: "Not Set" # Notes describing entry
+    thumbnail: "Not Set" # A small image that is representative of the entry, such as a low resolution plot of the NXdata
+    monitors/:
+      NX_class@: NXmonitor
+      data: /entry/sample/beam/flux # contains field named in the **flux** attribute of :ref:`NXbeam`
+    instrument/:
+      NX_class@: NXinstrument
+      energy_resolution/: # Overall energy resolution of the photoemission instrument.
+        NX_class@: NXresolution
+        physical_quantity: energy
+        type: X-ray
+        resolution: NaN # Minimum distinguishable energy separation in the energy spectra.
+        relative_resolution: NaN # Ratio of the energy resolution of the photoemission spectrometer at a specified energy value to that energy value.
+      device_information/:
+        NX_class@: NXfabrication
+        vendor: Diamond Light Source Ltd
+        model: I06
+        identifier: I06
+      insertion_device/:
+        NX_class@: NXinsertion_device
+        type: /entry/instrument/id/type
+        gap: /entry/instrument/id/gap # separation between opposing pairs of magnetic poles
+        taper: /entry/instrument/id/taper # angular of gap difference between upstream and downstream ends of the insertion device
+        phase: /entry/instrument/id/polarisation # angle
+        poles: 33 # number of poles
+        magnetic_wavelength: 64 # mm
+        k: 5.858 # beam displacement parameter
+        length: 2.112 # m length of insertion device
+        power: 7.138 # KW total power delivered by insertion device
+        energy: 73.6 # eV energy of peak intensity in output spectrum
+        bandwidth: NaN # bandwidth of peak energy
+        harmonic: /entry/instrument/id/harmonic # harmonic number of peak
+        spectrum: NaN # spectrum of insertion device
+      monochromator/: # incoming_beam_monochromator
+        NX_class@: NXmonochromator
+        wavelength: # wavelength selected
+        wavelength_errors: # wavelength standard deviation
+        energy: # energy selected
+        energy_errors: # energy standard deviation
+        off_geometry/: # This group describes the shape of the beam line component
+          NX_class@: NXoff_geometry
+          vertices: # List of x,y,z coordinates for vertices.
+          winding_order: # List of indices of vertices in the vertices dataset to form each face, right-hand rule for face normal.
+          faces: # start index in winding_order for each face.
+        crystal/: # Use as many crystals as necessary to describe
+          NX_class@: NXcrystal
+          usage: # [Bragg, Laue] # How this crystal is used. Choices are in the list.
+          type: # Type or material of monochromating substance.
+          chemical_formula: # The chemical formula specified using CIF conventions.
+          order_no: # A number which describes if this is the first, second,.. crystal in a multi crystal monochromator
+          cut_angle: # Cut angle of reflecting Bragg plane and plane of crystal surface
+          space_group: # Space group of crystal structure
+          unit_cell: # Unit cell parameters (lengths and angles)
+          unit_cell_a: # Unit cell lattice parameter: length of side a
+          unit_cell_b: # Unit cell lattice parameter: length of side b
+          unit_cell_c:  # Unit cell lattice parameter: length of side c
+          unit_cell_alpha: # Unit cell lattice parameter: angle alpha
+          unit_cell_beta: # Unit cell lattice parameter: angle beta
+          unit_cell_gamma: # Unit cell lattice parameter: angle gamma
+          unit_cell_volume: # Volume of the unit cell
+          orientation_matrix: # Orientation matrix of single crystal sample using Busing-Levy convention: W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
+          wavelength: # Optimum diffracted wavelength
+          d_spacing: # spacing between crystal planes of the reflection
+          scattering_vector: # Scattering vector, Q, of nominal reflection
+          reflection: # Miller indices (hkl) values of nominal reflection
+          thickness: # Thickness of the crystal. (Required for Laue orientations - see “usage” field)
+          density: # mass density of the crystal
+          segment_width: # Horizontal width of individual segment
+          segment_height: # Vertical height of individual segment
+          segment_thickness: # Thickness of individual segment
+          segment_gap:  # Typical gap between adjacent segments
+          segment_columns: # number of segment columns in horizontal direction
+          segment_rows: # number of segment rows in vertical direction
+          mosaic_horizontal: # horizontal mosaic Full Width Half Maximum
+          mosaic_vertical: # vertical mosaic Full Width Half Maximum
+          curvature_horizontal: # Horizontal curvature of focusing crystal
+          curvature_vertical: # Vertical curvature of focusing crystal
+          is_cylindrical: # Is this crystal bent cylindrically?
+          cylindrical_orientation_angle: # If cylindrical: cylinder orientation angle
+          polar_angle: # Polar (scattering) angle at which crystal assembly is positioned. it is recommended to use NXtransformations instead.
+          azimuthal_angle: # Azimuthal angle at which crystal assembly is positioned. Note: it is recommended to use NXtransformations instead.
+          bragg_angle: # Bragg angle of nominal reflection
+          temperature: # average/nominal crystal temperature
+          temperature_coefficient: # how lattice parameter changes with temperature
+          temperature_log: # log file of crystal temperature
+          reflectivity: # crystal reflectivity versus wavelength
+          transmission: # crystal transmission versus wavelength
+          OFF_GEOMETRY/:
+            NX_class@: NXoff_geometry
+            vertices:
+            winding_order:
+            faces:
+          TRANSFORMATIONS/:
+            NX_class@: NXtransformations
+            AXISNAME: # 
+            transformation_type@: # translation | rotation
+            vector@: # required! Three values that define the axis for this transformation.
+            offset@: # A fixed offset applied before the transformation (three vector components).
+            offset_units@: # Units of the offset. Values should be consistent with NX_LENGTH.
+            depends_on@: "." # Points to the path to a field defining the axis on which this depends or the string “.”.
+            equipment_component@: # An arbitrary identifier of a component of the equipment to which the transformation belongs, such as ‘detector_arm’ or ‘detector_module’.
+            AXISNAME_end: # a placeholder for a name constructed from the actual name of an axis to which _end has been appended.
+        GRATING/: # For diffraction grating based monochromators
+          NX_class@: NXgrating
+          angles: # Blaze or trapezoidal angles, with the angle of the upstream facing edge listed first.
+          period: # List of polynomial coefficients describing the spatial separation of lines/grooves as a function of position along the grating, in increasing powers of position.
+          duty_cycle:
+          depth: 
+          diffraction_order: 
+          deflection_angle: # Angle between the incident beam and the utilised outgoing beam.
+          interior_atmosphere: # Any of these values: vacuum | helium | argon
+          substrate_material: 
+          substrate_density: 
+          substrate_thickness: 
+          coating_material: 
+          substrate_roughness: 
+          coating_roughness: 
+          layer_thickness: # An array describing the thickness of each layer
+          depends_on: "." # NeXus positions components by applying a set of translations and rotations to apply to the component starting from 0, 0, 0.
+          figure_data: # Numerical description of the surface figure of the mirror.
+          OFF_GEOMETRY/:
+            NX_class@: NXoff_geometry
+            vertices:
+            winding_order:
+            faces:
+          TRANSFORMATIONS/:
+            NX_class@: NXtransformations
+            AXISNAME: # 
+            transformation_type@: # translation | rotation
+            vector@: # required! Three values that define the axis for this transformation.
+            offset@: # A fixed offset applied before the transformation (three vector components).
+            offset_units@: # Units of the offset. Values should be consistent with NX_LENGTH.
+            depends_on@: "." # Points to the path to a field defining the axis on which this depends or the string “.”.
+            equipment_component@: # An arbitrary identifier of a component of the equipment to which the transformation belongs, such as ‘detector_arm’ or ‘detector_module’.
+            AXISNAME_end: # a placeholder for a name constructed from the actual name of an axis to which _end has been appended.
+      source_probe/: # [Synchrotron X-ray Source, Rotating Anode X-ray, Fixed Tube X-ray, UV Laser, Free-Electron Laser, Optical Laser, UV Plasma Source, Metal Jet X-ray, HHG laser, UV lamp, Monochromatized electron source, other]
+        NX_class@: NXsource
+        name: Diamond Light Source
+        energy: /entry/instrument/source/energy
+        probe: electron
+        type: Synchrotron X-ray Source
+        current: /entry/instrument/source/current
+        associated_beam: /entry/mpes_peem_entry/instrument/beam_probe
+      beam_probe/:
+        NX_class@: NXbeam
+        flux@: /entry/mpes_peem_entry/monitors/data
+        distance: # distance between source_probe and sample
+        incident_energy: /entry/instrument/pgm_energy/value # this should be a link to monochromator energy
+        incident_energy_spread:
+        incident_polarization:
+        extent:
+        incident_polarization_stokes: #use this or **incident_polarization**
+        associated_source: /entry/mpes_peem_entry/instrument/source_brobe
+        depends_on:
+        transformations/:
+          NX_class@: NXtransformations
+          direction: [0,0,1] # default is [0,0,1]
+          reference_plane: [0,1,0] # defined as normal to the plane used to measure azimuth. Default is [0,1,0] through the origin
+      optical_system_em/:
+        NX_class@: NXoptical_system_em
+        field_of_view: # One or two values for size of image on sample or in another space along slow and fast pixel dimensions.
+        working_distance: # 
+        magnification: 
+      electronanalyser/:
+        NX_class@: NXelectronanalyser
+        device_information/:
+          NX_class@: NXfabrication
+          vendor:
+          model:
+          identifier:
+        work_function: # unit: NX_ENERGY
+        energy_resolution/:
+          NX_class@: NXresolution
+          type:
+          physical_quantity: energy
+          resolution:
+        fast_axes:
+        slow_axes:
+        transmission_function: # NXdata
+        collectioncolumn/:
+          NX_class@: NXcollectioncolumn
+          scheme: PEEM # Scheme of the electron collection column. [standard, angular dispersive, selective area, deflector, PEEM, PEEM dark-field, LEEM, LEEM dark-field, LEED, dispersive plane, momentum microscope]
+          lens_mode:
+          projection: # The space projected in the angularly dispersive direction. [real, reciprocal, energy]
+          angular_acceptance:
+          spatial_acceptance:
+          field_aperture: # The size and position of the field aperture inserted in the column.
+          contrast_aperture: # The size and position of the contrast aperture inserted in the column.
+          iris: # Size, position and shape of the iris inserted in the column.
+          device_information/:
+            NX_class@: NXfabrication
+            vendor:
+            model:
+            identifier:
+          extractor_voltage: # 
+          objective_lens: # list of electromagnetic lenses of the microscope column.
+        # other EM lenses in column
+        electron_gun/: # when doing LEEM/LEED
+          NX_class@: NXebeam_column
+          field_aperture: # NXaperture_em group or link to it
+          beam: # NXbeam group or link to it
+        energydispersion/:
+          NX_class@: NXenergydispersion
+          scheme: # [tof, hemispherical, double hemispherical, cylindrical mirror, display mirror, retarding grid]
+          pass_energy: # Either `pass_energy` or `drift_energy` must be supplied.`pass_energy` should be used when working with hemispherical analysers.
+          drift_energy: # Either `pass_energy` or `drift_energy` must be supplied. `drift_energy` should be used if a TOF is used in the energy dispersive part of the electron analyzer.
+          energy_interval: # only in dispersive mode
+          center_energy: # Center of the energy window (only in dispersive mode)
+          energy_scan_mode:
+          entrance_slit: # Size, position and shape of the entrance slit in dispersive analyzers.
+          exit_slit: # Size, position and shape of the exit slit in dispersive analyzers.
+          device_information/:
+            NX_class@: NXfabrication
+            vendor:
+            model:
+            identifier:
+        detector/:
+          NX_class@: NXdetector
+          amplifier_type: # Type of electron amplifier in the first amplification step. [MCP, channeltron]
+          detector_type: # Description of the detector type. [DLD, Phosphor+CCD, Phosphor+CMOS, ECMOS, Anode, Multi-anode]
+          device_information/:
+            NX_class@: NXfabrication
+            vendor:
+            model:
+            identifier:
+          raw_data/: # Contains the raw data collected by the detector before calibration.
+            NX_class@: NXdata
+            pixel_x: # Detector pixel in x direction.
+            pixel_y: # Detector pixel in y direction.
+            energy: # (Un)calibrated energy (kinetic or binding energy). Unit category: NX_ENERGY (e.g., eV).
+            kx: # (Un)calibrated x axis in k-space. Unit category: NX_ANY (e.g., 1/Angström).
+            ky: # (Un)calibrated y axis in k-space. Unit category: NX_ANY (1/Angström).
+            kz: # (Un)calibrated z axis in k-space. Unit category: NX_ANY (1/Angström).
+            angular0: # Fast-axis angular coordinate (or second slow axis if angularly integrated).
+            angular1: # Slow-axis angular coordinate (or second fast axis if simultaneously dispersed in 2 dimensions)
+            spatial0: # Fast-axis spatial coordinate (or second slow axis if spatially integrated)
+            spatial1: # Slow-axis spatial coordinate (or second fast axis if simultaneously dispersed in 2 dimensions)
+            delay: # Calibrated delay time. Unit category: NX_TIME (s).
+            polarization_angle: # Linear polarization angle of the incoming or outgoing beam. NX_ANGLE (° or rad)
+            ellipticity: # Ellipticity of the incoming or outgoing beam. NX_ANGLE (° or rad)
+            time_of_flight: # Total time of flight. Unit category: NX_TIME_OF_FLIGHT
+            time_of_flight_adc: # Time-of-flight values, analog-to-digital converted.
+            external_AXIS: # Describes an axis which is coming from outside the detectors scope.
+          signal@: raw
+          raw: # Raw data before calibration.
+          depends_on:
+          transformations: # Virtual transformations to sample that map the pixels onto sample coordinates.
+          detector_module: # For detectors with irregular pixel sizes or composed by modules tiled together.
+          dark_image: # external link to a dark image.
+          flatfield_image: # external link to a flat field image.
+          data:
+        manipulator/: # Manipulator for positioning of the sample.
+          NX_class@: NXmanipulator
+          temperature_sensor/:
+            NX_class@: NXsensor
+            name:
+            measurement: temperature
+            type:
+            value:
+          sample_heater/:
+            NX_class@: NXactuator
+            name:
+            physical_quantity: temperature
+            type:
+            heater_power:
+            pid/:
+              NX_class@: NXpid
+              setpoint:
+          cryostat/:
+            NX_class@: NXactuator
+            name:
+            physical_quantity: temperature
+            type:
+            heater_power:
+            pid/:
+              NX_class@: NXpid
+              setpoint:
+          drain_current_amperemeter/:
+            NX_class@: NXsensor
+            name:
+            measurement: current
+            type:
+            value:
+          sample_bias_voltmeter/:
+            NX_class@: NXsensor
+            name:
+            measurement: voltage
+            type:
+            value:
+          sample_bias_potentiostat/:
+            NX_class@: NXactuator
+            name:
+            physical_quantity: voltage
+            type:
+            heater_power:
+            pid/:
+              NX_class@: NXpid
+              setpoint:
+          device_information/:
+            NX_class@: NXfabrication
+            vendor:
+            model:
+            identifier:
+          positioner: # One of a group of sample positioners
+          sample_bias: # Start voltage (sample retarding potential).
+        pressure_gauge/: # Device to measure the gas pressure around the sample.
+          name:
+          measurement: pressure
+          type:
+          value: # In case of a single or averaged gas pressure measurement, this is the scalar gas pressure around the sample. It can also be an 1D array of measured pressures (without time stamps).
+          value_log/:
+            NX_class@: NXlog
+            value: # In the case of an experiment in which the gas pressure changes and is recorded, this is an array of length m of gas pressures.
+        flood_gun/:
+          NX_class@: NXactuator
+          name:
+          physical_quantity: current
+          type:
+          current: # In case of a fixed or averaged electron current, this is the scalar current. It can also be an 1D array of output current (without time stamps).
+          current_log/:
+            NX_class@: NXlog
+            value: # In the case of an experiment in which the electron current is changed and recorded with time stamps, this is an array of length m of current setpoints.
+        history/:
+          NX_class@: NXhistory
+          # A set of activities that occurred to the instrument prior to/during the photoemission experiment, including any activities performed on the individual instrument parts. This group can be used to describe the preparation of the instrument prior to the experiment, e.g. the cleaning procedure for a spin filter crystal.
+          activity/:
+            NX_class@: NXactivity
+            # Any activity that was performed on the physical entity prior or during the experiment.
+            start_time:
+            end_time:
+            description:
+            notes:
+          physical_process/:
+            NX_class@: NXphysical_process
+            # Any physical process that was performed on the physical entity prior or during the experiment.
+            start_time:
+            end_time:
+            description:
+            method: # Method by which this process was performed.
+            notes:
+          chemical_process/:
+            NX_class@: NXchemical_process
+            # Any chemical process that was performed on the physical entity prior or during the experiment.
+            start_time:
+            end_time:
+            description:
+            method: # Method by which this process was performed.
+            identifier: #An ID or reference to the location or a unique (globally persistent) identifier of e.g. another file which gives as many as possible details of the history event.
+            notes:
+    process_mpes/:
+      NX_class@: NXprocess_mpes
+      energy_calibration:
+      kN_calibration:
+      angularN_calibration:
+      spatialN_calibration:
+      delay_calibration:
+      polarization_angle_calibration:
+      ellipticity_calibration:
+      energy_referencing:
+      transmission_correction:
+    geometries/:
+      NX_class@: NXcoordinate_system_set
+      # Description of one or more coordinate systems that are specific to the setup and the measurement geometry.
+    sample/:
+      NX_class@: NXsample
+      name:
+      substance/:
+        NX_class@: NXsubstance
+        # For samples containing a single pure substance. For mixtures use the NXsample_component_set and NXsample_component group in NXsample instead.
+        molecular_formula_hill: # The chemical formula of the sample (using CIF conventions).
+      atom_types: # List of comma-separated elements from the periodic table that are contained in the sample.
+      physical_form: # 
+      situation: # [vacuum, inert atmosphere, oxidising atmosphere, reducing atmosphere]
+      history/:
+        NX_class@: NXhistory
+        #A set of activities that occurred to the sample prior to/during photoemission experiment.
+        sample_preparation/:
+          NX_class@: NXphysical_process
+          # Details about the sample preparation for the photoemission experiment (e.g. UHV cleaving, in-situ growth, sputtering/annealing, etc.).
+          start_time:
+          end_time:
+          method: # Details about the method of sample preparation before the photoemission experiment.
+      temperature/:
+        NX_class@: NXenvironment
+        # Sample temperature (either controlled or just measured) and actuators/sensors controlling/measuring it.
+        temperature_sensor: /entry/instrument/manipulator/temperature_sensor
+        sample_heater: /entry/instrument/manipulator/sample_heater
+        cryostat: /entry/instrument/manipulator/cryostat
+      gas_pressure/:
+        NX_class@: NXenvironment
+        # Gas pressure surrounding the sample.
+        pressure_gauge: /entry/instrument/pressure_gauge # the gauge in closest proximity to the sample
+      bias/:
+        NX_class@: NXenvironment
+        # Bias of the sample with respect to analyser ground.
+        voltmeter: /entry/instrument/manipulator/sample_bias_voltmeter
+        potentiostat: /entry/instrument/manipulator/sample_bias_potentiostat
+      drain_current/:
+        NX_class@: NXenvironment
+        # Drain current of the sample and sample holder.
+        amperemeter: /entry/instrument/manipulator/drain_current_amperemeter
+      flood_gun_current/:
+        NX_class@: NXenvironment
+        # Current of low-energy electrons to the sample for charge neutralization.
+        flood_gun: /entry/instrument/flood_gun # Flood gun creating a current of low-energy electrons.
+      transformations/: # # links to fields in NXmanipulator
+       NX_class@: NXtransformations
+       vector@: [1, 1, 1]
+       depends_on@: .
+      #The origin is at the sample position in the center of the detector field of view,
+      #    with all the manipulator positioners set to zero.
+    data/:
+      NX_class@: NXdata
+      # The default NXdata field containing a view on the measured data.
+      energy: # Calibrated energy (kinetic or binding energy). Unit category: NX_ENERGY (e.g., eV).
+      kx: # Calibrated x axis in k-space. Unit category: NX_ANY (e.g., 1/Angström).
+      ky: # Calibrated y axis in k-space. Unit category: NX_ANY (1/Angström).
+      kz: # Calibrated z axis in k-space. Unit category: NX_ANY (1/Angström).
+      angular0: # Fast-axis angular coordinate (or second slow axis if angularly integrated). NX_ANGLE
+      angular1: # Slow-axis angular coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_ANGLE
+      spatial0: # Fast-axis spatial coordinate (or second slow axis if spatially integrated) NX_LENGTH
+      spatial1: # Slow-axis spatial coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_LENGTH
+      delay: # Calibrated delay time. Unit category: NX_TIME (s).
+      polarization_angle: /entry/instrument/beam/incident_polarization_angle
+      ellipticity: /entry/instrument/beam/incident_ellipticity
+      singnal@: data
+      data: # Represents a measure of one- or more-dimensional photoemission counts
+      energy: /entry/process/energy_calibration/calibrated_axis # Calibrated energy axis
+      energy_depends@: entry/process/energy_calibration # The energy can be dispersed according to different strategies.
+    user/:
+      NX_class@: NXuser
+      name:
+      affiliation:

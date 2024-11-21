@@ -35,6 +35,10 @@
 					<property name="scannableName" value="pol"/>
 					<property name="failOnError" value="false"/>
 				</bean>
+				<bean class="uk.ac.diamond.daq.beamline.i06_shared.spring.spel.SpringExpressionLinkedField" init-method="init">
+					<property name="name" value="energy"/>
+					<property name="expression" value="(100.0 - @iddgap.getPosition()) > 2.0 ? '/entry/instrument/id/idd/energy' : '/entry/instrument/id/idu/energy'"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="idd"/>
 					<property name="nexusClass" value="NXcollection"/>
@@ -55,6 +59,12 @@
 							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="la_angle"/>
 								<property name="scannableName" value="iddlaangle"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="energy"/>
+								<property name="pvName" value="BL06I-OP-IDD-01:ENERGY.RBV"/>
+								<property name="units" value="°eV"/>
+								<property name="failOnError" value="false"/>
 							</bean>
 						</list>
 					</property>
@@ -79,6 +89,12 @@
 							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="la_angle"/>
 								<property name="scannableName" value="idulaangle"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+								<property name="name" value="energy"/>
+								<property name="pvName" value="BL06I-OP-IDU-01:ENERGY.RBV"/>
+								<property name="units" value="°eV"/>
+								<property name="failOnError" value="false"/>
 							</bean>
 						</list>
 					</property>
