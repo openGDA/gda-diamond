@@ -22,20 +22,20 @@ try:
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
     from gda.device.scannable.scannablegroup import ScannableGroup
     
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 100, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
-    checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) 
-    checkbeam = ScannableGroup('checkbeam', [checkrc, checktopup_time])
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
+    checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60)
+    checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
 
     #beam monitors used for continuous scan
-    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', ringcurrent, 100, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checkrc_cv.setOperatingContinuously(True)
-    checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
+    checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checktopup_time_cv.setOperatingContinuously(True)
     checkfe_cv = WaitForScannableState('checkfe_cv', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60)
     checkfe_cv.setOperatingContinuously(True)
-    checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checktopup_time_cv])
+    checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checkfe_cv, checktopup_time_cv])
     checkbeam_cv.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
