@@ -20,6 +20,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
@@ -66,7 +67,7 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 
 	private TfgScalerWithFrames ionchambers;
 	private TfgScalerWithFrames i1;
-	private TfgXMapFFoverI0 ffI1;
+	private Optional<TfgXMapFFoverI0> ffI1 = Optional.empty();
 
 	private Xmap xmap;
 	private NXDetector medipix;
@@ -112,13 +113,13 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 			i1.setTimeChannelRequired(true);
 			i1.setOutputFormat(new String[]{"%.4f", "%.4f", "%.2f"});
 			i1.setExtraNames(new String[]{"Time", "I1"});
-			ffI1.setI0_channel(1);
+			ffI1.ifPresent(ffi1 -> ffi1.setI0_channel(1));
 		} else {
 			logger.debug("Switching time values OFF for I1");
 			i1.setTimeChannelRequired(false);
 			i1.setOutputFormat(new String[]{"%.4f", "%.4f"});
 			i1.setExtraNames(new String[]{"I1"});
-			ffI1.setI0_channel(0);
+			ffI1.ifPresent(ffi1 -> ffi1.setI0_channel(0));
 		}
 	}
 
@@ -364,11 +365,11 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 	}
 
 	public void setFFI1(TfgXMapFFoverI0 ffI1) {
-		this.ffI1 = ffI1;
+		this.ffI1 = Optional.of(ffI1);
 	}
 
 	public TfgXMapFFoverI0 getFFI1() {
-		return ffI1;
+		return ffI1.get();
 	}
 
 	public Detector getSelectedXspressDetector() {

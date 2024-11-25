@@ -151,6 +151,15 @@
 			<list>
 				<bean name="lower_simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView">
 					<property name="xesEnergyScannableName" value="XESEnergyLower" />
+					<property name="parameterScannableNames">
+						<list>
+							<value>lower_cut1</value>
+							<value>lower_cut2</value>
+							<value>lower_cut3</value>
+							<value>lower_radius</value>
+							<value>lower_material</value>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

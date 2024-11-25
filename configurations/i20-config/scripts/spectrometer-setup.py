@@ -97,13 +97,24 @@ def setup_dummy_spectrometer(xesEnergyScannable) :
     print("Finished")
     
     
+analyser_position_tolerance=[0.005, 0.005, 0.005, 0.005] #x, y, yaw, pitch
+detector_position_tolerance=[0.005, 0.005, 0.005] # x, y, pitch
+analyser_demand_position_rounding=[0.0, 0.0, 0.0035, 0.0] # x, y, yaw, pitch
+
+# Set the in position tolerances for analyser and detector motors
+XESBraggLower.setAnalyserPositionTolerance(analyser_position_tolerance)
+XESBraggUpper.setAnalyserPositionTolerance(analyser_position_tolerance)
+XESBraggLower.setDetectorPositionTolerance(detector_position_tolerance)
+XESBraggUpper.setDetectorPositionTolerance(detector_position_tolerance)
+
 # Set the demand value precisions in XES bragg objects
-XESBraggUpper.setAnalyserDemandPrecision([0.0, 0.0, 0.0035, 0.0])
-XESBraggLower.setAnalyserDemandPrecision([0.0, 0.0, 0.0035, 0.0])
+XESBraggUpper.setAnalyserDemandPrecision(analyser_demand_position_rounding)
+XESBraggLower.setAnalyserDemandPrecision(analyser_demand_position_rounding)
+
 
 # Set the GDA tolerance and number of retries on each ScannableMotor
-setAnalyserMoveTolerances(XESEnergyLower, [0.005, 0.005, 0.005, 0.005], 3)
-setAnalyserMoveTolerances(XESEnergyUpper, [0.005, 0.005, 0.005, 0.005], 3)
+setAnalyserMoveTolerances(XESEnergyLower, analyser_position_tolerance, 3)
+setAnalyserMoveTolerances(XESEnergyUpper, analyser_position_tolerance, 3)
 
 setMotorMoveMissedTargetAction(XESEnergyLower, MissedTargetLevel.IGNORE)
 setMotorMoveMissedTargetAction(XESEnergyUpper, MissedTargetLevel.IGNORE)
