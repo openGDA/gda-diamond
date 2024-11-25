@@ -512,5 +512,6 @@ upper_xes_enable = xes_axis_control.upper_enable
 lower_xes_enable = xes_axis_control.lower_enable
 
 reset_medipix = xes_hardare_preparer.reset_medipix
-reset_medipix()
 
+from xspress_functions import run_in_try_catch
+run_in_try_catch(reset_medipix)

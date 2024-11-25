@@ -47,7 +47,7 @@ def set_scan_runner_fit(scan_runner, range=5, fit_to_peak_only=True) :
     fitter.setFitToPeakPointsOnly(fit_to_peak_only)
 
 def setup_defaults(curve_fit_runner) :
-    set_scan_runner_range(curve_fit_runner, -8, 8, 0.5)
+    set_scan_runner_range(curve_fit_runner, -2, 2, 0.2)
     set_scan_runner_fit(curve_fit_runner, 5, True)
 
 for f in [xesEnergyUpperPeakScan, xesEnergyLowerPeakScan, xesEnergyBothPeakScan] :

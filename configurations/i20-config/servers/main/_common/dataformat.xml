@@ -8,6 +8,7 @@
       	  	<map>
       	  		<entry key="bragg1WithOffset" value="Energy" />
       	  	    <entry key="bragg1" value="Energy" />
+      	  	    <entry key="braggoffset" value="BraggOffset" />
       	  	
 				<entry key="XESEnergyUpper" value="XESEnergyUpper" />
 				<entry key="XESBraggUpper" value="XESBraggUpper" />
