@@ -34,4 +34,6 @@
 
 	<!-- Tenma PSU -->
 	<import resource="tenma_psu.xml" />
+	
+	<import resource="keithley.xml"/>
 </beans>
