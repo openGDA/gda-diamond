@@ -55,6 +55,10 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
     print("Energy model scannable : "+dcm_enrg_model.getName())
     energy_scannable = Finder.find(dcm_enrg_model.getName())
 
+    #Conversion factor from model energy units to eV needed for the DCM
+    energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
+    energy_multiplier = 1.0 if energy_units.lower() == "ev" else 1000.0
+    
     # Extract processing file name.
     processingRequest = scanRequest.getProcessingRequest()
     if processingRequest is not None:
@@ -109,7 +113,7 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
         position_map = scanRequest.getStartPosition()
         if position_map is None :
             position_map = MapPosition()
-        position_map.put(energy_scannable.getName(), energy*1000)
+        position_map.put(energy_scannable.getName(), energy*energy_multiplier)
         scanRequest.setStartPosition(position_map)
         
         # Add processing to scan request to reconstruct the map after final energy has been collected

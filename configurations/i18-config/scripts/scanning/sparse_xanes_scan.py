@@ -27,6 +27,10 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     print("Energy axis : %s"%(energy_model.getName()))
     energy_scannable = Finder.find(energy_model.getName())    
 
+    #Conversion factor from model energy units to eV needed for the DCM
+    energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
+    energy_multiplier = 1.0 if energy_units.lower() == "ev" else 1000.0
+
     x_axis_name = map_model.getxAxisName()
     y_axis_name = map_model.getyAxisName()
     is_alternating = map_model.isAlternating()
@@ -106,8 +110,8 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
             request.getProcessingRequest().getRequest().put("xanes-map-stack", [])
 
         # Move the monochromator
-        print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*1000))
-        energy_scannable.moveTo(energy*1000)
+        print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*energy_multiplier))
+        energy_scannable.moveTo(energy*energy_multiplier)
         sleep(0.5)
         
         scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
