@@ -6,7 +6,8 @@
 	<bean id="focus_scan_bean" parent="focus_scan_bean_base">
 		<property name="focusScanDevices">
 			<list>
-			    <value>XRF/Imaging</value>
+			    <value>XRF scanning</value>
+			    <value>Xspress3 software</value>
 			</list>
 		</property>
  		<property name="defaultFocusScanDevice" value="Axis detector fine" />
