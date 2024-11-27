@@ -23,7 +23,7 @@
 	</bean>
 
     <bean id="fe_shutter_status" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="pvBase" value="FE14I-PS-SHTR-02" />
+		<property name="pvBase" value="FE14I-RS-ABSB-01" />
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 		<property name="readOnly" value="true"/>
 	</bean>
