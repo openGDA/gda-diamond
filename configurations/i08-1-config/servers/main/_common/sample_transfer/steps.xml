@@ -65,23 +65,19 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="record_positions" class="uk.ac.gda.core.sampletransfer.RecordPositionsAction">
-		<constructor-arg name="description" value="Recording ZonePlateZ and sample coarse positions"/>
+	<bean id="move_zone_plate_z" class="uk.ac.gda.core.sampletransfer.RecordPositionsAction">
+		<constructor-arg name="description" value="Recording ZPz pos and move ZPz by -15 from current pos"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
+				<entry key-ref="ZonePlateZ" value="-15"/>
+			</util:map>
+		</constructor-arg>
 		<constructor-arg name="scannables">
 			<util:list id="scannables" value-type="gda.device.Scannable">
 				<ref bean="ZonePlateZ" />
 				<ref bean="sample_x_coarse" />
 				<ref bean="sample_y_coarse" />
 			</util:list>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="move_zone_plate_z" class="uk.ac.gda.core.sampletransfer.MoveRelativeAction">
-		<constructor-arg name="description" value="Moving ZonePlateZ by -15 from current position"/>
-		<constructor-arg name="scannableMap">
-			<util:map map-class="java.util.LinkedHashMap" key-type="gda.device.Scannable" value-type="java.lang.Double">
-				<entry key-ref="ZonePlateZ" value="-15"/>
-			</util:map>
 		</constructor-arg>
 	</bean>
 	

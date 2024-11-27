@@ -16,7 +16,6 @@
 					<ref bean="turn_led_on"/>
 					<ref bean="check_no_sample_in_dome"/>
 					<ref bean="check_leica_detached"/>
-					<ref bean="record_positions"/>
 					<ref bean="move_zone_plate_z"/>
 					<ref bean="move_robot_park_sample_zero"/>
 					<ref bean="move_sample_coarse_transfer"/>
