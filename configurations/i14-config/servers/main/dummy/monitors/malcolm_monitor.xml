@@ -3,12 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<bean id="malcolm_state" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Healthy</value>
-				<value>Failed</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="malcolm_state" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
+<!-- 		<property name="positions"> -->
+<!-- 			<list> -->
+<!-- 				<value>Healthy</value> -->
+<!-- 				<value>Failed</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
 </beans>
