@@ -131,7 +131,7 @@
 		<constructor-arg name="scannableMap">
 			<util:map map-class="java.util.LinkedHashMap"
 			key-type="uk.ac.gda.core.sampletransfer.SampleSelection" value-type="java.lang.Double">
-				<entry key="A" value="177"/>
+				<entry key="A" value="178"/>
 				<entry key="B" value="169.5"/>
 				<entry key="C" value="177"/>
 				<entry key="D" value="169.5"/>
