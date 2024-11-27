@@ -20,4 +20,15 @@
 		<property name="userUnits" value="V" />
 	</bean>
 
+		<!-- Hexapod mirror Select -->
+	<bean id="m3mj6_mirror" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>None</value>
+				<value>MJ6</value>
+				<value>M3</value>
+				<value>Reference</value>
+			</list>
+		</property>
+	</bean>
 </beans>
