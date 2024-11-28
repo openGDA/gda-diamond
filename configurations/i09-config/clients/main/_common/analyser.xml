@@ -3,17 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<!-- <property name="fileName" value="/scratch/i09/test/user.seq"/> -->
-		<property name="sourceSelectable" value="true"/>
-		<property name="XRaySourceEnergyLimit" value="2100"/>
-	</bean>
-	
-	<bean id="regionDefinitionResourceUtilForCreator" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<property name="sourceSelectable" value="true"/>
-		<property name="XRaySourceEnergyLimit" value="2100"/>
-	</bean>
-	
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
 		<property name="frameRate"	value="17" />
 		<property name="energyResolution" value="0.0877"/>
@@ -21,34 +10,13 @@
 		<property name="cameraYSize" value="900"/>
 	</bean>
 	
-	<bean id="analyser_energy_range" class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration">
-		<constructor-arg>
-			<list>
-				<value>${gda.config}/lookupTables/low_elementset_table.txt</value>
-				<value>${gda.config}/lookupTables/high_elementset_table.txt</value>
-			</list>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
-		<property name="name" value="regionvalidator"/>
-		<property name="energyRange" ref="analyser_energy_range"/>
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
-		<property name="pgmEnergy" ref="pgmenergy" />
-		<property name="dcmEnergy" ref="dcmenergyEv" />
-	</bean>
-	
-	<bean id="regionvalidatorForCreator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
-		<property name="name" value="regionvalidatorForCreator"/>
-		<property name="energyRange" ref="analyser_energy_range"/>
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
-		<property name="offlineValidation" value="true"/>
+	<bean id="multipleExcitationEnergySource" class="java.lang.Boolean">
+		<constructor-arg value="true" />
 	</bean>
 	
 	<bean id="sequenceviewlivefactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewLiveFactory">
 		<property name="viewPartName" value="Sequence Editor" />
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV"/>
@@ -56,20 +24,20 @@
 		<property name="analyserElementSetPV" value="BL09I-EA-DET-01:CAM:ELEMENT_SET"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="ew4000" ref="ew4000"/>
+		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
 	
 	<bean id="sequenceviewcreatorfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewCreatorFactory">
 		<property name="viewPartName" value="Sequence Creator" />
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
 		<property name="camera" ref="analysercamera"/>
-		<property name="regionValidator" ref="regionvalidatorForCreator"/>
+		<property name="regionValidator" ref="regionvalidator"/>
+		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
 	
 	<bean id="regionviewlivefactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewLiveFactory">
 		<property name="viewPartName" value="Region Editor" />
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
 		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
@@ -89,14 +57,15 @@
 		<property name="zeroSuppliesPV" value="BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"/>
 		<property name="pgmEnergy" ref="pgmenergy" />
 		<property name="dcmEnergy" ref="dcmenergyEv" />
+		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
 	
 	<bean id="regionviewcreatorfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewCreatorFactory">
 		<property name="viewPartName" value="Region Creator" />
-		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
+		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
 
 	<bean id="spectrumviewfactory"

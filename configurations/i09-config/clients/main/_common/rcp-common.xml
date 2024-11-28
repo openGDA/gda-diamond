@@ -57,6 +57,7 @@
 	<bean id="pgmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="dcmenergyEv" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
+	<bean id="regionvalidator" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="ew4000" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
