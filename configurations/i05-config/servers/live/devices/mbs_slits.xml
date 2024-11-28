@@ -4,17 +4,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="mbs_slits" class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit">
-		<property name="slits">
-			<list>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="6" />
-					<constructor-arg index="1" value="0.2" />
-					<constructor-arg index="2" value="straight" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-			</list>
+	<bean id="mbs_slits" class="org.opengda.detector.electronanalyser.entrance.slit.AnalyserEntranceSlit" destroy-method="dispose">
+		<property name="slitScannable" ref="analyser_slit"/>
+		<property name="defaultSlitString" value="100 0.1 curved vertical"/>
+	</bean>
+
+	<bean id="analyser_slit" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL05I-EA-SLITS-01:POS" />
+		<property name="values">
+			<map>
+				<entry key="100 0.1 curved" 	value="100 0.1 curved vertical"/>
+				<entry key="200 0.1 straight" 	value="200 0.1 straight vertical"/>
+				<entry key="300 0.2 curved" 	value="300 0.2 curved vertical"/>
+				<entry key="400 0.2 straight" 	value="400 0.2 straight vertical"/>
+				<entry key="500 0.2 straight" 	value="500 0.2 straight vertical"/>
+				<entry key="600 0.3 straight" 	value="600 0.3 straight vertical"/>
+				<entry key="700 0.5 straight" 	value="700 0.5 straight vertical"/>
+				<entry key="800 0.8 straight" 	value="800 0.8 straight vertical"/>
+				<entry key="850 3 hole" 		value="850 3 hole vertical"/>
+				<entry key="900 1.5 straight" 	value="900 1.5 straight vertical"/>
+			</map>
 		</property>
 	</bean>
 </beans>
