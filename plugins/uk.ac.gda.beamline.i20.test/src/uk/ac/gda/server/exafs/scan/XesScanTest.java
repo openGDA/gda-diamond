@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,12 +43,12 @@ import org.mockito.invocation.InvocationOnMock;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
-import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.scannable.DummyScannable;
 import gda.device.scannable.ScannableMotor;
+import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.device.scannable.XESEnergyScannable;
 import gda.device.scannable.XasScannable;
@@ -111,9 +112,10 @@ public class XesScanTest {
 	private final String experimentalFullPath = "/scratch/test/xml/path/";
 	private MockedStatic<XMLHelpers> staticMock;
 	private MockedStatic<ScannableCommands> staticMock2;
+	private SampleEnvironmentIterator mockSampleEnvironmentIterator;
 
 	@Before
-	public void setup() throws DeviceException {
+	public void setup() throws NoSuchMethodException, SecurityException, Exception {
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "DummyDataWriter");
 
 		staticMock = Mockito.mockStatic(XMLHelpers.class);
@@ -255,6 +257,14 @@ public class XesScanTest {
 		xesScan.setIncludeSampleNameInNexusName(true);
 
 
+		// mock the scan so it is not really run
+		prepareMockScan();
+
+		// mock the sample preparer object as we are not testing it here, we simply want to know that it was called
+		mockSampleEnvironmentIterator = mockSampleEnvIterator();
+
+		mockI20OutputParameters();
+
 		// Add XES scannables to the finder
 		final Factory factory = TestHelpers.createTestFactory();
 		factory.addFindable(xesUpperEnergy);
@@ -370,37 +380,32 @@ public class XesScanTest {
 	@Test
 	public void testRunFixedXesScanMonoXanes() throws Exception {
 
-		// mock the scan so it is not really run
-		prepareMockScan();
-
 		// mock the BeansFactory so an xml file is not really opened
 		XanesScanParameters xanesParams = mockXanesBeansFactory();
 
-		// mock the sample preparer object as we are not testing it here, we simply want to know that it was called
-		SampleEnvironmentIterator it = mockSampleEnvIterator();
-
 		// create and run the XES scan
-		XesScanParameters xesParams = new XesScanParameters();
-		xesParams.setScanType(XesScanParameters.FIXED_XES_SCAN_XANES);
-		xesParams.setScanColourType(ScanColourType.ONE_COLOUR);
+
+		var xesParams = new XesScanParameterBuilder()
+				.setScanType(XesScanParameters.FIXED_XES_SCAN_XANES)
+				.setScanColour(ScanColourType.ONE_COLOUR)
+				.build();
+
 		xesParams.setScanFileName("xanes_file.xml");
 
 		SpectrometerScanParameters specParams = new SpectrometerScanParameters();
 		specParams.setScannableName(xesUpperEnergy.getName());
 		specParams.setFixedEnergy(6300.0);
 		specParams.setScanFileName("scan_params.xml");
+
 		xesParams.addSpectrometerScanParameter(specParams);
 
-		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
-		xesScan.doCollection();
-
-		InOrder inorder = testOrder(xesParams, it);
+		Object[] scanArgs = runScan(xesParams);
+		InOrder inorder = testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		inorder.verify(detectorPreparer).completeCollection();
 		inorder.verify(beamlinePreparer).completeExperiment();
 
 		// Check the scan arguments are correct
-		Object[] scanArgs = xesScan.createScanArguments(null, null);
 		assertEquals(7, scanArgs.length);
 
 		assertTrue(scanArgs[0] instanceof XasScannable);
@@ -418,41 +423,34 @@ public class XesScanTest {
 
 	@Test
 	public void testRunScanXesRegionFixedMono() throws Exception {
-		mockI20OutputParameters();
-
-		// mock the scan so it is not really run
-		prepareMockScan();
 
 		// mock the BeansFactory so an xml file is not really opened
 		XanesScanParameters xanesParams = mockXanesBeansFactory();
 
-		// mock the sample preparer object as we are not testing it here, we simply want to know that it was called
-		SampleEnvironmentIterator it = mockSampleEnvIterator();
-
 		// create and run the XES scan
-		XesScanParameters xesParams = new XesScanParameters();
-		xesParams.setScanType(XesScanParameters.SCAN_XES_REGION_FIXED_MONO);
-		xesParams.setScanColourType(ScanColourType.ONE_COLOUR);
-		xesParams.setMonoEnergy(12765.0);
+
+		var xesParams = new XesScanParameterBuilder()
+//				.addSpectrometerParameters(xesUpperEnergy.getName(), 6000, 7000, 200)
+				.setScanType(XesScanParameters.SCAN_XES_REGION_FIXED_MONO)
+				.setScanColour(ScanColourType.ONE_COLOUR)
+				.build();
 
 		SpectrometerScanParameters specParams = new SpectrometerScanParameters();
 		specParams.setScannableName(xesUpperEnergy.getName());
 		specParams.setFixedEnergy(6300.0);
 		specParams.setScanFileName("scan_params.xml");
+
 		xesParams.addSpectrometerScanParameter(specParams);
 
-		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
-		xesScan.doCollection();
+		Object[] scanArgs = runScan(xesParams);
 
-		InOrder inorder = testOrder(xesParams, it);
+		// Check the scan arguments are correct
+		assertEquals(8, scanArgs.length);
+
+		InOrder inorder = testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		inorder.verify(detectorPreparer).completeCollection();
 		inorder.verify(beamlinePreparer).completeExperiment();
-
-
-		// Check the scan arguments are correct
-		Object[] scanArgs = xesScan.createScanArguments(null, null);
-		assertEquals(8, scanArgs.length);
 
 		assertTrue(scanArgs[0] instanceof XasScannable);
 		var xasScannable = (XasScannable)scanArgs[0];
@@ -506,31 +504,19 @@ public class XesScanTest {
 	@Test
 	public void test1DXesScan() throws Exception {
 
-		mockI20OutputParameters();
-
-		// mock the scan so it is not really run
-		prepareMockScan();
-
 		// // mock the sample preparer object as we are not testing it here, we simply want to know that it was called
-		var it =mockSampleEnvIterator();
+		var it = mockSampleEnvIterator();
 
-		XesScanParameters xesParams = new XesScanParameters();
-		xesParams.setScanType(XesScanParameters.SCAN_XES_FIXED_MONO);
-		xesParams.setScanColourType(ScanColourType.ONE_COLOUR_ROW1);
-		xesParams.addSpectrometerScanParameter(createSpectrometerParams(xesUpperEnergy.getName(), 6000, 7000, 200));
-		xesParams.setMonoEnergy(10000.0);
+		var xesParams = new XesScanParameterBuilder()
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 6000, 7000, 200)
+				.build();
 
-		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
-		xesScan.doCollection();
+		Object[] scanArgs = runScanAndTestPositions(xesParams);
+		assertEquals(7, scanArgs.length);
 
 		testOrder(xesParams, it);
 
-		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
-
-		assertEquals(7, scanArgs.length);
-
 		assertEquals(getScannableName(scanArgs[0]), xesUpperEnergy.getName());
-		checkPositionProvider((XesScanPositionProvider)scanArgs[1], 6000, 7000, 200);
 
 		assertEquals(monoEnergy.getName(), getScannableName(scanArgs[2]));
 		assertEquals(10000.0, scanArgs[3]);
@@ -542,37 +528,153 @@ public class XesScanTest {
 	}
 
 	@Test
-	public void test2DXesScan() throws Exception {
+	public void testOneColourEnergies() throws Exception {
 
-		mockI20OutputParameters();
+		var xesParams = new XesScanParameterBuilder()
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 6000, 7000, 200)
+				.build();
+		runScanAndTestPositions(xesParams);
+	}
 
-		// mock the scan so it is not really run
-		prepareMockScan();
+	@Test
+	public void testOneColourDecreasingEnergies() throws Exception {
+		var xesParams = new XesScanParameterBuilder()
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 7000, 6000, 200)
+				.build();
 
-		// mock the sample preparer object as we are not testing it here, we simply want to know that it was called
-		var it = mockSampleEnvIterator();
+		runScanAndTestPositions(xesParams);
+	}
 
-		XesScanParameters xesParams = new XesScanParameters();
-		xesParams.setScanType(XesScanParameters.SCAN_XES_SCAN_MONO);
-		xesParams.setScanColourType(ScanColourType.ONE_COLOUR_ROW1);
-		xesParams.addSpectrometerScanParameter(createSpectrometerParams(xesUpperEnergy.getName(), 6000, 7000, 200));
+	@Test
+	public void testOneColourBothRowEnergies() throws Exception {
+		var xesParams = new XesScanParameterBuilder()
+				.setScanColour(ScanColourType.ONE_COLOUR)
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 7000, 6000, 200)
+				.addSpectrometerParameters(xesLowerEnergy.getName(), 7000, 6000, 200)
+				.build();
+
+		runScanAndTestPositions(xesParams);
+	}
+
+	@Test
+	public void testTwoColourEnergies() throws Exception {
+		var xesParams = new XesScanParameterBuilder()
+				.setScanColour(ScanColourType.TWO_COLOUR)
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 7000, 6000, 200)
+				.addSpectrometerParameters(xesLowerEnergy.getName(), 6000, 7000, 200)
+				.build();
+		runScanAndTestPositions(xesParams);
+	}
+
+	private Object[] runScanAndTestPositions(XesScanParameters scanParams) throws Exception {
+		Object[] scanArgs = runScan(scanParams);
+		testPositions( (XesScanPositionProvider)scanArgs[1], scanParams);
+		return scanArgs;
+	}
+
+	private Object[] runScan(XesScanParameters scanParams) throws Exception {
+		xesScan.configureCollection(sampleParams, scanParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
+		return xesScan.createScanArguments("sample 1", new ArrayList<String>());
+	}
+	private class XesScanParameterBuilder {
+		private int scanType = XesScanParameters.SCAN_XES_FIXED_MONO;
+		private ScanColourType scanColour = ScanColourType.ONE_COLOUR_ROW1;
+		private List<SpectrometerScanParameters> specParams = new ArrayList<>();
+		private double monoEnergy = 10000;
+
+		public XesScanParameterBuilder addSpectrometerParameters(String name, double start, double stop, double step) {
+			this.specParams.add(createSpectrometerParams(name, start, stop, step));
+			return this;
+		}
+
+		public XesScanParameterBuilder setScanType(int scanType) {
+			this.scanType = scanType;
+			return this;
+		}
+		public XesScanParameterBuilder setScanColour(ScanColourType scanColour) {
+			this.scanColour = scanColour;
+			return this;
+		}
+		public XesScanParameters build() {
+			XesScanParameters params = new XesScanParameters();
+			params.setScanColourType(scanColour);
+			params.setScanType(scanType);
+			params.setSpectrometerScanParameters(specParams);
+			params.setMonoEnergy(monoEnergy);
+			return params;
+		}
+	}
+
+	/**
+	 * Test all the positions contained in position provider against values
+	 * expected based on spectrometer parameters in XesScanParameters.
+	 *
+	 * @param positionProvider
+	 * @param xesParams
+	 */
+	private void testPositions(XesScanPositionProvider positionProvider, XesScanParameters xesParams) {
+		var specParams = xesParams.getPrimarySpectrometerScanParams();
+		var secondParams = xesParams.getSecondarySpectrometerScanParams();
+		if (xesParams.getScanColourType() == ScanColourType.ONE_COLOUR) {
+			secondParams = specParams;
+		}
+		var points = createPoints(specParams.getInitialEnergy(), specParams.getFinalEnergy(), specParams.getStepSize());
+		assertEquals(points.size(), positionProvider.size());
+
+		List<Double> secondarypoints = Collections.emptyList();
+		if (secondParams != null) {
+			secondarypoints = createPoints(secondParams.getInitialEnergy(), secondParams.getFinalEnergy(), secondParams.getStepSize());
+			assertEquals("Incorrect number of second spectrometer row energy points", secondarypoints.size(), positionProvider.size());
+		}
+		for(int i=0; i<points.size(); i++) {
+			Double[] currentPosition = ScannableUtils.objectToArray(positionProvider.get(i));
+
+			assertEquals("Spectrometer energy value incorrect", points.get(i).doubleValue(), currentPosition[0], 1e-5);
+			if (!secondarypoints.isEmpty()) {
+				assertEquals("Spectrometer second row energy value incorrect", secondarypoints.get(i).doubleValue(), currentPosition[1], 1e-5);
+			}
+		}
+	}
+
+	private List<Double> createPoints(double start, double stop, double step) {
+		double stepSize = Math.abs(step);
+		if (start > stop) {
+			stepSize *= -1;
+		}
+		List<Double> points = new ArrayList<>();
+		double currentPoint = Math.min(start, stop);
+		double endPoint = Math.max(start, stop);
+		while(currentPoint <= endPoint) {
+			points.add(currentPoint);
+			currentPoint += Math.abs(stepSize);
+		}
+		if (start > stop) {
+			return points.reversed();
+		}
+		return points;
+	}
+
+	@Test
+	public void test2DXesScanMonoInner() throws Exception {
+
+		var xesParams = new XesScanParameterBuilder()
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 6000, 7000, 200)
+				.setScanType(XesScanParameters.SCAN_XES_SCAN_MONO)
+				.build();
 
 		xesParams.setMonoInitialEnergy(11000.0);
 		xesParams.setMonoFinalEnergy(12000.0);
 		xesParams.setMonoStepSize(100.0);
 		xesParams.setLoopChoice(XesScanParameters.LOOPOPTIONS[0]);
 
-		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
-		xesScan.doCollection();
-
-		testOrder(xesParams, it);
-
-		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
+		Object[] scanArgs = runScanAndTestPositions(xesParams);
+		testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		assertEquals(10, scanArgs.length);
 
 		assertEquals(xesUpperEnergy.getName(), getScannableName(scanArgs[0]));
-		checkPositionProvider((XesScanPositionProvider)scanArgs[1], 6000, 7000, 200);
+		testPositions((XesScanPositionProvider)scanArgs[1], xesParams);
 
 		assertEquals(monoEnergy.getName(), getScannableName(scanArgs[2]));
 		assertEquals(11000.0, scanArgs[3]);
@@ -587,32 +689,21 @@ public class XesScanTest {
 	}
 
 	@Test
-	public void test2DXesScanOtherDirection() throws Exception {
+	public void test2DXesScanMonoOuter() throws Exception {
 
-		mockI20OutputParameters();
-
-		// mock the scan so it is not really run
-		prepareMockScan();
-
-		// mock the sample preparer object as we are not testing it here, we simply want to know that it was called
-		var it =mockSampleEnvIterator();
-
-		XesScanParameters xesParams = new XesScanParameters();
-		xesParams.setScanType(XesScanParameters.SCAN_XES_SCAN_MONO);
-		xesParams.setScanColourType(ScanColourType.ONE_COLOUR_ROW1);
-		xesParams.addSpectrometerScanParameter(createSpectrometerParams(xesUpperEnergy.getName(), 6000, 7000, 200));
+		var xesParams = new XesScanParameterBuilder()
+				.addSpectrometerParameters(xesUpperEnergy.getName(), 6000, 7000, 200)
+				.setScanType(XesScanParameters.SCAN_XES_SCAN_MONO)
+				.build();
 
 		xesParams.setMonoInitialEnergy(11000.0);
 		xesParams.setMonoFinalEnergy(12000.0);
 		xesParams.setMonoStepSize(100.0);
 		xesParams.setLoopChoice(XesScanParameters.LOOPOPTIONS[1]);
 
-		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
-		xesScan.doCollection();
+		Object[] scanArgs = runScan(xesParams);
 
-		testOrder(xesParams, it);
-
-		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
+		testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		assertEquals(10, scanArgs.length);
 
@@ -622,20 +713,13 @@ public class XesScanTest {
 		assertEquals(100.0, scanArgs[3]);
 
 		assertEquals(xesUpperEnergy.getName(), getScannableName(scanArgs[4]));
-		checkPositionProvider((XesScanPositionProvider)scanArgs[5], 6000, 7000, 200);
+		testPositions((XesScanPositionProvider)scanArgs[5], xesParams);
 
 		assertEquals(xesBraggUpper.getName(), getScannableName(scanArgs[6]));
 
 		assertTrue(scanArgs[7] instanceof TwoDScanPlotter);
 		assertTrue(scanArgs[8] instanceof Xmap);
 		assertTrue(scanArgs[9] instanceof TfgScalerWithFrames);
-	}
-
-	private void checkPositionProvider(XesScanPositionProvider posProvider, double start, double stop, double step) {
-		int numPoints = posProvider.size();
-		assertEquals("Start position", (double)posProvider.get(0), start, 1e-6);
-		assertEquals("End position", (double)posProvider.get(numPoints-1), stop, 1e-6);
-		assertEquals("Step size", (double)posProvider.get(1)-(double)posProvider.get(0), step, 1e-6);
 	}
 
 	protected void mockI20OutputParameters() {
