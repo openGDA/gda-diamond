@@ -23,5 +23,5 @@
 
 	<!-- ADSIM motors -->
 	<import resource="sim_cam.xml"/>
-	<!-- <import resource="sim_motors.xml"/> -->
+	<import resource="sim_motors.xml"/>
 </beans>

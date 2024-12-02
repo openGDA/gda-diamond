@@ -5,11 +5,11 @@
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
-		<property name="basePVName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:" />
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:CAM:" />
 	</bean>
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:" />
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:CAM:" />
 	</bean>
 
 	<bean id="analyser_total" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserTotalOnly">

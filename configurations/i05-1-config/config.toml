@@ -31,8 +31,7 @@ server.spring-xml = [
 ]
 
 client.spring-xml = [
-	"clients/_common/serverFileListener.xml",
-	"clients/_common/mapping_view.xml"
+	"clients/_common/serverFileListener.xml"
 ]
 
 [extras.i05-shared]
