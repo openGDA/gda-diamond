@@ -9,6 +9,12 @@
 
 	<bean id="led_toggle" class="gda.device.enumpositioner.EpicsSimpleBinary">
 		<property name="pvName" value="BL08J-EA-TABLE-01:LED:TOGGLE" />
+		<property name="positions">
+			<list>
+				<value>OFF</value>
+				<value>ON</value>
+			</list>
+		</property>
 	</bean>
 	
 </beans>
