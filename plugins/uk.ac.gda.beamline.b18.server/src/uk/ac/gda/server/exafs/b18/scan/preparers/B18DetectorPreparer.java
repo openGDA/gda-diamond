@@ -237,7 +237,7 @@ public class B18DetectorPreparer extends DetectorPreparerDelegate implements Qex
 	public void collectDiffractionData() throws Exception {
 		IExperimentDetectorParameters detParams = getDetectorParameters();
 		if (detParams != null && detParams.isCollectDiffractionImages()) {
-			collectDiffractionData(detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
+			collectDiffractionData(diffractionDetectors, detParams.getMythenEnergy(), detParams.getMythenTime(), outputBean, experimentFullPath);
 		}
 	}
 
@@ -274,16 +274,24 @@ public class B18DetectorPreparer extends DetectorPreparerDelegate implements Qex
 
 	private void beforeFirstRepetition() throws Exception {
 		if (useNewDetectorConfiguration()) {
-			// Find the config that uses the detector
-			List<String> detectorNames = diffractionDetectors.stream().map(Scannable::getName).toList();
-			Optional<DetectorConfig> diffractionConfig = detectorBean.getDetectorConfigurations().stream()
-					.filter(conf ->	detectorNames.contains(conf.getDetectorName()))
-					.findFirst();
 
-			if (diffractionConfig.isPresent() && diffractionConfig.get().isUseDetectorInScan()) {
-				File mythenFile = Paths.get(experimentFullPath, diffractionConfig.get().getConfigFileName()).toFile();
+			// map to make it easier to lookup diffraction detector object from name
+			Map<String, Detector> detMap = diffractionDetectors.stream()
+					.collect(Collectors.toMap(scn -> scn.getName(), scn -> scn));
+
+			// Find the config that uses the diffraction detector
+			List<DetectorConfig> diffractionConfigs = detectorBean.getDetectorConfigurations().stream()
+					.filter(DetectorConfig::isUseDetectorInScan)
+					.filter(conf ->	detMap.keySet().contains(conf.getDetectorName()))
+					.toList();
+
+			if (!diffractionConfigs.isEmpty()) {
+				File mythenFile = Paths.get(experimentFullPath, diffractionConfigs.get(0).getConfigFileName()).toFile();
 				MythenParameters mythenBean = (MythenParameters) XMLHelpers.getBean(mythenFile);
-				collectDiffractionData(mythenBean.getMythenEnergy(), mythenBean.getMythenTime(), outputBean, experimentFullPath);
+				List<Detector> detectorList = diffractionConfigs.stream()
+						.map(config -> detMap.get(config.getDetectorName()))
+						.toList();
+				collectDiffractionData(detectorList, mythenBean.getMythenEnergy(), mythenBean.getMythenTime(), outputBean, experimentFullPath);
 			}
 		} else {
 			collectDiffractionData();
@@ -395,7 +403,7 @@ public class B18DetectorPreparer extends DetectorPreparerDelegate implements Qex
 		}
 	}
 
-	protected void collectDiffractionData(double energy, double collectionTime, IOutputParameters outputBean,
+	protected void collectDiffractionData(List<Detector> detectors, double energy, double collectionTime, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		String experimentFolderName = experimentFullPath.substring(experimentFullPath.indexOf("xml") + 4, experimentFullPath.length());
@@ -406,11 +414,11 @@ public class B18DetectorPreparer extends DetectorPreparerDelegate implements Qex
 
 		energy_scannable.moveTo(energy);
 
-		for (var d : diffractionDetectors) {
+		for (var d : detectors) {
 			d.setCollectionTime(collectionTime);
 		}
 
-		List<Scannable> args = new ArrayList<>(diffractionDetectors);
+		List<Scannable> args = new ArrayList<>(detectors);
 		args.add(energy_scannable);
 
 		StaticScan staticscan = new StaticScan(args.toArray(new Scannable[] {}));
