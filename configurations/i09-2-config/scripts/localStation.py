@@ -27,14 +27,9 @@ from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImp
 scan_processor.rootNamespaceDict=globals()
 print("")
 
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
+
 from i09shared.scan.miscan import miscan  # @UnusedImport
-#Is this needed? Doesn't seem to be used
-# Install regional scan
-print("Installing regional scan")
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
-print("")
 
 ###############################################################################
 ###                         Import useful scannables                        ###

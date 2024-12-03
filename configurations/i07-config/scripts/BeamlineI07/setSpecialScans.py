@@ -4,14 +4,14 @@ from gda.jython.commands.GeneralCommands import alias
 from gda.scan.RepeatScan import repscan
 
 from Diamond.Scans.BasicScan import BasicScanClass
-from Diamond.Scans.RegionalScan import RegionalScanClass
+from gdascripts.scan.mrscan import MultiRegionalScanClass
 from Diamond.Scans.PowerSeriesScan import PowerSeriesScanClass
 from Diamond.Scans.CentroidScan import CentroidScanClass
 
 from BeamlineI07.scan.position_provider import ValidPositionsProvider
 
 #Usage
-rscan=RegionalScanClass()
+rscan=MultiRegionalScanClass()
 alias('rscan');
 
 #Usage:

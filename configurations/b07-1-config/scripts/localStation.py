@@ -29,10 +29,7 @@ print("Installing standard scans with processing")
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict = globals()
 
-print("Installing regional scan")
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 
 print("Installing configure_analyser_fixed_transmission")
 from beamline.configure_analyser_fixed_transmission import configure_analyser_fixed_transmission

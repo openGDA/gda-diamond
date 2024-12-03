@@ -6,14 +6,14 @@ import os #@UnusedImport
 import sys #@UnusedImport
 import gdascripts #@UnusedImport
 from gdascripts import installation as installation #@UnusedImport
-from gda.factory import Finder
-from gda.data import NumTracker
-from gda.jython import InterfaceProvider
-from gda.jython.commands import GeneralCommands
-from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.configuration.properties import LocalProperties
-from gda.util import PropertyUtils
-from gda.device.scannable import PVScannable
+from gda.factory import Finder # @UnusedImport
+from gda.data import NumTracker # @UnusedImport
+from gda.jython import InterfaceProvider # @UnusedImport
+from gda.jython.commands import GeneralCommands # @UnusedImport
+from gda.jython.commands.GeneralCommands import vararg_alias, alias # @UnusedImport
+from gda.configuration.properties import LocalProperties # @UnusedImport
+from gda.util import PropertyUtils # @UnusedImport
+from gda.device.scannable import PVScannable #@UnusedImport
 
 print("="*100);
 print "Performing beamline specific initialisation code for i09-1.";
@@ -31,6 +31,10 @@ from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImp
 scan_processor.rootNamespaceDict=globals()
 print("")
 
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
+
+from i09shared.scan.analyserScan import analyserscan, extraDetectors #@UnusedImport
+
 ###############################################################################
 ###                         Import useful scannable                         ###
 ###############################################################################
@@ -46,11 +50,6 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###############################################################################
 from calibration.hard_energy_class import ienergy #@UnusedImport
 from i09shared.pseudodevices.checkid import checkiid #@UnusedImport
-
-###############################################################################
-###       Import analyserscan, specialised command for electron analyser    ###
-###############################################################################
-from i09shared.scan.analyserScan import analyserscan, extraDetectors #@UnusedImport
 
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
