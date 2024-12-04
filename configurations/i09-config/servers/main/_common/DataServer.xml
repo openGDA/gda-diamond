@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd  http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
+
+	<!-- Data Server - Used to help DataVis perspective be updated with new data if file still being written to -->
+	<bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">
+		<property name="port" value="${gda.dataserver.port}" />
+	</bean>
+
+</beans>
