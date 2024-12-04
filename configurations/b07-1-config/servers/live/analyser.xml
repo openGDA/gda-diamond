@@ -21,4 +21,8 @@
 		<property name="pvName" value="BL07C-EA-ANAL-01:TRANS" />
 	</bean>
 
+	<bean id="snapshotImageSizeX" class="java.lang.Integer">
+		<constructor-arg value="100"/>
+	</bean>
+
 </beans>

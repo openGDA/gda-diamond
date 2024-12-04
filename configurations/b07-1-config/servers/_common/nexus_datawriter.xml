@@ -144,4 +144,21 @@
 		</property>
 	</bean>
 
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+<!-- 		<property name="sourceName" value="source" /> -->
+<!-- 		<property name="beamName" value="beam" /> -->
+		<property name="userDeviceName" value="user" />
+<!-- 		<property name="insertionDeviceName" value="id" /> -->
+<!-- 		<property name="monochromatorName" value="pgm" /> -->
+		<property name="additionalDeviceNames">
+			<set>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<!-- Note: The user name is retrieved from the baton holder -->
+		<property name="name" value="user" />
+	</bean>
 </beans>

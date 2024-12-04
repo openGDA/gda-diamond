@@ -3,16 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSeparateIterationCollectionStrategy">
+	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSolsticeCollectionStrategy">
 		<property name="analyser" ref="analyser" />
 		<property name="safeStateAfterScan" value="false" />
 	</bean>
-	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserSeparateIterations">
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSolsticeAnalyser">
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
 		<property name="collectionStrategy" ref="collection_strategy" />
 		<property name="photonEnergyProvider" ref="photon_energy_provider" />
-<!-- 		<property name="photonEnergyProvider" ref="pgm_energy" /> -->
 		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="experimentalShutter" ref="expt_shutter" />
 		<property name="shouldCheckPrelensValve" value="false"/>
@@ -21,6 +20,7 @@
 		<!-- Real value for detectorEnergyWidth will be read from EPICS. This will be used if EPICS can't be accessed. -->
 		<property name="detectorEnergyWidth" value="0.13" />
 		<property name="alignmentTimeout" value="950.0" />
+		<property name="snapshotImageSizeX" ref="snapshotImageSizeX"/>
 		<!-- Exported parameter to overwrite default scan region values used in UI-->
 		<property name="defaultRegionUi">
 			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.api.SpecsPhoibosRegion">
