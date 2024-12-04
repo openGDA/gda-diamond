@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSeparateIterationCollectionStrategy">
+	<bean id="collection_strategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSolsticeCollectionStrategy">
 		<property name="analyser" ref="analyser" />
 		<property name="safeStateAfterScan" value="false" />
 	</bean>
-	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserSeparateIterations">
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosSolsticeAnalyser">
 		<property name="name" value="analyser" />
 		<property name="controller" ref="analyser_controller" />
 		<property name="collectionStrategy" ref="collection_strategy" />
