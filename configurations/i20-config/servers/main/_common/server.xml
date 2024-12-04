@@ -34,6 +34,7 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/ionchambers.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/xspress4.xml" />

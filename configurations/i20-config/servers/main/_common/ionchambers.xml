@@ -1,0 +1,129 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="useReset" value="false" />
+		<property name="livePort" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.5f</value>
+				<value>%.5f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>Time</value>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="1" />
+		<property name="useReset" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="firstDataChannel" value="3" />
+		<property name="darkCurrentRequired" value="true" />
+		<property name="livePort" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="DAServer" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="outputFormat">
+			<list>
+				<value>%.6g</value>
+				<value>%g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+		
+<!-- 		<property name="scalerOutputConfig" ref="scaler_output_config" /> -->
+<!-- 		<property name="useCustomisedOutput" value="true" /> -->
+	</bean>
+	
+	<bean id="ionchambers_all" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="useReset" value="false" />
+		<property name="livePort" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.2f</value>
+				<value>%.5f</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
