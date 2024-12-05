@@ -8,6 +8,7 @@
             
 Created on 19 Apr 2017
 updated on 20 Dec 2021 for medipix support
+updated on 5 Dec 2024 for creating NXxas subentry as post data collection process
 
 @author: fy65
 '''
@@ -19,6 +20,9 @@ from gda.jython.commands.GeneralCommands import alias
 from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 from gda.configuration.properties import LocalProperties
+from i06shared.functions.nexusYamlTemplateProcessor import apply_tamplate_to_nexus_file
+
+NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
 
 ENABLE_KB_RASTERING = True
 
@@ -49,7 +53,7 @@ elif beamline_name =="i06":
         fesController.setKBRasteringControlPV(KEYSIGHT_KB_Rastering_Control_PV)
     fesController.setKBRastering(ENABLE_KB_RASTERING) 
 
-    ### configure which area detector to use in zacscan           
+    ### configure which area detector to use in zacscan
     from __main__ import zacmedipix  # @UnresolvedImport
     fesController.setAreaDetector(zacmedipix)
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData)
@@ -63,10 +67,11 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
         fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime)
         beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() )
         beamlineutil.restoreArchiving()
-        uuu.restoreDefaults()        
+        uuu.restoreDefaults()
+        apply_tamplate_to_nexus_file(beamlineutil.getLastScanFile(), NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
     except :
         errortype, exception, traceback = sys.exc_info()
-        logger.fullLog(None, "Error in zacscan", errortype, exception , traceback, False)        
+        logger.fullLog(None, "Error in zacscan", errortype, exception , traceback, False)
 
 alias("zacscan")
 
@@ -77,7 +82,7 @@ def zacstop():
         InterfaceProvider.getCommandAborter().abortCommands()
     except :
         errortype, exception, traceback = sys.exc_info()
-        logger.fullLog(None, "Error in stopping the zacscan ", errortype, exception , traceback, False)       
+        logger.fullLog(None, "Error in stopping the zacscan ", errortype, exception , traceback, False)
 
 alias("zacstop")
 
@@ -99,13 +104,10 @@ def fastscan(startEnergy, endEnergy, scanTime, pointTime):
         fastEnergy.setDelay(pointTime/5.0)
     else:
         fastEnergy.setDelay(pointTime/10.0)
-        
-    
+
     numPoint = fesController.getNumberOfPoint()
     step=1.0*(endEnergy - startEnergy)/numPoint
-    
+
 #    scan timer 0 scanTime pointTime fastEnergy 1 sdd 10
 #    pscan fastEnergy 0 numPoint-1 numPoint fesData 0 1;
     pscan([fastEnergy,0,numPoint-1,numPoint,fesData,0,1])
-
-
