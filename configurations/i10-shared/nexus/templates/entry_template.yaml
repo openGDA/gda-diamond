@@ -1,0 +1,38 @@
+entry/:
+  NX_class@: NXentry
+  default@: #Declares which NXdata group contains the data to be shown by default
+  definition: #Official NeXus NXDL schema to which this subentry conforms
+    version@: #NXDL version number
+    URL@: #URL of NXDL file
+  title: #Extended title for entry
+  experiment_identifier: #Unique identifier for the experiment
+  experiment_description: #Brief summary of the experiment, including key objectives.
+  collection_identifier: #User or Data Acquisition defined group of NeXus files or NXentry
+  collection_description: #Brief summary of the collection, including grouping criteria.
+  entry_identifier: #unique identifier for the measurement, defined by the facility.
+  entry_identifier_uuid: #UUID identifier for the measurement.
+    version@: #Version of UUID used
+  start_time: #Starting time of measurement
+  end_time: #Ending time of measurement
+  duration: #Duration of measurement
+  collection_time: #Time transpired actually collecting data i.e. taking out time when collection was suspended
+  run_cycle: #Such as “2007-3”. Some user facilities organize their beam time into run cycles.
+  program_name: #Name of program used to generate this file
+    version@:
+    configuration@:
+  revision: #re-calibration, reprocessing, new analysis, etc.
+    comment@: NA
+  pre_sample_flightpath: #distance to the component which gives the T0 signal to the detector electronics
+  DATA:
+    NX_class@: NXdata
+  experiment_documentation: #Description of the full experiment (document in pdf, latex, …)
+    NX_class@NXnote
+  notes: #Notes describing entry
+    NX_class@NXnote
+  thumbnail: #A small image that is representative of the entry, such as a low resolution plot of the NXdata
+    NX_class@NXnote
+  instrument/:
+    NX_class@: NXinstrument
+    foo: bar # Just an example of creating a data node
+    beam: /entry/sample/beam # Linking to a group
+      
