@@ -25,7 +25,6 @@ http://www.opengda.org
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.instance.dir=${project_loc:i12-config}
--Dgda.group.dir=${project_loc:core-config}/no-group
 -Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
 -Dgda.propertiesFile=${project_loc:i12-config}/properties/dummy/dummy_instance_java.properties
 -Dgda.mode=dummy

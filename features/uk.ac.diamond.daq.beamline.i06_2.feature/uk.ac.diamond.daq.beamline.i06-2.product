@@ -24,7 +24,6 @@ http://www.opengda.org
       <vmArgs>-Dgda.instance.dir=/dls_sw/i06-2/software/gda/config
 -Dgda.facility.dir=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/i06-2/software/gda/workspace_git/gda-core.git/core-config
--Dgda.group.dir=/dls_sw/i06-2/software/gda/i06-shared
 -Declipse.pluginCustomization=/dls_sw/i06-2/software/gda/workspace_git/gda-diamond.git/configurations/i06-2-config/pluginCustomization.ini
 -Dgda.install.git.loc=/dls_sw/i06-2/software/gda/workspace_git
 -Dgda.data=/dls/i06-2/data

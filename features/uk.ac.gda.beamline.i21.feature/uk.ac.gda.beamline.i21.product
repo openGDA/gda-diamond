@@ -19,7 +19,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       <vmArgs>-Dgda.instance.dir=/dls_sw/i21/software/gda/config
 -Dgda.facility.dir=/dls_sw/i21/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config
--Dgda.group.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config/no-group
 -Dgda.config=/dls_sw/i21/software/gda/config
 -Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/${gda.mode}/${gda,mode}_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/${gda.mode}/JCALibrary.properties
