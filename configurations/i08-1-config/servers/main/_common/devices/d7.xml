@@ -15,6 +15,7 @@
 			<list>
 				<ref bean="d7_y" />
 				<ref bean="d7_y_position" />
+				<ref bean="d7_det" />
 			</list>
 		</property>
 	</bean>
