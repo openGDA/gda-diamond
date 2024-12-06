@@ -14,7 +14,7 @@ from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableMotionBase
 from i06shared.scannables.XAS_Mode import XAS_MODES
-from i06shared.functions.nexusYamlTemplateProcessor import apply_tamplate_to_nexus_file
+from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 
 PRINTTIME = False
@@ -59,7 +59,7 @@ def xasscan(*args):
         scan([e for e in newargs])
         print("creating NXxas subentry ...")
         current_filename = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getCurrentFilename()
-        apply_tamplate_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+        apply_template_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
         print("NXxas subentry is added to %s" % current_filename)
     finally:
         if original_mode: # restore pre-scan XAS mode

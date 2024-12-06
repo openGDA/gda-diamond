@@ -19,7 +19,7 @@ def set_nexus_tamplate(template_yaml_file_path):
         raise ValueError("Cannot find the given YAML template file %s" % template_yaml_file_path)
     return template_yaml_file_path
 
-def apply_tamplate_to_nexus_file(nexus_file_name, template_file, spel_expression_node = []):
+def apply_template_to_nexus_file(nexus_file_name, template_file, spel_expression_node = []):
     '''apply a give template yaml file (2nd argument) to a give Nexus data file (1st argument).
     If the template file contains node that has Spring SpEL expression, the node name (end with '/') must be provided as list in 3rd argument.
     '''

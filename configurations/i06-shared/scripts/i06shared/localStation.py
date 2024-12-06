@@ -99,7 +99,7 @@ from i06shared.scannables import XAS_Mode
 TEY, TFY_ft, TFY_fb, TFY_90, PEY, PFY = XAS_Mode.XAS_MODES
 from i06shared.scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
 from i06shared.scan.XASScan import xasscan  # @UnusedImport
-from i06shared.functions.nexusYamlTemplateProcessor import apply_tamplate_to_nexus_file, set_nexus_tamplate  # @UnusedImport
+from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
 
 print("*"*100) 
 print("I06 shared localStation.py completed successfully!")
