@@ -2,43 +2,61 @@
 # For beamline specific initialisation code.
 #
 import java #@UnresolvedImport @UnusedImport
-from gda.configuration.properties import LocalProperties #@UnusedImport
-from calibration.hard_energy_class import HardEnergy
+import os #@UnusedImport
+import sys #@UnusedImport
+import gdascripts #@UnusedImport
+from gdascripts import installation as installation #@UnusedImport
+from gda.factory import Finder
+from gda.data import NumTracker
+from gda.jython import InterfaceProvider
+from gda.jython.commands import GeneralCommands
+from gda.jython.commands.GeneralCommands import vararg_alias, alias
+from gda.configuration.properties import LocalProperties
+from gda.util import PropertyUtils
+from gda.device.scannable import PVScannable
 
-print "=================================================================================================================";
-print "Performing beamline specific initialisation code (I09-1).";
-print "=================================================================================================================";
-print
+print("="*100);
+print "Performing beamline specific initialisation code for i09-1.";
+print("="*100)
 
-print "Load EPICS pseudo device utilities for creating scannable object from a PV name."
-from gdascripts.pd.epics_pds import * #@UnusedWildImport
+from i09shared.localstation import * #@UnusedWildImport
 
-print "Load time utilities."
-from gdascripts.pd.time_pds import * #@UnusedWildImport
-from i09shared.timerelated import clock, t, dt, w #@UnusedImport
-# Make time scannable 
-# Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
-from gdascripts.scannable.timerelated import TimeSinceScanStart
-timeScannable = TimeSinceScanStart('timeScannable')
+print "Custom i09-1 initialisation code.";
 
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import * #@UnusedWildImport
-
-print "Installing standard scans with processing"
+###############################################################################
+###               Configure scan data processing and scan commands          ###
+###############################################################################
+print("-"*100)
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
+print("")
 
-# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
-# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
-extraDetectors = ""
+###############################################################################
+###                         Import useful scannable                         ###
+###############################################################################
+print("-"*100)
+# Import and setup function to create mathematical scannables
+from i09shared.functions import functionClassFor2Scannables
+functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
+from i09shared.functions.functionClassFor2Scannables import ScannableFunctionClassFor2Scannables #@UnusedImport
+print("Importing utility mathmatical scannable class ScannableFunctionClassFor2Scannables " + functionClassFor2Scannables.ScannableFunctionClassFor2Scannables.__doc__) #@UndefinedVariable
 
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy"
-ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
-
-from i09shared.command.analyserScan import analyserscan #@UnusedImport
+###############################################################################
+###                         Import IID functionality                        ###
+###############################################################################
+from calibration.hard_energy_class import ienergy #@UnusedImport
 from i09shared.pseudodevices.checkid import checkiid #@UnusedImport
-from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
 
-print("=================================================================================================================")
+###############################################################################
+###       Import analyserscan, specialised command for electron analyser    ###
+###############################################################################
+from i09shared.scan.analyserScan import analyserscan, extraDetectors #@UnusedImport
+
+###############################################################################
+###                   Save SamplePosition scannable                         ###
+###############################################################################
+from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
+
+print("="*100)
 print("localStation.py Initialisation script complete.")
+print("="*100)

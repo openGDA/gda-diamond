@@ -6,131 +6,64 @@ from gda.data import NumTracker
 from gda.jython import InterfaceProvider
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.jython.commands.ScannableCommands import scan
-from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass, \
-    waittimeClass, waittimeClass2, actualTimeClass
 from gda.configuration.properties import LocalProperties
-from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
-from i09shared.analysis.ScanDataAnalysis import FindScanCentroid, FindScanPeak
-from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import ExtractPeakParameters
 from gda.util import PropertyUtils
 from gda.device.scannable import PVScannable
-import gdascripts
-import i09shared.installation as installation
+from gdascripts import installation
 
-print "=================================================================================================================";
-print "Performing beamline specific initialisation code (i09).";
-print "=================================================================================================================";
+print("="*100);
+print "Performing beamline specific initialisation code for i09-2.";
+print("="*100)
 
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Set if scan returns to the original positions on completion."
-print "    scansReturnToOriginalPositions=0, not return to its start position (the default);"
-print "    scansReturnToOriginalPositions=1, return to its start position;"
-scansReturnToOriginalPositions = 0;
-print
+from i09shared.localstation import * #@UnusedWildImport
 
-from java.lang import System  # @UnresolvedImport
+print "Custom i09-2 initialisation code.";
 
 ###############################################################################
-###                            Generic Functions                            ###
+###               Configure scan data processing and scan commands          ###
 ###############################################################################
-from i09shared.utils.directory_operation_commands import pwd, lwf, nwf, nfn, cfn, setSubdirectory, getSubdirectory #@UnusedImport
+print("-"*100)
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+print("")
 
-# ## Create time Scannables
-print "Creating time scannables"
-from i09shared.timerelated import clock, t, dt, w  # @UnusedImport
-showtime = showtimeClass('Showtime')
-inctime = showincrementaltimeClass('inctime')
-waittime = waittimeClass2('Waittime')
-atime = actualTimeClass('atime')
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
-beam = Finder.find("beam")
-print "create 'beamline' object for access beamline parameters such as data directory"
-beamline = Finder.find("beamline")
-
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
-from gdascripts.pd.epics_pds import *  # @UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load time utilities for creating timer objects."
-from gdascripts.pd.time_pds import *  # @UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), "
-print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import *  # @UnusedWildImport
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "load common physical constants"
-from gdascripts.constants import *  # @UnusedWildImport
-print
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "function to set wavelength >>>setwavelength(value)"
-
-
-def setlambda(wavelength):
-    wavelength = float(wavelength)
-    beam.setWavelength(wavelength)
-
-
-def setwavelength(wavelength):
-    setlambda(wavelength)
-
-
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
-print "    To use this, you must place 'interruptable()' call as the 1st or last line in your for-loop."
-
-
-def interruptable():
-    GeneralCommands.pause()
+from i09shared.scan.miscan import miscan  # @UnusedImport
+#Is this needed? Doesn't seem to be used
+# Install regional scan
+print("Installing regional scan")
+from gdascripts.scan.RegionalScan import RegionalScanClass
+mrscan = RegionalScanClass()
+alias('mrscan')
+print("")
 
 ###############################################################################
-###                   Configure scan data processing                        ###
+###                         Import useful scannables                        ###
 ###############################################################################
-
-
-print("Importing analysis commands (findpeak, findcentroid & enable scan data processes)")
-findpeak = FindScanPeak
-findcentroid = FindScanCentroid
-
-# Install standard scan processing
-from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
-scan_processor.rootNamespaceDict = globals()
-
-###############################################################################
-###                   Configure scannable output formats                        ###
-###############################################################################
-globals()['sm3pitch'].setOutputFormat(["%10.1f"])
-
-print("-----------------------------------------------------------------------------------------------------------------")
+print("-"*100)
+# Import and setup function to create mathematical scannables
 from i09shared.functions import functionClassFor2Scannables
-functionClassFor2Scannables.ROOT_NAMESPACE_DICT = globals()
+functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
+from i09shared.functions.functionClassFor2Scannables import ScannableFunctionClassFor2Scannables #@UnusedImport
+print("Importing utility mathmatical scannable class ScannableFunctionClassFor2Scannables " + functionClassFor2Scannables.ScannableFunctionClassFor2Scannables.__doc__) #@UndefinedVariable
 
+###############################################################################
+###                         Create epics devices                            ###
+###############################################################################
 if installation.isLive():
     # Create temporary devices for femtos this should be moved to Spring
     sd9iamp9 = DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I", "V", "%f")
     sd9iamp36 = DisplayEpicsPVClass("sd9iamp36", "BL09K-MO-SD-09:IAMP36:I", "V", "%f")
     sd11iamp7 = DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I", "V", "%f")
 
-# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
-# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
-extraDetectors = ""
-
-print("-----------------------------------------------------------------------------------------------------------------")
-
-from pseudodevices.IDGap_Offset import jgap_offset
-
-print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
+###############################################################################
+###                         Create JID related devices                      ###
+###############################################################################
+print("-"*100)
+from pseudodevices.IDGap_Offset import jgap_offset #@UnusedImport
+print("Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables.")
+print("")
 LH,LV,CR,CL=["LH","LV","CR","CL"]
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-
 jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
 jenergy_s.configure()
 polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
@@ -143,24 +76,39 @@ jenergypolarisation.setExtraNames(["polarisation"])
 from scannable.continuous.continuous_energy_scannables import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
 from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
+###############################################################################
+###                   Get channel voltage control scannables                ###
+###############################################################################
 if installation.isLive():
     from detector.iseg_instances import dldv, mcp_b, kenergy, int_spec, DLD_start, DLD_stop  # @UnusedImport
-    from detector.iseg_channel_scannable_instances import *  # @UnusedImport
-    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc  # @UnresolvedImport
+    from detector.iseg_channel_scannable_instances import *  # @UnusedWildImport
     from pseudodevices.bindingEnergyScannable import benergy,Benergy  # @UnusedImport
 
-from i09shared.scan.miscan import miscan, clear_summed_data  # @UnusedImport
+###############################################################################
+###                   Get sample manipulator scannables                     ###
+###############################################################################
+from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc #@UnusedImport
 
-# Install regional scan
-print("Installing regional scan")
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
+def clear_summed_data():
+    from uk.ac.diamond.daq.configuration import ConfigUtils #@UnresolvedImport
+    if installation.isLive():
+        if ConfigUtils.profileActive("V2"):
+            caput("BL09K-EA-DET-01:SUM1:ResetFilter", 1)
+        if ConfigUtils.profileActive("V1"):
+            caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
+    else:
+        print("Clear accumulated data")
 
-# check beam scannables
+###############################################################################
+###                   Get check beam/control scannable                      ###
+###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 from i09shared.pseudodevices.checkid import checkjid # @UnusedImport
 
+###############################################################################
+###                       Setup metashop commands                           ###
+###############################################################################
+#ToDo - Should be updated to new meta and done in spring
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
 from metadata.metashop import meta_add, meta_ll, meta_ls, meta_rm  # @UnusedImport
@@ -170,9 +118,14 @@ meta_data_list += [jenergy_s, polarisation]  # @UndefinedVariable
 meta_data_list += [analyser_slit]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
+print("")
 
-from i09shared.scannable.SamplePositions import sp, SamplePositions #@UnusedImport
+###############################################################################
+###                   Save SamplePosition scannable                         ###
+###############################################################################
+from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
 
-print("=================================================================================================================")
+print("="*100)
 print("localStation.py Initialisation script complete.")
+print("="*100)
 

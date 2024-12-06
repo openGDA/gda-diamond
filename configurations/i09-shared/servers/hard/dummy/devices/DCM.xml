@@ -68,7 +68,7 @@
 		<property name="mediumSpeed" value="0.2" />
 		<property name="slowSpeed" value="0.1" />
 		<property name="upperHardLimit" value="20"/>
-		<property name="lowerHardLimit" value="2.1001"/>
+		<!-- <property name="lowerHardLimit" value="2.1001"/> -->
 	</bean>
 	<bean id="dcm_lambda" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />

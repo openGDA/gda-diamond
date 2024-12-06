@@ -10,7 +10,7 @@ For polarisation CL and CR, the ID phase is set to 15 mm fixed at the requested 
 import sys
 from time import sleep
 import logging
-import i09shared.installation as installation
+from gdascripts import installation as installation
 logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties

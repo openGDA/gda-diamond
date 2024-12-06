@@ -19,6 +19,7 @@ try:
     print(" 3. 'checkfe' - check Front end shutter, pause when shutter closed, resume 60s after shutter opened.")
     print(" 4. 'checkbeam' - composite scannable of above 3 scannables")
     print(" Checking is done every second!")
+    print("")
 
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
     from gda.device.scannable.scannablegroup import ScannableGroup

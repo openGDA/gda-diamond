@@ -5,7 +5,7 @@ from gda.device.scannable import PositionCallableProvider, PositionStreamIndexer
 from gda.device import Detector, DeviceException
 from org.slf4j import LoggerFactory
 from threading import Timer
-import i09shared.installation as installation
+from gdascripts import installation as installation
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 

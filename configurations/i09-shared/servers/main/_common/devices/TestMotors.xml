@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dm_x" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dm_y" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dm_z" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dm_a" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dm_b" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dm_c" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<bean id="dmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_x" />
+	</bean>
+	<bean id="dmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_y" />
+	</bean>
+	<bean id="dmz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_z" />
+	</bean>
+	<bean id="dma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_a" />
+	</bean>
+	<bean id="dmb" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_b" />
+	</bean>
+	<bean id="dmc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_c" />
+	</bean>
+
+	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dmx" />
+				<ref bean="dmy" />
+				<ref bean="dmz" />
+				<ref bean="dma" />
+				<ref bean="dmb" />
+				<ref bean="dmc" />
+			</list>
+		</property>
+	</bean>
+</beans>

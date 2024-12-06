@@ -16,7 +16,6 @@
 	<import resource="DLD_SUMMED_V2.xml"/>
 	<import resource="Microscope.xml"/>
 	<import resource="ES32.xml"/>
-	<import resource="DummyScannables.xml"/>
 	<import resource="BFM.xml"/>
 </beans>
 	

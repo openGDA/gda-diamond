@@ -16,27 +16,16 @@ from gda.device.scannable import DummyScannable
 from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.jython.commands.ScannableCommands import scan
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from gdascripts.utils import caput
-from uk.ac.diamond.daq.configuration import ConfigUtils
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
 print("    Syntax: miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) mpx 10 0.1")
+print("")
 
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
-
-
-def clear_summed_data():
-		if installation.isLive():
-				if ConfigUtils.profileActive("V2"):
-						caput("BL09K-EA-DET-01:SUM1:ResetFilter", 1)
-				if ConfigUtils.profileActive("V1"):
-						caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
-		else:
-				print("Clear accumulated data")
-
 
 PRINTTIME = False
 zeroScannable = DummyScannable("zeroScannable")

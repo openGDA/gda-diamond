@@ -1,4 +1,4 @@
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from calibration.hard_energy_class import HardEnergy
 from pseudodevices.IDGap_Offset import igap_offset, jgap_offset
 from scannable.energyHarmonicOrder import EnergyHarmonicOrder
@@ -6,19 +6,17 @@ from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
 
 from gdaserver import igap, dcmenergy, pgmenergy, jidscannable # @UnresolvedImport
 
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'ienergy_s' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
+print("-"*100)
+print("Create an 'ienergy_s' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy")
 ienergy_order = EnergyHarmonicOrder("ienergy_order")
 if installation.isLive():
     ienergy_s = HardEnergy("ienergy_s", ienergy_order, igap, dcmenergy, "IIDCalibrationTable.txt",gap_offset=igap_offset, feedbackPVs=['BL09I-EA-FDBK-01:ENABLE','BL09I-EA-FDBK-02:ENABLE'])  # @UndefinedVariable
 else:
     ienergy_s = HardEnergy("ienergy_s", ienergy_order, igap, dcmenergy,"IIDCalibrationTable.txt", gap_offset=igap_offset, feedbackPVs=None)  # @UndefinedVariable
-    
-print
-print "-----------------------------------------------------------------------------------------------------------------"
 
-print "Create an 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables."
+print("")
+print("-"*100)
+print("Create an 'jenergy_s', 'polarisation' and 'jenergypolarisation' scannables.")
 LH,LV,CR,CL,LH3=["LH","LV","CR","CL","LH3"]
 jenergy_order = EnergyHarmonicOrder("jenergy_order")
 if installation.isLive():
@@ -37,13 +35,11 @@ jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
 #I09-505
-print("")
 print("Synchronising polarisation with hardware...")
 print("Initial ID polarisation is: " + polarisation.rawGetPosition())
+print("")
 
-print "-----------------------------------------------------------------------------------------------------------------"
-
-#Connect the JythonScannableWrappers
+#Connect the JythonScannableWrappers for client live controls
 from gdaserver import ienergy_order_wrapper, jenergy_order_wrapper, igap_offset_wrapper, jgap_offset_wrapper, polarisation_wrapper # @UnresolvedImport
 ienergy_order_wrapper.connectScannable()
 jenergy_order_wrapper.connectScannable()

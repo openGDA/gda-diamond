@@ -23,6 +23,7 @@
 	</bean>
 	<bean id="sm3fpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sm3fpitch_motor" />
+		<property name="outputFormat" value="%10.1f" />
 	</bean>
 
 	<bean id="sm3" class="gda.device.scannable.scannablegroup.ScannableGroup">

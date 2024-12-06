@@ -49,7 +49,8 @@ trajectory_controller_helper = TrajectoryControllerHelper()
 cvscan_traj=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 
 print ("-"*100)
-print ("Creating I09 GDA 'cvscan' commands: ")
+print ("Creating I09 GDA 'cvscan' command")
+print("")
 
 def cvscan(c_energy, start, stop, step, *args):
     ''' cvscan that checks if there is enough time to collect data before topup when 'checkbeam' is used.

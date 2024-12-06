@@ -12,7 +12,7 @@ from gdascripts.scannable.epics.PvManager import PvManager
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 import threading, time
-import i09shared.installation as installation
+from gdascripts import installation as installation
 from time import sleep
 
 ID_GAP_END_OFFSET = 0.00 # value used to make sure ID gap stops at the same time as PGM Energy

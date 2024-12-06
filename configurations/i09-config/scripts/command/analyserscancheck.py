@@ -8,10 +8,12 @@ from org.opengda.detector.electronanalyser.nxdetector import EW4000
 from gdascripts.utils import caput
 from gda.device import Scannable
 from gdaserver import dcmenergyEv, pgmenergy, analyser #@UnresolvedImport
-from i09shared.command.analyserScan import getSequenceFilename
+from i09shared.scan.analyserScan import getSequenceFilename
+
+ZERO_SUPPLIES_PV = "BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"
 
 def zerosupplies():
-    caput("BL09I-EA-DET-01:CAM:ZERO_SUPPLIES", 1)
+    caput(ZERO_SUPPLIES_PV, 1)
 
 def is_region_valid(region_validator, region, elementset, excitationenergy):
     if region.isEnabled():
@@ -41,7 +43,7 @@ def analyserscancheck(*args):
         arg = args[i]
 
         if isinstance( arg,  EW4000 ):
-            ew4000 = arg     
+            ew4000 = arg
             filename = getSequenceFilename(args[i + 1])
             i = i + 1
             continue
@@ -139,3 +141,11 @@ def analyserscancheck(*args):
 
     if len(invalid_regions) == 0:
         print("All regions are valid!")
+
+from gda.jython.commands.GeneralCommands import alias
+alias("analyserscancheck")
+alias("zerosupplies")
+
+print("Installing 'analyserscancheck' to check if analyserscan command would be valid.")
+print("Installing 'zerosupplies' command which uses pv: " + ZERO_SUPPLIES_PV)
+print("")
