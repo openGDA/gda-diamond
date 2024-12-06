@@ -5,7 +5,8 @@
 
 	<bean id="led_demand" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="led_toggle" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="led_toggle" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="#{workstation}-MO-SIM-01:MP:SELECT" />
 		<property name="positions">
 			<list>
 				<value>OFF</value>
