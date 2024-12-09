@@ -22,7 +22,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.instance.dir=${project_loc:i13-config}
--Dgda.group.dir=${project_loc:core-config}/no-group
 -Dgda.propertiesFile=${project_loc:i13-config}/properties/dummy/dummy_instance_java.properties
 -Dgda.mode=dummy
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i13-config}/properties/dummy/JCALibrary.properties
