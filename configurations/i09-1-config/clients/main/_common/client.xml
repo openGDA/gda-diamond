@@ -8,6 +8,7 @@
 	</bean>
 
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcmenergyEv" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="visualization.xml" />
 	<import resource="live_controls.xml" />
