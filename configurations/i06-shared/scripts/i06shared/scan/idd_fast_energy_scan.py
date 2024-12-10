@@ -20,7 +20,7 @@ from gda.jython.commands.GeneralCommands import alias
 from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 from gda.configuration.properties import LocalProperties
-from i06shared.functions.nexusYamlTemplateProcessor import apply_tamplate_to_nexus_file
+from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
 
@@ -68,7 +68,7 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
         beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() )
         beamlineutil.restoreArchiving()
         uuu.restoreDefaults()
-        apply_tamplate_to_nexus_file(beamlineutil.getLastScanFile(), NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+        apply_template_to_nexus_file(beamlineutil.getLastScanFile(), NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
     except :
         errortype, exception, traceback = sys.exc_info()
         logger.fullLog(None, "Error in zacscan", errortype, exception , traceback, False)
