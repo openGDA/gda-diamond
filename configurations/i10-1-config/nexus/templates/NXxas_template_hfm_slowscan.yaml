@@ -1,0 +1,64 @@
+entry/:
+  NX_class@: NXentry
+  xas_entry/:
+    NX_class@: NXsubentry
+    default@: data
+    definition: NXxas # Official NeXus NXDL schema to which this file conforms
+    title: /entry/title
+    start_time: /entry/start_time
+    instrument/:
+      NX_class@: NXinstrument
+      source: /entry/instrument/source
+      monochromator/:
+        NX_class@: NXmonochromator
+        energy: /entry/instrument/pgmenergy/value
+      incoming_beam/:
+        NX_class@: NXdetector
+        data: /entry/instrument/macj216/data # i0
+      absorbed_beam/:
+        NX_class@: NXdetector
+        data: "#{@xasmode_slow.getPosition()}" # SpEL expression derived the link path from XAS measurement 'mode' scannable using 'xasmode_slow' map
+        mode: "#{@xasmode.getPosition()}"  # the default XAS measurement mode
+      sample: /entry/sample
+      monitor/:
+       NX_class@: NXmonitor
+       mode: 'monitor'
+       preset: 1
+       data: /entry/xas_entry/instrument/incoming_beam/data
+      tfy/: # Total Fluorescence Yield -  Front top
+        NX_class@: NXdata
+        mode: 'TFY'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: 'NA'
+      tfy_front/: # Total Fluorescence Yield -  Front bottom
+        NX_class@: NXdata
+        mode: 'TFY_front'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: /entry/instrument/macj218/data
+      tfy_side/: # Total Fluorescence Yield -  90 degree
+        NX_class@: NXdata
+        mode: 'TFY_side'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: /entry/instrument/macj219/data
+      tey/: # Total Electron Yield
+        NX_class@: NXdata
+        mode: 'TEY'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: /entry/instrument/macj217/data
+      pey/: # Partial Electron Yield
+        NX_class@: NXdata
+        mode: 'PEY'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: 'NA'
+      pfy/: # Partial Fluorescence Yield
+        NX_class@: NXdata
+        mode: 'PFY'
+        energy: /entry/xas_entry/instrument/monochromator/enery
+        data: /entry/instrument/xmapMca/fullSpectrum
+    data/:
+      NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
+      mode: /entry/xas_entry/instrument/absorbed_beam/mode # one of these value: [TEY, TFY_ft, TFY_fb, TFY_90, PEY, PFY] - Diamond specific for now!
+      energy: /entry/xas_entry/instrument/monochromator/enery
+      absorbed_beam: /entry/xas_entry/instrument/absorbed_beam/data

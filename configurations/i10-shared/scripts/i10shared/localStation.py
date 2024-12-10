@@ -115,3 +115,12 @@ harmonic = HarmonicScannable("harmonic", pol)
 # Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS = []  # @UndefinedVariable
+
+print("-"*100)
+print("load 'xasmode' scannable, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
+from scannables import XAS_Mode
+TEY, TFY, TFY_front, TFY_side, PEY, PFY = XAS_Mode.XAS_MODES
+from scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
+from scan.XASScan import xasscan  # @UnusedImport
+from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
+

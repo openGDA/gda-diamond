@@ -1,0 +1,102 @@
+      monochromator:/ # incoming_beam_monochromator
+        NX_class@: NXmonochromator
+        wavelength: # wavelength selected
+        wavelength_errors: # wavelength standard deviation
+        energy: # energy selected
+        energy_errors: # energy standard deviation
+        off_geometry/: # This group describes the shape of the beam line component
+          NX_class@: NXoff_geometry
+          vertices: # List of x,y,z coordinates for vertices.
+          winding_order: # List of indices of vertices in the vertices dataset to form each face, right-hand rule for face normal.
+          faces: # start index in winding_order for each face.
+        crystal/: # Use as many crystals as necessary to describe
+          NX_class@: NXcrystal
+          usage: # [Bragg, Laue] # How this crystal is used. Choices are in the list.
+          type: # Type or material of monochromating substance.
+          chemical_formula: # The chemical formula specified using CIF conventions.
+          order_no: # A number which describes if this is the first, second,.. crystal in a multi crystal monochromator
+          cut_angle: # Cut angle of reflecting Bragg plane and plane of crystal surface
+          space_group: # Space group of crystal structure
+          unit_cell: # Unit cell parameters (lengths and angles)
+          unit_cell_a: # Unit cell lattice parameter: length of side a
+          unit_cell_b: # Unit cell lattice parameter: length of side b
+          unit_cell_c:  # Unit cell lattice parameter: length of side c
+          unit_cell_alpha: # Unit cell lattice parameter: angle alpha
+          unit_cell_beta: # Unit cell lattice parameter: angle beta
+          unit_cell_gamma: # Unit cell lattice parameter: angle gamma
+          unit_cell_volume: # Volume of the unit cell
+          orientation_matrix: # Orientation matrix of single crystal sample using Busing-Levy convention: W. R. Busing and H. A. Levy (1967). Acta Cryst. 22, 457-464
+          wavelength: # Optimum diffracted wavelength
+          d_spacing: # spacing between crystal planes of the reflection
+          scattering_vector: # Scattering vector, Q, of nominal reflection
+          reflection: # Miller indices (hkl) values of nominal reflection
+          thickness: # Thickness of the crystal. (Required for Laue orientations - see “usage” field)
+          density: # mass density of the crystal
+          segment_width: # Horizontal width of individual segment
+          segment_height: # Vertical height of individual segment
+          segment_thickness: # Thickness of individual segment
+          segment_gap:  # Typical gap between adjacent segments
+          segment_columns: # number of segment columns in horizontal direction
+          segment_rows: # number of segment rows in vertical direction
+          mosaic_horizontal: # horizontal mosaic Full Width Half Maximum
+          mosaic_vertical: # vertical mosaic Full Width Half Maximum
+          curvature_horizontal: # Horizontal curvature of focusing crystal
+          curvature_vertical: # Vertical curvature of focusing crystal
+          is_cylindrical: # Is this crystal bent cylindrically?
+          cylindrical_orientation_angle: # If cylindrical: cylinder orientation angle
+          polar_angle: # Polar (scattering) angle at which crystal assembly is positioned. it is recommended to use NXtransformations instead.
+          azimuthal_angle: # Azimuthal angle at which crystal assembly is positioned. Note: it is recommended to use NXtransformations instead.
+          bragg_angle: # Bragg angle of nominal reflection
+          temperature: # average/nominal crystal temperature
+          temperature_coefficient: # how lattice parameter changes with temperature
+          temperature_log: # log file of crystal temperature
+          reflectivity: # crystal reflectivity versus wavelength
+          transmission: # crystal transmission versus wavelength
+          OFF_GEOMETRY/:
+            NX_class@: NXoff_geometry
+            vertices:
+            winding_order:
+            faces:
+          TRANSFORMATIONS/:
+            NX_class@: NXtransformations
+            AXISNAME: # 
+            transformation_type@: # translation | rotation
+            vector@: # required! Three values that define the axis for this transformation.
+            offset@: # A fixed offset applied before the transformation (three vector components).
+            offset_units@: # Units of the offset. Values should be consistent with NX_LENGTH.
+            depends_on@: "." # Points to the path to a field defining the axis on which this depends or the string “.”.
+            equipment_component@: # An arbitrary identifier of a component of the equipment to which the transformation belongs, such as ‘detector_arm’ or ‘detector_module’.
+            AXISNAME_end: # a placeholder for a name constructed from the actual name of an axis to which _end has been appended.
+        GRATING/: # For diffraction grating based monochromators
+          NX_class@: NXgrating
+          angles: # Blaze or trapezoidal angles, with the angle of the upstream facing edge listed first.
+          period: # List of polynomial coefficients describing the spatial separation of lines/grooves as a function of position along the grating, in increasing powers of position.
+          duty_cycle:
+          depth: 
+          diffraction_order: 
+          deflection_angle: # Angle between the incident beam and the utilised outgoing beam.
+          interior_atmosphere: # Any of these values: vacuum | helium | argon
+          substrate_material: 
+          substrate_density: 
+          substrate_thickness: 
+          coating_material: 
+          substrate_roughness: 
+          coating_roughness: 
+          layer_thickness: # An array describing the thickness of each layer
+          depends_on: "." # NeXus positions components by applying a set of translations and rotations to apply to the component starting from 0, 0, 0.
+          figure_data: # Numerical description of the surface figure of the mirror.
+          OFF_GEOMETRY/:
+            NX_class@: NXoff_geometry
+            vertices:
+            winding_order:
+            faces:
+          TRANSFORMATIONS/:
+            NX_class@: NXtransformations
+            AXISNAME: # 
+            transformation_type@: # translation | rotation
+            vector@: # required! Three values that define the axis for this transformation.
+            offset@: # A fixed offset applied before the transformation (three vector components).
+            offset_units@: # Units of the offset. Values should be consistent with NX_LENGTH.
+            depends_on@: "." # Points to the path to a field defining the axis on which this depends or the string “.”.
+            equipment_component@: # An arbitrary identifier of a component of the equipment to which the transformation belongs, such as ‘detector_arm’ or ‘detector_module’.
+            AXISNAME_end: # a placeholder for a name constructed from the actual name of an axis to which _end has been appended.

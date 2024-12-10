@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>dls-config</project>
+		<project>uk.ac.diamond.daq.beamline.i06-shared</project>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.mapping</project>
 		<project>uk.ac.gda.core</project>
