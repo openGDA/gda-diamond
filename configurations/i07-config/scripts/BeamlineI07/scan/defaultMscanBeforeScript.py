@@ -8,6 +8,7 @@ EXCALIBUR_STATIC_NAME = "BL07I-ML-SCAN-11"
 EXCALIBUR_EH2_NAME = "BL07I-ML-SCAN-36"
 P2_STATIC_NAME = "BL07I-ML-SCAN-12"
 P3_STATIC_NAME = "BL07I-ML-SCAN-32"
+EIGER_NAME = "BL07I-ML-SCAN-03"
 
 # Set of Strings of runnable device names
 detectors = scanRequest.getDetectors().keySet()
@@ -21,9 +22,10 @@ else:
     print("Setting manual attenuation")
     fatt.manualMode()
 
-#caput("BL07I-MO-STEP-08:COORDINATE_SYS_GROUP", "Empty")
 if ( P2_STATIC_NAME in detectors or P3_STATIC_NAME in detectors or EXCALIBUR_STATIC_NAME in detectors ):
     caput("BL07I-MO-STEP-08:COORDINATE_SYS_GROUP", "Static")
 else :
     caput("BL07I-MO-STEP-08:COORDINATE_SYS_GROUP", "Direct Mapping")
-#sleep(0.1)
+
+if ( EIGER_NAME in detectors ):
+    caput("BL07I-EA-EIGER-01:OD:FAN:BlockSize", 1)
