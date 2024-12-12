@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 		
-	<bean id="remove_sample_from_dome" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="remove_sample_from_dome" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		    <constructor-arg value="REMOVE_SAMPLE"/>
 		    <constructor-arg>
 		    	<list>
@@ -28,7 +28,7 @@
 		    </constructor-arg>
 	</bean>
 
-	<bean id="park_sample_in_hotel" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="park_sample_in_hotel" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		    <constructor-arg value="PARK_SAMPLE_IN_HOTEL"/>
 		    <constructor-arg>
 		    	<list>

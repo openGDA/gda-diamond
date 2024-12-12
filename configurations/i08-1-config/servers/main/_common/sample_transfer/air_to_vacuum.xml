@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<bean id="air_to_vacuum" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="air_to_vacuum" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		    <constructor-arg value="AIR_TO_VACUUM"/>
 		    <constructor-arg>
 			    <list>

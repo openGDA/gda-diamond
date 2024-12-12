@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 	
-	<bean id="hotel_to_dome_prepare" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="hotel_to_dome_prepare" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		    <constructor-arg value="HOTEL_TO_DOME_PREPARE"/>
 		    <constructor-arg>
 		    	<list>
@@ -23,7 +23,7 @@
 		    </constructor-arg>
 	</bean>
 	
-	<bean id="hotel_to_dome_grip" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="hotel_to_dome_grip" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		    <constructor-arg value="HOTEL_TO_DOME_GRIP"/>
 			<constructor-arg>
 			    <list>
@@ -42,7 +42,7 @@
 		    </constructor-arg>
 	</bean>
 
-	<bean id="sample_into_dome" class="uk.ac.gda.core.sampletransfer.Sequence">
+	<bean id="sample_into_dome" class="uk.ac.gda.core.sampletransfer.SequenceSteps">
 		<constructor-arg value="SAMPLE_INTO_DOME"/>
 		<constructor-arg>
 			<list>
