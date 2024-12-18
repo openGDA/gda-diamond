@@ -21,27 +21,26 @@
 		<property name="cameraYSize" value="900"/>
 	</bean>
 	
+	<bean id="analyser_energy_range" class="uk.ac.diamond.daq.pes.api.AnalyserEnergyRangeConfiguration">
+		<constructor-arg>
+			<list>
+				<value>${gda.config}/lookupTables/low_elementset_table.txt</value>
+				<value>${gda.config}/lookupTables/high_elementset_table.txt</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
-	<property name="name" value="regionvalidator"/>
-		<property name="lookupTablePathMap">
-			<map>
-				<entry key="Low" value="${gda.config}/lookupTables/low_elementset_table.txt"/>
-				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
-			</map>
-		</property>
+		<property name="name" value="regionvalidator"/>
+		<property name="energyRange" ref="analyser_energy_range"/>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="pgmEnergy" ref="pgmenergy" />
 		<property name="dcmEnergy" ref="dcmenergyEv" />
 	</bean>
 	
 	<bean id="regionvalidatorForCreator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
-	<property name="name" value="regionvalidatorForCreator"/>
-		<property name="lookupTablePathMap">
-			<map>
-				<entry key="Low" value="${gda.config}/lookupTables/low_elementset_table.txt"/>
-				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
-			</map>
-		</property>
+		<property name="name" value="regionvalidatorForCreator"/>
+		<property name="energyRange" ref="analyser_energy_range"/>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtilForCreator" />
 		<property name="offlineValidation" value="true"/>
 	</bean>
