@@ -102,6 +102,14 @@
 				<value>SUM</value>
 			</list>
 		</property>
+		<property name="statNames">
+			<map>
+				<entry key="MAX_VAL" value="merlin_max_val"/>
+				<entry key="MAX_X" value="merlin_max_x"/>
+				<entry key="MAX_Y" value="merlin_max_y"/>
+				<entry key="SUM" value="merlin_total"/>
+			</map>
+		</property>
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">

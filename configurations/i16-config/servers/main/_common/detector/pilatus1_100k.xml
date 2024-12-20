@@ -113,6 +113,14 @@
 				<value>SUM</value>
 			</list>
 		</property>
+		<property name="statNames">
+			<map>
+				<entry key="MAX_VAL" value="pil1_max_val"/>
+				<entry key="MAX_X" value="pil1_max_x"/>
+				<entry key="MAX_Y" value="pil1_max_y"/>
+				<entry key="SUM" value="pil1_total"/>
+			</map>
+		</property>
 	</bean>
 
 	<bean class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
