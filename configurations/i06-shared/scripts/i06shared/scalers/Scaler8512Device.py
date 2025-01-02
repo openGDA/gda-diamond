@@ -5,7 +5,7 @@ from gda.device import Detector
 from i06shared import installation
 from uk.ac.diamond.daq.concurrent import Async
 from random import Random
-from java.util.concurrent import TimeUnit
+from java.util.concurrent import TimeUnit  # @UnresolvedImport
 
 #A Class to set all the detector's integration time in one go
 class DetectorIntegrationsDevice(ScannableMotionBase):
@@ -127,9 +127,12 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 			return self._busy;
 		
 	def waitWhileBusy(self):
-		self.future.get()
-		self._busy = False
-		
+		if installation.isDummy():
+			self.future.get()
+			self._busy = False
+		else:
+			super(Scaler8512ChannelEpicsDeviceClass, self).waitWhileBusy()
+			
 	def atScanEnd(self):
 		if installation.isLive():
 			if self.chTP.isConfigured():
