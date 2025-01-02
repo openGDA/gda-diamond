@@ -193,8 +193,12 @@
 		<property name="name" value="ew4000CollectionStrategy" />
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="analyser" ref="analyser" />
-		<property name="softXRayFastShutter" ref="fsj1"/>
-		<property name="hardXRayFastShutter" ref="fsi1"/>
+		<property name="energySourceToShutterMap">
+			<map>
+				<entry key-ref="pgmenergy" value-ref="fsj1"/>
+				<entry key-ref="dcmenergyEv" value-ref="fsi1"/>
+			</map>
+		</property>
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
 
