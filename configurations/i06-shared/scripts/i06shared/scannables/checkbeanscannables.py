@@ -8,7 +8,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from i06shared.utils.ExceptionLogs import localStation_exception
 import sys
-from gdaserver import ringcurrent, topup_time, fepb
+from gdaserver import ringcurrent, topup_time, fepb  # @UnresolvedImport
 print "-"*100
 try:
     print "Creating checkbeam and checkbeamcv devices composed of 3 conditions:"
