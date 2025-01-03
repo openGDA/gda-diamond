@@ -16,49 +16,9 @@
 	</bean>
 
 	<bean id="beamline_shared_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path"
-			value="${gda.config}/../i10-shared/scripts" />
+		<property name="path" value="${gda.config}/../i10-shared/scripts" />
 		<property name="name" value="Scripts: Shared" />
 		<property name="type" value="CONFIG" />
 	</bean>
-		
-	<!--  
-	<bean id="optics_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-diamond.git/configurations/optics-config/scripts" />
-		<property name="name" value="Scripts: optics-config" />
-		<property name="type" value="CONFIG" />
-	</bean>
-
-	<bean id="dls_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-diamond.git/dls-config/scripts" />
-		<property name="name" value="Scripts: dls-config" />
-		<property name="type" value="CORE" />
-	</bean>
-
-	<bean id="gda_core_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
-		<property name="name" value="Scripts: Core" />
-		<property name="type" value="CORE" />
-	</bean>
-
-	<bean id="gda_epics_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.epics/scripts" />
-		<property name="name" value="Scripts: EPICS" />
-		<property name="type" value="CORE" />
-	</bean>
-	
-	<bean id="gda_scisoftpy_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.python/src" />
-		<property name="name" value="Scripts: SCISOFTPY" />
-		<property name="type" value="CORE" />
-	</bean>
-
-	<bean id="diffcalc_script_project"  class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/diffcalc.git" />
-		<property name="name" value="Scripts: Diffcalc" />
-		<property name="type" value="CORE" />
-	</bean>
-	-->
-
 
 </beans>
