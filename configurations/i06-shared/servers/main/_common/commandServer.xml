@@ -7,15 +7,23 @@
 		<constructor-arg ref="command_server" />
 	</bean>
 
-	<bean class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.config}/scripts"/>
-		<property name="name" value="Scripts: Config"/>
-		<property name="type" value="CONFIG"/>
+	<bean id="user_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.users.scripts.dir}" />
+		<property name="name" value="Scripts: User" />
+		<property name="type" value="USER" />
 	</bean>
-	<bean class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.config}/../i06-shared/scripts"/>
-		<property name="name" value="Scripts: Shared"/>
-		<property name="type" value="CONFIG"/>
+
+	<bean id="beamline_config_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts" />
+		<property name="name" value="Scripts: Config" />
+		<property name="type" value="CONFIG" />
+	</bean>
+
+	<bean id="beamline_shared_config_script_project" class="gda.jython.ScriptProject">
+		<property name="path"
+			value="${gda.config}/../i06-shared/scripts" />
+		<property name="name" value="Scripts: Shared" />
+		<property name="type" value="CONFIG" />
 	</bean>
 
 </beans>
