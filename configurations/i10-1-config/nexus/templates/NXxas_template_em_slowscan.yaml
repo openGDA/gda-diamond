@@ -25,6 +25,11 @@ entry/:
        mode: 'monitor'
        preset: 1
        data: /entry/xas_entry/instrument/incoming_beam/data
+      tey/: # Total Electron Yield
+        NX_class@: NXdata
+        mode: 'TEY'
+        energy: /entry/xas_entry/instrument/monochromator/energy
+        data: /entry/instrument/macj317/data
       tfy/: # Total Fluorescence Yield -  Front top
         NX_class@: NXdata
         mode: 'TFY'
@@ -40,11 +45,6 @@ entry/:
         mode: 'TFY_side'
         energy: /entry/xas_entry/instrument/monochromator/energy
         data: 'NA'
-      tey/: # Total Electron Yield
-        NX_class@: NXdata
-        mode: 'TEY'
-        energy: /entry/xas_entry/instrument/monochromator/energy
-        data: /entry/instrument/macj317/data
       pey/: # Partial Electron Yield
         NX_class@: NXdata
         mode: 'PEY'

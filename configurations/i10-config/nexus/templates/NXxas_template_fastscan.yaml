@@ -25,26 +25,26 @@ entry/:
        mode: 'monitor'
        preset: 1
        data: /entry/xas_entry/instrument/incoming_beam/data
-      tfy_ft/: # Total Fluorescence Yield -  Front top
-        NX_class@: NXdata
-        mode: 'TFY_ft'
-        energy: /entry/xas_entry/instrument/monochromator/energy
-        data: /entry/instrument/mcs18/data
-      tfy_fb/: # Total Fluorescence Yield -  Front bottom
-        NX_class@: NXdata
-        mode: 'TFY_fb'
-        energy: /entry/xas_entry/instrument/monochromator/energy
-        data: 'NA'
-      tfy_90/: # Total Fluorescence Yield -  90 degree
-        NX_class@: NXdata
-        mode: 'TFY_90'
-        energy: /entry/xas_entry/instrument/monochromator/energy
-        data: 'NA'
       tey/: # Total Electron Yield
         NX_class@: NXdata
         mode: 'TEY'
         energy: /entry/xas_entry/instrument/monochromator/energy
         data: /entry/instrument/mcs17/data
+      tfy/: # Total Fluorescence Yield -  Front top
+        NX_class@: NXdata
+        mode: 'TFY'
+        energy: /entry/xas_entry/instrument/monochromator/energy
+        data: /entry/instrument/mcs18/data
+      tfy_front/: # Total Fluorescence Yield -  Front bottom
+        NX_class@: NXdata
+        mode: 'TFY_front'
+        energy: /entry/xas_entry/instrument/monochromator/energy
+        data: 'NA'
+      tfy_side/: # Total Fluorescence Yield -  90 degree
+        NX_class@: NXdata
+        mode: 'TFY_side'
+        energy: /entry/xas_entry/instrument/monochromator/energy
+        data: 'NA'
       pey/: # Partial Electron Yield
         NX_class@: NXdata
         mode: 'PEY'
