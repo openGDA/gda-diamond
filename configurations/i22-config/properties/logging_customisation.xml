@@ -13,13 +13,13 @@
 
 <included>
 		<logger level="DEBUG"	name="gda" />
-		<logger value="TRACE"	name="gda.device.detector.areadetector" />
+		<logger value="INFO"	name="gda.device.detector.areadetector" />
 		<logger level="INFO"	name="gda.device.detector.DAServer" />
 		<logger level="INFO"	name="gda.device.detector.DummyDAServer" />
 		<logger level="INFO"	name="gda.device.motor.EpicsMotor"/>
 		<logger level="DEBUG"	name="gda.device.motor.MoveEventQueue"/>
 		<logger level="DEBUG"	name="gda.events.jms.JmsEventReceiver"/>
-		<logger level="DEBUG"	name="gda.i22.linkam"/>
+		<logger level="INFO"	name="gda.i22.linkam"/>
 		<logger level="DEBUG"	name="gda.jython.batoncontrol.BatonManager"/>
 		<logger level="DEBUG"	name="gda.observable.ObservableComponent"/>
 		<logger level="INFO"	name="gda.scan.MultithreadedScanDataPointPipeline" />
@@ -32,12 +32,12 @@
 		<logger level="INFO"	name="org.eclipse.dawnsci" />
 		<logger level="INFO"	name="org.springframework" />
 		<logger level="DEBUG"	name="uk.ac.diamond" />
-<!--	<logger level="ERROR"	name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" />	 -->
+		<logger level="DEBUG"	name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" />
 		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" />
 		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" />
 		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" />
  		<logger level="DEBUG"	name="uk.ac.gda" />
 		<logger level="DEBUG"	name="uk.ac.gda.client.liveplot.SubLivePlotView" />
 		<logger level="DEBUG"	name="uk.ac.gda.menu.JythonControlsFactory" />
-		<logger level="DEBUG"	name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" />
+		<logger level="INFO"	name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" />
 </included>
