@@ -2,5 +2,6 @@
 
 gdalog
 
+gda -G launcher interrupt
 gda -G server restart $*
 source gda_servers_post_start
