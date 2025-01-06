@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>
-	This uses the simulated AD to pretend to be the MCP camera on i05-1. To use this file the simulated AD must be running 
+	This uses the simulated AD to pretend to be the MCP camera on i05-1. To use this file the simulated AD must be running
 	</description>
 
 	<bean id="mcp_gain" class="gda.device.scannable.DummyScannable" />

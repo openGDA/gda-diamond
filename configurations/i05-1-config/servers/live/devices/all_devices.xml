@@ -3,16 +3,12 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-				http://www.springframework.org/schema/context
-				http://www.springframework.org/schema/context/spring-context.xsd
-				http://www.springframework.org/schema/util
-				http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:property-placeholder properties-ref="configProperties" />
-	<util:properties id="configProperties">
-		<prop key="ANALYSER_PV_BASENAME">BL05J-EA-DET-01</prop>
-	</util:properties>
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ANALYSER_PV_BASENAME" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL05J-EA-DET-01"/>
+	</bean>
 	<!-- slits -->
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
@@ -34,12 +30,11 @@
 	<import resource="analyser_rotation.xml" />
 	<import resource="nano_es_femto.xml" />
 	<import resource="mcp.xml" />
-	<import resource="microscope_pv.xml" />
 	<import resource="microscope.xml" />
 	<import resource="cryostat.xml" />
 	<import resource="raw_sample_stage.xml" />
 	<import resource="user_patch_panel.xml" />
-	<import resource="malcolm.xml" />
+
 	<import resource="keithley.xml" />
 	<import resource="access_control.xml" />
 </beans>
