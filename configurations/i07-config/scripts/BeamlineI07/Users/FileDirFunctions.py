@@ -2,7 +2,7 @@
 # and makes it editable by members of the experiment's group
 
 from os import system
-from datetime import datetime
+from datetime import datetime as filedir_datetime
 from commands import getoutput
 
 def createUserSetup():
@@ -36,12 +36,12 @@ def setPilPaths():
 # gives i07user permission to access data directory
 
 def i07userperm(visit = ''):
-	if visit == '':
-		visit = getvisit()
-	print "Applying permissions to visit " + visit
-	year = datetime.today().year
-	d = "/dls/i07/data/" + str(year) + "/" + visit
-	if not visit.startswith("cm"):
+    if visit == '':
+        visit = getvisit()
+    print "Applying permissions to visit " + visit
+    year = filedir_datetime.today().year
+    d = "/dls/i07/data/" + str(year) + "/" + visit
+    if not visit.startswith("cm"):
             print getoutput("setfacl -n -m u:i07user:rx " + d)
             print getoutput("setfacl -n -m u:i07user:rx " + d + "/pilatus?")
             print getoutput("setfacl -n -m u:i07user:rwx " + d + "/processing")
@@ -57,15 +57,15 @@ def i07userperm(visit = ''):
 # recursively sets permissions for i07user if you forget to do it at the start
 
 def i07userperm_r(visit = ''):
-	if visit == '':
-		visit = getvisit()
-	i07userperm(visit)
-	print "Applying permissions for i07user recursively to visit " + visit
-	year = datetime.today().year
-	d = "/dls/i07/data/" + str(year) + "/" + visit
+    if visit == '':
+        visit = getvisit()
+    i07userperm(visit)
+    print "Applying permissions for i07user recursively to visit " + visit
+    year = filedir_datetime.today().year
+    d = "/dls/i07/data/" + str(year) + "/" + visit
 
-	print getoutput("setfacl -R -n -m u:i07user:rx " + d)
-	print getoutput("setfacl -R -n -m u:i07user:rwx " + d + "/processing")
+    print getoutput("setfacl -R -n -m u:i07user:rx " + d)
+    print getoutput("setfacl -R -n -m u:i07user:rwx " + d + "/processing")
 
 alias("createUserSetup")
 alias("setPilPaths")

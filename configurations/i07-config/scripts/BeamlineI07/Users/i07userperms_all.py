@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime as userperm_datetime
 from commands import getoutput
 from os import listdir, path
 from gdascripts.installation import isLive
 
 if isLive():
 
-	visits = ('/dls/i07/data/' + str(datetime.today().year))
+	visits = ('/dls/i07/data/' + str(userperm_datetime.today().year))
 	print "Setting i07user permissions for all visits in " + visits
 	
 	dirs = listdir(visits)

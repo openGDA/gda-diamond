@@ -1,5 +1,5 @@
 from time import sleep
-from datetime import datetime
+from datetime import datetime as ivium_datetime
 from gda.device.monitor import EpicsMonitor
 from gda.device.enumpositioner import EpicsSimpleMbbinary
 from gda.device.scannable import ScannableMotionBase
@@ -179,7 +179,7 @@ class IviumPotentiastat:
         self.setMethodFilename(filename)
         self.setHdfPath()
         hdfFileName = filename[:-4]
-        hdfFileName = hdfFileName+"_"+datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        hdfFileName = hdfFileName+"_"+ivium_datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         self.setHdfFilename(hdfFileName)
         self.primeHdfWriter()
         self.startMethod()
