@@ -6,6 +6,7 @@
 	
 	<import resource="DataWriterFactory.xml"/>
 	<import resource="DataServer.xml"/>
+	<import resource="SESSettings.xml"/>
 	<import resource="nxmetadata.xml"/>
 	<import resource="devices/all_devices.xml" />
 </beans>

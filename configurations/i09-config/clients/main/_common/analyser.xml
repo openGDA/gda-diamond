@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.diamond.ac.uk/schema/gda/gda
+                http://www.diamond.ac.uk/schema/gda/gda/gda.xsd" >
+
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
 		<property name="frameRate"	value="17" />
 		<property name="energyResolution" value="0.0877"/>
 		<property name="cameraXSize" value="1000"/>
 		<property name="cameraYSize" value="900"/>
 	</bean>
-	
-	<bean id="multipleExcitationEnergySource" class="java.lang.Boolean">
-		<constructor-arg value="true" />
-	</bean>
-	
+
 	<bean id="sequenceviewlivefactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewLiveFactory">
 		<property name="viewPartName" value="Sequence Editor" />
@@ -24,17 +27,15 @@
 		<property name="analyserElementSetPV" value="BL09I-EA-DET-01:CAM:ELEMENT_SET"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="ew4000" ref="ew4000"/>
-		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
-	
+
 	<bean id="sequenceviewcreatorfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewCreatorFactory">
 		<property name="viewPartName" value="Sequence Creator" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="regionValidator" ref="regionvalidator"/>
-		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
-	
+
 	<bean id="regionviewlivefactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewLiveFactory">
 		<property name="viewPartName" value="Region Editor" />
@@ -46,7 +47,7 @@
 		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:X_COUNT_RBV" />
 		<property name="iterationCurrentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
 		<property name="totalRemianingTimePV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="totalProgressPV" value="BL09I-EA-DET-01:CAM:PROGRESS_RBV"></property>
+		<property name="totalProgressPV" value="BL09I-EA-DET-01:CAM:PROGRESS_RBV"/>
 		<property name="totalPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_POINTS_RBV" />
 		<property name="currentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
 		<property name="currentIterationPV" value="BL09I-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
@@ -55,17 +56,13 @@
 		<property name="acquirePV" value="BL09I-EA-DET-01:CAM:Acquire" />
 		<property name="messagePV" value="BL09I-EA-DET-01:CAM:StatusMessage_RBV"/>
 		<property name="zeroSuppliesPV" value="BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"/>
-		<property name="pgmEnergy" ref="pgmenergy" />
-		<property name="dcmEnergy" ref="dcmenergyEv" />
-		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
-	
+
 	<bean id="regionviewcreatorfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewCreatorFactory">
 		<property name="viewPartName" value="Region Creator" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
-		<property name="excitationEnergySourceSelectable" ref="multipleExcitationEnergySource"/>
 	</bean>
 
 	<bean id="spectrumviewfactory"
@@ -87,7 +84,7 @@
 	<bean id="progressviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
 		<property name="viewPartName" value="Progress" />
-		
+
 		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
 		<property name="iterationLeadPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_LEAD_POINTS_RBV" />
 		<property name="iterationProgressPV" value="BL09I-EA-DET-01:CAM:REGION_PROGRESS_RBV"/>

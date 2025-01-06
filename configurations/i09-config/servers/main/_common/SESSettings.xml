@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Global settings for anything to do with sequence file and regions -->
+	<bean id="SESSettings" class="org.opengda.detector.electronanalyser.api.SESSettings">
+		<property name="name" value="SESSettings" />
+		<!-- Determines default SESExcitationEnergySource's and client display -->
+		<property name="SESConfigExcitationEnergySourceList">
+			<bean id="excitationEnergySourceConfig" class="java.util.ArrayList">
+				<constructor-arg>
+					<list>
+						<bean id="dcmenergyConfig" class="org.opengda.detector.electronanalyser.api.SESConfigExcitationEnergySource">
+							<constructor-arg name="name" value="source1"/>
+							<constructor-arg name="displayName" value="Hard X-ray"/>
+							<constructor-arg name="scannableName" value="dcmenergyEv"/>
+						</bean>
+						<bean id="pgmenergyConfig" class="org.opengda.detector.electronanalyser.api.SESConfigExcitationEnergySource">
+							<constructor-arg name="name" value="source2"/>
+							<constructor-arg name="displayName" value="Soft X-ray"/>
+							<constructor-arg name="scannableName" value="pgmenergy"/>
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="legacyFileFormatOverwrittenForSESSequenceJSONHanlder" value="false"/>
+		<property name="legacyConversionExcitationEnergyForSESRegion">
+			<map>
+				<!-- convert excitation energies in this range to source1 (dcmenergy) -->
+				<entry key="source1">
+					<list value-type="java.lang.Double">
+						<bean id="source1LowLimt" class="java.lang.Double">
+							<constructor-arg value="2100"/>
+						</bean>
+						<bean id="source1HighLimt" class="java.lang.Double">
+							<constructor-arg>
+								 <util:constant static-field="java.lang.Double.MAX_VALUE"/>
+							</constructor-arg>
+						</bean>
+					</list>
+				</entry>
+				<!-- convert excitation energies in this range to source2 (pgmenergy) -->
+				<entry key="source2">
+					<list value-type="java.lang.Double">
+						<bean id="source2LowLimt" class="java.lang.Double">
+							<constructor-arg>
+								 <util:constant static-field="java.lang.Double.MIN_VALUE"/>
+							</constructor-arg>
+						</bean>
+						<bean id="source2HighLimt" class="java.lang.Double">
+							<constructor-arg value="2100"/>
+						</bean>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>
