@@ -26,7 +26,22 @@ from gda.device import Scannable
 from types import IntType, FloatType
 from gdascripts.metadata.nexus_metadata_class import meta
 
+from gda.jython import InterfaceProvider
+from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
+from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
+from uk.ac.diamond.daq.configuration import BeamlineConfiguration
+from gda.configuration.properties import LocalProperties
+spring_profiles = ServiceProvider.getService(BeamlineConfiguration).profiles.toList()
+beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i10")
 
+if beamline_name == "i10":
+    NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
+elif beamline_name == "i10-1":
+    if "hfm" in spring_profiles:
+        NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_hfm_fastscan.yaml"
+    if "em" in spring_profiles:
+        NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_em_fastscan.yaml"
+        
 class TrajectoryControllerHelper(ScanListener):
 
     def __init__(self):  # motors, maybe also detector to set the delay time
@@ -146,11 +161,15 @@ def cvscan(c_energy, start, stop, step, *args):
     meta.addScalar("user_input", "command", command)
     try:
         cvscan_traj([arg for arg in newargs])
+        print("Creating NXxas sub-entry ...")
+        current_filename = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getCurrentFilename()
+        apply_template_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+        print("NXxas subentry is added to %s" % current_filename)
     except Exception as e:
         localStation_exception(sys.exc_info(), "cvscan exits with Error: %s" % (e))
     finally:
         meta.rm("user_input", "command")
-
+ 
 
 alias('cvscan')
 
