@@ -121,6 +121,7 @@
 		<property name="collectionStrategy" ref="medipix2_multiple_nxcollectionstrategy" />
 		<property name="baseRoiPvName" value="#{medipix2BaseRoiPv}" />
 		<property name="baseStatPvName" value="#{medipix2BaseStatPv}" />
+		<property name="currentPointPointPvName" value="TS:TSCurrentPoint" />
 	</bean>
 
 <!-- 	ROI plugin - takes data from CAM plugin  -->

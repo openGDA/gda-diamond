@@ -17,6 +17,7 @@ from gda.factory import Finder
 from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import BraggOffsetPreparer, XesPeakScanPreparer
+from xspress_functions import run_in_try_catch
 
 DAServer = Finder.find("DAServer")
 XASLoggingScriptController = Finder.find("XASLoggingScriptController")
@@ -87,7 +88,8 @@ def setup_detector_preparers() :
     braggOffsetPreparer.setIonchambers(ionchambers)
     braggOffsetPreparer.setI1(I1)
     braggOffsetPreparer.setDiagnosticDetector(d9_current_detector)
-    braggOffsetPreparer.setUseDiagnosticDetector(False)
+    braggOffsetPreparer.setUseDiagnosticDetector(True)
+    monoOptimiser.setCollectionTime(0.25) # diagnostic detector doesn't need a 'collection time'
     
     xesPeakScanPreparer = XesPeakScanPreparer()
     xesPeakScanPreparer.setScanRunners([xesEnergyUpperPeakScan, xesEnergyLowerPeakScan, xesEnergyBothPeakScan])
@@ -196,7 +198,7 @@ else :
         remove_default([topupCheckerWithShutter])
         remove_default([absorberChecker])
         remove_default([shutterChecker])
-        stopCryostat()
+        run_in_try_catch(stopCryostat)
     else:
         add_default([topupCheckerWithShutter])
         add_default([absorberChecker])

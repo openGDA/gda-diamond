@@ -19,8 +19,10 @@ case $1 in
 	upper | lower ) all_args=${@/"$1"/};;
 esac
 
-plugin_customization_file=/dls_sw/i20/software/gda_git/gda-diamond.git/plugins/uk.ac.gda.beamline.i20/plugin_customization_synoptic.ini
+username=${USER%@*}
+
+plugin_customization_file=/dls_sw/i20/software/gda/workspace_git/gda-diamond.git/plugins/uk.ac.gda.beamline.i20/plugin_customization_synoptic.ini
 echo "Source plugin customization file : "$plugin_customization_file
 echo "Initial perspective : "$perspective_id
 
-gda client -f -Declipse.pluginCustomization=$plugin_customization_file --perspective=$perspective_id --tag $USER$subdir $all_args
+gda client -f -Declipse.pluginCustomization=$plugin_customization_file --perspective=$perspective_id --tag $username$subdir $all_args

@@ -1,21 +1,27 @@
 import sys
 import traceback
-from mapping_scan_commands import submit
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
-
+from org.eclipse.scanning.api.points import MapPosition
+from gda.data import NumTracker
 import scisoftpy as dnp
+from org.slf4j import LoggerFactory
+
+from scanning.xanes_utils import submit_scan
+
+xanes_logger = LoggerFactory.getLogger("xanes_scan")
 
 
-def run_xanes_scan_request(scanRequest, xanesEdgeParams):
+
+def run_xanes_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs):
     try:
-        run_scan_request(scanRequest, xanesEdgeParams)
-    except (KeyboardInterrupt):
-        print("XANES scan interrupted by user")
+        run_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs)
     except:
-        print("XANES scan terminated abnormally: {}".format(sys.exc_info()[0]))
+        msg="XANES scan script terminated abnormally: {}".format(sys.exc_info()[0])
+        xanes_logger.error(msg, traceback.format_exc())
+        print(msg)
         print(traceback.format_exc())
-
+    
 from gda.jython import JythonServerFacade, ScriptBase
 def wait_if_paused() :
     if ScriptBase.isPaused() == True :
@@ -23,27 +29,36 @@ def wait_if_paused() :
         ScriptBase.checkForPauses()
         print "Continuing"
         
-def run_scan_request(scanRequest, xanesEdgeParams):
+def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_retries=0) :
     print("Running XANES scan")
     print("scanRequest = {}".format(scanRequest))
     print("xanesEdgeParams = {}".format(xanesEdgeParams))
 
+    sparse_parameters = xanesEdgeParams.getSparseParameters()
+    print("Sparse parameters : {}".format(sparse_parameters))
+    
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
+
+    element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
 
     models = compound_model.getModels()
 
     # Extract step model(s) for dcm_enrg
     dcm_enrg_model = models.get(0)
+    print("Energy model : %s"%(type(dcm_enrg_model)))
     if isinstance(dcm_enrg_model, AxialStepModel):
         step_models = [dcm_enrg_model]
     elif isinstance(dcm_enrg_model, AxialMultiStepModel):
         step_models = dcm_enrg_model.getModels()
 
     print("Energy model scannable : "+dcm_enrg_model.getName())
-    # energy_scannable = Finder.find(dcm_enrg_model.getName())
-    energy_scannable = energy_nogap
+    energy_scannable = Finder.find(dcm_enrg_model.getName())
 
+    #Conversion factor from model energy units to eV needed for the DCM
+    energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
+    energy_multiplier = 1.0 if energy_units.lower() == "ev" else 1000.0
+    
     # Extract processing file name.
     processingRequest = scanRequest.getProcessingRequest()
     if processingRequest is not None:
@@ -72,22 +87,49 @@ def run_scan_request(scanRequest, xanesEdgeParams):
     all_nexus_file_names = []
 
     # Now loop round for each step model
-    scan_number = 1
-
-    for energy in all_energies :
-        scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number, len(all_energies), energy)
+    
+    # Use the NumTracker to get the number of the next Nexus file to be created
+    num_tracker = NumTracker()
+    nexus_scan_number = num_tracker.getCurrentFileNumber() + 1
+    
+    # Setup Nexus file path format 
+    beamline_name = LocalProperties.get("gda.beamline.name")
+    visit_folder = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+    nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d.nxs"
+    print("Nexus file path format : {}".format(nexus_name_format))
+    print("Add all scans to queue : "+str(not block_on_submit))
+    
+    for scan_number, energy in enumerate(all_energies) :
+        scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number+1, len(all_energies), energy)
 
         # set the scan metadata to include list of all nexus files in the stack of scans run so far
         smetadata = ScanMetadata()
         smetadata.setType(ScanMetadata.MetadataType.ENTRY)
         smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
+        smetadata.addField("edge_name", element_edge_string)
         scanRequest.setScanMetadata([smetadata])
         
-        print(scan_name)
-        energy_scannable.moveTo(energy*1000)
-        submit(scanRequest, block=True, name=scan_name)
+        # Update the beamline configuration to move the mono to the scan energy
+        position_map = scanRequest.getStartPosition()
+        if position_map is None :
+            position_map = MapPosition()
+        position_map.put(energy_scannable.getName(), energy*energy_multiplier)
+        scanRequest.setStartPosition(position_map)
         
-        all_nexus_file_names.append(filename_listener.file_name)
+        # Add processing to scan request to reconstruct the map after final energy has been collected
+        if energy == all_energies[-1] :  
+            print("Adding processing to reconstruct the map after final energy point")
+            scanRequest.getProcessingRequest().getRequest().put("xanes-map-stack", [])
         
-        scan_number += 1
-
+        print(scan_name)        
+        
+        # Run scan and attempt a 2nd time if if goes wrong. Catch exceptions so subsequent scans are run.
+        result = submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
+        if result == False and num_retries > 0 :
+            submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
+            nexus_scan_number += 1
+        
+        # Add the scan just run/submitted to the list of all nexus file names
+        all_nexus_file_names.append(nexus_name_format%(nexus_scan_number))
+        nexus_scan_number += 1
+                

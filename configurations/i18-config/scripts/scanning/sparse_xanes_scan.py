@@ -1,87 +1,17 @@
 from org.eclipse.scanning.sequencer import ScanRequestBuilder #@Unresolvedimport
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 from org.eclipse.scanning.api.points.models import CompoundModel #@Unresolvedimport
-from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel,AxialMultiStepModel #@Unresolvedimport
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI #@Unresolvedimport
+from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel
+
+from scanning.xanes_utils import submit_scan, get_models, get_energies, get_x_dimensions, get_y_dimensions
 
 import scisoftpy as dnp
-from mapping_scan_commands import submit
-
-"""
-Get the energy model and the map model
-"""
-def get_models(scanRequest):
-    compound_model = scanRequest.getCompoundModel()
-    print("Original compound model: {}".format(compound_model))
-    
-    models = compound_model.getModels()
-    if not models.size() > 1:
-        print("Only one scan model found: have you forgotten to define dcm_enrg as an outer scannable?")
-        return;
-    
-    dcm_enrg_model = models.get(0)
-    
-    models.pop(0)
-    map_model = models.get(0)
-    
-    return dcm_enrg_model, map_model
-
-
-def generate_range(step_model) :
-    vals=[]
-    vals.extend(dnp.arange(step_model.getStart(), step_model.getStop(), step_model.getStep()))
-    return vals;
-
-"""
-Get energy points to scan
-"""
-def get_energies(energy_model):
-    energies = []
-    if isinstance(energy_model,AxialMultiStepModel):
-        print("Multistep model")
-        energy_models = energy_model.getStepModels()
-        for ee in energy_models:
-            step_energies = generate_range(ee)
-            print("sub_region",ee.getStart(), ee.getStop(), ee.getStep())
-            energies.extend(step_energies)
-    elif isinstance(energy_model,AxialStepModel):
-        step_energies = generate_range(energy_model)
-        energies.extend(step_energies)
-    elif isinstance(energy_model,AxialArrayModel):
-        step_energies = energy_model.getPositions()
-        energies.extend(step_energies)
-    return energies
-
-"""
-Get the y dimensions of the bounding box
-"""
-def get_y_dimensions(map_model):
-    map_box = map_model.getBoundingBox()
-    
-    y_min = map_box.getyAxisStart()
-    y_range = map_box.getyAxisLength()
-    y_max = y_min + y_range
-    y_step = y_range/map_model.getyAxisPoints()
-    
-    return y_min, y_max, y_range, y_step
-
-"""
-Get the x dimensions of the bounding box
-"""
-def get_x_dimensions(map_model):
-    map_box = map_model.getBoundingBox()
-    
-    x_min = map_box.getxAxisStart()
-    x_range = map_box.getxAxisLength()
-    x_max = x_min + x_range
-    x_step = x_range/map_model.getxAxisPoints()
-    
-    return x_min, x_max, x_range, x_step
-
 
 def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
 
     sparse_parameters = xanesEdgeParams.getSparseParameters()
+    rows_percentage = 1.0
     if sparse_parameters is not None:
         rows_percentage = float(sparse_parameters.getPercentage())/100
 
@@ -89,12 +19,17 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     energies = get_energies(energy_model)
     num_scans = len(energies)
     
+    element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
+    print("Element and edge : {}".format(element_edge_string))
     print("Number of scans: {}".format(num_scans))
     print("Energies: {}".format(energies))
 
     print("Energy axis : %s"%(energy_model.getName()))
-    # energy_scannable = Finder.find(energy_model.getName())
-    energy_scannable = energy_nogap
+    energy_scannable = Finder.find(energy_model.getName())    
+
+    #Conversion factor from model energy units to eV needed for the DCM
+    energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
+    energy_multiplier = 1.0 if energy_units.lower() == "ev" else 1000.0
 
     x_axis_name = map_model.getxAxisName()
     y_axis_name = map_model.getyAxisName()
@@ -154,12 +89,12 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         smetadata.addField("sparse_y_positions", sparse_pos_y_str)
         smetadata.addField("sparse_y_index", sparse_ind_y_str)
         smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
-
+        smetadata.addField("edge_name", element_edge_string)
+        
         print("%d sparse Y positions"%(len(rand_y_positions)))
         print("Positions : %s"%(sparse_pos_y_str))
         print("Indices   : %s"%(sparse_ind_y_str))
         
-                  # .withPathAndRegion(cm, region) \
         # create request
         request = ScanRequestBuilder() \
                   .withPathAndRegion(cm, None) \
@@ -169,16 +104,23 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
                   .withProcessingRequest(scanRequest.getProcessingRequest()) \
                   .build()
                   
+        # Add processing to scan request to reconstruct the map after final energy has been collected
+        if energy == energies[-1] :
+            print("Adding processing to reconstruct the map after final energy point")
+            request.getProcessingRequest().getRequest().put("xanes-map-stack", [])
 
         # Move the monochromator
-        print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*1000))
-        energy_scannable.moveTo(energy*1000)
+        print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*energy_multiplier))
+        energy_scannable.moveTo(energy*energy_multiplier)
         sleep(0.5)
         
         scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
         print("Submitting %s "%(scan_name))
 
-        submit(request, block=True, name=scan_name)
+        result = submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
+        if result == False :
+            submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
+            
         all_nexus_file_names.append(filename_listener.file_name)
         print("File path "+filename_listener.file_name)
 

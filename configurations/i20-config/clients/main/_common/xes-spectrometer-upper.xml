@@ -151,6 +151,15 @@
 			<list>
 				<bean name="upper_simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView">
 					<property name="xesEnergyScannableName" value="XESEnergyUpper" />
+					<property name="parameterScannableNames">
+						<list>
+							<value>upper_cut1</value>
+							<value>upper_cut2</value>
+							<value>upper_cut3</value>
+							<value>upper_radius</value>
+							<value>upper_material</value>
+						</list>
+					</property>
 				</bean>	
 			</list>
 		</property>
