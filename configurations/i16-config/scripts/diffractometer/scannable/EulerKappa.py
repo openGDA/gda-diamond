@@ -198,10 +198,13 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 		self.kappa.getGroupMembersAsArray()[5].setLowerGdaLimits(gam)
 
 	def setOperatingContinuously(self, b):
-		self.kappa.setOperatingContinuously(b);
+		if callable(getattr(self.kappa, "isOperatingContinously", None)) :
+			self.kappa.setOperatingContinuously(b);
 
 	def isOperatingContinously(self):
-		return self.kappa.isOperatingContinously()
+		if callable(getattr(self.kappa, "isOperatingContinously", None)) :
+			return self.kappa.isOperatingContinously()
+		return False
 
 	def getContinuousMoveController(self):
 		#raise Exception("Eulerian axes cannot be traj scanned. Use the axes on the group 'kappa' (e.g. kth) instead. (Due to a multi-axes traj scans not triggering reliably from Epics)")
