@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime as idpol_datetime, timedelta
 from threading import Timer
 from time import sleep
 from gda.device.scannable import ScannableMotionBase
@@ -64,8 +64,8 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		
 		self.switchMotor();
 		self.delayedSwitchAndMoveEnergyTimer = None
-		self.energymovelog_time = datetime.now()
-		self.idpolmovelog_time = datetime.now()
+		self.energymovelog_time = idpol_datetime.now()
+		self.idpolmovelog_time = idpol_datetime.now()
 		
 		self.skipDuplicateMoveOptimisation=True
 		self.inPositionTolerance = inPositionTolerance
@@ -109,9 +109,9 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		if self.verbose: self.logger.info('delayedSwitchAndMoveEnergy(%r)... %s.isBusy()=%r' % (newPos, self.idpol.name, self.idpol.isBusy()))
 		while self.idpol.isBusy():
 			sleep(0.1)
-			if self.verbose and (datetime.now() - self.idpolmovelog_time) > timedelta(seconds=1):
+			if self.verbose and (idpol_datetime.now() - self.idpolmovelog_time) > timedelta(seconds=1):
 				self.logger.info('delayedSwitchAndMoveEnergy(): %s.isBusy()=%r' % (self.idpol.name, self.idpol.isBusy()))
-				self.idpolmovelog_time = datetime.now()
+				self.idpolmovelog_time = idpol_datetime.now()
 		self.switchMotor();
 		currentPos = self.getPosition()
 		if self.skipDuplicateMoveOptimisation or not self.inPositionTolerance or (abs(newPos-currentPos) > self.inPositionTolerance):
@@ -131,9 +131,9 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		if busy == None:
 			self.logger.error('isBusy() = %r (%s=%r %s=%r Timer=%r!!!) assuming True' % (busy, self.energy.name, energy_busy, self.idpol.name, idpol_busy, timer_busy))
 			busy=True
-		if self.verbose and (datetime.now() - self.energymovelog_time) > timedelta(seconds=1):
+		if self.verbose and (idpol_datetime.now() - self.energymovelog_time) > timedelta(seconds=1):
 			self.logger.info('isBusy() = %r (%s=%r %s=%r Timer=%r)' % (busy, self.energy.name, energy_busy, self.idpol.name, idpol_busy, timer_busy))
-			self.energymovelog_time = datetime.now()
+			self.energymovelog_time = idpol_datetime.now()
 		return busy
 
 """
