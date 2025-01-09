@@ -11,7 +11,7 @@ entry/:
       source: /entry/instrument/source
       monochromator/:
         NX_class@: NXmonochromator
-        energy: /entry/instrument/pgmenergy/value
+        energy: /entry/instrument/energy/value
       incoming_beam/:
         NX_class@: NXdetector
         data: /entry/instrument/macr16/data # i0

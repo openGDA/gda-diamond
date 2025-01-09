@@ -7,27 +7,28 @@ Created on 5 Dec 2024
 '''
 from gda.device.scannable import ScannableMotionBase
 
-XAS_MODES = ['TEY', 'TFY', 'TFY_front', 'TFY_side', 'PEY', 'PFY'] # this is different from i06.
 
 class XASMode(ScannableMotionBase):
     '''
-    Scannable that allows to set XAS measurement mode - i.e. the default measurement PV or channel for the absorbed beam defined in NXxas.nxdl.xml 
+    Scannable that allows to set XAS measurement mode,
+    i.e. the default measurement PV or channel for the absorbed beam defined in NXxas.nxdl.xml 
     '''
 
-    def __init__(self, name, mode = 'TEY'):
+    def __init__(self, name, xas_modes, mode = 'TEY'):
         '''
         Constructor
         '''
         self.setName(name)
         self.setInputNames([name])
         self.mode = mode
+        self.xas_modes = xas_modes
 
     def getPosition(self):
         return self.mode
 
     def asynchronousMoveTo(self, m):
-        if m not in XAS_MODES:
-            raise ValueError("%s is not a supported measurement mode. Supported mode must be one of %r." % (m, XAS_MODES))
+        if m not in self.xas_modes:
+            raise ValueError("%s is not a supported measurement mode. Supported mode must be one of %r." % (m, self.xas_modes))
         self.mode = m
 
     def isBusy(self):

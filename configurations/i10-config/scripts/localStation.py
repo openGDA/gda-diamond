@@ -86,7 +86,7 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from scannable.checkgatevalvescannables import checkgv12  # @UnusedImport
 
 # NXxas App Def template objects
-xasmode = XASMode("xasmode", mode = TEY)
+xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
 mode_path_fast = {TEY: "/entry/instrument/mcs17/data", PEY: "NA", TFY: "/entry/instrument/mcs18/data", PFY: "NA", TFY_front: "NA", TFY_side: "NA"}
 mode_path_slow = {TEY: "/entry/instrument/macr17/data", PEY: "NA", TFY: "/entry/instrument/macr18/data", PFY: "NA", TFY_front: "NA", TFY_side: "NA"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)

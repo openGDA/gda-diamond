@@ -36,7 +36,7 @@ if "hfm" in spring_profiles:
         except Exception as e:
             localStation_exception(sys.exc_info(), "creating gflow2 scannable error")
     # NXxas App Def template objects
-    xasmode = XASMode("xasmode", mode = TEY)
+    xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
     mode_path_fast = {TEY: "/entry/instrument/mcsh17/data", PEY: "NA", TFY: "NA", PFY: "NA", TFY_front: "/entry/instrument/mcsh18/data", TFY_side: "/entry/instrument/mcsh19/data"}
     mode_path_slow = {TEY: "/entry/instrument/macj217/data", PEY: "NA", TFY: "NA", PFY: "/entry/instrument/xmapMca/fullSpectrum", TFY_front: "/entry/instrument/macj218/data", TFY_side: "/entry/instrument/macj219/data"}
     xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
@@ -46,7 +46,7 @@ if "em" in spring_profiles:
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables_em import energy, mcse16, mcse17, mcse18, mcse19, mcse20, mcse21, mcse22, mcse23  # @UnusedImport
     # NXxas App Def template objects
-    xasmode = XASMode("xasmode", mode = TEY)
+    xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
     mode_path_fast = {TEY: "/entry/instrument/mcse17/data", PEY: "NA", TFY: "/entry/instrument/mcse18/data", PFY: "NA", TFY_front: "NA", TFY_side: "NA"}
     mode_path_slow = {TEY: "/entry/instrument/macj317/data", PEY: "NA", TFY: "/entry/instrument/macj318/data", PFY: "/entry/instrument/xmapMca/fullSpectrum", TFY_front: "NA", TFY_side: "NA"}
     xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)

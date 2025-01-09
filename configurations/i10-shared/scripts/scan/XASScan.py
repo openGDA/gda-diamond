@@ -13,7 +13,7 @@ from types import TupleType
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableMotionBase
-from scannables.XAS_Mode import XAS_MODES
+from i10shared.localStation import XAS_MODES
 from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
@@ -33,7 +33,7 @@ elif beamline_name == "i10-1":
         NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_em_slowscan.yaml"
 
 def xasscan(*args):
-    '''a wrapper scan parser for XAS experiments which set NXxas Application Definition template before data collection and remove it after scan completed
+    '''a wrapper scan parser for XAS experiments which apply NXxas Application Definition template after data collection completed.
     For example (i06 GDA):
         xasscan energy start stop step ca51sr 1 ca52sr 1 ca53sr 1 ca54sr 1 xasmode TEY
     '''
@@ -59,6 +59,7 @@ def xasscan(*args):
                 original_mode = arg.getPosition()
                 xas_mode_scannable = arg
             arg.asynchronousMoveTo(args[i+1])
+            command += arg.getName() + " " + args[i+1]
             i = i + 1
         else:
             newargs.append(arg)

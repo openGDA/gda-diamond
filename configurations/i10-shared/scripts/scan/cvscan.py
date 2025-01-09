@@ -111,6 +111,8 @@ def cvscan(c_energy, start, stop, step, *args):
     dwell = []
     others = []
     beam_checker = None
+    xasmode_scannable = None
+    original_mode =  None
     newargs = [c_energy, start, stop, step]
     command += c_energy.getName() + " " + " ".join(map(str, newargs[1:])) + " "
     for arg in args:
@@ -129,12 +131,21 @@ def cvscan(c_energy, start, stop, step, *args):
         command += each.getName() + " "
         newargs.append(dwell[0])  # the pull stream code require every channel have dwell time even they are on the same EPICS scaler
         command += str(dwell[0]) + " "
-    for other in others:
-        newargs.append(other)
-        if isinstance(other, Scannable):
-            command += other.getName() + " "
-        if type(other) == IntType or type(other) == FloatType:
-            command += str(other) + " "
+    arguments = iter(others)
+    for other in arguments:
+        if isinstance(other, Scannable) and str(other.getName()) == "xasmode":
+            # cache current value and scannable
+            original_mode = other.getPosition()
+            xasmode_scannable = other
+            val = arguments.next()
+            other.asynchronousMoveTo(val)
+            command += other.getName() + " " + val
+        else:
+            newargs.append(other)
+            if isinstance(other, Scannable):
+                command += other.getName() + " "
+            if type(other) == IntType or type(other) == FloatType:
+                command += str(other) + " "
     if beam_checker is not None:
         # set time required for cvscan before topup
         scan_time = abs((stop - start) / step * dwell[0])
@@ -169,7 +180,9 @@ def cvscan(c_energy, start, stop, step, *args):
         localStation_exception(sys.exc_info(), "cvscan exits with Error: %s" % (e))
     finally:
         meta.rm("user_input", "command")
- 
+        if original_mode and xasmode_scannable:
+            xasmode_scannable.asynchronousMoveTo(original_mode)
+
 
 alias('cvscan')
 
