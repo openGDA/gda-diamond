@@ -7,11 +7,11 @@ Transient devices should be implemented using profiles.
 For example B16-IPP.xml starts with:
 
 --------------------------------------------------------------------------------
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="b16-ipp"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="b16-ipp">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
 ...
