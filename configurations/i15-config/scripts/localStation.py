@@ -465,7 +465,8 @@ try:
 
 	global mar, pil3, mpx, psl
 
-	try:
+	if isFindable("pe"):
+	  try:
 		mar.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-MAR-01:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-MAR-01:PROC:EnableCallbacks",	"Enable")
@@ -475,7 +476,7 @@ try:
 		caput("BL15I-EA-MAR-01:ROI:EnableY",			"Disable")
 		from localStationScripts.marErase import marErase # @UnusedImport
 		alias("marErase")
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
 	try:
@@ -573,7 +574,11 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	attoAvailable = caget("BL15I-EA-IOC-22:STATUS") == u'0'
+	try:
+		attoAvailable = caget("BL15I-EA-IOC-22:STATUS") == u'0'
+	except:
+		attoAvailable = False
+
 	if isLive() and attoAvailable:
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
 		from future.anc150axis import createAnc150Axis
@@ -833,11 +838,13 @@ try:
 				'pin3x', 'pin3y',
 				'sx', 'sy', 'sz', 'spitch', 'syaw', 'sroll',
 				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
-				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
+				'bs2x', 'bs2y',
 				'det2z',
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				)
+			if isFindable('bs3x'):
+				stdmetadatascannables += ('bs3x', 'bs3y', 'bs3z')
 			if isFindable("cryox"):
 				stdmetadatascannables += ('cryox', 'cryoy', 'cryoz', 'cryorot')
 			if isFindable('s2ygap'):
