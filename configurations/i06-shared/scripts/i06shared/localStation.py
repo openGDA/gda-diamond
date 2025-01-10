@@ -95,8 +95,8 @@ from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedV
 
 print("-"*100)
 print("load 'xasmode' scannable, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
-from i06shared.scannables import XAS_Mode
-TEY, TFY_ft, TFY_fb, TFY_90, PEY, PFY = XAS_Mode.XAS_MODES
+XAS_MODES = ['TEY', 'TFY_ft', 'TFY_fb', 'TFY_90', 'PEY', 'PFY']
+TEY, TFY_ft, TFY_fb, TFY_90, PEY, PFY = XAS_MODES
 from i06shared.scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
 from i06shared.scan.XASScan import xasscan  # @UnusedImport
 from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport

@@ -111,7 +111,7 @@ from beam.beam_centering import centerBeam  # @UnusedImport
 from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVolt, keithley2461  # @UnusedImport
 
 # NXxas App Def template objects
-xasmode = XASMode("xasmode", mode = TEY)
+xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
 mode_path_fast = {TEY: "/entry/instrument/fesData/C1", PEY: "NA", TFY_ft: "/entry/instrument/fesData/C3", PFY: "NA", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "NA"}
 mode_path_slow = {TEY: "/entry/instrument/ca51sr/ca51sr", PEY: "NA", TFY_ft: "/entry/instrument/ca53sr/ca53sr", PFY: "NA", TFY_fb: "/entry/instrument/ca54sr/ca54sr", TFY_90: "NA"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)

@@ -13,7 +13,7 @@ from types import TupleType
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableMotionBase
-from i06shared.scannables.XAS_Mode import XAS_MODES
+from i06shared.localStation import XAS_MODES
 from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 
@@ -48,6 +48,7 @@ def xasscan(*args):
                 original_mode = arg.getPosition()
                 xas_mode_scannable = arg
             arg.asynchronousMoveTo(args[i+1])
+            command += arg.getName() + " " + args[i+1]
             i = i + 1
         else:
             newargs.append(arg)
