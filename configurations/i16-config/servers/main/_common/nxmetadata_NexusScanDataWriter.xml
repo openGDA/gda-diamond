@@ -123,10 +123,9 @@
 					<property name="componentIndex" value="2"/>
 					<property name="units" value="angstrom"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableComponentField">
+				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="ub_matrix"/>
-					<property name="scannableName" value="ubMeta"/>
-					<property name="componentIndex" value="3"/>
+					<property name="scannableName" value="ub_matrix_meta"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScannableField">
 					<property name="name" value="orientation_matrix"/>
