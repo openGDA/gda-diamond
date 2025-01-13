@@ -47,7 +47,7 @@ Created on 27th Mar 2019
 
 from gdascripts.utils import frange
 from functions.momentumTransferFunctions import thLscan, tthLscan
-from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #, xcam  # @UnresolvedImport
 from i21commands.checkedMotion import enable_arm_motion
 
 ###########################################################################################
@@ -369,7 +369,7 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 
 if answer == "y":
     from gdaserver import phi, chi, s5v1gap, spech, fastshutter  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polpi
+    from shutters.detectorShutterControl import primary, polpi, polsigma
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
@@ -393,10 +393,12 @@ if answer == "y":
     energy.moveTo(energy_val_fix)
 
     # shutter control based on detector to use for data collection
-    if detector_to_use in [andor, xcam]:
+    if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
+    if detector_to_use is Polandor_V:
+        polsigma()
     fastshutter('Open')
 
     if enable_pi0_collection:

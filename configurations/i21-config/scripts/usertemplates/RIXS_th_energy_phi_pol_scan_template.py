@@ -59,7 +59,7 @@ Created on 12th Oct 2021
 '''
 
 import math as mh
-from gdaserver import andor, Polandor_H, xcam # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #,xcam # @UnresolvedImport
 from gdascripts.utils import frange
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 from i21commands.checkedMotion import enable_arm_motion
@@ -315,12 +315,14 @@ if answer == "y":
     ###########################################
     # shutter control
     ###########################################
-    from shutters.detectorShutterControl import primary, polpi
+    from shutters.detectorShutterControl import primary, polpi, polsigma
 
-    if detector_to_use in [andor, xcam]:
+    if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
+    if detector_to_use is Polandor_V:
+        polsigma()
     fastshutter('Open')
 
     energy.moveTo(energy_list[0]) ###do this really required???

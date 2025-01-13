@@ -15,5 +15,11 @@
 		<property name="readOnly" value="false"/>
 		<property name="level" value="6" />
 	</bean>
+	<bean id="Polandor_Vshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="name" value="Polandor_Vshutter" />
+		<property name="recordName" value="BL21I-EA-DET-04:CAM:AndorShutterMode"/>
+		<property name="readOnly" value="false"/>
+		<property name="level" value="6" />
+	</bean>
 
 </beans>

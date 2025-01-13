@@ -19,4 +19,12 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="Polandor_Vshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
 </beans>

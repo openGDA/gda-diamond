@@ -16,8 +16,8 @@ from org.eclipse.dawnsci.analysis.api.tree import Node
 import os
 from gda.jython.commands.GeneralCommands import alias
 from acquisition.acquire_images import acquireImages
-from shutters.detectorShutterControl import primary, polpi
-from gdaserver import fastshutter, andor, Polandor_H # @UnresolvedImport
+from shutters.detectorShutterControl import primary, polpi, polsigma
+from gdaserver import fastshutter, andor, Polandor_H, Polandor_V # @UnresolvedImport
 
 def acquire_flat_field(num_images, detector, acquire_time, *args):
     '''collect number of images from detector under flat field condition, and then set up flat_field link metadata device to be used in subsequent scans.
@@ -27,6 +27,8 @@ def acquire_flat_field(num_images, detector, acquire_time, *args):
         primary()
     elif detector is Polandor_H:
         polpi()
+    elif detector is Polandor_V:
+        polsigma()
     fastshutter("Open")
     acquireImages(num_images, detector, acquire_time, *args)
     entry_name = str(LocalProperties.get(NexusScanDataWriter.PROPERTY_NAME_ENTRY_NAME, NexusScanDataWriter.DEFAULT_ENTRY_NAME)) 

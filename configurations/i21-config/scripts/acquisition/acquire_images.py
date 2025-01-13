@@ -9,7 +9,8 @@ from time import sleep
 from gdascripts.utils import caput
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdaserver import sgmpitch, fastshutter  # @UnresolvedImport
-from shutters.detectorShutterControl import primary, polpi, erio, fsxas
+from shutters.detectorShutterControl import primary, polpi, erio, fsxas,\
+    polsigma
 from gda.jython.commands.GeneralCommands import alias
 from gda.device.scannable import DummyScannable
 
@@ -54,12 +55,14 @@ alias("clearEncoderLoss")
 def acquireRIXS(n, det, exposure_time, *args):
     ''' collect RIXS data from detector
     '''
-    from gdaserver import andor, Polandor_H  # @UnresolvedImport
+    from gdaserver import andor, Polandor_H, Polandor_V  # @UnresolvedImport
     from lights.chamberLight import lightOff
     if det is andor:
         primary()
     elif det is Polandor_H:
         polpi()
+    elif det is Polandor_V:
+        polsigma()
     fastshutter("Open")
     lightOff()
     acquireImages(n, det, exposure_time, *args)
@@ -72,6 +75,12 @@ def acquiredark(n, det, exposure_time, *args):
     fsxas()
     fastshutter("Closed")
     acquireImages(n, det, exposure_time, *args)
-    primary()
+    from gdaserver import andor, Polandor_H, Polandor_V  # @UnresolvedImport
+    if det is andor:
+        primary()
+    elif det is Polandor_H:
+        polpi()
+    elif det is Polandor_V:
+        polsigma()
 
 alias("acquiredark")

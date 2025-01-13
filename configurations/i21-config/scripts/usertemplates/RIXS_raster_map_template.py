@@ -57,7 +57,7 @@ Created on 12th Oct 2021
 
 from gdascripts.utils import frange
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
-from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #,xcam  # @UnresolvedImport
 from i21commands.checkedMotion import enable_arm_motion
 
 LH,LV,CR,CL,LH3,LV3,LH5,LV5 = X_RAY_POLARISATIONS[:-2]
@@ -361,7 +361,7 @@ if answer == "y":
 
     from gdaserver import th, s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
-    from shutters.detectorShutterControl import primary, polpi
+    from shutters.detectorShutterControl import primary, polpi, polsigma
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
@@ -382,10 +382,12 @@ if answer == "y":
     ######################################
     difftth.asynchronousMoveTo(0)
 
-    if detector_to_use in [andor, xcam]:
+    if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
+    if detector_to_use is Polandor_V:
+        polsigma()
     fastshutter('Open')
 
     th.asynchronousMoveTo(th_val)

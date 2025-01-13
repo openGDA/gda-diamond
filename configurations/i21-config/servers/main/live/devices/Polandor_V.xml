@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Andor driver specific information for metadata -->
+	<bean id="Polandor_VAccumulatePeriod" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorAccumulatePeriod_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VShutterMode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorShutterMode"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VExtShutterTrigger" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorShutterExTTL"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VPreampGain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorPreAmpGain_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VADCSpeed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorADCSpeed_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VVerticalShiftSpeed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorVSSpeed_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VVerticalShiftAmplitude" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorVSAmplitude_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VEMCCDGain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorEMGain_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VCoolerTemperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:Temperature_RBV"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VCoolerControl" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:AndorCooler"/>
+		<property name="poll" value="true" />
+	</bean>
+	<bean id="Polandor_VBinningSizeX" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:BinX_RBV"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
+	<bean id="Polandor_VBinningSizeY" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-04:CAM:BinY_RBV"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
+
+<!-- Andor Area Detector EPICS Plugins -->
+	<bean id="Polandor_V_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL21I-EA-DET-04:CAM:" />
+	</bean>
+	<bean id="Polandor_V_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL21I-EA-DET-04:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-04:STAT:" />
+				<property name="initialArrayPort" value="POL_SIGMA.trf" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="Polandor_V_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL21I-EA-DET-04:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-04:ARR:" />
+				<property name="initialArrayPort" value="POL_SIGMA.trf" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="Polandor_V_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL21I-EA-DET-04:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-04:HDF5:" />
+				<property name="initialArrayPort" value="POL_SIGMA.trf" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="Polandor_V" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="Polandor_V_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL21I-EA-DET-04:HDF5:" />
+		<property name="file" ref="Polandor_V_ndfile" />
+	</bean>
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="Polandor_V_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/Polandor_VRoi" />
+		<property name="service" ref="Polandor_V_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="Polandor_V_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT1:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT2:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT3:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT4:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT5:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="4" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-04:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-04:STAT6:" />
+		<property name="roiInputNdArrayPort" value="POL_SIGMA.trf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="5" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+</beans>

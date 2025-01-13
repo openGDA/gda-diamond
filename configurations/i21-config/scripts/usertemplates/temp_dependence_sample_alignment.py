@@ -4,10 +4,10 @@ Created on 12th Oct 2021
 @author: SA
 '''
 
-from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #,xcam  # @UnresolvedImport
 from gdaserver import fy2_i, s5v1gap,th,fastshutter,gv17,difftth,m5tth,draincurrent_i,diff1_i,z  # @UnresolvedImport
 from gdascripts.scan.installStandardScansWithProcessing import rscan
-from shutters.detectorShutterControl import erio, primary, polpi
+from shutters.detectorShutterControl import erio, primary, polpi, polsigma
 
 #########################################################################
 
@@ -75,10 +75,12 @@ rscan(z, -0.8, 0.9, 0.05, draincurrent_i, 1, diff1_i, 1, fy2_i, 1)
 # z.moveTo(1.56)
 
 # Once we have found the optimal positions z, first we change the mode of the fastshutter to camera mode.
-if detector_to_use in [andor, xcam]:
+if detector_to_use in andor: #[andor, xcam]:
     primary()
 if detector_to_use is Polandor_H:
     polpi()
+if detector_to_use is Polandor_V:
+    polsigma()
 
 # Then we open the valve between the SGM and the detector:
 gv17('Open')

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
+	
+<!-- Andor driver specific information for metadata -->
+	<bean id="Polandor_VAccumulatePeriod" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="s"/>
+		<property name="value">
+			<value type="double">2.0</value>
+		</property>
+		<property name="lowerLimit" value="0.01" />
+		<property name="upperLimit" value="180.0" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="Polandor_VShutterMode" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="auto" value="auto"/> 
+				<entry key="open" value="open"/>
+				<entry key="close" value="close"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="auto"/>
+	</bean>
+	<bean id="Polandor_VExtShutterTrigger" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="High to open" value="High To Open"/> 
+				<entry key="Low to open" value="Low To Open"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="High to open"/>
+	</bean>
+	<bean id="Polandor_VPreampGain" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="1.00" value="1.00"/> 
+				<entry key="2.00" value="2.00"/>
+				<entry key="4.00" value="4.00"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="1.00"/>
+	</bean>
+	<bean id="Polandor_VADCSpeed" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="5.00 MHz" value="5.00 MHz"/> 
+				<entry key="3.00 MHz" value="3.00 MHz"/> 
+				<entry key="1.00 MHz" value="1.00 MHz"/> 
+				<entry key="0.05 MHz" value="0.05 MHz"/> 
+			</util:map>
+		</property>
+		<property name="startPositionName" value="1.00 MHz"/>
+	</bean>
+	<bean id="Polandor_VVerticalShiftSpeed" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="38.55 uS" value="38.55 uS"/> 
+				<entry key="76.95 uS" value="76.95 uS"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="76.95 uS"/>
+	</bean>
+	<bean id="Polandor_VVerticalShiftAmplitude" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="0" value="0"/> 
+				<entry key="1" value="1"/> 
+				<entry key="2" value="2"/> 
+				<entry key="3" value="3"/> 
+			</util:map>
+		</property>
+		<property name="startPositionName" value="0"/>
+	</bean>
+	<bean id="Polandor_VEMCCDGain" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="Polandor_VCoolerTemperature" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="°C"/>
+		<property name="value">
+			<value type="double">-60.0</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="-90" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="Polandor_VCoolerControl" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="Off" value="Off"/> 
+				<entry key="On" value="On"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="Off"/>
+	</bean>
+	<bean id="Polandor_VBinningSizeX" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<value type="double">1</value>
+		</property>
+		<property name="lowerLimit" value="1" />
+		<property name="upperLimit" value="8" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="Polandor_VBinningSizeY" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="value">
+			<value type="double">1</value>
+		</property>
+		<property name="lowerLimit" value="1" />
+		<property name="upperLimit" value="8" />
+		<property name="increment" value="1" />
+	</bean>
+
+<!-- Andor Area Detector EPICS Plugins -->
+	<bean id="Polandor_V_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
+	</bean>
+	<bean id="Polandor_V_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="Polandor_V_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="Polandor_V_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="Polandor_V" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="Polandor_V_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="file" ref="Polandor_V_ndfile" />
+	</bean>
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="Polandor_V_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/Polandor_VRoi" />
+		<property name="service" ref="Polandor_V_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="Polandor_V_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats1" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats2" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats3" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats4" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats5" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="4" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+	<bean id="Polandor_V_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="Polandor_V_RoiStats6" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="Polandor_V_roi" />
+				<property name="index" value="5" />
+			</bean>
+		</property>
+		<property name="legacyTSpvs" value="false"/>
+	</bean>
+
+</beans>

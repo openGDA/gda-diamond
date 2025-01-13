@@ -24,7 +24,7 @@ Modified on Sep 15, 2022
 
 import math as mh
 from gdascripts.utils import frange
-from gdaserver import andor, Polandor_H, xcam # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #, xcam # @UnresolvedImport
 
 # INSERT CURRENT SGMPITCH and SPECH HERE!
 sgmpitch_original = 2.325
@@ -71,11 +71,13 @@ sgmpitch_spech_scannable_group.addGroupMember(sgmpitch, spech_wraper)
 
 s5v1gap.moveTo(s5v1gap_val)
 
-from shutters.detectorShutterControl import primary, polpi
-if detector_to_use in [andor, xcam]:
+from shutters.detectorShutterControl import primary, polpi, polsigma
+if detector_to_use in andor: #[andor, xcam]:
     primary()
 elif detector_to_use is Polandor_H:
     polpi()
+elif detector_to_use is Polandor_V:
+    polsigma()
 fastshutter('Open')
 
 #collec data using nested scan

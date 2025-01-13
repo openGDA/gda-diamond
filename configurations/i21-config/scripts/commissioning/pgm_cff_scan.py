@@ -10,8 +10,8 @@ Created on Sep 15, 2022
 '''
 
 from gdaserver import  fastshutter, s5v1gap, d7gascell, d8stick  # @UnresolvedImport
-from shutters.detectorShutterControl import primary, polpi
-from gdaserver import andor, Polandor_H, xcam # @UnresolvedImport
+from shutters.detectorShutterControl import primary, polpi, polsigma
+from gdaserver import andor, Polandor_H, Polandor_V #xcam # @UnresolvedImport
 
 ######### user-defined parameter section ###########################################
 ### Only one of VPG should be True ###
@@ -57,10 +57,12 @@ s5v1gap.moveTo(s5v1gap_val)
 d7gascell.moveTo(d7gascell_val)
 d8stick.moveTo(d8stick_val)
 
-if detector_to_use in [andor, xcam]:
+if detector_to_use in andor: #[andor, xcam]
     primary()
 elif detector_to_use is Polandor_H:
     polpi()
+elif detector_to_use is Polandor_V:
+    polsigma()
 fastshutter('Open')
 
 from commissioning.cff_b2_scannable import cff_b2

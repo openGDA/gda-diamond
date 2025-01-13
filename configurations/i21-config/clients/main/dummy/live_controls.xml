@@ -36,8 +36,9 @@
 		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
-	</bean>	
-	<!-- Polariser controls -->
+	</bean>
+	
+	<!-- Polariser PI or H controls -->
 	<bean id="Polandor_HExposureTime" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
 		<property name="outputFormat">
@@ -64,7 +65,37 @@
 		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
+	</bean>
+
+	<!-- Polariser SIGMA or V controls -->
+	<bean id="Polandor_VExposureTime" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="Polandor_VAcquirePeriod" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="Polandor_VCountdown" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimer" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+		<property name="timeFormatInSeconds" value="%4d"/>
 	</bean>	
+	<bean id="Polandor_VCountdownProgress" class="uk.ac.gda.client.live.stream.controls.utils.EpicsCountDownTimerProgress" init-method="init" destroy-method="destroy">
+		<property name="countdownTimePvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime_RBV"/>
+		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
+		<property name="updateIntervalInSeconds" value="1"/>
+	</bean>
+		
 	<!-- there is no EPICS simulation for the following beans -->
 	<bean id="Tsample" class="gda.device.scannable.DummyScannable">
 		<constructor-arg index="0" value="sampleTemperature"/>

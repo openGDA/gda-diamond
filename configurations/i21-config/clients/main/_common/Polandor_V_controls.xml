@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Polariser Controls -->
+	<bean id="Polandor_V_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time Remain"/>
+		<property name="group" value="Polandor_V" />
+		<property name="observable" ref="Polandor_VCountdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="Polandor_V_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="Polandor_V" />
+		<property name="observable" ref="Polandor_VCountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
+	<bean id="Polandor_V_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="Polandor_V" />
+		<property name="scannableName" value="Polandor_VExposureTime" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="Polandor_V_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="Polandor_V" />
+		<property name="scannableName" value="Polandor_VAcquirePeriod" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="Polandor_VShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="Polandor_Vshutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="Polandor_V" />
+	</bean>
+	<bean id="Polandor_VShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="Polandor_Vshutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="Polandor_V" />
+	</bean>
+	<bean id="Polandor_V_stick_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stick" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polstick" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
+	<bean id="Polandor_V_sigma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Sigma" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polsigma" />
+		<property name="increment" value="500" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="horizontalLayout" value="true"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+	</bean>
+
+</beans>

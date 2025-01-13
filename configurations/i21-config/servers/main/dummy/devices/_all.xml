@@ -65,6 +65,7 @@
 	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->
 	<import resource="andor.xml"/> <!-- CAM Top -->
 	<import resource="Polandor_H.xml"/> <!-- CAM Top -->
+	<import resource="Polandor_V.xml" />
 	<import resource="polariser.xml"/>
 	<import resource="femto_detectors.xml" />
 	<import resource="dummysmp_m5tth.xml" />

@@ -56,7 +56,7 @@ modified on 18/iX/19 by KJZ
 modified on 10/09/21 by JC 
 
 '''
-from gdaserver import  andor, Polandor_H, xcam  # @UnresolvedImport
+from gdaserver import  andor, Polandor_H, Polandor_V #, xcam  # @UnresolvedImport
 from gdascripts.utils import frange
 from functions.go_founctions import go
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
@@ -320,7 +320,7 @@ if answer == "y":
     ############################################################
     ################# ACQUIRING DATA ###########################
     from gdaserver import  s5v1gap, difftth, fastshutter  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polpi
+    from shutters.detectorShutterControl import primary, polpi, polsigma
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
@@ -341,10 +341,12 @@ if answer == "y":
     remove_ctape_image(detector_to_use) # ensure any previous elastic image file link is removed
     dark_image_filename = acquire_dark_image(1, detector_to_use, sample_exposure_time)
 
-    if detector_to_use in [andor, xcam]:
+    if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
+    if detector_to_use is Polandor_V:
+        polsigma()
     fastshutter('Open')
 
     #################### HQ MIRROR ###########################    

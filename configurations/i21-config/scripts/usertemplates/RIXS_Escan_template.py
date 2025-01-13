@@ -21,7 +21,7 @@ modified on 12/10/21 by SA
 
 import math as mh
 from gdascripts.utils import frange
-from gdaserver import andor, Polandor_H, xcam  # @UnresolvedImport
+from gdaserver import andor, Polandor_H, Polandor_V #, xcam  # @UnresolvedImport
 from calibration.energy_polarisation_class import X_RAY_POLARISATIONS
 from i21commands.checkedMotion import enable_arm_motion
 
@@ -243,7 +243,7 @@ answer = raw_input("\nAre these collection parameters correct to continue [y/n]?
 if answer == "y":
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
     from gdaserver import s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
-    from shutters.detectorShutterControl import primary, polpi
+    from shutters.detectorShutterControl import primary, polpi, polsigma
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
@@ -277,10 +277,12 @@ if answer == "y":
     #################################################################
     ###################### ACQUIRING DATA ###########################
     #################################################################
-    if detector_to_use in [andor, xcam]:
+    if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
+    if detector_to_use is Polandor_V:
+        polsigma()
     fastshutter('Open')
 
     # collecting data with given parameters
