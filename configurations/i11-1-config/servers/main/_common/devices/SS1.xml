@@ -16,7 +16,7 @@
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>
-		<property name="parkPosition" value="-406.0"/>
+		<property name="parkPosition" value="-407.0"/>
 		<property name="positionTolerance" value="0.01"/>
 		<property name="zPosition" value="1460.0"/>
 		<property name="detectorPosition" value="1920" />
