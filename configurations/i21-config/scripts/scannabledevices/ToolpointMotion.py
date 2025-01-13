@@ -11,7 +11,12 @@ from time import sleep
 # intersect in a single point in the middle of the beam
 #AXES_ZERO = (6.1, -0.3878, -0.111)
 #AXES_ZERO = (6.12, -0.2189, 0.9214)
-AXES_ZERO = (6.12, -0.3141, 0.9214)
+# Comissioning 19/11/2024
+# Previous setting
+#AXES_ZERO = (6.12, -0.3141, 0.9214)
+#AXES_ZERO = (5.63, 0.5929, 0.07563) # All alngles
+#AXES_ZERO = (5.609, 0.5878, 0.04468)
+AXES_ZERO = (5.667, 0.2408, 1.221)
 
 
 class ToolpointMotion(ScannableMotionWithScannableFieldsBase): #, IObserver):
