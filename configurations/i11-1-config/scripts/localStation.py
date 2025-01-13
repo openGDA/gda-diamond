@@ -321,3 +321,28 @@ sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), 
 from standardScan import * #@UnusedWildImport
 
 from config_tests import slug_trigger
+
+def get_wavelength_from_poni(poni_file=None):
+    wavelength = 0.0
+    if poni_file is None:
+        # get the poni from the meta
+        poni_file = meta.getMetadataValue("calibration_file")
+        if str(poni_file) == "":
+            print "no poni file supplied and none in the meta object" 
+            return wavelength
+    try:
+        with open(poni_file, 'r') as f:
+            file_contents = f.readlines()
+        for line in file_contents:
+            if "Wavelength" in line:
+                wavelength = float(line.split(' ')[1].replace("\n", ""))
+    except:
+        print("get_wavelength_from_poni() has been run, but could not extract wavelength from file")
+    return wavelength * 1e10
+
+wavelength = get_wavelength_from_poni()
+
+if wavelength == 0:
+    print("running 'lde n CAL' first will set the wavelength calibration file")
+
+
