@@ -61,6 +61,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.45, STATUS_FOLDER); //$NON-NLS-1$
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView:andor#EPICS_ARRAY");
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView:Polandor_H#EPICS_ARRAY");
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.Polandor_V.live.stream.view.LiveStreamView:Polandor_V#EPICS_ARRAY");
 //		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i21.xcam.live.stream.view.LiveStreamView:xcam#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
