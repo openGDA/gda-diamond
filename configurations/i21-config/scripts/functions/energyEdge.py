@@ -15,6 +15,7 @@ import csv
 from time import sleep
 import os
 import numbers
+from gdascripts.synchrotron_operation_mode import get_machine_state, USER, SPECIAL, BL_STARTUP
 
 EDGE_GRATING_TABLE = "lookupTables/edge_grating_table.csv"
 GDA_CONGIG_PROPERTY = "gda.config"
@@ -61,16 +62,26 @@ def set_edge(edge, grating = None, lookup_table = EDGE_GRATING_TABLE):
     print('\n'.join('move {0} to {1}'.format(*k) for k in zip(scannable_names, positions)))
     from gdaserver import specl, spech, sgmGratingSelect, sgmpitch, sgmr1  # @UnresolvedImport
     from scannable.continuous.continuous_energy_scannables import energy
+    pos_dict = {}
+    specl_val = float(specl.getPosition())
+    sgmr1_val = float(sgmr1.getPosition())
     for scannable, position in zip(scannables, positions):
+        if scannable in [spech, specl, sgmr1]:
+            pos_dict[scannable] = position
         if scannable in [sgmGratingSelect, energy, sgmpitch]:
             if position is None:
                 print("no position value available for scannable %s" % scannable.getName())
             else:
+                if get_machine_state() in [USER, SPECIAL, BL_STARTUP]:
                 scannable.asynchronousMoveTo(position)
-    for scannable, position in zip(scannables, positions):
-        from i21commands.checkedMotion import move
-        if scannable in [spech, specl, sgmr1]:
-            move(scannable, position)
+    from i21commands.checkedMotion import move
+    if (specl_val - sgmr1_val) <= 10100:
+        move(specl, pos_dict[specl])
+        move(spech, pos_dict[spech])
+    else:
+        move(spech, pos_dict[spech])
+        move(specl, pos_dict[specl])
+    move(sgmr1, pos_dict[sgmr1])
     while is_busy(scannables):
         sleep(0.25)
     print("\nmove to (%s, %s) completed." % (edge, grating))
