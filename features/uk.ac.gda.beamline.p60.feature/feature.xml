@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="uk.ac.gda.beamline.p60.feature"
-      label="SISA Feature"
-      version="9.36.0.qualifier"
+      label="P60 Feature"
+      version="9.37.0.qualifier"
       provider-name="Diamond Light Source"
       plugin="uk.ac.gda.beamline.p60"
       exclusive="true">

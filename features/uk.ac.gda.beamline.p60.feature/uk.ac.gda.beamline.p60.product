@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline p60" uid="uk.ac.gda.beamline.p60.product" id="uk.ac.gda.beamline.p60.feature" application="uk.ac.gda.client.application" version="9.36.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="GDA for Diamond Light Source Beamline P60" uid="uk.ac.gda.beamline.p60.product" id="uk.ac.gda.beamline.p60.product" application="uk.ac.gda.client.application" version="9.37.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -43,7 +43,7 @@ http://www.opengda.org
       startupProgressRect="2,215,598,15"
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />
-   <launcher name="gda-i09">
+   <launcher name="gda-p60">
       <win useIco="false">
          <bmp/>
       </win>

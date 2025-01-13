@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Diamond Light Source Beamline p60 Plug-in
+Bundle-Name: Diamond Light Source Beamline P60 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.p60;singleton:=true
 Bundle-Version: 9.4.0
 Bundle-RequiredExecutionEnvironment: JavaSE-21
