@@ -574,16 +574,14 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	try:
-		attoAvailable = caget("BL15I-EA-IOC-22:STATUS") == u'0'
-	except:
-		attoAvailable = False
+	attoAvailable = False
+	from future.anc150axis import createAnc150Axis
 
 	if isLive() and attoAvailable:
 		print "Installing atto devices from epics BL15I-EA-ATTO..."
-		from future.anc150axis import createAnc150Axis
 		try:
 			# BL16B > equipment > Attocube ANC150								# B16 GDA name
+			# BL15I > ?
 			atto1 = createAnc150Axis("atto1", "BL15I-EA-ATTO-03:PIEZO1:", 0.25) # attox3
 			atto2 = createAnc150Axis("atto2", "BL15I-EA-ATTO-03:PIEZO2:", 0.25) # attoz1
 			atto3 = createAnc150Axis("atto3", "BL15I-EA-ATTO-03:PIEZO3:", 0.25) # attorot1
@@ -599,6 +597,14 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating atto1-6 devices, ignoring remaining atto motors")
 			attoAvailable = False
+	else:
+		print "Not installing atto devices 1 to 6 as they no longer seem to be available"
+
+	try:
+		attoAvailable = caget("BL15I-EA-IOC-22:STATUS") == u'0'
+	except:
+		attoAvailable = False
+
 	if isLive() and attoAvailable:
 		try:
 			# BL15I > Experimental Hutch > Sample Environments > Vericold Cryo Chamber
@@ -610,6 +616,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating atto7-9 devices, ignoring remaining atto motors")
 			attoAvailable = False
+
 	if isLive() and attoAvailable:
 		try:
 			from future.ecc100axis import createEcc100Axis
@@ -621,6 +628,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attol1-3 devices, ignoring remaining atto motors")
 			attoAvailable = False
+
 	if isLive() and attoAvailable:
 		try:
 			attoltilt1 = createEcc100Axis("attoltilt1", "BL15I-EA-ECC-02:ACT0:")
@@ -629,6 +637,7 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attoltilt1, attoutilt1 & attorot1 devices, ignoring remaining atto motors")
 			attoAvailable = False
+
 	if isLive() and attoAvailable:
 		try:
 			attoltilt2 = createEcc100Axis("attoltilt2", "BL15I-EA-ECC-01:ACT0:")
@@ -645,8 +654,6 @@ try:
 		except:
 			localStation_exception(sys.exc_info(), "creating attol4, attol5 & attov1 devices")
 			attoAvailable = False
-	else:
-		print "* Not installing atto devices *"
 
 	try:
 		if isFindable("ippwsme07m"):
