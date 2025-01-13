@@ -37,7 +37,9 @@ class AdCam(NcdSubDetector):
         self.hdfImageCount = basePV + "HDF5:NumCapture"
         self.hdfStartAcquire = basePV + "HDF5:Capture"
         self.hdfFileName = basePV + "HDF5:FileTemplate"
+        self.hdfCaptureMode = basePV + "HDF5:FileWriteMode"
         self.fileTemplate = "i22-%%d-%s.h5" %name
+
 
         self.extraDims = basePV + "HDF5:NumExtraDims"
         self.extraDimN = basePV + "HDF5:ExtraDimSizeN"
@@ -64,6 +66,7 @@ class AdCam(NcdSubDetector):
 
         caput(self.hdfStartAcquire, 1) #set hdf5 to acquire
         caput(self.acquirePV, 1)#set camera to acquire
+        caput(self.hdfCaptureMode,2) #set camera capture mode to stream
 
     def _setDimensions(self, currentScanInformation):
         dims = currentScanInformation.getDimensions()
@@ -84,6 +87,8 @@ class AdCam(NcdSubDetector):
     def atScanEnd(self):
         caput(self.acquirePV, 0)#set camera to not acquire
         caput(self.hdfStartAcquire, 0) #set hdf5 to not acquire
+        caput(self.hdfCaptureMode,0) #set camera capture mode back to single
+
 
     def writeout(self, frames, dataTree):
         dataTree.addScanFileLink(self.getName(), "nxfile://" + self.thisFile + "#entry/instrument/detector/data")
