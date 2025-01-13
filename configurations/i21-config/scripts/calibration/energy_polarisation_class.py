@@ -57,7 +57,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
     harmonicOrder = 1
         
-    def __init__(self, name, idctrl, pgmenergy, pgmgratingselect, idlamlookup, lut="IDEnergy2GapCalibrations.cvs", energyConstant=False, polarisationConstant=False, feedbackPV=None):
+    def __init__(self, name, idctrl, pgmenergy, pgmgratingselect, idlamlookup, lut="IDEnergy2GapCalibrations.csv", energyConstant=False, polarisationConstant=False, feedbackPV=None):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut,self.header=load_lookup_table(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idscannable = idctrl
