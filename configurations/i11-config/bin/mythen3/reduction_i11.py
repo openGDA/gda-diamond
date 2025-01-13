@@ -130,6 +130,7 @@ def load_bad_channels(
             new_bad_channels = load_int_array_from_file(
                 bad_chan_filepath_from_module_id[module_id]
             )
+            new_bad_channels = np.append(new_bad_channels,np.arange(0,10,1))
             if len(new_bad_channels) > 0:
                 aligned_bad_channels = new_bad_channels + module * STRIPS_PER_MODULE
                 bad_channels.append(aligned_bad_channels)
@@ -311,6 +312,7 @@ def write_xye(
     combined = np.stack(
         (bin_centres, histogrammed_counts, histogrammed_count_errors), axis=-1
     )
+
     # np.savetxt can conveniently handle a format that looks just like .xye
     with timing("write .xye"):
         np.savetxt(out_file, combined, fmt="%.6f", delimiter=" ", newline="\n")
@@ -405,7 +407,6 @@ def do_the_delta_iteration(
         fix_the_gaps(histogrammed)
         histogrammed_errors = np.sqrt(histogrammed)
         bin_centres = calculate_bin_centres(bins)
-        print(histogrammed[-10:])
         save_this_delta_to_nexus(
             f_out,
             bin_centres,
@@ -439,11 +440,22 @@ def do_the_overall_sum(fh, xye_filepath, deltas):
 
         # find the index of the first bin
         idx = np.argmin(np.abs(x - tth[0]))
+
+        ###made this change to account for edge cases
+                
+        if (len(counts)+idx) > len(y):
+            counts = counts[0:len(y)-idx]
+
         y[idx: idx + len(counts)] += counts
         z[idx: idx + len(counts)] += counts > 0.0001
     # this is _not_ correct
     y = np.divide(y, z)
     e = np.sqrt(y)
+
+    mask = ~np.isnan(y)
+    x = x[mask]
+    y = y[mask]
+    e = e[mask]
 
     save_this_delta_to_nexus(fh, x, y, e, "summed", make_default=True)
     write_xye(x, y, e, xye_filepath)
