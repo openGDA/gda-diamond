@@ -1,8 +1,8 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="b16-dcam9"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="b16-dcam9">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="dcam9_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL15I-DI-DCAM-09:CAM:" />
