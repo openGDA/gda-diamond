@@ -94,7 +94,7 @@
 				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="eiger_mask" />
+		<constructor-arg index="4" ref="ei_mask" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
@@ -112,15 +112,15 @@
 				<ref bean="eiger_norm" />
 			</list>
 		</constructor-arg>
-		<constructor-arg index="4" ref="eiger_mask" />
+		<constructor-arg index="4" ref="ei_mask" />
 		<property name="useUidDataset" value="true" />
 	</bean>
 
 	<bean
 		class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"
-		id="eiger_mask">
+		id="ei_mask">
 		<property name="minThreshold">
-			<value type="java.lang.Integer">0</value>
+			<value type="java.lang.Integer">-1</value>
 		</property>
 		<property name="maxThreshold" >
 			<value type="java.lang.Integer">1000000000</value>
