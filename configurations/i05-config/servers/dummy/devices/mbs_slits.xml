@@ -4,52 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="mbs_slits" class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit">
-		<property name="slits">
+	<bean id="mbs_slits" class="org.opengda.detector.electronanalyser.entrance.slit.AnalyserEntranceSlit" destroy-method="dispose">
+		<property name="slitScannable" ref="analyser_slit"/>
+		<property name="defaultSlitString" value="100 0.1 curved vertical"/>
+	</bean>
+
+	<bean id="analyser_slit" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
 			<list>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="1" />
-					<constructor-arg index="1" value="0.1" />
-					<constructor-arg index="2" value="no aperture" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="6" />
-					<constructor-arg index="1" value="0.2" />
-					<constructor-arg index="2" value="straight" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="3" />
-					<constructor-arg index="1" value="0.3" />
-					<constructor-arg index="2" value="no aperture" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="4" />
-					<constructor-arg index="1" value="0.2" />
-					<constructor-arg index="2" value="aperture" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="5" />
-					<constructor-arg index="1" value="0.3" />
-					<constructor-arg index="2" value="aperture" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
-				<bean
-					class="uk.ac.diamond.daq.devices.mbs.MBSAnalyserEntranceSlit$EntranceSlit">
-					<constructor-arg index="0" value="2" />
-					<constructor-arg index="1" value="0.5" />
-					<constructor-arg index="2" value="aperture" />
-					<constructor-arg index="3" value="vertical" />
-				</bean>
+				<value>100 0.1 curved vertical</value>
+				<value>200 0.1 straight vertical</value>
+				<value>300 0.2 curved vertical</value>
+				<value>400 0.2 straight vertical</value>
+				<value>500 0.2 straight vertical</value>
+				<value>600 0.3 straight vertical</value>
+				<value>700 0.5 straight vertical</value>
+				<value>800 0.8 straight vertical</value>
+				<value>850 3 hole vertical</value>
+				<value>900 1.5 straight vertical</value>
 			</list>
 		</property>
+		<property name="posChangeEventFlag" value="true"/>
 	</bean>
+
 </beans>
