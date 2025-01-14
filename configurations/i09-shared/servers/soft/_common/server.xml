@@ -54,14 +54,7 @@
 		</property>
 	</bean>
 
-	<bean id="highestExistingFileMonitor"
-		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/highestExistingFileMonitor" />
-		<property name="service" ref="highestExistingFileMonitor" />
-		<property name="serviceInterface"
-			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
-	</bean>
+	<import resource="highestExistingFileMonitor.xml"/>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar 

@@ -31,7 +31,6 @@ print("")
 ###############################################################################
 # the following requires new NexusScanDataWriter to work!
 from i09shared.scan.miscan import miscan  # @UnusedImport
-print("")
 
 from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 

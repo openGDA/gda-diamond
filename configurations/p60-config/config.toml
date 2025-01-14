@@ -32,3 +32,6 @@ client.spring-xml = [
 root = "../i09-shared"
 
 server.spring-xml = "servers/main/${gda.mode}/server.xml"
+
+client.spring-xml = "clients/main/${gda.mode}/client.xml"
+

@@ -3,4 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<import resource="analyser.xml"/>
+	<import resource="analyser_energy_range.xml"/>
+	<import resource="Al_KAlpha_Energy.xml"/>
+	<import resource="Mg_KAlpha_Energy.xml"/>
+	<import resource="file://${gda.config.shared}/servers/soft/_common/highestExistingFileMonitor.xml"/>
+
 </beans>

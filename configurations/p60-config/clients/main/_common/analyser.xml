@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.diamond.ac.uk/schema/gda/gda
+                http://www.diamond.ac.uk/schema/gda/gda/gda.xsd" >
+
+	<bean id="basePv" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL60P-EA-DET-01"/>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.opengda.detector.electronanalyser.client.actions.CommandToClipboardHandler.setDetector"/>
+		<property name="arguments" ref="r4000"/>
+	</bean>
+
+	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
+		<property name="frameRate"	value="17" />
+		<property name="energyResolution" value="0.0877"/>
+		<property name="cameraXSize" value="1000"/>
+		<property name="cameraYSize" value="900"/>
+	</bean>
+
+	<bean id="sequenceviewlivefactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewLiveFactory">
+		<property name="viewPartName" value="Sequence Editor" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="analyser" ref="analyser"/>
+		<property name="analyserStatePV" value="#{basePv}:CAM:DetectorState_RBV"/>
+		<property name="analyserTotalTimeRemainingPV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="analyserElementSetPV" value="#{basePv}:CAM:ELEMENT_SET"/>
+		<property name="regionValidator" ref="regionvalidator"/>
+		<property name="vGScientaAnalyserDetector" ref="r4000"/>
+	</bean>
+
+	<bean id="sequenceviewcreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewCreatorFactory">
+		<property name="viewPartName" value="Sequence Creator" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="regionValidator" ref="regionvalidator"/>
+	</bean>
+
+	<bean id="regionviewlivefactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewLiveFactory">
+		<property name="viewPartName" value="Region Editor" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="analyser" ref="analyser"/>
+		<property name="currentIterationRemainingTimePV" value="#{basePv}:CAM:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="#{basePv}:CAM:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="#{basePv}:CAM:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="#{basePv}:CAM:X_COUNT_RBV" />
+		<property name="iterationCurrentPointPV" value="#{basePv}:CAM:CURRENT_POINT_RBV" />
+		<property name="totalRemianingTimePV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"/>
+		<property name="totalPointsPV" value="#{basePv}:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="currentIterationPV" value="#{basePv}:CAM:NumExposuresCounter_RBV"/>
+		<property name="totalIterationsPV" value="#{basePv}:CAM:NumExposures"/>
+		<property name="statePV" value="#{basePv}:CAM:DetectorState_RBV" />
+		<property name="acquirePV" value="#{basePv}:CAM:Acquire" />
+		<property name="messagePV" value="#{basePv}:CAM:StatusMessage_RBV"/>
+		<property name="zeroSuppliesPV" value="#{basePv}:CAM:ZERO_SUPPLIES"/>
+	</bean>
+
+	<bean id="regionviewcreatorfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewCreatorFactory">
+		<property name="viewPartName" value="Region Creator" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="analyser" ref="analyser"/>
+	</bean>
+
+	<bean id="spectrumviewfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SpectrumViewFactory">
+		<property name="viewPartName" value="Spectrum" />
+		<property name="analyser" ref="analyser" />
+		<property name="updatePV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV"/>
+		<property name="updatesPerSecond" value="8" />
+	</bean>
+
+	<bean id="imageviewfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.ImageViewFactory">
+		<property name="viewPartName" value="Image" />
+		<property name="analyser" ref="analyser" />
+		<property name="updatePV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV"/>
+		<property name="updatesPerSecond" value="3" />
+	</bean>
+
+	<bean id="progressviewfactory"
+		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
+		<property name="viewPartName" value="Progress" />
+
+		<property name="currentIterationRemainingTimePV" value="#{basePv}:CAM:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="#{basePv}:CAM:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="#{basePv}:CAM:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="#{basePv}:CAM:X_COUNT_RBV" />
+		<property name="iterationCurrentPointPV" value="#{basePv}:CAM:CURRENT_POINT_RBV" />
+		
+		<property name="totalRemianingTimePV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"/>
+		<property name="totalPointsPV" value="#{basePv}:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV" />
+
+		<property name="currentIterationPV" value="#{basePv}:CAM:NumExposuresCounter_RBV"/>
+		<property name="totalIterationsPV" value="#{basePv}:CAM:NumExposures"/>
+	</bean>
+</beans>

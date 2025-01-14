@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="intensity_protection_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="intensity_protection" />
+		<property name="group" value="Analyser" />
+		<property name="scannableName" value="intensity_protection" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="Clear" value-ref="green_colour" />
+				<entry key="Tripped" value-ref="red_colour" />
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="clear_intensity_protection" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="pos intensity_protection 'Clear'" />
+		<property name="buttonText" value="Clear" />
+		<property name="buttonTooltip" value="Move the intensity protection into a clear state: 'pos intensity_protection &#34;Clear&#34;'"/>
+		<property name="group" value="Analyser" />
+	</bean>
+	
+	<bean id="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="viewName" value="Live Monitor"/>
+		<property name="numberOfColumns" value="3"/>
+		<property name="pack" value="true"/>
+		<property name="controls">
+			<list>
+				<ref bean="intensity_protection_status" />
+				<ref bean="clear_intensity_protection" />
+			</list>
+		</property>
+	</bean>
+</beans>

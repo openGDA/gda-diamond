@@ -112,18 +112,14 @@ def analyserscan(*args):
 from gda.jython.commands.GeneralCommands import alias
 alias("analyserscan")
 
+#Print correct help text by getting correct detector for beamline
+BEAMLINE_TO_DETECTOR = {"i09": "ew4000", "i09-1" : "analyser", "p60" : "r4000"}
 BEAMLINE = LocalProperties.get("gda.beamline.name")
-if BEAMLINE == "i09":
-    from gdaserver import ew4000 #@UnresolvedImport
-    DETECTOR_DOC_STR = ew4000.getName()
-elif BEAMLINE == "i09-1":
-    from gdaserver import analyser #@UnresolvedImport
-    DETECTOR_DOC_STR = analyser.getName()
-elif BEAMLINE == "p60":
-    #ToDo - Add P60 here
-    DETECTOR_DOC_STR = "PLACEHOLDER"
-else:
+from gda.factory import Finder
+DETECTOR = Finder.find(BEAMLINE_TO_DETECTOR[LocalProperties.get("gda.beamline.name")])
+if DETECTOR == None:
     raise RuntimeError("{} does not support analyserscan.".format(BEAMLINE))
+DETECTOR_DOC_STR = DETECTOR.getName()
 
 analyserscan.__doc__ = analyserscan.__doc__.replace("DETECTOR", DETECTOR_DOC_STR)
 print(analyserscan.__doc__)

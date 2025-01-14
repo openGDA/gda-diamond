@@ -74,7 +74,6 @@ from gdascripts.constants import amu, aum, clight, eV, hPlanck, hPlanckeV, hbar,
 print("\tamu, aum, clight, eV, hPlanck, hPlanckeV, hbar, hbareV, m_e, me, one_angstrom_in_electronvolts, pi, r_e, re, tau")
 print("")
 
-
 print("-"*100)
 print "Create an 'interruptable()' function which can be used to make for-loop interruptable in GDA."
 print "    To use this, you must place 'interruptable()' call as the 1st or last line in your for-loop."
