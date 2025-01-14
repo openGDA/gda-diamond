@@ -6,7 +6,6 @@
 	<bean id="polarisationSection" class="uk.ac.diamond.daq.mapping.ui.xanes.PolarisationSection">
 		<property name="edgeToPhase" ref="edgeToPhase" />
 		<property name="polarisationToPhase" ref="polarisationToPhase" />
-		<property name="scriptFilePath" value="polarisation/run_polarisation.py" />
 	</bean>
 
 	<!-- Mapping view for I08-1 -->
@@ -48,6 +47,7 @@
  							</bean>
  							<bean class="uk.ac.diamond.daq.mapping.ui.PolarisationSubmitScanSection">
  								<constructor-arg name="energyName" value="energyFocus" />
+ 								<constructor-arg name="scriptFilePath" value="polarisation/run_polarisation.py" />
 							 	<property name="description" value="Polarisation scan" />
  								<property name="buttonText" value="Submit Polarisation scan" />
  							</bean>
