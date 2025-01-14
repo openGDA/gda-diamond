@@ -9,7 +9,7 @@ from org.eclipse.january.dataset import DatasetFactory
 
 class OdinPvaSnapper(DetectorSnapper, DetectorBase):
 
-    def __init__(self, name, collectionStrategy, pvaPlugin, statsProcessor, plotName):
+    def __init__(self, name, collectionStrategy, pvaPlugin, statsProcessor, plotName, mask):
         self.setName(name)
         self.collectionStrategy = collectionStrategy
         self.adBase = self.collectionStrategy.getDecoratee().getDecoratee().getDecoratee().getAdBase()
@@ -20,18 +20,16 @@ class OdinPvaSnapper(DetectorSnapper, DetectorBase):
         self.setOutputFormat(self.statsProc.getOutputFormat())
         self.currentStats = None
         self.plotName = plotName
+        self.mask = mask
 
     def acquire(self):
-        #self.collectionStrategy
         self.adBase.startAcquiring()
         while self.pvaPlugin.getPluginBase().getArrayCounter_RBV() != 1:
             sleep(0.1)
         imageData = DatasetFactory.createFromObject(self.pvaPlugin.getImageObject(), self.pvaPlugin.getHeight(), self.pvaPlugin.getWidth())
-        SDAPlotter.imagePlot(self.plotName, imageData)
-        # Acquire
-        # Get image
-        self.currentStats = self.statsProc.process(self.getName(), "", imageData)
-        # Plot and print
+        maskedImageData = self.mask.createDataSet(imageData)
+        SDAPlotter.imagePlot(self.plotName, maskedImageData)
+        self.currentStats = self.statsProc.process(self.getName(), "", maskedImageData)
         return [""]
 
     def getAcquirePeriod(self):
