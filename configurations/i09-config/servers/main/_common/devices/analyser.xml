@@ -189,7 +189,7 @@
 		<property name="energyRange" ref="analyser_energy_range"/>
 	</bean>
 
-	<bean id="ew4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.EW4000CollectionStrategy">
+	<bean id="ew4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserCollectionStrategy">
 		<property name="name" value="ew4000CollectionStrategy" />
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="analyser" ref="analyser" />
@@ -202,11 +202,13 @@
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
 
-	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
+	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserNXDetector">
 		<property name="name" value="ew4000" />
 		<property name="topup" ref="topup"/>
 		<property name="collectionStrategy" ref="ew4000CollectionStrategy"/>
 		<property name="clientFileAnnouncer" ref="client_file_announcer"/>
+		<property name="description" value="VGH Scienta Electron Analyser EW4000"/>
+		<property name="detectorID" value="EW4000"/>
 	</bean>
 
 	<bean id="energy_width" class="gda.device.monitor.EpicsMonitor">

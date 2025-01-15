@@ -63,11 +63,11 @@ def miscan(*args):
 			command = parse_other_arguments(command, arg)
 			i = i + 1
 
-		from org.opengda.detector.electronanalyser.nxdetector import EW4000
-		if isinstance(arg, NXDetector) and not isinstance(arg, EW4000):
-			adbase, image_mode, num_images = save_detector_settings_before_scan(arg)
-			if all((adbase, image_mode, num_images)):
-				CACHE_PARAMETER_TOBE_CHANGED = True
+			from org.opengda.detector.electronanalyser.nxdetector import VGScientaAnalyserNXDetector
+			if isinstance(arg, NXDetector) and not isinstance(arg, VGScientaAnalyserNXDetector):
+				adbase, image_mode, num_images = save_detector_settings_before_scan(arg)
+				if all((adbase, image_mode, num_images)):
+					CACHE_PARAMETER_TOBE_CHANGED = True
 				command, newargs = parse_detector_arguments(command, newargs, args, i, arg)
 				i = i + 1
 

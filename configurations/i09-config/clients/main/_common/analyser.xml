@@ -10,6 +10,15 @@
                 http://www.diamond.ac.uk/schema/gda/gda
                 http://www.diamond.ac.uk/schema/gda/gda/gda.xsd" >
 
+	<bean id="basePv" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL09I-EA-DET-01"/>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.opengda.detector.electronanalyser.client.actions.CommandToClipboardHandler.setDetector"/>
+		<property name="arguments" ref="ew4000"/>
+	</bean>
+
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
 		<property name="frameRate"	value="17" />
 		<property name="energyResolution" value="0.0877"/>
@@ -22,11 +31,11 @@
 		<property name="viewPartName" value="Sequence Editor" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
-		<property name="analyserStatePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV"/>
-		<property name="analyserTotalTimeRemainingPV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="analyserElementSetPV" value="BL09I-EA-DET-01:CAM:ELEMENT_SET"/>
+		<property name="analyserStatePV" value="#{basePv}:CAM:DetectorState_RBV"/>
+		<property name="analyserTotalTimeRemainingPV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="analyserElementSetPV" value="#{basePv}:CAM:ELEMENT_SET"/>
 		<property name="regionValidator" ref="regionvalidator"/>
-		<property name="ew4000" ref="ew4000"/>
+		<property name="vGScientaAnalyserDetector" ref="ew4000"/>
 	</bean>
 
 	<bean id="sequenceviewcreatorfactory"
@@ -41,21 +50,21 @@
 		<property name="viewPartName" value="Region Editor" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
-		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
-		<property name="iterationLeadPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_LEAD_POINTS_RBV" />
-		<property name="iterationProgressPV" value="BL09I-EA-DET-01:CAM:REGION_PROGRESS_RBV"/>
-		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:X_COUNT_RBV" />
-		<property name="iterationCurrentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
-		<property name="totalRemianingTimePV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="totalProgressPV" value="BL09I-EA-DET-01:CAM:PROGRESS_RBV"/>
-		<property name="totalPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_POINTS_RBV" />
-		<property name="currentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
-		<property name="currentIterationPV" value="BL09I-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
-		<property name="totalIterationsPV" value="BL09I-EA-DET-01:CAM:NumExposures"/>
-		<property name="statePV" value="BL09I-EA-DET-01:CAM:DetectorState_RBV" />
-		<property name="acquirePV" value="BL09I-EA-DET-01:CAM:Acquire" />
-		<property name="messagePV" value="BL09I-EA-DET-01:CAM:StatusMessage_RBV"/>
-		<property name="zeroSuppliesPV" value="BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"/>
+		<property name="currentIterationRemainingTimePV" value="#{basePv}:CAM:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="#{basePv}:CAM:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="#{basePv}:CAM:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="#{basePv}:CAM:X_COUNT_RBV" />
+		<property name="iterationCurrentPointPV" value="#{basePv}:CAM:CURRENT_POINT_RBV" />
+		<property name="totalRemianingTimePV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"/>
+		<property name="totalPointsPV" value="#{basePv}:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="currentIterationPV" value="#{basePv}:CAM:NumExposuresCounter_RBV"/>
+		<property name="totalIterationsPV" value="#{basePv}:CAM:NumExposures"/>
+		<property name="statePV" value="#{basePv}:CAM:DetectorState_RBV" />
+		<property name="acquirePV" value="#{basePv}:CAM:Acquire" />
+		<property name="messagePV" value="#{basePv}:CAM:StatusMessage_RBV"/>
+		<property name="zeroSuppliesPV" value="#{basePv}:CAM:ZERO_SUPPLIES"/>
 	</bean>
 
 	<bean id="regionviewcreatorfactory"
@@ -69,7 +78,7 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SpectrumViewFactory">
 		<property name="viewPartName" value="Spectrum" />
 		<property name="analyser" ref="analyser" />
-		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV"/>
+		<property name="updatePV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV"/>
 		<property name="updatesPerSecond" value="8" />
 	</bean>
 
@@ -77,7 +86,7 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="analyser" ref="analyser" />
-		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV"/>
+		<property name="updatePV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV"/>
 		<property name="updatesPerSecond" value="3" />
 	</bean>
 
@@ -85,18 +94,18 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
 		<property name="viewPartName" value="Progress" />
 
-		<property name="currentIterationRemainingTimePV" value="BL09I-EA-DET-01:CAM:REGION_TIME_LEFT_RBV"/>
-		<property name="iterationLeadPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_LEAD_POINTS_RBV" />
-		<property name="iterationProgressPV" value="BL09I-EA-DET-01:CAM:REGION_PROGRESS_RBV"/>
-		<property name="totalDataPointsPV" value="BL09I-EA-DET-01:CAM:X_COUNT_RBV" />
-		<property name="iterationCurrentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
+		<property name="currentIterationRemainingTimePV" value="#{basePv}:CAM:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="#{basePv}:CAM:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="#{basePv}:CAM:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="#{basePv}:CAM:X_COUNT_RBV" />
+		<property name="iterationCurrentPointPV" value="#{basePv}:CAM:CURRENT_POINT_RBV" />
 		
-		<property name="totalRemianingTimePV" value="BL09I-EA-DET-01:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="totalProgressPV" value="BL09I-EA-DET-01:CAM:PROGRESS_RBV"></property>
-		<property name="totalPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_POINTS_RBV" />
-		<property name="currentPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="totalRemianingTimePV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"></property>
+		<property name="totalPointsPV" value="#{basePv}:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV" />
 
-		<property name="currentIterationPV" value="BL09I-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
-		<property name="totalIterationsPV" value="BL09I-EA-DET-01:CAM:NumExposures"/>
+		<property name="currentIterationPV" value="#{basePv}:CAM:NumExposuresCounter_RBV"/>
+		<property name="totalIterationsPV" value="#{basePv}:CAM:NumExposures"/>
 	</bean>
 </beans>

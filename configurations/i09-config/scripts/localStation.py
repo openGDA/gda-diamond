@@ -26,6 +26,14 @@ from i09shared.localstation import * #@UnusedWildImport
 print "Custom i09 initialisation code.";
 
 ###############################################################################
+#     Import i/j energy, harmonic order. gap and polarisation instances       #
+###############################################################################
+from scannable.energy_poloarisation_order_gap_instances import LH,LV,CR,CL,LH3,jenergy_s,polarisation,jenergypolarisation,ienergy_order,jenergy_order, ienergy_s  # @UnusedImport
+from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
+from scannable.continuous.continuous_energy_scannables import ienergy, jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
+
+###############################################################################
 ###               Configure scan data processing and scan commands          ###
 ###############################################################################
 print("-"*100)
@@ -91,14 +99,6 @@ else:
 	print("Creating camera exposure object ('sd3_camera_exposure')for SD3 camera")
 	sd3_camera_exposure = CameraExposureChanger(sd3_cam)
 print("")
-
-###############################################################################
-#     Import i/j energy, harmonic order. gap and polarisation instances       #
-###############################################################################
-from scannable.energy_poloarisation_order_gap_instances import LH,LV,CR,CL,LH3,jenergy_s,polarisation,jenergypolarisation,ienergy_order,jenergy_order, ienergy_s  # @UnusedImport
-from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
-from scannable.continuous.continuous_energy_scannables import ienergy, jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
-from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 ###############################################################################
 ###                        Metadata saved for each scan                     ###
