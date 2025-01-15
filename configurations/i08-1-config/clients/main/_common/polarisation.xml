@@ -13,6 +13,7 @@
 	<util:map id="edgeToPhase"
 		map-class="java.util.HashMap" key-type="java.lang.String"
 		value-type="java.lang.Double">
+		<entry key="Ti-L" value="17.6" />
 		<entry key="O-K" value="17.8" />
 		<entry key="Mn-L" value="18" />
 		<entry key="Fe-L" value="18.2" />
