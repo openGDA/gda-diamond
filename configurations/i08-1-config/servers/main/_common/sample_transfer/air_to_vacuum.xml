@@ -15,7 +15,7 @@
 					<ref bean="stop_axis_detector"/>
 					<ref bean="check_axis_detector_stopped"/>
 					<ref bean="turn_led_on"/>
-					<ref bean="sample_robot_park"/>
+					<ref bean="move_sample_robot_park"/>
 					<ref bean="check_hotel_transfer"/>
 					<ref bean="check_leica_end_station"/>
 					<ref bean="check_sample_holder"/>

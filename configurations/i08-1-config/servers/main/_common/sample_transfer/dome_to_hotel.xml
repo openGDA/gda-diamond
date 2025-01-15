@@ -38,7 +38,7 @@
 					<ref bean="move_robot_rot_sample"/>
 					<ref bean="move_robot_x_sample"/>
 					<ref bean="move_robot_y_sample"/>
-					<ref bean="sample_robot_park"/>
+					<ref bean="move_sample_robot_park"/>
 					<ref bean="turn_led_off"/>
 		    	</list>
 		    </constructor-arg>
