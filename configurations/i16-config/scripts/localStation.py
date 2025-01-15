@@ -1563,17 +1563,27 @@ if installation.isLive():
 		localStation_exception("running localStationScripts/startup_pie725 script")
 
 try:
-	from localStationScripts.user_input_meta import input_metadata, _title, _sample
+	from localStationScripts.user_input_meta import input_metadata, _title, _sample, user_command_scannable
+	import scisoftpy as dnp
+	class UBMatrixMeta(ScannableBase) :
+		def getPosition(self) :
+			ubmatrix = ubcalc._UB
+			transformed_matrix = dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], ubmatrix.tolist()) / ( 2 * dnp.pi )
+			return [transformed_matrix.tolist()]
+	ub_matrix_meta = UBMatrixMeta()
+	ub_matrix_meta.name = "ub_matrix"
+
 	class OrientationMatrixMeta(ScannableBase) :
-	    def getPosition(self) :
-	        pos_list = ubcalc.U.tolist()
-	        return [[pos_list[0], pos_list[1], pos_list[2]]]
+		def getPosition(self) :
+			pos_list = ubcalc.U.tolist()
+			transformed_matrix =  dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], [pos_list[0], pos_list[1], pos_list[2]])
+			return [transformed_matrix.tolist()]
 	orientation_matrix_meta = OrientationMatrixMeta()
 	orientation_matrix_meta.name = "orientation_matrix"
 
 	class DiffcalcNameMeta(ScannableBase) :
-	    def getPosition(self) :
-	        return ubcalc.name
+		def getPosition(self) :
+			return ubcalc.name
 	diffcalc_name_meta = DiffcalcNameMeta()
 	diffcalc_name_meta.name = "diffcalc_name"
 	run("datawriting/i16_nexus")
