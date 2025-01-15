@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="cryostream"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="cryostream">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ocs_controller" class="gda.device.temperature.CryoController">
 		<property name="configureAtStartup" value="true"/>
