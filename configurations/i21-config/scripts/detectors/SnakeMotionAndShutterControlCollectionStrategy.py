@@ -45,7 +45,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     a detector collection strategy used to collect scattering or diffraction image from detector which is acquiring while sample is moving across the X-ray beam.
     '''
 
-    def __init__(self, name, detector, shutter, exposure_time_limit = 0.1, motors = None, beam_size = None, sample_size = None, sample_centre = None):
+    def __init__(self, name, detector, shutter, exposure_time_limit = 0.1, motors = None, beam_size = None, sample_size = None, sample_centre = None, sample_start = None, sample_end = None, use_sample_size = False):
         '''
         Constructor
         '''
@@ -70,8 +70,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.beamSizeZ = beam_size[1]
             
         if sample_size is None:
-            self.sampleSizeY = 1000.0
-            self.sampleSizeZ = 1000.0
+            self.sampleSizeY = 1.0
+            self.sampleSizeZ = 1.0
         else:
             self.sampleSizeY = sample_size[0]
             self.sampleSizeZ = sample_size[1]
@@ -83,11 +83,32 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.sampleCentreY = sample_centre[0]
             self.sampleCentreZ = sample_centre[1]
             
+        if sample_start is None:
+            self.sampleStartY = 1.0
+            self.sampleStartZ = 1.0
+        else:
+            self.sampleStartY = sample_start[0]
+            self.sampleStartZ = sample_start[1]
+                
+        if sample_end is None:
+            self.sampleEndY = 0
+            self.sampleEndZ = 0
+        else:
+            self.sampleEndY = sample_end[0]
+            self.sampleEndZ = sample_end[1]
+        
+        if not use_sample_size:
+            self.sampleSizeY = math.fabs(self.sampleStartY - self.sampleEndY)
+            self.sampleSizeZ = math.fabs(self.sampleStartZ - self.sampleEndZ)
+            self.sampleCentreY = ( self.sampleStartY + self.sampleEndY ) / 2.0
+            self.sampleCentreZ = ( self.sampleStartZ + self.sampleEndZ ) / 2.0
+
         self.yStep = self.beamSizeY
         self.zStep = self.beamSizeZ
         
         self.zContinuous = True
         self.yContinuous = False
+        self.use_sample_size = use_sample_size
         
         self.expsoureTimeLimit = exposure_time_limit
         self.speedZChanged = False 
@@ -98,6 +119,36 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.state_observable = None
         self.state_observer =  None
         
+        self.y_max_speed = 0.5
+        self.y_min_speed = 0.0
+        
+        self.z_max_speed = 0.5
+        self.z_min_speed = 0.0
+    
+    def setYMaxSpeed(self, speed):
+        self.y_max_speed = speed
+        
+    def getYMaxSpeed(self):
+        return self.y_max_speed
+    
+    def setYMinSpeed(self, speed):
+        self.y_min_speed = speed
+        
+    def getYMinSpeed(self):
+        return self.y_min_speed
+    
+    def setZMaxSpeed(self, speed):
+        self.z_max_speed = speed
+        
+    def getZMaxSpeed(self):
+        return self.z_max_speed
+    
+    def setZMinSpeed(self, speed):
+        self.z_min_speed = speed
+        
+    def getZMinSpeed(self):
+        return self.z_min_speed
+
     #this class property methods 
     def setBeamSize(self, beam_size):
         self.beamSizeY = beam_size[0]
@@ -113,6 +164,20 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.sampleCentreY = sample_centre[0]
         self.sampleCentreZ = sample_centre[1]
         
+    def setSampleStart(self, sample_start):
+        self.sampleStartY = sample_start[0]
+        self.sampleStartZ = sample_start[1]
+        
+    def setSampleEnd(self, sample_end):
+        self.sampleEndY = sample_end[0]
+        self.sampleEndZ = sample_end[1]
+        
+    def setUseSampleSize(self, b):
+        self.use_sample_size = b
+
+    def isUseSampleSize(self):
+        return self.use_sample_size
+            
     def setYStep(self, step):
         self.yStep = step
     
@@ -137,21 +202,23 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         at every point of the sample will not exceed the exposure time limit set
         '''
         if self.zContinuous:
-            min_speed = self.beamSizeZ / self.expsoureTimeLimit
+            speed_needed = self.beamSizeZ / self.expsoureTimeLimit
             self.original_z_speed = self.z.getSpeed()
-            if self.original_z_speed < min_speed :
-                print("Set motor '%s' speed to %f" % (self.z.getName(), min_speed))
-                self.z.setSpeed(min_speed)
-                self.speedZChanged = True
-            return min_speed if self.speedZChanged else self.original_z_speed
+            if speed_needed < self.z_min_speed or speed_needed > self.z_max_speed:
+                raise ValueError("Calculated motor speed % falls outside limits (%f, %f)" % (speed_needed, self.z_min_speed, self.z_max_speed))
+            print("Set motor '%s' speed to %f" % (self.z.getName(), speed_needed))
+            self.z.setSpeed(speed_needed)
+            self.speedZChanged = True
+            return speed_needed if self.speedZChanged else self.original_z_speed
         if self.yContinuous:
-            min_speed = self.beamSizeY / self.expsoureTimeLimit
+            speed_needed = self.beamSizeY / self.expsoureTimeLimit
             self.original_y_speed = self.y.getSpeed()
-            if self.original_y_speed < min_speed:
-                print("Set motor '%s' speed to %f" % (self.y.getName(), min_speed))
-                self.y.setSpeed(min_speed)
-                self.speedYChanged = True
-            return min_speed if self.speedYChanged else self.original_y_speed    
+            if speed_needed < self.y_min_speed or speed_needed > self.y_max_speed:
+                raise ValueError("Calculated motor speed % falls outside limits (%f, %f)" % (speed_needed, self.y_min_speed, self.y_max_speed))
+            print("Set motor '%s' speed to %f" % (self.y.getName(), speed_needed))
+            self.y.setSpeed(speed_needed)
+            self.speedYChanged = True
+            return speed_needed if self.speedYChanged else self.original_y_speed    
 
     def restoreMotorSpeed(self):
         '''restore motor speed if it is changed by this object
@@ -166,14 +233,24 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     def detecrmineControlPositions(self):
         '''calculate positions at which motor starts and stops and at which shutter opens and closes
         '''
-        self.y_start = self.sampleCentreY + self.sampleSizeY/2
-        self.y_open = self.sampleCentreY + self.sampleSizeY/2 + 2*self.beamSizeY
-        self.y_close = self.sampleCentreY - self.sampleSizeY/2 + 2*self.beamSizeY
-        self.y_end = self.sampleCentreY - self.sampleSizeY/2
-        self.z_start = self.sampleCentreZ - self.sampleSizeZ/2
-        self.z_open = self.sampleCentreZ - self.sampleSizeZ/2 + 2*self.beamSizeZ
-        self.z_close = self.sampleCentreZ + self.sampleSizeZ/2 - 2*self.beamSizeZ 
-        self.z_end = self.sampleCentreZ + self.sampleSizeZ/2
+        if self.use_sample_size:
+            self.y_start = self.sampleCentreY + self.sampleSizeY/2
+            self.y_open = self.sampleCentreY + self.sampleSizeY/2 + 2*self.beamSizeY
+            self.y_close = self.sampleCentreY - self.sampleSizeY/2 + 2*self.beamSizeY
+            self.y_end = self.sampleCentreY - self.sampleSizeY/2
+            self.z_start = self.sampleCentreZ + self.sampleSizeZ/2
+            self.z_open = self.sampleCentreZ - self.sampleSizeZ/2 + 2*self.beamSizeZ
+            self.z_close = self.sampleCentreZ + self.sampleSizeZ/2 - 2*self.beamSizeZ 
+            self.z_end = self.sampleCentreZ - self.sampleSizeZ/2
+        else:
+            self.y_start = self.sampleStartY
+            self.y_end = self.sampleEndY
+            self.y_open = self.y_start + 2*self.beamSizeY
+            self.y_close = self.y_end - 2*self.beamSizeY
+            self.z_start = self.sampleStartZ
+            self.z_end = self.sampleEndZ
+            self.z_open = self.z_start + 2*self.beamSizeZ
+            self.z_close = self.z_end - 2*self.beamSizeZ 
         if self.zContinuous:
             self.y_positions = [round(each, 3) for each in frange(self.y_start, self.y_end, self.yStep)]
             self.z_total_distance = abs(self.z_end - self.z_start)*len(self.y_positions)

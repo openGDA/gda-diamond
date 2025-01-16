@@ -32,6 +32,12 @@ class ExposureLimitedDetector(NXDetector):
     def setSampleCentre(self, sample_centre):
         self.collectionStrategy.setSampleCentre(sample_centre)
         
+    def setSampleStart(self, sample_start):
+        self.collectionStrategy.setSampleStart(sample_start)
+        
+    def setSampleEnd(self, sample_end):
+        self.collectionStrategy.setSampleEnd(sample_end)
+        
     def setYStep(self, step):
         self.collectionStrategy.setYStep(step)
     
@@ -49,3 +55,10 @@ class ExposureLimitedDetector(NXDetector):
         
     def setPathReverse(self, b):
         self.getCollectionStrategy().setPathReverse(b)
+        
+    def setUseSampleSize(self, b):
+        self.getCollectionStrategy().setUseSampleSize(b)
+    
+    def isUseSampleSize(self):
+        return self.getCollectionStrategy().isUseSampleSize()
+    
