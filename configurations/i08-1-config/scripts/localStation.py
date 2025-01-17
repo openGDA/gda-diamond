@@ -35,7 +35,8 @@ try:
     run("ptycho/ptycho_setup.py")
 except Exception, e:
     print("Exception getting Andor information: %s" %(e))
-    
+
+# Run polarisation methods script
 run("polarisation/read_write_polynomials.py")
 
 # Mode-specific setup

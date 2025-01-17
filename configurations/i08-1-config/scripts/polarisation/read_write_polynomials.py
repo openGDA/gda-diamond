@@ -7,6 +7,35 @@ print("Running read_write_polynomials script")
 #coefficients path
 inputPath='/dls_sw/i08-1/scripts/polynomials/'
 
+def get_idgap_energy_phase_for_mn(degree):
+    energy_value_mn = 641.2
+    if degree == 10:
+        igdap_value_mn = 26.0
+        phase_value_mn = 8.99
+    elif degree == 20:
+        igdap_value_mn = 24.6
+        phase_value_mn = 10.3
+    elif degree == 30:
+        igdap_value_mn = 21.6
+        phase_value_mn = 13.26
+    elif degree == 40:
+        igdap_value_mn = 20.4
+        phase_value_mn = 14.8
+    elif degree == 50:
+        igdap_value_mn = 19.9
+        phase_value_mn = 15.445
+    elif degree == 60:
+        igdap_value_mn = 19.55
+        phase_value_mn = 17.55
+    elif degree == 70:
+        igdap_value_mn = 19.75
+        phase_value_mn = 19.20
+    elif degree == 80:
+        igdap_value_mn = 20.05
+        phase_value_mn = 20.23
+        
+    return energy_value_mn, igdap_value_mn, phase_value_mn
+
 def read_poly(direction,pol_list):
     rows=12
     txt = inputPath + "polyfit_coeff_"+direction+".dat"
