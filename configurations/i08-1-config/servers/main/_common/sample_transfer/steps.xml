@@ -36,8 +36,15 @@
 		<constructor-arg value="Is the sample gripped?" />
 	</bean>
 	
-	<bean id="check_sample_coarse_x_transfer" class="uk.ac.gda.core.sampletransfer.ClientAction">
-		<constructor-arg value="Is sample coarse x in transfer position?" />
+	<bean id="check_sample_coarse_x_transfer" class="uk.ac.gda.core.sampletransfer.MoveScannablesIfNeededAction">
+		<constructor-arg name="description" value="Checking if sample_coarse_x is in transfer pos, moving if not"/>
+		<constructor-arg name="scannableMap">
+			<util:map map-class="java.util.LinkedHashMap"
+			 key-type="gda.device.Scannable"
+			  value-type="java.lang.Double">
+			  <entry key-ref="sample_x_coarse" value="6"/>
+			 </util:map>
+		</constructor-arg>
 	</bean>
 	
 	<bean id="check_beam_perpendicular" class="uk.ac.gda.core.sampletransfer.ClientAction">
