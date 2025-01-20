@@ -33,13 +33,13 @@ class NXDetectorDataDoubleAppenderWithUnitSupport(NXDetectorDataAppender):
         self.name = name
         self.value = value
         self.unit = unit
-        
+
     def appendTo(self, nx_detector_data, detector_name):
         nx_detector_data.setPlottableValue(self.name, self.value)
         valdata = nx_detector_data.addData(detector_name, self.name, NexusGroupData([self.value]), self.unit, None, None, True);
         valdata.addChildNode(NexusTreeNode("local_name",NexusExtractor.AttrClassName, valdata,  NexusGroupData(String.format("%s.%s", detector_name, self.name))));
 
-                
+
 class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     '''
     a detector collection strategy used to collect scattering or diffraction image from detector which is acquiring while sample is moving across the X-ray beam.
@@ -61,7 +61,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         else:
             self.y = motors[0]
             self.z = motors[1]
-    
+
         if beam_size is None:
             self.beamSizeY = 0.030
             self.beamSizeZ = 0.005
@@ -75,14 +75,14 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         else:
             self.sampleSizeY = sample_size[0]
             self.sampleSizeZ = sample_size[1]
-        
+
         if sample_centre is None:
             self.sampleCentreY = 0
             self.sampleCentreZ = 0
         else:
             self.sampleCentreY = sample_centre[0]
             self.sampleCentreZ = sample_centre[1]
-            
+
         if sample_start is None:
             self.sampleStartY = 1.0
             self.sampleStartZ = 1.0
@@ -96,7 +96,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         else:
             self.sampleEndY = sample_end[0]
             self.sampleEndZ = sample_end[1]
-        
+
         if not use_sample_size:
             self.sampleSizeY = math.fabs(self.sampleStartY - self.sampleEndY)
             self.sampleSizeZ = math.fabs(self.sampleStartZ - self.sampleEndZ)
@@ -109,43 +109,43 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.zContinuous = True
         self.yContinuous = False
         self.use_sample_size = use_sample_size
-        
+
         self.expsoureTimeLimit = exposure_time_limit
         self.speedZChanged = False 
         self.speedYChanged = False
         self.pathReverse = True
-        
+
         self.count_time_q = None
         self.state_observable = None
         self.state_observer =  None
-        
+
         self.y_max_speed = 0.5
         self.y_min_speed = 0.0
-        
+
         self.z_max_speed = 0.5
         self.z_min_speed = 0.0
-    
+
     def setYMaxSpeed(self, speed):
         self.y_max_speed = speed
-        
+
     def getYMaxSpeed(self):
         return self.y_max_speed
-    
+
     def setYMinSpeed(self, speed):
         self.y_min_speed = speed
-        
+
     def getYMinSpeed(self):
         return self.y_min_speed
-    
+
     def setZMaxSpeed(self, speed):
         self.z_max_speed = speed
-        
+
     def getZMaxSpeed(self):
         return self.z_max_speed
-    
+
     def setZMinSpeed(self, speed):
         self.z_min_speed = speed
-        
+
     def getZMinSpeed(self):
         return self.z_min_speed
 
@@ -155,47 +155,47 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.beamSizeZ = beam_size[1]
         self.yStep = self.beamSizeY
         self.zStep = self.beamSizeZ
-        
+
     def setSampleSize(self, sample_size):
         self.sampleSizeY = sample_size[0]
         self.sampleSizeZ = sample_size[1]
-        
+
     def setSampleCentre(self, sample_centre):
         self.sampleCentreY = sample_centre[0]
         self.sampleCentreZ = sample_centre[1]
-        
+
     def setSampleStart(self, sample_start):
         self.sampleStartY = sample_start[0]
         self.sampleStartZ = sample_start[1]
-        
+
     def setSampleEnd(self, sample_end):
         self.sampleEndY = sample_end[0]
         self.sampleEndZ = sample_end[1]
-        
+
     def setUseSampleSize(self, b):
         self.use_sample_size = b
 
     def isUseSampleSize(self):
         return self.use_sample_size
-            
+
     def setYStep(self, step):
         self.yStep = step
-    
+
     def setZStep(self, step):
         self.zStep = step
-        
+
     def setExposureTimeLimit(self, limit):
         self.expsoureTimeLimit = limit
-        
+
     def setYContinuous(self, b):
         self.yContinuous = b
-        
+
     def setZContinuous(self, b):
         self.zContinuous = b
-        
+
     def setPathReverse(self, b):
         self.pathReverse = b
-    
+
     #this class internal methods   
     def setMotorSpeed(self):
         '''calculate and set motor speed for continuous moving motor so that X-ray exposure time 
@@ -218,7 +218,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             print("Set motor '%s' speed to %f" % (self.y.getName(), speed_needed))
             self.y.setSpeed(speed_needed)
             self.speedYChanged = True
-            return speed_needed if self.speedYChanged else self.original_y_speed    
+            return speed_needed if self.speedYChanged else self.original_y_speed
 
     def restoreMotorSpeed(self):
         '''restore motor speed if it is changed by this object
@@ -229,7 +229,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         if self.speedZChanged:
             print("Restore motor %s speed to %f" % (self.z.getName(), self.original_z_speed))
             self.z.setSpeed(self.original_z_speed)
-            
+
     def detecrmineControlPositions(self):
         '''calculate positions at which motor starts and stops and at which shutter opens and closes
         '''
@@ -252,12 +252,18 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
             self.z_open = self.z_start + 2*self.beamSizeZ
             self.z_close = self.z_end - 2*self.beamSizeZ 
         if self.zContinuous:
-            self.y_positions = [round(each, 3) for each in frange(self.y_start, self.y_end, self.yStep)]
+            if self.y_start == self.y_end or math.fabs(self.y_end - self.y_start) < self.yStep:
+                self.y_positions = [self.y_start] # line path
+            else:
+                self.y_positions = [round(each, 3) for each in frange(self.y_start, self.y_end, self.yStep)] # snake path
             self.z_total_distance = abs(self.z_end - self.z_start)*len(self.y_positions)
         if self.yContinuous:
-            self.z_positions = [round(each, 3) for each in frange(self.z_start, self.z_end, self.zStep)]
+            if self.z_start == self.z_end or math.fabs(self.z_end - self.z_start) < self.zStep:
+                self.z_positions = [self.z_start] # line path
+            else:
+                self.z_positions = [round(each, 3) for each in frange(self.z_start, self.z_end, self.zStep)] # snake path
             self.y_total_distance = abs(self.y_end - self.y_start)*len(self.z_positions)
-     
+
     def update_motor_shutter_control(self, source, change):
         '''handling detector acquiring event
         '''
@@ -272,8 +278,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
                 return
             if self.motion_shutter_control_thread.isAlive():
                 logger.debug("Detector acquire complete")
-    
-                   
+
+
     # implement NXCollectionStrategyPlugin interface
     def getAcquireTime(self):
         return self.ad_base.getAcquireTime()
@@ -310,15 +316,15 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.state_observer = GeneralObserver("state_observer1", self.update_motor_shutter_control)
         self.state_observable.addObserver(self.state_observer)
         self.motion_shutter_control_thread.addObserver(self.ad_base)
-        
-        
+
+
         self.y.asynchronousMoveTo(self.y_start)
         self.z.asynchronousMoveTo(self.z_start)
         print("Move motors to start point: y = %f, z = %f" % (self.y_start, self.z_start))
         logger.debug("Move motors to start point: y = {}, z = {}", self.y_start, self.z_start)
         self.y.waitWhileBusy()
         self.z.waitWhileBusy()
-        
+
         motor_speed = self.setMotorSpeed()
         if self.zContinuous:
             print("Motor speed is %f for %s" % (motor_speed, self.z.getName()))
@@ -332,7 +338,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         if not change:
             logger.warn("calling collectData() ...")
             self.collectData()
-            
+
     def collectData(self):
         self.ad_base.startAcquiring()
 
@@ -341,7 +347,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
 
     def waitWhileBusy(self):
         self.det.getCollectionStrategy().waitWhileBusy()
-        
+
 
     def getNumberImagesPerCollection(self, t):
         return 1
@@ -352,8 +358,8 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         appenders = []
         appenders.append(NXDetectorDataDoubleAppender(self.getInputStreamNames(), [self.getAcquireTime(), self.count_time_q.get()]))
         return appenders
-    
-    
+
+
     # implement NXPluginBase interface
     def getName(self):
         return self.myname
@@ -378,7 +384,7 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         self.count_time_q = None
         self.cs.completeCollection()
         logger.debug("Exit completeCollection method\n")
-                        
+
     def atCommandFailure(self):
         logger.debug("atCommandFailure called!")
         self.completeCollection()
@@ -387,18 +393,13 @@ class ExposureLimitedCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
         logger.debug("Stop called ...")
         self.completeCollection()
         logger.debug("Exit stop method\n")
-            
+
     def getInputStreamNames(self):
         inputnames = self.cs.getInputStreamNames()
         inputnames.append("shutter_opening_time")
         return inputnames
-    
+
     def getInputStreamFormats(self):
         inputformats = self.cs.getInputStreamFormats()
         inputformats.append("%f")
         return inputformats
-    
-
-    
-
-        

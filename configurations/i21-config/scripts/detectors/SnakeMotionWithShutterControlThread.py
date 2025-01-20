@@ -63,22 +63,26 @@ class SnakePathWithShutterControlThread(threading.Thread):
         self.stoprequest = threading.Event()
         self.state_observer = None
         self.state_observable = None
-        self.firstTimeRunnThis = True
+        self.firstTimeRunThis = True
         self.observableUtil = ObservableUtil()
         self.observer = observer
-        
+
     def run(self):
         while not self.stoprequest.isSet():
-            if self.firstTimeRunnThis:
+            if self.firstTimeRunThis:
                 self.shutterAlreadyOpen = False
                 self.moveMotorsWhileControlShutter(self.step_move_motor_positions)
-                self.firstTimeRunnThis = False
+                self.firstTimeRunThis = False
             else:
                 logger.info("forward move through '{}' positions", self.step_move_motor.getName())
-                self.moveMotorsWhileControlShutter(self.step_move_motor_positions[1:])
+                self.moveMotorsWhileControlShutter(self.step_move_motor_positions)
             if self.path_reverse_enabled:
                 logger.info("backward move through '{}' positions", self.step_move_motor.getName())
-                self.moveMotorsWhileControlShutter(self.step_move_motor_positions_reversed[1:])
+                self.moveMotorsWhileControlShutter(self.step_move_motor_positions_reversed)
+            else:
+                self.continuous_move_motor.moveTo(self.continuous_move_motor_start)
+                logger.info("repeat move through '{}' positions", self.step_move_motor.getName())
+                self.moveMotorsWhileControlShutter(self.step_move_motor_positions)
 
     def join(self, timeout=None):
         self.stoprequest.set()
@@ -89,18 +93,18 @@ class SnakePathWithShutterControlThread(threading.Thread):
         self.state_observable = ad_base.createAcquireStateObservable()
         self.state_observer = GeneralObserver("state_observer2", self.update_motor_shutter_control)
         self.state_observable.addObserver(self.state_observer)
-        
+
         self.observableUtil.addObserver(self.observer)
-        
+
     def removeObserver(self):
         if self.state_observer and self.state_observable:
             logger.debug("Remove detector acquiring state observer 2")
             self.state_observable.removeObserver(self.state_observer)
             self.state_observer = None
             self.state_observable = None
-            
+
         self.observableUtil.removeObserver(self.observer)
-        
+
     def update_motor_shutter_control(self, source, change):
         '''handling detector acquiring event
         '''
@@ -115,7 +119,7 @@ class SnakePathWithShutterControlThread(threading.Thread):
         self.start_time = time.time()
         self.shutterAlreadyOpen = True
         logger.debug("Open  shutter at {}", self.start_time)
-        
+
     def closeShutter(self):
         fastshutter.moveTo("Closed")
         self.end_time = time.time()
@@ -126,7 +130,7 @@ class SnakePathWithShutterControlThread(threading.Thread):
         if not self.detectorIsAcquiring:
             self.count_time_q.put(self.total_shutter_open_time)
             logger.debug("Total shutter opening time for this point is {}", (self.total_shutter_open_time))
-                  
+
     def shutterControl(self):
         if self.zContinuous:
             z_pos = float(self.continuous_move_motor.getPosition())
@@ -148,7 +152,7 @@ class SnakePathWithShutterControlThread(threading.Thread):
             if self.stoprequest.isSet(): #support early stop of this thread
                 logger.debug("stop requested before move step motor {}", step_move_motor_name)
                 break
-            
+
             # make sure detector acquire started before continuous motion path
             i = 1
             while not self.detectorIsAcquiring and i < 50:
@@ -166,10 +170,10 @@ class SnakePathWithShutterControlThread(threading.Thread):
 
             if self.shutterAlreadyOpen:
                 logger.error("Shutter should be closed during '{}' motion", step_move_motor_name)
-            
+
             logger.debug("Move motor '{}' to {}", step_move_motor_name, motor_pos)
             self.step_move_motor.moveTo(motor_pos)
-            
+
             if index % 2 == 0:
                 target_position = self.continuous_move_motor_end
             else:
@@ -182,10 +186,10 @@ class SnakePathWithShutterControlThread(threading.Thread):
                     self.closeShutter()
                     break
                 self.shutterControl()
-            
+
             logger.debug("motors %s = %f, %s = %f, steps %d/%d done in %s" % 
                   (step_move_motor_name, float(self.step_move_motor.getPosition()), continuous_move_motor_name, float(self.continuous_move_motor.getPosition()), index+1, len(step_move_motor_positions), step_move_motor_name))
-        
+
         scan_data_point = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint()
         if scan_data_point:
             number_of_points = scan_data_point.getNumberOfPoints()
@@ -196,13 +200,4 @@ class SnakePathWithShutterControlThread(threading.Thread):
             continuous_end = self.continuous_move_motor_end
             self.continuous_move_motor_end = self.continuous_move_motor_start
             self.continuous_move_motor_start = continuous_end
-            
-        if not self.path_reverse_enabled:
-            if self.shutterAlreadyOpen:
-                self.closeShutter()
-                self.count_time_q.put(self.total_shutter_open_time)
-                logger.debug("Total shutter opening time for the last point is %f" % (self.total_shutter_open_time))
-            InterfaceProvider.getCurrentScanController().requestFinishEarly()
-            self.stoprequest.set()
-            print("Trying to finish current scan ..., but, if failed or hanging, please click 'stop' to stop this scan!")
-            
+
