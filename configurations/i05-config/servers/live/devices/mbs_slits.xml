@@ -13,16 +13,16 @@
 		<property name="pvName" value="BL05I-EA-SLITS-01:POS" />
 		<property name="values">
 			<map>
-				<entry key="100 0.1 curved" 	value="100 0.1 curved vertical"/>
-				<entry key="200 0.1 straight" 	value="200 0.1 straight vertical"/>
-				<entry key="300 0.2 curved" 	value="300 0.2 curved vertical"/>
-				<entry key="400 0.2 straight" 	value="400 0.2 straight vertical"/>
-				<entry key="500 0.2 straight" 	value="500 0.2 straight vertical"/>
-				<entry key="600 0.3 straight" 	value="600 0.3 straight vertical"/>
-				<entry key="700 0.5 straight" 	value="700 0.5 straight vertical"/>
-				<entry key="800 0.8 straight" 	value="800 0.8 straight vertical"/>
-				<entry key="850 3 hole" 		value="850 3 hole vertical"/>
-				<entry key="900 1.5 straight" 	value="900 1.5 straight vertical"/>
+				<entry	key="100 0.1 curved vertical"  	value="100 0.1 curved"/>
+				<entry  key="200 0.1 straight vertical" value="200 0.1 straight"/>
+				<entry 	key="300 0.2 curved vertical" 	value="300 0.2 curved" />
+				<entry  key="400 0.2 straight vertical" value="400 0.2 straight"/>
+				<entry  key="500 0.2 straight vertical" value="500 0.2 straight"/>
+				<entry  key="600 0.3 straight vertical" value="600 0.3 straight"/>
+				<entry  key="700 0.5 straight vertical" value="700 0.5 straight"/>
+				<entry 	key="800 0.8 straight vertical" value="800 0.8 straight" />
+				<entry 	key="850 3 hole vertical" 		value="850 3 hole" />
+				<entry 	key="900 1.5 straight vertical" value="900 1.5 straight" />
 			</map>
 		</property>
 	</bean>
