@@ -18,7 +18,6 @@ server.spring-xml.common = [
     "servers/_common/file_registrar.xml",
     "servers/_common/beam_available_watchdog.xml",
     "servers/_common/machine_status.xml",
-    "servers/_common/solstice_scanning.xml",
     "servers/${gda.mode}/icat_xml_creator.xml"
 ]
 
