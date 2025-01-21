@@ -36,19 +36,10 @@ print("")
 ###############################################################################
 ###                    Import additional scan commands                      ###
 ###############################################################################
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
+
 from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
 from command.analyserscancheck import zerosupplies, analyserscancheck # @UnusedImport
-
-# Install regional scan
-print("-"*100)
-print("Installing regional scan 'mrscan'")
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
-print("Use mrscan motor (R1, R2, ... R3) for multiple-region scan")
-print("where the region Rx is defined by a [start, stop, step] list and all regions are grouped in a tuple")
-print("For example: \n\tmrscan testMotor1 ([0, 5, 1], [6,10,0.1], [10,15,1]) dummyCounter1 0.1")
-print("")
 
 # the following requires new NexusScanDataWriter to work!
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport

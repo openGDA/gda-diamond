@@ -1,11 +1,11 @@
 
 from gda.jython.commands.GeneralCommands import alias
 
-from Diamond.Scans.RegionalScan import RegionalScanClass
+from gdascripts.scan.mrscan import MultiRegionalScanClass
 from Diamond.Scans.PowerSeriesScan import PowerSeriesScanClass
 
 #Usage
-rscan=RegionalScanClass()
+rscan=MultiRegionalScanClass()
 alias('rscan');
 
 #Usage:

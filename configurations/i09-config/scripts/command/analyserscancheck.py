@@ -8,7 +8,7 @@ from org.opengda.detector.electronanalyser.nxdetector import EW4000
 from gdascripts.utils import caput
 from gda.device import Scannable
 from gdaserver import dcmenergyEv, pgmenergy, analyser #@UnresolvedImport
-from i09shared.scan.analyserScan import getSequenceFilename
+from i09shared.scan.analyserScan import get_sequence_filename
 
 ZERO_SUPPLIES_PV = "BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"
 
@@ -44,7 +44,7 @@ def analyserscancheck(*args):
 
         if isinstance( arg,  EW4000 ):
             ew4000 = arg
-            filename = getSequenceFilename(args[i + 1])
+            filename = get_sequence_filename(args[i + 1])
             i = i + 1
             continue
 

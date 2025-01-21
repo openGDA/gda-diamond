@@ -27,10 +27,7 @@ print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-print "Installing regional scan"
-from gdascripts.scan.RegionalScan import RegionalScanClass
-mrscan = RegionalScanClass()
-alias('mrscan')
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 
 # Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler

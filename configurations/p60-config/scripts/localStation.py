@@ -30,9 +30,10 @@ print("")
 ###                   Additional scan commands                              ###
 ###############################################################################
 # the following requires new NexusScanDataWriter to work!
-# from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
 from i09shared.scan.miscan import miscan  # @UnusedImport
 print("")
+
+from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 
 from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
 
