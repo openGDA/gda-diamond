@@ -4,6 +4,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="ocs_controller" class="gda.device.temperature.CryoController">
+		<property name="configureAtStartup" value="true"/>
+		<property name="pvRoot" value="BL11K-EA-CSTRM-01"/>
+	</bean>
+
+	<bean id="ocs" class="gda.device.temperature.OxfordCryostream700">
+		<property name="configureAtStartup" value="true"/>
+		<property name="probeNames">
+			<list>
+				<value>ocs_probe</value>
+			</list>
+		</property>
+		<property name="accuracy" value="0.5"/>		<!-- 0.5 on I11 -->
+		<property name="polltime" value="1000"/>	<!-- 1000 on I11 -->
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="500.0"/>	<!-- 500.0 on I11 -->
+		<property name="lowerTemp" value="80.0"/>	<!--  80.0 on I11 -->
+		<property name="cryoController" ref="ocs_controller"/>
+	</bean>
+
  	<!-- MONITORS -->
 	<bean id="cryo_filllevel"
 		class="gda.device.monitor.EpicsMonitor">
