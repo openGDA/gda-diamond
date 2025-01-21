@@ -481,15 +481,24 @@ try:
 
 	try:
 		def pil3_tiffs_on():
-			caput("BL15I-CS-IOC-12:AUTORESTART", "1")
-			caput("BL15I-CS-IOC-12:START", "1")
+			# Make sure Ridgeway is running
+			caput("BL15I-CS-IOC-12:AUTORESTART", "1") # On
+			caput("BL15I-CS-IOC-12:START", "1") # Busy
+			# Make sure the Pilatus file writer IS checking that the files exist
+			pil3.pluginMap['tifwriter'].waitForFileArrival=True
+			# Make sure the hdf5 plugin is NOT telling Area Detector to delete the source file 
+			caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0") # No
 			simpleLog("pil3_tiffs_on completed, use 'pil3_tiffs_off' to stop writing pil3 tif and cbf files")
-	
-		def pil3_tiffs_off():
-			caput("BL15I-CS-IOC-12:AUTORESTART", "0")
-			caput("BL15I-CS-IOC-12:STOP", "1")
-			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to startp writing pil3 tif and cbf files")
 
+		def pil3_tiffs_off():
+			# Make sure Ridgeway is running
+			caput("BL15I-CS-IOC-12:AUTORESTART", "0") # Off
+			caput("BL15I-CS-IOC-12:STOP", "1") # Busy
+			# Make sure the Pilatus file writer is NOT checking that the files exist
+			pil3.pluginMap['tifwriter'].waitForFileArrival=False
+			# Make sure the hdf5 plugin IS telling Area Detector to delete the source file 
+			caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "1") # Yes
+			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to start writing pil3 tif and cbf files")
 		alias("pil3_tiffs_on")
 		alias("pil3_tiffs_off")
 	except:
