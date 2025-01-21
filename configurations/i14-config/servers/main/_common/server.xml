@@ -134,6 +134,9 @@
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
+	
+	<!-- Solstice scanning -->
+	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
