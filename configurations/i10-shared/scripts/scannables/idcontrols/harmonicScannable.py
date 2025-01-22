@@ -27,7 +27,7 @@ class HarmonicScannable(ScannableMotionBase):
         else:
             return 1
 
-    def asynchronousMoveTo(self):
+    def asynchronousMoveTo(self, v):
         print("%s is a Read-Only scannable used for metadata." % self.getName())
 
     def isBusy(self):

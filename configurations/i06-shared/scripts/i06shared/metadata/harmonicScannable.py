@@ -33,7 +33,7 @@ class HarmonicScannable(ScannableMotionBase):
         else:
             return "Cannot determine ID harmonic in source mode %s" % mode
     
-    def asynchronousMoveTo(self):
+    def asynchronousMoveTo(self, v):
         print("%s is a Read-Only scannable used for metadata." % self.getName())
     
     def isBusy(self):
