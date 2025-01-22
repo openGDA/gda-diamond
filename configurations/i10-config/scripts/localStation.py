@@ -86,11 +86,14 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from scannable.checkgatevalvescannables import checkgv12  # @UnusedImport
 
 # NXxas App Def template objects
-xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
-mode_path_fast = {TEY: "/entry/instrument/mcs17/data", PEY: "NA", TFY: "/entry/instrument/mcs18/data", PFY: "NA", TFY_front: "NA", TFY_side: "NA"}
-mode_path_slow = {TEY: "/entry/instrument/macr17/data", PEY: "NA", TFY: "/entry/instrument/macr18/data", PFY: "NA", TFY_front: "NA", TFY_side: "NA"}
-xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
-xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
+XAS_MODES = ['TEY', 'TFY', 'PFY']
+TEY, TFY, PFY = XAS_MODES
+xasmode_fast = XASMode("xasmode_fast", XAS_MODES[:-1], mode = TEY)
+mode_path_fast = {TEY: "/entry/instrument/mcs17/data", TFY: "/entry/instrument/mcs18/data"}
+xasmode_path_fast = XASModePathMapper("xasmode_path_fast", xasmode_fast, mode_path_fast)
+xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
+mode_path_slow = {TEY: "/entry/instrument/macr17/data", TFY: "/entry/instrument/macr18/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
+xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
 
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))

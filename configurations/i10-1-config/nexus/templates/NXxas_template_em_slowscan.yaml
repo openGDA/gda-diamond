@@ -17,8 +17,9 @@ entry/:
         data: /entry/instrument/macj316/data # i0
       absorbed_beam/:
         NX_class@: NXdetector
-        data: "#{@xasmode_slow.getPosition()}" # SpEL expression derived the link path from XAS measurement 'mode' scannable using 'xasmode_slow' map
-        mode: "#{@xasmode.getPosition()}"  # the default XAS measurement mode
+        default@: data
+        data: "#{@xasmode_path_slow.getPosition()}" # SpEL expression derived the link path from XAS measurement 'mode' scannable using 'xasmode_slow' map
+        mode: "#{@xasmode_slow.getPosition()}"  # the default XAS measurement mode
     sample: /entry/sample
     monitor/:
      NX_class@: NXmonitor
@@ -27,34 +28,25 @@ entry/:
      data: /entry/xas_entry/instrument/incoming_beam/data
     tey/: # Total Electron Yield
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'TEY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/macj317/data
+      absorbed_beam: /entry/instrument/macj317/data
     tfy/: # Total Fluorescence Yield -  Front top
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'TFY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/macj318/data
-    tfy_front/: # Total Fluorescence Yield -  Front bottom
-      NX_class@: NXdata
-      mode: 'TFY_front'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    tfy_side/: # Total Fluorescence Yield -  90 degree
-      NX_class@: NXdata
-      mode: 'TFY_side'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    pey/: # Partial Electron Yield
-      NX_class@: NXdata
-      mode: 'PEY'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
+      absorbed_beam: /entry/instrument/macj318/data
     pfy/: # Partial Fluorescence Yield
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'PFY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/xmapMca/fullSpectrum
+      absorbed_beam: /entry/instrument/xmapMca/fullSpectrum
     data/:
       NX_class@: NXdata
       signal@: absorbed_beam

@@ -114,8 +114,6 @@ harmonic = HarmonicScannable("harmonic", pol)
 
 print("-"*100)
 print("load 'xasmode' scannable, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
-XAS_MODES = ['TEY', 'TFY', 'TFY_front', 'TFY_side', 'PEY', 'PFY'] # this is different from i06.
-TEY, TFY, TFY_front, TFY_side, PEY, PFY = XAS_MODES
 from scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
 from scan.XASScan import xasscan  # @UnusedImport
 from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport

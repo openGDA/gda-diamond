@@ -133,7 +133,7 @@ def cvscan(c_energy, start, stop, step, *args):
         command += str(dwell[0]) + " "
     arguments = iter(others)
     for other in arguments:
-        if isinstance(other, Scannable) and str(other.getName()) == "xasmode":
+        if isinstance(other, Scannable) and str(other.getName()) == "xasmode_fast":
             # cache current value and scannable
             original_mode = other.getPosition()
             xasmode_scannable = other

@@ -17,6 +17,16 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="nexusDefaultDataGroupName" class="org.eclipse.scanning.sequencer.nexus.DefaultDataGroupConfiguration">
+		<property name="defaultDataGroupNames">
+			<list>
+				<value>macj317</value>
+				<value>mcse17</value>
+				<value>macj217</value>
+				<value>mcsh17</value>
+			</list>
+		</property>
+	</bean>
 	<beans profile="em">
 		<import resource="nxmetadata-em.xml" />
 		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

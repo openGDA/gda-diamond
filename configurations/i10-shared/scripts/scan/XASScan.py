@@ -13,7 +13,6 @@ from types import TupleType
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableMotionBase
-from i10shared.localStation import XAS_MODES
 from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
@@ -35,7 +34,7 @@ elif beamline_name == "i10-1":
 def xasscan(*args):
     '''a wrapper scan parser for XAS experiments which apply NXxas Application Definition template after data collection completed.
     For example (i06 GDA):
-        xasscan energy start stop step ca51sr 1 ca52sr 1 ca53sr 1 ca54sr 1 xasmode TEY
+        xasscan energy start stop step ca51sr 1 ca52sr 1 ca53sr 1 ca54sr 1 xasmode_slow TEY
     '''
     if len(args) == False:
         raise SyntaxError("No argument is given to scan command!")
@@ -52,9 +51,7 @@ def xasscan(*args):
         arg = args[i]
         if type(arg) == TupleType:
             command, newargs = parse_tuple_arguments(command, newargs, arg)
-        elif isinstance(arg, ScannableMotionBase) and arg.getName() == 'xasmode':
-            if args[i+1] not in XAS_MODES:
-                raise ValueError("%s is not a supported measurement mode. Supported mode must be one of %r." % (arg[i+1], XAS_MODES))
+        elif isinstance(arg, ScannableMotionBase) and arg.getName() == 'xasmode_slow':
             if arg.getPosition() != args[i+1]: #XAS mode changed
                 original_mode = arg.getPosition()
                 xas_mode_scannable = arg

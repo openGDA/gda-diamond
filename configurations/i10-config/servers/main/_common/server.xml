@@ -26,4 +26,14 @@
 			</list>
 		</property>
 	</bean>
+		<!-- org.eclipse.dawnsci.nexus.scan.IDefaultDataGroupCalculator -->
+	<bean id="nexusDefaultDataGroupName" class="org.eclipse.scanning.sequencer.nexus.DefaultDataGroupConfiguration">
+		<property name="defaultDataGroupName" value="macr17" />
+		<property name="defaultDataGroupNames">
+			<list>
+				<value>macr17</value>
+				<value>mcs17</value>
+			</list>
+		</property>
+	</bean>
 </beans>

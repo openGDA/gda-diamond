@@ -17,8 +17,9 @@ entry/:
         data: /entry/instrument/mcse16/data # i0
       absorbed_beam/:
         NX_class@: NXdetector
-        data: "#{@xasmode_fast.getPosition()}" # Spring SpEL expression derived link path from XAS mode value of 'xasmode' scannable using 'xasmode_fast' map
-        mode: "#{@xasmode.getPosition()}"  # the user set XAS measurement mode, if user not set it, it default to TEY
+        default@: data
+        data: "#{@xasmode_path_fast.getPosition()}" # Spring SpEL expression derived link path from XAS mode value of 'xasmode' scannable using 'xasmode_fast' map
+        mode: "#{@xasmode_fast.getPosition()}"  # the user set XAS measurement mode, if user not set it, it default to TEY
     sample: /entry/sample
     monitor/:
      NX_class@: NXmonitor
@@ -27,34 +28,18 @@ entry/:
      data: /entry/xas_entry/instrument/incoming_beam/data
     tey/: # Total Electron Yield
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'TEY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/mcse17/data
+      absorbed_beam: /entry/instrument/mcse17/data
     tfy/: # Total Fluorescence Yield -  Front top
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'TFY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/mcse18/data
-    tfy_front/: # Total Fluorescence Yield -  Front bottom
-      NX_class@: NXdata
-      mode: 'TFY_front'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    tfy_side/: # Total Fluorescence Yield -  90 degree
-      NX_class@: NXdata
-      mode: 'TFY_side'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    pey/: # Partial Electron Yield
-      NX_class@: NXdata
-      mode: 'PEY'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    pfy/: # Partial Fluorescence Yield
-      NX_class@: NXdata
-      mode: 'PFY'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
+      absorbed_beam: /entry/instrument/mcse18/data
     data/:
       NX_class@: NXdata
       signal@: absorbed_beam
