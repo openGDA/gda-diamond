@@ -97,9 +97,13 @@ import gdascripts
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 
 # NXxas App Def template objects
+print("-"*100)
+print("load 'xasmode' scannable")
+XAS_MODES = ['TEY', 'TFY_ft', 'TFY_fb', 'TFY_90']
+TEY, TFY_ft, TFY_fb, TFY_90 = XAS_MODES
 xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
-mode_path_fast = {TEY: "/entry/instrument/fesData/C1", PEY: "NA", TFY_ft: "/entry/instrument/fesData/C3", PFY: "NA", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "/entry/instrument/fesData/C5"}
-mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", PEY: "NA", TFY_ft: "/entry/instrument/ca63sr/value", PFY: "NA", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
+mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrument/fesData/C3", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "/entry/instrument/fesData/C5"}
+mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", TFY_ft: "/entry/instrument/ca63sr/value", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 

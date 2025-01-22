@@ -13,7 +13,6 @@ from types import TupleType
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableMotionBase
-from i06shared.localStation import XAS_MODES
 from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 
@@ -42,8 +41,6 @@ def xasscan(*args):
         if type(arg) == TupleType:
             command, newargs = parse_tuple_arguments(command, newargs, arg)
         elif isinstance(arg, ScannableMotionBase) and arg.getName() == 'xasmode':
-            if args[i+1] not in XAS_MODES:
-                raise ValueError("%s is not a supported measurement mode. Supported mode must be one of %r." % (arg[i+1], XAS_MODES))
             if arg.getPosition() != args[i+1]: #XAS mode changed
                 original_mode = arg.getPosition()
                 xas_mode_scannable = arg
