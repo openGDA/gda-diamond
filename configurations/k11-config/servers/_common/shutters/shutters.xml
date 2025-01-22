@@ -3,8 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="eh_shutter" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="open" />
-	</bean>
+	<!-- imports the specific mode configurations live/dummy -->
+	<import	resource="file:${gda.config}/servers/${gda.mode}/shutters/shutters.xml" />
+			
+	<import	resource="file:${gda.config}/servers/_common/shutters/eh_shutter.xml" />
 
 </beans>
