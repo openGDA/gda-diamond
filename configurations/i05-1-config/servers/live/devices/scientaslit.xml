@@ -13,16 +13,16 @@
 		<property name="pvName" value="BL05J-EA-SLITS-01:POS" />
 		<property name="values">
 			<map>
-				<entry key="100 0.1mm - noAp" 	value="100 0.1 no_aperture vertical"/>
-				<entry key="200 0.2mm - noAp" 	value="200 0.2 no_aperture vertical"/>
-				<entry key="300 0.3mm - noAp" 	value="300 0.3 no_aperture vertical"/>
-				<entry key="400 0.2mm - App" 	value="400 0.2 aperture vertical"/>
-				<entry key="500 0.3mm - App" 	value="500 0.3 aperture vertical"/>
-				<entry key="600 0.5mm - App" 	value="600 0.5 aperture vertical"/>
-				<entry key="700 0.8mm - App" 	value="700 0.8 aperture vertical"/>
-				<entry key="800 1.5mm - App" 	value="800 1.5 aperture vertical"/>
-				<entry key="850 hole" 			value="850 3.0 hole vertical"/>
-				<entry key="900 2.5mm - App" 	value="900 2.5 aperture vertical"/>
+				<entry  key="100 0.1 no_aperture vertical"	value="100 0.1mm - noAp"/>
+				<entry  key="200 0.2 no_aperture vertical"	value="200 0.2mm - noAp"/>
+				<entry  key="300 0.3 no_aperture vertical"	value="300 0.3mm - noAp"/>
+				<entry  key="400 0.2 aperture vertical" 	value="400 0.2mm - App"/>
+				<entry  key="500 0.3 aperture vertical" 	value="500 0.3mm - App"/>
+				<entry  key="600 0.5 aperture vertical" 	value="600 0.5mm - App"/>
+				<entry  key="700 0.8 aperture vertical" 	value="700 0.8mm - App"/>
+				<entry	key="800 1.5 aperture vertical"  	value="800 1.5mm - App"/>
+				<entry  key="850 3.0 hole vertical" 		value="850 hole"/>
+				<entry  key="900 2.5 aperture vertical"		value="900 2.5mm - App"/>
 			</map>
 		</property>
 	</bean>
