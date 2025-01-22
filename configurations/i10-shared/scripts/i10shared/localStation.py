@@ -111,6 +111,8 @@ from scannables.idcontrols.taperScannable import TaperScannable
 taper = TaperScannable("taper", smode, "urad", "%.3f", iddtaper = None, idutaper = None)
 from scannables.idcontrols.harmonicScannable import HarmonicScannable
 harmonic = HarmonicScannable("harmonic", pol)
+from scannables.sampleScannable import SampleName
+sample = SampleName("sample", sample_name = "name not given")
 
 print("-"*100)
 print("load 'xasmode' scannable, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
