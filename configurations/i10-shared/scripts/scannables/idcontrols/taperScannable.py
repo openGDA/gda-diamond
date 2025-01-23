@@ -39,7 +39,7 @@ class TaperScannable(ScannableMotionUnitsBase):
         else:
             return "source mode is %s, cannot determine taper!" % mode
 
-    def asynchronousMoveTo(self):
+    def asynchronousMoveTo(self, v):
         print("%s is a Read-Only scannable used for metadata." % self.getName())
 
     def isBusy(self):
