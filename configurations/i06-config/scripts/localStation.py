@@ -111,9 +111,13 @@ from beam.beam_centering import centerBeam  # @UnusedImport
 from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVolt, keithley2461  # @UnusedImport
 
 # NXxas App Def template objects
+print("-"*100)
+print("load 'xasmode' scannable")
+XAS_MODES = ['TEY', 'TFY_ft', 'TFY_fb']
+TEY, TFY_ft, TFY_fb = XAS_MODES
 xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
-mode_path_fast = {TEY: "/entry/instrument/fesData/C1", PEY: "NA", TFY_ft: "/entry/instrument/fesData/C3", PFY: "NA", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "NA"}
-mode_path_slow = {TEY: "/entry/instrument/ca51sr/ca51sr", PEY: "NA", TFY_ft: "/entry/instrument/ca53sr/ca53sr", PFY: "NA", TFY_fb: "/entry/instrument/ca54sr/ca54sr", TFY_90: "NA"}
+mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrument/fesData/C3", TFY_fb: "/entry/instrument/fesData/C4"}
+mode_path_slow = {TEY: "/entry/instrument/ca51sr/ca51sr", TFY_ft: "/entry/instrument/ca53sr/ca53sr", TFY_fb: "/entry/instrument/ca54sr/ca54sr"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 

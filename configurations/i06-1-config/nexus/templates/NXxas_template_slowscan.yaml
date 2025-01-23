@@ -17,6 +17,7 @@ entry/:
         data: /entry/instrument/ca62sr/value # i0
       absorbed_beam/:
         NX_class@: NXdetector
+        default@: data
         data: "#{@xasmode_slow.getPosition()}" # SpEL expression derived the link path from XAS measurement 'mode' scannable using 'xasmode_slow' map
         mode: "#{@xasmode.getPosition()}"  # the default XAS measurement mode
     sample: /entry/sample
@@ -25,36 +26,34 @@ entry/:
      mode: 'monitor'
      preset: 1
      data: /entry/xas_entry/instrument/incoming_beam/data
-    tfy_ft/: # Total Fluorescence Yield -  Front top
-      NX_class@: NXdata
-      mode: 'TFY_ft'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/ca63sr/value
-    tfy_fb/: # Total Fluorescence Yield -  Front bottom
-      NX_class@: NXdata
-      mode: 'TFY_fb'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/ca64sr/value
-    tfy_90/: # Total Fluorescence Yield -  90 degree
-      NX_class@: NXdata
-      mode: 'TFY_90'
-      energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/ca65sr/value
     tey/: # Total Electron Yield
       NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
       mode: 'TEY'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: /entry/instrument/ca61sr/value
-    pey/: # Partial Electron Yield
+      absorbed_beam: /entry/instrument/ca61sr/value
+    tfy_ft/: # Total Fluorescence Yield -  Front top
       NX_class@: NXdata
-      mode: 'PEY'
+      signal@: absorbed_beam
+      axes@: energy
+      mode: 'TFY_ft'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
-    pfy/: # Partial Fluorescence Yield
+      absorbed_beam: /entry/instrument/ca63sr/value
+    tfy_fb/: # Total Fluorescence Yield -  Front bottom
       NX_class@: NXdata
-      mode: 'PFY'
+      signal@: absorbed_beam
+      axes@: energy
+      mode: 'TFY_fb'
       energy: /entry/xas_entry/instrument/monochromator/energy
-      data: 'NA'
+      absorbed_beam: /entry/instrument/ca64sr/value
+    tfy_90/: # Total Fluorescence Yield -  90 degree
+      NX_class@: NXdata
+      signal@: absorbed_beam
+      axes@: energy
+      mode: 'TFY_90'
+      energy: /entry/xas_entry/instrument/monochromator/energy
+      absorbed_beam: /entry/instrument/ca65sr/value
     data/:
       NX_class@: NXdata
       signal@: absorbed_beam
