@@ -17,6 +17,10 @@
 		<property name="name" value="MalcRoiProcPil3" />
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
+	<bean id="MalcRoiProcEig" class="uk.ac.gda.analysis.mscan.RoiProc">
+		<property name="name" value="MalcRoiProcEig" />
+		<property name="plotName" value="Eiger" />
+	</bean>
 	<bean id="MalcPlotProcExc" class="uk.ac.gda.analysis.mscan.PlotProc">
 		<property name="name" value="MalcPlotProcExc" />
 		<property name="plotName" value="Excalibur" />
@@ -29,12 +33,15 @@
 		<property name="name" value="MalcPlotProcPil3" />
 		<property name="plotName" value="Pilatus 3" />
 	</bean>
+	<bean id="MalcPlotProcEig" class="uk.ac.gda.analysis.mscan.PlotProc">
+		<property name="name" value="MalcPlotProcEig" />
+		<property name="plotName" value="Eiger" />
+	</bean>
 	<bean id="MalcAttenuatorProc" class="uk.ac.gda.analysis.mscan.FilterTransmissionProc">
 		<property name="enabled" value="false" />
 		<property name="transmissionCalc" value="#{ fatt_filters.getCurrentTransmissionFunction() }" />
 	</bean>
-	<bean class="uk.ac.gda.analysis.mscan.NormProc"
-		id="MalcNormProcExc">
+	<bean class="uk.ac.gda.analysis.mscan.NormProc" id="MalcNormProcExc">
 		<property name="name" value="MalcNormProcExc" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
@@ -47,8 +54,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="uk.ac.gda.analysis.mscan.NormProc"
-		id="MalcNormProcPil2">
+	<bean class="uk.ac.gda.analysis.mscan.NormProc" id="MalcNormProcPil2">
 		<property name="name" value="MalcNormProcPil2" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
@@ -61,12 +67,24 @@
 			</list>
 		</property>
 	</bean>
-	<bean class="uk.ac.gda.analysis.mscan.NormProc"
-		id="MalcNormProcPil3">
+	<bean class="uk.ac.gda.analysis.mscan.NormProc" id="MalcNormProcPil3">
 		<property name="name" value="MalcNormProcPil3" />
 		<property name="attenuatorScannableName" value="fatt" />
 		<property name="transmissionFieldName" value="transmission" />
 		<property name="roiProc" ref="MalcRoiProcPil3" />
+		<property name="enabled" value="false" />
+		<property name="signalRoiIndex" value="1" />
+		<property name="backgroundRoiIndices">
+			<list>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+	<bean class="uk.ac.gda.analysis.mscan.NormProc" id="MalcNormProcEig">
+		<property name="name" value="MalcNormProcEig" />
+		<property name="attenuatorScannableName" value="fatt" />
+		<property name="transmissionFieldName" value="transmission" />
+		<property name="roiProc" ref="MalcRoiProcEig" />
 		<property name="enabled" value="false" />
 		<property name="signalRoiIndex" value="1" />
 		<property name="backgroundRoiIndices">
@@ -167,6 +185,31 @@
 		</property>
 	</bean>
 
+	<bean id="eiger_processing" class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager">
+		<property name="processorMap">
+			<map>
+				<entry>
+					<key>
+						<bean class="uk.ac.gda.analysis.mscan.MalcolmProcessingManager.Config">
+							<constructor-arg index="0" value="2"/>
+							<constructor-arg index="1" value="-EIGER.h5"/>
+							<constructor-arg index="2" value="/data"/>
+							<constructor-arg index="3" value="/uid"/>
+							<constructor-arg index="4" value="EIGER"/>
+							<constructor-arg index="5" value="#{T(org.eclipse.dawnsci.nexus.NexusBaseClass).NX_DETECTOR}"/>
+							<constructor-arg index="6" ref="ei_mask"/>
+						</bean>
+					</key>
+					<list>
+						<ref bean="MalcRoiProcEig" />
+						<ref bean="MalcPlotProcEig" />
+						<ref bean="MalcNormProcEig" />
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="malcolm_info_scan01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Scan 01" />
 		<property name="description" value="Scan 01" />
@@ -207,11 +250,12 @@
 		<property name="name" value="BL07I-ML-SCAN-03" />
 		<property name="exposureTime" value="1.0" />
 	</bean>
-	<bean id="malcolm_device_scan03" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolm_device_scan03" class="uk.ac.gda.analysis.mscan.ProcessingMalcolmDevice" init-method="register">
 		<property name="name" value="BL07I-ML-SCAN-03" />
 		<property name="model" ref="malcolm_model_scan03" />
 		<property name="deviceInformation" ref="malcolm_info_scan03" />
 		<property name="activated" value="false" />
+		<property name="processing" ref="eiger_processing" />
 	</bean>
 
 	<bean id="malcolm_info_scan04" class="org.eclipse.scanning.api.event.scan.DeviceInformation">

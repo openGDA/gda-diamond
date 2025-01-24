@@ -1,6 +1,9 @@
 
 #The ADC Card
 from Diamond.PseudoDevices.AdcScaler import AdcScalerClass, AdcScalerChannelClass;
+from gda.jython import InterfaceProvider
+from gdascripts.utils import caput
+from gda.device.scannable import ScannableBase
 
 pvRootScaler   = "BL07I-EA-ADC-01";
 
@@ -93,3 +96,29 @@ alias("cyberstar");
 apdstar=EpicsApeAceDeviceClass('apdstar', 'BL07I-EA-APD-01');
 alias("apdstar");
 
+class EigerBlockSizeWorkaround(ScannableBase):
+    """Workaround for a bug with the eiger, if a step scan is run with more points than the value of the PV
+       'BL07I-EA-EIGER-01:OD:FAN:BlockSize', the scan will hang when it gets to that point.  We do not know why this is
+       but it can be fixed by setting that PV to be more than the number of points.
+    """
+
+    def __init__(self, name):
+        self.name = name
+        self.setInputNames([])
+        self.Units=[]
+        self.setOutputFormat([])
+
+    def atScanStart(self):
+        scaninfo = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
+        if ("eir" in scaninfo.getScanCommand()) :
+            caput("BL07I-EA-EIGER-01:OD:FAN:BlockSize", scaninfo.getNumberOfPoints() + 10)
+
+    def getPosition(self):
+        return
+
+    def isBusy(self) :
+        return False
+
+eiger_block_size_setter = EigerBlockSizeWorkaround("eiger_block_size_setter")
+from gda.jython.commands.ScannableCommands import add_default
+add_default(eiger_block_size_setter)

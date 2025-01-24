@@ -48,7 +48,7 @@ def i07userperm(visit = ''):
             print getoutput("setfacl -n -m d:u:i07user:rx " + d)
             print getoutput("setfacl -n -m d:u:i07user:rx " + d + "/pilatus?")
             print getoutput("setfacl -n -m d:u:i07user:rwx " + d + "/processing")
-        else:
+    else:
             # remove write permission default for new files to prevent
             # accidental corrupting of data
             print getoutput("setfacl -n -m d:g:i07user:rx " + d)
