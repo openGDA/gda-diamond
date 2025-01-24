@@ -56,10 +56,6 @@
 	<import resource="file:${gda.config}/servers/${gda.mode}/detectors/imaging/pco_nxdetector.xml" />
 	<import resource="file:${gda.config}/servers/${gda.mode}/detectors/ethercat.xml" />
 
-	<!-- shutters -->
-	<import	resource="file:${gda.config}/servers/${gda.mode}/shutters/fe_shutter.xml" />
-
-
 	<!-- ExperimentService -->
 	<bean id="serverExperimentService"
 		class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
@@ -75,8 +71,8 @@
 	<!-- beam -->
 	<import	resource="beam/beam_selector.xml" />
 	
-	<import	resource="shutters/eh_shutter.xml" />
-	
+	<!-- shutters -->
+	<import	resource="shutters/shutters.xml" />
 
 	<!-- cryo -->
 	<import	resource="cryo/cryo.xml" />
