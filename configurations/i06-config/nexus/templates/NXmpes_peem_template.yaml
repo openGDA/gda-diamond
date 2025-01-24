@@ -414,7 +414,8 @@ entry/:
       delay: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/delay # Calibrated delay time. Unit category: NX_TIME (s).
       polarization_angle: /entry/mpes_peem_entry/instrument/beam/incident_polarization_angle
       ellipticity: /entry/mpes_peem_entry/instrument/beam/incident_ellipticity
-      singnal@: data
+      signal@: data
+      axes@: energy
       data: NaN # Represents a measure of one- or more-dimensional photoemission counts
       energy: /entry/mpes_peem_entry/process/energy_calibration/calibrated_axis # Calibrated energy axis
       #energy_depends@: /entry/mpes_peem_entry/process/energy_calibration@ # The energy can be dispersed according to different strategies.
