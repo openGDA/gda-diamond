@@ -18,6 +18,9 @@ zeroScannable = DummyScannable("zeroScannable")
 #Add to namespace so that it is findable during scans which is needed for extra region printing
 InterfaceProvider.getJythonNamespace().placeInJythonNamespace(zeroScannable.getName(), zeroScannable);
 
+print("-"*100)
+print("Installing 'analyserscan' command for the electron analyser.")
+
 def get_sequence_filename(arg):
     filename = arg
     if not os.path.isfile(arg):
@@ -46,14 +49,13 @@ def check_needs_zeroscannable(args):
 
 
 def analyserscan(*args):
-    ''' a more generalised scan that extends standard GDA scan syntax to support
-    1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and
-    2. its corresponding path tuple (e.g. tuple of position lists), if exist, and
-    3. detector that takes a region sequence file name as input, if exist, and
-    4. syntax 'analyserscan detector "user.seq ...' for analyser scan only
-    It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
-    Thus it can be used anywhere the standard GDA 'scan' is used.
-    '''
+    """
+    USAGE:
+    analyserscan scannable1 start stop step ... DETECTOR 'filename' [scannable2 [pos] ...]
+    analyserscan scannable1 ([start stop step], ...) ... DETECTOR 'filename' [scannable2 [pos] ...]
+    
+    Wraps mrscan command but gives sequence file to electron analyser that defines list of regions.
+    """
     newargs=[]
     i=0;
     sequence_detector = None
@@ -113,21 +115,18 @@ alias("analyserscan")
 BEAMLINE = LocalProperties.get("gda.beamline.name")
 if BEAMLINE == "i09":
     from gdaserver import ew4000 #@UnresolvedImport
-    detector = ew4000.getName()
+    DETECTOR_DOC_STR = ew4000.getName()
 elif BEAMLINE == "i09-1":
     from gdaserver import analyser #@UnresolvedImport
-    detector = analyser.getName()
+    DETECTOR_DOC_STR = analyser.getName()
 elif BEAMLINE == "p60":
     #ToDo - Add P60 here
-    detector = "PLACEHOLDER"
+    DETECTOR_DOC_STR = "PLACEHOLDER"
 else:
     raise RuntimeError("{} does not support analyserscan.".format(BEAMLINE))
 
-print("-"*100)
-print("Created 'analyserscan' command for the electron analyser. Wraps mrscan command to give sequence file to electron analyser that defines list of regions.")
-print("    Syntax: analyserscan scannable1 start stop step ... " + detector + " 'filename' [scannable2 [pos] ...] ")
-print("            analyserscan scannable1 ([start stop step], ...) ... " + detector + " 'filename' [scannable2 [pos] ...] ")
-print("")
+analyserscan.__doc__ = analyserscan.__doc__.replace("DETECTOR", DETECTOR_DOC_STR)
+print(analyserscan.__doc__)
 
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""

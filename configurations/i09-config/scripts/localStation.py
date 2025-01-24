@@ -38,8 +38,24 @@ print("")
 ###############################################################################
 from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 
+print("-"*100)
+print("Installing pathscan command:")
+from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
+print(pathscan.__doc__) #@UndefinedVariable
+
 from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
-from command.analyserscancheck import zerosupplies, analyserscancheck # @UnusedImport
+
+print("-"*100)
+ZERO_SUPPLIES_PV = "BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"
+print("Installing 'zerosupplies' command which uses pv: " + ZERO_SUPPLIES_PV)
+
+def zerosupplies():
+	caput(ZERO_SUPPLIES_PV, 1)
+
+alias("zerosupplies")
+print("")
+
+from i09shared.scan.analyserpathscan import analyserpathscan #@UnusedImport
 
 # the following requires new NexusScanDataWriter to work!
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
