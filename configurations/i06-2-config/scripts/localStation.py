@@ -11,8 +11,10 @@ print("      >>>scansReturnToOriginalPositions=1\n")
 scansReturnToOriginalPositions=0;
 
 from i06shared.localStation import *  # @UnusedWildImport
-    
+
 from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens, leem_PS_index, leem_PS_value, leem_ill_eq_x, leem_ill_eq_y  # @UnusedImport
+
+LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "SPELEEM")
 
 def picture(acqTime):
     scan(t,1,1,1,medipix,acqTime)  # @UndefinedVariable
@@ -28,14 +30,13 @@ def preview():
     sleep(1)
     medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, ScanInformation.EMPTY)
     medipixpreview.collectData()
-    
+
 def stop_preview():
     from gdaserver import medipixpreview  # @UnresolvedImport
     medipixpreview.stop()
     medipixpreview.getCollectionStrategy().restoreState()
 
 if installation.isLive():
-    
     def set_medipix_acquire_time(t):
         stopped_by_me=False
         ACQUIRE_PV = "BL06K-EA-DET-01:CAM:Acquire"
@@ -47,13 +48,13 @@ if installation.isLive():
         if stopped_by_me:
             caput(ACQUIRE_PV,1)
     alias("set_medipix_acquire_time")
-    
+
     try:
         mpxmode=EnumPVScannable("mpxmode", "BL06K-EA-DET-01:CAM:QuadMerlinMode")
         mpxmode.configure()
     except:
         print("Cannot connect to BL06K-EA-DET-01:CAM:QuadMerlinMode, so 'mpxmode' is not available.")
-    
+
     def average(avg):
         caput('BL06K-EA-DET-01:PROCB:NumFilter',avg)
         from time import sleep
@@ -61,7 +62,7 @@ if installation.isLive():
         caput('BL06K-EA-DET-01:PROCB:ResetFilter',1)
         sleep(0.1)
         caput('BL06K-EA-DET-01:PROCB:EnableFilter','Enable')
-    
+
     alias("average")
 
 LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
@@ -75,6 +76,3 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @Undefi
 
 print("="*100)
 print("end of localStation.py for Beamline I06-2)")
-
-
-

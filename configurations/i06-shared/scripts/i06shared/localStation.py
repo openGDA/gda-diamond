@@ -50,7 +50,7 @@ if beamline != "lab44" and beamline != "i06-2":
     from i06shared.devices.ADC1Counters import ca91s,ca92s,ca93s,ca94s,ca101s,ca102s,ca103s,ca104s,adc1voltage,ca91,ca92,ca93,ca94,ca101,ca102,ca103,ca104,adc1current,ca91sr,ca92sr,ca93sr,ca94sr,ca101sr,ca102sr,ca103sr,ca104sr,adc1count  # @UnusedImport
     from i06shared.devices.ADC2Counters import ca111s,ca112s,ca113s,ca114s,ca121s,ca122s,ca123s,ca124s,adc2voltage,ca111,ca112,ca113,ca114,ca121,ca122,ca123,ca124,adc2current,ca111sr,ca112sr,ca113sr,ca114sr,ca121sr,ca122sr,ca123sr,ca124sr,adc2count  # @UnusedImport
     from i06shared.devices.ADC3Counters import ca131s,ca132s,ca133s,ca134s,ca141s,ca142s,ca143s,ca144s,adc3voltage,ca131,ca132,ca133,ca134,ca141,ca142,ca143,ca144,adc3current,ca131sr,ca132sr,ca133sr,ca134sr,ca141sr,ca142sr,ca143sr,ca144sr,adc3count  # @UnusedImport
-    
+
     from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
     if installation.isLive():
         from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport

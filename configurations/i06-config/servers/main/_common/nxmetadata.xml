@@ -295,22 +295,7 @@
 			</list>
 		</property>
 	</bean>
-<!-- creating a new system property -->
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject">
-			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-				<property name="targetClass" value="java.lang.System" />
-				<property name="targetMethod" value="getProperties" />
-			</bean>
-		</property>
-		<property name="targetMethod" value="putAll" />
-		<property name="arguments">
-			<util:properties>
-				<prop key="gda.endstation.name">PEEM</prop>
-			</util:properties>
-		</property>
-	</bean>
-	
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="insertionDeviceName" value="id" />

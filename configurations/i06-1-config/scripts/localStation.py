@@ -64,6 +64,7 @@ alias("d12Gd")
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
 if ConfigUtils.profileActive("magnet"):
+    LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "magnet")
     from beam.magnetvalve import closebeam, openbeam  # @UnusedImport
     scm_amp_1 = AmplifierGainParser("scm_amp_1", "BL06I-DI-IAMP-20:SCM:GAIN")
     if installation.isLive():
@@ -78,7 +79,8 @@ if ConfigUtils.profileActive("magnet"):
         from scan.fastFieldScan import magnetflyscannable, fastfieldscan  # @UnusedImport
 
 if ConfigUtils.profileActive("DD"):
-    from beam.DDvalve import closebeam, openbeam  # @UnusedImport
+    LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "DD")
+    from beam.DDvalve import closebeam, openbeam  # @UnusedImport @Reimport
     ddiff_amp_1 = AmplifierGainParser("ddiff_amp_1", "BL06I-DI-IAMP-30:DDIFF:GAIN")
     print("*"*100)
     print("import DIFFCALC support for I06-1")
@@ -88,9 +90,10 @@ if ConfigUtils.profileActive("DD"):
         localStation_exception(sys.exc_info(), "import diffcalc error.")
 
 if ConfigUtils.profileActive("xabs"):
-    from beam.xabsvalve import closebeam, openbeam  # @UnusedImport
+    LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "xabs")
+    from beam.xabsvalve import closebeam, openbeam  # @UnusedImport @Reimport
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
-    
+
 from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()  
 import gdascripts
@@ -109,6 +112,4 @@ xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 
 print("="*100)
 print("End of i06-1 localStation.py")
-
-
 

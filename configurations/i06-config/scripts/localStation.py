@@ -26,6 +26,8 @@ if installation.isLive():
 else:
     print("Running in dummy mode")
 
+LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "PEEM")
+
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 

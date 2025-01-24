@@ -5,22 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	
-	<!-- creating a new system property -->
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject">
-			<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-				<property name="targetClass" value="java.lang.System" />
-				<property name="targetMethod" value="getProperties" />
-			</bean>
-		</property>
-		<property name="targetMethod" value="putAll" />
-		<property name="arguments">
-			<util:properties>
-				<prop key="gda.endstation.name">DD</prop>
-			</util:properties>
-		</property>
-	</bean>
 	<bean id="ddiffNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="ddiff" />
 		<property name="category" value="NX_INSTRUMENT"/>
@@ -184,5 +168,4 @@
 			</list>
 		</property>
 	</bean>
-		
 </beans>
