@@ -2,6 +2,7 @@ from utils.ExceptionLogs import localStation_exceptions, localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
 import sys
 from org.slf4j import LoggerFactory
+from gda.configuration.properties import LocalProperties
 
 print("*"*80)
 print("Running the I10 startup script localStation.py...")
@@ -26,6 +27,7 @@ if installation.isLive():
     from scannable.haxpod.m6_haxpod_motors import m6_x, m6_y, m6_z, m6_yaw, m6_pitch, m6_roll, M6  # @UnusedImport
 
 if "hfm" in spring_profiles:
+    LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "HFM")
     # High Field Magnet support
     from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables_hfm import energy, mcsh16, mcsh17, mcsh18, mcsh19, mcsh20, mcsh21, mcsh22, mcsh23  # @UnusedImport
@@ -46,6 +48,7 @@ if "hfm" in spring_profiles:
     xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
 
 if "em" in spring_profiles:
+    LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "EM")
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables_em import energy, mcse16, mcse17, mcse18, mcse19, mcse20, mcse21, mcse22, mcse23  # @UnusedImport
     # NXxas App Def template objects

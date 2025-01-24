@@ -2,6 +2,7 @@ from utils.ExceptionLogs import localStation_exceptions, localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
 import sys
 from org.slf4j import LoggerFactory
+from gda.configuration.properties import LocalProperties
 
 print("*"*80)
 print("Running the I10 startup script localStation.py...")
@@ -17,6 +18,8 @@ scansReturnToOriginalPositions = 0;
 from i10shared.localStation import *  # @UnusedWildImport
 
 from scannable.continuous.continuous_energy_scannables_scattering import energy, mcs16, mcs17, mcs18, mcs19, mcs20, mcs21, mcs22, mcs23  # @UnusedImport
+
+LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "RASOR")
 
 # ##Save and reload positions of a given scannable group and/or a list of scannables
 from rasor.saveAndReload import SaveAndReload  # @UnusedImport
