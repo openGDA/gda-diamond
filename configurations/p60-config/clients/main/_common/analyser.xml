@@ -33,7 +33,7 @@
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="#{basePv}:CAM:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="analyserElementSetPV" value="#{basePv}:CAM:ELEMENT_SET"/>
+		<property name="analyserElementSetScannable" ref="analyser_element_set"/>
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="vGScientaAnalyserDetector" ref="r4000"/>
 	</bean>

@@ -226,6 +226,7 @@
 
 	<bean id="analyser_element_set" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="#{basePv}:CAM:ELEMENT_SET" />
+		<property name="canMove" value="false" />
 	</bean>
 
 	<bean id="analyser_energy_width" class="gda.device.scannable.PVScannable">

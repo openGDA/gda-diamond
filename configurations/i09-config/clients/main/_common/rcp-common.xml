@@ -66,6 +66,7 @@
 	<bean id="regionvalidator" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="ew4000" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="analyser_element_set" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
