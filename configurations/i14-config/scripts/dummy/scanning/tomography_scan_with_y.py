@@ -34,16 +34,27 @@ def run_tomo_scan_with_y(scanRequest, x_calibration, y_calibration,z_calibration
     exposure_time = detector_value.getExposureTime()
     print("Exposure time: %f" % (exposure_time))
         
-    # region
     x_step = grid_step_model.getxAxisStep()
     y_step = grid_step_model.getyAxisStep()
 
     bounding_box = grid_step_model.getBoundingBox()
-    x_centre = bounding_box.getxAxisStart()
-    y_centre = bounding_box.getyAxisStart()
+    x_start = bounding_box.getxAxisStart()
+    y_start = bounding_box.getyAxisStart()
+    print("x start: %f" % (x_start))
+    print("y start: %f" % (y_start))
     
     x_range = bounding_box.getxAxisLength()
     y_range = bounding_box.getyAxisLength()
+    
+    x_end = x_start + x_range
+    y_end = y_start + y_range
+    print("x end: %f" % (x_end))
+    print("y end: %f" % (y_end))
+    
+    x_centre = (x_start + x_end) / 2
+    y_centre = (y_start + y_end) / 2
+    print("x centre: %f" % (x_centre))
+    print("y centre: %f" % (y_centre))
     
     # calibration results
     x_mean = x_calibration.getMean()
@@ -85,20 +96,19 @@ def run_tomo_scan_with_y(scanRequest, x_calibration, y_calibration,z_calibration
         sleep(2)
         print(x_position, z_position, y_position)
         
-        x_start = x_position - 0.5*x_range
-        x_end   = x_position + 0.5*x_range     
-        y_start = y_position - 0.5*y_range
-        y_end   = y_position + 0.5*y_range
+        #x_start = x_position - 0.5*x_range
+        #x_end   = x_position + 0.5*x_range     
+        #y_start = y_position - 0.5*y_range
+        #y_end   = y_position + 0.5*y_range
         
         # processing request
         processingRequest = scanRequest.getProcessingRequest()
         request = processingRequest.getRequest()
         if request.keys(): 
-            print ("It contains post processing request")
-            requestKey = request.keys()[0]
-            requestValue = request.values()[0]
+            print ("It contains post processing requests")
+            proc_requests = [(key, value) for key, value in zip(request.keys(), request.values())]
             try:
-                mscan(path=[grid(axes=('SampleX', 'SampleY'), start=(x_start, y_start), stop=(x_end, y_end), step=(x_step, y_step), alternating=False, continuous=True, verticalOrientation=False, roi=[rect(origin=(x_start, y_start), size=(x_range, y_range))])], monitorsPerScan=['beam'], det=[detector(detector_name, exposure_time)],proc=[(requestKey,requestValue)])
+                mscan(path=[grid(axes=('SampleX', 'SampleY'), start=(x_start, y_start), stop=(x_end, y_end), step=(x_step, y_step), alternating=False, continuous=True, verticalOrientation=False, roi=[rect(origin=(x_start, y_start), size=(x_range, y_range))])], monitorsPerScan=['beam'], det=[detector(detector_name, exposure_time)],proc=proc_requests)
             except InterruptedException as e:
                 print(e)
                 print("Stopping script")
