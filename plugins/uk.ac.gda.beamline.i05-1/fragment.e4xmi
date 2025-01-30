@@ -1,83 +1,85 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_gUU7kCzfEeyjucGw--wEBg">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_mnC20CzfEeyjucGw--wEBg" featurename="snippets" parentElementId="org.eclipse.e4.legacy.ide.application" positionInList="">
-    <elements xsi:type="advanced:Perspective" xmi:id="_MWHBgC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.perspective.alignment.e4" label="ARPES Alignment E4">
-      <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBgS8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.100" horizontal="true">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBgi8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.200" containerData="700">
-          <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBgy8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.300" containerData="8000" horizontal="true">
-            <children xsi:type="basic:PartStack" xmi:id="_MWHBhC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partstack.detector.live" containerData="4000">
-              <children xsi:type="basic:Part" xmi:id="_oMCXQHzREe-_vai9N4e5jw" elementId="uk.ac.gda.beamline.i05-1.DetectorPlot.0" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesLivePlotViewE4" label="Detector Data">
+    <elements xsi:type="advanced:Perspective" xmi:id="_J4UoEN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.perspective.alignment.e4" label="ARPES Alignment E4">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoEd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.100" horizontal="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoEt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.200" containerData="700">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoE97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.300" containerData="8000" horizontal="true">
+            <children xsi:type="basic:PartStack" xmi:id="_J4UoFN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.detector.live" containerData="4000">
+              <children xsi:type="basic:Part" xmi:id="_J4UoFd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.DetectorPlot.0" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesLivePlotViewE4" label="Detector Data">
                 <properties key="eventTopic" value="ARPES_LIVE_DATA_UPDATE_TOPIC"/>
-                <toolbar xmi:id="_kVIhsHzSEe-_vai9N4e5jw" elementId="uk.ac.gda.beamline.i05-1.toolbar.1"/>
+                <toolbar xmi:id="_J4UoFt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.toolbar.1"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBhy8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.500" containerData="2000">
-              <children xsi:type="basic:PartStack" xmi:id="_MWHBiC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partstack.102" containerData="6000">
-                <children xsi:type="basic:Part" xmi:id="_MWHBiS8aEe-qMYdXsovLuA" elementId="uk.ac.gda.arpes.ui.e4.views.ArpesRoiSummaryViewE4" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesRoiSummaryViewE4" label="ROISummaryViewE4">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoF97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.500" containerData="2000">
+              <children xsi:type="basic:PartStack" xmi:id="_J4UoGN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.102" containerData="6000">
+                <children xsi:type="basic:Part" xmi:id="_J4UoGd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.arpes.ui.e4.views.ArpesRoiSummaryViewE4" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesRoiSummaryViewE4" label="ROISummaryViewE4">
                   <properties key="targetPlotID" value="uk.ac.gda.beamline.i05-1.DetectorPlot.0"/>
                 </children>
               </children>
-              <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBii8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.600" containerData="4000" horizontal="true">
-                <children xsi:type="basic:Part" xmi:id="_MWHBiy8aEe-qMYdXsovLuA" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:analyser_control_set" containerData="7000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Analyser Live Controls" iconURI="platform:/plugin/uk.ac.gda.client/icons/ui-slider-050.png" closeable="true">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoGt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.600" containerData="4000" horizontal="true">
+                <children xsi:type="basic:Part" xmi:id="_J4UoG97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:analyser_control_set" containerData="7000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Analyser Live Controls" iconURI="platform:/plugin/uk.ac.gda.client/icons/ui-slider-050.png" closeable="true">
                   <tags>View</tags>
-                  <menus xmi:id="_MWHBjC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.client.livecontrol.LiveControlsView">
+                  <menus xmi:id="_J4UoHN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView">
                     <tags>ViewMenu</tags>
                   </menus>
                 </children>
               </children>
             </children>
           </children>
-          <children xsi:type="basic:PartStack" xmi:id="_MWHBjS8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partstack.roi.profile">
-            <children xsi:type="basic:Part" xmi:id="_MWHBji8aEe-qMYdXsovLuA" elementId="uk.ac.gda.arpes.ui.e4.views.ArpesRoiProfilePlotViewE4" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesRoiProfilePlotViewE4" label="Accumulated Profile" iconURI="">
+          <children xsi:type="basic:PartStack" xmi:id="_J4UoHd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.roi.profile">
+            <children xsi:type="basic:Part" xmi:id="_J4UoHt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.arpes.ui.e4.views.ArpesRoiProfilePlotViewE4" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesRoiProfilePlotViewE4" label="Accumulated Profile" iconURI="">
               <tags>View</tags>
               <tags>categoryTag:gda.rcp.arpes</tags>
               <properties key="targetPlotID" value="uk.ac.gda.beamline.i05-1.Detector.Plot.Sum.0"/>
-              <menus xmi:id="_MWHBjy8aEe-qMYdXsovLuA" elementId="uk.ac.gda.arpes.ui.views.ROIProfilePlotView2">
+              <menus xmi:id="_J4UoH97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.arpes.ui.views.ROIProfilePlotView2">
                 <tags>ViewMenu</tags>
               </menus>
             </children>
           </children>
-          <children xsi:type="basic:PartStack" xmi:id="_MWHBkC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partstack.jython" containerData="2000">
-            <children xsi:type="basic:Part" xmi:id="_MWHBkS8aEe-qMYdXsovLuA" elementId="gda.rcp.jythonterminalview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI="platform:/plugin/uk.ac.gda.client/icons/application_xp_terminal.png" closeable="true">
+          <children xsi:type="basic:PartStack" xmi:id="_J4UoIN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.jython" containerData="2000">
+            <children xsi:type="basic:Part" xmi:id="_J4UoId7wEe-LE5Nm9qU2eg" elementId="gda.rcp.jythonterminalview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI="platform:/plugin/uk.ac.gda.client/icons/application_xp_terminal.png" closeable="true">
               <tags>View</tags>
               <tags>categoryTag:uk.ac.gda.client.general.category</tags>
-              <menus xmi:id="_MWHBki8aEe-qMYdXsovLuA" elementId="gda.rcp.jythonterminalview">
+              <menus xmi:id="_J4UoIt7wEe-LE5Nm9qU2eg" elementId="gda.rcp.jythonterminalview">
                 <tags>ViewMenu</tags>
               </menus>
-              <toolbar xmi:id="_MWHBky8aEe-qMYdXsovLuA" elementId="gda.rcp.jythonterminalview"/>
+              <toolbar xmi:id="_J4UoI97wEe-LE5Nm9qU2eg" elementId="gda.rcp.jythonterminalview"/>
             </children>
-            <children xsi:type="basic:Part" xmi:id="_MWHBlC8aEe-qMYdXsovLuA" elementId="gda.rcp.views.baton.BatonView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Baton Manager" iconURI="platform:/plugin/uk.ac.gda.client/icons/server_link.png" closeable="true">
+            <children xsi:type="basic:Part" xmi:id="_J4UoJN7wEe-LE5Nm9qU2eg" elementId="gda.rcp.views.baton.BatonView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Baton Manager" iconURI="platform:/plugin/uk.ac.gda.client/icons/server_link.png" closeable="true">
               <tags>View</tags>
               <tags>categoryTag:uk.ac.gda.client.general.category</tags>
-              <menus xmi:id="_MWHBlS8aEe-qMYdXsovLuA" elementId="gda.rcp.views.baton.BatonView">
+              <menus xmi:id="_J4UoJd7wEe-LE5Nm9qU2eg" elementId="gda.rcp.views.baton.BatonView">
                 <tags>ViewMenu</tags>
               </menus>
             </children>
           </children>
         </children>
-        <children xsi:type="basic:PartSashContainer" xmi:id="_MWHBli8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.400" containerData="350">
-          <children xsi:type="basic:Part" xmi:id="_MWHBly8aEe-qMYdXsovLuA" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="700" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoJt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.400" containerData="350">
+          <children xsi:type="basic:Part" xmi:id="_J4UoJ97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="1000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
             <tags>View</tags>
             <tags>categoryTag:uk.ac.gda.client.general.category</tags>
-            <menus xmi:id="_MWHBmC8aEe-qMYdXsovLuA" elementId="uk.ac.gda.rcp.views.dashboardView">
+            <menus xmi:id="_J4UoKN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.rcp.views.dashboardView">
               <tags>ViewMenu</tags>
             </menus>
-            <toolbar xmi:id="_MWHBmS8aEe-qMYdXsovLuA" elementId="uk.ac.gda.rcp.views.dashboardView"/>
+            <toolbar xmi:id="_J4UoKd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.rcp.views.dashboardView"/>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_i-nJQFvZEe-rVZbYGtPqYg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.0">
-            <children xsi:type="basic:Part" xmi:id="_kGU_QFvZEe-rVZbYGtPqYg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="700" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Beamline Live Controls" iconURI="platform:/plugin/uk.ac.gda.client/icons/ui-slider-050.png" closeable="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_J4UoKt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.0" containerData="1000">
+            <children xsi:type="basic:Part" xmi:id="_J4UoK97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="700" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Beamline Live Controls" iconURI="platform:/plugin/uk.ac.gda.client/icons/ui-slider-050.png" closeable="true">
               <tags>View</tags>
-              <menus xmi:id="_kGU_QVvZEe-rVZbYGtPqYg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView">
+              <menus xmi:id="_J4UoLN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView">
                 <tags>ViewMenu</tags>
               </menus>
-              <toolbar xmi:id="_kGU_QlvZEe-rVZbYGtPqYg" elementId="uk.ac.gda.beamline.i05-1.toolbar.0"/>
+              <toolbar xmi:id="_J4UoLd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.toolbar.0"/>
             </children>
           </children>
-          <children xsi:type="basic:Part" xmi:id="_mzAgwFwBEe-rVZbYGtPqYg" elementId="uk.ac.gda.arpes.ui.views.ResolutionCalculatorView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Resolution Calculator"/>
-          <children xsi:type="basic:PartStack" xmi:id="_MWHBnS8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.partstack.0">
-            <children xsi:type="basic:Part" xmi:id="_MWHBni8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.Detector.Plot.Sum.0" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesLivePlotViewE4" label="Accumulated Plot">
+          <children xsi:type="basic:PartStack" xmi:id="_J4UoLt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.1" containerData="1500" selectedElement="_J4UoL97wEe-LE5Nm9qU2eg">
+            <children xsi:type="basic:Part" xmi:id="_J4UoL97wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.arpes.ui.views.ResolutionCalculatorView" containerData="1500" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Resolution Calculator"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_J4UoMN7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.0" containerData="1500">
+            <children xsi:type="basic:Part" xmi:id="_J4UoMd7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.Detector.Plot.Sum.0" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesLivePlotViewE4" label="Accumulated Plot">
               <properties key="eventTopic" value="ARPES_SUM_DATA_UPDATE_TOPIC"/>
-              <toolbar xmi:id="_MWHBny8aEe-qMYdXsovLuA" elementId="uk.ac.gda.beamline.i05-1.toolbar.2"/>
+              <toolbar xmi:id="_J4UoMt7wEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.toolbar.2"/>
             </children>
           </children>
         </children>
@@ -140,7 +142,7 @@
           </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_eLCqtoI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.400" containerData="350">
-          <children xsi:type="basic:Part" xmi:id="_eLCqt4I7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="700" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
+          <children xsi:type="basic:Part" xmi:id="_eLCqt4I7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="1000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
             <tags>View</tags>
             <tags>categoryTag:uk.ac.gda.client.general.category</tags>
             <menus xmi:id="_eLCquII7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.rcp.views.dashboardView">
@@ -148,7 +150,7 @@
             </menus>
             <toolbar xmi:id="_eLCquYI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.rcp.views.dashboardView"/>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_eLCquoI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.0">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_eLCquoI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.0" containerData="1000">
             <children xsi:type="basic:Part" xmi:id="_eLCqu4I7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="700" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Beamline Live Controls" iconURI="platform:/plugin/uk.ac.gda.client/icons/ui-slider-050.png" closeable="true">
               <tags>View</tags>
               <menus xmi:id="_eLCqvII7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView">
@@ -157,8 +159,10 @@
               <toolbar xmi:id="_eLCqvYI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.toolbar.0"/>
             </children>
           </children>
-          <children xsi:type="basic:Part" xmi:id="_eLCqvoI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.arpes.ui.views.ResolutionCalculatorView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Resolution Calculator"/>
-          <children xsi:type="basic:PartStack" xmi:id="_eLCqv4I7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partstack.0">
+          <children xsi:type="basic:PartStack" xmi:id="_KImVMN7vEe-LE5Nm9qU2eg" elementId="uk.ac.gda.beamline.i05-1.partstack.1" containerData="1500" selectedElement="_eLCqvoI7Ee-HAJ8yek2WpQ">
+            <children xsi:type="basic:Part" xmi:id="_eLCqvoI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.arpes.ui.views.ResolutionCalculatorView" containerData="1500" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Resolution Calculator"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_eLCqv4I7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partstack.0" containerData="1500">
             <children xsi:type="basic:Part" xmi:id="_eLCqwII7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.Detector.Plot.Sum.0" contributionURI="bundleclass://uk.ac.diamond.daq.arpes.ui.e4/uk.ac.diamond.daq.arpes.ui.e4.views.ArpesLivePlotViewE4" label="Accumulated Plot">
               <properties key="eventTopic" value="ARPES_SUM_DATA_UPDATE_TOPIC"/>
               <toolbar xmi:id="_eLCqwYI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.toolbar.2"/>
