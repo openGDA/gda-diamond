@@ -428,7 +428,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s1transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s1/s1transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s1transformations"/>
@@ -457,7 +457,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s1transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s1/s1transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -484,7 +484,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s1transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s1/s1transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -542,7 +542,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s2transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s2/s2transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s2transformations"/>
@@ -571,7 +571,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s2transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s2/s2transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -598,7 +598,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s2transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s2/s2transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -655,7 +655,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s3transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s3/s3transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s3transformations"/>
@@ -684,7 +684,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s3transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s3/s3transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -711,7 +711,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s3transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s3/s3transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -768,7 +768,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s4transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s4/s4transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s4transformations"/>
@@ -797,7 +797,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s4transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s4/s4transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -824,7 +824,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s4transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s4/s4transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -881,7 +881,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s5transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s5/s5transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s5transformations"/>
@@ -910,7 +910,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s5transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s5/s5transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -937,7 +937,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s5transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s5/s5transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -994,7 +994,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s6transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s6/s6transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s6transformations"/>
@@ -1023,7 +1023,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s6transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s6/s6transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -1050,7 +1050,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s6transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s6/s6transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
@@ -1107,7 +1107,7 @@
 				</bean>
 				<bean class="org.eclipse.scanning.device.ScalarField">
 					<property name="name" value="depends_on"/>
-					<property name="value" value="s7transformations/x_centre"/>
+					<property name="value" value="/entry/instrument/s7/s7transformations/x_centre"/>
 				</bean>
 				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
 					<property name="name" value="s7transformations"/>
@@ -1136,7 +1136,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s7transformations/y_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s7/s7transformations/y_centre" />
 										</bean>
 									</list>
 								</property>
@@ -1163,7 +1163,7 @@
 										</bean>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
 											<constructor-arg name="attrName" value="depends_on" />
-											<constructor-arg name="value" value="s7transformations/z_centre" />
+											<constructor-arg name="value" value="/entry/instrument/s7/s7transformations/z_centre" />
 										</bean>
 									</list>
 								</property>
