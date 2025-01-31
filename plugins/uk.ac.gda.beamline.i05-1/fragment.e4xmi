@@ -86,7 +86,7 @@
       </children>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_XWGMEII7Ee-HAJ8yek2WpQ" featurename="children" parentElementId="uk.ac.diamond.daq.arpes.ui.e4.perspectivestack.0" positionInList="before:uk.ac.diamond.daq.arpes.ui.e4..experiment">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_XWGMEII7Ee-HAJ8yek2WpQ" featurename="children" parentElementId="uk.ac.diamond.daq.arpes.ui.e4.perspectivestack.0" positionInList="before:uk.ac.diamond.daq.arpes.ui.e4.experiment">
     <elements xsi:type="advanced:Perspective" xmi:id="_eLCqoII7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.perspective.alignment.e4" label="ARPES Alignment E4">
       <children xsi:type="basic:PartSashContainer" xmi:id="_eLCqoYI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.100" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_eLCqooI7Ee-HAJ8yek2WpQ" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.200" containerData="700">
