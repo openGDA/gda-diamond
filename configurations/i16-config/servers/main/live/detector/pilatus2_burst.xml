@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pilatus2_ndfile_hdf5"
+			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL16I-EA-PILAT-02:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="BL16I-EA-PILAT-02:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="BL16I-EA-PILAT-02:HDF5:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="useSWMR" value="true" />
+	</bean>
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="pilatus2_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/pilatus2Roi" />
+		<property name="service" ref="pilatus2_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View -->
+	<bean id="pilatus2_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pilatus2_RoiStats1" />
+		<property name="baseRoiPVName" value="BL16I-EA-PILAT-02:ROI1:" />
+		<property name="baseStatsPVName" value="BL16I-EA-PILAT-02:STAT1:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="pilatus2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pilatus2_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="pilatus2_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pilatus2_RoiStats2" />
+		<property name="baseRoiPVName" value="BL16I-EA-PILAT-02:ROI2:" />
+		<property name="baseStatsPVName" value="BL16I-EA-PILAT-02:STAT2:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="pilatus2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pilatus2_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="pilatus2_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pilatus2_RoiStats3" />
+		<property name="baseRoiPVName" value="BL16I-EA-PILAT-02:ROI3:" />
+		<property name="baseStatsPVName" value="BL16I-EA-PILAT-02:STAT3:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="pilatus2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pilatus2_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="pilatus2_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pilatus2_RoiStats4" />
+		<property name="baseRoiPVName" value="BL16I-EA-PILAT-02:ROI4:" />
+		<property name="baseStatsPVName" value="BL16I-EA-PILAT-02:STAT4:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="pilatus2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pilatus2_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+	</bean>
+</beans>

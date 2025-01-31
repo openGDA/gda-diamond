@@ -22,7 +22,11 @@ from gda.jython import InterfaceProvider
 
 print("-"*100)
 print("Creating 'miscan' - multiple images per scan data point")
-print("    Syntax: miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) mpx 10 0.1")
+print("    Syntax: ")
+print("       for standard scan ")
+print("           miscan scannable start stop step pil3_100k_burst 10 0.1")
+print("       for path scan ")
+print("           miscan (scannable1, scannable2) ([1,2], [3,4],[5,6]) pil3_100k_burst 10 0.1")
 
 PRINTTIME = False
 dummyScannable = DummyScannable("dummyScannable")
