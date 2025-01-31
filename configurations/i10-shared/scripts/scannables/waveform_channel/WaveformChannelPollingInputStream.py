@@ -7,6 +7,7 @@ from org.slf4j import LoggerFactory
 import time
 from i10shared import installation
 from gda.device import DeviceException
+from gda.jython import InterfaceProvider
 
 
 class WaveformChannelPollingInputStream(PositionInputStream):
@@ -114,8 +115,11 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                                                     elements_available, self.elements_read, acquiring, elements_available - self.elements_read))
                     return elements_available - self.elements_read
                 elif (datetime.now() - last_element_time) > timedelta(seconds = new_element_timeout):
-                    self.logger.error("_waitForNewElements() no new elements for  %r seconds, raising an exception..." % new_element_timeout)
-                    raise DeviceException("no new elements for  %r seconds" % new_element_timeout)
+                    self.logger.error("_waitForNewElements() no new elements for  %r seconds, abort current scan !" % new_element_timeout)
+                    print("Timeout while waiting for new data points for %f seconds. Complete current scan via abort to ensure data file close correctly!")
+                    InterfaceProvider.getCommandAborter().abortCommands()
+                    # self.logger.error("_waitForNewElements() no new elements for  %r seconds, raising an exception..." % new_element_timeout)
+                    # raise DeviceException("no new elements for  %r seconds" % new_element_timeout)
             if self.verbose and (datetime.now() - log_time) > timedelta(seconds = log_timeout):
                 self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring %r, no new elements for %r seconds!' % (
                                 elements_available, self.elements_read, acquiring, log_timeout))
