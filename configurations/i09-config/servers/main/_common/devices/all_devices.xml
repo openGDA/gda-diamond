@@ -27,7 +27,6 @@
 	<import resource="SMPM.xml" />
 	<import resource="analyser_energy_range.xml"/>
 	<import resource="analyser.xml"/>
-	<import resource="RegionScannable.xml"/>
 	<import resource="ES2.xml"/>
 <!-- 	<import resource="ES3.xml"/> -->
 	<import resource="RFD.xml"/>

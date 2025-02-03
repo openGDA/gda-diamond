@@ -31,6 +31,11 @@ from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @Unu
 
 from i09shared.scan.miscan import miscan  # @UnusedImport
 
+print("-"*100)
+print("Installing pathscan command:")
+from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
+print(pathscan.__doc__) #@UndefinedVariable
+
 ###############################################################################
 ###                         Import useful scannables                        ###
 ###############################################################################

@@ -4,7 +4,7 @@ Created on 23 Jan 2014
 @author: fy65
 '''
 from i09shared.utils.dRangeUtil import drange
-from i09shared.scan.concurrentAnalyserScan import pathscan
+from gdascripts.scan.pathscanCommand import pathscan #@UnusedImport
 
 xpoints=drange(10, 20, 1)
 #print "x-points: ",xpoints

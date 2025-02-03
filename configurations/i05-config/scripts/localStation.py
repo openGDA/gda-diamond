@@ -98,7 +98,7 @@ alias("B_E")
 print "Added binding energy calculator - Usage: B_E(kinetic_energy)"
 
 import arpes
-from gdascripts.scan.pathscanCommand import *
+from gdascripts.scan.pathscanCommand import pathscan
 from i05Shared.pathscanTable import pathscanTable
 
 print "Installing archiver client"
