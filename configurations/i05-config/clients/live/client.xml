@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context
+				http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/util
+				http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="client_file_announcer" />
-	</bean>
+	<context:property-placeholder properties-ref="configProperties" />
+
+	<util:properties id="configProperties">
+		<prop key="ANALYSER_PV_BASENAME">BL05I-EA-DET-02</prop>
+		<prop key="ES_I3">BL05I-DI-PHDGN-12:DCAM</prop>
+	</util:properties>
 
 	<import resource="es_i3_live_controls.xml"/>
 	<import resource="stream_views.xml" />
 	<import resource="monitors.xml" />
-	<import resource="mbs_analyser_livedata.xml" />
 
 </beans>

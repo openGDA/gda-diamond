@@ -16,8 +16,7 @@
 				<value>saazimuth</value>
 			</array>
 		</property>
-		<property name="initialImageDims" value="5,492,657"/>
+		<property name="initialImageDims" value="5,835,1034"/>
 		<property name="order" value="0,1,2"/>
-		<property name="liveDataDispatcher" ref="AnalyserLiveClient" />
 	</bean>
 </beans>

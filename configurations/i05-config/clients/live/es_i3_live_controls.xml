@@ -7,34 +7,29 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:property-placeholder properties-ref="cameraPVs"/>
-
-	<util:properties id="cameraPVs">
-	    <prop key="es_i3">BL05I-DI-PHDGN-12:DCAM</prop>
-	</util:properties>
 	<!-- Sample camera 3 controls -->
 	<bean id="es_i3ExposureTime" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="${es_i3}:CAM:AcquireTime"/>
+		<property name="pvName" value="#{configProperties.ES_I3}:CAM:AcquireTime"/>
 		<property name="useNameAsInputName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
 	<bean id="es_i3AcquirePeriod" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="${es_i3}:CAM:AcquirePeriod"/>
-		<property name="useNameAsInputName" value="true"/>	
-		<property name="hasUnits" value="false"/>	
+		<property name="pvName" value="#{configProperties.ES_I3}:CAM:AcquirePeriod"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 </beans>

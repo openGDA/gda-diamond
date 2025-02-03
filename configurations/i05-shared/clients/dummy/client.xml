@@ -10,9 +10,4 @@
 				http://www.springframework.org/schema/util
 				http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<import resource="monitoring_controls.xml" />
-	<import resource="slicing_view_config.xml"/>
-	<import resource="dashboard.xml"/>
-	<import resource="live_controls.xml"/>
-
 </beans>

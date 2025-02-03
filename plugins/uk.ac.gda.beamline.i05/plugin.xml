@@ -1,193 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         id="product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="uk.ac.gda.client.application"
-            name="Beamline I05">
-         <property
-               name="appName"
-               value="Beamline I05">
-         </property>
-         <property
-               name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-         <property
-               name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
-         </property>
-      </product>
-   </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.gda.beamline.i05.I05Startup">
-      </startup>
-   </extension>
-   <extension point="uk.ac.gda.client.dashboard.objects">
-         <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
-         <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
-         <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
-         <Scannable name="energy" tooltip="photon energy" />
-         <Scannable name="polarisation" tooltip="photon beam polarisation" />
-         <Scannable name="id" tooltip="insertion device" />
-         <Scannable name="pgm_cff" tooltip="monochromator cff" />
-         <Scannable name="cryostat" tooltip="Temperature control" />
-         <Scannable name="sa" tooltip="cryo manipulator positions" />
-         <Scannable name="psu_mode" tooltip="PSU Mode" />
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.arpes.perspectives.HRMonitoringPerspective"
-            id="uk.ac.gda.arpes.perspectives.HRMonitoringPerspective"
-            icon="icons/application_view_gallery.png"
-            name="HR Monitoring">
-      </perspective>
-      <perspective
-            class="uk.ac.gda.arpes.perspectives.ArpesSlicingPerspective"
-            icon="icons/application_view_gallery.png"
-            id="uk.ac.gda.arpes.perspectives.ArpesSlicingPerspective"
-            name="ARPES Slicing">
-         <description>
-            Slicing perspective
-         </description>
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <category
-            name="Data Acquisition - ARPES"
-            id="gda.rcp.arpes">
-      </category>
-      <view
-            category="gda.rcp.arpes"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.ARPESPlotView"
-            icon="icons/sample.gif"
-            id="uk.ac.gda.client.arpes.cameraview"
-            name="Detector Plot"
-            restorable="true">
-      </view>
-      <view
-            category="gda.rcp.arpes"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            icon="icons/sample.gif"
-            id="uk.ac.gda.client.arpes.sweptview"
-            name="Swept Plot"
-            restorable="true">
-      </view>
-      <view
-            category="gda.rcp.arpes"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            icon="icons/sample.gif"
-            id="uk.ac.gda.client.arpes.sumview"
-            name="Detector Sum Plot"
-            restorable="true">
-      </view>
-      <view
-            category="gda.rcp.arpes"
-            class="uk.ac.gda.beamline.i05.views.ContinuousModeControllerView"
-            icon="icons/sample.gif"
-            id="uk.ac.gda.arpes.ContinuousModeControllerView"
-            name="Continuous Mode"
-            restorable="true">
-      </view>
-      <view
-            category="gda.rcp.arpes"
-            class="uk.ac.gda.arpes.ui.views.ArpesSlicingView"
-            icon="icons/sample.gif"
-            id="uk.ac.gda.client.arpes.slicingview"
-            name="ARPES Slicing View"
-            restorable="true">
-      </view>
-      <view
-            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
-            id="uk.ac.gda.beamline.i05.es_i3.live.stream.view.LiveStreamView"
-            name="ES-i3"
-            restorable="true">
-      </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i05.es_i3.live.stream.view.LiveStreamView">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
-               label="Snapshot"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="activePartId">
-                  <equals
-                        value="uk.ac.gda.beamline.i05.es_i3.live.stream.view.LiveStreamView">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i05.es_i3.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i05.es_i3.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i05.es_i3.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.services">
-      <sourceProvider
-            provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-         <variable
-               name="i05.es_i3.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
-      </sourceProvider>
-   </extension>
- </plugin>
+	 <extension
+				 id="product"
+				 point="org.eclipse.core.runtime.products">
+			<product
+						application="uk.ac.gda.client.application"
+						name="Beamline I05">
+				 <property
+							 name="appName"
+							 value="Beamline I05">
+				 </property>
+				 <property
+							 name="windowImages"
+							 value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+				 </property>
+				 <property
+							 name="aboutImage"
+							 value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+				 </property>
+			</product>
+	 </extension>
+	 <extension
+		id="uk.ac.gda.beamline.i05.fragment"
+		point="org.eclipse.e4.workbench.model">
+		<fragment
+			apply="always"
+			uri="fragment.e4xmi">
+		</fragment>
+	</extension>
+</plugin>

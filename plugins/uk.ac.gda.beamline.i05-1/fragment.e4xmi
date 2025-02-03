@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_gUU7kCzfEeyjucGw--wEBg">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_mnC20CzfEeyjucGw--wEBg" featurename="snippets" parentElementId="org.eclipse.e4.legacy.ide.application" positionInList="">
-    <elements xsi:type="advanced:Perspective" xmi:id="_yufFwCd1EfGdB6vLEjWMwA" elementId="uk.ac.gda.beamline.i05-1.perspective.alignment.e4" label="ARPES Alignment E4">
+    <elements xsi:type="advanced:Perspective" xmi:id="_yufFwCd1EfGdB6vLEjWMwA" elementId="uk.ac.gda.beamline.i05.perspective.alignment" label="ARPES Alignment E4">
       <children xsi:type="basic:PartSashContainer" xmi:id="_yufFwSd1EfGdB6vLEjWMwA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.100" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_yufFwid1EfGdB6vLEjWMwA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.200" containerData="700">
           <children xsi:type="basic:PartSashContainer" xmi:id="_yufFwyd1EfGdB6vLEjWMwA" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.300" containerData="8000" horizontal="true">
@@ -87,7 +87,7 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_XWGMEII7Ee-HAJ8yek2WpQ" featurename="children" parentElementId="uk.ac.diamond.daq.arpes.ui.e4.perspectivestack.0" positionInList="before:uk.ac.diamond.daq.arpes.ui.e4.experiment">
-    <elements xsi:type="advanced:Perspective" xmi:id="_gfAGEIZ2EfGgKasHMYPRiw" elementId="uk.ac.gda.beamline.i05-1.perspective.alignment.e4" label="ARPES Alignment E4">
+    <elements xsi:type="advanced:Perspective" xmi:id="_gfAGEIZ2EfGgKasHMYPRiw" elementId="uk.ac.gda.beamline.i05.perspective.alignment" label="ARPES Alignment E4">
       <children xsi:type="basic:PartSashContainer" xmi:id="_gfAGEYZ2EfGgKasHMYPRiw" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.100" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_gfAGEoZ2EfGgKasHMYPRiw" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.200" containerData="700">
           <children xsi:type="basic:PartSashContainer" xmi:id="_gfAGE4Z2EfGgKasHMYPRiw" elementId="uk.ac.gda.beamline.i05-1.partsashcontainer.300" containerData="8000" horizontal="true">

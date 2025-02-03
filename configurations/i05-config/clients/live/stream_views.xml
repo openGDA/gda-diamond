@@ -3,14 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	
+
+
 	<bean id="analyser_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Analyser Live Stream"/>
 		<property name="arrayPv" value="BL05I-EA-DET-02:LIVE:ARR"/>
 		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8083/MBLIVE.mjpg.mjpg"/>
 	</bean>
-	
+
 	<bean id="es_i1_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES1 Camera" />
 		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/ES-i1.DCAM.mjpg.mjpg"/>
@@ -51,7 +51,7 @@
 	<bean id="es-i3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES-i3" />
 		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/ES-i3.DCAM.mjpg.mjpg" />
-		<property name="arrayPv" value="${es_i3}:ARR" />
+		<property name="arrayPv" value="#{configProperties.ES_I3}:ARR" />
 		<property name="roiProvider" ref="es_i3_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
@@ -60,11 +60,11 @@
 					<list>
 						<ref bean="es_i3_expsure_time_control" />
 						<ref bean="es_i3_acquire_period_control"/>
-					</list>				
+					</list>
 				</property>
 				<property name="cameraState">
 					<bean id="smp_cam_3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-						<property name="pvName" value="${es_i3}:CAM:Acquire"/>
+						<property name="pvName" value="#{configProperties.ES_I3}:CAM:Acquire"/>
 						<property name="stateVariableName" value="i05.es_i3.live.stream.active"/>
 					</bean>
 				</property>
@@ -76,10 +76,10 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
+
 	<bean id="m1i1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="M1i1" />
-  		<property name="url" value="http://bl05-di-serv-02.diamond.ac.uk:8080/M1-i1.DCAM.mjpg.mjpg" />
+			<property name="url" value="http://bl05-di-serv-02.diamond.ac.uk:8080/M1-i1.DCAM.mjpg.mjpg" />
 	</bean>
 
 </beans>

@@ -3,13 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<bean id="analyser_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Analyser" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpeg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 	</bean>
-	
+
 	<bean id="es_i1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES-i1" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpeg" />
@@ -52,7 +52,7 @@
 	<bean id="es-i3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="ES-i3" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
-		<property name="arrayPv" value="${sim}:ARR" />
+		<property name="arrayPv" value="#{configProperties.sim}:ARR" />
 		<property name="roiProvider" ref="es_i3_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 		<property name="topUi">
@@ -61,22 +61,22 @@
 					<list>
 						<ref bean="es_i3_expsure_time_control" />
 						<ref bean="es_i3_acquire_period_control"/>
-					</list>				
+					</list>
 				</property>
 				<property name="cameraState">
 					<bean id="es_i3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-						<property name="pvName" value="${sim}:CAM:Acquire"/>
+						<property name="pvName" value="#{configProperties.sim}:CAM:Acquire"/>
 						<property name="stateVariableName" value="i05.es_i3.live.stream.active"/>
 					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-		
+
 	<bean id="es_i3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
-	
+	</bean>
+
 </beans>

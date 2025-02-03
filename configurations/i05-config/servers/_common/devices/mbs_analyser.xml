@@ -38,52 +38,6 @@
 		<property name="entranceSlitInformationProvider" ref="mbs_slits" />
 	</bean>
 
-	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Detector Plot" />
-		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:SINGLE:ARR:ArrayData" />
-		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
-		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
-		<property name="supportedAcquisitionModes">
-				<list>
-					<value>Fixed</value>
-					<value>FixedTrigd</value>
-					<value>Dither</value>
-				</list>
-		</property>
-	</bean>
-
-	<bean id="AnalyserSumLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Detector Sum Plot" />
-		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:ARR:ArrayData" />
-		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
-		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
-		<property name="supportedAcquisitionModes">
-				<list>
-					<value>Fixed</value>
-					<value>FixedTrigd</value>
-					<value>Dither</value>
-				</list>
-		</property>
-	</bean>
-
-	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
-		<property name="plotName" value="Swept Plot" />
-		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:ARR:ArrayData" />
-		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
-		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
-		<property name="supportedAcquisitionModes">
-				<list>
-					<value>Swept</value>
-				</list>
-		</property>
-	</bean>
-
 	<!-- Configure limits when using deflector_x in Jython -->
 	<bean id="defl_x_range" class="gda.device.controlpoint.LimitsMap">
 		<constructor-arg>
