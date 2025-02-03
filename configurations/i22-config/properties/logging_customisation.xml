@@ -13,6 +13,7 @@
 
 <included>
 		<logger level="DEBUG"	name="gda" />
+		<logger level="TRACE"	name="gda.data.fileregistrar.IcatXMLCreator" />
 		<logger value="INFO"	name="gda.device.detector.areadetector" />
 		<logger level="INFO"	name="gda.device.detector.DAServer" />
 		<logger level="INFO"	name="gda.device.detector.DummyDAServer" />
