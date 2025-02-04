@@ -34,6 +34,7 @@ mu_offset=pd_offset.Offset('mu_offset')
 local_sixckappa = InterfaceProvider.getJythonNamespace().getFromJythonNamespace("sixckappa")
 
 delta_axis_offset = pd_offset.Offset('delta_axis_offset', local_sixckappa.kdelta)
+delta_axis_offset.setUserUnits("deg")
 
 idgap_offset=pd_offset.Offset('idgap_offset')
 bragg_offset=pd_offset.Offset('bragg_offset')
