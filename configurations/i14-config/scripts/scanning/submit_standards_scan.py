@@ -20,4 +20,11 @@ scanParams = marshaller_service.unmarshal(customParams, StandardsScanParams)
 
 energy_ranges = scanParams.getScanPath().split(';')
 path = [split_and_convert_energy_range(i) for i in energy_ranges]
-standards_scan(path, scanParams.getExposureTime(), scanParams.isReverseScan())
+
+lineToTrack = scanParams.getLineToTrack()
+if lineToTrack is not None:
+    lineToTrack = lineToTrack.getElement() + "-" + lineToTrack.getLine() + "a"
+    print("Line to track = {}".format(lineToTrack))
+
+
+standards_scan(path, scanParams.getExposureTime(), scanParams.isReverseScan(), lineToTrack)
