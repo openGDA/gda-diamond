@@ -11,12 +11,12 @@
                 http://www.diamond.ac.uk/schema/gda/gda/gda.xsd" >
 
 	<bean id="basePv" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="BL09I-EA-DET-01"/>
+		<constructor-arg type="java.lang.String" value="BL60P-EA-DET-01"/>
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod" value="org.opengda.detector.electronanalyser.client.actions.CommandToClipboardHandler.setDetector"/>
-		<property name="arguments" ref="ew4000"/>
+		<property name="arguments" ref="r4000"/>
 	</bean>
 
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
@@ -35,7 +35,7 @@
 		<property name="analyserTotalTimeRemainingPV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
 		<property name="analyserElementSetScannable" ref="analyser_element_set"/>
 		<property name="regionValidator" ref="regionvalidator"/>
-		<property name="vGScientaAnalyserDetector" ref="ew4000"/>
+		<property name="vGScientaAnalyserDetector" ref="r4000"/>
 	</bean>
 
 	<bean id="sequenceviewcreatorfactory"
@@ -101,7 +101,7 @@
 		<property name="iterationCurrentPointPV" value="#{basePv}:CAM:CURRENT_POINT_RBV" />
 		
 		<property name="totalRemianingTimePV" value="#{basePv}:CAM:TOTAL_TIME_LEFT_RBV"/>
-		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"></property>
+		<property name="totalProgressPV" value="#{basePv}:CAM:PROGRESS_RBV"/>
 		<property name="totalPointsPV" value="#{basePv}:CAM:TOTAL_POINTS_RBV" />
 		<property name="currentPointPV" value="#{basePv}:CAM:CURRENT_CHANNEL_RBV" />
 

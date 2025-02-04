@@ -36,3 +36,7 @@ server.spring-xml = [
 	"servers/hard/${gda.mode}/server.xml",
 	"servers/main/${gda.mode}/server.xml"
 ]
+
+client.spring-xml = [
+	"clients/main/${gda.mode}/client.xml"
+]

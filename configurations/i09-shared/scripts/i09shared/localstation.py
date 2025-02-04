@@ -57,9 +57,15 @@ print("")
 ###############################################################################
 
 print("-"*100)
-print "Load additional utilities:"
+print "Load core utilities:"
 from gdascripts.utils import functional, jobs, default_scannables, attributes, iterableprint, listprint, frange #@UnusedImport
 print("    functional, jobs, default_scannables(*scn), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)")
+print("")
+
+print("-"*100)
+print("Load drange:")
+from i09shared.utils.dRangeUtil import drange #@UnusedImport
+print("    Decimal version of range():   drange(start,end,step) to provide exact number of decimal places as step value inputed")
 print("")
 
 print("-"*100)

@@ -1,9 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="basePv" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="BL09I-EA-DET-01"/>
+		<constructor-arg type="java.lang.String" value="BL60P-EA-DET-01"/>
 	</bean>
 
 	<bean id="analyser.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -189,26 +191,19 @@
 		<property name="energyRange" ref="analyser_energy_range"/>
 	</bean>
 
-	<bean id="ew4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserCollectionStrategy">
-		<property name="name" value="ew4000CollectionStrategy" />
+	<bean id="r4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserCollectionStrategy">
+		<property name="name" value="r4000CollectionStrategy" />
 		<property name="regionValidator" ref="regionvalidator"/>
 		<property name="analyser" ref="analyser" />
-		<property name="energySourceToShutterMap">
-			<map>
-				<entry key-ref="pgmenergy" value-ref="fsj1"/>
-				<entry key-ref="dcmenergyEv" value-ref="fsi1"/>
-			</map>
-		</property>
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
 
-	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserNXDetector">
-		<property name="name" value="ew4000" />
-		<property name="topup" ref="topup"/>
-		<property name="collectionStrategy" ref="ew4000CollectionStrategy"/>
+	<bean id="r4000" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserNXDetector">
+		<property name="name" value="r4000" />
+		<property name="collectionStrategy" ref="r4000CollectionStrategy"/>
 		<property name="clientFileAnnouncer" ref="client_file_announcer"/>
-		<property name="description" value="VGH Scienta Electron Analyser EW4000"/>
-		<property name="detectorID" value="EW4000"/>
+		<property name="description" value="VGH Scienta Electron Analyser R4000"/>
+		<property name="detectorID" value="R4000"/>
 	</bean>
 
 	<bean id="energy_width" class="gda.device.monitor.EpicsMonitor">

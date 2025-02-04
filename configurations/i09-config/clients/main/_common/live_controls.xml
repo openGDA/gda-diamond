@@ -6,37 +6,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
-	
-	<bean id="green_colour" class="org.eclipse.swt.graphics.Color">
-		<constructor-arg name="device">
-			<null/>
-		</constructor-arg>
-		<constructor-arg name="red">
-			<value>0</value>
-		</constructor-arg>
-		<constructor-arg name="green">
-			<value>255</value>
-		</constructor-arg>
-		<constructor-arg name="blue">
-			<value>0</value>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="red_colour" class="org.eclipse.swt.graphics.Color">
-		<constructor-arg name="device">
-			<null/>
-		</constructor-arg>
-		<constructor-arg name="red">
-			<value>255</value>
-		</constructor-arg>
-		<constructor-arg name="green">
-			<value>0</value>
-		</constructor-arg>
-		<constructor-arg name="blue">
-			<value>0</value>
-		</constructor-arg>
-	</bean>
-	
+
 	<bean id="hard_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
 		<property name="displayName" value="fsi1" />
 		<property name="group" value="Hard X-Ray" />

@@ -14,6 +14,7 @@
 		<gda:service interface="org.opengda.detector.electronanalyser.api.SESSettingsService" />
 	</gda:proxy>
 
+	<!-- Is this needed? -->
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
@@ -21,6 +22,7 @@
 		<property name="viewID" value="uk.ac.gda.beamline.i09.DetectorPlot" />
 	</bean>
 
+	<!-- 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
 		<property name="compositeFactories">
@@ -62,9 +64,10 @@
 			</list>
 		</property>
 	</bean>
+	 -->
 
 	<bean id="regionvalidator" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="ew4000" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="r4000" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="analyser_element_set" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 

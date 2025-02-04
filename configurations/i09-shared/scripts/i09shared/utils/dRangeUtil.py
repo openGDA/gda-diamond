@@ -8,7 +8,7 @@ Created on 23 Jan 2014
 '''
 from decimal import Decimal
 def drange(start,end,step):
-    'Decimal version of range():   drange(start,end,step) to provide exact number of decimal places as step value inputed'
+    'Decimal version of range(): drange(start,end,step) to provide exact number of decimal places as step value inputed'
     dstep=Decimal(str(step));dstart=Decimal(str(start)).quantize(dstep); dend=Decimal(str(end)).quantize(dstep);
     #print dstep, dstart, dend
     r=abs(dend-dstart)

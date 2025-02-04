@@ -4,10 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="DataServer.xml"/>
-	<import resource="DataWriterFactory.xml"/>
-	<import resource="SESSettings.xml"/>
-	<import resource="nxmetadata.xml"/>
-	<import resource="devices/all_devices.xml" />
+	<bean id="mg_kalpha_energy" class="gda.device.monitor.DummyMonitor">
+		<constructor-arg name="name" value="mg_kalpha_energy"/>
+		<constructor-arg name="constantValue" value="1253.6"/>
+		<property name="unit" value="eV"/>
+		<property name="throwExceptionOnAttemptedMove" value="true"/>
+	</bean>
 
 </beans>
