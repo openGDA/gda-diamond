@@ -8,6 +8,7 @@ from gdaserver import chemical_formula as chem_scannable, electric_field as elec
     beamExtentScannable, fluxScannable
 from gda.jython.commands.ScannableCommands import pos
 from gda.device.scannable import ScannableBase
+from gda.jython import InterfaceProvider
 
 class TextsScannable (ScannableBase):
     def __init__(self, name, contents):
@@ -24,29 +25,53 @@ class TextsScannable (ScannableBase):
         return False
 
 _title = TextsScannable('title', 'Scan of sample with GDA')
+_sample = TextsScannable('sample', 'Default Sample')
+user_command_scannable = TextsScannable('user command', '')
 
-def title(title = None):
-    if not title == None:
-        _title.rawAsynchronousMoveTo(title)
-    return _title.getPosition()
+class UserCommandMonitor(ScannableBase):
 
-_sample= TextsScannable('sample', 'Default Sample')
+    def __init__(self, name):
+        self.name = name
+        self.setInputNames([])
+        self.Units=[]
+        self.setOutputFormat([])
+        self.recorded_command = False
 
-def sample(sampleName = None):
-    if not sampleName == None:
-        _title.rawAsynchronousMoveTo(title)
-    return _title.getPosition()
+    def atScanStart(self):
+        scaninfo = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation()
+        if not self.recorded_command :
+            pos(user_command_scannable, scaninfo.getScanCommand())
+        pos(_title, str(scaninfo.getScanNumber()) + ": " + user_command_scannable.getPosition())
 
-def input_metadata(sample_name=None, chemical_formula=None, electric_field=None,
+    def atScanEnd(self):
+        self.recorded_command = False
+
+    def getPosition(self):
+        return
+
+    def isBusy(self) :
+        return False
+
+    def inputUserCommand(self, command):
+        pos(user_command_scannable, command)
+        self.recorded_command = True
+
+user_command_monitor = UserCommandMonitor("user_command_monitor")
+add_default(user_command_monitor)
+
+def input_metadata(sample_name=None, scan_title=None, chemical_formula=None, electric_field=None,
                magnetic_field=None, pressure=None, incident_beam_divergence=None, 
                incident_polarization=None, beam_extent=None, flux=None):
-    if (sample_name is None and chemical_formula is None and electric_field is None and magnetic_field is None and pressure is None and incident_beam_divergence is None and incident_polarization is None and beam_extent is None and flux is None) :
+    if (sample_name is None and scan_title is None and chemical_formula is None and electric_field is None and magnetic_field is None and pressure is None and incident_beam_divergence is None and incident_polarization is None and beam_extent is None and flux is None) :
         print("Used to input user metadata not measurable during experiment.  Fields that can be defined:")
-        print("sample_name, chemical_formula, electric_field, magnetic_field, pressure, "
+        print("sample_name, scan_title, chemical_formula, electric_field, magnetic_field, pressure, "
             +"incident_beam_divergence, incident_polarization, beam_extent, flux")
+        return
 
     if sample_name is not None :
         pos(_sample, sample_name)
+    if scan_title is not None :
+        pos(_title, scan_title)
     if chemical_formula is not None :
         pos(chem_scannable, chemical_formula)
     if electric_field is not None :

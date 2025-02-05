@@ -19,6 +19,10 @@
 					<property name="name" value="title"/>
 					<property name="scannableName" value="_title"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="user_command"/>
+					<property name="scannableName" value="user_command_scannable"/>
+				</bean>
 				<bean class="org.eclipse.scanning.device.LinkedField">
 					<property name="name" value="end_time_estimated"/>
 					<property name="linkPath" value="/entry/diamond_scan/end_time"/>
@@ -264,7 +268,7 @@
 	</bean>
 
 	<!-- Sample transform chain: . < kmu < kth < kap < kphi -->
-	
+
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="cryophi" />
 		<property name="transformation">
@@ -282,7 +286,6 @@
 			</bean>
 		</property>
 	</bean>
->>>>>>> b9edf82 I16-634 (9.33) Create sample transformations node using a template
 
 	<bean class="org.eclipse.scanning.device.PositionerTransformationsAppender" init-method="register">
 		<property name="name" value="kphi" />
