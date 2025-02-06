@@ -6,9 +6,6 @@
 		<project>i09-shared</project>
 		<project>org.opengda.detector.electronanalyser</project>
 		<project>org.opengda.detector.electronanalyser.client</project>
-		<project>org.opengda.detector.electronanalyser.model</project>
-		<project>org.opengda.detector.electronanalyser.model.edit</project>
-		<project>org.opengda.detector.electronanalyser.model.editor</project>
 		<project>org.opengda.detector.electronanalyser.server</project>
 		<project>uk.ac.diamond.org.springframework</project>
 		<project>uk.ac.diamond.scisoft.analysis</project>
