@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="pil3_100k_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure " />
+		<property name="group" value="PILATUS3 Acquire Time" />
+		<property name="scannableName" value="pil3_100kExposureTime" />
+		<property name="textWidth" value="50" />
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="pil3_100k_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period " />
+		<property name="group" value="PILATUS3 Acquire Time" />
+		<property name="scannableName" value="pil3_100kAcquirePeriod" />
+		<property name="textWidth" value="50" />
+		<property name="userUnits" value="s" />
+	</bean>
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR16I-MO-SERVC-01:CURRGAPD" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR-CS-FILL-01:STACOUNTDN" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.4g</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+</beans>

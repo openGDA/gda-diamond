@@ -23,4 +23,5 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
+	<import resource="statusView.xml"/>
 </beans>

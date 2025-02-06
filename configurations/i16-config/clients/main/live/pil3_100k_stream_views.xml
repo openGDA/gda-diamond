@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="pilatus2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}pilatus2Roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<import resource="../_common/pilatus2_live_controls.xml" />
+	<bean id="pilatus2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="pilatus2" />
+		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8081/PILATUS2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-PILAT-02:ARR" />
+		<property name="roiProvider" ref="pilatus2_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="pilatus2_expsure_time_control" />
+						<ref bean="pilatus2_acquire_period_control" />
+					</list>
+				</property>
+				<property name="cameraState">
+					<bean class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="cameraConfig" ref="pilatus2" />
+						<property name="stateVariableName" value="i16.pilatus2.live.stream.active" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

@@ -4,5 +4,13 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="CameraConfigurations.xml" />
+	<import resource="pil3_100k_live_controls.xml" />
+	<import resource="pil3_100k_stream_views.xml" />
+	<import resource="merlin_live_controls.xml" />
+	<import resource="merlin_stream_views.xml" />
+	<import resource="pilatus2_live_controls.xml" />
+	<import resource="pilatus2_stream_views.xml" />
+	<import resource="EHShutter.xml" />
+	<import resource="machineStatus.xml" />
 	<import resource="../_common/client.xml"/>
 </beans>
