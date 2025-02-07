@@ -36,16 +36,6 @@ def print_fit_calibration(axis, calibration_axis):
     print("%s_phase = %f" % (axis,phase))
     print("%s_amp   = %f" % (axis,amp))
     
-    
-#################### TEST PROC ##################
-processingRequest = scanRequest.getProcessingRequest()
-print(processingRequest)
-print(type(processingRequest))
-requestt = processingRequest.getRequest()
-print(requestt)
-print(type(requestt))
-#################################################
-    
 
 if include_y:
     print("Including y axis")
