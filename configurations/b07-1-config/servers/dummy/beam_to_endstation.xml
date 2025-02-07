@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beam_to_endstation" class="uk.ac.diamond.daq.devices.specs.phoibos.DummyBeamToEndstationStatus">
+	<bean id="beam_to_endstation" class="uk.ac.diamond.daq.devices.specs.phoibos.BeamToEndstationStatus">
 		<constructor-arg>
 			<list>
 				<ref bean="gv12" />
@@ -12,6 +12,9 @@
 				<ref bean="gv25" />
 				<ref bean="d21c_positioner" />
 				<ref bean="d9c_y_positioner" />
+				<ref bean="feBeamPermit" />
+				<ref bean="expt_shutter" />
+				<ref bean="fast_shutter" />
 			</list>
 		</constructor-arg>
 	</bean>
