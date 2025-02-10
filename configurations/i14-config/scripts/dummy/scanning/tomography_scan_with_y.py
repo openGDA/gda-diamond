@@ -1,13 +1,12 @@
 from math import sin #, pi, sqrt
 from time import sleep
-import scisoftpy as dnp #@Undefinedvariable #@Unresolvedimport
 
 from java.lang import Exception as JavaException #@Undefinedvariable #@Unresolvedimport
 from java.lang import InterruptedException #@Unresolvedimport
 from org.eclipse.scanning.api.points.models import TwoAxisGridStepModel  #@Undefinedvariable #@Unresolvedimport
 
 from gdaserver import stage1_rotation, SampleX, SampleY, SampleZ #@Undefinedvariable #@Unresolvedimport
-from mapping_scan_commands import mscan, grid, rect, detector #@Undefinedvariable #@Unresolvedimport
+from mapping_scan_commands import submit
 
 print("Setting up tomography scan with y axis")
 
@@ -80,10 +79,14 @@ def run_tomo_scan_with_y(scanRequest, x_calibration, y_calibration,z_calibration
     offset_z = z_centre - z_position
     offset_y = y_centre - y_position
     
-    rotations = dnp.arange(start_angle, stop_angle, step_angle)
+    rotations = []
+    current = start_angle
+    while current <= stop_angle:
+        rotations.append(current)
+        current += step_angle
     print("Rotations: ", rotations)
     
-    for rot in rotations:
+    for index, rot in enumerate(rotations):
         stage1_rotation.moveTo(rot) #@Undefinedvariable
         
         x_position = x_mean + x_amp*sin(x_freq*rot + x_phase) + offset_x
@@ -93,46 +96,28 @@ def run_tomo_scan_with_y(scanRequest, x_calibration, y_calibration,z_calibration
         SampleX.moveTo(x_position) #@Undefinedvariable
         SampleZ.moveTo(z_position) #@Undefinedvariable
         SampleY.moveTo(y_position) #@Undefinedvariable
-        sleep(2)
-        print(x_position, z_position, y_position)
         
-        #x_start = x_position - 0.5*x_range
-        #x_end   = x_position + 0.5*x_range     
-        #y_start = y_position - 0.5*y_range
-        #y_end   = y_position + 0.5*y_range
+        scan_name = "Tomography_scan_{0}_of_{1}".format(index+1, len(rotations))
+        print("{0} = {1}".format(scan_name, scanRequest))
         
-        # processing request
-        processingRequest = scanRequest.getProcessingRequest()
-        request = processingRequest.getRequest()
-        if request.keys(): 
-            print ("It contains post processing requests")
-            proc_requests = [(key, value) for key, value in zip(request.keys(), request.values())]
-            try:
-                mscan(path=[grid(axes=('SampleX', 'SampleY'), start=(x_start, y_start), stop=(x_end, y_end), step=(x_step, y_step), alternating=False, continuous=True, verticalOrientation=False, roi=[rect(origin=(x_start, y_start), size=(x_range, y_range))])], monitorsPerScan=['beam'], det=[detector(detector_name, exposure_time)],proc=proc_requests)
-            except InterruptedException as e:
-                print(e)
-                print("Stopping script")
-                break
-            except JavaException as e:
-                print(e)
-                print("Scan failed but will try to continue rest of angles")    
-        else:
-            print("It does not contain post processing request")
-            try:
-                mscan(path=[grid(axes=('SampleX', 'SampleY'), start=(x_start, y_start), stop=(x_end, y_end), step=(x_step, y_step), alternating=False, continuous=True, verticalOrientation=False, roi=[rect(origin=(x_start, y_start), size=(x_range, y_range))])], monitorsPerScan=['beam'], det=[detector(detector_name, exposure_time)],proc=[])
-            except InterruptedException as e:
-                    print(e)
-                    print("Stopping script")
-                    break
-            except JavaException as e:
-                print(e)
-                print("Scan failed but will try to continue rest of angles")
-                
-            sleep(5)
+        try:
+            submit(scanRequest, block=True, name=scan_name)
+        except InterruptedException as e:
+            print(e)
+            print("Stopping script")
+            break
+        except JavaException as e:
+            print(e)
+            print("Problem with the scan?")
+            #if "Error from Malcolm" in e.toString():
+            #    print("Error in Malcolm")
+            #    print("Waiting")
+            #    sleep(15)
+        sleep(5)
         
         
         
         
         
         
-        
+    
