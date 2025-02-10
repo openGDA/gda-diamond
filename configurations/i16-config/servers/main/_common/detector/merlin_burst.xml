@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- NXDetectors -->
+
+	<!--  burst mode configuration -->
+	<bean id="merlinMultipleCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="1" /> <!-- multiple image mode -->
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="restoreAcquirePeriod" value="true" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.002" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="triggerMode" value="0" /> <!-- Auto trigger mode -->
+								<property name="decoratee">
+									<bean id="softstatrstop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="merlin_adbase" />
+										<property name="restoreAcquireState" value="true" />
+										<property name="stopAquiringInPreparation" value="true" />
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- detector 'merlin_burst' write HDF file -->
+	<bean id="merlinHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="merlin_ndfile_hdf5"/>
+		<property name="fileNameTemplate" value="$scan$-merlin"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="false" />
+	</bean>
+
+	<bean id="merlin_burst" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_burst" />
+		<property name="collectionStrategy" ref="merlinMultipleCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_RoiStats1" />
+				<ref bean="merlin_RoiStats2" />
+				<ref bean="merlin_RoiStats3" />
+				<ref bean="merlin_RoiStats4" />
+				<ref bean="merlinHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

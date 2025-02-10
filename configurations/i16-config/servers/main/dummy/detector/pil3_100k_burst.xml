@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="pil3_100k_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/pil3_100kRoi" />
+		<property name="service" ref="pil3_100k_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View -->
+	<bean id="pil3_100k_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pil3_100k_RoiStats1" />
+		<property name="baseRoiPVName" value="#{ADSIM_HOST}-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ADSIM_HOST}-AD-SIM-01:STAT1:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pil3_100k_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="pil3_100k_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pil3_100k_RoiStats2" />
+		<property name="baseRoiPVName" value="#{ADSIM_HOST}-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ADSIM_HOST}-AD-SIM-01:STAT2:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pil3_100k_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="pil3_100k_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pil3_100k_RoiStats3" />
+		<property name="baseRoiPVName" value="#{ADSIM_HOST}-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ADSIM_HOST}-AD-SIM-01:STAT3:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pil3_100k_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pil3_100k_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pil3_100k_RoiStats4" />
+		<property name="baseRoiPVName" value="#{ADSIM_HOST}-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ADSIM_HOST}-AD-SIM-01:STAT4:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="pil3_100k_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+	</bean>
+
+
+</beans>

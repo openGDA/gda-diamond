@@ -49,7 +49,9 @@
 	<import resource="detector/vortex.xml" />
 <!-- 	<import resource="detector/pilatus100k.xml" /> -->
 	<import resource="detector/pilatus3_100k.xml" />
-<!-- 	<import resource="detector/pilatus2M.xml" /> -->
+	<import resource="detector/pil3_100k_burst.xml"/>
+	<import resource="detector/pilatus2M.xml" />
+	<import resource="detector/pilatus2_burst.xml"/>
 <!-- 	<import resource="detector/andor1.xml" /> -->
 	<import resource="detector/bpm1.xml" />
 	<import resource="detector/cam1.xml" />
@@ -66,6 +68,7 @@
 	
 <!-- 	<import resource="detector/medipix.xml" /> -->
 	<import resource="detector/merlin.xml" />
+	<import resource="detector/merlin_burst.xml" />
 	<import resource="detector/c10.xml" />
 	<import resource="detector/xeye.xml" />
 <!-- 	<import resource="detector/zebra_smargon.xml" /> -->

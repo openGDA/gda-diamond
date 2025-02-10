@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="merlin_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/merlinRoi" />
+		<property name="service" ref="merlin_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View -->
+	<bean id="merlin_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="merlin_RoiStats1" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI1:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT1:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="merlin_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="merlin_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="merlin_RoiStats2" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI2:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT2:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="merlin_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="merlin_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="merlin_RoiStats3" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI3:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT3:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="merlin_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="merlin_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="merlin_RoiStats4" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI4:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT4:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="merlin_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+	</bean>
+</beans>
