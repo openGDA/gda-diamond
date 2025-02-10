@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline I16" uid="uk.ac.gda.beamline.i16.live.product" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="9.37.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="Diamond Light Source Beamline I16" uid="uk.ac.gda.beamline.i16.live.product" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="9.37.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -14,6 +14,7 @@
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dgda.config=${project_loc:i16-config}
+-Declipse.pluginCustomization=${project_loc:i16-config}/clients/main/_common/pluginCustomization.ini
 -Xms256m
 -Xmx4096m
 -XX:+DisableExplicitGC

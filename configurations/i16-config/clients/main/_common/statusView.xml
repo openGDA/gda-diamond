@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="ab0" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="frontend" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="opticsshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Synoptics" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Shutters" />
+					<property name="columns" value="5" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="Port" />
+								<property name="controlPermitted" value="false" />
+								<property name="shutter" ref="portshutter" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="Absorber" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="ab0" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+								<property name="label" value="Permit" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="frontend" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="OH" />
+								<property name="controlPermitted" value="false" />
+								<property name="shutter" ref="opticsshutter" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="EH" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="ehshutter" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Status" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
+								<property name="label" value="Baton" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Machine" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ringEnergy" />
+								<property name="label" value="Energy" />
+								<property name="units" value="GeV" />
+								<property name="decimalPlaces" value="2" />
+								<property name="preferredWidth" value="52" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ringCurrent" />
+								<property name="label" value="Current" />
+								<property name="units" value="mA" />
+								<property name="decimalPlaces" value="2" />
+								<property name="preferredWidth" value="52" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="idGap" />
+								<property name="label" value="ID Gap" />
+								<property name="units" value="mm" />
+								<property name="decimalPlaces" value="4" />
+								<property name="preferredWidth" value="59" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="timeToRefill" />
+								<property name="label" value="Top Up" />
+								<property name="units" value="s" />
+								<property name="decimalPlaces" value="0" />
+								<property name="preferredWidth" value="50" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

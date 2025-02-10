@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="merlin_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}merlinRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<import resource="../_common/merlin_live_controls.xml" />
+	<bean id="merlin" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="merlin" />
+		<property name="url" value="http://i16-detector01.diamond.ac.uk:8081/mpx2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-DET-13:ARR" />
+		<property name="roiProvider" ref="merlin_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="liveControls">
+					<list>
+						<ref bean="merlin_expsure_time_control" />
+						<ref bean="merlin_acquire_period_control" />
+					</list>
+				</property>
+				<property name="cameraState">
+					<bean class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+						<property name="cameraConfig" ref="merlin" />
+						<property name="stateVariableName" value="i16.merlin.live.stream.active" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>

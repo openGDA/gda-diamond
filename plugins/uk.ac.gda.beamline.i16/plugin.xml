@@ -40,6 +40,207 @@
             </command>
          </menu>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i16.pil3_100k.live.stream.view.LiveStreamView?before=uk.ac.gda.client.live.stream.view.reset ">
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pil3_100k.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Star camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pil3_100k.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pil3_100k.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i16.pil3_100k.live.stream.view.LiveStreamView">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i16.merlin.live.stream.view.LiveStreamView?before=uk.ac.gda.client.live.stream.view.reset">
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.merlin.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Star camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.merlin.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.merlin.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i16.merlin.live.stream.view.LiveStreamView">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i16.pilatus2.live.stream.view.LiveStreamView?before=uk.ac.gda.client.live.stream.view.reset">
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pilatus2.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Star camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pilatus2.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i16.pilatus2.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i16.pilatus2.live.stream.view.LiveStreamView">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -48,6 +249,12 @@
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
             id="uk.ac.gda.beamline.I16ScanPerspective"
             name="I16 Scan Perspective">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.i16.perspectives.AreaDetectorPerspective"
+            icon="icons/areadetector.png"
+            id="uk.ac.gda.beamline.i16.perspectives.areadetector"
+            name="Area Detector">
       </perspective>
    </extension>
    <extension point="org.eclipse.ui.perspectiveExtensions">
@@ -181,6 +388,32 @@
             name="Scan Queue View"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i16.pil3_100k.live.stream.view.LiveStreamView"
+            name="pil3_100k"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:statusView"
+            icon="icons/Status.png"
+            id="uk.ac.gda.beamline.i16.statusView"
+            name="Beamline Status"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i16.merlin.live.stream.view.LiveStreamView"
+            name="merlin"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i16.pilatus2.live.stream.view.LiveStreamView"
+            name="pilatus2"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="uk.ac.gda.client.dashboard.objects">
@@ -190,6 +423,24 @@
       <Scannable
             name="ic1">
       </Scannable>
+   </extension>
+   <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+         <variable
+               name="i16.pil3_100k.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+         <variable
+               name="i16.merlin.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+         <variable
+               name="i16.pilatus2.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
    </extension>
 </plugin>
 

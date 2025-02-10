@@ -42,6 +42,7 @@
 
 	<import resource="monitor/currentamps.xml" />
 	<import resource="monitor/machine.xml" />
+	<import resource="monitor/FrontEnd.xml" />
 	<import resource="monitor/sixc.xml" />
 	<import resource="monitor/user.xml" />
 

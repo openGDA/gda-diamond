@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- FrontEnd Aperture -->
+
+	<bean id="feapx_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="FE16I-AL-APTR-02:X" />
+	</bean>
+
+	<bean id="feapy_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="FE16I-AL-APTR-02:Y" />
+	</bean>
+	
+	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE16I-CS-BEAM-01:BLCON"/>
+		<property name="statusPv" value="FE16I-CS-BEAM-01:STA"/>
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+
+	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE16I-RS-ABSB-01:BLCON"/>
+		<property name="statusPv" value="FE16I-RS-ABSB-01:STA"/>
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutterMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE16I-PS-SHTR-01:STA" />
+	</bean>
+	<!-- port shutter for synoptic status view -->
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE16I-PS-SHTR-01:CON" />
+		<property name="statusPv" value="FE16I-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	<bean id="opticsshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE16I-PS-SHTR-02:CON" />
+		<property name="statusPv" value="FE16I-PS-SHTR-02:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+</beans>
