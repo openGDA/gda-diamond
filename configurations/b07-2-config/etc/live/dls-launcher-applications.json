@@ -1,0 +1,55 @@
+[
+	{
+			"type": "group",
+			"children": [
+				{
+						"type": "button",
+						"text": "Start GDA Client",
+						"args": "client",
+						"command": "/dls_sw/apps/gda_launcher/stable/gda",
+						"icon": "cgda.png"
+				},
+				{
+						"type": "button",
+						"text": "Start GDA Client (Reset workspace)",
+						"args": "client --reset",
+						"command": "/dls_sw/apps/gda_launcher/stable/gda",
+						"icon": "cgda.png"
+				},
+				{
+						"type": "button",
+						"text": "Start GDA Server",
+						"args": "server",
+						"command": "/dls_sw/apps/gda_launcher/stable/gda",
+						"icon": "sgda.png"
+				},
+				{
+						"type": "button",
+						"text": "Start GDA Log Panel",
+						"args": " ",
+						"command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
+						"icon": "lgda.png"
+				},
+				{
+						"type": "button",
+						"text": "Start Dawn",
+						"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+						"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+				},
+				{
+						"type": "button",
+						"text": "Start Dawn (Reset Workspace)",
+						"args": "--reset",
+						"command": "/dls_sw/apps/DawnDiamond/bin/dawn_release.sh",
+						"icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png"
+				},
+				{
+						"type": "button",
+						"text": "SPECS Analyser PC",
+						"command": "/usr/bin/xfreerdp -sec-nla /cert:ignore +fonts +window-drag /monitors:2 /size:1900x1100 /d:diamond /u:b07detector /p:!b07d3t3ct0r# /v:b07-uhv150.dc.diamond.ac.uk",
+						"icon": "/dls_sw/b07/etc/preferences-desktop-remote-desktop.png"
+				}
+			],
+		"name": "Data Acquisition"
+	}
+]

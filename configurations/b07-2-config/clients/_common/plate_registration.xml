@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="holder_serial_numbers" class="uk.ac.diamond.daq.sample.plate.management.ui.configurables.HolderSerialNumberList">
+		<property name="holderSerialNumberList">
+			<list>
+				<value>UHV10102</value>
+				<value>UHV10101</value>
+				<value>UHV10013</value>
+				<value>MUL10005</value>
+				<value>TES10092</value>
+				<value>TES10034</value>
+				<value>NAP10005</value>
+				<value>NAP10006</value>
+				<value>NAP10013</value>
+				<value>NAP10021</value>
+				<value>NAP10022</value>
+				<value>NAP10029</value>
+				<value>NAP10030</value>
+				<value>NAP10035</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Size and centre motors -->
+	<bean id="s4b_xgap_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s4b_xsize_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s4b_ygap_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s4b_ysize_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s4b_z_motor" class="gda.device.motor.DummyMotor"/>
+
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="basePv" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="TEST-SPECS-01"/>
+	</bean>
+
+	<bean id="pv_provider" class="uk.ac.diamond.daq.devices.specs.phoibos.api.AnalyserPVProvider">
+		<property name="name" value="pv_provider"/>
+		<property name="spectrumPV" value="#{basePv}:INT_SPECTRUM" />
+		<property name="imagePV" value="#{basePv}:IMAGE" />
+		<property name="totalPointsIterationPV" value="#{basePv}:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="currentPointIterationPV" value="#{basePv}:CURRENT_POINT_RBV" />
+		<property name="totalPointsPV" value="#{basePv}:TOTAL_POINTS_RBV" />
+		<property name="currentChannelPV" value="#{basePv}:CURRENT_CHANNEL_RBV" />
+		<property name="slicesPV" value="#{basePv}:SLICES_RBV" />
+		<property name="yStartPV" value="#{basePv}:Y_MIN_RBV" />
+		<property name="yEndPV" value="#{basePv}:Y_MAX_RBV" />
+		<property name="yUnitsPV" value="#{basePv}:Y_UNITS_RBV" />
+		<property name="photonEnergy" ref="pgm_energy" />
+		<property name="lowEnergyPV" value="#{basePv}:LOW_ENERGY_RBV" />
+		<property name="highEnergyPV" value="#{basePv}:HIGH_ENERGY_RBV" />
+		<property name="workFunction" value="0.0" />
+		<property name="imageDataNeeded" value="false" />
+		<property name="acquisitionModePV" value="#{basePv}:ACQ_MODE" />
+	</bean>
+</beans>

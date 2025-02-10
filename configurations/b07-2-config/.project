@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>b07-2-config</name>
+	<comment></comment>
+	<projects>
+		<project>uk.ac.diamond.daq.devices.specs.phoibos</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.epics</project>
+		<project>dls-config</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.python.pydev.pythonNature</nature>
+	</natures>
+</projectDescription>

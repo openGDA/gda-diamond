@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--
+	 Define some fast-changing live control beans on a client side.
+	 Otherwise every time it changes - flow of events from server to client can overload ActiveMQ.
+	 We also need to make similar beans on a server side such that users can use them in scripts
+	 or Jython command line.
+	-->
+
+	<!-- Note there is a duplicate bean id="ca16b_adc_output" on server side -->
+    <bean id="ca16b_adc_output_client" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="-1.0" />
+		<property name="upperLimit" value="1.0" />
+		<property name="increment" value="-1.0e-3" />
+	</bean>
+
+	<!-- Note there is a duplicate bean id="ca35b_adc_output" on server side -->
+	<bean id="ca35b_adc_output_client" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="-1.0" />
+		<property name="upperLimit" value="1.0" />
+		<property name="increment" value="-1.0e-3" />
+	</bean>
+
+	<!-- Note there is a duplicate bean id="ca36b_adc_output" on server side -->
+	<bean id="ca36b_adc_output_client" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="-1.0" />
+		<property name="upperLimit" value="1.0" />
+		<property name="increment" value="1.0e-3" />
+	</bean>
+</beans>

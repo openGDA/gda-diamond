@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d7b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d7b_y" />
+				<ref bean="d7b_y_positioner"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d7b_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d7b_y_motor" />
+	</bean>
+
+</beans>
