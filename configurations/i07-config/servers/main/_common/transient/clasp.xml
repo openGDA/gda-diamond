@@ -33,12 +33,12 @@
 	</bean>
 
 	<bean id="claspxplus" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="claspyplus" />
+		<property name="name" value="claspxplus" />
 		<property name="motor" ref="s20_motor_xplus" />
 	</bean>
 
 	<bean id="claspxminus" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="claspyminus" />
+		<property name="name" value="claspxminus" />
 		<property name="motor" ref="s20_motor_xminus" />
 	</bean>
 
