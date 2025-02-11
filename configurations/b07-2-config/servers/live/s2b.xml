@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Size and centre motors -->
+	<bean id="s2b_xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:XCENTRE" />
+	</bean>
+
+	<bean id="s2b_xsize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:XSIZE" />
+	</bean>
+
+	<bean id="s2b_ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:YCENTRE" />
+	</bean>
+
+	<bean id="s2b_ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:YSIZE" />
+	</bean>
+
+	<!-- Individual blade motors -->
+	<bean id="s2b_xring_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:XRING" />
+	</bean>
+
+	<bean id="s2b_xhall_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:XHALL" />
+	</bean>
+
+	<bean id="s2b_ytop_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:YPLUS" />
+	</bean>
+
+	<bean id="s2b_ybottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-AL-SLITS-02:YMINUS" />
+	</bean>
+
+</beans>

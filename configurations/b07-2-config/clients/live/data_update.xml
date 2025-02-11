@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pv_provider" class="uk.ac.diamond.daq.devices.specs.phoibos.api.AnalyserPVProvider">
+		<property name="name" value="pv_provider"/>
+		<property name="spectrumPV" value="BL07B-EA-DET-01:CAM:INT_SPECTRUM" />
+		<property name="imagePV" value="BL07B-EA-DET-01:CAM:IMAGE" />
+		<property name="totalPointsIterationPV" value="BL07B-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="currentPointIterationPV" value="BL07B-EA-DET-01:CAM:CURRENT_POINT_RBV" />
+		<property name="totalPointsPV" value="BL07B-EA-DET-01:CAM:TOTAL_POINTS_RBV" />
+		<property name="currentChannelPV" value="BL07B-EA-DET-01:CAM:CURRENT_CHANNEL_RBV" />
+		<property name="slicesPV" value="BL07B-EA-DET-01:CAM:SLICES_RBV" />
+		<property name="yStartPV" value="BL07B-EA-DET-01:CAM:Y_MIN_RBV" />
+		<property name="yEndPV" value="BL07B-EA-DET-01:CAM:Y_MAX_RBV" />
+		<property name="yUnitsPV" value="BL07B-EA-DET-01:CAM:Y_UNITS_RBV" />
+		<property name="photonEnergy" ref="pgm_energy" />
+		<property name="lowEnergyPV" value="BL07B-EA-DET-01:CAM:LOW_ENERGY_RBV" />
+		<property name="highEnergyPV" value="BL07B-EA-DET-01:CAM:HIGH_ENERGY_RBV" />
+		<property name="workFunction" value="0.0" />
+		<property name="imageDataNeeded" value="false" />
+		<property name="acquisitionModePV" value="BL07B-EA-DET-01:CAM:ACQ_MODE" />
+	</bean>
+
+
+</beans>

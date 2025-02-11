@@ -86,6 +86,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </modules>
     </profile>
     <profile>
+      <id>b07-2</id>
+      <modules>
+        <module>features/uk.ac.gda.beamline.b07_2.feature</module>
+        <module>products/uk.ac.gda.beamline.b07-2.product</module>
+      </modules>
+    </profile>
+    <profile>
       <id>b07-1</id>
       <modules>
         <module>features/uk.ac.gda.beamline.b07_1.feature</module>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Cameras -->
+	<import resource="es2b_cam1.xml"/>
+	<import resource="es2b_cam2.xml"/>
+	<import resource="es1b_cam1.xml"/>
+	<import resource="es1b_cam2.xml"/>
+	<import resource="es1b_cam3.xml"/>
+	<import resource="es1b_cam4.xml"/>
+
+</beans>

@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="_es2_temp_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="30.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es2_temp_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+	<bean id="_es2_temp_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="lowerLimit" value="30.0" />
+		<property name="upperLimit" value="100.0" />
+		<property name="increment" value="1.0e-1" />
+	</bean>
+
+</beans>

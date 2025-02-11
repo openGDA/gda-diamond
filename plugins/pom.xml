@@ -31,6 +31,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <module>uk.ac.diamond.daq.beamline.p99</module>
     <module>uk.ac.gda.beamline.b07</module>
     <module>uk.ac.gda.beamline.b07-1</module>
+    <module>uk.ac.gda.beamline.b07-2</module>
     <module>uk.ac.gda.beamline.b16</module>
     <module>uk.ac.gda.beamline.b18</module>
     <module>uk.ac.gda.beamline.b18.server</module>
