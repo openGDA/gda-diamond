@@ -9,5 +9,5 @@
   <requirement
       name="dls-config"/>
   <requirement
-      name="uk.ac.gda.beamline.b07-2.feature.feature.group"/>
+      name="uk.ac.gda.beamline.b07_2.feature.feature.group"/>
 </targlets:ComponentDefinition>
