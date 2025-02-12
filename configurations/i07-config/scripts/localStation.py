@@ -183,3 +183,7 @@ if isLive() :
 	run "reset_symetrie.py"
 	# add transmissions command
 	run "transmissions.py"
+
+from BeamlineI07.devices.IviumDevice import IviumMethodScannableClass
+ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-01", 1, subdir = "processing")
+
