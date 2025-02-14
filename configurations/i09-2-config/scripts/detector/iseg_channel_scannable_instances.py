@@ -72,8 +72,8 @@ m6c5 = ISegChannelControlScannable("m6c5", 6, 5, pv_root = ISEG_DEVICE_PV, toler
 m6c6 = ISegChannelControlScannable("m6c6", 6, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c6.configure()
 m6c7 = ISegChannelControlScannable("m6c7", 6, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m6c7.configure()
 
-m7c0 = ISegChannelControlScannable("m7c0", 7, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c0.configure()
-m7c1 = ISegChannelControlScannable("m7c1", 7, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c1.configure()
+m7c0 = ISegChannelControlScannable("m7c0", 7, 0, pv_root = ISEG_DEVICE_PV, tolerance = 1.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c0.configure()
+m7c1 = ISegChannelControlScannable("m7c1", 7, 1, pv_root = ISEG_DEVICE_PV, tolerance = 1.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c1.configure()
 m7c2 = ISegChannelControlScannable("m7c2", 7, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c2.configure()
 m7c3 = ISegChannelControlScannable("m7c3", 7, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c3.configure()
 m7c4 = ISegChannelControlScannable("m7c4", 7, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m7c4.configure()
@@ -85,17 +85,14 @@ m8c0 = ISegChannelControlScannable("m8c0", 8, 0, pv_root = ISEG_DEVICE_PV, toler
 m8c1 = ISegChannelControlScannable("m8c1", 8, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c1.configure()
 m8c2 = ISegChannelControlScannable("m8c2", 8, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c2.configure()
 m8c3 = ISegChannelControlScannable("m8c3", 8, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c3.configure()
-m8c4 = ISegChannelControlScannable("m8c4", 8, 4, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c4.configure()
-m8c5 = ISegChannelControlScannable("m8c5", 8, 5, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c5.configure()
-m8c6 = ISegChannelControlScannable("m8c6", 8, 6, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c6.configure()
-m8c7 = ISegChannelControlScannable("m8c7", 8, 7, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c7.configure()
 
-hda_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
-main_lenses_group = [m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1]
+hda_group = [m0c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
+main_lenses_group = [m1c0, m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m6c0]
 stig_group = [m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7]
-downstream_group = [m1c1, m1c2, m1c3, m1c4, m1c7]
-HDA_PEEM_group = [m1c0, m0c2, m0c3, m0c5, m0c6, m1c7]
-MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7,m1c1, m1c2, m1c3, m1c4, m1c6, m1c7, m6c1, m6c2, m6c3, m6c4]
+downstream_group = [m0c1, m6c1, m6c2, m6c3, m5c4]
+HDA_PEEM_group = [m0c0, m0c2, m0c3, m0c5, m0c6]
+#MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7, m7c1, m7c2, m7c3, m7c4, m6c2, m6c3, m6c4] ## , m1c7
+MM_group = [m0c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7, m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7, m1c0, m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m6c0, m6c1, m6c2, m6c3, m5c4, m6c5, m6c6,m6c7] ## , m1c7
 
 hda = ISegGroup("hda", hda_group)
 mainlenses = ISegGroup("mainlenses", main_lenses_group)
@@ -106,48 +103,49 @@ MM = ISegGroup("MM", MM_group)
 
 
 def hda_on(group=hda_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def hda_off(group=hda_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 alias("hda_on")
 alias("hda_off")
 
 def mainlenses_on(group = main_lenses_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def mainlenses_off(group = main_lenses_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 alias("mainlenses_on")
 alias("mainlenses_off")
-    
+
 def stig_on(group = stig_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def stig_off(group = stig_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 alias("stig_on")
 alias("stig_off")
-    
+
 def downstream_on(group = downstream_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def downstream_off(group = downstream_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 alias("downstream_on")
 alias("downstream_off")
 
 def hda_peem_on(group=HDA_PEEM_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def hda_peem_off(group=HDA_PEEM_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 def hda_peem_set(voltage, group=HDA_PEEM_group):
-    [each.rawAsynchronousMoveTo(voltage) for each in group]
+		[each.rawAsynchronousMoveTo(voltage) for each in group]
 alias("hda_peem_on")
 alias("hda_peem_off")
 
 def MM_on(group=MM_group):
-    [each.on() for each in group]
+		[each.on() for each in group]
 def MM_off(group=MM_group):
-    [each.off() for each in group]
+		[each.off() for each in group]
 alias("MM_on")
 alias("MM_off")
 
 
 print("iSeg scannable initialisation completed!")
+print

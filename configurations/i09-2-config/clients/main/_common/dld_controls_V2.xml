@@ -14,7 +14,7 @@
 		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
-	
+
 	<bean id="dld_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period " />
 		<property name="group" value="DLD" />
@@ -22,7 +22,7 @@
 		<property name="textWidth" value="85"/>
 		<property name="userUnits" value="s" />
 	</bean>
-	
+
 	<bean id="dld_state_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="State" />
 		<property name="group" value="DLD" />
@@ -37,7 +37,7 @@
 		<property name="textWidth" value="51"/>
 		<property name="userUnits" value="ns" />
 	</bean>
-	
+
 	<bean id="dld_time_length_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="length " />
 		<property name="group" value="DLD" />
@@ -52,20 +52,20 @@
 		<property name="scannableName" value="numFilter"/>
 		<property name="textWidth" value="85"/>
 	</bean>
-	
+
 	<bean id="dld_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Frames acquired" />
 		<property name="group" value="DLD" />
 		<property name="scannableName" value="numFilter_monitor"/>
 		<property name="textWidth" value="51"/>
 	</bean>
-	
+
 	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="clear_summed_data()" />
+		<property name="command" value="clear_summed_data_separate()" />
 		<property name="buttonText" value="Clear Summed Data" />
 		<property name="group" value="DLD" />
 		<property name="buttonTooltip" value="Clear summed data"/>
-	</bean>	
+	</bean>
 
 	<bean id="count_rate" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
 		<property name="displayName" value="Intensity (cps)" />
@@ -94,7 +94,7 @@
 		<property name="aboveThresholdColour" value="3"/>
 		<property name="rescalingFont" value="false"/>
 	</bean>
-	
+
 	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
