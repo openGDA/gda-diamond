@@ -179,6 +179,8 @@ class AdOAVCam(NcdSubDetector):
         self._setDimensions(info)
 
         caput(self.acquireImageCount, caget("BL22I-DI-OAV-01:HDF5:NumCapture_RBV"))#set camera frame count
+
+        caput(self.acquireImageCount, caget("BL22I-DI-OAV-01:HDF5:NumCapture_RBV"))#set camera frame count
         caput(self.hdfCaptureMode,2) #set camera capture mode to stream
         caput(self.hdfStartAcquire, 1) #set hdf5 to acquire
         caput(self.acquirePV, 1)#set camera to acquire
@@ -257,6 +259,7 @@ class AdOAVCam(NcdSubDetector):
 
     def __eq__(self, other):
         return self.getDetector() == other.getDetector()
+
 
 if __name__ == "__main__":
     pass
