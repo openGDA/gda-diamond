@@ -3,113 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
-	<bean id="dcmMonochromatorNexusDevice" class="org.eclipse.scanning.device.MonochromatorNexusDevice" init-method="register">
-		<property name="name" value="dcm" />
-		<property name="customNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmenergy"/>
-					<property name="scannableName" value="dcmenergy"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmbragg"/>
-					<property name="scannableName" value="dcmbragg"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmfpitch"/>
-					<property name="scannableName" value="dcmfpitch"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmfpitchfeedback"/>
-					<property name="scannableName" value="dcmfpitchfeedback"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmfroll"/>
-					<property name="scannableName" value="dcmfroll"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmfrollfeedback"/>
-					<property name="scannableName" value="dcmfrollfeedback"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmlambda"/>
-					<property name="scannableName" value="dcmlambda"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmlockbeamheight"/>
-					<property name="scannableName" value="dcmlockbeamheight"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmoffset"/>
-					<property name="scannableName" value="dcmoffset"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmorder"/>
-					<property name="scannableName" value="dcmorder"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmpitch"/>
-					<property name="scannableName" value="dcmpitch"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmroll"/>
-					<property name="scannableName" value="dcmroll"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp1"/>
-					<property name="scannableName" value="dcmtemp1"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp2"/>
-					<property name="scannableName" value="dcmtemp2"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp3"/>
-					<property name="scannableName" value="dcmtemp3"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp4"/>
-					<property name="scannableName" value="dcmtemp4"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp5"/>
-					<property name="scannableName" value="dcmtemp5"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp6"/>
-					<property name="scannableName" value="dcmtemp6"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp7"/>
-					<property name="scannableName" value="dcmtemp7"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmtemp8"/>
-					<property name="scannableName" value="dcmtemp8"/>
-				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="dcmy"/>
-					<property name="scannableName" value="dcmy"/>
-				</bean>
-			</list>
-		</property>
+	<bean id="dcmNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="dcm" />
+		<property name="nexusClass" value="NXmonochromator" />
 	</bean>
 
-	<!-- Used for NexusScanDataWriter to write to new nexus standard -->
-	<bean id="iidNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
-		<property name="name" value="iid" />
-		<property name="type" value="undulator" />
-		<property name="gapScannableName" value="igap" />
-		<property name="customNodes">
-			<list>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="iidvelocity"/>
-					<property name="scannableName" value="iidvelocity"/>
-					<property name="failOnError" value="false"/>
-				</bean>
-			</list>
-		</property>
+	<bean id="iidNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="iid" />
+		<property name="nexusClass" value="NXinsertion_device" />
 	</bean>
 
 	<bean id="dcmBeamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">

@@ -15,24 +15,19 @@
 
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
+		<property name="userDeviceName" value="user" />
 
-		<!-- Soft -->
-		<property name="insertionDeviceName" value="jid" />
-		<property name="monochromatorName" value="pgm" />
-		<property name="beamName" value="beam_pgm" />
-
-		<!-- Hard -->
+		<!-- NOTE: I and J branch metadata is added by DynamicScanMetadata class in localstation.py to reduce duplicate configuration -->
 		<property name="additionalDeviceNames">
 			<set>
-				<!--insertionDevice-->
-				<value>iid</value>
-				<!--monochromator-->
-				<value>dcm</value>
-				<!--beam-->
-				<value>beam_dcm</value>
+				<!-- End station -->
+				<value>hm3iamp20</value>
+				<value>hm3iamp20</value>
+				<value>sm5iamp8</value>
+				<value>smpmiamp39</value>
+				<value>smpm</value>
+				<value>lakeshore</value>
 			</set>
 		</property>
-
-		<property name="userDeviceName" value="user" />
 	</bean>
 </beans>

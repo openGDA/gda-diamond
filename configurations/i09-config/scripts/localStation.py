@@ -101,27 +101,49 @@ else:
 print("")
 
 ###############################################################################
-###                        Metadata saved for each scan                     ###
-###############################################################################
-#ToDo - This should be changed to importing meta and this defined in springbeans
-print("-"*100)
-print("Setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
-from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
-import metashop  # @UnusedImport
-print("Can now add meta data items to be captured in data files.")
-imetadata=[igap,dcm,hm1x,hm1y,hm1pitch,hm1yaw,hm2x,hm2y,hm2pitch,hm3x,hm3y,hm3pitch,hm3mainbender,hm3elipticalbender,cccx,cccy] #@UndefinedVariable
-jmetadata=[jgap,polarisation,pgm,sm1fpitch,sm3fpitch,sm4x,sm4y,sm4pitch,sm5pitch,sm5bender1,sm5bender2,ss2ycentre,ss2ygap,ss4] #@UndefinedVariable
-esmetadata=[hm3iamp20,sm5iamp8,hm3iamp20,sm5iamp8,smpmiamp39,smpm,lakeshore] #@UndefinedVariable
-meta_data_list = imetadata + jmetadata + esmetadata
-for each in meta_data_list:
-	meta_add(each)
-print("")
-
-###############################################################################
 ###                       Check condition scannables                        ###
 ###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
 from i09shared.pseudodevices.checkid import checkjid, checkiid # @UnusedImport
+
+###############################################################################
+###                        Metadata saved for each scan                     ###
+###############################################################################
+#Build I-branch metadata list. These objects involved in scan will add I-branch metadata devices to monitor per scan
+from gdaserver import iid, dcm, hm1, hm2, hm3, ccc, dcmenergyEv #@UnresolvedImport
+I_METADATA_SCANNABLES = [iid, dcm, hm1, hm2, hm3, ccc, dcmenergyEv, ienergy_order, ienergy_s, igap_offset, ienergy, ienergy_move_controller, iI0, checkiid]
+I_METADATA_DEVICE_NAMES = ["iid", "dcm", "beam_dcm", "hm1", "hm2", "hm3", "ccc", "ienergy", "ienergy_order", "igap_offset"]
+
+#Build J-branch metadata list. These objects involved in scan will add J-branch metadata devices to monitor per scan
+from gdaserver import jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4 #@UnresolvedImport
+J_METADATA_SCANNABLES = [jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4, jenergy_s, polarisation, jenergypolarisation, jenergy_order, jgap_offset, jenergy, jenergy_move_controller, jI0, sdc, checkjid]
+J_METADATA_DEVICE_NAMES = ["jid", "pgm", "beam_pgm", "sm1", "sm3", "sm4", "sm5", "ss2", "ss4", "jenergy", "polarisation", "jenergy_order", "igap_offset", "jgap_offset"]
+
+from gdaserver import ew4000 #@UnresolvedImport
+
+#Defaults must be set to prevent any warning message
+from org.eclipse.scanning.device import CommonBeamlineDevicesConfiguration #@UnresolvedImport
+CommonBeamlineDevicesConfiguration.getInstance().setInsertionDeviceName(I_METADATA_DEVICE_NAMES[0])
+CommonBeamlineDevicesConfiguration.getInstance().setMonochromatorName(I_METADATA_DEVICE_NAMES[1])
+CommonBeamlineDevicesConfiguration.getInstance().setBeamName(I_METADATA_DEVICE_NAMES[2])
+
+from metadata.dynamic_metadata import DynamicScanMetadata
+dynamic_meta = DynamicScanMetadata(
+	sequence_detector = ew4000,
+	metadata_dict = {
+		"I-branch" : [I_METADATA_SCANNABLES, I_METADATA_DEVICE_NAMES], 
+		"J-branch" : [J_METADATA_SCANNABLES, J_METADATA_DEVICE_NAMES], 
+	}, 
+)
+
+scan.scanListeners = scan.scanListeners + [dynamic_meta]
+mrscan.scanListeners = mrscan.scanListeners + [dynamic_meta]
+
+print("-"*100)
+print("I and J branch metadata is now added dynamically to scan")
+print("")
+
+from gdascripts.metadata.nexus_metadata_class import meta #@UnusedImport
 
 ###############################################################################
 ###                           Create move command                           ###

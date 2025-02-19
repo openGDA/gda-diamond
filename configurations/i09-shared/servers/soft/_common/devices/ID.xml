@@ -23,7 +23,7 @@
 <!-- 		<property name="initialUserUnits" value="mm" /> -->
 <!-- 	</bean> -->
 
-	<bean id="JID" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="jid" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="jidscannable" />

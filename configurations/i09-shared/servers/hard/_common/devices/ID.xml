@@ -10,7 +10,7 @@
 		<property name="lowerGdaLimits" value="5.0" />
 	</bean>
 
-	<bean id="IID" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="iid" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="igap" />
