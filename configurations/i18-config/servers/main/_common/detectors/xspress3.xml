@@ -26,11 +26,12 @@
 		<property name="scalerDataNameFormat" value="scalar_%d" />
 <!-- 		<property name="triggerModeForContinuousScan" value="3" /> -->
 		<property name="twoDHdfData" value="true" />
+		<property name="minFramesBeforeHdfRead" value="50" /> <!-- should be >= chunk size in Odin Hdf writer -->
 	</bean>
 	
 	<bean id="qexafs_FFI0_xspress3Odin"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
 		<property name="qexafsXspress" ref="qexafs_xspress3Odin" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="i0_channel" value="1" />
+		<property name="i0_channel" value="0" />
 	</bean>
 </beans>
