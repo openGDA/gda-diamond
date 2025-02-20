@@ -41,7 +41,9 @@ public class B16ScanPerspective implements IPerspectiveFactory {
 	private static final List<String> PLOT_VIEW_IDS = Arrays.asList(
 			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pil",
 			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:medipix4",
-			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:ipp2",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:fds1",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:fds2",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:zyla",
 			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pcoedge",
 			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pco4000",
 			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:eiger"
