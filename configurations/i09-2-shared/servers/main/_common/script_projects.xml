@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Link path to shared scripts to be used in localstation -->
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/../i09-2-shared/scripts"/>
+		<property name="name" value="Scripts: i09-2-shared"/>
+		<property name="type" value="CONFIG"/>
+	</bean>
+
+</beans>

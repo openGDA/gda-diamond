@@ -30,8 +30,8 @@ class HardEnergy(ScannableMotionBase):
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
         """
-        self.lut = readLookupTable(LocalProperties.get("gda.config.shared")
-                                   + "/lookupTables/hard/" + lut)
+        self.lut = readLookupTable(LocalProperties.get("gda.config")
+                                   + "/../i09-1-shared/lookupTables/" + lut)
         self.gap = "igap"
         self.dcm = "dcmenergy"
         self.lambdau = 27  # undulator period

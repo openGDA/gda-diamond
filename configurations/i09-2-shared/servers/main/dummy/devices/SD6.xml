@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sd6iamp31" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+	<bean id="sd6iamp32" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+	<bean id="sd6y_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<bean id="sd6aposn" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Direct" value="0.0000"/>
+				<entry key="Energy" value="-15.0000"/>
+				<entry key="Photodiode" value="-52.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Direct"/>
+	</bean>
+
+</beans>

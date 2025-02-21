@@ -29,7 +29,7 @@ class HardEnergy(ScannableMotionBase):
         Constructor - Only succeeds if it finds the lookup table,
         otherwise raises exception.
         """
-        self.lut = readLookupTable(LocalProperties.get("gda.config.shared") + "/lookupTables/hard/" + lut)
+        self.lut = readLookupTable(LocalProperties.get("gda.config") + "/../i09-1-shared/lookupTables/" + lut)
         self.gap = idgap
         self.mono_energy = dcmenergy
         self.lambdau = 27  # undulator period
@@ -102,7 +102,7 @@ class HardEnergy(ScannableMotionBase):
     def rawGetPosition(self):
         """Returns the current position of the beam energy."""
         return self.mono_energy.getPosition()
-    
+
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
@@ -116,7 +116,7 @@ class HardEnergy(ScannableMotionBase):
                     raise
             elif scannable.getName() == self.mono_energy.getName():
                 try:
-                    scannable.asynchronousMoveTo(energy) 
+                    scannable.asynchronousMoveTo(energy)
                     sleep(0.1) # Allow time for s to become busy
                 except:
                     print ("cannot set %s to %f" % (scannable.getName(), energy))
@@ -141,7 +141,7 @@ class HardEnergy(ScannableMotionBase):
             raise ValueError(("Requested photon energy {} is out of range for "
                               "harmonic {}: min: {}, max: {}")
                              .format(energy,self.harmonic_order_scannable.getPosition(), min_energy, max_energy))
-            
+
         if self.feedbackPVs is not None and not self.SCANNING:
             caput(self.feedbackPVs[0], 1)
             caput(self.feedbackPVs[1], 1)
@@ -177,6 +177,6 @@ class HardEnergy(ScannableMotionBase):
 
     def atScanStart(self):
         self.SCANNING=True
-             
+
     def atScanEnd(self):
         self.SCANNING=False

@@ -4,7 +4,6 @@ Created on 15 May 2013
 @author: fy65
 '''
 import os
-from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.nxdetector import IAnalyserSequence
 from gda.jython import InterfaceProvider
 from gda.device.scannable import DummyScannable
@@ -18,17 +17,11 @@ zeroScannable = DummyScannable("zeroScannable")
 #Add to namespace so that it is findable during scans which is needed for extra region printing
 InterfaceProvider.getJythonNamespace().placeInJythonNamespace(zeroScannable.getName(), zeroScannable);
 
-print("-"*100)
-print("Installing 'analyserscan' command for the electron analyser.")
-
 def get_sequence_filename(arg):
     filename = arg
     if not os.path.isfile(arg):
         xmldir = InterfaceProvider.getPathConstructor().getVisitSubdirectory('xml') + os.sep;
         filename = os.path.join(xmldir, filename)
-    if (OsUtil.isWindows()):
-        FilenameUtil.setPrefix("D:")
-        filename = FilenameUtil.convertSeparator(filename)
     return filename
 
 def check_needs_zeroscannable(args):
@@ -51,9 +44,9 @@ def check_needs_zeroscannable(args):
 def analyserscan(*args):
     """
     USAGE:
-    analyserscan scannable1 start stop step ... DETECTOR 'filename' [scannable2 [pos] ...]
-    analyserscan scannable1 ([start stop step], ...) ... DETECTOR 'filename' [scannable2 [pos] ...]
-    
+    analyserscan scannable1 start stop step ... detector 'filename' [scannable2 [pos] ...]
+    analyserscan scannable1 ([start stop step], ...) ... detector 'filename' [scannable2 [pos] ...]
+
     Wraps mrscan command but gives sequence file to electron analyser that defines list of regions.
     """
     newargs=[]
@@ -111,18 +104,6 @@ def analyserscan(*args):
 
 from gda.jython.commands.GeneralCommands import alias
 alias("analyserscan")
-
-#Print correct help text by getting correct detector for beamline
-BEAMLINE_TO_DETECTOR = {"i09": "ew4000", "i09-1" : "analyser", "p60" : "r4000"}
-BEAMLINE = LocalProperties.get("gda.beamline.name")
-from gda.factory import Finder
-DETECTOR = Finder.find(BEAMLINE_TO_DETECTOR[LocalProperties.get("gda.beamline.name")])
-if DETECTOR == None:
-    raise RuntimeError("{} does not support analyserscan.".format(BEAMLINE))
-DETECTOR_DOC_STR = DETECTOR.getName()
-
-analyserscan.__doc__ = analyserscan.__doc__.replace("DETECTOR", DETECTOR_DOC_STR)
-print(analyserscan.__doc__)
 
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""

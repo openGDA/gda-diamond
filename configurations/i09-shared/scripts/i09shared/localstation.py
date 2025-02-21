@@ -1,9 +1,9 @@
 import math #@UnusedImport
-from gda.configuration.properties import LocalProperties
-from gda.jython.commands import GeneralCommands
-from gda.factory import Finder #@UnusedImport
-from gda.jython.commands.GeneralCommands import vararg_alias, alias #@UnusedImport
-from gda.device.scannable.scannablegroup import ScannableGroup #@UnusedImport
+from gda.configuration.properties import LocalProperties #@UnresolvedImport
+from gda.jython.commands import GeneralCommands #@UnresolvedImport
+from gda.factory import Finder #@UnusedImport @UnresolvedImport
+from gda.jython.commands.GeneralCommands import vararg_alias, alias #@UnusedImport @UnresolvedImport
+from gda.device.scannable.scannablegroup import ScannableGroup #@UnusedImport @UnresolvedImport
 
 print(""*100);
 print "Performing general initialisation code for i09-shared.";

@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>i09-shared</project>
+		<project>i09-1-shared</project>
+		<project>i09-2-shared</project>
 		<project>org.opengda.detector.electronanalyser</project>
 		<project>org.opengda.detector.electronanalyser.client</project>
 		<project>org.opengda.detector.electronanalyser.server</project>

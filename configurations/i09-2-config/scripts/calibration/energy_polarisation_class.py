@@ -46,7 +46,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
     def __init__(self, name, idctrl, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=False, polarisationConstant=False):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
-        self.lut=loadLookupTable(LocalProperties.get("gda.config.shared")+"/lookupTables/soft/"+lut)
+        self.lut=loadLookupTable(LocalProperties.get("gda.config") + "/../i09-2-shared/lookupTables/"+lut)
         self.idscannable=idctrl
         self.pgmenergy=pgmenergy
         self.scannables=ScannableGroup(name, [pgmenergy, idctrl])
@@ -202,13 +202,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 else:
                     self.logger.error("Two arguments given and second argument {} is not a string".format(args[1]))
                     raise ValueError("2nd input  for polarisation must be a string")
-                
+
             if self.polarisationConstant:
                 self.logger.debug("Polarisation is constant, getting gap and phase with energy {} and mode {}".format(energy, newPolarisationMode))
                 gap, phase = self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order)
             elif self.energyConstant:
                 self.logger.debug("Energy is constant, getting gap and phase with energy {} and mode {}".format(energy, newPolarisationMode))
-                gap, phase = self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order) 
+                gap, phase = self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order)
             else:
                 gap, phase=self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order)
         except:

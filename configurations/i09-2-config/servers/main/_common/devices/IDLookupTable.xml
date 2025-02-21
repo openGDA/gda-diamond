@@ -5,6 +5,6 @@
 
 	<bean id="idtable" class="gda.function.lookup.LookupTable">
 		<property name="filename" value="JIDCalibrationTable.txt" />
-		<property name="dirLUT" value="${gda.config.shared}/lookupTable/soft" />
+		<property name="dirLUT" value="${gda.config}/../i09-2-shared/lookupTable" />
 	</bean>
 </beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<targlets:ComponentDefinition
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:targlets="http://www.eclipse.org/oomph/targlets/1.0"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Targlets.ecore"
+    id="i09-2-shared">
+  <requirement
+      name="i09-shared"/>
+  <requirement
+      name="dls-config"/>
+</targlets:ComponentDefinition>

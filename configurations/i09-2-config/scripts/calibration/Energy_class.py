@@ -11,16 +11,16 @@ from gdascripts.utils import caput
 
 class BeamEnergy(ScannableMotionBase):
     '''Create beam energy scannable that encapsulates and fan-outs control to ID gap and DCM energy.
-    
-        This pseudo device requies a lookup table object to provide ID parameters for calculation of ID gap from beam 
+
+        This pseudo device requies a lookup table object to provide ID parameters for calculation of ID gap from beam
         energy required and harmonic order. The lookup table object must be created before the instance creation of this class.
-        The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class 
+        The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class
         instance.
         The lookup Table object is described by gda.function.LookupTable class.'''
-        
+
     def __init__(self, name, gap="jgap", dcm="pgmenergy", undulatorperiod=27, lut="JIDCalibrationTable.txt"):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
-        self.lut=readLookupTable(LocalProperties.get("gda.config.shared")+"/lookupTables/soft/"+lut)
+        self.lut=readLookupTable(LocalProperties.get("gda.config")+"/i09-2-shared/lookupTables/"+lut)
         self.gap=gap
         self.dcm=dcm
         self.lambdau=undulatorperiod
@@ -40,7 +40,7 @@ class BeamEnergy(ScannableMotionBase):
             self.order=1
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
         self.polarisation='H'
-    
+
     def setPolarisation(self, value):
         if self.getName()=="jenergy":
             if value == "H" or value == "V":
@@ -49,28 +49,28 @@ class BeamEnergy(ScannableMotionBase):
                 raise ValueError("Input "+str(value)+" invalid. Valid values are 'H' or 'V'.")
         else:
             print "No polaristion parameter for Hard X-ray ID"
-    
+
     def getPolarisation(self):
         if self.getName()=="jenergy":
             return self.polarisation
         else:
             return "No polaristion parameter for Hard X-ray ID"
-    
+
     def HarmonicEnergyRanges(self):
         print ("%s\t%s\t%s" % ("Harmonic", "Min Energy", "Max Energy"))
         keys=[int(key) for key in self.lut.keys()]
         for key in sorted(keys):
             print ("%8.0d\t%10.2f\t%10.2f" % (key,self.lut[key][2],self.lut[key][3]))
-            
+
     def eneryRangeForOrder(self, order):
         return [self.lut[order][2],self.lut[order][3]]
-        
+
     def setOrder(self,n):
         self.order=n
-        
+
     def getOrder(self):
         return self.order
-    
+
     def idgap(self, Ep, n):
         gap=20.0
         if self.getName() == "ienergy":
@@ -93,7 +93,7 @@ class BeamEnergy(ScannableMotionBase):
             if (Ep<0.11 or Ep > 1.2):
                 raise ValueError("Demanding energy must lie between 0.11 and 1.2 keV!")
             Epgap = Ep*1000
-#            gap=3.46389+0.17197*Epgap + -5.84455e-4*Epgap**2 + 1.43759e-6*Epgap**3 + -2.2321e-9*Epgap**4 + 2.09444e-12*Epgap**5 + -1.07453e-15*Epgap**6 + 2.3039e-19*Epgap**7 
+#            gap=3.46389+0.17197*Epgap + -5.84455e-4*Epgap**2 + 1.43759e-6*Epgap**3 + -2.2321e-9*Epgap**4 + 2.09444e-12*Epgap**5 + -1.07453e-15*Epgap**6 + 2.3039e-19*Epgap**7
             gap= 0.70492 + 232.97156*Ep - 1100.88615*Ep**2 + 3841.94972*Ep**3 - 8947.83296*Ep**4 + 13823.07663*Ep**5 - 13942.57738*Ep**6 + 8816.18277*Ep**7 - 3170.55571*Ep**8 + 495.16057*Ep**9
             if self.gap=="jgap" and (gap<16 or gap>200):
                 raise ValueError("Required Soft X-Ray ID gap is below the lower bound 0f 16 mm!")
@@ -106,12 +106,12 @@ class BeamEnergy(ScannableMotionBase):
         else:
             raise ValueError("Unsupported scannable or polarisation mode")
         return gap
-        
+
     def rawGetPosition(self):
         '''returns the current position of the beam energy.'''
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
         return self.energy;
-    
+
     def calc(self, energy, order):
         return self.idgap(energy, order)
 
@@ -149,12 +149,12 @@ class BeamEnergy(ScannableMotionBase):
                 except:
                     print "cannot set " + s.getName() + " to " + str(self.energy)
                     raise
-                
+
     def isBusy(self):
         '''checks the busy status of all child scannable.
-        
-        If and only if all child scannable are done this will be set to False.'''  
-        self._busy=0      
+
+        If and only if all child scannable are done this will be set to False.'''
+        self._busy=0
         for s in self.scannables.getGroupMembers():
             try:
                 self._busy += s.isBusy()
@@ -169,6 +169,6 @@ class BeamEnergy(ScannableMotionBase):
     def toString(self):
         '''formats what to print to the terminal console.'''
         return self.name + " : " + str(self.rawGetPosition())
-    
-   
+
+
 

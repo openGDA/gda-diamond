@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hs2top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hs2top_motor" />
+	</bean>
+	<bean id="hs2bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hs2bottom_motor" />
+	</bean>
+	<bean id="hs2ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hs2ycentre_motor" />
+	</bean>
+	<bean id="hs2ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hs2ygap_motor" />
+	</bean>
+	<bean id="hs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hs2top" />
+				<ref bean="hs2bottom" />
+				<ref bean="hs2ycentre" />
+				<ref bean="hs2ygap" />
+			</list>
+		</property>
+	</bean>
+</beans>

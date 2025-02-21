@@ -6,14 +6,14 @@ import os #@UnusedImport
 import sys #@UnusedImport
 import gdascripts #@UnusedImport
 from gdascripts import installation as installation #@UnusedImport
-from gda.factory import Finder # @UnusedImport
-from gda.data import NumTracker # @UnusedImport
-from gda.jython import InterfaceProvider # @UnusedImport
-from gda.jython.commands import GeneralCommands # @UnusedImport
-from gda.jython.commands.GeneralCommands import vararg_alias, alias # @UnusedImport
-from gda.configuration.properties import LocalProperties # @UnusedImport
-from gda.util import PropertyUtils # @UnusedImport
-from gda.device.scannable import PVScannable #@UnusedImport
+from gda.factory import Finder # @UnusedImport @UnresolvedImport
+from gda.data import NumTracker # @UnusedImport @UnresolvedImport
+from gda.jython import InterfaceProvider # @UnusedImport @UnresolvedImport
+from gda.jython.commands import GeneralCommands # @UnusedImport @UnresolvedImport
+from gda.jython.commands.GeneralCommands import vararg_alias, alias # @UnusedImport @UnresolvedImport
+from gda.configuration.properties import LocalProperties # @UnusedImport @UnresolvedImport
+from gda.util import PropertyUtils # @UnusedImport @UnresolvedImport
+from gda.device.scannable import PVScannable #@UnusedImport @UnresolvedImport
 
 print("="*100);
 print "Performing beamline specific initialisation code for i09-1.";
@@ -38,9 +38,18 @@ print("Installing pathscan command:")
 from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
 print(pathscan.__doc__) #@UndefinedVariable
 
-from i09shared.scan.analyserScan import analyserscan, extraDetectors #@UnusedImport
+print("-"*100)
+print("Installing 'analyserscan' command for the electron analyser.")
+from gdaserver import analyser #@UnresolvedImport
+from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
+analyserscan.__doc__ = analyserscan.__doc__.replace("detector", analyser.getName()) #@UndefinedVariable
+print(analyserscan.__doc__) #@UndefinedVariable
 
+print("-"*100)
+print("Installing analyserpathscan:")
 from i09shared.scan.analyserpathscan import analyserpathscan #@UnusedImport
+analyserpathscan.__doc__ = analyserpathscan.__doc__.replace("detector", analyser.getName()) #@UndefinedVariable
+print(analyserpathscan.__doc__) #@UndefinedVariable
 
 ###############################################################################
 ###                         Import useful scannable                         ###
@@ -56,12 +65,22 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###                         Import IID functionality                        ###
 ###############################################################################
 from calibration.hard_energy_class import ienergy #@UnusedImport
-from i09shared.pseudodevices.checkid import checkiid #@UnusedImport
+
+from gdaserver import psi1 #@UnresolvedImport
+from gdaserver import  iidaccesscontrol #@UnresolvedImport
+from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
+checkiid = WaitForScannableStateAndHandleShutter('checkiid', [psi1], iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
 
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
 ###############################################################################
-from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
+from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
+from i09shared.scannable.SamplePositions import SamplePositions # @UnusedImport
+print("-"*100)
+sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+print(sp.__doc__.replace("\n", "", 1))
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

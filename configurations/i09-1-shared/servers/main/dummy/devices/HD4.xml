@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hd4iamp6" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+	<bean id="hd4x_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="hd4aposn" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Direct" value="0.0000"/>
+				<entry key="Slit Photodiode" value="-31.7600"/>
+				<entry key="Flu Screen" value="-45.85000"/>
+				<entry key="Full Beam Diode" value="-65.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Direct"/>
+	</bean>
+</beans>

@@ -7,6 +7,8 @@
     xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Targlets.ecore"
     id="i09-2-config">
   <requirement
+      name="i09-2-shared"/>
+  <requirement
       name="i09-shared"/>
   <requirement
       name="uk.ac.gda.beamline.i09_2.feature.feature.group"/>

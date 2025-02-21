@@ -22,6 +22,7 @@
 	<import resource="SD9.xml"/>
 	<import resource="SD11.xml"/>
 	<import resource="SM1.xml" />
+	<import resource="SM5.xml" />
 	<import resource="SMPM.xml" />
 	<import resource="shutters.xml"/>
 	<import resource="topup.xml" />

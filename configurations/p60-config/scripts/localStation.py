@@ -39,18 +39,22 @@ print("Installing pathscan command:")
 from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
 print(pathscan.__doc__) #@UndefinedVariable
 
+print("-"*100)
+print("Installing 'analyserscan' command for the electron analyser.")
+from gdaserver import r4000 #@UnresolvedImport
 from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
+analyserscan.__doc__ = analyserscan.__doc__.replace("detector", r4000.getName()) #@UndefinedVariable
+print(analyserscan.__doc__) #@UndefinedVariable
 
+print("-"*100)
+print("Installing analyserpathscan:")
 from i09shared.scan.analyserpathscan import analyserpathscan #@UnusedImport
+analyserpathscan.__doc__ = analyserpathscan.__doc__.replace("detector", r4000.getName()) #@UndefinedVariable
+print(analyserpathscan.__doc__) #@UndefinedVariable
 
 ###############################################################################
 ###                   Additional scannables                                 ###
 ###############################################################################
-
-#check beam scannables
-#ToDo - Needs to be modified
-#from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
-
 print("-"*100)
 # Import and setup function to create mathematical scannables
 from i09shared.functions import functionClassFor2Scannables
@@ -61,9 +65,6 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###############################################################################
 ###                  Metadata object/commands                               ###
 ###############################################################################
-
-#from i09shared.scan.cvscan import cvscan  # @UnusedImport
-
 print("-"*100)
 print("Setup meta object, an instance of Metadata. Can add additional metadata to scans:")
 from gdascripts.metadata.nexus_metadata_class import meta # @UnusedImport
