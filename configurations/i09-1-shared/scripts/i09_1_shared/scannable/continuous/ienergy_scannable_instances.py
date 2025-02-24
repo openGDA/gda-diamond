@@ -13,7 +13,7 @@ print("    1. 'ienergy' - Hard X-ray energy scannable that works with both 'cvsc
 print("    2. 'iI0'     - Hard X-ray I0 scannable used in 'cvscan' ONLY")
 print("")
 
-from scannable.ienergy_order_gap_instances import ienergy_s  # @UnusedImport
+from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_s # @UnusedImport
 from gdaserver import igap # @UnresolvedImport
 ienergy_move_controller = ContinuousEnergyMoveController('ienergy_move_controller', ienergy_s, igap, 'SR09I-MO-SERVC-01:'); ienergy_move_controller.verbose=True
 from i09shared.scannable.continuous.energy_scannable_instance_setup import mcscontroller, binpointc

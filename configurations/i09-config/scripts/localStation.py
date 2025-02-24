@@ -28,11 +28,11 @@ print "Custom i09 initialisation code.";
 ###############################################################################
 #     Import i/j energy, harmonic order. gap and polarisation instances       #
 ###############################################################################
-from scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
-from scannable.continuous.continuous_ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
+from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
+from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
 
 from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
-from i09_2_shared.scannable.continuous.continuous_jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
+from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
 
 #Connect the JythonScannableWrappers for client live controls
 from gdaserver import ienergy_order_wrapper, jenergy_order_wrapper, igap_offset_wrapper, jgap_offset_wrapper, polarisation_wrapper # @UnresolvedImport
@@ -42,7 +42,7 @@ igap_offset_wrapper.connectScannable()
 jgap_offset_wrapper.connectScannable()
 polarisation_wrapper.connectScannable()
 
-from i09_2_shared.scan.cvscan import cvscan  # @UnusedImport
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 ###############################################################################
 ###               Configure scan data processing and scan commands          ###

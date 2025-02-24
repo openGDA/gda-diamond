@@ -63,24 +63,9 @@ if installation.isLive():
 ###############################################################################
 ###                         Create JID related devices                      ###
 ###############################################################################
-#ToDo, this needs to use this instead if we use same lookuptable as i09
-#from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
-print("-"*100)
-print("Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables.")
-print("")
-LH,LV,CR,CL = ["LH","LV","CR","CL"]
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-jenergy_s.configure()
-polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
-polarisation.configure()
-jenergypolarisation = BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
-jenergypolarisation.configure()
-jenergypolarisation.setInputNames(["jenergy_s"])
-jenergypolarisation.setExtraNames(["polarisation"])
-
-from i09_2_shared.scannable.continuous.continuous_jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
-from i09_2_shared.scan.cvscan import cvscan #@UnusedImport
+from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
+from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
+from i09shared.scan.cvscan import cvscan #@UnusedImport
 
 ###############################################################################
 ###                   Get channel voltage control scannables                ###

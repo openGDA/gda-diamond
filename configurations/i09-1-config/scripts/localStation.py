@@ -64,13 +64,15 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###############################################################################
 ###                         Import IID functionality                        ###
 ###############################################################################
-from calibration.hard_energy_class import ienergy #@UnusedImport
+from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
+from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
 
-from gdaserver import psi1 #@UnresolvedImport
-from gdaserver import  iidaccesscontrol #@UnresolvedImport
+from gdaserver import psi1, iidaccesscontrol #@UnresolvedImport
 from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
 print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
 checkiid = WaitForScannableStateAndHandleShutter('checkiid', [psi1], iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
