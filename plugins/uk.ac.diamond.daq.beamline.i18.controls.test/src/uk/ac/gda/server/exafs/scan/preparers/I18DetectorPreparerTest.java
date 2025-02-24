@@ -53,14 +53,15 @@ import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.vortex.Xspress3Parameters;
-import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I18DetectorPreparerTest {
 
 	private Scannable[] sensitivities;
 	private Scannable[] sensitivityUnits;
-	private Xspress3WithFullCalculationsDetector xspress3;
+	private Xspress3Detector xspress3;
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
 	private BufferedDetector qexafs_counterTimer01;
@@ -79,7 +80,10 @@ public class I18DetectorPreparerTest {
 		InterfaceProvider.setJythonServerNotiferForTesting(jythonserver);
 		when(jythonserver.getDefaultScannables()).thenReturn(new Vector<Scannable>());
 
-		xspress3 = createMock(Xspress3WithFullCalculationsDetector.class, "xspress3");
+		xspress3 = createMock(Xspress3Detector.class, "xspress3");
+		Xspress3Controller xspress3Controller = mock(Xspress3Controller.class, "xspress3Controller");
+		Mockito.when(xspress3.getController()).thenReturn(xspress3Controller);
+
 		ionchambers = createMock(TfgScalerWithFrames.class, "ionchambers");
 		qexafs_counterTimer01 = createMock(BufferedDetector.class, "qexafs_counterTimer01");
 

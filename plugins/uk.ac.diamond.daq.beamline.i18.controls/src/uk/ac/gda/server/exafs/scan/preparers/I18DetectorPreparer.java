@@ -26,7 +26,6 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
@@ -77,24 +76,16 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private void setupDetectorHdfPath(String experimentFullPath) throws DeviceException {
 		String hdfPath = getNexusDataFullPath(experimentFullPath);
 		logger.info("Setting hdf file path to : {}", hdfPath);
-		if (activeDetector instanceof Xspress3WithFullCalculationsDetector xsp3) {
-			initialHdfPath = xsp3.getFilePath();
-			xsp3.setFilePath(hdfPath);
-		} else {
-			initialHdfPath = DetectorHdfFunctions.setHdfFilePath(activeDetector, hdfPath);
-		}
+		initialHdfPath = DetectorHdfFunctions.setHdfFilePath(activeDetector, hdfPath);
 	}
 
 	private void restoreHdfFilePath() {
-		if (activeDetector instanceof Xspress3WithFullCalculationsDetector xsp3) {
-			xsp3.setFilePath("");
-		} else {
-			try {
-				DetectorHdfFunctions.setHdfFilePath(activeDetector, initialHdfPath);
-			}  catch (DeviceException e) {
-				logger.warn("Problem restoring {} hdf file path to {} at end of scan", activeDetector.getName(), initialHdfPath);
-			}
+		try {
+			DetectorHdfFunctions.setHdfFilePath(activeDetector, initialHdfPath);
+		}  catch (DeviceException e) {
+			logger.warn("Problem restoring {} hdf file path to {} at end of scan", activeDetector.getName(), initialHdfPath);
 		}
+
 	}
 
 	@Override
