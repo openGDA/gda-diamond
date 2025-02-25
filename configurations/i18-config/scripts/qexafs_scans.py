@@ -66,6 +66,9 @@ class QexafsTest(ZebraQexafsScannable):
 
 zebra = Finder.find("zebra")
 
+# copy encoder4 value to zebra (i.e. Bragg angle of DCM)
+zebra.encCopyMotorPosToZebra(4)
+
 qexafs_energy = QexafsTest()
 qexafs_energy.setZebraDevice(zebra)
 qexafs_energy.setPcEncType(3) # encoder 4
@@ -113,7 +116,7 @@ def generate_continuous_params(start, stop, num_points, total_time) :
     params.setContinuouslyScannableName(cont_scannable.getName())
     return params
 
-def run_tfg_continuous_scan(num_points, scan_time=5, external_trigger=False) :
+def run_tfg_continuous_scan(num_points, scan_time=5, external_trigger=False, detectors=None) :
     """
         Run a continuous scan using Tfg (qexafs_counterTimer01) and a 'dummy' motor.
         Parameters : 
@@ -122,9 +125,15 @@ def run_tfg_continuous_scan(num_points, scan_time=5, external_trigger=False) :
             external_trigger - whether each frame is triggered internally. Optional, default = False.
                                If set to True, Tfg will wait for external trigger before collecting each frame.
                                (Use qexafs_counterTimer01.setTtlSocket(..) to set the Tfg TTL port to use for triggers)
+            detector - extra detectors to readout when collecting (Optional). e.g. qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin
     """
+    all_detectors = []
+    if detectors is not None :
+        all_detectors.extend(detectors)
+    all_detectors.append(qexafs_counterTimer01)
+    
     qexafs_counterTimer01.setUseExternalTriggers(external_trigger)
-    sc=ContinuousScan(cont_scannable, 0, num_points, num_points, scan_time, [qexafs_counterTimer01])
+    sc=ContinuousScan(cont_scannable, 0, num_points, num_points, scan_time, all_detectors)
     sc.runScan()
   
 

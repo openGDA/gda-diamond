@@ -351,6 +351,7 @@ csb2.addIObserver(csb2_p_monitor)
 add_reset_hook(lambda obs=csb2_p_monitor: csb2.deleteIObserver(obs))
 
 from standardScan import * #@UnusedWildImport
+#from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 
 def align_pitch(centre=None):
     if centre is not None: dcm_pitch(centre)

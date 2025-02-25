@@ -75,7 +75,12 @@ class ProcessLaserData :
         self.processed_path = "/entry1/processed/"
         self.end_frame_range = 50,60
         self.start_frame_range = 0,10
-
+    
+    def get_energy(self, filename) :
+        energy_2d_data = load_dataset(filename, '/entry1/'+self.detector_name+"/energy")
+        energy_data = energy_2d_data[:,0]
+        return list(energy_data)
+        
     def process_data(self, filename):
         self.logger.info("Computing processed datasets at end of scan")
         
@@ -109,9 +114,11 @@ class ProcessLaserData :
     def add_datasets(self, filename, overwrite=False):
         i0_data, iapd_data, iapd_norm, start_timeframe_data, end_timeframe_data, start_end_diff, iapd_norm_sub = self.process_data(filename)
         
+        energy = self.get_energy(filename)
+        print(energy.__class__)
         data_to_add = {"Inorm" : iapd_norm.tolist(), "InormSub" : self.to_list(iapd_norm_sub),
                        "EndAvg" : end_timeframe_data, "StartAvg" : start_timeframe_data,
-                       "StartEndDiff" : start_end_diff}
+                       "StartEndDiff" : start_end_diff, "energy" : energy}
         
         self.logger.info("Adding processed datasets to {}", filename)
         for node_name, dataset in data_to_add.items() :
@@ -124,6 +131,6 @@ class ProcessLaserData :
 
     def to_list(self, two_d_arr) :
         return [list(row) for row in two_d_arr]
-    
 
 laser_exp_processor = ProcessLaserData()
+

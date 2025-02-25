@@ -9,4 +9,51 @@
 	<bean id="ionc2_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
 	<bean id="ionc3_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
 
+
+	<!-- Line valve and pressure readback value -->
+	<bean id="gir_line_valve" class="gda.device.enumpositioner.DummyValve" />
+
+	<bean id="gir_line_pressure" class="gda.device.scannable.DummyScannable" />
+
+	<!-- Gas supply valves -->
+	<bean id="gir_krypton_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_nitrogen_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_argon_valve" class="gda.device.enumpositioner.DummyValve" />
+
+	<!-- Valves and pressure readings for I0, It, Iref and I1 ionchambers -->
+	<bean id="gir_i0_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_i0_pressure" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="gir_it_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_it_pressure" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="gir_iref_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_iref_pressure" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="gir_i1_valve" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="gir_i1_pressure" class="gda.device.scannable.DummyScannable" />
+
+	<!-- Setpoint and modes for pressure controllers -->
+	<bean id="gir_pressure1_setpoint" class="gda.device.scannable.DummyScannable" />
+	<bean id="gir_pressure1_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Control</value>
+				<value>Hold</value>
+			</list>
+		</property>	</bean>
+
+	<bean id="gir_pressure2_setpoint" class="gda.device.scannable.DummyScannable" />
+	<bean id="gir_pressure2_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Control</value>
+				<value>Hold</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Start, stop, reset the vaccum pump (uses same demand values as a valve)-->
+	<bean id="gir_vacuum_pump" class="gda.device.enumpositioner.DummyValve" />
+
 </beans>

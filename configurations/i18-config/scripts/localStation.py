@@ -224,9 +224,11 @@ def setup():
     
     setup_monitors()
     setup_watchdogs()
-    if not live_mode or not beam_available() :
-        print("Machine mode = "+beam_state.getPosition()+" - setting up watchdogs and monitors for 'no beam mode'")
-        noBeamMode(True) 
+    print("Machine mode = "+beam_state.getPosition())
+    if live_mode and beam_available() :
+        noBeamMode(False) 
+    else :
+        noBeamMode(True)
 
     # Temporarily disable topup watchdog (for Excalibur experiment)
     print("Disabling topup watchdog")
@@ -302,9 +304,13 @@ print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     daServer = counterTimer01.getScaler().getDaServer()
     print "Trying to reconnect to DAServer..."
+    counterTimer01.getScaler().close()
+    daServer.close()
+    sleep(1)
     daServer.reconnect()
+    sleep(1)
     counterTimer01.configure()
-    print "Ignore this error (it's 'normal'...)"
+    sleep(1)
     counterTimer01.getScaler().clear()
 
 from gda.data.metadata import GDAMetadataProvider

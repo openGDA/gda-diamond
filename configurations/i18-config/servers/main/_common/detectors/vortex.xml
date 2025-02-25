@@ -23,6 +23,9 @@
 		<property name="configFileName"
 			value="${gda.config}/templates/Vortex_Parameters_1e.xml" />
 		<property name="tfg" ref="tfg" />
+		<property name="collectionMode">
+			<value type="gda.device.detector.xmap.edxd.EDXDController.COLLECTION_MODES">MCA_MAPPING</value>
+		</property>
 	</bean>
 	
 	<bean id="FFI0_xmapMca" class="gda.device.detector.TfgFFoverI0">

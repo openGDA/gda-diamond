@@ -313,6 +313,9 @@ def write_xye(
         (bin_centres, histogrammed_counts, histogrammed_count_errors), axis=-1
     )
 
+    mask = ~np.isnan(combined[:,1])
+    combined = combined[mask,:]
+
     # np.savetxt can conveniently handle a format that looks just like .xye
     with timing("write .xye"):
         np.savetxt(out_file, combined, fmt="%.6f", delimiter=" ", newline="\n")
@@ -441,8 +444,8 @@ def do_the_overall_sum(fh, xye_filepath, deltas):
         # find the index of the first bin
         idx = np.argmin(np.abs(x - tth[0]))
 
-        ###made this change to account for edge cases
-                
+        ###made this change to account for race conditions
+        
         if (len(counts)+idx) > len(y):
             counts = counts[0:len(y)-idx]
 
