@@ -5,6 +5,5 @@
 
 	<import resource="rcp-common.xml"/>
 	<import resource="analyser.xml"/>
-	<import resource="live_controls.xml"/>
 
 </beans>
