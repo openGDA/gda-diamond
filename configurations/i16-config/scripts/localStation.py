@@ -1735,6 +1735,7 @@ print("-"*100)
 
 from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn, flyscan_should_wait_for_beam  # @UnusedImport
 from scan.miscan import miscan  # @UnusedImport
+from detector_wrappers.snap import snap
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
