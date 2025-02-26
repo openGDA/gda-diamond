@@ -1,4 +1,4 @@
-#!/usr/bin/env /dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python 
+#!/usr/bin/env /dls_sw/i21/software/miniforge3/envs/gdaenv/bin/python 
 '''
 
 Created on 26 Aug 2016
