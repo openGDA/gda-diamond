@@ -188,7 +188,7 @@
 
 	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
 		<property name="name" value="regionvalidator"/>
-		<property name="energyRange" ref="analyser_energy_range"/>
+		<property name="analyserEnergyRangeConfiguration" ref="analyser_energy_range"/>
 	</bean>
 
 	<bean id="r4000CollectionStrategy" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserCollectionStrategy">
