@@ -18,8 +18,8 @@ local_module_path='/dls_sw/i21/software/gda_versions/gda_master/pythonscript/loo
 
 # To solve the problem that PyDev/ Jython was passing JYTHONPATH as PYTHONPATH to the subprocess.
 # The fix was to load all the environment variables, change the Python Path to the correct spot for Python 2.7 and pass it to Popen through the env argument.
-python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
-python_exe="/dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python"
+python_path="/dls_sw/i21/software/miniforge3/envs/gdaenv/lib/python2.7/"
+python_exe="/dls_sw/i21/software/miniforge3/envs/gdaenv/bin/python"
 
 class sgmLookup():
     def __init__(self, name, lut=lookup_file, lookupindex=[0,1], returnindex=[2,3,4,5], numberOfHeaderLines=2):
