@@ -21,4 +21,7 @@
 	<import resource="id.xml" />
 	<import resource="raw_id.xml" />
 
+	<!-- amplifiers      -->
+	<import resource="femto.xml" />
+
 </beans>
