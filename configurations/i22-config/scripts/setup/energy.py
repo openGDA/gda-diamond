@@ -57,6 +57,49 @@ class DummyThreshold:
         print THRESHOLD_ERROR %(self.name, self.name)
         return
 
+class PilatusEnergy(ScannableMotionBase):
+    def __init__(self, name, pvbase):
+        self.setName(name);
+        self.setInputNames([name])
+        self.setExtraNames([])
+        self.Units=['keV']
+        self.setOutputFormat(['%4.2f'])
+        self.setLevel(7)
+        self.timer=tictoc()
+        self.waittime = 3
+        self.energytolerance = 0.1
+        self.pvbase = pvbase
+        self.configure()
+
+    def configure(self):
+        try:
+            self.energ = CAClient(self.pvbase+":Energy")
+            self.energ.configure()
+            self.energ.caget()
+        except:
+            print THRESHOLD_ERROR % (self.name, self.name)
+            self.energ = DummyThreshold(self.name)
+
+    def rawGetPosition(self):
+        try:
+            return float(self.energ.caget())
+        except:
+            self.energ.clearup()
+            self.energ = DummyThreshold(self.name)
+            return self.energ.caget()
+
+    def rawAsynchronousMoveTo(self,newpos):
+        energ = float(self.energ.caget())
+        if abs(energ - newpos) < newpos * self.energytolerance:
+            # threshold ok
+            pass
+        else:
+            self.energ.caput(newpos)
+            self.timer.reset()
+
+    def isBusy(self):
+        return (self.timer()<self.waittime)
+
 class Harmonic:
     """ Constructor method give the initial values
     Harmonic peak positions from undulator spectra are fitted with a cubic function
@@ -192,7 +235,9 @@ class CalibratedOffset(gda.device.scannable.ScannableMotionBase):
         self.offset_motor.asynchronousMoveTo(25)
 
 
+pilenerg = PilatusEnergy("pilenerg", "BL22I-EA-PILAT-01:CAM")
 pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:CAM")
+pilenergWAXS_L = PilatusEnergy("pilenergWAXS_L", "BL22I-EA-PILAT-03:CAM")
 pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:CAM")
 calibrated_offset = CalibratedOffset("calibrated_offset", dcm_offset)
 id_enabled = EpicsSimpleMbbinary()
@@ -201,5 +246,5 @@ id_enabled.recordName = 'SR22I-MO-SERVC-01:IDBLENA'
 id_enabled.configure()
 calibrated_ID = CalibratedID("calibrated_ID", idgap_mm, check=id_enabled)
 energy.clearScannables()
-for i in [calibrated_ID, calibrated_offset, pilthres, pilthresWAXS_L]:
+for i in [calibrated_ID, calibrated_offset, pilenerg, pilthres, pilenergWAXS_L, pilthresWAXS_L]:
     energy.addScannable(i)
