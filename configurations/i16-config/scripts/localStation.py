@@ -719,7 +719,8 @@ else:
 	Tb=DummyUnitsScannable(  'Tb',   297.84, 'K','K')
 	Tc=DummyUnitsScannable(  'Tc',   3.15,   'K','K')
 	Td=DummyUnitsScannable(  'Td',   3.15,   'K','K')
-
+	Tsample=DummyUnitsScannable('Tsample', 300.0,  'K','K')
+	Theater=DummyUnitsScannable('Theater', 300.0,  'K','K')
 
 try:
 	### Struck ###

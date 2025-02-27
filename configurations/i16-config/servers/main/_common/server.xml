@@ -11,6 +11,7 @@
 	<import resource="detector/pilatus3_100k.xml"/>
 	<import resource="detector/pil3_100k_burst.xml"/>
 	<import resource="detector/pilatus2_burst.xml"/>
+	<import resource="detector/merlin.xml"/>
 	<import resource="detector/merlin_burst.xml"/>
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/smargon.xml"/>
