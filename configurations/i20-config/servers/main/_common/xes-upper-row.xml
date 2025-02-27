@@ -136,7 +136,7 @@
 		<property name="horizontalCrystalOffset" value="130" />
 		<property name="detectorAxisAngle" value="-20" />
 		<property name="upperRow" value="true" />
-		<property name="minTheta" value="68" />
+		<property name="minTheta" value="65" />
 		<property name="maxTheta" value="87" />
 	</bean>
 	

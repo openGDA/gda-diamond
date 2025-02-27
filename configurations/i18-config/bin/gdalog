@@ -1,11 +1,15 @@
 #!/bin/bash
 
+# wmctrl is sometimes not on the $PATH
+WMCTRL=/dls_sw/prod/tools/RHEL7-x86_64/defaults/bin/wmctrl
+
 # Find the window ID of logpanel currently running on local machine
-logpanel_window_id=$(wmctrl -l | awk -vHOST=$(hostname) '{if ($0~HOST && $0~"GDA Log Panel") print $1}')
+logpanel_window_id=$($WMCTRL -l | awk -vHOST=$(hostname) '{if ($0~HOST && $0~"GDA Log Panel") print $1}')
+
 
 if [ -z "$logpanel_window_id" ]
 then
 	gda-logpanel $* &
 else 
-	wmctrl -i -R $logpanel_window_id
+	$WMCTRL -i -R $logpanel_window_id
 fi

@@ -78,6 +78,9 @@ run "energy-transfer-scannable.py"
 # Create and setup topup checker with shutter
 run "topup-scannable.py"
 
+# Create ionchamber sensitivity auto adjustment functions
+run 'ionchamber_adjustment/set_amplifiers_routines.py'
+
 # Function to set the initial state of the ionchamber and braggOffset preparers
 def setup_detector_preparers() :  
     ionchamberCheckerPreparer = IonchamberDetectorPreparer(ionchamberChecker)
@@ -267,5 +270,15 @@ def setVisit(visitStr) :
     currentVisit=metaDataProv.getMetadataValue("visit") # current visit
     metaDataProv.setMetadataValue("visit", visitStr) # set the new visit
     print "Changing visit from ",currentVisit," to ",visitStr
+
+
+
+if not LocalProperties.isDummyModeEnabled() :
+    try :
+        print("\n")
+        run("userStartupScript")
+        print "User startup scripts finished"
+    except Exception as problem :
+        print("Problem running userStartupScript script : {}".format(problem))
 
 print "\n****GDA startup script complete.****\n\n"

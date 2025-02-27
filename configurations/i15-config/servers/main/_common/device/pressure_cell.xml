@@ -1,9 +1,9 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="pressure_cell"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
-        profile="pressure_cell"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd" >
+						http://www.springframework.org/schema/beans/spring-beans.xsd" >
 
 	<bean id="ncd_pressure_cell" class="uk.ac.gda.server.ncd.subdetector.NcdPressureCell">
 		<property name="cell" ref="pressure_cell" />

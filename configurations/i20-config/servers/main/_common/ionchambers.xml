@@ -23,7 +23,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
 		<property name="useReset" value="false" />
-		<property name="livePort" value="1" />
+		<property name="livePort" value="0" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -52,7 +52,7 @@
 		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="3" />
 		<property name="darkCurrentRequired" value="true" />
-		<property name="livePort" value="1" />
+		<property name="livePort" value="0" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -62,6 +62,31 @@
 		</property>
 	</bean>
 	
+	<bean id="qexafs_I1" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I1</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="DAServer" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="1" />
+		<property name="useReset" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="firstDataChannel" value="3" />
+		<property name="darkCurrentRequired" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+				<value>%.4f</value>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">

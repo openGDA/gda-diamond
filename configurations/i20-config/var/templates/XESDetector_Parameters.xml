@@ -27,13 +27,13 @@
         <useConfigFile>true</useConfigFile>
     </detectorConfiguration>
     <detectorConfiguration>
-        <description>XMap</description>
-        <detectorName>xmapMca</detectorName>
+        <description>Xspress3</description>
+        <detectorName>xspress3</detectorName>
         <configFileName></configFileName>
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
-        <extraDetectorName>FFI1</extraDetectorName>
+        <extraDetectorName>xspressFFI1</extraDetectorName>
     </detectorConfiguration>
     <detectorConfiguration>
         <description>Xspress3X</description>

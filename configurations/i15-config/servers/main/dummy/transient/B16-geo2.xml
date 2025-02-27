@@ -1,8 +1,8 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans profile="b16-geo2"
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd"
-	profile="b16-geo2">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="geo2mot1Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="geo2mot2Motor" class="gda.device.motor.DummyMotor"/>

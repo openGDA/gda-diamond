@@ -1,4 +1,4 @@
-# Copied to dls-config/scripts/dls_scripts/device/linkam.py (commit 79f88b7) 
+# Copied from configurations/i22-config/scripts/sampleEnvironment/linkam.py (commit 79f88b7)
 
 from gda.jython.commands.GeneralCommands import add_reset_hook
 from gda.epics import CachedLazyPVFactory
@@ -60,6 +60,7 @@ class Linkam(ScannableBase):
     Configuration should use the PV up to and including the final ':' in the common
     base PV, eg
 
+        >>> from dls_scripts.device.linkam import Linkam
         >>> linkam3 = Linkam('linkam3', 'BL22I-EA-TEMPC-05:')
     '''
     TEMP = 'TEMP'
@@ -79,7 +80,7 @@ class Linkam(ScannableBase):
 
     def __init__(self, name, pv, fmt='%.2f', tolerance=0.2):
         self._ramping_thread = ThreadLocal()
-        self._logger = LoggerFactory.getLogger('gda.i22.linkam.' + name)
+        self._logger = LoggerFactory.getLogger(pv + name)
         self.name = name
         self.tolerance = tolerance
         self.pv = pv
