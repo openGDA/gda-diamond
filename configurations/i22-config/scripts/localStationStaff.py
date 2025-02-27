@@ -29,11 +29,11 @@ def caputWithCheck(pvChannel, pvValue):
         caput(pvChannel, pvValue)
         sleep(0.3)
 
-#        This functionality isn't currently fully tested and seems to enter into an infinite loop from time to time. 
+#        This functionality isn't currently fully tested and seems to enter into an infinite loop from time to time.
 #       I could put in a limit of retries but I'd like first to solve *why* it's failing but not in front of users who are waiting for their experiment to start!
 #         while (valueHasBeenTaken != 1):
 #             sleep(0.15)
-# 
+#
 #             if (caget(pvChannel) == pvValue):
 #                 valueHasBeenTaken == 1
 #             else:
@@ -45,12 +45,12 @@ def resetPilatusDetector(detectorPVprefix, detectorType):
     # the anticipated path through areaDetector is CAM --> CDC --> HDF5
     # Malcolm will touch CAM and HDF, not CDC so we will need to undo it's
     # changes there more rigorously that elsewhere...
-    
+
     if (detectorType == "SAXS"):
         PVprefix = "SAXS"
     elif (detectorType == "WAXS"):
         PVprefix = "TWOML"
-    
+
     # So, let's start by reconfiguring CAM
     caputWithCheck (detectorPVprefix + ':CAM:ImageMode', "Multiple")
     caputWithCheck(detectorPVprefix + ':CAM:TriggerMode', "Ext. Enable")
@@ -79,7 +79,7 @@ def resetTetrammDetector(detectorPVprefix, detectorType):
     # So, let's start by reconfiguring DRV
     caputWithCheck(detectorPVprefix + ':DRV:TriggerMode', '0')
     caputWithCheck(detectorPVprefix + ':DRV:AveragingTime', '0.1')
-    
+
     # Then POS
     caputWithCheck(detectorPVprefix + ':POS:Filename', '0')
 
@@ -90,7 +90,7 @@ def resetTetrammDetector(detectorPVprefix, detectorType):
     caputWithCheck(detectorPVprefix + ':HDF5:XMLFileName', '0')
     caputWithCheck(detectorPVprefix + ':HDF5:PositionMode', 'Off')
 
-    # Turn back on acquisition!    
+    # Turn back on acquisition!
     caputWithCheck(detectorPVprefix + ':DRV:Acquire', '1')
 
 def resetOpticalDetector(detectorPVprefix):
@@ -121,7 +121,7 @@ def resetOpticalDetector(detectorPVprefix):
     caputWithCheck(detectorPVprefix + ':ARR:NDArrayPort', 'OAVC.over')
     caputWithCheck(detectorPVprefix + ':ARR:EnableCallbacks', 'Enable')
 
-    # Turn back on acquisition!    
+    # Turn back on acquisition!
     caputWithCheck(detectorPVprefix + ':DET:Acquire', '1')
 
 
@@ -211,7 +211,7 @@ def feedback_SS():
     caput("BL22I-EA-XBPM-01:DRV:Geometry", "Square")
     print "Feedback running from XBPM1 at secondary source"
     return
-    
+
 def feedback_EH():
     caput("BL22I-OP-KBM-01:HFM:FBS4.INP","BL22I-EA-XBPM-02:PosX:MeanValue_RBV")
     caput("BL22I-OP-KBM-01:VFM:FBS4.INP","BL22I-EA-XBPM-02:PosY:MeanValue_RBV")
@@ -222,7 +222,7 @@ def feedback_EH():
     caput("BL22I-EA-TTRM-01:DRV:Geometry", "Square")
     print "Feedback running from XBPM2 in experimental hutch"
     return
-    
+
 def feedback_auto():
     caput("BL22I-OP-KBM-01:HFM:FBS4:AUTO","Auto")
     caput("BL22I-OP-KBM-01:VFM:FBS4:AUTO","Auto")
@@ -235,14 +235,14 @@ def feedback_off():
     caput("BL22I-OP-KBM-01:VFM:FBS4:AUTO","Manual")
     caput("BL22I-OP-KBM-01:VFM:FBS4.FBON","Off")
     print "Feedback is OFF!"
-    
+
 def feedback_on():
     caput("BL22I-OP-KBM-01:HFM:FBS4:AUTO","Manual")
     caput("BL22I-OP-KBM-01:HFM:FBS4.FBON","On")
     caput("BL22I-OP-KBM-01:VFM:FBS4:AUTO","Manual")
     caput("BL22I-OP-KBM-01:VFM:FBS4.FBON","On")
     print "Feedback is ON in manual mode"
-    
+
 def optimise_pitch():
     feedback_off()
     if qbpm0_total.getPosition() > 1e-8:
@@ -314,10 +314,10 @@ def AFL_Acquisition(scan_title = 'Scan', background_frame = '730798', frame_time
     pos base_y y_position
     setTitle(scan_title)
     setSampleBackground('/dls/i22/data/2024/sm35647-1/i22-' + background_frame + '.nxs')
-    
+
     with tfgGroups():
         addGroup(num_frames, 10, frame_time, '00100000', '11111111')
-    
+
     staticscan ncddetectors
 
 
@@ -326,11 +326,9 @@ def AFL_Background(scan_title = 'Scan', frame_time = 1000, num_frames = 1, x_pos
     pos base_x x_position
     pos base_y y_position
     setTitle(scan_title)
-    
+
     with tfgGroups():
         addGroup(num_frames, 10, frame_time, '00100000', '11111111')
-    
+
     staticscan ncddetectors
     print(gda.jython.InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getScanIdentifier())
-
-
