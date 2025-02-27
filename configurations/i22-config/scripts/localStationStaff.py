@@ -117,9 +117,13 @@ def resetOpticalDetector(detectorPVprefix):
     caputWithCheck(detectorPVprefix + ':ARR:NDArrayPort', 'OAVC.over')
     caputWithCheck(detectorPVprefix + ':ARR:EnableCallbacks', 'Enable')
 
+    # Then HDF
+    caputWithCheck(detectorPVprefix + ':HDF5:NDArrayPort', 'OAVC.over')
+    caputWithCheck(detectorPVprefix + ':HDF5:EnableCallbacks', 'Enable')
+
     # And finally, MJPG
-    caputWithCheck(detectorPVprefix + ':ARR:NDArrayPort', 'OAVC.over')
-    caputWithCheck(detectorPVprefix + ':ARR:EnableCallbacks', 'Enable')
+    caputWithCheck(detectorPVprefix + ':MJPG:NDArrayPort', 'OAVC.over')
+    caputWithCheck(detectorPVprefix + ':MJPG:EnableCallbacks', 'Enable')
 
     # Turn back on acquisition!
     caputWithCheck(detectorPVprefix + ':DET:Acquire', '1')
@@ -286,6 +290,14 @@ d11_ncd = sampleCam.AdCam('d11_ncd', d11gige)
 add_reset_hook(lambda ncd=ncddetectors, cam=d11_ncd: ncd.removeDetector(cam))
 d12_ncd = sampleCam.AdCam('d12_ncd', d12gige)
 add_reset_hook(lambda ncd=ncddetectors, cam=d12_ncd: ncd.removeDetector(cam))
+print("d11_ncd and d12_ncd can be added to ncddetectors")
+
+try:
+    oav_ncd = sampleCam.AdOAVCam("sampleCamOAV", oav_cam)
+    add_reset_hook(lambda ncd=ncddetectors, cam=oav_ncd: ncd.removeDetector(cam))
+    print("oav_ncd can be added to ncddetectors")
+except:
+    print("oav_ncd not set up")
 
 from setup import malcolm_tfg
 from gdaserver import Pilatus2M_SAXS, Pilatus2M_WAXS, I0, bsdiodes
