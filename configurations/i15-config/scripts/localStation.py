@@ -529,11 +529,15 @@ try:
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
-		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
-		caput("BL15I-EA-PILAT-03:HDF5:Compression", "zlib")
+		#caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
+		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cdc") # Needed for fast compression
+		#caput("BL15I-EA-PILAT-03:HDF5:Compression", "zlib") # cdc plugin produced Blosc compression instead
 		caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0")
 		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off")
 		caput("BL15I-EA-PILAT-03:HDF5:XMLFileName", "0")
+		caput("BL15I-EA-PILAT-03:CDC:Mode", "0") # Compress
+		caput("BL15I-EA-PILAT-03:CDC:NDArrayPort", "pilatus3.pos")
+		caput("BL15I-EA-PILAT-03:POS:NDArrayPort", "pilatus3.cam") # Note, not stat, as stat can't run more than 100Hz.
 		pil3_tiffs_on()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
