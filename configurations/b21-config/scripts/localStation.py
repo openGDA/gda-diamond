@@ -103,6 +103,11 @@ def waxs_eiger_off():
 alias(waxs_eiger_on)
 alias(waxs_eiger_off)
 
+
+waxs_eiger_off()
+print "WAXS DETECTOR IS CURRENTLY OFF!!!"
+print "MODIFY /configurations/b21-config/scripts/localStation.py TO CHANGE STARTUP DEFAULT"
+
 print 'Importing fast shutter control: fs'
 from tfgsetup import fs
 print "==================================================================="

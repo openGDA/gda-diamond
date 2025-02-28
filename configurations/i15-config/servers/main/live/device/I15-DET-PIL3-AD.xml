@@ -68,6 +68,7 @@
 		<constructor-arg value="pil3" />
 		<property name="ndFile" ref="pil3_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->

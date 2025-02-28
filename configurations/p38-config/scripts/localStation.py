@@ -24,12 +24,10 @@ except Exception as e:
 	print e
 	logger.error('Failed to run beamline staff configuration', exc_info=True)
 
-gdascripts = "/dls_sw/p38/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
-
-execfile(gdascripts + "/pd/epics_pds.py")
-execfile(gdascripts + "/pd/time_pds.py")
-execfile(gdascripts + "/pd/dummy_pds.py")
-execfile(gdascripts + "/utils.py")
+run("gdascripts/pd/epics_pds.py")
+run("gdascripts/pd/time_pds.py")
+run("gdascripts/pd/dummy_pds.py")
+run("gdascripts/utils.py")
 
 #from setup.installStandardScansWithProcessing import *
 #scan_processor.rootNamespaceDict=globals()
