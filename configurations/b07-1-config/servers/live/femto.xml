@@ -7,217 +7,368 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="ca1c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca1c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-02:YPLUS:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca2c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca1c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-02:YPLUS:"/>
+		<property name="amplifier" ref="ca1c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca2c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-02:YMINUS:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca3c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca2c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-02:YMINUS:"/>
+		<property name="amplifier" ref="ca2c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca3c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-02:XRING:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca4c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca3c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-02:XRING:"/>
+		<property name="amplifier" ref="ca3c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca4c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-02:XHALL:"/>
-		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
+	<bean id="ca4c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-02:XHALL:"/>
+		<property name="amplifier" ref="ca4c_femto"/>
+		<property name="adcChannel" value="4"/>
+	</bean>
 
-	<bean id="ca5c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca5c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-03:YPLUS:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca6c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca5c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-03:YPLUS:"/>
+		<property name="amplifier" ref="ca5c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca6c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-03:YMINUS:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca7c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca6c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-03:YMINUS:"/>
+		<property name="amplifier" ref="ca6c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca7c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-03:XRING:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca8c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca7c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-03:XRING:"/>
+		<property name="amplifier" ref="ca7c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca8c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-03:XHALL:"/>
-		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca9c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca8c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-03:XHALL:"/>
+		<property name="amplifier" ref="ca8c_femto"/>
+		<property name="adcChannel" value="4"/>
+	</bean>
+
+	<bean id="ca9c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-PHDGN-03:I1:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca10c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca9c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-03:I1:"/>
+		<property name="amplifier" ref="ca9c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca10c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-VFM-01:I1:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca51c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca10c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VFM-01:I1:"/>
+		<property name="amplifier" ref="ca10c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca51c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-VFM-01:I2:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca13c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
-		<property name="basePVName" value="BL07C-AL-SLITS-04:YBTOP:"/>
-		<property name="adcChannel" value="3" />
-		<property name="lowerVoltageBound" value="0.5"/>
-		<property name="upperVoltageBound" value="9.5"/>
-		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	<bean id="ca51c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VFM-01:I2:"/>
+		<property name="amplifier" ref="ca51c_femto"/>
+		<property name="adcChannel" value="3"/>
 	</bean>
-	<bean id="ca14c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
-		<property name="basePVName" value="BL07C-AL-SLITS-04:YBBTM:"/>
-		<property name="adcChannel" value="4" />
-		<property name="lowerVoltageBound" value="0.5"/>
-		<property name="upperVoltageBound" value="9.5"/>
-		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-	</bean>
-	<bean id="ca11c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca11c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-04:XBRING:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca12c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca11c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:XBRING:"/>
+		<property name="amplifier" ref="ca11c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca12c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-04:XBHALL:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca52c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca12c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:XBHALL:"/>
+		<property name="amplifier" ref="ca12c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca13c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:YBTOP:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	</bean>
+
+	<bean id="ca13c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:YBTOP:"/>
+		<property name="amplifier" ref="ca13c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca14c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:YBBTM:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	</bean>
+
+	<bean id="ca14c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:YBBTM:"/>
+		<property name="amplifier" ref="ca14c_femto"/>
+		<property name="adcChannel" value="4"/>
+	</bean>
+
+	<bean id="ca52c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-AL-SLITS-04:PLATE:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca15c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca52c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-AL-SLITS-04:PLATE:"/>
+		<property name="amplifier" ref="ca52c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca15c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-PHDGN-06:I1:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca16c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca15c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-06:I1:"/>
+		<property name="amplifier" ref="ca15c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca16c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-PHDGN-07:I1:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
-	<bean id="ca17c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+
+	<bean id="ca16c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-07:I1:"/>
+		<property name="amplifier" ref="ca16c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca17c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-PHDGN-07:I2:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca18c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca17c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-07:I2:"/>
+		<property name="amplifier" ref="ca17c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca18c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-VRFM-01:I1:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca53c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca18c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VRFM-01:I1:"/>
+		<property name="amplifier" ref="ca18c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca53c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-VRFM-01:I2:"/>
-		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca19c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca53c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VRFM-01:I2:"/>
+		<property name="amplifier" ref="ca53c_femto"/>
+		<property name="adcChannel" value="4"/>
+	</bean>
+
+	<bean id="ca19c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-PHDGN-09:I1:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca20c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca19c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-09:I1:"/>
+		<property name="amplifier" ref="ca19c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca20c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-HRFM-01:I1:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca54c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca20c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-HRFM-01:I1:"/>
+		<property name="amplifier" ref="ca20c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca54c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-OP-HRFM-01:I2:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca21c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca54c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-HRFM-01:I2:"/>
+		<property name="amplifier" ref="ca54c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca21c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-IAMP-21:I1:"/>
-		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca22c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca21c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-21:I1:"/>
+		<property name="amplifier" ref="ca21c_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<bean id="ca22c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-IAMP-22:I1:"/>
-		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca23c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca22c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-22:I1:"/>
+		<property name="amplifier" ref="ca22c_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca23c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-IAMP-23:I1:"/>
-		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 	</bean>
 
-	<bean id="ca24c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="ca23c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-23:I1:"/>
+		<property name="amplifier" ref="ca23c_femto"/>
+		<property name="adcChannel" value="3"/>
+	</bean>
+
+	<bean id="ca24c_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
 		<property name="basePVName" value="BL07C-DI-IAMP-24:I1:"/>
-		<property name="adcChannel" value="4" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	</bean>
+
+	<bean id="ca24c" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-IAMP-24:I1:"/>
+		<property name="amplifier" ref="ca24c_femto"/>
+		<property name="adcChannel" value="4"/>
 	</bean>
 
 	<util:map id="gainMap">
