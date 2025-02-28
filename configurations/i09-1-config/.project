@@ -3,6 +3,7 @@
 	<name>i09-1-config</name>
 	<comment></comment>
 	<projects>
+		<project>i09-1-shared</project>
 		<project>i09-shared</project>
 		<project>dls-config</project>
 		<project>uk.ac.gda.core</project>

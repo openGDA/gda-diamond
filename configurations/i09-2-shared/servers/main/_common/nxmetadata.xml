@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgmNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="pgm" />
+		<property name="nexusClass" value="NXmonochromator" />
+	</bean>
+
+	<bean id="jidNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="jid" />
+		<property name="nexusClass" value="NXinsertion_device" />
+		<property name="units">
+			<list>
+				<value>mm</value>
+				<value></value>
+				<value>mm</value>
+				<value></value>
+				<value></value>
+				<value></value>
+				<value>mm</value>
+				<value>mm</value>
+				<value>mm</value>
+				<value>mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="beamNexusDevice1" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam_pgm" />
+		<property name="incidentEnergyScannableName" value="pgmenergy" />
+		<property name="incidentPolarizationScannableName" value="polarisation_wrapper" />
+	</bean>
+</beans>

@@ -7,17 +7,14 @@ Updated on 24 Jan 2025
 from gdascripts.scan.pathscanCommand import pathscan
 from gda.jython.commands.GeneralCommands import alias
 from org.opengda.detector.electronanalyser.nxdetector import IAnalyserSequence
-from i09shared.scan.analyserScan import get_sequence_filename, DETECTOR_DOC_STR
-
-print("-"*100)
-print("Installing analyserpathscan:")
+from i09shared.scan.analyserScan import get_sequence_filename
 
 def analyserpathscan(scannables, path, *args):
     '''
     USAGE:
-    analyserpathscan (x,y,z) ([1,2,3],[4,5,6],[7,8,9]) DETECTOR "user.seq"
-    
-    Same as pathscan but supports loading in sequence file for DETECTOR
+    analyserpathscan (x,y,z) ([1,2,3],[4,5,6],[7,8,9]) detector "user.seq"
+
+    Same as pathscan but supports loading in sequence file for detector
     '''
     newargs=[]
     i=0;
@@ -30,8 +27,5 @@ def analyserpathscan(scannables, path, *args):
             arg.setSequenceFile(filename)
             i=i+1
     pathscan(scannables, path, *newargs)
-
-analyserpathscan.__doc__ = analyserpathscan.__doc__.replace("DETECTOR", DETECTOR_DOC_STR)
-print(analyserpathscan.__doc__)
 
 alias("analyserpathscan")

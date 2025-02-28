@@ -5,17 +5,17 @@
 import os #@UnusedImport
 import sys #@UnusedImport
 import gdascripts #@UnusedImport
-import java
+import java #@UnresolvedImport
 from gdascripts import installation as installation
-from gda.factory import Finder
-from gda.data import NumTracker
-from gda.jython import InterfaceProvider
-from gda.jython.commands import GeneralCommands
-from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.configuration.properties import LocalProperties
-from gda.util import PropertyUtils
+from gda.factory import Finder #@UnresolvedImport @UnusedImport
+from gda.data import NumTracker #@UnresolvedImport @UnusedImport
+from gda.jython import InterfaceProvider #@UnresolvedImport @UnusedImport
+from gda.jython.commands import GeneralCommands #@UnresolvedImport @UnusedImport
+from gda.jython.commands.GeneralCommands import vararg_alias, alias #@UnresolvedImport @UnusedImport
+from gda.configuration.properties import LocalProperties #@UnresolvedImport @UnusedImport
+from gda.util import PropertyUtils #@UnresolvedImport @UnusedImport
 from gdaserver import sd1_cam, sd3_cam  # @UnresolvedImport
-from gda.device.scannable import PVScannable
+from gda.device.scannable import PVScannable #@UnresolvedImport
 
 print("="*100)
 print("Performing beamline specific initialisation code (i09).")
@@ -28,9 +28,20 @@ print "Custom i09 initialisation code.";
 ###############################################################################
 #     Import i/j energy, harmonic order. gap and polarisation instances       #
 ###############################################################################
-from scannable.energy_poloarisation_order_gap_instances import LH,LV,CR,CL,LH3,jenergy_s,polarisation,jenergypolarisation,ienergy_order,jenergy_order, ienergy_s  # @UnusedImport
-from pseudodevices.IDGap_Offset import igap_offset, jgap_offset  # @UnusedImport
-from scannable.continuous.continuous_energy_scannables import ienergy, jenergy, ienergy_move_controller, jenergy_move_controller, jI0, iI0, sdc  # @UnusedImport
+from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
+from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
+
+from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
+from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
+
+#Connect the JythonScannableWrappers for client live controls
+from gdaserver import ienergy_order_wrapper, jenergy_order_wrapper, igap_offset_wrapper, jgap_offset_wrapper, polarisation_wrapper # @UnresolvedImport
+ienergy_order_wrapper.connectScannable()
+jenergy_order_wrapper.connectScannable()
+igap_offset_wrapper.connectScannable()
+jgap_offset_wrapper.connectScannable()
+polarisation_wrapper.connectScannable()
+
 from i09shared.scan.cvscan import cvscan  # @UnusedImport
 
 ###############################################################################
@@ -51,7 +62,12 @@ print("Installing pathscan command:")
 from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
 print(pathscan.__doc__) #@UndefinedVariable
 
+print("-"*100)
+print("Installing 'analyserscan' command for the electron analyser.")
+from gdaserver import ew4000 #@UnresolvedImport
 from i09shared.scan.analyserScan import analyserscan, extraDetectors # @UnusedImport
+analyserscan.__doc__ = analyserscan.__doc__.replace("detector", ew4000.getName()) #@UndefinedVariable
+print(analyserscan.__doc__) #@UndefinedVariable
 
 print("-"*100)
 ZERO_SUPPLIES_PV = "BL09I-EA-DET-01:CAM:ZERO_SUPPLIES"
@@ -63,7 +79,11 @@ def zerosupplies():
 alias("zerosupplies")
 print("")
 
+print("-"*100)
+print("Installing analyserpathscan:")
 from i09shared.scan.analyserpathscan import analyserpathscan #@UnusedImport
+analyserpathscan.__doc__ = analyserpathscan.__doc__.replace("detector", ew4000.getName()) #@UndefinedVariable
+print(analyserpathscan.__doc__) #@UndefinedVariable
 
 # the following requires new NexusScanDataWriter to work!
 # from scan.MultiRegionScan import mrscan, ALWAYS_COLLECT_AT_STOP_POINT, NUMBER_OF_DECIMAL_PLACES  # @UnusedImport
@@ -101,27 +121,57 @@ else:
 print("")
 
 ###############################################################################
-###                        Metadata saved for each scan                     ###
-###############################################################################
-#ToDo - This should be changed to importing meta and this defined in springbeans
-print("-"*100)
-print("Setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
-from metashop import meta_add,meta_ll,meta_ls, meta_rm  # @UnusedImport
-import metashop  # @UnusedImport
-print("Can now add meta data items to be captured in data files.")
-imetadata=[igap,dcm,hm1x,hm1y,hm1pitch,hm1yaw,hm2x,hm2y,hm2pitch,hm3x,hm3y,hm3pitch,hm3mainbender,hm3elipticalbender,cccx,cccy] #@UndefinedVariable
-jmetadata=[jgap,polarisation,pgm,sm1fpitch,sm3fpitch,sm4x,sm4y,sm4pitch,sm5pitch,sm5bender1,sm5bender2,ss2ycentre,ss2ygap,ss4] #@UndefinedVariable
-esmetadata=[hm3iamp20,sm5iamp8,hm3iamp20,sm5iamp8,smpmiamp39,smpm,lakeshore] #@UndefinedVariable
-meta_data_list = imetadata + jmetadata + esmetadata
-for each in meta_data_list:
-	meta_add(each)
-print("")
-
-###############################################################################
 ###                       Check condition scannables                        ###
 ###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
-from i09shared.pseudodevices.checkid import checkjid, checkiid # @UnusedImport
+
+from gdaserver import fsi1, fsj1 #@UnresolvedImport
+from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+print("-"*100)
+print("Creating 'checkjid' scannable to be used to pause or resume detector acquisition based on ID control")
+from gdaserver import  jidaccesscontrol #@UnresolvedImport
+checkjid = WaitForScannableStateAndHandleShutter('checkjid', [fsi1, fsj1], jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+from gdaserver import  iidaccesscontrol #@UnresolvedImport
+print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
+checkiid = WaitForScannableStateAndHandleShutter('checkiid', [fsi1, fsj1], iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+print("")
+
+###############################################################################
+###                        Metadata saved for each scan                     ###
+###############################################################################
+#Build I-branch metadata list. These objects involved in scan will add I-branch metadata devices to monitor per scan
+from gdaserver import iid, dcm, hm1, hm2, hm3, ccc, dcmenergyEv #@UnresolvedImport
+I_METADATA_SCANNABLES = [iid, dcm, hm1, hm2, hm3, ccc, dcmenergyEv, ienergy_order, ienergy_s, igap_offset, ienergy, ienergy_move_controller, iI0, checkiid]
+I_METADATA_DEVICE_NAMES = ["iid", "dcm", "beam_dcm", "hm1", "hm2", "hm3", "ccc", "ienergy", "ienergy_order", "igap_offset"]
+
+#Build J-branch metadata list. These objects involved in scan will add J-branch metadata devices to monitor per scan
+from gdaserver import jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4 #@UnresolvedImport
+J_METADATA_SCANNABLES = [jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4, jenergy_s, polarisation, jenergypolarisation, jenergy_order, jgap_offset, jenergy, jenergy_move_controller, jI0, sdc, checkjid]
+J_METADATA_DEVICE_NAMES = ["jid", "pgm", "beam_pgm", "sm1", "sm3", "sm4", "sm5", "ss2", "ss4", "jenergy", "polarisation", "jenergy_order", "igap_offset", "jgap_offset"]
+
+#Defaults must be set to prevent any warning message
+from org.eclipse.scanning.device import CommonBeamlineDevicesConfiguration #@UnresolvedImport
+CommonBeamlineDevicesConfiguration.getInstance().setInsertionDeviceName(I_METADATA_DEVICE_NAMES[0])
+CommonBeamlineDevicesConfiguration.getInstance().setMonochromatorName(I_METADATA_DEVICE_NAMES[1])
+CommonBeamlineDevicesConfiguration.getInstance().setBeamName(I_METADATA_DEVICE_NAMES[2])
+
+from metadata.dynamic_metadata import DynamicScanMetadata
+dynamic_meta = DynamicScanMetadata(
+	sequence_detector = ew4000,
+	metadata_dict = {
+		"I-branch" : [I_METADATA_SCANNABLES, I_METADATA_DEVICE_NAMES],
+		"J-branch" : [J_METADATA_SCANNABLES, J_METADATA_DEVICE_NAMES],
+	},
+)
+
+scan.scanListeners = scan.scanListeners + [dynamic_meta]
+mrscan.scanListeners = mrscan.scanListeners + [dynamic_meta]
+
+print("-"*100)
+print("I and J branch metadata is now added dynamically to scan")
+print("")
+
+from gdascripts.metadata.nexus_metadata_class import meta #@UnusedImport
 
 ###############################################################################
 ###                           Create move command                           ###
@@ -158,7 +208,12 @@ print("")
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
 ###############################################################################
-from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
+from i09shared.scannable.SamplePositions import SamplePositions # @UnusedImport
+from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
+print("-"*100)
+sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+print(sp.__doc__.replace("\n", "", 1))
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

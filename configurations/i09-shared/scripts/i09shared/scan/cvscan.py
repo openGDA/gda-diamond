@@ -7,17 +7,19 @@ from gdascripts.scan.scanListener import ScanListener
 from org.slf4j import LoggerFactory
 from gdascripts.scan import trajscans
 from gdascripts.scan.installStandardScansWithProcessing import scan_processor
-from gda.jython.commands.GeneralCommands import alias 
-from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
+from gda.jython.commands.GeneralCommands import alias # @UnresolvedImport
+from i09shared.scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
 from numbers import Number
 
 from i09shared.utils.ExceptionLogs import localStation_exception
 import sys
 
-from scannable.continuous.continuous_energy_scannables import jenergy_move_controller
-from gda.configuration.properties import LocalProperties
-if str(LocalProperties.get("gda.beamline.name")) == "i09":
-    from scannable.continuous.continuous_energy_scannables import ienergy_move_controller
+from gda.configuration.properties import LocalProperties # @UnresolvedImport
+BEAMLINE = LocalProperties.get("gda.beamline.name")
+if BEAMLINE == "i09" or BEAMLINE == "i09-2":
+    from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy_move_controller # @UnresolvedImport
+if BEAMLINE == "i09" or BEAMLINE == "i09-1":
+    from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy_move_controller # @UnresolvedImport
 
 class TrajectoryControllerHelper(ScanListener):
     def __init__(self): # motors, maybe also detector to set the delay time
@@ -27,7 +29,7 @@ class TrajectoryControllerHelper(ScanListener):
     def prepareForScan(self):
         self.logger.info("prepareForCVScan()")
         #remove default scannables as they cannot work with cvscan
-        from gda.jython.commands.ScannableCommands import get_defaults, remove_default
+        from gda.jython.commands.ScannableCommands import get_defaults, remove_default # @UnresolvedImport
         default_scannables = get_defaults()
         self.logger.debug("remove original default scannables: %r from default" % default_scannables)
         for scn in default_scannables:
@@ -38,7 +40,7 @@ class TrajectoryControllerHelper(ScanListener):
         self.logger.info("update(%r)" % scan_object)
         # restore default scannables after cvscan completed.
         if self.original_default_scannables is not None:
-            from gda.jython.commands.ScannableCommands import add_default
+            from gda.jython.commands.ScannableCommands import add_default # @UnresolvedImport
             self.logger.debug("add original default scannables %r to default" % self.original_default_scannables)
             for scn in self.original_default_scannables:
                 add_default(scn)

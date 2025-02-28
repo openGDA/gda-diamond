@@ -1,28 +1,12 @@
-from gda.configuration.properties import LocalProperties
-from gda.device import DeviceException
-from gda.device.scannable import ScannableBase
-from gda.jython import InterfaceProvider
+from gda.device import DeviceException #@UnresolvedImport
+from gda.device.scannable import ScannableBase #@UnresolvedImport
+from gda.jython import InterfaceProvider #@UnresolvedImport
 
 import json
 import os
 import logging
 import copy
 from collections import OrderedDict
-
-BEAMLINE = LocalProperties.get("gda.beamline.name")
-
-if BEAMLINE == "i09":
-    from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
-    beamline_sp_scannables = [smpmx, smpmy, smpmz, smpmpolar]
-elif BEAMLINE == "i09-1":
-    from gdaserver import hsmpmx, hsmpmy, hsmpmz, hsmpmpolar #@UnresolvedImport
-    beamline_sp_scannables= [hsmpmx, hsmpmy, hsmpmz, hsmpmpolar]
-elif BEAMLINE == "i09-2":
-    from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc #@UnresolvedImport
-    beamline_sp_scannables = [sx1, sx2, sx3, sy, sz1, sz2, sxc]
-else:
-    raise RuntimeError("{} is not yet supported with this class.".format(BEAMLINE))
-
 
 class SamplePositions(ScannableBase):
     """
@@ -477,8 +461,3 @@ def key_value_positions_to_str(key_positions):
         string = string + str(k) + ": " + str(v)
     string = string + "}"
     return string
-
-print("-"*100)
-sp = SamplePositions("sp", beamline_sp_scannables)
-print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
-print(sp.__doc__.replace("\n", "", 1))

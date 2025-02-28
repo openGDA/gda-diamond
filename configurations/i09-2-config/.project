@@ -4,7 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>i09-shared</project>
-		<project>i21-python</project>
+		<project>i09-2-shared</project>
 		<project>uk.ac.gda.api</project>
 		<project>uk.ac.gda.arpes.server</project>
 		<project>uk.ac.gda.beamline.i09-2</project>

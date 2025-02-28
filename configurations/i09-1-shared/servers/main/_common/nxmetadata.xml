@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcmNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="dcm" />
+		<property name="nexusClass" value="NXmonochromator" />
+	</bean>
+
+	<bean id="iidNexusDevice" class="gda.data.scan.nexus.device.ScannableNexusDeviceConfiguration" init-method="register">
+		<property name="scannableName" value="iid" />
+		<property name="nexusClass" value="NXinsertion_device" />
+	</bean>
+
+	<bean id="dcmBeamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam_dcm" />
+		<property name="incidentEnergyScannableName" value="dcmenergy" />
+	</bean>
+</beans>

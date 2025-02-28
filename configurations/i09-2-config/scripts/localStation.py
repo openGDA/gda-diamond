@@ -1,14 +1,14 @@
-import os
-import sys
-import gdascripts
-from gda.factory import Finder
-from gda.data import NumTracker
-from gda.jython import InterfaceProvider
-from gda.jython.commands import GeneralCommands
-from gda.jython.commands.GeneralCommands import vararg_alias, alias
-from gda.configuration.properties import LocalProperties
-from gda.util import PropertyUtils
-from gda.device.scannable import PVScannable, DummyScannable
+import os #@UnusedImport
+import sys #@UnusedImport
+import gdascripts #@UnusedImport
+from gda.factory import Finder #@UnusedImport @UnresolvedImport
+from gda.data import NumTracker #@UnusedImport @UnresolvedImport
+from gda.jython import InterfaceProvider #@UnusedImport @UnresolvedImport
+from gda.jython.commands import GeneralCommands #@UnusedImport @UnresolvedImport
+from gda.jython.commands.GeneralCommands import vararg_alias, alias #@UnusedImport @UnresolvedImport
+from gda.configuration.properties import LocalProperties #@UnusedImport @UnresolvedImport
+from gda.util import PropertyUtils #@UnusedImport @UnresolvedImport
+from gda.device.scannable import PVScannable, DummyScannable #@UnusedImport @UnresolvedImport
 from gdascripts import installation
 
 print("="*100);
@@ -63,23 +63,9 @@ if installation.isLive():
 ###############################################################################
 ###                         Create JID related devices                      ###
 ###############################################################################
-print("-"*100)
-from pseudodevices.IDGap_Offset import jgap_offset #@UnusedImport
-print("Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables.")
-print("")
-LH,LV,CR,CL=["LH","LV","CR","CL"]
-from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-jenergy_s = BeamEnergyPolarisationClass("jenergy_s", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-jenergy_s.configure()
-polarisation = BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
-polarisation.configure()
-jenergypolarisation = BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
-jenergypolarisation.configure()
-jenergypolarisation.setInputNames(["jenergy_s"])
-jenergypolarisation.setExtraNames(["polarisation"])
-
-from scannable.continuous.continuous_energy_scannables import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
-from i09shared.scan.cvscan import cvscan  # @UnusedImport
+from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
+from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
+from i09shared.scan.cvscan import cvscan #@UnusedImport
 
 ###############################################################################
 ###                   Get channel voltage control scannables                ###
@@ -134,7 +120,13 @@ from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc #@U
 ###                   Get check beam/control scannable                      ###
 ###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
-from i09shared.pseudodevices.checkid import checkjid # @UnusedImport
+from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+print("-"*100)
+print("Creating 'checkjid' scannable to be used to pause or resume detector acquisition based on ID control")
+from gdaserver import fsk1, psk1 #@UnresolvedImport
+from gdaserver import  jidaccesscontrol #@UnresolvedImport
+checkjid = WaitForScannableStateAndHandleShutter('checkjid', [fsk1, psk1], jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+print("")
 
 ###############################################################################
 ###                       Setup metashop commands                           ###
@@ -154,7 +146,11 @@ print("")
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
 ###############################################################################
-from i09shared.scannable.SamplePositions import sp, SamplePositions # @UnusedImport
+from i09shared.scannable.SamplePositions import SamplePositions # @UnusedImport
+print("-"*100)
+sp = SamplePositions("sp", [sx1, sx2, sx3, sy, sz1, sz2, sxc])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+print(sp.__doc__.replace("\n", "", 1))
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

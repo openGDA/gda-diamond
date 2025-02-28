@@ -28,10 +28,16 @@ client.spring-xml = [
 	"clients/_common/serverFileListener.xml"
 ]
 
+[extras.i09-2-shared]
+root = "../i09-2-shared"
+
+server.spring-xml = [
+	"servers/main/${gda.mode}/server.xml"
+]
+
 [extras.i09-shared]
 root = "../i09-shared"
 
 server.spring-xml = [
-	"servers/soft/${gda.mode}/server.xml",
 	"servers/main/${gda.mode}/server.xml"
 ]

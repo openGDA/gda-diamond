@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="script_projects.xml"/>
+
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DatasetFitter">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
+		<property name="plotName" value="Detector Image" />
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageROI"
+		class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI">
+		<property name="enable" value="false" />
+	</bean>
+
+	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DatasetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
+
+	<bean id="cam_ad_processor"
+		class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors" />
+		<constructor-arg ref="imageROI" />
+	</bean>
+
+	<bean id="cam_ad_filename_processor"
+		class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors" />
+		<constructor-arg ref="imageROI" />
+	</bean>
+
+	<bean id="cam_ad_processors"
+		class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="highestExistingFileMonitor.xml"/>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar
+		class -->
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
+	<import resource="nxmetadata.xml"/>
+
+	<import resource="devices/all_devices.xml"/>
+
+</beans>

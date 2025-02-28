@@ -7,6 +7,5 @@
 	<import resource="analyser_energy_range.xml"/>
 	<import resource="Al_KAlpha_Energy.xml"/>
 	<import resource="Mg_KAlpha_Energy.xml"/>
-	<import resource="file://${gda.config.shared}/servers/soft/_common/highestExistingFileMonitor.xml"/>
 
 </beans>
