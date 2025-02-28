@@ -456,6 +456,11 @@ def do_the_overall_sum(fh, xye_filepath, deltas):
     y = np.divide(y, z)
     e = np.sqrt(y)
 
+    #mask = ~np.isnan(counts)
+    #x = x[mask]
+    #y = y[mask]
+    #z = z[mask]
+
     save_this_delta_to_nexus(fh, x, y, e, "summed", make_default=True)
     write_xye(x, y, e, xye_filepath)
 
