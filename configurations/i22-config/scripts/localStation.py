@@ -43,7 +43,7 @@ execfile(gdascripts + "/utils.py")
 # Import athena commands to run bluesky plans
 from gdascripts.blueskyHandler import *
 
-#Set up the Bimorph Mirror 
+#Set up the Bimorph Mirror
 #print "Setting up access to Bimorph Mirror Channels...";
 run(setupScriptDir + "fastshuttershutter.py")
 #execfile(gdaScriptDir + "fastshuttershutter.py")

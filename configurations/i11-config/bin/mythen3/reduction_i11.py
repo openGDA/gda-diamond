@@ -410,6 +410,7 @@ def do_the_delta_iteration(
         fix_the_gaps(histogrammed)
         histogrammed_errors = np.sqrt(histogrammed)
         bin_centres = calculate_bin_centres(bins)
+        print(histogrammed[-10:])
         save_this_delta_to_nexus(
             f_out,
             bin_centres,
@@ -455,10 +456,10 @@ def do_the_overall_sum(fh, xye_filepath, deltas):
     y = np.divide(y, z)
     e = np.sqrt(y)
 
-    mask = ~np.isnan(y)
-    x = x[mask]
-    y = y[mask]
-    e = e[mask]
+    #mask = ~np.isnan(counts)
+    #x = x[mask]
+    #y = y[mask]
+    #z = z[mask]
 
     save_this_delta_to_nexus(fh, x, y, e, "summed", make_default=True)
     write_xye(x, y, e, xye_filepath)

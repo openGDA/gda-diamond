@@ -27,7 +27,11 @@
     <import resource="command_queue_processor.xml"/>
     <import resource="metadata.xml" />
     <import resource="datawriter.xml"/>
-    <import resource="devices/devices.xml"/>
+    <import resource="devices/*.xml"/>
+    <import resource="devices/slits/*.xml"/>
+    <!--
+    <import resource="gisaxs/gisaxs/*.xml"/>
+     -->
     <import resource="ncddetectors.xml"/>
     <import resource="terminal_logger.xml"/>
     <import resource="bragg_calibration.xml"/>

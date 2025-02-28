@@ -481,19 +481,47 @@ try:
 
 	try:
 		def pil3_tiffs_on():
-			caput("BL15I-CS-IOC-12:AUTORESTART", "1")
-			caput("BL15I-CS-IOC-12:START", "1")
+			# Make sure Ridgeway is running
+			caput("BL15I-CS-IOC-12:AUTORESTART", "1") # On
+			caput("BL15I-CS-IOC-12:START", "1") # Busy
+			# Make sure the Pilatus file writer IS checking that the files exist
+			pil3.pluginMap['tifwriter'].waitForFileArrival=True
+			# Make sure the hdf5 plugin is NOT telling Area Detector to delete the source file 
+			caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0") # No
 			simpleLog("pil3_tiffs_on completed, use 'pil3_tiffs_off' to stop writing pil3 tif and cbf files")
-	
+
 		def pil3_tiffs_off():
-			caput("BL15I-CS-IOC-12:AUTORESTART", "0")
-			caput("BL15I-CS-IOC-12:STOP", "1")
-			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to startp writing pil3 tif and cbf files")
+			# Make sure Ridgeway is running
+			caput("BL15I-CS-IOC-12:AUTORESTART", "0") # Off
+			caput("BL15I-CS-IOC-12:STOP", "1") # Busy
+			# Make sure the Pilatus file writer is NOT checking that the files exist
+			pil3.pluginMap['tifwriter'].waitForFileArrival=False
+			# Make sure the hdf5 plugin IS telling Area Detector to delete the source file 
+			caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "1") # Yes
+			simpleLog("pil3_tiffs_off completed, use 'pil3_tiffs_on' to start writing pil3 tif and cbf files")
+
+		def pil3_threshold_check():
+			pil3_threshold = float(caget("BL15I-EA-PILAT-03:CAM:ThresholdEnergy_RBV")) # keV
+			pil3_energy = float(caget("BL15I-EA-PILAT-03:CAM:Energy_RBV")) # keV
+			dcm_energy = float(caget("BL15I-OP-DCM-01:ENERGY.RBV"))/1000 # eV
+			first_exception=len(localStation_exceptions)
+
+			if pil3_energy + 1 < dcm_energy or dcm_energy < pil3_energy - 1:
+				localStation_exceptions.append("    dcm_energy (%f) is not within 1keV of pil3_energy (%f)" % (dcm_energy, pil3_energy))
+			if pil3_threshold < pil3_energy*0.5:
+				localStation_exceptions.append("    pil3_threshold (%f) is below 50% of pil3_energy (%f)" % (pil3_threshold, pil3_energy))
+			elif pil3_threshold > pil3_energy*0.8:
+				localStation_exceptions.append("    pil3_threshold (%f) is above 80% of pil3_energy (%f)" % (pil3_threshold, pil3_energy))
+
+			print(str.join("\n", localStation_exceptions[first_exception:len(localStation_exceptions)]))
 
 		alias("pil3_tiffs_on")
 		alias("pil3_tiffs_off")
+		alias("pil3_threshold_check")
+		
+		pil3_threshold_check()
 	except:
-		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler")
+		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler & threshold checker")
 
 	try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
@@ -501,11 +529,15 @@ try:
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
-		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
-		caput("BL15I-EA-PILAT-03:HDF5:Compression", "zlib")
+		#caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
+		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cdc") # Needed for fast compression
+		#caput("BL15I-EA-PILAT-03:HDF5:Compression", "zlib") # cdc plugin produced Blosc compression instead
 		caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0")
 		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off")
 		caput("BL15I-EA-PILAT-03:HDF5:XMLFileName", "0")
+		caput("BL15I-EA-PILAT-03:CDC:Mode", "0") # Compress
+		caput("BL15I-EA-PILAT-03:CDC:NDArrayPort", "pilatus3.pos")
+		caput("BL15I-EA-PILAT-03:POS:NDArrayPort", "pilatus3.cam") # Note, not stat, as stat can't run more than 100Hz.
 		pil3_tiffs_on()
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
