@@ -719,7 +719,11 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 	def __init__(self, name, rootPV, channelList, extraChannelList=[], elementCounter="iddFastScanElementCounter"):
 
 		self.numberOfChannels = len(channelList)
-		self.setupEpics(rootPV)
+		if beamline_name == "i06":
+			self.rootPV = rootPV
+			self.roi_stats_time_series_PVs = []
+		else:
+			self.setupEpics(rootPV)
 		
 		self.setName(name)
 		self.setInputNames(["pIndex"])
@@ -776,6 +780,10 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 	pvDataChannel02 = 'BL06I-MO-FSCAN-01:CH2DATA'
 	pvDataChannel03 = 'BL06I-MO-FSCAN-01:CH3DATA'
 	pvDataChannel04 = 'BL06I-MO-FSCAN-01:CH4DATA'
+	
+	#for i06 area detector ROIs
+	pvMeanValueRoi1 = 'BL06I-EA-DET-02:STAT1:TSMeanValue'
+	pvMeanValueRoi2 = 'BL06I-EA-DET-02:STAT2:TSMeanValue'
 	...
 	"""	
 	def setupEpics(self, rootPV):
@@ -785,10 +793,23 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 #		Epics PVs for the channels:
 		self.chData=[]
-		for i in range(self.numberOfChannels):
-			self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
-			self.configChannel(self.chData[i])
-		
+		if beamline_name == "i06" :
+			for i in range(self.numberOfChannels - 2):
+				self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
+				self.configChannel(self.chData[i])
+			for pv in self.roi_stats_time_series_PVs:
+				ch_time_series_waveform  = CAClient(pv)
+				self.configChannel(ch_time_series_waveform)
+				self.chData.append(ch_time_series_waveform)
+				sleep(0.1)		
+		else:
+			for i in range(self.numberOfChannels):
+				self.chData.append( CAClient(rootPV + ":CH" + str(i+1) + "DATA"))
+				self.configChannel(self.chData[i])
+			
+	def setRoiStatTimeSeriesPVs(self, time_series_waveform_pvs = None):
+		self.roi_stats_time_series_PVs = time_series_waveform_pvs
+			
 	def configChannel(self, channel):
 		if not channel.isConfigured():
 			channel.configure()
