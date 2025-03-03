@@ -112,6 +112,9 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @Undefi
 from beam.beam_centering import centerBeam  # @UnusedImport
 from i06shared.keithley.keithley2461_scannables_instances import keiCur, keiVolt, keithley2461  # @UnusedImport
 
+from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass
+top_up_countdown = EpicsMonitorClass('top_up_countdown', 'SR-CS-FILL-01:STACOUNTDN', 'sec', '%f')
+
 # NXxas App Def template objects
 print("-"*100)
 print("load 'xasmode' scannable")

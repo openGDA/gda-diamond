@@ -12,8 +12,9 @@ updated on 5 Dec 2024 for creating NXxas subentry as post data collection proces
 
 @author: fy65
 '''
-from Diamond.PseudoDevices.FastEnergyScan import FastEnergyScanControlClass,\
-    FastEnergyScanIDModeClass, EpicsWaveformDeviceClass, FastEnergyDeviceClass
+from Diamond.PseudoDevices.FastEnergyScan import FastEnergyScanControlClass, FastEnergyScanIDModeClass, FastEnergyDeviceClass
+from Diamond.PseudoDevices.FastEnergyScan import EpicsWaveformDeviceClass
+#from Diamond.PseudoDevices.FastEnergyScan_epicsROIs import EpicsWaveformDeviceClass
 import sys
 from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias
