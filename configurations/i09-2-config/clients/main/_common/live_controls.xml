@@ -1,29 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="Photon Energy " />
-		<property name="group" value="PGM Control" />
-		<property name="scannableName" value="pgmenergy" />
-		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="50" />
+	<bean id="fast_shutter_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="" />
+		<property name="group" value="Beamline" />
+		<property name="scannableName" value="fsk1" />
+		<property name="canvasHeight" value="30" />
+		<property name="canvasWidth" value="30" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value-ref="red_colour" />
+				<entry key="Out" value-ref="green_colour" />
+			</util:map>
+		</property>
 	</bean>
 
-	<bean id="cff_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="CFF " />
-		<property name="group" value="PGM Control" />
-		<property name="scannableName" value="pgmcff" />
-		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="0.2" />
+	<bean id="fast_shutter_control" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="fsk1"/>
+		<property name="buttonTooltip" value="Move fast shutter"/>
+		<property name="group" value="Beamline" />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="Open" />
+				<entry key="Out" value="Close" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="In" value="pos fsk1 'Out'" />
+				<entry key="Out" value="pos fsk1 'In'" />
+			</util:map>
+		</property>
 	</bean>
 
-	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<bean id="ss7ygap_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SS7 Y-GAP" />
+		<property name="group" value="Beamline" />
+		<property name="scannableName" value="ss7ygap" />
+		<property name="showStop" value="false" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="sm6y_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="SM6 Y" />
+		<property name="group" value="Beamline" />
+		<property name="scannableName" value="sm6y" />
+		<property name="showStop" value="false" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="sxc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sxc " />
+		<property name="group" value="Manipulator Control" />
+		<property name="scannableName" value="sxc_wrapper" />
+		<property name="increment" value="0.1" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="sy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sy " />
+		<property name="group" value="Manipulator Control" />
+		<property name="scannableName" value="sy_wrapper" />
+		<property name="increment" value="0.1" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="szc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="szc " />
+		<property name="group" value="Manipulator Control" />
+		<property name="scannableName" value="szc_wrapper" />
+		<property name="increment" value="0.1" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+
+	<bean id="kenergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="kenergy " />
+		<property name="group" value="Sample " />
+		<property name="scannableName" value="kenergy_wrapper" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="focus_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="focus " />
+		<property name="group" value="Sample " />
+		<property name="scannableName" value="focus_wrapper" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="mm_on" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="MM_on" />
+		<property name="buttonText" value="MM on" />
+		<property name="group" value="MM" />
+	</bean>
+
+	<bean id="mm_off" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="MM_off" />
+		<property name="buttonText" value="MM off" />
+		<property name="group" value="MM" />
+	</bean>
+
+	<bean id="gaussian_select_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="gaussian_select"/>
+		<property name="group" value="MM" />
+	</bean>
+
+	<bean id="fourier_select_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="fourier_select"/>
+		<property name="group" value="MM" />
+	</bean>
+
+	<bean id="beamline_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="photon_energy_control" />
-				<ref bean="cff_control" />
+				<ref bean="fast_shutter_status" />
+				<ref bean="fast_shutter_control" />
+				<ref bean="ss7ygap_motor_control" />
+				<ref bean="sm6y_motor_control" />
+
+				<ref bean="sxc_control" />
+				<ref bean="sy_control" />
+				<ref bean="szc_control" />
+
+				<ref bean="kenergy_control" />
+				<ref bean="focus_control" />
+
+				<ref bean="mm_on" />
+				<ref bean="mm_off" />
+				<ref bean="gaussian_select_control"/>
+				<ref bean="fourier_select_control"/>
 			</list>
 		</property>
 	</bean>

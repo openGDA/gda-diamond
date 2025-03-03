@@ -2,7 +2,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="fsk1" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="psk1" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="fsk1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="psk1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>
