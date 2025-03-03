@@ -252,11 +252,11 @@
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_measured" />
-								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:MeasuredTemperature_RBV" />
+								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:TemperatureActual" />
 							</bean>
 							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="temperature_set" />
-								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:SetTemperature" />
+								<property name="pvName" value="BL10I-EA-PIXIS-01:CAM:Temperature" />
 							</bean>
 						</list>
 					</property>

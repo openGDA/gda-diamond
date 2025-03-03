@@ -6,36 +6,36 @@
 
 
 	<!-- NXDetector -->
-<!-- 	<bean id="pimte_summed" class="gda.device.detector.NXDetector"> -->
-<!-- 		<property name="name" value="pimte_summed" /> -->
-<!-- 		<property name="collectionStrategy" ref="pimteSummedCollectionStrategy" /> -->
-<!-- 		<property name="additionalPluginList"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="pimte_summed_RoiStats1" /> -->
-<!-- 				<ref bean="pimte_summed_RoiStats2" /> -->
-<!-- 				<ref bean="pimte_summed_RoiStats3" /> -->
-<!-- 				<ref bean="pimte_summed_RoiStats4" /> -->
-<!-- 				<ref bean="pimte_summed_RoiStats5" /> -->
-<!-- 				<ref bean="pimte_summed_RoiStats6" /> -->
-<!-- 				<ref bean="pimteSummedHdf5Filewriter" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	<bean id="pimte_summed" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector">
-		 	<bean class="gda.device.detector.NXDetector">
-				<property name="name" value="pimte_summed" />
-				<property name="collectionStrategy" ref="pimteSummedCollectionStrategy" />
-				<property name="additionalPluginList">
-					<list>
-						<ref bean="pimteSummedHdf5Filewriter" />
-					</list>
-				</property>
-				<property name="level" value="7"/>
-			</bean>
+	<bean id="pimte_summed" class="gda.device.detector.NXDetector">
+		<property name="name" value="pimte_summed" />
+		<property name="collectionStrategy" ref="pimteSummedCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pimte_summed_RoiStats1" />
+				<ref bean="pimte_summed_RoiStats2" />
+				<ref bean="pimte_summed_RoiStats3" />
+				<ref bean="pimte_summed_RoiStats4" />
+				<ref bean="pimte_summed_RoiStats5" />
+				<ref bean="pimte_summed_RoiStats6" />
+				<ref bean="pimteSummedHdf5Filewriter" />
+			</list>
 		</property>
-		<property name="processor" ref="pimte_swmr_standard" />
 	</bean>
+<!-- 	<bean id="pimte_summed" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"> -->
+<!-- 		<property name="detector"> -->
+<!-- 		 	<bean class="gda.device.detector.NXDetector"> -->
+<!-- 				<property name="name" value="pimte_summed" /> -->
+<!-- 				<property name="collectionStrategy" ref="pimteSummedCollectionStrategy" /> -->
+<!-- 				<property name="additionalPluginList"> -->
+<!-- 					<list> -->
+<!-- 						<ref bean="pimteSummedHdf5Filewriter" /> -->
+<!-- 					</list> -->
+<!-- 				</property> -->
+<!-- 				<property name="level" value="7"/> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 		<property name="processor" ref="pimte_swmr_standard" /> -->
+<!-- 	</bean> -->
 
 	<bean id="pimtetiff_summed" class="gda.device.detector.NXDetector">
 		<property name="name" value="pimtetiff_summed" />

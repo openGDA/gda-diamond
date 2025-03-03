@@ -4,61 +4,61 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- NXDetector -->
-<!-- 	<bean id="pixis" class="gda.device.detector.NXDetector"> -->
-<!-- 		<property name="name" value="pixis" /> -->
-<!-- 		<property name="collectionStrategy" ref="pixisCollectionStrategy" /> -->
-<!-- 		<property name="additionalPluginList"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="pixis_RoiStats1" /> -->
-<!-- 				<ref bean="pixis_RoiStats2" /> -->
-<!-- 				<ref bean="pixis_RoiStats3" /> -->
-<!-- 				<ref bean="pixis_RoiStats4" /> -->
-<!-- 				<ref bean="pixis_RoiStats5" /> -->
-<!-- 				<ref bean="pixis_RoiStats6" /> -->
-<!-- 				<ref bean="pixisHdf5Filewriter" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	<bean id="pixis" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector">
-			<bean class="gda.device.detector.NXDetector">
-				<property name="name" value="pixis" />
-				<property name="collectionStrategy" ref="pixisCollectionStrategy" />
-				<property name="additionalPluginList">
-					<list>
-						<ref bean="pixisHdf5Filewriter" />
-					</list>
-				</property>
-				<property name="level" value="7"/>
-			</bean>
-		</property>
-		<property name="processor" ref="pixis_swmr_standard" />
-	</bean>
-	<bean id="pixis_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
-		<constructor-arg index="0" value="" />
-		<constructor-arg index="1" value="" />
-		<constructor-arg index="2" value="SDS" />
-		<constructor-arg index="3">
+	<bean id="pixis" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixis" />
+		<property name="collectionStrategy" ref="pixisCollectionStrategy" />
+		<property name="additionalPluginList">
 			<list>
-				<ref bean="pixis_stats_standard" />
-				<ref bean="pixis_roistats_standard" />
-				<ref bean="pixis_plotter" />
+				<ref bean="pixis_RoiStats1" />
+				<ref bean="pixis_RoiStats2" />
+				<ref bean="pixis_RoiStats3" />
+				<ref bean="pixis_RoiStats4" />
+				<ref bean="pixis_RoiStats5" />
+				<ref bean="pixis_RoiStats6" />
+				<ref bean="pixisHdf5Filewriter" />
 			</list>
-		</constructor-arg>
-		<constructor-arg index="4" ref="pixis_mask" />
-	</bean>
-	<bean id="pixis_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator">
-		<property name="minThreshold">
-			<value type="java.lang.Integer">0</value>
 		</property>
-		<property name="maxThreshold" >
-			<value type="java.lang.Integer">1000000000</value>
-		</property>
-		<property name="enabled" value="false" />
 	</bean>
-	<bean id="pixis_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats">
-		<property name="enabledStats">
-			<list>
+<!-- 	<bean id="pixis" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"> -->
+<!-- 		<property name="detector"> -->
+<!-- 			<bean class="gda.device.detector.NXDetector"> -->
+<!-- 				<property name="name" value="pixis" /> -->
+<!-- 				<property name="collectionStrategy" ref="pixisCollectionStrategy" /> -->
+<!-- 				<property name="additionalPluginList"> -->
+<!-- 					<list> -->
+<!-- 						<ref bean="pixisHdf5Filewriter" /> -->
+<!-- 					</list> -->
+<!-- 				</property> -->
+<!-- 				<property name="level" value="7"/> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 		<property name="processor" ref="pixis_swmr_standard" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pixis_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"> -->
+<!-- 		<constructor-arg index="0" value="" /> -->
+<!-- 		<constructor-arg index="1" value="" /> -->
+<!-- 		<constructor-arg index="2" value="SDS" /> -->
+<!-- 		<constructor-arg index="3"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="pixis_stats_standard" /> -->
+<!-- 				<ref bean="pixis_roistats_standard" /> -->
+<!-- 				<ref bean="pixis_plotter" /> -->
+<!-- 			</list> -->
+<!-- 		</constructor-arg> -->
+<!-- 		<constructor-arg index="4" ref="pixis_mask" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pixis_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"> -->
+<!-- 		<property name="minThreshold"> -->
+<!-- 			<value type="java.lang.Integer">0</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="maxThreshold" > -->
+<!-- 			<value type="java.lang.Integer">1000000000</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="enabled" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pixis_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats"> -->
+<!-- 		<property name="enabledStats"> -->
+<!-- 			<list> -->
 <!-- 				<value>MAX_VAL</value> -->
 <!-- 				<value>MAX_X</value> -->
 <!-- 				<value>MAX_Y</value> -->
@@ -66,18 +66,18 @@
 <!-- 				<value>MIN_X</value> -->
 <!-- 				<value>MIN_Y</value> -->
 <!-- 				<value>MEAN</value> -->
-				<value>SUM</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="pixis_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
-		<property name="plotName" value="pixis_cam: EPICS Array" />
-		<property name="statsProcessor" ref="pixis_stats_standard" />
-		<property name="detectorName" value="pixis"/>
-	</bean>
-	<bean id="pixis_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
-		<property name="plotName" value="pixis_cam: EPICS Array" />
-	</bean>
+<!-- 				<value>SUM</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pixis_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"> -->
+<!-- 		<property name="plotName" value="pixis_cam: EPICS Array" /> -->
+<!-- 		<property name="statsProcessor" ref="pixis_stats_standard" /> -->
+<!-- 		<property name="detectorName" value="pixis"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pixis_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter"> -->
+<!-- 		<property name="plotName" value="pixis_cam: EPICS Array" /> -->
+<!-- 	</bean> -->
 
 	<bean id="pixistiff" class="gda.device.detector.NXDetector">
 		<property name="name" value="pixistiff" />
