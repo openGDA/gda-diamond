@@ -8,8 +8,28 @@
 		<property name="name" value="user" />
 	</bean>
 
-	<!-- To do - add other parts once known -->
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
+		<property name="type" value="Fixed Tube x-ray" />
+		<property name="probe" value="x-ray" />
+	</bean>
+
+	<bean id="alBeamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam_al_kalpha" />
+		<property name="incidentEnergyScannableName" value="al_kalpha_energy" />
+	</bean>
+
+	<bean id="mgBeamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam_mg_kalpha" />
+		<property name="incidentEnergyScannableName" value="mg_kalpha_energy" />
+	</bean>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
-		<property name="userDeviceName" value="user" />
+		<property name="laboratoryConfig" value="true" />
+
+		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="sourceName" value="source" />
+
+		<!-- NOTE: beam nexus devices are added by DynamicScanMetadata class in localstation.py to reduce duplicate configuration -->
 	</bean>
 </beans>
