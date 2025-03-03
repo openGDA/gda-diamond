@@ -88,10 +88,10 @@
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
 							</bean>
 							<!-- medipix specific PVs -they are not in ADSIM thus use ScalarField -->
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
-								<property name="name" value="gain_mode"/>
-								<property name="value" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
-							</bean>
+<!-- 	 						<bean class="org.eclipse.scanning.device.ScalarField"> -->
+<!-- 								<property name="name" value="gain_mode"/> -->
+<!-- 								<property name="value" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/> -->
+<!-- 							</bean> -->
 	 						<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>

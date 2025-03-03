@@ -201,10 +201,10 @@
 								<property name="name" value="image_size_y"/>
 								<property name="pvName" value="BL06K-EA-DET-01:CAM:ArraySizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
-								<property name="name" value="gain_mode"/>
-								<property name="pvName" value="BL06K-EA-DET-01:CAM:GainMode_RBV"/>
-							</bean>
+<!-- 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField"> -->
+<!-- 								<property name="name" value="gain_mode"/> -->
+<!-- 								<property name="pvName" value="BL06K-EA-DET-01:CAM:GainMode_RBV"/> -->
+<!-- 							</bean> -->
 	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="pvName" value="BL06K-EA-DET-01:CAM:FilePath_RBV"/>
