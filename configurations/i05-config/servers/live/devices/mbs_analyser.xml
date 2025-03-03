@@ -11,14 +11,14 @@
 	</bean>
 
 	<bean id="mbs_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-        <property name="basePVName" value="BL05I-EA-DET-02:ARR:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL05I-EA-DET-02:ARR:" />
-                <property name="initialArrayPort" value="DET.CAM" />
-            </bean>
-        </property>
-    </bean>
+				<property name="basePVName" value="BL05I-EA-DET-02:ARR:" />
+				<property name="pluginBase">
+						<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+								<property name="basePVName" value="BL05I-EA-DET-02:ARR:" />
+								<property name="initialArrayPort" value="DET.CAM" />
+						</bean>
+				</property>
+		</bean>
 
 	<bean id="mbs_controller" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserController">
 		<constructor-arg name="adBase" ref="mbs_adbase" />
@@ -53,10 +53,10 @@
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 		<property name="maximumNumberOfSteps" value="2000" />
 		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
-		<property name="entranceSlitInformationProvider" ref="mbs_slits" />
+<!-- 		<property name="entranceSlitInformationProvider" ref="mbs_slits" /> -->
 		<property name="energyStepPerPixel" value="0.08283989303014" />
 	</bean>
-	
+
 	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
 		<property name="name" value="analyser" />
@@ -67,7 +67,7 @@
 		<property name="fixedModeConfiguration" ref="detector_config" />
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
-		<property name="entranceSlitInformationProvider" ref="mbs_slits" />
+<!-- 		<property name="entranceSlitInformationProvider" ref="mbs_slits" /> -->
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
@@ -79,11 +79,11 @@
 		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
 		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
 		<property name="supportedAcquisitionModes">
-	      <list>
-	         <value>Fixed</value>
-	         <value>Dither</value>
-	      </list>
-	   </property>
+				<list>
+					 <value>Fixed</value>
+					 <value>Dither</value>
+				</list>
+		 </property>
 	</bean>
 
 	<bean id="AnalyserSumLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
@@ -94,11 +94,11 @@
 		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
 		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
 		<property name="supportedAcquisitionModes">
-	      <list>
-	         <value>Fixed</value>
-	         <value>Dither</value>
-	      </list>
-	   </property>
+				<list>
+					 <value>Fixed</value>
+					 <value>Dither</value>
+				</list>
+		 </property>
 	</bean>
 
 	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
@@ -110,10 +110,10 @@
 		<property name="acquirePV" value="BL05I-EA-DET-02:CAM:Acquire" />
 		<property name="acquisitionModePV" value="BL05I-EA-DET-02:CAM:AcqMode" />
 		<property name="supportedAcquisitionModes">
-	      <list>
-	         <value>Swept</value>
-	      </list>
-	   </property>
+				<list>
+					 <value>Swept</value>
+				</list>
+		 </property>
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
@@ -145,13 +145,13 @@
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-02:CAM:DeflX" />
 		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
 	</bean>
-	
+
 	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
 		<property name="limitsMap" ref="defl_x_range" />
 		<property name="pvName" value="BL05I-EA-DET-02:CAM:LensMode"/>
 		<property name="useMonitor" value="true"/>
 	</bean>
-	
+
 	<!-- Configure limits when using deflector_x in Jython -->
 	<bean id="defl_x_range" class="gda.device.controlpoint.LimitsMap">
 		<constructor-arg>
@@ -188,8 +188,8 @@
 				</entry>
 			</map>
 		</constructor-arg>
-    </bean>
-	
+		</bean>
+
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05I-EA-DET-02:CAM:PsuMode_RBV" />
 		<property name="outputFormat" value="%s" />
