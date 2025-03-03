@@ -65,6 +65,29 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###############################################################################
 ###                  Metadata object/commands                               ###
 ###############################################################################
+from gdaserver import al_kalpha_energy #@UnresolvedImport
+AL_KALPHA_METADATA_SCANNABLES = [al_kalpha_energy]
+AL_KALPHA_METADATA_DEVICE_NAMES = ["beam_al_kalpha"]
+
+from gdaserver import mg_kalpha_energy #@UnresolvedImport
+MG_KALPHA_METADATA_SCANNABLES = [mg_kalpha_energy]
+MG_KALPHA_METADATA_DEVICE_NAMES = ["beam_mg_kalpha"]
+
+#Defaults must be set to prevent any warning message
+from org.eclipse.scanning.device import CommonBeamlineDevicesConfiguration #@UnresolvedImport
+CommonBeamlineDevicesConfiguration.getInstance().setBeamName(AL_KALPHA_METADATA_DEVICE_NAMES[0])
+
+from i09shared.metadata.dynamic_metadata import DynamicScanMetadata
+dynamic_meta = DynamicScanMetadata(
+    sequence_detector = r4000,
+    metadata_dict = {
+        "Aluminium K-Alpha" : [AL_KALPHA_METADATA_SCANNABLES, AL_KALPHA_METADATA_DEVICE_NAMES],
+        "Magnesium K-Alpha" : [MG_KALPHA_METADATA_SCANNABLES, MG_KALPHA_METADATA_DEVICE_NAMES],
+    },
+)
+scan.scanListeners = scan.scanListeners + [dynamic_meta]
+mrscan.scanListeners = mrscan.scanListeners + [dynamic_meta]
+
 print("-"*100)
 print("Setup meta object, an instance of Metadata. Can add additional metadata to scans:")
 from gdascripts.metadata.nexus_metadata_class import meta # @UnusedImport

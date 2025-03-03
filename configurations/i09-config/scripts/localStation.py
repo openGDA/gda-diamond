@@ -155,7 +155,7 @@ CommonBeamlineDevicesConfiguration.getInstance().setInsertionDeviceName(I_METADA
 CommonBeamlineDevicesConfiguration.getInstance().setMonochromatorName(I_METADATA_DEVICE_NAMES[1])
 CommonBeamlineDevicesConfiguration.getInstance().setBeamName(I_METADATA_DEVICE_NAMES[2])
 
-from metadata.dynamic_metadata import DynamicScanMetadata
+from i09shared.metadata.dynamic_metadata import DynamicScanMetadata
 dynamic_meta = DynamicScanMetadata(
 	sequence_detector = ew4000,
 	metadata_dict = {
