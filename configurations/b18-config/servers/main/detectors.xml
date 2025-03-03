@@ -121,6 +121,7 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="4" />
+		<property name="ttlSocket" value="0" />
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>

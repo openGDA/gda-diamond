@@ -2,6 +2,15 @@
 <DetectorParameters>
     <shouldValidate>true</shouldValidate>
     <detectorConfiguration>
+        <description>Ionchamber adjustment</description>
+        <detectorName>ionchamber_optimisation</detectorName>
+        <configFileName>Ionchamber_Optimisation_Parameters.json</configFileName>
+        <scriptCommand></scriptCommand>
+        <useDetectorInScan>true</useDetectorInScan>
+        <useScriptCommand>false</useScriptCommand>
+        <useConfigFile>true</useConfigFile>
+    </detectorConfiguration>
+    <detectorConfiguration>
         <description>Ionchambers</description>
         <detectorName>counterTimer01</detectorName>
         <alwaysUseDetectorInScan>true</alwaysUseDetectorInScan>
@@ -30,6 +39,15 @@
         <useConfigFile>true</useConfigFile>
         <extraDetectorName>xspress4OdinFFI0</extraDetectorName>
     </detectorConfiguration>
+     <detectorConfiguration>
+        <description>Xspress2</description>
+        <detectorName>xspress2system</detectorName>
+        <configFileName></configFileName>
+        <useDetectorInScan>false</useDetectorInScan>
+        <useScriptCommand>false</useScriptCommand>
+        <useConfigFile>true</useConfigFile>
+        <extraDetectorName>xspress2FFI0</extraDetectorName>
+    </detectorConfiguration>   
     <detectorConfiguration>
         <description>Medipix</description>
         <detectorName>medipix</detectorName>
@@ -41,6 +59,23 @@
     <detectorConfiguration>
         <description>Pilatus</description>
         <detectorName>pilatus_addetector</detectorName>
+        <configFileName></configFileName>
+        <useDetectorInScan>false</useDetectorInScan>
+        <useScriptCommand>false</useScriptCommand>
+        <useConfigFile>true</useConfigFile>
+    </detectorConfiguration>
+    <detectorConfiguration>
+        <description>Pilatus_continuous</description>
+        <detectorName>qexafs_pilatus</detectorName>
+        <configFileName></configFileName>
+        <scriptCommand>qexafs_counterTimer01.setFrameDeadTime(1e-3)</scriptCommand>
+        <useDetectorInScan>false</useDetectorInScan>
+        <useScriptCommand>true</useScriptCommand>
+        <useConfigFile>false</useConfigFile>
+    </detectorConfiguration>
+    <detectorConfiguration>
+        <description>Lambda</description>
+        <detectorName>lambda_addetector</detectorName>
         <configFileName></configFileName>
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>

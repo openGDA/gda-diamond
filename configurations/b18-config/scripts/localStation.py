@@ -44,9 +44,16 @@ daServer = Finder.find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
-detectorPreparer.setDiffractionDetectors([pilatus_addetector]) #lambda_addetector
+detectorPreparer.setDiffractionDetectors([pilatus_addetector, lambda_addetector])
 detectorPreparer.addDetectorNameMapping("qexafs_pilatus", "qexafs_pilatus")
 detectorPreparer.setPreparers([adjustmentPreparer])
+
+if 'xspress2system' in locals() :
+    print("Setting up Xspress2 detector objects")
+    detectorPreparer.addDetectorNameMapping("xspress2system", "qexafs_xspress2")
+    detectorPreparer.addDetectorNameMapping("xspress2FFI0", "qexafs_xspress2_FFI0")
+else :
+    print("Xspress2 detector not present")
 
 ## Setup XspressOdin 
 xspress4IsPresent = 'xspress4Odin' in locals()
@@ -208,7 +215,7 @@ run("continuous_scans_new.py")
 run("meca_status.py")
 run("test-ionchamber-output.py")
 
-run 'ionchamber_adjustment/set_amplifiers_routines.py'
+#run 'ionchamber_adjustment/set_amplifiers_routines.py'
 
 ## setup detector preparer to use ionchamber checker
 detectorPreparer.setRunIonchamberChecker(True)
@@ -272,5 +279,9 @@ run("ionchamber_adjustment/set_amplifiers_routines.py")
 # Set the scaler dead frame time (for continuous detector scans with medipix)
 print 'Tfg frame dead time : set using qexafs_counterTimer01.setFrameDeadTime(1e-6) (time in seconds)'
 print 'Deadtime is currently set to : '+str(qexafs_counterTimer01.getFrameDeadTime())+" secs"
+
+print("Setting normal (non inverted) Veto options for output 0 and output 1")
+daServer.sendCommand("tfg setup-veto veto0-inv 0")
+daServer.sendCommand("tfg setup-veto veto1-inv 0")
 
 print "Initialization Complete";

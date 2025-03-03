@@ -1,14 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
 	<bean id="pilatus_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pilatus_hdf5" />
-		<property name="fileTemplate" value="%s%s.hdf5" />
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileNameTemplate" value="" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/nexus/" />
+		<property name="fileNameTemplate" value="pilatus" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
