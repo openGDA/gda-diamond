@@ -363,4 +363,32 @@
 		<property name="bottomUi" ref="fds2_histogramBottomUI" />
 	</bean>
 
+	<bean id="imagestar_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="imagestar_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="imagestar_histogramTopUI" />
+	</bean>
+	<bean id="imagestar_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="imagestar_camera_control" />
+ 		<property name="extensions"> 
+ 		<list> 
+ 		<bean class="uk.ac.gda.client.live.stream.view.customui.AcquireSnapshotExtension">
+ 			<constructor-arg ref="imagestar_snapshot_camera_control" />	
+ 		</bean>
+  		</list> 
+ 		</property> 
+	</bean>
+	<bean id="imagestar_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="imagestar_controlsUI" />
+				<ref bean="imagestar_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
