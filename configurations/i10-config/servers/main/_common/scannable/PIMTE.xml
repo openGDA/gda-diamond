@@ -4,62 +4,62 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- NXDetector -->
-<!-- 	<bean id="pimte" class="gda.device.detector.NXDetector"> -->
-<!-- 		<property name="name" value="pimte" /> -->
-<!-- 		<property name="collectionStrategy" ref="pimteCollectionStrategy" /> -->
-<!-- 		<property name="additionalPluginList"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="pimte_RoiStats1" /> -->
-<!-- 				<ref bean="pimte_RoiStats2" /> -->
-<!-- 				<ref bean="pimte_RoiStats3" /> -->
-<!-- 				<ref bean="pimte_RoiStats4" /> -->
-<!-- 				<ref bean="pimte_RoiStats5" /> -->
-<!-- 				<ref bean="pimte_RoiStats6" /> -->
-<!-- 				<ref bean="pimteHdf5Filewriter" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	<!-- Objects for Processing -->
-	<bean id="pimte" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector">
-		 	<bean class="gda.device.detector.NXDetector">
-				<property name="name" value="pimte" />
-				<property name="collectionStrategy" ref="pimteCollectionStrategy" />
-				<property name="additionalPluginList">
-					<list>
-						<ref bean="pimteHdf5Filewriter" />
-					</list>
-				</property>
-				<property name="level" value="7"/>
-			</bean>
-		</property>
-		<property name="processor" ref="pimte_swmr_standard" />
-	</bean>
-	<bean id="pimte_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
-		<constructor-arg index="0" value="" />
-		<constructor-arg index="1" value="" />
-		<constructor-arg index="2" value="SDS" />
-		<constructor-arg index="3">
+	<bean id="pimte" class="gda.device.detector.NXDetector">
+		<property name="name" value="pimte" />
+		<property name="collectionStrategy" ref="pimteCollectionStrategy" />
+		<property name="additionalPluginList">
 			<list>
-				<ref bean="pimte_stats_standard" />
-				<ref bean="pimte_roistats_standard" />
-				<ref bean="pimte_plotter" />
+				<ref bean="pimte_RoiStats1" />
+				<ref bean="pimte_RoiStats2" />
+				<ref bean="pimte_RoiStats3" />
+				<ref bean="pimte_RoiStats4" />
+				<ref bean="pimte_RoiStats5" />
+				<ref bean="pimte_RoiStats6" />
+				<ref bean="pimteHdf5Filewriter" />
 			</list>
-		</constructor-arg>
-		<constructor-arg index="4" ref="pimte_mask" />
-	</bean>
-	<bean id="pimte_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator">
-		<property name="minThreshold">
-			<value type="java.lang.Integer">0</value>
 		</property>
-		<property name="maxThreshold" >
-			<value type="java.lang.Integer">1000000000</value>
-		</property>
-		<property name="enabled" value="false" />
 	</bean>
-	<bean id="pimte_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats">
-		<property name="enabledStats">
-			<list>
+	<!-- Objects for Processing -->
+<!-- 	<bean id="pimte" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"> -->
+<!-- 		<property name="detector"> -->
+<!-- 		 	<bean class="gda.device.detector.NXDetector"> -->
+<!-- 				<property name="name" value="pimte" /> -->
+<!-- 				<property name="collectionStrategy" ref="pimteCollectionStrategy" /> -->
+<!-- 				<property name="additionalPluginList"> -->
+<!-- 					<list> -->
+<!-- 						<ref bean="pimteHdf5Filewriter" /> -->
+<!-- 					</list> -->
+<!-- 				</property> -->
+<!-- 				<property name="level" value="7"/> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 		<property name="processor" ref="pimte_swmr_standard" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pimte_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"> -->
+<!-- 		<constructor-arg index="0" value="" /> -->
+<!-- 		<constructor-arg index="1" value="" /> -->
+<!-- 		<constructor-arg index="2" value="SDS" /> -->
+<!-- 		<constructor-arg index="3"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="pimte_stats_standard" /> -->
+<!-- 				<ref bean="pimte_roistats_standard" /> -->
+<!-- 				<ref bean="pimte_plotter" /> -->
+<!-- 			</list> -->
+<!-- 		</constructor-arg> -->
+<!-- 		<constructor-arg index="4" ref="pimte_mask" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pimte_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"> -->
+<!-- 		<property name="minThreshold"> -->
+<!-- 			<value type="java.lang.Integer">0</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="maxThreshold" > -->
+<!-- 			<value type="java.lang.Integer">1000000000</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="enabled" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pimte_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats"> -->
+<!-- 		<property name="enabledStats"> -->
+<!-- 			<list> -->
 <!-- 				<value>MAX_VAL</value> -->
 <!-- 				<value>MAX_X</value> -->
 <!-- 				<value>MAX_Y</value> -->
@@ -67,18 +67,18 @@
 <!-- 				<value>MIN_X</value> -->
 <!-- 				<value>MIN_Y</value> -->
 <!-- 				<value>MEAN</value> -->
-				<value>SUM</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="pimte_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
-		<property name="plotName" value="pimte_cam: EPICS Array" />
-		<property name="statsProcessor" ref="pimte_stats_standard" />
-		<property name="detectorName" value="pimte"/>
-	</bean>
-	<bean id="pimte_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter">
-		<property name="plotName" value="pimte_cam: EPICS Array" />
-	</bean>
+<!-- 				<value>SUM</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pimte_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"> -->
+<!-- 		<property name="plotName" value="pimte_cam: EPICS Array" /> -->
+<!-- 		<property name="statsProcessor" ref="pimte_stats_standard" /> -->
+<!-- 		<property name="detectorName" value="pimte"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pimte_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter"> -->
+<!-- 		<property name="plotName" value="pimte_cam: EPICS Array" /> -->
+<!-- 	</bean> -->
 
 	<bean id="pimtetiff" class="gda.device.detector.NXDetector">
 		<property name="name" value="pimtetiff" />

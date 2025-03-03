@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 from gda.device.scannable import PositionInputStream
-import java.util.Vector
+import java.util.Vector  # @UnresolvedImport
 from org.slf4j import LoggerFactory
 import time
 from i10shared import installation
