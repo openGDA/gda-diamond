@@ -34,10 +34,25 @@
 		<property name="continuousImageMode" value="1" />
 	</bean>
 	
-	<bean id="zyla_nxcollectionstrategy"
-			class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="zyla_adbase" />
-		<constructor-arg value="-1" />
+	<bean id="zyla_nxcollectionstrategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+		<property name="acquirePeriodExpression" value="#acquireTime" />
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="zyla_adbase" />
+								<property name="restoreAcquireState" value="true" />
+							</bean>
+						</property>
+						<property name="restoreTriggerMode" value="true" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="zyla_nxfilewriter_for_scans"
