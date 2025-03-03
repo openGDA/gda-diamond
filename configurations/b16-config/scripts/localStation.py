@@ -1446,7 +1446,7 @@ if installation.isLive():
 	w.setLevel(12)
 	
 	# Piezo oscillation stuff - remove after experiment is finished
-	from scannable.epics.piezo_oscillator import create_osc_devices
+	from scannable.epics.piezo_oscillator import create_osc_devices, OscillationDetectorWrapper, MotorWithBackgroundOscillations
 	
 	try:
 		(amc100_osc, amc100_det) = create_osc_devices("amc100", "BL16B-EA-AMC-01:AXIS0:OSC:")
@@ -1463,5 +1463,7 @@ if installation.isLive():
 	except:
 		print("aerotech objects not created - see logs")
 
+	oscillate = OscillationDetectorWrapper(aerotech_det, aerotech_osc)
+	aerotech = MotorWithBackgroundOscillations(aeropiezo, aerotech_osc)
 
 print_banner("Initialisation complete")
