@@ -904,6 +904,21 @@ if installation.isLive() :
 	dcam9max2d = DetectorDataProcessorWithRoiForNexus('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
 	dcam9intensity2d = DetectorDataProcessorWithRoiForNexus('dcam9intensity2d', dcam9, [PixelIntensity()])
 	dcam9roi = create_detector_roi(dcam9, 'dcam9roi')
+	
+	dcam10 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'dcam10',
+		_dcam10,  # @UndefinedVariable
+		None,
+		_dcam10,
+		[],
+		panel_name_rcp='dcam10',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	dcam10peak2d = DetectorDataProcessorWithRoiForNexus('dcam10peak2d', dcam10, [TwodGaussianPeak()]) # modified to work with bimorph script
+	dcam10max2d = DetectorDataProcessorWithRoiForNexus('dcam10max2d', dcam10, [SumMaxPositionAndValue()])
+	dcam10intensity2d = DetectorDataProcessorWithRoiForNexus('dcam10intensity2d', dcam10, [PixelIntensity()])
+	dcam10roi = create_detector_roi(dcam10, 'dcam10roi')
 
 def configure_fds(name, detector, snaps_detector):
 	wrapper = SwitchableHardwareTriggerableProcessingDetectorWrapper(

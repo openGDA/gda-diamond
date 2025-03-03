@@ -48,6 +48,7 @@
 
 	<import resource="epics/detector/balor.xml" />
 	<import resource="epics/detector/dcam9.xml" />
+	<import resource="epics/detector/dcam10.xml" />
 	<import resource="epics/detector/eiger.xml" />
 	<import resource="epics/detector/scaler_vortex.xml" />
 	<import resource="epics/detector/imagestar.xml" />	
