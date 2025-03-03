@@ -1459,4 +1459,9 @@ if installation.isLive():
 	oscillate = OscillationDetectorWrapper(aerotech_det, aerotech_osc)
 	aerotech = MotorWithBackgroundOscillations(aeropiezo, aerotech_osc)
 
+from mapscan import mapscan
+alias(mapscan)
+print("Imported `mapscan` for 2D map visualisation (see help(mapscan) for more information)")
+
+
 print_banner("Initialisation complete")
