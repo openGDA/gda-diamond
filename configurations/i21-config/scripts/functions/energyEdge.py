@@ -72,8 +72,10 @@ def set_edge(edge, grating = None, lookup_table = EDGE_GRATING_TABLE):
             if position is None:
                 print("no position value available for scannable %s" % scannable.getName())
             else:
-                if get_machine_state() in [USER, SPECIAL, BL_STARTUP]:
-                scannable.asynchronousMoveTo(position)
+                if scannable is energy and get_machine_state() not in [USER, SPECIAL, BL_STARTUP]:
+                    continue
+                else:
+                    scannable.asynchronousMoveTo(position)
     from i21commands.checkedMotion import move
     if (specl_val - sgmr1_val) <= 10100:
         move(specl, pos_dict[specl])

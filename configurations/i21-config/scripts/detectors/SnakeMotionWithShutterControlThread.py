@@ -200,4 +200,3 @@ class SnakePathWithShutterControlThread(threading.Thread):
             continuous_end = self.continuous_move_motor_end
             self.continuous_move_motor_end = self.continuous_move_motor_start
             self.continuous_move_motor_start = continuous_end
-
