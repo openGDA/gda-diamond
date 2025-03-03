@@ -4,7 +4,9 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
-
+	
+	<import resource="epics/bimorph.xml" />
+	
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />
