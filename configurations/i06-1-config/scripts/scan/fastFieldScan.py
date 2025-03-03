@@ -29,7 +29,7 @@ SHOW_DEMAND_VALUE=False
 
 from magnet.useMagnet import magx, magy, magz
 from Diamond.PseudoDevices.SuperconductingMagnetController import magz_ramp_rate, magx_ramp_rate, magy_ramp_rate
-SUPPORTED_MAGNET_SCANNABLES = {magx : magx_ramp_rate, magy : magy_ramp_rate, magz : magz_ramp_rate}
+SUPPORTED_MAGNET_SCANNABLES = {"magx" : magx_ramp_rate, "magy" : magy_ramp_rate, "magz" : magz_ramp_rate}
 
 from Beamline.U2Scaler8513 import ca61sr, ca62sr, ca63sr, ca64sr, ca65sr, ca66sr, ca67sr, ca68sr
 SUPPORTED_DETECTOR_SCANNABLES = [ca61sr, ca62sr, ca63sr, ca64sr, ca65sr, ca66sr, ca67sr, ca68sr]
@@ -74,7 +74,6 @@ class MagnetFieldFlyScannable(ScannableBase):
         self.stepVal=0.1
         self.timeout_secs = timeout_secs
         self.lastreadPosition=0.
-        self.rampRate=None
         self.origionalRampRate=None
         self.alreadyStarted=False
         self.moveToStartCompleted=False
@@ -84,26 +83,30 @@ class MagnetFieldFlyScannable(ScannableBase):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
     
     def isBusy(self):
-        if not self.scannable.isBusy():
-            res = False;
+        print("isBusy called !")
+        # if not self.scannable.isBusy():
+        #     print("I am not busy")
+        #     res = False;
+        # else:
+        self.lastreadPosition = self.getCurrentPositionOfScannable()
+        if self.positive:
+            print("positive: %f, %f" % (self.requiredPosVal, self.lastreadPosition))
+            res = self.requiredPosVal > self.lastreadPosition
         else:
-            self.lastreadPosition = self.getCurrentPositionOfScannable()
-            if self.positive:
-                res = self.requiredPosVal > self.lastreadPosition
-            else:
-                res = self.requiredPosVal < self.lastreadPosition
+            print("negative:: %f, %f" % (self.requiredPosVal, self.lastreadPosition))
+            res = self.requiredPosVal < self.lastreadPosition
         return res
 
     def waitWhileBusy(self):
         clock_at_start = time.clock()
         while self.isBusy() and (time.clock()-clock_at_start < self.timeout_secs or math.fabs((self.lastreadPosition-self.requiredPosVal)/self.stepVal) > 4):
-            time.sleep(.01)
+            time.sleep(.001)
 
     def setRampRate(self, speed):
-        SUPPORTED_MAGNET_SCANNABLES[self.scannable].asynchronousMoveTo(speed)
+        SUPPORTED_MAGNET_SCANNABLES[str(self.scannable.getName())].asynchronousMoveTo(speed)
 
     def getRampRate(self):
-        return SUPPORTED_MAGNET_SCANNABLES[self.scannable].getPosition()
+        return SUPPORTED_MAGNET_SCANNABLES[str(self.scannable.getName())].getPosition()
     
     def atScanStart(self):
         self.alreadyStarted=False
@@ -114,7 +117,7 @@ class MagnetFieldFlyScannable(ScannableBase):
             self.scannable.asynchronousMoveTo(self.startVal)
             count=0
             while self.scannable.isBusy():
-                sleep(1)
+                sleep(0.01)
                 sys.stdout.write(".")
                 count=count+1
                 if count % 80 == 0 :
@@ -128,18 +131,17 @@ class MagnetFieldFlyScannable(ScannableBase):
         
     def restoreMotorSpeed(self):
         if self.origionalRampRate is not None:
-            print("Restore magnet field ramp rate from %r to %r" % (self.rampRate, self.origionalRampRate))
+            print("Restore magnet field ramp rate from %r to %r" % (self.ramp_rate, self.origionalRampRate))
             if self.scannable.isBusy():
                 self.scannable.stop()
-                sleep(2)
+                # sleep(2)
             try:
                 self.setRampRate(self.origionalRampRate)
             except:
                 print("Restore magnet field ramp rate failed with Exception, try again after 5 second sleep")
-                sleep(5)
+                # sleep(5)
                 self.setRampRate(self.origionalRampRate)
             self.origionalRampRate=None
-        self.rampRate=None
         self.alreadyStarted=False
         self.moveToStartCompleted=False
         
@@ -166,10 +168,10 @@ class MagnetFieldFlyScannable(ScannableBase):
             return
         elif not self.moveToStartCompleted:
             self.moveToStart()
-            if self.rampRate is not None:
+            if self.ramp_rate is not None:
                 self.origionalRampRate= self.getRampRate()
-                print("change magnet field ramp rate from %r to %r" % (self.origionalRampRate, self.rampRate))
-                self.setRampRate(self.rampRate)
+                print("change magnet field ramp rate from %r to %r" % (self.origionalRampRate, self.ramp_rate))
+                self.setRampRate(self.ramp_rate)
             return
         stop_position = new_position.stop
         print("Move to stop position %f" % stop_position)
@@ -202,13 +204,15 @@ def fastfieldscan(*args):
     while i< len(args):
         arg = args[i]
         if i==0 :
-            if arg not in SUPPORTED_MAGNET_SCANNABLES.keys():
-                raise SyntaxError("The first argument is not a magnet Scannable in the list %r!" % [x.getName() for x in SUPPORTED_MAGNET_SCANNABLES.keys()])
+            if not isinstance(arg, Scannable):
+                raise SyntaxError("The first argument is not a Scannable!")
+            if str(arg.getName()) not in [str(x) for x in SUPPORTED_MAGNET_SCANNABLES.keys()]:
+                raise SyntaxError("The first argument is not a magnet Scannable in the list %s" % [str(x) for x in SUPPORTED_MAGNET_SCANNABLES.keys()])
             else:
                 startpos = args[i + 1]
                 stoppos = args[i + 2]
                 ramprate = args[i + 3]
-                if args[i + 4] in SUPPORTED_DETECTOR_SCANNABLES:
+                if isinstance(args[i + 4], Scannable) and str(args[i + 4].getName()) in [str(x.getName()) for x in SUPPORTED_DETECTOR_SCANNABLES]:
                     #scalar channel scannable is provided in command
                     integrationtime = args[i + 5]
                     stepsize = float(ramprate)*float(integrationtime)/60.0

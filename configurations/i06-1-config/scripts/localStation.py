@@ -113,3 +113,5 @@ xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 print("="*100)
 print("End of i06-1 localStation.py")
 
+
+
