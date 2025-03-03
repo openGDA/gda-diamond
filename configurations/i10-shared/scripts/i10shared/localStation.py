@@ -125,6 +125,3 @@ from keithley.keithley2400_scannables_instances import keiCur1, keiVol1  # @Unus
 # Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS = []  # @UndefinedVariable
-
-
-
