@@ -152,6 +152,8 @@ sp = SamplePositions("sp", [sx1, sx2, sx3, sy, sz1, sz2, sxc])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 print(sp.__doc__.replace("\n", "", 1))
 
+from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
+
 print("="*100)
 print("localStation.py Initialisation script complete.")
 print("="*100)
