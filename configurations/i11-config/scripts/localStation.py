@@ -12,6 +12,7 @@ from gda.jython import InterfaceProvider
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
+import os
 
 from gdaserver import GDAMetadata as meta
 
@@ -361,6 +362,9 @@ def align_pitch(centre=None):
 # Run any configuration needed for things under active development
 from config_tests import *
 # config_tests can be found in /dls_sw/i11/scripts/config_tests
+
+add_default delta # this is needed to angular correct the mythen_nx detector when it is used statically eg scan ds 1 1 1
+add_default dcm_energy #useful to know for all experiments
 
 print
 print "=================================================================================================================";
