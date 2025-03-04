@@ -38,10 +38,6 @@ public class ResetMovingSumAddon{
 	private static final String COMMAND = "clear_summed_data()";
 	private int currentPoint = Integer.MAX_VALUE;
 
-	public ResetMovingSumAddon() {
-		configure();
-	}
-
 	public void configure() {
 		logger.debug("Configuring ResetMovingSumAddon");
 		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
@@ -51,13 +47,17 @@ public class ResetMovingSumAddon{
 		if (!(arg instanceof ScanEvent scanEvent)) return;
 		if (Arrays.asList(scanEvent.getLatestInformation().getDetectorNames()).stream().filter(s -> s.startsWith(DETECTOR)).toList().isEmpty()) return;
 		if (currentPoint == scanEvent.getCurrentPointNumber()) return;
-		resetMovSum();
 		currentPoint = scanEvent.getCurrentPointNumber();
+		resetMovSum();
 		if (scanEvent.getLatestStatus().isComplete()) currentPoint = Integer.MAX_VALUE;
 	};
 
 	private void resetMovSum() {
 		logger.debug("Resetting MovSum");
 		InterfaceProvider.getCommandRunner().runCommand(COMMAND);
+	}
+
+	public void destroy() {
+		InterfaceProvider.getScanDataPointProvider().deleteScanEventObserver(serverObserver);
 	}
 }

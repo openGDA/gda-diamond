@@ -67,6 +67,7 @@ from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, L
 from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
 from i09shared.scan.cvscan import cvscan #@UnusedImport
 
+
 ###############################################################################
 ###                   Get channel voltage control scannables                ###
 ###############################################################################
@@ -106,15 +107,24 @@ if installation.isLive():
 			print("Clear accumulated data")
 			caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
 else:
+	focus = DummyScannable("focus")
+	kenergy = DummyScannable("kenergy")
 	clearAccum = DummyScannable("clearAccum")
 	def clear_summed_data():
 		print "clear_summed_data called - dummy mode, skipping command"
 	def clear_summed_data_separate():
 		clear_summed_data()
+	def MM_on():
+		print "MM turned ON"
+	def MM_off():
+		print "MM turned OFF"
+	alias("MM_on")
+	alias("MM_off")
+
 ###############################################################################
 ###                   Get sample manipulator scannables                     ###
 ###############################################################################
-from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc #@UnusedImport
+from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc, szc #@UnusedImport
 
 ###############################################################################
 ###                   Get check beam/control scannable                      ###
@@ -153,6 +163,15 @@ print("Creating sample positioner object sp. Store sample manipulator position c
 print(sp.__doc__.replace("\n", "", 1))
 
 from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
+
+#Connect the JythonScannableWrappers for client live controls
+from gdaserver import polarisation_wrapper,sxc_wrapper,sy_wrapper,szc_wrapper,kenergy_wrapper,focus_wrapper # @UnresolvedImport
+polarisation_wrapper.connectScannable()
+sxc_wrapper.connectScannable()
+szc_wrapper.connectScannable()
+sy_wrapper.connectScannable()
+kenergy_wrapper.connectScannable()
+focus_wrapper.connectScannable()
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- These wrapper objects expose scannable defined in Jython scripts to the GUI components in Client -->
+	<bean id="polarisation_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="polarisation"/>
+		<property name="command" value="polarisation.deleteIObservers()"/>
+	</bean>
+
+
+	<!-- 	Manipulator motor scannables -->
+	<bean id="sxc_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="sxc"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+
+	<bean id="sy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="sy"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+
+	<bean id="szc_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="szc"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+
+	<!-- 	Voltages -->
+	<bean id="kenergy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="kenergy"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+
+	<bean id="focus_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="focus"/>
+		<property name="command" value="igap_offset.deleteIObservers()"/>
+	</bean>
+
+</beans>
