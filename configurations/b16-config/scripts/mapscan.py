@@ -4,7 +4,7 @@ from gda.jython.commands.ScannableCommands import scan
 def mapscan(
 		outer_scannable, outer_start, outer_stop, outer_step,
 		inner_scannable, inner_start, inner_stop, inner_step,
-		detector, exposure):
+		detector, exposure=0):
 	
 	"""
 	Starts a 2D scan with given parameters, creating/updating a plot view
@@ -23,11 +23,13 @@ def mapscan(
 	@param exposure: duration in seconds for which to exposure the detector at each scan point
 	"""
 
+	names = detector.inputNames + detector.extraNames
 	det_name = detector.getName()
+	z_col = names[0]
 	
 	plotter = TwoDScanPlotter(name=det_name + "plotter",
 							   plotViewname=det_name,
-							   z_colName=det_name)
+							   z_colName=z_col)
 	
 	if inner_stop < inner_start:
 		inner_step *= -1

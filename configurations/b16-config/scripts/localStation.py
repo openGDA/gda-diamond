@@ -1468,11 +1468,12 @@ if installation.isLive():
 	
 	try:
 		(aerotech_osc, aerotech_det) = create_osc_devices("aerotech", "BL16B-MO-ATCH-01:OSC:")
+		oscillate = OscillationDetectorWrapper(aerotech_det, aerotech_osc)
+		aerotech = MotorWithBackgroundOscillations(aeropiezo, aerotech_osc)
 	except:
 		print("aerotech objects not created - see logs")
 
-	oscillate = OscillationDetectorWrapper(aerotech_det, aerotech_osc)
-	aerotech = MotorWithBackgroundOscillations(aeropiezo, aerotech_osc)
+
 
 from mapscan import mapscan
 alias(mapscan)
