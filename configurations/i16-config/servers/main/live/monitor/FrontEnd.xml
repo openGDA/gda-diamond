@@ -13,7 +13,7 @@
 		<property name="pvName" value="FE16I-AL-APTR-02:Y" />
 	</bean>
 	
-	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+	<bean id="front_end" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="FE16I-CS-BEAM-01:BLCON"/>
 		<property name="statusPv" value="FE16I-CS-BEAM-01:STA"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
