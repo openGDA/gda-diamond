@@ -1,4 +1,6 @@
 '''
+add ID gap scannables to capture and restore ID gaps when beam dump occurrs.
+
 Created on 10 Apr 2018
 
 @author: fy65
@@ -8,7 +10,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from utils.ExceptionLogs import localStation_exception
 import sys
-from gdaserver import ringcurrent, topup_time, feBeamPermit  # @UnresolvedImport
+from gdaserver import ringcurrent, topup_time, feBeamPermit, idgap  # @UnresolvedImport
 print("-"*100)
 try:
     print("Creating checkbeam and checkbeamcv devices composed of 3 conditions:")
@@ -22,7 +24,7 @@ try:
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
     from gda.device.scannable.scannablegroup import ScannableGroup
     
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5, id1gap = idgap)
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60)
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
