@@ -5,14 +5,4 @@
 
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraDummy" />
 
-	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<property name="zebra" ref="zebra"/>
-		<property name="mode" value="1"/>
-		<property name="PcPulseGateNotTrigger" value="true"/>
-		<property name="zebraMotorInfoProvider" ref="zebraMotorInfoProvider"/> 
-		<property name="minimumAccelerationDistance" value="0.001" />
-	</bean>
-
-	<bean id="zebraMotorInfoProvider" class="gda.device.zebra.DummyZebraMotorInfoProvider" />
-
 </beans>

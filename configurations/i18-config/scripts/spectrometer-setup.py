@@ -111,7 +111,7 @@ def show_spectrometer_positions(bragg_angle) :
         print("\t{} : {}".format(scn.getName(), map_values[scn]))
     
 def show_spectrometer_offsets() :
-    map_values = xes_motor_offset_storegetEpicsOffsets()
+    map_values = xes_motor_offset_store.getEpicsOffsets()
     print("Spectrometer motor Epics offset values :")
     for scn in map_values.keys() :
         print("\t{} : {}".format(scn.getName(), map_values[scn]))

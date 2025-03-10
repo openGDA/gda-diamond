@@ -15,8 +15,9 @@
 		<property name="slowAxes">
 			<list>
 				<value>t1y</value>
-				<value>t3y</value>
+				<value>t1theta</value>
 				<value>t1thetaFine</value>
+				<value>t3y</value>
 			</list>
 		</property>
 		
