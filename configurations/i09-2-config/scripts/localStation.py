@@ -53,7 +53,6 @@ globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 ###############################################################################
 ###                         Create epics devices                            ###
 ###############################################################################
-print("-"*100)
 if installation.isLive():
 	# Create temporary devices for femtos this should be moved to Spring
 	sd9iamp9 = DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I", "V", "%f")
@@ -66,7 +65,6 @@ if installation.isLive():
 from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
 from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
 from i09shared.scan.cvscan import cvscan #@UnusedImport
-
 
 ###############################################################################
 ###                   Get channel voltage control scannables                ###
@@ -176,4 +174,3 @@ focus_wrapper.connectScannable()
 print("="*100)
 print("localStation.py Initialisation script complete.")
 print("="*100)
-
