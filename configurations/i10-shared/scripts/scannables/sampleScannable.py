@@ -16,7 +16,7 @@ class SampleName(ScannableMotionBase):
         Constructor
         '''
         self.setName(name)
-        self.setINputNames(["name"])
+        self.setInputNames(["name"])
         self.setOutputFormat(["%s"])
         self.sampleName = sample_name
 
@@ -25,6 +25,5 @@ class SampleName(ScannableMotionBase):
 
     def asynchronousMoveTo(self, v):
         self.sampleName = v
-
     def isBusy(self):
         return False
