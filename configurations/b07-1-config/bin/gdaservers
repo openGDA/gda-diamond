@@ -1,14 +1,14 @@
 #!/bin/bash
-# The local gda script is required to be on the path 
+# The local gda script is required to be on the path
 
 HW_RBV=`caget BL07C-EA-ENDST-01:CFG:HW_RBV`
 
 if grep -q 'TPOT' <<< "$HW_RBV"; then
-	echo "gda server restart --profile TPOT $*"
-	gda server restart --profile TPOT $*
+	echo "gda -G server restart --profile TPOT $*"
+	gda -G server restart --profile TPOT $*
 elif grep -q 'TCUP' <<< "$HW_RBV"; then
-	echo "gda server restart --profile TCUP $*"
-	gda server restart --profile TCUP $*
+	echo "gda -G server restart --profile TCUP $*"
+	gda -G server restart --profile TCUP $*
 else
 	echo "gda server $*"
 	gda server $*
