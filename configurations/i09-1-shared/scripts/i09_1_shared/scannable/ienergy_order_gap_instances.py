@@ -1,7 +1,7 @@
 from gdascripts import installation as installation
 from i09shared.scannable.energyHarmonicOrder import EnergyHarmonicOrder
 from i09shared.pseudodevices.idgap_offset import IDGapOffset
-from calibration.hard_energy_class import HardEnergy
+from i09_1_shared.calibration.hardenergy import HardEnergy
 from gdaserver import igap, dcmenergy #@UnresolvedImport
 igap_offset = IDGapOffset("igap_offset")
 print("-"*100)

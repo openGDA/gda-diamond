@@ -17,7 +17,7 @@
 			<value>0</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="red_colour" class="org.eclipse.swt.graphics.Color">
 		<constructor-arg name="device">
 			<null/>
@@ -32,7 +32,7 @@
 			<value>0</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="blue_colour" class="org.eclipse.swt.graphics.Color">
 		<constructor-arg name="device">
 			<null/>
@@ -47,7 +47,7 @@
 			<value>255</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="magenta_colour" class="org.eclipse.swt.graphics.Color">
 		<constructor-arg name="device">
 			<null/>
@@ -62,7 +62,7 @@
 			<value>255</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="yellow_colour" class="org.eclipse.swt.graphics.Color">
 		<constructor-arg name="device">
 			<null/>

@@ -27,6 +27,11 @@ jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 
 #I09-505
-print("Synchronising polarisation with hardware...")
-print("Initial ID polarisation is: " + polarisation.rawGetPosition())
+import sys
+from i09shared.utils.ExceptionLogs import localStation_exception
+try:
+    print("Synchronising polarisation with hardware...")
+    print("Initial ID polarisation is: " + polarisation.rawGetPosition())
+except:
+    localStation_exception(sys.exc_info(), "getting polarisation initial position")
 print("")

@@ -42,8 +42,6 @@ igap_offset_wrapper.connectScannable()
 jgap_offset_wrapper.connectScannable()
 polarisation_wrapper.connectScannable()
 
-from i09shared.scan.cvscan import cvscan  # @UnusedImport
-
 ###############################################################################
 ###               Configure scan data processing and scan commands          ###
 ###############################################################################
@@ -55,6 +53,8 @@ print("")
 ###############################################################################
 ###                    Import additional scan commands                      ###
 ###############################################################################
+from i09shared.scan.cvscan import cvscan  # @UnusedImport
+
 from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
 
 print("-"*100)

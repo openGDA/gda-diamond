@@ -77,10 +77,10 @@ from i09shared.scan.cvscan import cvscan  # @UnusedImport
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
 ###############################################################################
-from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
+from gdaserver import hsmpmx, hsmpmy, hsmpmz, hsmpmpolar #@UnresolvedImport
 from i09shared.scannable.SamplePositions import SamplePositions # @UnusedImport
 print("-"*100)
-sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
+sp = SamplePositions("sp", [hsmpmx, hsmpmy, hsmpmz, hsmpmpolar])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 print(sp.__doc__.replace("\n", "", 1))
 
