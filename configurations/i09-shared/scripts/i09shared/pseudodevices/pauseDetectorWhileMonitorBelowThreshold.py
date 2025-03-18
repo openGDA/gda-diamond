@@ -143,7 +143,7 @@ class WaitForScannableState2(WaitWhileScannableBelowThresholdMonitorOnly):
     '''
 
     def __init__(self, name, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp=None, readyStates=['Open'], faultStates=['Fault']):
-        WaitWhileScannableBelowThresholdMonitorOnly.__init__( self, name, scannableToMonitor, None, secondsBetweenChecks, secondsToWaitAfterBeamBackUp )
+        WaitWhileScannableBelowThresholdMonitorOnly.__init__( self, name, scannableToMonitor, None, secondsBetweenChecks, secondsToWaitAfterBeamBackUp)
         self.readyStates = readyStates
         self.faultStates = faultStates
 
