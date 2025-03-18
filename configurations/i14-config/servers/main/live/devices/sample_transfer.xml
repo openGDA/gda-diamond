@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="transfer_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TRSF-01:X" />
+	</bean>
+	
+	<bean id="transfer_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TRSF-01:Y" />
+	</bean>
+	
+	<bean id="transfer_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TRSF-01:Z" />
+	</bean>
+	
+	<bean id="gripper_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TRSF-01:GRIP" />
+	</bean>
+	
+</beans>
