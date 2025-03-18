@@ -5,7 +5,7 @@
 
 	<bean id="fsk1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL09K-EA-FSHTR-01:CTRL" />
-		<property name="readonly" value="false"/>
+		<property name="readOnly" value="false"/>
 	</bean>
 
 	<bean id="psk1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
