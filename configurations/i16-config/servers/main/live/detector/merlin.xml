@@ -114,7 +114,7 @@
 	</bean>
 	
 	<bean id="_merlin_for_snaps" class="gda.device.detector.NXDetector">
-		<property name="name" value="merlin" />
+		<property name="name" value="merlin_for_snaps" />
 		<property name="collectionStrategy" ref="merlin_nxcollectionstrategy"/>
 		<property name="additionalPluginList">
 			<list>

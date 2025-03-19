@@ -4,6 +4,16 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd"
 	profile="NexusScanDataWriter">
 
+	<bean id="merlin_snap" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="_merlin_for_snaps" />
+		<property name="snappingCollectionStrategy" ref="merlin_nxcollectionstrategy"/>
+		<property name="snapperPluginList">
+			<list>
+				<ref bean="merlin_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="merlin" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor" >
 		<property name="detector">
 			<bean class="gda.device.detector.NXDetector">
