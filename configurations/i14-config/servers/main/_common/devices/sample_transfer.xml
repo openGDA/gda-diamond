@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="transfer_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="transfer_x_motor" />
+	</bean>
+	
+	<bean id="transfer_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="transfer_y_motor" />
+	</bean>
+	
+	<bean id="transfer_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="transfer_z_motor" />
+	</bean>
+	
+	<bean id="transfer_gripper" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gripper_motor" />
+	</bean>
+	
+	<bean id="sample_transfer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="transfer_x" />
+				<ref bean="transfer_y" />
+				<ref bean="transfer_z" />
+				<ref bean="transfer_gripper" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
