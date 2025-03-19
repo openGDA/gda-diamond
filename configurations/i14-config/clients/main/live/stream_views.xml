@@ -172,5 +172,12 @@
 	    <constructor-arg name="yAxisBeamPositionInPixels" value="480"/>
 	    <constructor-arg name="attemptToLoadLocalParameters" value="true" />
 	</bean>
+	
+	<!-- Sample transfer camera -->
+	<bean id="sample_transfer_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Sample transfer camera" />
+		<property name="pvAccessPv" value="BL14I-OP-DCAM-13:PVA:ARRAY" />
+		<property name="sleepTime" value="5" />
+	</bean>
 
 </beans>
