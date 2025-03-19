@@ -601,8 +601,8 @@ except:
 try:
 	localStation_print("   running pd_xyslit.py")
 	from pd_xyslit import pd_xyslit
-	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
-	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
+	ds=pd_xyslit('ds','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
+	ss=pd_xyslit('ss',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')  # @UndefinedVariable
 except:
 	localStation_exception("configuring epics ds & ss scannables")
 
@@ -949,8 +949,7 @@ if USE_PIL3:
 	if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
 		global pil3_100k
 		with overwriting:  # @UndefinedVariable
-			pil3 = pil3_100k  # @UnusedVariable
-		localStation_warning("pil3 = NXDetector (not NXProcessingDetectorWrapper)")
+			pil = pil3_100k  # @UnusedVariable
 		pil3_required = RequiredRoiManager(pil3_100k)
 		pil3_geometry = GeometryScannable('pil3_geometry', 'pilatus3',
 			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml')
@@ -1230,7 +1229,6 @@ localStation_print("-------------------------------MEDIPIX INIT COMPLETE--------
 
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
 if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-	localStation_warning("merlin = NXDetector (not NXProcessingDetectorWrapper)")
 	global merlin
 	merlin_required = RequiredRoiManager(merlin)
 	merlin_geometry = GeometryScannable('merlin_geometry', 'merlin',

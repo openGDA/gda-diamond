@@ -5,7 +5,7 @@
 	profile="NexusScanDataWriter">
 
 	<!-- NXDetectors -->
-	<bean id="pil3_snap" class="gda.device.detector.NXDetectorSnappingDecorator">
+	<bean id="pil_snap" class="gda.device.detector.NXDetectorSnappingDecorator">
 		<constructor-arg ref="pilatus3_for_snaps" />
 		<property name="snappingCollectionStrategy" ref="pilatus3_nxcollectionstrategy_for_scans_and_snaps"/>
 		<property name="snapperPluginList">
@@ -120,10 +120,10 @@
 		</property>
 		<property name="statNames">
 			<map>
-				<entry key="MAX_VAL" value="pil3_max_val"/>
-				<entry key="MAX_X" value="pil3_max_x"/>
-				<entry key="MAX_Y" value="pil3_max_y"/>
-				<entry key="SUM" value="pil3_total"/>
+				<entry key="MAX_VAL" value="pil_max_val"/>
+				<entry key="MAX_X" value="pil_max_x"/>
+				<entry key="MAX_Y" value="pil_max_y"/>
+				<entry key="SUM" value="pil_total"/>
 			</map>
 		</property>
 	</bean>
