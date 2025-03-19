@@ -4,14 +4,15 @@ Created on 15 May 2013
 @author: fy65
 '''
 import os
-from org.opengda.detector.electronanalyser.nxdetector import IAnalyserSequence
-from gda.jython import InterfaceProvider
-from gda.device.scannable import DummyScannable
+from org.opengda.detector.electronanalyser.nxdetector import IAnalyserSequence #@UnresolvedImport
+from gda.jython import InterfaceProvider #@UnresolvedImport
+from gda.device.scannable import DummyScannable #@UnresolvedImport
 from types import TupleType
-from gda.device.scannable.scannablegroup import ScannableGroup
+from gda.device.scannable.scannablegroup import ScannableGroup #@UnresolvedImport
 from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
-from gda.configuration.properties import LocalProperties
 from i09shared.utils.check_scan_arguments import all_elements_are_list_of_number, all_elements_are_number, all_elements_are_scannable, all_elements_are_tuples_of_numbers
+
+from org.opengda.detector.electronanalyser.api import SESSequence, SESSequenceHelper #@UnresolvedImport
 
 zeroScannable = DummyScannable("zeroScannable")
 #Add to namespace so that it is findable during scans which is needed for extra region printing
@@ -62,10 +63,18 @@ def analyserscan(*args):
             try:
                 #Get file name and skip over this argument as only needed for setup, should not be added to newargs
                 i = i + 1
-                filename = args[i]
+                sequence_arg = args[i]
             except IndexError:
-                raise IndexError("Next argument after " + sequence_detector.getName() + " needs to be a sequence file.")
-            filename = get_sequence_filename(filename)
+                raise IndexError("Next argument after " + sequence_detector.getName() + " needs to be a sequence file or sequence object")
+            if isinstance(sequence_arg, str):
+                filename = get_sequence_filename(sequence_arg)
+            elif isinstance(sequence_arg, SESSequence):
+                filename = sequence_arg.getFileName()
+                print("Saving sequence object to file: " + filename)
+                #Save sequence first so that any changes user made are reflected in the UI
+                sequence_arg.save()
+            else:
+                raise ValueError("The argument after " + sequence_detector.getName() + " must be of type str or SESSequence.")
             sequence_detector.setSequenceFile(filename)
 
         elif type(arg)==TupleType:
