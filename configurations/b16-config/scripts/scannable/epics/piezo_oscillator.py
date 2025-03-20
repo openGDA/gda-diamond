@@ -128,6 +128,55 @@ class OscillationDetector(DetectorBase, NexusDetector):
     def createsOwnFiles(self):
         return False
 
+class OscillationDetectorWrapper(DetectorBase, NexusDetector):
+    """
+    Acquires while oscillating.
+    The oscillating stage needs to be configured already (the presently set values are used)
+    """
+    def __init__(self, det, osc):
+        self.det = det
+        self.osc = osc
+        
+        self.name = self.det.name + "_osc"
+        self.setExtraNames(self.det.extraNames)
+        self.setOutputFormat(self.det.outputFormat)
+        
+    def collectData(self):
+        self.osc.asynchronousMoveTo(self.osc.getPosition())
+        self.det.collectData()
+    
+    def readout(self):
+        return self.det.readout()
+    
+    def createsOwnFiles(self):
+        return self.det.createsOwnFiles()
+    
+    def getStatus(self):
+        if self.osc.isBusy() or self.det.isBusy():
+            return Detector.BUSY
+        return self.det.getStatus()
+
+class MotorWithBackgroundOscillations(ScannableMotionBase):
+    '''
+    Moves motor, then starts oscillation.
+    Only busy while motor is busy. This means that during a scan,
+    the detectors would collect while the oscillation is ongoing.
+    '''
+    def __init__(self, sm, osc):
+        self.sm = sm
+        self.osc = osc
+        self.setName(sm.getName() + "_osc")
+
+    def rawAsynchronousMoveTo(self, position):
+        self.sm.moveTo(position)
+        self.osc.asynchronousMoveTo(self.osc.getPosition())
+    
+    def rawGetPosition(self):
+        return self.sm.getPosition()
+    
+    def isBusy(self):
+        return self.sm.isBusy()
+
 
 def create_osc_devices(name, pvbase):
     osc = PiezoOscillator(name + "_osc", EpicsOscillatorController(pvbase))

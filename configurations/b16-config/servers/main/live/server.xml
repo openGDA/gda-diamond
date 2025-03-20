@@ -4,7 +4,9 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import	resource="file:${gda.config}/servers/main/_common/required_at_start.xml" />
-
+	
+	<import resource="epics/bimorph.xml" />
+	
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
 	<import resource="epics/motor/fcarm.xml" />
@@ -48,8 +50,10 @@
 
 	<import resource="epics/detector/balor.xml" />
 	<import resource="epics/detector/dcam9.xml" />
+	<import resource="epics/detector/dcam10.xml" />
 	<import resource="epics/detector/eiger.xml" />
 	<import resource="epics/detector/scaler_vortex.xml" />
+	<import resource="epics/detector/imagestar.xml" />	
 	<import resource="epics/detector/medipix_base.xml" />
 	<import resource="epics/detector/medipix4_base.xml" />
 	<import resource="epics/detector/medipix.xml" />

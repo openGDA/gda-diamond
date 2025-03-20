@@ -155,6 +155,9 @@ phi.setOutputFormat(['%.5f']) #@UndefinedVariable
 fcarmTheta.setOutputFormat(['%.5f']) #@UndefinedVariable
 fcarm2Theta.setOutputFormat(['%.5f']) #@UndefinedVariable
 
+def create_detector_roi(det, name):
+	return DetectorDataProcessorWithRoiForNexus(name, det, [SumMaxPositionAndValue()])
+
 ###############################################################################
 ###                              SIMULATION MODE                            ###
 ###############################################################################
@@ -541,21 +544,16 @@ if installation.isLive() and ENABLE_PILATUS:
 		pilpeak2d = DetectorDataProcessorWithRoiForNexus('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoiForNexus('pilmax2d', pil, [SumMaxPositionAndValue()])
 		pilintensity2d = DetectorDataProcessorWithRoiForNexus('pilintensity2d', pil, [PixelIntensity()])
-		pilroi1 = DetectorDataProcessorWithRoiForNexus('pilroi1', pil, [SumMaxPositionAndValue()])
-		pilroi2 = DetectorDataProcessorWithRoiForNexus('pilroi2', pil, [SumMaxPositionAndValue()])
-		pilroi3 = DetectorDataProcessorWithRoiForNexus('pilroi3', pil, [SumMaxPositionAndValue()])
-		pilroi4 = DetectorDataProcessorWithRoiForNexus('pilroi4', pil, [SumMaxPositionAndValue()])
-		pilroi5 = DetectorDataProcessorWithRoiForNexus('pilroi5', pil, [SumMaxPositionAndValue()])
+		pilroi1 = create_detector_roi(pil, 'pilroi1')
+		pilroi2 = create_detector_roi(pil, 'pilroi2')
+		pilroi3 = create_detector_roi(pil, 'pilroi3')
+		pilroi4 = create_detector_roi(pil, 'pilroi4')
+		pilroi5 = create_detector_roi(pil, 'pilroi5')
 
 		pilgain = pd_setPvAndWait.SetPvAndWait('pilgain', 'BL16B-EA-PILAT-01:Gain', delayAfterAskingToMove=0.5)
 		pilgain.setOutputFormat(['%.0f'])
 		pilthresh = pd_setPvAndWait.SetPvAndWait('pilthresh', 'BL16B-EA-PILAT-01:ThresholdEnergy', delayAfterAskingToMove=0.5)
 		pilsettings = pd_readManyPVs.ReadManyPVs('pilsettings','BL16B-EA-PILAT-01:READ',['VCMP','VRF','VTRM','VADJ','VCAL','VRFS','VDEL'])
-
-
-		roi1 = DetectorDataProcessorWithRoiForNexus('roi1', pil, [SumMaxPositionAndValue()])
-		#roi1.setRoi(0,0,50,50)
-
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
@@ -590,16 +588,15 @@ if installation.isLive():
 
 		medipix.processors=[DetectorDataProcessorWithRoiForNexus('max', medipix, [SumMaxPositionAndValue()], False)]
 
-		# TODO: MBB Start - Rob, please check this
+
 		medipix.display_image = True
 		medipixpeak2d = DetectorDataProcessorWithRoiForNexus('medipixpeak2d', medipix, [TwodGaussianPeak()])
 		medipixmax2d = DetectorDataProcessorWithRoiForNexus('medipixmax2d', medipix, [SumMaxPositionAndValue()])
 		medipixintensity2d = DetectorDataProcessorWithRoiForNexus('medipixintensity2d', medipix, [PixelIntensity()])
-		medipixroi1 = DetectorDataProcessorWithRoiForNexus('medipixroi1', medipix, [SumMaxPositionAndValue()])
-		medipixroi2 = DetectorDataProcessorWithRoiForNexus('medipixroi2', medipix, [SumMaxPositionAndValue()])
-		medipixroi3 = DetectorDataProcessorWithRoiForNexus('medipixroi3', medipix, [SumMaxPositionAndValue()])
-		#medipixroi1.setRoi(0,0,50,50)
-		# TODO: MBB End
+		
+		medipixroi1 = create_detector_roi(medipix, 'medipixroi1')
+		medipixroi2 = create_detector_roi(medipix, 'medipixroi2')
+		medipixroi3 = create_detector_roi(medipix, 'medipixroi3')
 
 
 	except gda.factory.FactoryException:
@@ -632,10 +629,9 @@ if installation.isLive():
 		medipix4peak2d = DetectorDataProcessorWithRoiForNexus('medipix4peak2d', medipix4, [TwodGaussianPeak()])
 		medipix4max2d = DetectorDataProcessorWithRoiForNexus('medipix4max2d', medipix4, [SumMaxPositionAndValue()])
 		medipix4intensity2d = DetectorDataProcessorWithRoiForNexus('medipix4intensity2d', medipix4, [PixelIntensity()])
-		medipix4roi1 = DetectorDataProcessorWithRoiForNexus('medipix4roi1', medipix4, [SumMaxPositionAndValue()])
-		medipix4roi2 = DetectorDataProcessorWithRoiForNexus('medipix4roi2', medipix4, [SumMaxPositionAndValue()])
-		medipix4roi3 = DetectorDataProcessorWithRoiForNexus('medipix4roi3', medipix4, [SumMaxPositionAndValue()])
-		#medipix4roi1.setRoi(0,0,50,50)
+		medipix4roi1 = create_detector_roi(medipix, 'medipix4roi1')
+		medipix4roi2 = create_detector_roi(medipix, 'medipix4roi2')
+		medipix4roi3 = create_detector_roi(medipix, 'medipix4roi3')
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to medipix4 (FactoryException)"
@@ -782,11 +778,9 @@ if installation.isLive():
 	ipp2max2d = DetectorDataProcessorWithRoiForNexus('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
 	ipp2intensity2d = DetectorDataProcessorWithRoiForNexus('ipp2intensity2d', ipp2, [PixelIntensity()])
 	
-	ipp2roi1 = DetectorDataProcessorWithRoiForNexus('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
-	ipp2roi2 = DetectorDataProcessorWithRoiForNexus('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
-	ipp2roi3 = DetectorDataProcessorWithRoiForNexus('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
-	#ipp2roi1.setRoi(0,0,50,50)
-	
+	ipp2roi1 = create_detector_roi(ipp2, 'ipp2roi1')
+	ipp2roi2 = create_detector_roi(ipp2, 'ipp2roi2')
+	ipp2roi3 = create_detector_roi(ipp2, 'ipp2roi3')
 	
 	ipp3peak2d = DetectorDataProcessorWithRoiForNexus('ipp3peak2d', ipp3, [TwodGaussianPeak()])
 	ipp3max2d = DetectorDataProcessorWithRoiForNexus('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
@@ -909,7 +903,22 @@ if installation.isLive() :
 	dcam9peak2d = DetectorDataProcessorWithRoiForNexus('dcam9peak2d', dcam9, [TwodGaussianPeak()]) # modified to work with bimorph script
 	dcam9max2d = DetectorDataProcessorWithRoiForNexus('dcam9max2d', dcam9, [SumMaxPositionAndValue()])
 	dcam9intensity2d = DetectorDataProcessorWithRoiForNexus('dcam9intensity2d', dcam9, [PixelIntensity()])
-	dcam9roi = DetectorDataProcessorWithRoiForNexus('dcam9roi', dcam9, [SumMaxPositionAndValue()])
+	dcam9roi = create_detector_roi(dcam9, 'dcam9roi')
+	
+	dcam10 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'dcam10',
+		_dcam10,  # @UndefinedVariable
+		None,
+		_dcam10,
+		[],
+		panel_name_rcp='dcam10',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	dcam10peak2d = DetectorDataProcessorWithRoiForNexus('dcam10peak2d', dcam10, [TwodGaussianPeak()]) # modified to work with bimorph script
+	dcam10max2d = DetectorDataProcessorWithRoiForNexus('dcam10max2d', dcam10, [SumMaxPositionAndValue()])
+	dcam10intensity2d = DetectorDataProcessorWithRoiForNexus('dcam10intensity2d', dcam10, [PixelIntensity()])
+	dcam10roi = create_detector_roi(dcam10, 'dcam10roi')
 
 def configure_fds(name, detector, snaps_detector):
 	wrapper = SwitchableHardwareTriggerableProcessingDetectorWrapper(
@@ -920,7 +929,7 @@ def configure_fds(name, detector, snaps_detector):
 	peak2d = DetectorDataProcessorWithRoiForNexus(name + "_peak2d", wrapper, [TwodGaussianPeak()])
 	max2d = DetectorDataProcessorWithRoiForNexus(name + "_max2d", wrapper, [SumMaxPositionAndValue()])
 	intensity2d = DetectorDataProcessorWithRoiForNexus(name + "_intensity2d", wrapper, [PixelIntensity()])
-	roi = DetectorDataProcessorWithRoiForNexus(name + "_roi", wrapper, [SumMaxPositionAndValue()])
+	roi = create_detector_roi(wrapper, name + "_roi")
 	return [wrapper, peak2d, max2d, intensity2d, roi]
 	
 if installation.isLive() :
@@ -1355,10 +1364,9 @@ if installation.isLive():
 	#zyla needs scaling factors?
 	#zyla.processors[0].processors[1].setScalingFactors(1, 1)
 	
-	zylaroi1 = DetectorDataProcessorWithRoiForNexus('zylaroi1', zyla, [SumMaxPositionAndValue()])
-	zylaroi2 = DetectorDataProcessorWithRoiForNexus('zylaroi2', zyla, [SumMaxPositionAndValue()])
-	zylaroi3 = DetectorDataProcessorWithRoiForNexus('zylaroi3', zyla, [SumMaxPositionAndValue()])
-	#zylaroi1.setRoi(0,0,50,50)
+	zylaroi1 = create_detector_roi(zyla, 'zylaroi1')
+	zylaroi2 = create_detector_roi(zyla, 'zylaroi2')
+	zylaroi3 = create_detector_roi(zyla, 'zylaroi3')
 	
 	print "zyla setup"
 
@@ -1446,7 +1454,7 @@ if installation.isLive():
 	w.setLevel(12)
 	
 	# Piezo oscillation stuff - remove after experiment is finished
-	from scannable.epics.piezo_oscillator import create_osc_devices
+	from scannable.epics.piezo_oscillator import create_osc_devices, OscillationDetectorWrapper, MotorWithBackgroundOscillations
 	
 	try:
 		(amc100_osc, amc100_det) = create_osc_devices("amc100", "BL16B-EA-AMC-01:AXIS0:OSC:")
@@ -1460,8 +1468,16 @@ if installation.isLive():
 	
 	try:
 		(aerotech_osc, aerotech_det) = create_osc_devices("aerotech", "BL16B-MO-ATCH-01:OSC:")
+		oscillate = OscillationDetectorWrapper(aerotech_det, aerotech_osc)
+		aerotech = MotorWithBackgroundOscillations(aeropiezo, aerotech_osc)
 	except:
 		print("aerotech objects not created - see logs")
+
+
+
+from mapscan import mapscan
+alias(mapscan)
+print("Imported `mapscan` for 2D map visualisation (see help(mapscan) for more information)")
 
 
 print_banner("Initialisation complete")

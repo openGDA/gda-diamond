@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hfm_bimorph_controller" class="uk.ac.gda.bimorph.epics.CaenelsBimorph">
+		<property name="basePV" value="BL16B-OP-PSU-01:METLAB"/>
+		<property name="groupSuffix" value="G0"/>
+		<property name="maxDelta" value="500"/>
+		<property name="minVoltage" value="-600"/>
+		<property name="maxVoltage" value="600"/>
+		<property name="offset" value="1"/>
+		<property name="channelPrefix" value="C" />
+		<property name="applyTargetPvName" value="ALLTRGT.PROC" />
+	</bean>
+	<bean id="embimorph" class="uk.ac.gda.bimorph.BimorphMirrorScannable">
+		<property name="controller" ref="hfm_bimorph_controller"/>
+		<property name="offset" value="1"/>
+	</bean>
+
+</beans>
