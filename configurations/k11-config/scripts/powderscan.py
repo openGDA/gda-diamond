@@ -6,7 +6,7 @@ from gda.epics import LazyPVFactory  # @UnresolvedImport
 
 from org.eclipse.dawnsci.analysis.dataset.roi import PointROI  # @UnresolvedImport
 from org.eclipse.scanning.sequencer import ScanRequestBuilder  # @UnresolvedImport
-from org.eclipse.scanning.api.points.models import TwoAxisPointSingleModel  # @UnresolvedImport
+from org.eclipse.scanning.api.points.models import StaticModel  # @UnresolvedImport
 from org.eclipse.scanning.api.device import IRunnableDeviceService  # @UnresolvedImport
 from org.eclipse.scanning.api.scan import IFilePathService  # @UnresolvedImport
 
@@ -25,9 +25,9 @@ class PowderScan:
         params:
             `rot_stage`: stage to continuously rotate during the acquisition
             `rot_zero_pv`: PV for zeroing the rotation stage when in a zeroable position after the scan
-            `det`: name of acquiring detector
-            `x_scannable`: name of x axis
-            `y_scannable`: name of y axis
+            `det`: acquiring detector
+            `x_scannable`: x axis
+            `y_scannable`: y axis
             `fov_centre_x`: X pixel coordinate for centre of the imaging field of view
             `fov_centre_y`: Y pixel coordinate for centre of the imaging field of view
         '''
@@ -53,6 +53,7 @@ class PowderScan:
         
         self._verify_params(beam_type, rpm)
         self._select_beam(beam_type)
+        self._centre_x_y()
         self._start_stage_rotation(rpm)
         self._submit_powderscan(exposure)
         self._stop_and_zero_rotation_stage()
@@ -71,6 +72,11 @@ class PowderScan:
         beam_selector(beam_type)
         print("%s beam selected" % beam_type)
         
+    def _centre_x_y(self):
+        self.x_scannable.asynchronousMoveTo(self.fov_centre_x)
+        self.y_scannable.asynchronousMoveTo(self.fov_centre_y)
+        self.x_scannable.waitWhileBusy()
+        self.y_scannable.waitWhileBusy()
 
     def _start_stage_rotation(self, rpm):
         '''
@@ -121,24 +127,18 @@ class PowderScan:
         A single point at the centre of the field of view
         '''
 
-        region = PointROI([self.fov_centre_x, self.fov_centre_y])
+        path = StaticModel(1)
 
-        path = TwoAxisPointSingleModel()
-        path.setxAxisName(self.x_scannable)
-        path.setyAxisName(self.y_scannable)
-        path.setX(self.fov_centre_x)
-        path.setY(self.fov_centre_y)
-
-        return (region, path)
+        return (None, path)
 
     def _get_detector_conf(self, exposure):
         '''
         Creates the detector map required by ScanRequestBuilder
         '''
         
-        det_model = ServiceProvider.getService(IRunnableDeviceService).getRunnableDevice(self.det).getModel()
+        det_model = ServiceProvider.getService(IRunnableDeviceService).getRunnableDevice(self.det.getName()).getModel()
         det_model.setExposureTime(exposure)
-        detector_map = {self.det: det_model}
+        detector_map = {self.det.getName(): det_model}
         return detector_map
         
     def _set_rpm(self, rpm):

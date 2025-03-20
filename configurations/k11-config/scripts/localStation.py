@@ -31,13 +31,12 @@ timerScannable = TimeSinceScanStart("timerScannable")
 
 # Powder diffraction scan
 from powderscan import PowderScan
-from gdaserver import gts_theta
 rot_zero_pv = 'BL11K-MO-STAGE-02:ROT:HM:ZERO.PROC' if is_live() else 'ws413-MO-SIM-01:M5'
 powderscan = PowderScan(gts_theta,
                         rot_zero_pv,
-                        'pilatus_addetector',
-                        'kb_cs_x',
-                        'kb_cs_y',
+                        pilatus_addetector,
+                        kb_cs_x,
+                        kb_cs_y,
                         1280, 1080)
 
 
