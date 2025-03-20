@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--  ca32c -->
+	<bean id="ca32c_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_bias_voltage" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_bias_voltage_status" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_filter_type" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_filter_highpass" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_filter_lowpass" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_gain_mode" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_offset" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_offset_current" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_inverted" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca32c_current" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_average_current" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca32c_stanford" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="ca32c" class="gda.device.scannable.DummyScannable" />
+
+</beans>

@@ -3,37 +3,37 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="_es1_temp_51_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_51_temp_temperature" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="30.0" />
 		<property name="upperLimit" value="40.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="_es1_temp_51_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_51_temp_setpoint" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="30.0" />
 		<property name="upperLimit" value="40.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="_es1_temp_51_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_51_temp_output" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="_es1_temp_52_temperature_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_52_temp_temperature" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="_es1_temp_52_setpoint_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_52_temp_setpoint" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />
 	</bean>
 
-	<bean id="_es1_temp_52_output_monitor" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="es1_52_temp_output" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="lowerLimit" value="0.0" />
 		<property name="upperLimit" value="100.0" />
 		<property name="increment" value="1.0e-1" />

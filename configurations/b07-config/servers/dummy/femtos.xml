@@ -48,4 +48,10 @@
 	<bean id="ca13b" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca14b" class="gda.device.scannable.DummyScannable" />
 	<bean id="ca15b" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="ca17b" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="ca19b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca20b" class="gda.device.scannable.DummyScannable" />
+	<bean id="ca21b" class="gda.device.scannable.DummyScannable" />
 </beans>

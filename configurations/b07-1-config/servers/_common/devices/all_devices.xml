@@ -36,10 +36,10 @@
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
 
-	<!-- Stanford -->
-	<import resource="stanford.xml"/>
-
 	<import resource="analyser.xml"/>
+
+	<!-- Stanfords -->
+	<import resource="stanford_amplifiers.xml"/>
 
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml" />

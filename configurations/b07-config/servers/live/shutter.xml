@@ -43,4 +43,9 @@
 		<property name="readOnly" value="false"/>
 	</bean>
 
+	<bean id="GV13" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07B-VA-VALVE-13:STA" />
+		<property name="readOnly" value="true"/>
+	</bean>
+
 </beans>

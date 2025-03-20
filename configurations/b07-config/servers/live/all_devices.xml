@@ -30,7 +30,12 @@
 	<import resource="d21b.xml"/>
 	<import resource="d98b.xml"/>
 	<import resource="femtos.xml"/>
-	<import resource="stanfords.xml"/>
+
+	<!-- Stanfords -->
+	<import resource="ca16b.xml"/>
+	<import resource="ca18b.xml"/>
+	<import resource="ca35b.xml"/>
+	<import resource="ca36b.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutter.xml"/>

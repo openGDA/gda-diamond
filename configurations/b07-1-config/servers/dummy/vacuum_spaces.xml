@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bl07c_space_01" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img01c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -13,7 +13,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_02" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img02c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -23,7 +23,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_03" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img03c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -33,7 +33,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_04" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img04c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -43,7 +43,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_05" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img05c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -53,7 +53,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_06" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img06c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -63,7 +63,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_07" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img07c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -73,7 +73,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_08" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img08c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -83,7 +83,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_09" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img09c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -93,7 +93,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_10" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img10c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>
@@ -103,7 +103,7 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
-	<bean id="bl07c_space_11" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="img11c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
 			<value type="double">0.235e-8</value>

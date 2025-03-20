@@ -3,30 +3,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pir82c" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-PIRG-82:PRESSURE3_RBV"/>
-		<property name="unit" value="Torr"/>
+
+	<bean id="ca99c_sensitivity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-EA-LKAMP-99:SR830:A:Sens.SVAL"/>
+		<property name="unit" value="nV/fA"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="pir83c" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-PIRG-83:PRESSURE3_RBV"/>
-		<property name="unit" value="Torr"/>
+	<bean id="ca99c_time_constant" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-EA-LKAMP-99:SR830:A:TC.SVAL"/>
+		<property name="unit" value="us"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="cap03c" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-03:AV"/>
-		<property name="unit" value="mbar"/>
+	<bean id="ca99c_channel_one" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-EA-LKAMP-99:SR830:A:Disp1"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
-	<bean id="cap04c" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-04:AV"/>
-		<property name="unit" value="mbar"/>
+	<bean id="ca99c_channel_two" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-EA-LKAMP-99:SR830:A:Disp2"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
