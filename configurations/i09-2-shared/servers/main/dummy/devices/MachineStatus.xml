@@ -55,8 +55,6 @@
 		</property>
 	</bean>
 
-	<bean id="ringcurrent" class="gda.device.monitor.DummyMonitor">
-	</bean>
 	<bean id="ringenergy" class="gda.device.monitor.DummyMonitor">
 	</bean>
 	<bean id="idgap" class="gda.device.monitor.DummyMonitor">

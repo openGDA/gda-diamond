@@ -7,7 +7,7 @@
 	<bean id="dashboard_motors" class="uk.ac.gda.rcp.dashboard.configuration.DashboardScannables">
 		<property name="dashboardScannableNames">
 			<list>
-				<value>ringcurrent</value>
+				<value>rc</value>
 				<value>pgmenergy</value>
 				<value>polarisation_wrapper</value>
 				<value>pgmcff</value>
