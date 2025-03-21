@@ -15,7 +15,7 @@
 		<property name="basePv" value="BL18B-EA-XSP4-02" />
 		<property name="mainControlPrefix" value=":CAM" />
 		<property name="hdfWriterPrefix" value=":OD" />
-		<property name="numElements" value="36" />
+		<property name="numElements" value="16" />
 		<property name="numMcaChannels" value="4096" />
 		<property name="numScalers" value="8" />
 		<property name="pvNameMap">

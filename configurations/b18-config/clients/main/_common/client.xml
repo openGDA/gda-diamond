@@ -63,7 +63,8 @@
 				<entry key="xspress2system" value="${gda.config}/templates/Xspress_Parameters9.xml" />
 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME7.xml" />
 <!-- 				<entry key="xspress3X" value="${gda.config}/templates/Xspress3X_Parameters_ME4.xml" /> -->
-				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" />
+<!--			<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_36Ge.xml" /> -->
+				<entry key="xspress4Odin" value="${gda.config}/templates/Xspress4Odin_Parameters_16Ge.xml" />
 				<entry key="mythen" value="${gda.config}/templates/Mythen_Parameters.xml" />
 				<entry key="pilatus_addetector" value="${gda.config}/templates/Pilatus_Parameters.xml" />
 				<entry key="lambda_addetector" value="${gda.config}/templates/Lambda_Parameters.xml" />
