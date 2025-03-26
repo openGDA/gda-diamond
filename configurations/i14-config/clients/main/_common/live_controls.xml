@@ -57,11 +57,12 @@
 				<entry key="XRF/Imaging" value="Beamline/EndstationConfigurations/in_merlin.py"/>
 				<entry key="XRD/XRF" value="Beamline/EndstationConfigurations/in_xrd1.py"/>
 				<entry key="XRF only" value="Beamline/EndstationConfigurations/xrf_only.py"/>
-				<entry key="SAXS" value="Beamline/EndstationConfigurations/in_xrd2.py"/>
 				<entry key="XRF/Eiger" value="Beamline/EndstationConfigurations/in_xreye.py"/>
 				<entry key="Custom in" value="Beamline/EndstationConfigurations/custom.py"/>
 				<entry key="Reset stages" value="Beamline/EndstationConfigurations/reset_stages.py"/>
 				<entry key="Reset sample microscope IOC" value="Beamline/EndstationConfigurations/reset_sample_microscope_ioc.py"/>
+				<entry key="Reset feedback IOC" value="Beamline/EndstationConfigurations/restart_feedback_ioc.py"/>
+				<entry key="Reset mapping IOC" value="Beamline/EndstationConfigurations/restart_mapping_ioc.py"/>
 			</map>
 		</property>
 	</bean>
