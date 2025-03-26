@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="sxc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sxc_motor" />
+	</bean>
+
+	<bean id="szc" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="szc_motor" />
+	</bean>
+
+</beans>

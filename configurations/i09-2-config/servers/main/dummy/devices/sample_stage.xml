@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="sxc_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="20.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="szc_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="20.0" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+
+</beans>
