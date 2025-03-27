@@ -122,7 +122,14 @@ else:
 ###############################################################################
 ###                   Get sample manipulator scannables                     ###
 ###############################################################################
-from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2, sxc, szc #@UnusedImport
+from pseudodevices.sampleManipulator import sx1, sx2, sx3, sy, sz1, sz2 #@UnusedImport
+from gdaserver import sxc, szc # @UnresolvedImport
+sx1.configure()
+sx2.configure()
+sx3.configure()
+sy.configure()
+sz1.configure()
+sz2.configure()
 
 ###############################################################################
 ###                   Get check beam/control scannable                      ###
@@ -163,10 +170,8 @@ print(sp.__doc__.replace("\n", "", 1))
 from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
 
 #Connect the JythonScannableWrappers for client live controls
-from gdaserver import polarisation_wrapper,sxc_wrapper,sy_wrapper,szc_wrapper,kenergy_wrapper,focus_wrapper # @UnresolvedImport
+from gdaserver import polarisation_wrapper,sy_wrapper,kenergy_wrapper,focus_wrapper # @UnresolvedImport
 polarisation_wrapper.connectScannable()
-sxc_wrapper.connectScannable()
-szc_wrapper.connectScannable()
 sy_wrapper.connectScannable()
 kenergy_wrapper.connectScannable()
 focus_wrapper.connectScannable()

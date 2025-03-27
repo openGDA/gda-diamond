@@ -59,7 +59,7 @@
 	<bean id="sxc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="sxc " />
 		<property name="group" value="Manipulator Control" />
-		<property name="scannableName" value="sxc_wrapper" />
+		<property name="scannableName" value="sxc" />
 		<property name="increment" value="0.1" />
 		<property name="userUnits" value="mm"/>
 	</bean>
@@ -75,7 +75,7 @@
 	<bean id="szc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="szc " />
 		<property name="group" value="Manipulator Control" />
-		<property name="scannableName" value="szc_wrapper" />
+		<property name="scannableName" value="szc" />
 		<property name="increment" value="0.1" />
 		<property name="userUnits" value="mm"/>
 	</bean>
@@ -96,13 +96,13 @@
 	</bean>
 
 	<bean id="mm_on" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="MM_on" />
+		<property name="command" value="MM_on_button" />
 		<property name="buttonText" value="MM on" />
 		<property name="group" value="MM" />
 	</bean>
 
 	<bean id="mm_off" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="MM_off" />
+		<property name="command" value="MM_off_button" />
 		<property name="buttonText" value="MM off" />
 		<property name="group" value="MM" />
 	</bean>
