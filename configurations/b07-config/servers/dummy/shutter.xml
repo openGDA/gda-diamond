@@ -57,7 +57,6 @@
 			</property>
 	</bean>
 
-
 	<bean id="pss_shutter2_con" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
@@ -72,6 +71,18 @@
 			<list>
 				<value>Open</value>
 				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GV13" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
+				<value>Fault</value>
 			</list>
 		</property>
 	</bean>

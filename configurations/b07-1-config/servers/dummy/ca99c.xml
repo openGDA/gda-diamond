@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--  ca99c -->
+	<bean id="ca99c_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ca99c_time_constant" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca99c_channel_one" class="gda.device.scannable.DummyScannable"/>
+
+	<bean id="ca99c_channel_two" class="gda.device.scannable.DummyScannable"/>
+
+</beans>

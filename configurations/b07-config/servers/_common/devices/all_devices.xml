@@ -42,5 +42,9 @@
 
 	<!-- Patch panels -->
 	<import resource="patch_panel.xml"/>
+	<import resource="profile_monitor.xml"/>
+
+	<!-- Stanfords -->
+	<import resource="stanford_amplifiers.xml"/>
 
 </beans>

@@ -24,4 +24,28 @@
 		<property name="outputFormat" value="%.1f" />
 	</bean>
 
+	<bean id="img10b" class="gda.device.scannable.DummyScannable">
+		<constructor-arg name="name" value="img10b" />
+		<constructor-arg name="d" value="0.000025" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img51b" class="gda.device.scannable.DummyScannable">
+		<constructor-arg name="name" value="img51b" />
+		<constructor-arg name="d" value="0.00000025" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img53b" class="gda.device.scannable.DummyScannable">
+		<constructor-arg name="name" value="img53b" />
+		<constructor-arg name="d" value="0.0000000225" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img60b" class="gda.device.scannable.DummyScannable">
+		<constructor-arg name="name" value="img60b" />
+		<constructor-arg name="d" value="0.000000025" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
 </beans>

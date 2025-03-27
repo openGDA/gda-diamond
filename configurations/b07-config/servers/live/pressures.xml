@@ -23,5 +23,24 @@
 		<property name="outputFormat" value="%.1f" />
 	</bean>
 
+	<bean id="img10b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-GAUGE-10:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img51b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-GAUGE-51:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img53b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-GAUGE-53:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
+
+	<bean id="img60b" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL07B-VA-GAUGE-60:P" />
+		<property name="outputFormat" value="%.1e" />
+	</bean>
 
 </beans>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ca31c_sensitivity" />
+				<ref bean="ca31c_sensitivity_units" />
+				<ref bean="ca31c_bias_voltage_status" />
+				<ref bean="ca31c_bias_voltage" />
+				<ref bean="ca31c_filter_type" />
+				<ref bean="ca31c_filter_highpass" />
+				<ref bean="ca31c_filter_lowpass" />
+				<ref bean="ca31c_gain_mode" />
+				<ref bean="ca31c_offset" />
+				<ref bean="ca31c_offset_units" />
+				<ref bean="ca31c_offset_current" />
+				<ref bean="ca31c_inverted" />
+				<ref bean="ca31c_current" />
+				<ref bean="ca31c_average_current" />
+				<ref bean="ca32c_sensitivity" />
+				<ref bean="ca32c_sensitivity_units" />
+				<ref bean="ca32c_bias_voltage_status" />
+				<ref bean="ca32c_bias_voltage" />
+				<ref bean="ca32c_filter_type" />
+				<ref bean="ca32c_filter_highpass" />
+				<ref bean="ca32c_filter_lowpass" />
+				<ref bean="ca32c_gain_mode" />
+				<ref bean="ca32c_offset" />
+				<ref bean="ca32c_offset_units" />
+				<ref bean="ca32c_offset_current" />
+				<ref bean="ca32c_inverted" />
+				<ref bean="ca32c_current" />
+				<ref bean="ca32c_average_current" />
+				<ref bean="ca33c_sensitivity" />
+				<ref bean="ca33c_sensitivity_units" />
+				<ref bean="ca33c_bias_voltage_status" />
+				<ref bean="ca33c_bias_voltage" />
+				<ref bean="ca33c_filter_type" />
+				<ref bean="ca33c_filter_highpass" />
+				<ref bean="ca33c_filter_lowpass" />
+				<ref bean="ca33c_gain_mode" />
+				<ref bean="ca33c_offset" />
+				<ref bean="ca33c_offset_units" />
+				<ref bean="ca33c_offset_current" />
+				<ref bean="ca33c_inverted" />
+				<ref bean="ca33c_current" />
+				<ref bean="ca33c_average_current" />
+				<ref bean="ca34c_sensitivity" />
+				<ref bean="ca34c_sensitivity_units" />
+				<ref bean="ca34c_bias_voltage_status" />
+				<ref bean="ca34c_bias_voltage" />
+				<ref bean="ca34c_filter_type" />
+				<ref bean="ca34c_filter_highpass" />
+				<ref bean="ca34c_filter_lowpass" />
+				<ref bean="ca34c_gain_mode" />
+				<ref bean="ca34c_offset" />
+				<ref bean="ca34c_offset_units" />
+				<ref bean="ca34c_offset_current" />
+				<ref bean="ca34c_inverted" />
+				<ref bean="ca34c_current" />
+				<ref bean="ca34c_average_current" />
+				<ref bean="ca99c_sensitivity"/>
+				<ref bean="ca99c_time_constant"/>
+				<ref bean="ca99c_channel_one"/>
+				<ref bean="ca99c_channel_two"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

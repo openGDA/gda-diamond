@@ -8,15 +8,17 @@
 		<property name="dashboardScannableNames">
 			<list>
 				<value>ring_current</value>
-				<value>sample_temperature</value>
+				<value>es_01_temp_output</value>
+				<value>es_01_temp_temperature</value>
+				<value>es_01_temp_setpoint</value>
 				<value>pgm_energy</value>
-					<value>pgm_cff</value>
-					<value>s4c_xgap</value>
-					<value>s4c_ygap</value>
-					<value>ca31c_value</value>
-					<value>ca32c_value</value>
-					<value>ca33c_value</value>
-					<value>ca34c_value</value>
+				<value>pgm_cff</value>
+				<value>s4c_xgap</value>
+				<value>s4c_ygap</value>
+				<value>ca31c_average_current</value>
+				<value>ca32c_average_current</value>
+				<value>ca33c_average_current</value>
+				<value>ca34c_average_current</value>
 			</list>
 		</property>
 	</bean>

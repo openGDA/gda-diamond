@@ -52,7 +52,11 @@
 	<import resource="vacuum_spaces.xml"/>
 
 	<!-- Stanford -->
-	<import resource="stanford.xml"/>
+	<import resource="ca31c.xml"/>
+	<import resource="ca32c.xml"/>
+	<import resource="ca33c.xml"/>
+	<import resource="ca34c.xml"/>
+	<import resource="ca99c.xml"/>
 
 	<import resource="gv12.xml"/>
 	<import resource="gv22.xml"/>
