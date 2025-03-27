@@ -11,8 +11,8 @@ to further configure a supported function and allow more flexibility to the user
 from gda.device.scannable import ScannableMotionBase
 from gda.device import Detector
 from gda.device.currentamplifier import EpicsBekhoffAdc
-import __main__
-import installation
+from gdascripts import installation
+
 
 class BekhoffAdcOutputProcessing(ScannableMotionBase):
 	"""
@@ -53,4 +53,5 @@ def divide_detector_output(a, b, constant):
 	return (a * constant) / b
 
 # add function to a localStation lever namespace from "local" globals()
+import __main__
 __main__.__dict__["divide_detector_output"]=globals()["divide_detector_output"]
