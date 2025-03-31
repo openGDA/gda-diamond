@@ -3,13 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template" value="/dls/i21/data/$year$/$visit$/spool/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
+	<bean id="terminallog_path_provider" class="gda.data.metadata.IntransparentLogFilePathProvider">
+		<property name="pathTemplate" value="${gda.paths.visitdirectory}/gdaterminal.log" />
 	</bean>
-
-
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
 		<constructor-arg ref="terminallog_path_provider" />
 	</bean>
