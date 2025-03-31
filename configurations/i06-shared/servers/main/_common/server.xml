@@ -10,6 +10,7 @@
 	<import resource="GDAMetadata.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 <!-- 	<import resource="commandServer.xml"/> -->
+	<import resource="terminal_logger.xml"/>
 	<import resource="dataWriter.xml"/>
 	<import resource="nxmetadata.xml"/>	
 	
