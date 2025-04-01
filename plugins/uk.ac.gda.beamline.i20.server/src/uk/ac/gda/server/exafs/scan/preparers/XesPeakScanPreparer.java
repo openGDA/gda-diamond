@@ -19,7 +19,6 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,11 +27,10 @@ import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.tschoonj.xraylib.Xraylib;
-
 import gda.device.Detector;
 import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
+import gda.util.XrayLibHelper;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -53,32 +51,10 @@ public class XesPeakScanPreparer implements DetectorPreparer {
 	private Scannable monoScannable;
 	private IScanParameters scanBean;
 	private String experimentFullPath;
-	private Map<String, Integer> edgeIndices = getDefaultEdgeIndices();
 	private String oneColourXesScannableName = "XESEnergyLower";
 
 	/** Energy relative to edge that mono should be moved to for peak scan */
 	private double monoEnergyOffset = 0;
-
-	/**
-	 * Generate default map from edge name to Xraylib shell index
-	 * (K, L and M edges)
-	 * @return
-	 */
-	private static Map<String, Integer> getDefaultEdgeIndices() {
-		Map<String, Integer> shellIndices = new HashMap<>();
-		shellIndices.put("K", Xraylib.K_SHELL);
-
-		shellIndices.put("L1", Xraylib.L1_SHELL);
-		shellIndices.put("L2", Xraylib.L2_SHELL);
-		shellIndices.put("L3", Xraylib.L3_SHELL);
-
-		shellIndices.put("M1", Xraylib.M1_SHELL);
-		shellIndices.put("M2", Xraylib.M2_SHELL);
-		shellIndices.put("M3", Xraylib.M3_SHELL);
-		shellIndices.put("M4", Xraylib.M4_SHELL);
-		shellIndices.put("M5", Xraylib.M5_SHELL);
-		return shellIndices;
-	}
 
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
@@ -118,7 +94,7 @@ public class XesPeakScanPreparer implements DetectorPreparer {
 
 		// Lookup element and edge, calculate the edge energy
 		Pair<String, String> elementEdge = getElementAndEdge(xesParams);
-		double edgeEnergy = getEdgeEnergy(elementEdge.getFirst(), elementEdge.getSecond());
+		double edgeEnergy = XrayLibHelper.getEdgeEnergy(elementEdge.getFirst(), elementEdge.getSecond());
 		logAndPrint(String.format("Element : %s, Edge : %s, Edge energy : %.4f eV", elementEdge.getFirst(), elementEdge.getSecond(), edgeEnergy));
 
 		// move the mono into position
@@ -167,21 +143,6 @@ public class XesPeakScanPreparer implements DetectorPreparer {
 			throw new IllegalArgumentException("Scan file "+xesParams.getScanFileName()+" is not of expected type (XasScanParameters or XanesScanParameters)");
 		}
 		return Pair.create(elementName, edgeName);
-	}
-
-	/**
-	 * Look up energy for given element and edge name using Xraylib.
-	 *
-	 * @param elementName (Cu, Mn, Fe etc)
-	 * @param edgeName (K, L1, L2 etc)
-	 * @return energy of edge (eV)
-	 */
-	private double getEdgeEnergy(String elementName, String edgeName) {
-		int atomicNumber = Xraylib.SymbolToAtomicNumber(elementName);
-		if (!edgeIndices.keySet().contains(edgeName.toUpperCase())) {
-			throw new IllegalArgumentException("Could not find index for edge name '"+edgeName+"'");
-		}
-		return Xraylib.EdgeEnergy(atomicNumber, edgeIndices.get(edgeName))*1000.0;
 	}
 
 	/**
