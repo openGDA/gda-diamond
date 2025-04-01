@@ -7,7 +7,6 @@
 
     <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
         <path>/p60-config/scripts</path>
-        <path>/p60-config/tests</path>
     </pydev_pathproperty>
 
     <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
