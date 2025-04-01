@@ -735,7 +735,7 @@ try:
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='fill_if_needed()'	#fill cryocooler vessel while waiting for beam
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'
 	from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
-	checkbeam=WaitWhileScannableBelowThreshold("BeamOk", ic1monitor, 1, idgap)
+	checkbeam=WaitWhileScannableBelowThreshold("BeamOk", ic1monitor, 1, 1, 1, id1gap=idgap)
 	timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
 	waitforinjection=WaitForInjectionPDClass('waitforinjection',timetoinjection, 5, 5)
 
