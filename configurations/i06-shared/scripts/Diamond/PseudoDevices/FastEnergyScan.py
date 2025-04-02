@@ -21,9 +21,12 @@ from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
 from java.io import File  # @UnresolvedImport
 from gdascripts.metadata.nexus_metadata_class import meta
+from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 logger=ScriptLoggerClass();
+
+NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
 
 class FastEnergyScanControlClass(object):
 	""" """
@@ -697,6 +700,10 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			else:
 				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,numPoint-1])
 			theScan.runScan()
+			print("Creating NXxas sub-entry ...")
+			current_filename = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getCurrentFilename()
+			apply_template_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+			print("NXxas subentry is added to %s" % current_filename)
 		except:
 			exceptionType, exception, traceback=sys.exc_info()
 			logger.fullLog(None, "Error occurs at FastEnergyDeviceClass.cvscan", exceptionType, exception, traceback, True)
