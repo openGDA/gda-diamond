@@ -5,9 +5,8 @@
 	<import resource="required_at_start.xml" />
 	<import resource="data_writer.xml" />
 
-	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/gda_terminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
+	<bean id="terminallog_path_provider" class="gda.data.metadata.IntransparentLogFilePathProvider">
+		<property name="pathTemplate" value="${gda.data.scan.datawriter.datadir}/gda_terminal.log" />
 	</bean>
 
 	<import resource="terminal_logger.xml" />
