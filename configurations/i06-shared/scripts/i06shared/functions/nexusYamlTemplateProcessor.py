@@ -5,6 +5,8 @@ Created on 4 Dec 2024
 '''
 from gda.configuration.properties import LocalProperties
 from org.slf4j import LoggerFactory
+from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
+from org.eclipse.dawnsci.nexus import NexusException
 
 logger = LoggerFactory.getLogger(__name__)
 
@@ -31,8 +33,6 @@ def apply_template_to_nexus_file(nexus_file_name, template_file, spel_expression
         processor.setNodeNameContainingSpELExpressions(spel_expression_node)
         processor.init() # initialise SpEL processor
         template = processor.process(set_nexus_tamplate(template_file))
-        from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
-        from org.eclipse.dawnsci.nexus import NexusException
         f = NexusFileHDF5.openNexusFile(nexus_file_name)
         template.apply(f)
     except NexusException, e:
