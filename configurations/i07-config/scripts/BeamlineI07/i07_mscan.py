@@ -3,6 +3,7 @@ from uk.ac.gda.analysis.mscan import HklAdapter
 from gda.configuration.properties import LocalProperties
 from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
+from diffcalc.util import DiffcalcException
 
 ird_service = ServiceProvider.getService(IRunnableDeviceService)
 
@@ -45,7 +46,11 @@ alias(cfscan)
 class DCHklAdapter(HklAdapter):
 # eh1h: '_fourc', (diff1delta, diff1gamma, diff1chi, diff1theta)
     def getHkl(self, positions):
-        return hkl._diffcalc.angles_to_hkl(positions)[0]
+        try:
+            return hkl._diffcalc.angles_to_hkl(positions)[0]
+        except DiffcalcException:
+            print("Error Calculating hkl - have you defined a UB matrix?")
+            raise
 
     def getCurrentAnglePositions(self):
         return {scn_name:scn_pos for scn_name, scn_pos in zip(_fourc.getGroupMemberNames(), _fourc.getPosition())}
