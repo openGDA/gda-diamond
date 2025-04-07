@@ -31,7 +31,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang.StringUtils;
-import org.python.core.PyTuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,15 +41,12 @@ import gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.device.scannable.XESEnergyScannable;
 import gda.device.scannable.XasScannable;
-import gda.exafs.scan.ExafsScanPointCreator;
-import gda.exafs.scan.XanesScanPointCreator;
+import gda.exafs.scan.XasScanPointCreator;
 import gda.exafs.xes.IXesOffsets;
 import gda.factory.Finder;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.ScanColourType;
 import uk.ac.gda.beans.exafs.SpectrometerScanParameters;
-import uk.ac.gda.beans.exafs.XanesScanParameters;
-import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.server.exafs.scan.preparers.I20OutputPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -432,13 +428,8 @@ public class XesScan extends XasScanBase implements XasScan {
 		return xesBraggGroup;
 	}
 
-	private PyTuple getEnergiesFromScanBean(IScanParameters paramBean) throws Exception {
-		if (paramBean instanceof XanesScanParameters xaneParams) {
-			return XanesScanPointCreator.calculateEnergies(xaneParams);
-		} else if (paramBean instanceof XasScanParameters xasParams) {
-			return ExafsScanPointCreator.calculateEnergies(xasParams);
-		}
-		throw new IllegalArgumentException("Cannot get scan energies from IScanParameters object of type "+scanBean.getClass().getCanonicalName());
+	private double[][] getEnergiesFromScanBean(IScanParameters paramBean) throws Exception {
+		return XasScanPointCreator.build(paramBean).getEnergies();
 	}
 
 	public Scannable getBraggGroup() {

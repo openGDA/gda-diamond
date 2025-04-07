@@ -16,8 +16,7 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.exafs.scan.ExafsScanPointCreator;
-import gda.exafs.scan.XanesScanPointCreator;
+import gda.exafs.scan.XasScanPointCreator;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -122,10 +121,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	}
 
 	private Double[] getScanTimeArray() throws Exception {
-		if (scanBean instanceof XasScanParameters xasParams) {
-			return ExafsScanPointCreator.getScanTimeArray(xasParams);
-		} else if (scanBean instanceof XanesScanParameters xanesParams) {
-			return XanesScanPointCreator.getScanTimeArray(xanesParams);
+		if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters) {
+			return XasScanPointCreator.build(scanBean).getTimes();
 		}
 		return new Double[0];
 	}

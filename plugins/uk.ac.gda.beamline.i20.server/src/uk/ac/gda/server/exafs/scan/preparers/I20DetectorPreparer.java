@@ -38,8 +38,7 @@ import gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI;
 import gda.device.detector.xmap.TfgXMapFFoverI0;
 import gda.device.detector.xmap.Xmap;
 import gda.device.scannable.TopupChecker;
-import gda.exafs.scan.ExafsScanPointCreator;
-import gda.exafs.scan.XanesScanPointCreator;
+import gda.exafs.scan.XasScanPointCreator;
 import uk.ac.gda.beans.exafs.DetectorConfig;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -301,13 +300,11 @@ public class I20DetectorPreparer extends DetectorPreparerDelegate implements Det
 	}
 
 	private Double[] createTimeArray(IScanParameters scanParams) throws Exception {
-		if (scanParams instanceof XanesScanParameters p) {
-			return XanesScanPointCreator.getScanTimeArray(p);
+		if (scanParams instanceof XanesScanParameters || scanParams instanceof XasScanParameters) {
+			return XasScanPointCreator.build(scanParams).getTimes();
+		} else {
+			return new Double[] {};
 		}
-		else if (scanParams instanceof XasScanParameters p) {
-			return ExafsScanPointCreator.getScanTimeArray(p);
-		}
-		return new Double[] {};
 	}
 
 	/**

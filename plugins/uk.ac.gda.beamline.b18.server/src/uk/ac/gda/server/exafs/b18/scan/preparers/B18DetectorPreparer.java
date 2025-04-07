@@ -34,8 +34,7 @@ import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.nxdetector.NXPluginBase;
 import gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI;
-import gda.exafs.scan.ExafsScanPointCreator;
-import gda.exafs.scan.XanesScanPointCreator;
+import gda.exafs.scan.XasScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
 import uk.ac.gda.beans.exafs.DetectorConfig;
@@ -339,10 +338,8 @@ public class B18DetectorPreparer extends DetectorPreparerDelegate implements Qex
 
 	private void setupIonchamberFrameTimes() throws Exception {
 		Double[] times = new Double[] {};
-		if (scanBean instanceof XasScanParameters) {
-			times = ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
-		} else if (scanBean instanceof XanesScanParameters) {
-			times = XanesScanPointCreator.getScanTimeArray((XanesScanParameters) scanBean);
+		if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters) {
+			times = XasScanPointCreator.build(scanBean).getTimes();
 		}
 		if (times.length > 0) {
 			ionchambers.setTimes(times);
