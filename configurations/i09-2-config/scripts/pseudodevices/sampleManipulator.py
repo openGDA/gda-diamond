@@ -21,7 +21,8 @@ if installation.isLive():
 
 else:
 	from gda.device.scannable import DummyScannable #@UnresolvedImport
-	base_pv = "ws410-MO-SIM-01:"
+	import java #@UnresolvedImport
+	base_pv = java.net.InetAddress.getLocalHost().getHostName().split(".")[0] + "-MO-SIM-01:"
 	sx1 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx1",base_pv+"M1",base_pv+"M1.RBV",base_pv+"M1.DMOV",base_pv+"M1.STOP","mm","%f",0.01)
 	sx2 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx2",base_pv+"M2",base_pv+"M2.RBV",base_pv+"M2.DMOV",base_pv+"M2.STOP","mm","%f",0.01)
 	sx3 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx3",base_pv+"M3",base_pv+"M3.RBV",base_pv+"M3.DMOV",base_pv+"M3.STOP","mm","%f",0.01)

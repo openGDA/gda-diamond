@@ -79,7 +79,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         while not self.stoppedExplicitly:
             if installation.isLive():
                 elements_available = int(float(self.pv_count.caget()))
-                from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
+                from i09shared.scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
                 if isinstance(self._controller, BinpointWaveformChannelController):
                     elements_available = elements_available + 1 #BINPOINT:NLAST.B index starts at 0, -1 is waveform empty
             else:
