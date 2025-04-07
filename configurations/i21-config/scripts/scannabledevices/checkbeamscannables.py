@@ -10,6 +10,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from utils.ExceptionLogs import localStation_exception
 import sys
+
 from gdaserver import ringcurrent, topup_time, feBeamPermit, idgap, idblena  # @UnresolvedImport
 print("-"*100)
 try:
@@ -23,7 +24,6 @@ try:
        
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
     from gda.device.scannable.scannablegroup import ScannableGroup
-    
 
     checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5, id1gap = idgap, accesscontrol4id1 = idblena)
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
@@ -43,7 +43,7 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
-try:    
+try:
     print("Adding checkbeamcv device (add to cvscan to get checkbeam functionality)")
 
     from gda.device.scannable import PassthroughScannableDecorator

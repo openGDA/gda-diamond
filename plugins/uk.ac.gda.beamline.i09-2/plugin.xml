@@ -330,6 +330,21 @@
             </parameter>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.client.liveplotview">
+         <command
+               commandId="uk.ac.diamond.scisoft.spectroscopy.rcp.xraylibenergyedge"
+               icon="icons/Gues-a-k.png"
+               label="Xraylib"
+               style="push"
+               tooltip="Xraylib">
+            <parameter
+                  name="uk.ac.diamond.scisoft.spectroscopy.rcp.commandParameter.plotname"
+                  value="Scan Plot 1">
+            </parameter>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">

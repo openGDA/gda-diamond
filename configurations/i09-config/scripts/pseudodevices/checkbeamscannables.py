@@ -9,7 +9,8 @@ Created on 10 Apr 2018
 from i09shared.utils.ExceptionLogs import localStation_exception
 import sys
 from gdaserver import rc, topup_time, feBeamPermit, ew4000, fsi1, fsj1 #@UnresolvedImport
-print "-"*100
+from gdaserver import igap, jgap #@UnresolvedImport
+print("-"*100)
 try:
     print("Creating checkbeam device composed of 3 conditions:")
     print(" 1. 'checkrc' - checking electron ring current (rc>190mA, 5s wait after beam back,)")
@@ -22,13 +23,13 @@ try:
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold
     from gda.device.scannable.scannablegroup import ScannableGroup
     from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableState2
-    
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0) 
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0) 
-    checkfe = WaitForScannableState2('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0) 
+
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0, id1gap=igap, id2gap=jgap)
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0)
+    checkfe = WaitForScannableState2('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0)
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
-    
+
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
@@ -39,7 +40,7 @@ try:
     print(" 3. 'FE_beam_permit'  : 'FE09I-CS-BEAM-01:STA'")
     print("")
     from pseudodevices.checkBeamDetector import PauseDetectorScannable, PV_MonitorListener_Dictionary
-    checkbeamdetector=PauseDetectorScannable("checkbeamdetector", "BL09I-EA-DET-01:CAM:", ew4000, monitoredPvs=PV_MonitorListener_Dictionary)   
+    checkbeamdetector=PauseDetectorScannable("checkbeamdetector", "BL09I-EA-DET-01:CAM:", ew4000, monitoredPvs=PV_MonitorListener_Dictionary)
 
 except:
     localStation_exception(sys.exc_info(), "creating checkbeamdetector object")
@@ -49,10 +50,10 @@ try:
     print(" 'checkrc', 'checkfe', and 'checktopup_time'")
     print(" Users can set the times between checks in seconds if required, it is default to 1.0 second.")
     print("")
-    
+
     from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import PauseableDetector, PauseResumeDetectorScannable
     detectorpausecontrol=PauseableDetector("detectorpausecontrol", "BL09I-EA-DET-01:CAM:", fastshutters=[fsi1, fsj1], secondsBetweenFastShutterDetector=2.0)
-    checkdetector = PauseResumeDetectorScannable('checkdetector', detectorpausecontrol, checkedDevices={'Electron_Beam':checkrc, 'Front_End_Permit':checkfe, 'Top_up':checktopup_time}) 
+    checkdetector = PauseResumeDetectorScannable('checkdetector', detectorpausecontrol, checkedDevices={'Electron_Beam':checkrc, 'Front_End_Permit':checkfe, 'Top_up':checktopup_time})
 
 except:
     localStation_exception(sys.exc_info(), "creating checkdetector objects")
