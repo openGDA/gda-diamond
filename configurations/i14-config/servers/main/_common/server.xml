@@ -49,7 +49,6 @@
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/merlin_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/sample_dtab_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/sample_microscope_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
@@ -109,7 +108,6 @@
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/merlin_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/sample_dtab_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/sample_microscope_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
