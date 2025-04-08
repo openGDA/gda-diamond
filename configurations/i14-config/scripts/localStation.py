@@ -1,5 +1,5 @@
 from java.io import FileNotFoundException #@Unresolvedimport
-from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current, sample_dtab_addetector #@Unresolvedimport
+from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current #@Unresolvedimport
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, ls_names, pause, reset_namespace, run #@Unresolvedimport #@Unusedimport
 from gda.device import Scannable, ScannableMotionUnits #@Unresolvedimport
 from i14_utilities import isLive
@@ -54,7 +54,6 @@ else:
     run("dummy/scanning/standards_scan.py")
     run("dummy/scanning/tomography_scan.py")
     run("dummy/scanning/ptychography_scan.py")
-    run("dummy/cross_hairs.py")
     run("dummy/gui_automation.py")
 
 # Export dcm_enrg over RMI
@@ -72,9 +71,5 @@ initialise_detectors()
 
 # Define functions to control shutters
 run('shutter_control.py')
-
-# Make DTAB overlay available
-dtab_addetector = sample_dtab_addetector
-dtab_overlay = dtab_addetector.getNdOverlays().get(0)
 
 print("Initialisation Complete")
