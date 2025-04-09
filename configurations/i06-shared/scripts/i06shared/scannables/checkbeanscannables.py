@@ -31,5 +31,40 @@ try:
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
 
+    # beam monitors used for continuous scan
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', ringcurrent, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5, id1gap = iddgap, id2gap = idugap, accesscontrol4id1 = idblena_id1, accesscontrol4id2 = idblena_id2)
+    checkrc_cv.setOperatingContinuously(True)
+    checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
+    checktopup_time_cv.setOperatingContinuously(True)
+    checkfe_cv = WaitForScannableState('checkfe_cv', fepb, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 60)
+    checkfe_cv.setOperatingContinuously(True)
+    checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checkfe_cv, checktopup_time_cv])
+    checkbeam_cv.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
+    
+try:
+    print "Adding checkbeamcv device (add to cvscan to get checkbeam functionality)"
+
+    from gda.device.scannable import PassthroughScannableDecorator
+
+    class ZiePassthroughScannableDecorator(PassthroughScannableDecorator):
+
+        def __init__(self, delegate):
+            PassthroughScannableDecorator.__init__(self, delegate)  # @UndefinedVariable
+
+        def getInputNames(self):
+            return []
+
+        def getExtraNames(self):
+            return []
+
+        def getOutputFormat(self):
+            return []
+
+        def getPosition(self):
+            return None
+
+    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam_cv)
+except:
+    localStation_exception(sys.exc_info(), "creating checkbeamcv object")
