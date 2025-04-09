@@ -21,6 +21,7 @@ class SuperconductingMagnetControllerClass(ScannableMotionBase):
         self.setInputNames([name])
         self.chin = CAClient(pv + ':SET:DMD:RAMPRATE:TPM')
         self.chout = CAClient(pv + ':STS:RAMPRATE:TPM')
+        self.chlimit = CAClient(pv + ':LIM:RAMPRATE:TPM')
         self._myBusy = False
         
     def configure(self):
@@ -30,6 +31,8 @@ class SuperconductingMagnetControllerClass(ScannableMotionBase):
             self.chin.configure()
         if not self.chout.isConfigured():
             self.chout.configure()
+        if not self.chlimit.isConfigured():
+            self.chlimit.configure()
         self.setConfigured(True)
         
     def getPosition(self):
@@ -44,6 +47,10 @@ class SuperconductingMagnetControllerClass(ScannableMotionBase):
         
     def isBusy(self):
         return self._myBusy
+    
+    def get_ramp_rate_limit(self):
+        self.configure()
+        return float(self.chlimit.caget())
     
 magx_ramp_rate = SuperconductingMagnetControllerClass('magx_ramp_rate', 'BL06J-EA-SMC-01')
 magy_ramp_rate = SuperconductingMagnetControllerClass('magy_ramp_rate', 'BL06J-EA-SMC-02')
