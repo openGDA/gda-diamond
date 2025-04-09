@@ -68,6 +68,7 @@ global energy, simple_energy, gam
 global x1
 global _bpm1, _bpm1_for_snaps, _bpm1_no_screen, _bpm1_no_screen_for_snaps
 global _cam1, _cam1_for_snaps
+global _cam2, _cam2_for_snaps
 global _camd3, _camd3_for_snaps
 global _camd4, _camd4_for_snaps
 global _camd5, _camd5_for_snaps
@@ -967,11 +968,10 @@ from pv_scannable_utils import createPVScannable
 ### cam2 ###
 localStation_print("Configuring cor (cam2)")
 try:
-	global cam2, cam2_for_snaps
 	cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
-		cam2,
+		_cam2,
 		None,
-		cam2_for_snaps,
+		_cam2_for_snaps,
 		[],
 		panel_name_rcp='Plot 1',
 		fileLoadTimout=60,
@@ -986,9 +986,9 @@ try:
 	# Example: scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 	#To record actual exposure time also add corExpTime
 	corAuto = AutoRangeDetector('corAuto',
-		cam2,
+		_cam2,
 		None,
-		cam2_for_snaps,
+		_cam2_for_snaps,
 		"BL16I-DI-COR-01:",
 		[],
 		panel_name_rcp='Plot 1',
@@ -1116,11 +1116,12 @@ try:
 	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
 	bpm_no_screen, bpm_no_screen_peak2d, bpm_no_screen_max2d = wrappedDetector("bpm", _bpm1_no_screen, _bpm1_no_screen_for_snaps, panel_name_rcp='BPM')
 	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='CAM1')
+	cam2, cam2_peak2d, cam2_max2d = wrappedDetector("cam2", _cam2, _cam2_for_snaps)
 	camd3, camd3_peak2d, camd3_max2d = wrappedDetector("camd3", _camd3, _camd3_for_snaps)
 	camd4, camd4_peak2d, camd4_max2d = wrappedDetector("camd4", _camd4, _camd4_for_snaps)
 	camd5, camd5_peak2d, camd5_max2d = wrappedDetector("camd5", _camd5, _camd5_for_snaps)
 except:
-	localStation_exception("configuring cam1, bpm, camd3, camd4 and camd5 cameras")
+	localStation_exception("configuring bpm, cam1, cam2 (COR), camd3, camd4 and camd5 cameras")
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:

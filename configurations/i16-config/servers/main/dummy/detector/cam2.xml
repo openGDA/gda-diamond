@@ -57,7 +57,7 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="cam2" class="gda.device.detector.NXDetector">
+	<bean id="_cam2" class="gda.device.detector.NXDetector">
 		<property name="name" value="cam2" />
 		<property name="collectionStrategy" ref="cam2_nxcollectionstrategy" />
 		<property name="additionalPluginList">
@@ -67,7 +67,7 @@
 		</property>
 	</bean>
 
-	<bean id="cam2_for_snaps" class="gda.device.detector.NXDetector">
+	<bean id="_cam2_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="cam2_for_snaps" />
 		<property name="collectionStrategy" ref="cam2_nxcollectionstrategy" />
 		<property name="additionalPluginList">
