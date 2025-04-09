@@ -21,9 +21,11 @@ import sys
 from time import sleep
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
-from i06shared.scannables.checkbeanscannables import checkbeam
+from i06shared.scannables.checkbeanscannables import checkbeamcv
 from i06shared.scan.flyscan_command import ScannableError, FlyScanPosition,\
     FlyScanPositionsProvider, configure_fly_scannable_extraname
+import scisoftpy as np
+import threading
 
 SHOW_DEMAND_VALUE=False
 
@@ -83,18 +85,16 @@ class MagnetFieldFlyScannable(ScannableBase):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
     
     def isBusy(self):
-        print("isBusy called !")
-        # if not self.scannable.isBusy():
-        #     print("I am not busy")
-        #     res = False;
-        # else:
-        self.lastreadPosition = self.getCurrentPositionOfScannable()
-        if self.positive:
-            print("positive: %f, %f" % (self.requiredPosVal, self.lastreadPosition))
-            res = self.requiredPosVal > self.lastreadPosition
+        if not self.scannable.isBusy():
+            res = False;
         else:
-            print("negative:: %f, %f" % (self.requiredPosVal, self.lastreadPosition))
-            res = self.requiredPosVal < self.lastreadPosition
+            self.lastreadPosition = self.getCurrentPositionOfScannable()
+            if self.positive:
+                print("positive: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+                res = self.requiredPosVal > self.lastreadPosition
+            else:
+                print("negative:: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+                res = self.requiredPosVal < self.lastreadPosition
         return res
 
     def waitWhileBusy(self):
@@ -115,6 +115,7 @@ class MagnetFieldFlyScannable(ScannableBase):
         if self.startVal is not None:
             print( "move magnet field to start position %f " % (self.startVal))
             self.scannable.asynchronousMoveTo(self.startVal)
+            sleep(2.5)
             count=0
             while self.scannable.isBusy():
                 sleep(0.01)
@@ -175,12 +176,28 @@ class MagnetFieldFlyScannable(ScannableBase):
             return
         stop_position = new_position.stop
         print("Move to stop position %f" % stop_position)
-        self.scannable.asynchronousMoveTo(stop_position)
+        self._move_to_target(stop_position)
         self.alreadyStarted=True
             
         self.stopVal = ScannableUtils.positionToArray(stop_position, self.scannable)[0]
         self.positive = self.stopVal > self.requiredPosVal
 
+    def _move_to_target(self, target_value):
+        current_pos = float(self.scannable.getPosition())
+        if np.sign(target_value) != np.sign(current_pos):
+            self.thread = threading.Thread(target= self._move_cross_zero_field, name='cross_zero_field', args =(target_value,))
+        else:
+            self.thread = threading.Thread(atrget = self._move_not_cross_zero_field, name='not_cross_zero_field', args = (target_value,)) 
+        self.thread.start()
+    
+    def _move_not_cross_zero_field(self, target_value):
+        # the following call is block in its implementation class - SingleAxisMagnetClass, so wrap it in a new thread here.
+        self.scannable.asynchronousMoveTo(target_value)
+        
+    def _move_cross_zero_field(self, target):
+        self.scannable.moveTo(0)
+        self.scannable.moveTo(target)
+    
     def rawGetPosition(self):
         if self.showDemandValue:
             return [self.scannable.getPosition(), self.requiredPosVal]
@@ -242,8 +259,8 @@ def fastfieldscan(*args):
             i=i+1
     # if beam chack is provided in command
     original_topup_threshold = None
-    if checkbeam in args:
-        topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+    if checkbeamcv in args:
+        topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
         original_topup_threshold = topup_checker.minimumThreshold
         topup_checker.minimumThreshold = integrationtime * number_steps + original_topup_threshold
         
@@ -253,7 +270,7 @@ def fastfieldscan(*args):
     finally:
         meta.rm("user_input", "cmd")
         if original_topup_threshold:
-            topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+            topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold = original_topup_threshold
             
 def magnetflyscannable(scannable, timeout_secs=1.):

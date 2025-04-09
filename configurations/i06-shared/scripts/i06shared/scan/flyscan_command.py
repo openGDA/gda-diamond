@@ -23,7 +23,7 @@ import sys
 from time import sleep
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
-from i06shared.scannables.checkbeanscannables import checkbeam
+from i06shared.scannables.checkbeanscannables import checkbeamcv
 
 SHOW_DEMAND_VALUE=False
         
@@ -51,7 +51,7 @@ class   FlyScanPositionsProvider(ScanPositionProvider):
         self.points = []
         self.points.append(start)
         previous_point = start
-        for i in range(number_steps):
+        for i in range(number_steps):  # @UnusedVariable
             next_point = ScannableUtils.calculateNextPoint(previous_point, self.step);
             self.points.append(next_point)
             previous_point = next_point
@@ -281,7 +281,7 @@ def flyscan(*args):
     finally:
         meta.rm("user_input", "cmd")
         if original_topup_threshold:
-            topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+            topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold = original_topup_threshold
             
 def flyscannable(scannable, timeout_secs=1.):
@@ -328,8 +328,8 @@ def parse_detector_parameters_set_flying_speed(args, i, numpoints, startpos, sto
     elif motor_speed > max_speed: #when exposure time is small enough use maximum speed of the motor
         flyscannablewraper.setSpeed(max_speed)
     original_topup_threshold = None
-    if checkbeam in args:
-        topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+    if checkbeamcv in args:
+        topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
         original_topup_threshold = topup_checker.minimumThreshold
         topup_checker.minimumThreshold = total_time + original_topup_threshold
         
@@ -390,7 +390,7 @@ def flyscancn(*args):
         # return to original position
         flyscannablewraper.scannable.moveTo(current_position)
         if original_topup_threshold:
-            topup_checker = checkbeam.getDelegate().getGroupMember("checktopup_time")
+            topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold = original_topup_threshold
         
 alias('flyscancn')
