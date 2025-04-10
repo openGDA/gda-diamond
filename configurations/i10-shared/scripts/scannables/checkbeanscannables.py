@@ -31,7 +31,7 @@ try:
     checkbeam.configure()
 
     # beam monitors used for continuous scan
-    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5, id1gap = idd_gap, id2gap = idu_gap, accesscontrol4id1 = idblena_id1, accesscontrol4id2 = idblena_id2)
     checkrc_cv.setOperatingContinuously(True)
     checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
     checktopup_time_cv.setOperatingContinuously(True)
