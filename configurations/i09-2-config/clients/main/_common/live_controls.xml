@@ -45,7 +45,7 @@
 		<property name="group" value="Beamline" />
 		<property name="scannableName" value="ss7ygap" />
 		<property name="showStop" value="false" />
-		<property name="increment" value="1" />
+		<property name="increment" value="0.01" />
 	</bean>
 
 	<bean id="sm6y_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -53,7 +53,7 @@
 		<property name="group" value="Beamline" />
 		<property name="scannableName" value="sm6y" />
 		<property name="showStop" value="false" />
-		<property name="increment" value="1" />
+		<property name="increment" value="0.001" />
 	</bean>
 
 	<bean id="sxc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">

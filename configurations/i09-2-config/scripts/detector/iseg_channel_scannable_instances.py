@@ -101,6 +101,11 @@ downstream = ISegGroup("downstream", downstream_group)
 hda_peem = ISegGroup("hda_peem", HDA_PEEM_group)
 MM = ISegGroup("MM", MM_group)
 
+DLD_group = [m0c1, m3c7]
+Ext_group = [m8c0]
+
+DLD = ISegGroup("DLD", DLD_group)
+Ext = ISegGroup("Ext", Ext_group)
 
 def hda_on(group=hda_group):
 		[each.on() for each in group]
@@ -146,6 +151,7 @@ def MM_off(group=MM_group):
 alias("MM_on")
 alias("MM_off")
 
+from gdaserver import fsk1 #@UnresolvedImport
 
 print("iSeg scannable initialisation completed!")
 print

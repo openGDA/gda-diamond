@@ -11,10 +11,20 @@
 
 
 	<!-- 	Manipulator motor scannables -->
+<!-- 	<bean id="sxc_wrapper" class="gda.device.scannable.JythonScannableWrapper"> -->
+<!-- 		<property name="scannableName" value="sxc"/> -->
+<!-- 		<property name="command" value="igap_offset.deleteIObservers()"/> -->
+<!-- 	</bean> -->
 
 	<bean id="sy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="sy"/>
 	</bean>
+
+<!-- 	<bean id="szc_wrapper" class="gda.device.scannable.JythonScannableWrapper"> -->
+<!-- 		<property name="scannableName" value="szc"/> -->
+<!-- 		<property name="command" value="igap_offset.deleteIObservers()"/> -->
+<!-- 	</bean> -->
+
 
 	<!-- 	Voltages -->
 	<bean id="kenergy_wrapper" class="gda.device.scannable.JythonScannableWrapper">

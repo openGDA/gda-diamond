@@ -92,6 +92,23 @@ def DLDonly_stop():
 
 		dldv.off()
 
+def MM_on_button():
+	pos(fsk1, 'In')
+	kenergy.on()
+	# kenergy.rawAsynchronousMoveTo(500)
+	# sleep(5)
+	MM_on()
+
+def MM_off_button():
+	pos(fsk1, 'In')
+	DLD.off()
+	sleep(5)
+	Ext.off()
+	MM_off()
+	sleep(25)
+	kenergy.off()
+alias("MM_on_button")
+alias("MM_off_button")
 
 # save_tiff=EpicsReadWritePVClass("save_tiff","BL09K-EA-D-01:TIFF1:WriteFile","V","%i")
 # save_filename =EpicsReadWritePVClass("save_filename","BL09K-EA-D-01:TIFF1:FileName","V","%t")
