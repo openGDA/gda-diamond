@@ -10,7 +10,7 @@
 	<bean id="xspress" class="uk.ac.gda.devices.detector.xspress3.Xspress3MiniSingleChannelDetector">
 		<property name="controller" ref="xspress3MiniController" />
 		<property name="writeHDF5Files" value="false" />
-		<property name="maxNumberOfRois" value="1" />
+		<property name="maxNumberOfRois" value="6" />
 		<property name="useParentClassMethods" value="false" />
 	</bean>
 
