@@ -24,6 +24,10 @@
 		<property name="slowSpeed" value="100" />
 	</bean>
 
+	<bean id="flatfield_select" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:EnableFlatField" />
+	</bean>
+
 	<bean id="gaussian_select" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
 			<map>

@@ -23,4 +23,8 @@
 		<property name="recordName" value="BL09K-EA-APTR-02:MP" />
 	</bean>
 
+	<bean id="flatfield_select" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL09K-EA-DET-01:PROC:EnableFlatField" />
+	</bean>
+
 </beans>

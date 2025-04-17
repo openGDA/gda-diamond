@@ -170,11 +170,9 @@ print(sp.__doc__.replace("\n", "", 1))
 from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
 
 #Connect the JythonScannableWrappers for client live controls
-from gdaserver import polarisation_wrapper,sy_wrapper,kenergy_wrapper,focus_wrapper # @UnresolvedImport
+from gdaserver import polarisation_wrapper,sy_wrapper # @UnresolvedImport
 polarisation_wrapper.connectScannable()
 sy_wrapper.connectScannable()
-kenergy_wrapper.connectScannable()
-focus_wrapper.connectScannable()
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

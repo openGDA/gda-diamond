@@ -361,6 +361,13 @@
             class="uk.ac.gda.beamline.i09_2.startup.EarlyStartup">
       </startup>
    </extension>
+   <extension
+         point="org.eclipse.ui.commandImages">
+      <image
+            commandId="uk.ac.gda.beamline.i09-2.stage"
+            icon="icons/i09_2_stage.png">
+      </image>
+   </extension>
 
 <!--   
    <extension
