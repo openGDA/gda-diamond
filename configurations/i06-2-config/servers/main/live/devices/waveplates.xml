@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Periscope Top Motors -->
+	<bean id="wp1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06K-OP-WAVE-01:ROT" />
+	</bean>
+	<bean id="wp2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06K-OP-WAVE-02:ROT" />
+	</bean>
+	<bean id="wp3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06K-OP-WAVE-03:X" />
+	</bean>
+
+</beans>

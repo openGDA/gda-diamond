@@ -67,6 +67,7 @@ if installation.isLive():
 
 LocalProperties.set("run.in.gda", True) # property 'run.in.gda' must be set before import add_pixel_mask, remove_pixel_mas
 from i06shared.metadata.detectorPixelMask import add_pixel_mask, remove_pixel_mask # @UnusedImport
+from scannables.FastSteeringMirror import fsmx, fsmy  # @UnusedImport
 
 from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()  

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="ca2_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
+		<property name="basePVName" value="BL06K-DI-IAMP-02:D2:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	</bean>
+
+	<bean id="pscd" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL06K-DI-IAMP-02:D2:"/>
+		<property name="amplifier" ref="ca2_femto"/>
+		<property name="adcChannel" value="2"/>
+	</bean>
+
+	<bean id="ca1_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
+		<property name="basePVName" value="BL06K-DI-IAMP-01:D1:"/>
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+	</bean>
+
+	<bean id="pold" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL06K-DI-IAMP-01:D1:"/>
+		<property name="amplifier" ref="ca1_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
+	<util:map id="gainMap">
+		<entry key="Low Noise">
+			<util:map>
+				<!-- Note: 1e3 means 1x10^3 -->
+					<entry key="1e3" value="10^3 low noise" />
+					<entry key="1e4" value="10^4 low noise" />
+					<entry key="1e5" value="10^5 low noise" />
+					<entry key="1e6" value="10^6 low noise" />
+					<entry key="1e7" value="10^7 low noise" />
+					<entry key="1e8" value="10^8 low noise" />
+					<entry key="1e9" value="10^9 low noise" />
+			</util:map>
+		</entry>
+		<entry key="High Speed">
+			<util:map>
+					<entry key="1e5" value="10^5 high speed" />
+					<entry key="1e6" value="10^6 high speed" />
+					<entry key="1e7" value="10^7 high speed" />
+					<entry key="1e8" value="10^8 high speed" />
+					<entry key="1e9" value="10^9 high speed" />
+					<entry key="1e10" value="10^10 high spd" />
+					<entry key="1e11" value="10^11 high spd" />
+			</util:map>
+		</entry>
+	</util:map>
+
+</beans>
