@@ -117,6 +117,16 @@
 			<list>
 				<bean name="simulated_positions" class="uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView">
 					<property name="xesEnergyScannableName" value="XESEnergyJohann" />
+					<property name="xesBraggScannableName" value="XESBraggJohann" />
+					<property name="parameterScannableNames">
+						<list>
+							<value>cut1</value>
+							<value>cut2</value>
+							<value>cut3</value>
+							<value>radius</value>
+							<value>material</value>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>

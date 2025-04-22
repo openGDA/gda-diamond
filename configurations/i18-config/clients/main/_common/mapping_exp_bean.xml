@@ -38,6 +38,7 @@
 						<value>energy_nogap</value>
 						<value>t1thetaFine</value>
                         <value>t1theta</value>
+                        <value>smaract_yaw</value>
 					</list>
 				</property>
 			</bean>
