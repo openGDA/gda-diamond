@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
 import gda.jython.InterfaceProvider;
-import gda.util.GenerateScanTemplate;
 import gda.util.JsonHelper;
+import gda.util.XrayLibHelper;
 import uk.ac.gda.beans.exafs.DetectorConfig;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -52,8 +52,6 @@ public class AdjustmentPreparer implements DetectorPreparer {
 	String jythonFunctionName = "adjust_sensitivities_2E";
 
 	private double relativeLowEnergy= 50;
-
-	private GenerateScanTemplate scanTemplate = new GenerateScanTemplate();
 
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
@@ -97,7 +95,7 @@ public class AdjustmentPreparer implements DetectorPreparer {
 
 		if (ionParams.isAutoControl()) {
 			if (scanBean instanceof QEXAFSParameters qexafsParams) {
-				double edgeEnergy = scanTemplate.getEdgeEnergy(qexafsParams.getElement(),  qexafsParams.getEdge());
+				double edgeEnergy = XrayLibHelper.getEdgeEnergy(qexafsParams.getElement(),  qexafsParams.getEdge());
 				double lowEnergy = edgeEnergy - relativeLowEnergy;
 				double highEnergy = qexafsParams.getFinalEnergy();
 
