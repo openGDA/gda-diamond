@@ -17,9 +17,21 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+
+
 from polarimeter.polarimeterHexapod import hpx, hpy, hpz, hpa, hpb, hpc, hexapod  # @UnusedImport
 from polarimeter.polarimeterTemperatureMonitor import anatemp,rettemp  # @UnusedImport
-from polarimeter.Scaler8512 import ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr,scaler  # @UnusedImport @UnresolvedImport
+
+from gdascripts.scannable.timerelated import TimeSinceScanStart
+timerScannable = TimeSinceScanStart("timerScannable")
+print("timerScannable created.")
+print("e.g. to expose diode1 every 5 seconds for 1 minute:")
+print(">>> scan timerScannable 0 60 5 diode1 0.1")
+
+from gda.device.scannable import DummyScannable
+dummy = DummyScannable("dummy")
 
 print "==================================================================="; print; 
 

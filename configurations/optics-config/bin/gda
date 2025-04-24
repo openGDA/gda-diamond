@@ -24,4 +24,6 @@ export GDA_CLIENT=$GDA_WORKSPACE_PARENT/client/gda-${BEAMLINE}
 # Define a display name for use in messages
 export GDA_INSTANCE_NAME=${BEAMLINE}
 
+. ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/gda_set_dls_environment_defaults.sh ${GDA_INSTANCE_NAME}
+
 . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"

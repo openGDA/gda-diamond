@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- Polarimeter ScannableMotors ******************************* -->
-	<!-- Front and Rear Pinhole -->
+	
+	<!-- Front Pinhole -->
 	<bean id="FPSelection" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="FPSelection"/>
 		<property name="motor" ref="FrontPinholeMotor" />
@@ -12,26 +13,7 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	
-	<bean id="RPSelection" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="RPSelection"/>
-		<property name="motor" ref="RearPinholeMotor" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<bean id="Pinhole" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="name" value="Pinhole"/>
-		<property name="groupMembers">
-			<list>
-				<ref bean="FPSelection" />
-				<ref bean="RPSelection" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="0" />
-	</bean>
-	
-	<!-- Retarder Till and Rotation-->
+	<!-- Retarder Tilt, Rotation and Translation-->
 	<bean id="RetTilt" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="RetTilt"/>
 		<property name="motor" ref="RetarderTiltMotor" />
@@ -46,6 +28,13 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
+	<bean id="RetTranslation" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="RetTranslation"/>
+		<property name="motor" ref="RetarderTranslationMotor" />
+		<property name="protectionLevel" value="0" />
+<!-- 		<property name="initialUserUnits" value="deg" /> -->
+<!-- 		<property name="hardwareUnitString" value="deg" /> -->
+	</bean>
 	
 	<bean id="Retarder" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="Retarder"/>
@@ -53,12 +42,13 @@
 			<list>
 				<ref bean="RetTilt" />
 				<ref bean="RetRotation" />
+				<ref bean="RetTranslation" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
 	</bean>
 	
-	<!-- Analyser Till, Rotation, Theta (Detector) and Translation  -->
+	<!-- Analyser Tilt, Rotation, Theta (Detector), X Translation and Z Translation  -->
 	<bean id="AnaTilt" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="AnaTilt"/>
 		<property name="motor" ref="AnalyserTiltMotor" />
@@ -80,9 +70,16 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
-	<bean id="AnaTranslation" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="AnaTranslation"/>
-		<property name="motor" ref="AnalyserTranslationMotor" />
+	<bean id="AnaTranslationX" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaTranslationX"/>
+		<property name="motor" ref="AnalyserTranslationXMotor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="AnaTranslationZ" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaTranslationZ"/>
+		<property name="motor" ref="AnalyserTranslationZMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
@@ -96,7 +93,8 @@
 				<ref bean="AnaTilt" />
 				<ref bean="AnaRotation" />
 				<ref bean="AnaDetector" />
-				<ref bean="AnaTranslation" />
+				<ref bean="AnaTranslationX" />
+				<ref bean="AnaTranslationZ" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
@@ -106,14 +104,15 @@
 		<property name="name" value="Polarimeter"/>
 		<property name="groupMembers">
 			<list>
-				<ref bean="FPSelection" />
-				<ref bean="RPSelection" />
+<!-- 				<ref bean="FPSelection" /> -->
 				<ref bean="RetTilt" />
 				<ref bean="RetRotation" />
+				<ref bean="RetTranslation" />
 				<ref bean="AnaTilt" />
 				<ref bean="AnaRotation" />
 				<ref bean="AnaDetector" />
-				<ref bean="AnaTranslation" />
+				<ref bean="AnaTranslationX" />
+				<ref bean="AnaTranslationZ" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

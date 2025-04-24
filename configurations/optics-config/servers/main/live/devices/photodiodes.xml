@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="diode1" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="ME02P-EA-DET-01:FEMTO1:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="diode2" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="ME02P-EA-DET-01:FEMTO2:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="diode3" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="ME02P-EA-DET-01:FEMTO3:I" />
+		<property name="canMove" value="false" />
+	</bean>
+	
+	<bean id="diode4" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="ME02P-EA-DET-01:FEMTO4:I" />
+		<property name="canMove" value="false" />
+	</bean>
+
+
+</beans>

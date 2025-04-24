@@ -6,57 +6,67 @@
 	
 	<!-- Polarimeter Epics Positioners and Motors  -->
 	<!-- FrontPinhole Positioner -->
-	<bean id="FrontPinholePositioner" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="name" value="FrontPinholePositioner"/>
-		<property name="recordName" value="ME02P-MO-ALIGN-01:MP" />
-	</bean>
+<!-- 	<bean id="FrontPinholePositioner" class="gda.device.enumpositioner.EpicsPositioner"> -->
+<!-- 		<property name="name" value="FrontPinholePositioner"/> -->
+<!-- 		<property name="recordName" value="ME02P-MO-ALIGN-01:MP" /> -->
+<!-- 	</bean> -->
 	
-	<!--  Rear Pinhole Positioner -->
-	<bean id="RearPinholePositioner" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="name" value="RearPinholePositioner"/>
-		<property name="recordName" value="ME02P-MO-ALIGN-02:MP" />
-	</bean>
-	
-	<!--  Front Pinhole Motor   -->
+	<!--  PM1: Front Pinhole   -->
 	<bean id="FrontPinholeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="FrontPinholeMotor"/>
 		<property name="pvName" value="ME02P-MO-ALIGN-01:Z" />
 	</bean>
-	
-	<!--  Rear Pinhole Motor    -->
-	<bean id="RearPinholeMotor" class="gda.device.motor.EpicsMotor">
-		<property name="name" value="RearPinholeMotor"/>
-		<property name="pvName" value="ME02P-MO-ALIGN-02:Z" />
-	</bean>
 
 	<!--  Retarder Motors    -->
+	<!-- PM2: Retarder rotation -->
 	<bean id="RetarderRotationMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="RetarderRotationMotor"/>
-		<property name="pvName" value="ME02P-MO-RET-01:ROT" />
+		<property name="pvName" value="ME02P-MO-RET-02:ROT" />
 	</bean>
+	
+	<!-- PM3: Retarder tilt -->
 	<bean id="RetarderTiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="RetarderTiltMotor"/>
-		<property name="pvName" value="ME02P-MO-RET-01:TILT" />
+		<property name="pvName" value="ME02P-MO-RET-02:TILT" />
+	</bean>
+	
+	<!-- PM9: Retarder translation -->
+	<bean id="RetarderTranslationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="name" value="RetarderTranslationMotor"/>
+		<property name="pvName" value="ME02P-MO-RET-01:TRANS" />
 	</bean>
 	
 	<!--  Polarimeter Analyser Motors    -->
+	<!-- PM4: Analyser rotation -->
 	<bean id="AnalyserRotationMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="AnalyserRotationMotor"/>
-		<property name="pvName" value="ME02P-MO-ANA-01:ROT" />
+		<property name="pvName" value="ME02P-MO-ANA-02:ROT" />
 	</bean>
+	
+	<!-- PM5: Analyser tilt -->
 	<bean id="AnalyserTiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="AnalyserTiltMotor"/>
-		<property name="pvName" value="ME02P-MO-ANA-01:TILT" />
+		<property name="pvName" value="ME02P-MO-ANA-02:TILT" />
 	</bean>
-	<bean id="AnalyserTranslationMotor" class="gda.device.motor.EpicsMotor">
-		<property name="name" value="AnalyserTranslationMotor"/>
-		<property name="pvName" value="ME02P-MO-ANA-01:TRANS" />
+	
+	<!-- PM6: Analyser translation X -->
+	<bean id="AnalyserTranslationXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="name" value="AnalyserTranslationXMotor"/>
+		<property name="pvName" value="ME02P-MO-ANA-02:TRANSX" />
 	</bean>
+	
+	<!-- PM10: Analyser translation Z -->
+	<bean id="AnalyserTranslationZMotor" class="gda.device.motor.EpicsMotor">
+		<property name="name" value="AnalyserTranslationZMotor"/>
+		<property name="pvName" value="ME02P-MO-ANA-01:TRANSZ" />
+	</bean>
+	
+	<!-- PM7: Analyser detector -->
 	<bean id="AnalyserDetectorMotor" class="gda.device.motor.EpicsMotor">
 		<property name="name" value="AnalyserDetectorMotor"/>
-		<property name="pvName" value="ME02P-MO-ANA-01:THETA" />
+		<property name="pvName" value="ME02P-MO-ANA-02:THETA" />
 	</bean>
-
+	
 	<bean id="pinhole_temperature" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="ME02P-MO-ALIGN-01:Z:TEMP" />
 	</bean>
