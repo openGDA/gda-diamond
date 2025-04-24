@@ -57,5 +57,40 @@
 		<property name="pvName" value="ME02P-MO-ANA-01:THETA" />
 	</bean>
 
+	<bean id="pinhole_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ALIGN-01:Z:TEMP" />
+	</bean>
+
+	<bean id="retarder_rotation_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-RET-02:ROT:TEMP" />
+	</bean>
+	
+	<bean id="retarder_tilt_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-RET-02:TILT:TEMP" />
+	</bean>
+	
+	<bean id="retarder_translation_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-RET-01:TRANS:TEMP" />
+	</bean>
+	
+	<bean id="analyser_rotation_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ANA-02:ROT:TEMP" />
+	</bean>
+	
+	<bean id="analyser_tilt_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ANA-02:TILT:TEMP" />
+	</bean>
+	
+	<bean id="analyser_translation_x_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ANA-02:TRANSX:TEMP" />
+	</bean>
+	
+	<bean id="analyser_translation_z_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ANA-01:TRANSZ:TEMP" />
+	</bean>
+	
+	<bean id="analyser_detector_temperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="ME02P-MO-ANA-02:THETA:TEMP" />
+	</bean>
 	
 </beans>
