@@ -86,6 +86,17 @@
 		<property name="buttonTooltip" value="Open ImageJ viewer for the Merlin detector" />
 		<property name="command" value="/dls_sw/prod/tools/RHEL7-x86_64/defaults/bin/dls-imagej" />
 	</bean>
+	
+	<bean id="sample_transfer_dialog_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferDialogFactory">
+		<property name="cameras" ref="sample_transfer_cameras" />
+	</bean>
+	
+	<bean id="sample_transfer_control" class="uk.ac.gda.client.livecontrol.DialogButtonControl">
+		<property name="group" value="Sample transfer" />
+		<property name="buttonText" value="Sample Transfer Dialog" />
+		<property name="buttonTooltip" value="Open sample transfer dialog" />
+		<property name="dialogFactory" ref="sample_transfer_dialog_factory" />
+	</bean>
 
 	<!-- Overall control set -->
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -99,6 +110,7 @@
 				<ref bean="watchdog_control" />
 				<ref bean="dcm_enrg_control" />
 				<ref bean="merlin_imagej_control" />
+				<ref bean="sample_transfer_control" />
 			</list>
 		</property>
 	</bean>

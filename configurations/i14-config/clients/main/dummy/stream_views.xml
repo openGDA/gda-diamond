@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+           
 	<!-- Extract workstation name from localhost and use to construct base PV name -->
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
 	<bean id="workstation" class="java.lang.String">
@@ -22,6 +26,7 @@
 	<bean id="sim_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="sim_camera_reset" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
+
 
 	<!-- View including camera offset calibration -->
 	<bean id="sim_cam_offset_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -242,6 +247,11 @@
 		<constructor-arg name="yPixelScalingDefault" value="0.0006" /> <!-- Number of pixels per scannable unit in y axis -->
 		<constructor-arg name="csvFilePath" value="${gda.var}/camera_offset_calibration.csv" />
 	</bean>
+	
+	<!-- Sample transfer cameras -->
+	<util:list id="sample_transfer_cameras">
+		<ref bean="sim_cam_offset_calibration" />
+	</util:list>
 
 
 </beans>
