@@ -252,6 +252,49 @@
 		</property>
 		
 	</bean>
+
+	<bean id="laminographyTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
+		<property name="type" value="TOMOGRAPHY" />
+		<property name="subType" value="LAMINOGRAPHY" />
+		<property name="engine">
+			<bean class="uk.ac.gda.api.acquisition.AcquisitionEngineDocument">
+				<property name="type" value="MALCOLM" />
+				<property name="id" ref="laminographyMalcolmMri" />
+			</bean>
+		</property>
+		<property name="detectors">
+			<list><value>PCO_CAMERA</value></list>
+		</property>
+		<property name="defaultTrajectories">
+			<list>
+			<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.Trajectory">
+				<constructor-arg>
+				<bean class="uk.ac.diamond.daq.mapping.api.document.scanpath.ScannableTrackDocument">
+					<property name="scannable" ref="laminographyThetaScannable" /> <!-- mode-specific -->
+					<property name="axis" value="THETA" />
+					<property name="start" value="0" />
+					<property name="stop" value="180" />
+					<property name="points" value="0" /> <!-- force users to explicitly specify this, at K11's request -->
+					<property name="continuous" value="true" />
+				</bean>
+				</constructor-arg>
+			</bean>
+			</list>
+		</property>
+		
+		<property name="startPosition">
+			<list>
+				<ref bean="shutter_open" />
+				<ref bean="imaging_beam" />
+			</list>
+		</property>
+		<property name="nexusTemplatePaths">
+			<set>
+				<ref bean="nxtomoTemplatePath" />
+			</set>
+		</property>
+		
+	</bean>
 	
 	<bean id="flatFieldTemplate" class="uk.ac.gda.client.properties.acquisition.AcquisitionTemplate">
 		<property name="type" value="CALIBRATION" />
@@ -286,6 +329,7 @@
 				<ref bean="beamSelectorTemplate" />
 				<ref bean="tomographyTemplate" />
 				<ref bean="radiographyTemplate" />
+				<ref bean="laminographyTemplate" />
 				<ref bean="flatFieldTemplate" />
 				<ref bean="darkFieldTemplate" />
 			</list>

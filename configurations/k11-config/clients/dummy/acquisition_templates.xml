@@ -21,6 +21,10 @@
 		<constructor-arg value="#{workstation}-ML-SCAN-01"/>
 	</bean>
 	
+	<bean id="laminographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="#{workstation}-ML-SCAN-02"/>
+	</bean>
+	
 	<bean id="diffractionTomographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
 		<constructor-arg ref="diffractionMalcolmMri" />
 	</bean>
@@ -35,6 +39,10 @@
 	
 	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
 		<constructor-arg value="simtheta"/>
+	</bean>
+
+	<bean id="laminographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="simload"/>
 	</bean>
 	
 	<bean id="nxtomoTemplatePath" class="java.lang.String" factory-method="valueOf">
