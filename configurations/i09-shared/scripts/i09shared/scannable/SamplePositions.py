@@ -11,9 +11,9 @@ from collections import OrderedDict
 class SamplePositions(ScannableBase):
     """
     Syntax:
-    1: sp.new(output_filename=None, override=False) - Create a new set of sample positions to be saved to a file.
+    1: sp.newfile(output_filename=None, override=False) - Create a new set of sample positions to be saved to a file.
         If output_filename=None, create file using default. If file already exists, overwrite must be True. Otherwise will throw error.
-    2: sp.loadpos(input_filename=None, output_filename = None) - Store positions from existing file into scannable.
+    2: sp.loadfile(input_filename=None, output_filename = None) - Store positions from existing file into scannable.
         If input_filename=None, load the default file. If output_filename=None, then use the input_filename to save and override new positions to.
     3: sp.savepos(key) - Save the current sample manipulator positions to a key in an OrderedDict. Will also be saved to file.
     4: sp.changekey(oldkey, newkey) - Change an existing key storing sample positions to a new one.
@@ -124,7 +124,7 @@ class SamplePositions(ScannableBase):
             json.dump(data, f, indent = 4)
         self.logger.info("Saved to file: %s", filename)
 
-    def new(self, output_filename = None, override = False):
+    def newfile(self, output_filename = None, override = False):
         """
         Configure number of new positions that can be stored and saved to a file.
 
@@ -161,7 +161,7 @@ class SamplePositions(ScannableBase):
 
         print("Saving new positions to output_filename: {}\n".format(self.getFilename()))
 
-    def loadpos(self, input_filename = None, output_filename = None):
+    def loadfile(self, input_filename = None, output_filename = None):
         """
         Load existing positions from a file.
 
@@ -370,7 +370,8 @@ class SamplePositions(ScannableBase):
 
         positions = self.getSavedPositions(remove_excluded=True)
         SELECTED = " --> SELECTED"
-        string = "\nname: " + self.getName()
+        filename = "\nfile: " + self.getFilename()
+        string = filename + "\nname: " + self.getName()
 
         for key, position_values in positions.iteritems():
             string = string + "\n" + str(key) + ": " + key_value_positions_to_str(position_values)
