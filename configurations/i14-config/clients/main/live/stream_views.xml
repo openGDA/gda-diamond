@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+           
+           
 	<!-- Merlin camera -->
 	<bean id="merlin_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Merlin Detector" />
@@ -125,5 +129,10 @@
 		<property name="pvAccessPv" value="BL14I-OP-DCAM-13:PVA:ARRAY" />
 		<property name="sleepTime" value="5" />
 	</bean>
+	
+	<!-- Sample transfer cameras -->
+	<util:list id="sample_transfer_cameras">
+		<ref bean="sample_transfer_cam" />
+	</util:list>
 
 </beans>
