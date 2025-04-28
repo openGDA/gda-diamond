@@ -1,6 +1,7 @@
 # High voltage energy table
 High Pass (XPS)		1		2		5		10		20		50		100		200
-Transmission		none	none	1-160	2-320	5-640	12-1407	25-1305	63-955
+#Transmission		none	none	1-160	2-320	5-640	12-1407	25-1305	63-955
+Transmission		none	none	1-160	2-320	5-640	13-1600	25-3200	63-6400
 Angular14			none	none	2-190	5-381	10-761	25-1234	50-1467	265-1345
 Angular7NF			none	none	3-190	12-761	12-761	30-369	59-216	171-193
 Angular30			none	none	2-113	4-226	7-453	18-800	35-1037	110-951
