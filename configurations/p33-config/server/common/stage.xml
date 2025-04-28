@@ -17,5 +17,20 @@
 		dummy-maxPosition="20"
 		dummy-position="2.339"
 		dummy-unitString="mm"/>
+	
+	<gda:motor id="samdy"
+		live-pvName="BL33P-MO-PPMAC-01:LIN2" /> <!-- Kollmorgen linear -->
+		
+	<gda:motor id="camy"
+		live-pvName="BL33P-MO-PPMAC-01:LIN1" /> <!-- Newport 100mm -->
+	
+	<gda:motor id="samdx"
+		live-pvName="BL33P-MO-PPMAC-01:LIN3" /> <!-- Newport 150mm 1 -->
+	
+	<gda:motor id="lasery"
+		live-pvName="BL33P-MO-PPMAC-01:LIN4" /> <!-- Newport 150mm 2 -->
+	
+	<gda:motor id="omega"
+		live-pvName="BL33P-MO-PPMAC-01:OMEGA" /> <!-- Thorlab rotation -->
 
 </beans>
