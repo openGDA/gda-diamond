@@ -250,7 +250,7 @@
 	
 	<!-- Sample transfer cameras -->
 	<util:list id="sample_transfer_cameras">
-		<ref bean="sim_cam_offset_calibration" />
+		<ref bean="sim_cam_no_calibration" />
 	</util:list>
 
 
