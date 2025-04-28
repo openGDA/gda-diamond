@@ -147,7 +147,7 @@ I_METADATA_DEVICE_NAMES = ["iid", "dcm", "beam_dcm", "hm1", "hm2", "hm3", "ccc",
 #Build J-branch metadata list. These objects involved in scan will add J-branch metadata devices to monitor per scan
 from gdaserver import jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4 #@UnresolvedImport
 J_METADATA_SCANNABLES = [jid, pgm, sm1, sm3, sm4, sm5, ss2, ss4, jenergy_s, polarisation, jenergypolarisation, jenergy_order, jgap_offset, jenergy, jenergy_move_controller, jI0, sdc, checkjid]
-J_METADATA_DEVICE_NAMES = ["jid", "pgm", "beam_pgm", "sm1", "sm3", "sm4", "sm5", "ss2", "ss4", "jenergy", "polarisation", "jenergy_order", "igap_offset", "jgap_offset"]
+J_METADATA_DEVICE_NAMES = ["jid", "pgm", "beam_pgm", "sm1", "sm3", "sm4", "sm5", "ss2", "ss4", "jenergy", "polarisation", "jenergy_order", "jgap_offset"]
 
 #Defaults must be set to prevent any warning message
 from org.eclipse.scanning.device import CommonBeamlineDevicesConfiguration #@UnresolvedImport

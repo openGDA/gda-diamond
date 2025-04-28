@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="facility_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>Dummy</value> <!-- This added for dummy, rest come from epics -->
+				<value>Shutdown</value>
+				<value>Injection</value>
+				<value>No Beam</value>
+				<value>Mach. Dev.</value>
+				<value>User</value>
+				<value>Special</value>
+				<value>BL Startup</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fill_mode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>Standby</value>
+				<value>SB Repeat</value>
+				<value>MB Repeat</value>
+				<value>SB One Shot</value>
+				<value>MB One Shot</value>
+				<value>Seq. Fill</value>
+				<value>Spread Fill</value>
+				<value>Periodic SB</value>
+				<value>Remote Fill</value>
+				<value>SB Arc Fill</value>
+				<value>Seq Shift Fill</value>
+				<value>MB Top Up</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
