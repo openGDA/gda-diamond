@@ -40,17 +40,27 @@
 		</property>
 	</bean>
 
+	<bean id="ss7xgap_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="H slit (mm)" />
+		<property name="group" value="Beamline " />
+		<property name="scannableName" value="ss7xgap" />
+		<property name="showStop" value="false" />
+		<property name="increment" value="0.01" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
 	<bean id="ss7ygap_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="SS7 Y-GAP" />
-		<property name="group" value="Beamline" />
+		<property name="displayName" value="V slit (mm)" />
+		<property name="group" value="Beamline " />
 		<property name="scannableName" value="ss7ygap" />
 		<property name="showStop" value="false" />
 		<property name="increment" value="0.01" />
+		<property name="userUnits" value="mm"/>
 	</bean>
 
 	<bean id="sm6y_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="SM6 Y" />
-		<property name="group" value="Beamline" />
+		<property name="displayName" value="Beam Height" />
+		<property name="group" value="Beamline " />
 		<property name="scannableName" value="sm6y" />
 		<property name="showStop" value="false" />
 		<property name="increment" value="0.001" />
@@ -80,21 +90,6 @@
 		<property name="userUnits" value="mm"/>
 	</bean>
 
-
-	<bean id="kenergy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="kenergy " />
-		<property name="group" value="Sample " />
-		<property name="scannableName" value="kenergy_wrapper" />
-		<property name="increment" value="0.1" />
-	</bean>
-
-	<bean id="focus_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="focus " />
-		<property name="group" value="Sample " />
-		<property name="scannableName" value="focus_wrapper" />
-		<property name="increment" value="0.1" />
-	</bean>
-
 	<bean id="mm_on" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="command" value="MM_on_button" />
 		<property name="buttonText" value="MM on" />
@@ -107,6 +102,11 @@
 		<property name="group" value="MM" />
 	</bean>
 
+	<bean id="sample_stage_image" class="uk.ac.gda.beamline.i09_2.addons.LiveControlImage">
+		<property name="group" value="Manipulator Control" />
+		<property name="imagePath" value="icons/i09_2_stage.png"/>
+	</bean>
+
 	<bean id="gaussian_select_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="scannableName" value="gaussian_select"/>
 		<property name="group" value="MM" />
@@ -117,23 +117,30 @@
 		<property name="group" value="MM" />
 	</bean>
 
+	<bean id="flatfield_select_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="scannableName" value="flatfield_select"/>
+		<property name="group" value="MM" />
+	</bean>
+
 	<bean id="beamline_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="fast_shutter_status" />
 				<ref bean="fast_shutter_control" />
+
+				<ref bean="ss7xgap_motor_control" />
 				<ref bean="ss7ygap_motor_control" />
 				<ref bean="sm6y_motor_control" />
 
+				<ref bean="sample_stage_image"/>
 				<ref bean="sxc_control" />
 				<ref bean="sy_control" />
 				<ref bean="szc_control" />
 
-				<ref bean="kenergy_control" />
-				<ref bean="focus_control" />
-
 				<ref bean="mm_on" />
 				<ref bean="mm_off" />
+				<ref bean="flatfield_select_control" />
+
 				<ref bean="gaussian_select_control"/>
 				<ref bean="fourier_select_control"/>
 			</list>
