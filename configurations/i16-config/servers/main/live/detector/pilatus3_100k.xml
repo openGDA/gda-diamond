@@ -68,7 +68,7 @@
 		<constructor-arg value="pilatus3_100k" />
 		<property name="ndFile" ref="pilatus3_ndfile" />
 		<property name="fileNameTemplate" value=""/>
-		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-pil3_100k-files"/>
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="alwaysPrepare" value="true" />
@@ -232,7 +232,7 @@
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<!-- Override default ...-kphiZebraPil3-files so files end up in the same dir as the hdf5 files. -->
-		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-pil3_100k-files" />
 	</bean>
 
 	<bean id="kthZebraPil3_camserver_nxfilewriter_for_hardware_triggering"
@@ -248,6 +248,6 @@
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<!-- Override default ...-kthZebraPil3-files so files end up in the same dir as the hdf5 files. -->
-		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-pil3_100k-files" />
 	</bean>
 </beans>
