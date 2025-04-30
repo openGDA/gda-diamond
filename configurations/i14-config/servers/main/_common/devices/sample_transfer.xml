@@ -20,6 +20,10 @@
 		<property name="motor" ref="gripper_motor" />
 	</bean>
 	
+	<bean id="lam_stage" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laminography_motor" />
+	</bean>
+	
 	<bean id="sample_transfer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

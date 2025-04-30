@@ -19,4 +19,8 @@
 		<property name="pvName" value="BL14I-MO-TRSF-01:GRIP" />
 	</bean>
 	
+	<bean id="laminography_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TRSF-01:LAM" />
+	</bean>
+	
 </beans>
