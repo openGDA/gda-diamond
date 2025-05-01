@@ -6,12 +6,10 @@ from gda.device.scannable import ScannableUtils
 import scisoftpy as dnp
 import datetime as fscan_datetime
 from org.eclipse.scanning.api.scan import ScanningException
-from gdadevscripts.visitInfoAndDatadir import datadir
-
-log_file = datadir() + 'processing/malcolmErrorLog.txt'
 
 def log_error(error_message):
     timestamp = fscan_datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    log_file = "/dls_sw/i07/logs" + '/malcolmErrorLog.txt'
     with open(log_file, 'a') as file:
         file.write('%s ERROR: %s\n' % (timestamp, error_message))
 
