@@ -13,8 +13,8 @@
 		<property name="initialDataType" value="UInt16" />
 		<property name="initialMinX" value="0" />
 		<property name="initialMinY" value="0" />
-		<property name="initialSizeX" value="1000" />
-		<property name="initialSizeY" value="900" />
+		<property name="initialSizeX" value="${gda.analyser.camera.xsize}" />
+		<property name="initialSizeY" value="${gda.analyser.camera.ysize}" />
 		<property name="initialBinX" value="1" />
 		<property name="initialBinY" value="1" />
 	</bean>
@@ -55,8 +55,8 @@
 		<property name="initialBinY" value="1" />
 		<property name="initialMinX" value="1" />
 		<property name="initialMinY" value="1" />
-		<property name="initialSizeX" value="1000" />
-		<property name="initialSizeY" value="900" />
+		<property name="initialSizeX" value="${gda.analyser.camera.xsize}" />
+		<property name="initialSizeY" value="${gda.analyser.camera.ysize}" />
 		<property name="initialEnableX" value="true" />
 		<property name="initialEnableY" value="true" />
 	</bean>
@@ -100,7 +100,7 @@
 		</property>
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="ew4000" />
+		<property name="initialFileName" value="r4000" />
 		<property name="initialFileTemplate" value="%s%s-%d.h5" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
@@ -168,7 +168,7 @@
 		<property name="readAcquisitionPeriod" value="false" />
 		<property name="readArray" value="true" />
 		<property name="energyRange" ref="analyser_energy_range" />
-		<property name="energyStepPerPixel" value="0.0877" />
+		<property name="energyStepPerPixel" value="${gda.analyser.camera.energyresolutionmeV}" />
 	</bean>
 
 	<bean id="analyser_adarrayplugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.ADArrayPlugin">
