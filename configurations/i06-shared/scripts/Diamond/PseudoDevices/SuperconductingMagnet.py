@@ -443,13 +443,13 @@ class SingleAxisMagnetClass(ScannableMotionBase):
 
 	def getPosition(self):
 		if self.axialIndex < 3:
-			return self.magnet.getMagnetPosition()[self.axialIndex];
+			return self.magnet.getMagnetPosition(raw=True)[self.axialIndex];
 		else:
 			return self.magnet.getMagnet()[self.axialIndex-3];
 		
 	def asynchronousMoveTo(self,newPos):
 		if self.axialIndex < 3:
-			currentPosition = self.magnet.getMagnetPosition();
+			currentPosition = self.magnet.getMagnetPosition(raw=True);
 			currentPosition[self.axialIndex]=newPos;
 			self.magnet.setMagnetPosition(currentPosition[0], currentPosition[1], currentPosition[2]);
 		else:

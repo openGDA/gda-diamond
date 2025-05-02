@@ -17,7 +17,6 @@ import time
 import math
 from gda.device import Scannable
 from types import IntType, FloatType
-import sys
 from time import sleep
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdascripts.metadata.nexus_metadata_class import meta
@@ -29,7 +28,6 @@ import threading
 
 SHOW_DEMAND_VALUE=False
 
-from magnet.useMagnet import magx, magy, magz
 from Diamond.PseudoDevices.SuperconductingMagnetController import magz_ramp_rate, magx_ramp_rate, magy_ramp_rate
 SUPPORTED_MAGNET_SCANNABLES = {"magx" : magx_ramp_rate, "magy" : magy_ramp_rate, "magz" : magz_ramp_rate}
 
@@ -85,16 +83,13 @@ class MagnetFieldFlyScannable(ScannableBase):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
     
     def isBusy(self):
-        if not self.scannable.isBusy():
-            res = False;
+        self.lastreadPosition = self.getCurrentPositionOfScannable()
+        if self.positive:
+            print("positive: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+            res = self.requiredPosVal > self.lastreadPosition
         else:
-            self.lastreadPosition = self.getCurrentPositionOfScannable()
-            if self.positive:
-                print("positive: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
-                res = self.requiredPosVal > self.lastreadPosition
-            else:
-                print("negative:: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
-                res = self.requiredPosVal < self.lastreadPosition
+            print("negative:: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+            res = self.requiredPosVal < self.lastreadPosition
         return res
 
     def waitWhileBusy(self):
@@ -118,12 +113,8 @@ class MagnetFieldFlyScannable(ScannableBase):
             sleep(2.5)
             count=0
             while self.scannable.isBusy():
-                sleep(0.01)
-                sys.stdout.write(".")
+                sleep(1)
                 count=count+1
-                if count % 80 == 0 :
-                    sys.stdout.write("\n")
-            print("\n")
             print("Start position is reached after %f seconds" % (count))
             self.moveToStartCompleted=True
     
@@ -196,6 +187,7 @@ class MagnetFieldFlyScannable(ScannableBase):
         
     def _move_cross_zero_field(self, target):
         self.scannable.moveTo(0)
+        sleep(20.0)
         self.scannable.moveTo(target)
     
     def rawGetPosition(self):
