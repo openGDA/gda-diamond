@@ -146,16 +146,9 @@ print("")
 ###############################################################################
 ###                       Setup metashop commands                           ###
 ###############################################################################
-#ToDo - Should be updated to new meta and done in spring
 print("-"*100)
-print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
-from metadata.metashop import meta_add, meta_ll, meta_ls, meta_rm  # @UnusedImport
-meta_data_list = [jgap, topup_time, rc, beamenergy, topupstate, sm6iamp27, sm6, sm3, ss2, ss7, pgm, pgmenergy, microscope, es3x]  # @UndefinedVariable
-meta_data_list += [sx1, sx2, sx3, sy, sz1, sz2]  # @UndefinedVariable
-meta_data_list += [jenergy_s, polarisation]  # @UndefinedVariable
-meta_data_list += [analyser_slit]  # @UndefinedVariable
-for each in meta_data_list:
-		meta_add(each)
+from gdascripts.metadata.nexus_metadata_class import meta #@UnusedImport
+print("setup meta-data provider object \"meta\".")
 print("")
 
 ###############################################################################

@@ -11,7 +11,7 @@
 	<import resource="SM6.xml"/>
 
 	<!--  End Station -->
-	<import resource="dummy_endstation.xml" />
+	<import resource="endstation.xml" />
 	<import resource="Microscope.xml"/>
 
 	<import resource="specs_entrance_slit.xml"/>

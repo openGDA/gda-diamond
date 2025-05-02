@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- <import resource="file://${gda.config.shared}/servers/main/_common/commandQueueProcessor.xml" /> -->
 	<import resource="DataWriterFactory.xml"/>
+	<import resource="nxmetadata.xml"/>
 	<import resource="devices/all_devices.xml" />
 	
 </beans>

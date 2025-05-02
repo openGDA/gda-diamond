@@ -14,11 +14,12 @@
 	<import resource="shutters.xml" />
 
 	<!-- End Station -->
-	<import resource="dummy_endstation.xml" />
+	<import resource="endstation.xml" />
 	<import resource="Microscope.xml"/>
 	<import resource="ES32.xml"/>
 	<import resource="sample_stage.xml"/>
-	
+	<import resource="synchrotron.xml"/>
+
 		<!-- Choose between V1 and V2 versions -->
 	<beans profile="V2">
 		<import resource="DLD_SUMMED_V2.xml"/>
