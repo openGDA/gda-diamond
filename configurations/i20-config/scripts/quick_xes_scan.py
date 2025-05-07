@@ -180,6 +180,18 @@ class HardwarePreparer() :
             if debug : 
                 print("%s = %.4f , setting %s = %d"%(rbv_pv, readback, posbus_pv, new_posbus_val))
             CAClient.put(posbus_pv, new_posbus_val)
+            
+    def is_geobrick_mode(self) :
+        geobrick_pvs = "BL20I-MO-IOC-17:STATUS", "BL20I-MO-IOC-21:STATUS"
+
+        geobrick_status = [CAClient.get(pv) for pv in geobrick_pvs]
+        is_geobrick_mode = geobrick_status.count("Running") == 2
+        return is_geobrick_mode
+    
+    def is_power_pmac_mode(self) :
+        ppmac_pv = "BL20I-MO-IOC-33:STATUS"
+        return CAClient.get(ppmac_pv) == "Running"
+
 
 class XesAxisControl : 
     def __init__(self) :
@@ -466,21 +478,24 @@ def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy
         sleep(1)
         prepare_pitch_offsets(scn, energy)
     
+    
     # Set the 'gain' and 'offset' parameters for row2 based on row1
-    if xes_energy_scannable == XESEnergyBoth : 
-        # Calculate row2 end energy from number of row1 steps and row2 step size.
-        num_steps = int( (energy_end-energy_start)/energy_step_size)
-        row2_energy_end = row2_energy_start + row2_energy_step_size*abs(num_steps)
-        xes_axis_control.prepare_gain_offset(energy_start, energy_end, row2_energy_start, row2_energy_end)
-        xes_axis_control.enable_lower(True)
-        xes_axis_control.enable_upper(True)
-    else :
-        xes_axis_control.prepare_gain_offset(energy_start, energy_end, energy_start, energy_end)
-        xes_axis_control.enable_lower(xes_energy_scannable == XESEnergyLower)
-        xes_axis_control.enable_upper(xes_energy_scannable == XESEnergyUpper)
-        
-    print("Upper row enable : "+str(xes_axis_control.upper_enable.getPosition()))
-    print("Lower row enable : "+str(xes_axis_control.lower_enable.getPosition()))
+    if xes_hardare_preparer.is_power_pmac_mode() :
+        print("Setting axis offsets for PowerPmac mode")
+        if xes_energy_scannable == XESEnergyBoth : 
+            # Calculate row2 end energy from number of row1 steps and row2 step size.
+            num_steps = int( (energy_end-energy_start)/energy_step_size)
+            row2_energy_end = row2_energy_start + row2_energy_step_size*abs(num_steps)
+            xes_axis_control.prepare_gain_offset(energy_start, energy_end, row2_energy_start, row2_energy_end)
+            xes_axis_control.enable_lower(True)
+            xes_axis_control.enable_upper(True)
+        else :
+            xes_axis_control.prepare_gain_offset(energy_start, energy_end, energy_start, energy_end)
+            xes_axis_control.enable_lower(xes_energy_scannable == XESEnergyLower)
+            xes_axis_control.enable_upper(xes_energy_scannable == XESEnergyUpper)
+
+        print("Upper row enable : "+str(xes_axis_control.upper_enable.getPosition()))
+        print("Lower row enable : "+str(xes_axis_control.lower_enable.getPosition()))
 
     if bragg1WithOffset.isBusy() :
         print("Waiting for mono to finish moving before starting scan")
@@ -493,7 +508,7 @@ def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy
     smetadata.setType(ScanMetadata.MetadataType.ENTRY)
     smetadata.addField("bragg1_energy", str(bragg1WithOffset.getPosition()))
     
-    run_qxes_scan_energy(XESEnergyLower, energy_start, energy_end, energy_step_size, integration_time, num_reps, 
+    run_qxes_scan_energy(xes_energy_scannable, energy_start, energy_end, energy_step_size, integration_time, num_reps, 
                          outer_scannable=pos_time_scn, is_alternating=is_alternating, use_malcolm=use_malcolm,
                          scan_metadata=smetadata)
 

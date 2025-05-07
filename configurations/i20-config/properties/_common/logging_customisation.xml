@@ -12,6 +12,7 @@
 
         <!-- Classes for which TRACE messages are excessive -->
         <!-- Classes where we want all messages -->
+<!--         <logger name="gda.device.scannable.XesSpectrometerScannable">   <level value="TRACE"/> </logger> -->
 
         <!-- If this file exists it allows you to customise logging levels for each config -->
         <include file="${gda.config}/properties/${gda.mode}/logging_customisation.xml" />
