@@ -13,4 +13,13 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
+
+	<!-- Data Server -->
+	<bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">
+		<property name="port" value="${gda.dataserver.port}" />
+	</bean>
+
+	<!-- To provide numtracker REST service -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
+
 </beans>
