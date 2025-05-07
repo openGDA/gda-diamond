@@ -61,7 +61,16 @@
             class="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView"
             icon="platform:/plugin/uk.ac.diamond.daq.mapping.ui/icons/gridscan.png"
             id="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView"
-            name="Standards Scans"
+            name="Xanes Standards Scans"
+            restorable="true">
+      </e4view>
+      <e4view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="uk.ac.diamond.daq.mapping.ui.standards.StandardsExafsScanView"
+            icon="platform:/plugin/uk.ac.diamond.daq.mapping.ui/icons/gridscan.png"
+            id="uk.ac.diamond.daq.mapping.ui.standards.StandardsExafsScanView"
+            name="Exafs Standards Scans"
             restorable="true">
       </e4view>
       <e4view
@@ -112,12 +121,19 @@
                relationship="stack"
                relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView">
          </view>
+          <view
+               id="uk.ac.diamond.daq.mapping.ui.standards.StandardsExafsScanView"
+               minimized="false"
+               closeable="false"
+               relationship="stack"
+               relative="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView">
+         </view>
          <view
                id="uk.ac.gda.beamline.i14.views.customscript.CustomScriptView"
                minimized="false"
                closeable="false"
                relationship="stack"
-               relative="uk.ac.diamond.daq.mapping.ui.standards.StandardsScanView">
+               relative="uk.ac.diamond.daq.mapping.ui.standards.StandardsExafsScanView">
          </view>
          <view
                id="uk.ac.gda.client.live.stream.view.LiveStreamView"

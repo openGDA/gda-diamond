@@ -13,7 +13,7 @@ def split_and_convert_energy_range(energy_range):
     split_range = energy_range.split(' ')
     return [float(i) for i in split_range]
 
-print("Running submit_standards_scan.py")
+print("Running submit_standards_exafs_scan.py")
 
 marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
 scanParams = marshaller_service.unmarshal(customParams, StandardsScanParams)
@@ -28,4 +28,4 @@ if lineToTrack is not None:
     print("Line to track = {}".format(lineToTrack))
 
 
-standards_scan(path, scanParams.getExposureTime(), scanParams.isReverseScan(), lineToTrack)
+standards_exafs_scan(path, scanParams.getExposureTime(), scanParams.isReverseScan(), lineToTrack)
