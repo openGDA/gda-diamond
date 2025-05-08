@@ -87,8 +87,13 @@
 		<property name="command" value="/dls_sw/prod/tools/RHEL7-x86_64/defaults/bin/dls-imagej" />
 	</bean>
 	
+	<!-- Sample transfer configuration -->
+	
+	<bean id="sample_transfer_control_panel_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferControlPanelFactory" />
+
 	<bean id="sample_transfer_dialog_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferDialogFactory">
 		<property name="cameras" ref="sample_transfer_cameras" />
+		<property name="compositeFactory" ref="sample_transfer_control_panel_factory" />
 	</bean>
 	
 	<bean id="sample_transfer_control" class="uk.ac.gda.client.livecontrol.DialogButtonControl">
