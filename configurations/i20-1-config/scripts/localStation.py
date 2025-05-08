@@ -4,6 +4,7 @@ from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
 
 from gda.jython.commands.ScannableCommands import cv as cvscan
+from run_in_try_catch import run_in_try_catch
 vararg_alias("cvscan")
 
 run("gdascripts/javajythonutil.py")
@@ -29,7 +30,7 @@ scansReturnToOriginalPositions=1
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
-    if frelon != None :
+    if "frelon" in globals().keys() :
         run("frelon-functions.py")
         resetFrelonToInternalTriggerMode();
 
@@ -72,12 +73,13 @@ trajscan_preparer.setUseFixedTurnaroundDistance(True)
 trajscan_preparer.setTurnaroundDistance(0.1)
 
 #Copy encoder positions to zebra (in case any motors have been re-homed)
-print "Copying encoder motor positions in Zebras"
-for zebra in [ zebra_device , zebra_device2 ]:
-    zebra.encCopyMotorPosToZebra(1)
-    zebra.encCopyMotorPosToZebra(2)
-    zebra.encCopyMotorPosToZebra(3)
-    zebra.encCopyMotorPosToZebra(4)
+def setupZebras() :
+    print "Copying encoder motor positions in Zebras"
+    for zebra in [ zebra_device , zebra_device2 ]:
+        zebra.encCopyMotorPosToZebra(1)
+        zebra.encCopyMotorPosToZebra(2)
+        zebra.encCopyMotorPosToZebra(3)
+        zebra.encCopyMotorPosToZebra(4)
 
 
 def setupTfg() :
@@ -100,12 +102,17 @@ def setupTfg() :
     das4tfg.sendCommand("tfg setup-cc-chan 0 level")
 
 run_in_try_catch(setupTfg)
+run_in_try_catch(setupZebras)
 
 xspress3Controller = Finder.find("xspress3Controller")
 # xspress3 = Finder.get("xspress3")
 
 swmrFrameFlush = 5
-if LocalProperties.isDummyModeEnabled() == False :
+
+def setup_detectors() :
+    if LocalProperties.isDummyModeEnabled() :
+        return
+
     if xspress3Controller != None and xspress3Controller.isConfigured() :
         print "Setting up XSpress3 : "
         print "  Trigger mode = 'TTL Veto Only'"
@@ -126,17 +133,22 @@ if LocalProperties.isDummyModeEnabled() == False :
         
         xspress3.setFilePath("")
     
-    print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
-    run('alignment_stage_scan5.py')
+    if "frelon" in globals().keys() :
+        print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
+        run('alignment_stage_scan5.py')
 
+run_in_try_catch(setup_detectors)
 
 def setSwmrMode(onoff):
     caput(basePvName+":HDF5:SWMRMode", onoff)
 
 # Set turboslit positions to use when operating as a 'shutter'. imh 21/4/2017
-if LocalProperties.get("gda.mode") == "live":
-    setTurboSlitShutterPositions(0, 1)
-    configureFastShutter()
+def setup_fast_shutter():
+    if LocalProperties.get("gda.mode") == "live":
+        setTurboSlitShutterPositions(0, 1)
+        configureFastShutter()
+
+run_in_try_catch(setup_fast_shutter)
 
 # Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
@@ -184,3 +196,70 @@ def reconnect_daserver() :
     daserverForTfg.reconfigure();sleep(1);mem.clear()
 
 # industrialGasRigValve.configure()
+
+def setup_traj_scan_objects() :
+    global trajscan_preparer
+    trajscan_preparer = Finder.find("trajscan_preparer")
+    global trajscan_controller
+    trajscan_controller = Finder.find("trajscan_controller")
+           
+def setup_trajectory_profile(turboxas_xml_file_name) :
+    """
+        Calculate and setup turbo slit trajectory for set of TurboXasParameters loaded from xml file.
+        After running this function, use execute_trajectory_scan() to execute the trajectory scan.
+        
+        Parameters :
+            turboxas_xml_file_name - name of xml file containing the parameters (absolute path)
+        
+    """
+
+    params = TurboXasParameters.loadFromFile(turboxas_xml_file_name)
+    
+    trajscan_preparer.clearTrajectoryLists()
+    trajscan_preparer.setTwoWayScan(params.isTwoWayScan())
+    trajscan_preparer.addPointsForTimingGroups(params.getMotorParameters())
+    
+    print("Trajectory positions : ")
+    print(trajscan_preparer.getTrajectoryPositionsList())
+    
+    print("Trajectory times : ")
+    print(trajscan_preparer.getTrajectoryTimesList())
+    
+    print("Trajectory velocity modes : ")
+    print(trajscan_preparer.getTrajectoryVelocityModesList())
+
+def execute_trajectory_scan() :
+    print("Building trajectory scan points...")
+    trajscan_preparer.sendAppendProfileValues()
+    print("Executing trajectory scan")
+    trajscan_controller.setExecuteProfile()
+
+setup_traj_scan_objects()
+
+trajscan_preparer.setDefaults() # set the default trajectory scan options
+
+help(setup_trajectory_profile)
+
+# Setup the data directory to point to old comissioning folder (directories for 2024, 2025 have not been created)
+dir_path="/dls/i20-1/data/2023/cm33897-5/tmp"
+print("Setting data directory to : {}".format(dir_path))
+LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, dir_path)
+
+# Create (java) PandA scannables
+run("panda_scannables_java.py")
+
+run("continuous_detector_scan.py")
+
+run("signal_generator.py")
+
+run("blueapi_control.py")
+
+# Set SWMR writing to True - so tgat Datavis allows live visualisation of scan data
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_SWMR, "true")
+
+print("\nRemoving defaults")
+for d in absorberChecker, shutterChecker, scan_end_processor, powerSupply :
+    remove_default(d)
+
+
+print("\n---- Finished running localStation.py ----\n")
