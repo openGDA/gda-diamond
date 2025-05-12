@@ -19,6 +19,10 @@
 	<bean id="stage1_rotation" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage1_rotation_motor" />
 	</bean>
+	
+	<bean id="xas_stage" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xas_stage_motor" />
+	</bean>
 
 	<bean id="stage1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
