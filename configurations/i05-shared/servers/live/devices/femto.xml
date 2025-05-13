@@ -6,6 +6,21 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<bean id="d3current_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
+		<property name="basePVName" value="BL05I-DI-PHDGN-03:DET:" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIinPV" value="false" />
+		<property name="supportsCoupling" value="false" />
+	</bean>
+
+	<bean id="d3current" class="gda.device.currentamplifier.EpicsBekhoffAdc">
+		<property name="basePVName" value="BL05I-DI-PHDGN-03:DET:" />
+		<property name="amplifier" ref="d3current_femto"/>
+		<property name="adcChannel" value="1"/>
+	</bean>
+
 	<util:map id="gainMap">
 		<entry key="default">
 			<util:map>
