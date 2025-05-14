@@ -26,10 +26,15 @@ from diffraction_calibration_appender import DiffractionAppenderManager
 from gdascripts.detectors.initialise_detector import initialise_detector
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 from gdascripts.scan.gdascans import Rscan
+from xspress_functions import run_in_try_catch
 
 def run_script(script_name):
     print("--- Running '"+script_name+"' ---")
-    run(script_name)
+    # make a lambda to run the script
+    run_script_lambda = lambda : run(script_name)
+    run_script_lambda.__name__ = "run('"+script_name+"')"
+    # so it can be passed to run_try_catch function
+    run_in_try_catch(run_script_lambda)
     print("")
     
 def setup_monitors():
@@ -296,6 +301,8 @@ def setup():
     run_script("detector_setup.py")
    
     run_script("convert_to_Si333.py")
+    
+    run_script("vma_start_stop.py")
     
     print("\n...initialisation complete!")
     print_useful_info()
