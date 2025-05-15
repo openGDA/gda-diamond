@@ -93,20 +93,39 @@
 		<property name="pvName" value="BL18B-AL-SLITS-01:Y2" />
 	</bean>
 
-	<bean id="s1d1" class="gda.device.scannable.EpicsScannable">
+	<!-- old s1 pv -->
+	<bean id="s1d1_old" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL18B-AL-SLITS-01:AI1" />
+		<property name="InputNames" value="s1d1_old" />
+	</bean>
+	<bean id="s1d2_old" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL18B-AL-SLITS-01:AI2" />
+		<property name="InputNames" value="s1d2_old" />
+	</bean>
+	<bean id="s1d3_old" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL18B-AL-SLITS-01:AI3" />
+		<property name="InputNames" value="s1d3_old" />
+	</bean>
+	<bean id="s1d4_old" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL18B-AL-SLITS-01:AI4" />
+		<property name="InputNames" value="s1d4_old" />
+	</bean>
+
+	<!-- TetrAMM s1 -->
+	<bean id="s1d1" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL18B-DI-TTRM-01:Cur1:MeanValue_RBV" />
 		<property name="InputNames" value="s1d1" />
 	</bean>
 	<bean id="s1d2" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL18B-AL-SLITS-01:AI2" />
+		<property name="pvName" value="BL18B-DI-TTRM-01:Cur2:MeanValue_RBV" />
 		<property name="InputNames" value="s1d2" />
 	</bean>
 	<bean id="s1d3" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL18B-AL-SLITS-01:AI3" />
+		<property name="pvName" value="BL18B-DI-TTRM-01:Cur3:MeanValue_RBV" />
 		<property name="InputNames" value="s1d3" />
 	</bean>
 	<bean id="s1d4" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL18B-AL-SLITS-01:AI4" />
+		<property name="pvName" value="BL18B-DI-TTRM-01:Cur4:MeanValue_RBV" />
 		<property name="InputNames" value="s1d4" />
 	</bean>
 
@@ -147,6 +166,7 @@
 		<property name="pvBase" value="BL18B-DI-PHDGN-01" />
 	</bean>
 
+ 	<!-- S3 (old) -->
 	<bean id="S3X1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-AL-SLITS-03:X1" />
 	</bean>
@@ -159,13 +179,35 @@
 	<bean id="S3Y2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-AL-SLITS-03:Y2" />
 	</bean>
+	
+	<!-- TetrAMM S3 >
+	<bean id="S3X1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-DI-TTRM-02:X1" />
+	</bean>
+	<bean id="S3X2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-DI-TTRM-02:X2" />
+	</bean>
+	<bean id="S3Y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-DI-TTRM-02:Y1" />
+	</bean>
+	<bean id="S3Y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-DI-TTRM-02:Y2" />
+	</bean> -->
 
+	<!-- A2 old -->
+	<bean id="A2_drain_old" class="gda.device.scannable.PVScannable">
+		<property name="name" value="A2_drain_old" />
+		<property name="pvName" value="BL18B-OP-ATTN-02:I" />
+		<property name="units" value="mA" />
+	</bean>
+	
+	<!-- TetrAMM A2 -->
 	<bean id="A2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL18B-OP-ATTN-02:MP1" />
 	</bean>
 	<bean id="A2_drain" class="gda.device.scannable.PVScannable">
 		<property name="name" value="A2_drain" />
-		<property name="pvName" value="BL18B-OP-ATTN-02:I" />
+		<property name="pvName" value="BL18B-DI-TTRM-03:Cur1:MeanValue_RBV" />
 		<property name="units" value="mA" />
 	</bean>
 
@@ -261,12 +303,20 @@
 		</property>
 	</bean>
 
+	<!-- old A3  -->
+	<bean id="A3_drain_old" class="gda.device.scannable.PVScannable">
+		<property name="name" value="A3_drain_old" />
+		<property name="pvName" value="BL18B-OP-ATTN-03:I" />
+		<property name="units" value="mA" />
+	</bean>
+	
+	<!-- TetrAMM A3  -->
 	<bean id="A3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL18B-OP-ATTN-03:MP1" />
 	</bean>
 	<bean id="A3_drain" class="gda.device.scannable.PVScannable">
 		<property name="name" value="A3_drain" />
-		<property name="pvName" value="BL18B-OP-ATTN-03:I" />
+		<property name="pvName" value="BL18B-DI-TTRM-04:Cur1:MeanValue_RBV" />
 		<property name="units" value="mA" />
 	</bean>
 
