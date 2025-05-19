@@ -33,7 +33,7 @@
         <useDetectorInScan>false</useDetectorInScan>
         <useScriptCommand>false</useScriptCommand>
         <useConfigFile>true</useConfigFile>
-        <extraDetectorName>xspressFFI1</extraDetectorName>
+        <extraDetectorName>xspress3FFI1</extraDetectorName>
     </detectorConfiguration>
     <detectorConfiguration>
         <description>Xspress3X</description>

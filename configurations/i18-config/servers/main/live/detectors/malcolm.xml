@@ -70,4 +70,22 @@
 		</property> 
 	</bean>
 
+	<!-- Xmap -->
+	
+	<bean id="xmapDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xmap" />
+		<property name="description" value="Scan of Xmap and ion chambers" />
+	</bean>
+	<bean id="xmapMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-08" />
+		<property name="exposureTime" value="0.5" />
+		<property name="minExposureTime" value="0.1"/>
+	</bean>
+	<bean id="xmapMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-08" />
+		<property name="model" ref="xmapMalcolmModel" />
+		<property name="deviceInformation" ref="xmapDeviceInfo" />
+		<property name="activated" value="false" />
+	</bean>
+
 </beans>

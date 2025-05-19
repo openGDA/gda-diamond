@@ -68,7 +68,7 @@ scan_processor.rootNamespaceDict=globals()
 # preseed listener dispatcher
 print "Pre-seeding listener dispatcher"
 Finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
-Finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
+# Finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 
 #finding post processing runner
 autoPostProcessing = Finder.find('autoPostProcessing')

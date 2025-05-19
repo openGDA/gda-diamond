@@ -8,11 +8,10 @@
         <!-- Classes for which DEBUG messages are excessive -->
         <logger name="org.apache.commons.beanutils.converters">         <level value="INFO"/> </logger>
         <logger name="org.apache.commons.beanutils.BeanUtils">          <level value="INFO"/> </logger>
-        <logger name="gda.epics.LazyPVFactory$LazyPV">                  <level value="INFO"/> </logger>
 
         <!-- Classes for which TRACE messages are excessive -->
         <!-- Classes where we want all messages -->
-<!--         <logger name="gda.device.scannable.XesSpectrometerScannable">   <level value="TRACE"/> </logger> -->
+        <logger name="uk.ac.diamond.daq.bluesky.impl.RemoteBlueskyController"> <level value="ALL"/> </logger>
 
         <!-- If this file exists it allows you to customise logging levels for each config -->
         <include file="${gda.config}/properties/${gda.mode}/logging_customisation.xml" />

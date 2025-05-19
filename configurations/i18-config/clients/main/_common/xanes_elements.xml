@@ -11,12 +11,20 @@
 		<property name="xanesElements">
 			<util:list value-type="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
+					<property name="elementName" value="P" />
+					<property name="edge" value="K" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="S" />
 					<property name="edge" value="K" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="I" />
 					<property name="edge" value="L" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
+					<property name="elementName" value="Ca" />
+					<property name="edge" value="K" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesElement">
 					<property name="elementName" value="Ti" />

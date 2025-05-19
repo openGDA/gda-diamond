@@ -98,4 +98,37 @@
 		</property>
 	</bean>
 
+<!-- Motors for smaract x, y, yaw stages  -->
+
+	<gda:motor id="smaract_x"
+		live-pvName="#{T1_PV_BASE}:FINEX"
+		dummy-minPosition="-17.1"
+		dummy-maxPosition="30.1"
+		dummy-position="1"
+		dummy-unitString="mm"/>
+
+	<gda:motor id="smaract_y"
+		live-pvName="#{T1_PV_BASE}:FINEY"
+		dummy-minPosition="-12"
+		dummy-maxPosition="19.4"
+		dummy-position="9"
+		dummy-unitString="mm"/>
+
+	<gda:motor id="smaract_yaw"
+		live-pvName="#{T1_PV_BASE}:FINEYAW"
+		dummy-minPosition="-289"
+		dummy-maxPosition="150"
+		dummy-position="3"
+		dummy-unitString="deg"/>
+
+	<bean id="smaract" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smaract_x" />
+				<ref bean="smaract_y" />
+				<ref bean="smaract_yaw" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

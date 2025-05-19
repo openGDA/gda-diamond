@@ -11,6 +11,9 @@
 
 	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
+	<!-- GDA REST Server -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
+
 	<!-- We need to define which classes are responsible for beans in the BeanFactory -->
 	<bean class="uk.ac.gda.util.beans.BeansFactory">
 		<property name="classes">

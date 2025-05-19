@@ -8,12 +8,4 @@
 		<property name="armPutNoWait" value="true" />
 	</bean>
 
-	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<property name="zebra" ref="zebra" />
-		<property name="mode" value="1" />
-		<property name="PcPulseGateNotTrigger" value="true" />
-		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
-		<property name="minimumAccelerationDistance" value="0.001" />
-	</bean>
-
 </beans>

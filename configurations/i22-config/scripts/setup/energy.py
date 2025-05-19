@@ -256,7 +256,7 @@ class CalibratedID(gda.device.scannable.ScannableMotionBase):
 
 
 class CalibratedOffset(gda.device.scannable.ScannableMotionBase):
-    """Set offset to 25 every time"""
+    """Set offset to 27.5 every time"""
 
     def __init__(self, name, offset):
         self.name = name
@@ -273,9 +273,9 @@ class CalibratedOffset(gda.device.scannable.ScannableMotionBase):
         return offset_position
     
     def asynchronousMoveTo(self,X):
-        """set to 25 offset compound motor need to be calibrated"""
+        """set to 27.5 offset compound motor need to be calibrated"""
         
-        self.offset_motor.asynchronousMoveTo(25)
+        self.offset_motor.asynchronousMoveTo(27.5)
 
 
 pilenerg = PilatusEnergy("pilenerg", "BL22I-EA-PILAT-01:CAM")

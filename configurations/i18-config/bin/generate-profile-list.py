@@ -8,7 +8,7 @@ from time import sleep
 # Check whether PV of given name exists
 def pv_exists(pv_name) :
     pv = epics.PV(pv_name)
-    sleep(0.2) # sleep to ensure pv object has been fully initialised
+    sleep(0.5) # sleep to ensure pv object has been fully initialised (8/4/2025 : 0.2 sec is not always enough for vortex?)
     return pv.connected
 
 
