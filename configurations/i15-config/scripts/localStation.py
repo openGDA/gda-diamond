@@ -529,9 +529,8 @@ try:
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
-		#caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cam")
 		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cdc") # Needed for fast compression
-		#caput("BL15I-EA-PILAT-03:HDF5:Compression", "zlib") # cdc plugin produced Blosc compression instead
+		caput("BL15I-EA-PILAT-03:HDF5:Compression", "Blosc") # cdc plugin produces Blosc compression instead
 		caput("BL15I-EA-PILAT-03:HDF5:DeleteDriverFile", "0")
 		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off")
 		caput("BL15I-EA-PILAT-03:HDF5:XMLFileName", "0")

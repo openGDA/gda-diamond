@@ -16,6 +16,9 @@
 
 from gdascripts.mscanHandler import *
 from gdascripts import mscanHandler
+from gdascripts.utils import caput, caget
+import time
+from gda.device.scannable import DummyScannable
 
 rds = mscanHandler.runnableDeviceService
 p1xy_fly = rds.getRunnableDevice("BL22I-ML-SCAN-01")
@@ -304,7 +307,7 @@ from setup import malcolm_tfg
 from gdaserver import Pilatus2M_SAXS, Pilatus2M_WAXS, I0, bsdiodes
 
 saxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_SAXS)
-waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
+# waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
 i0_reset = malcolm_tfg.NcdTetrammReset(I0)
 bsdiodes_reset = malcolm_tfg.NcdTetrammReset(bsdiodes)
 
@@ -313,10 +316,124 @@ def install_hook(detector, action):
     add_reset_hook(lambda det=detector, act=action: det.removePreScanAction(act))
 
 install_hook(Pilatus2M_SAXS, saxs_reset)
-install_hook(Pilatus2M_WAXS, waxs_reset)
+# install_hook(Pilatus2M_WAXS, waxs_reset)
 install_hook(I0, i0_reset)
 install_hook(bsdiodes, bsdiodes_reset)
 
+class CheckBeamScannableEH(ScannableMotionBase):
+
+    def __init__(self, name, thresholdBeamCurrent=200, sleepTime=20):
+
+        self.name = name
+        self.sleepTime = sleepTime
+        self.thresholdBeamCurrent = thresholdBeamCurrent
+        self.actual_beam_current_pv = "SR-DI-DCCT-01:SIGNAL" # > 200
+        self.FE_beam_pv = "FE22I-RS-ABSB-01:STA" #open or 1
+        self.EH_shutter_pv = "BL22I-PS-SHTR-01:STA" #open or 1
+        
+
+    def isBusy(self):
+        
+        beamIsOn = (self.getBeamCurrent() > self.thresholdBeamCurrent) & (self.getFEBeam() == 1) & (self.getEHShutter() == 1)
+
+        if beamIsOn:
+            #not busy so continue
+            return False
+
+        if not beamIsOn:
+            print("Beam is NOT on")
+
+            if not self.getBeamCurrent() > self.thresholdBeamCurrent:
+                print("Beam currrent is too low")
+            if not (self.getFEBeam() == 1):
+                print("FE absorber is shut")
+            if not (self.getEHShutter() == 1):
+                print("EH Shutter is shut")
+
+            print("Sleeping for "+str(self.sleepTime)+" seconds")
+            time.sleep(self.sleepTime)
+            #it IS BUSY
+            return True
+
+        return False
+
+    def getBeamCurrent(self):
+        return float(caget(self.actual_beam_current_pv))
+
+    def getFEBeam(self):
+        return int(caget(self.FE_beam_pv))
+
+    def getEHShutter(self):
+        return int(caget(self.EH_shutter_pv))
+
+    def getPosition(self):
+        """ GDA expects a getPosition Method"""
+        beamIsOn = (self.getBeamCurrent() > self.thresholdBeamCurrent) & (self.getFEBeam() == 1) & (self.getEHShutter() == 1)
+        
+        if beamIsOn:
+            return "Beam ON"
+        if not beamIsOn:
+            return "Beam OFF!"
+
+    def asynchronousMoveTo(self,newPosition):
+        """ we are not moveable """
+        return
+
+class CheckBeamScannableOH(ScannableMotionBase):
+
+    def __init__(self, name, thresholdBeamCurrent=200, sleepTime=20):
+
+        self.name = name
+        self.sleepTime = sleepTime
+        self.thresholdBeamCurrent = thresholdBeamCurrent
+        self.actual_beam_current_pv = "SR-DI-DCCT-01:SIGNAL" # > 200
+        self.FE_beam_pv = "FE22I-RS-ABSB-01:STA" #open or 1
+        
+
+    def isBusy(self):
+        
+        beamIsOn = (self.getBeamCurrent() > self.thresholdBeamCurrent) & (self.getFEBeam() == 1)
+
+        if beamIsOn:
+            #not busy so continue
+            return False
+
+        if not beamIsOn:
+            print("Beam is NOT on")
+
+            if not self.getBeamCurrent() > self.thresholdBeamCurrent:
+                print("Beam currrent is too low")
+            if not (self.getFEBeam() == 1):
+                print("FE absorber is shut")
+            
+            print("Sleeping for "+str(self.sleepTime)+" seconds")
+            time.sleep(self.sleepTime)
+            #it IS BUSY
+            return True
+
+        return False
+
+    def getBeamCurrent(self):
+        return float(caget(self.actual_beam_current_pv))
+
+    def getFEBeam(self):
+        return int(caget(self.FE_beam_pv))
+
+    def getPosition(self):
+        """ GDA expects a getPosition Method"""
+        beamIsOn = (self.getBeamCurrent() > self.thresholdBeamCurrent) & (self.getFEBeam() == 1)
+        
+        if beamIsOn:
+            return "Beam ON"
+        if not beamIsOn:
+            return "Beam OFF!"
+
+    def asynchronousMoveTo(self,newPosition):
+        """ we are not moveable """
+        return
+
+checkBeamEH = CheckBeamScannableEH("checkBeamEH")
+checkBeamOH = CheckBeamScannableOH("checkBeamOH")
 ##########################
 # User Specific Commands #
 ##########################
@@ -345,3 +462,54 @@ def AFL_Background(scan_title = 'Scan', frame_time = 1000, num_frames = 1, x_pos
 
     staticscan ncddetectors
     print(gda.jython.InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getScanIdentifier())
+
+
+def isBeamOn(beamCurrent=200, showValues=False):
+
+    """
+
+    Usage:
+
+    Use isBeamOn() in a script to check if we should expect beam to be on sample.
+    isBeamOn() returns True when beam should be on
+
+    ---------Example-----------
+
+    for temp in [10,20,30,40,50,60,70,80,100]:
+
+        while not isBeamOn: #exits only when beam comes on
+            time.sleep(10) #sleep for 10 seconds
+        staticscan ncddetectors
+
+    --------------------------
+
+    """
+
+    actual_beam_current = caget("SR-DI-DCCT-01:SIGNAL") # > 200
+    machine_beam1 = caget("FE22I-PS-SHTR-01:STA") #open or 1
+    machine_beam2 = caget("FE22I-PS-SHTR-02:STA") #open or 1
+    FE_beam = caget("FE22I-CS-BEAM-01:STA") #open or 1
+    EH_shutter = caget("BL22I-PS-SHTR-01:STA") #open or 1
+
+    if showValues:
+
+        print("Beam current = ",actual_beam_current)
+        print("Machine_beam 1 = ",machine_beam1)
+        print("Machine beam 2 = ",machine_beam2)
+        print("FE beam = ",FE_beam)
+        print("EH shutter = ",EH_shutter)
+
+    beamIsOn = (actual_beam_current > beamCurrent) & (machine_beam1 == 1) & (machine_beam2 == 1) & (FE_beam == 1) & (EH_shutter == 1)
+
+    if beamIsOn:
+        print("Beam is ON")
+    else:
+        print("Beam is NOT on")
+
+    return beamIsOn
+
+
+def statscan(*args):
+
+    ds = DummyScannable("ds")
+    scan ds 1 1 1 args

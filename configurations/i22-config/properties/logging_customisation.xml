@@ -40,5 +40,5 @@
  		<logger level="DEBUG"	name="uk.ac.gda" />
 		<logger level="DEBUG"	name="uk.ac.gda.client.liveplot.SubLivePlotView" />
 		<logger level="DEBUG"	name="uk.ac.gda.menu.JythonControlsFactory" />
-		<logger level="INFO"	name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" />
+		<logger level="TRACE"	name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" />
 </included>
