@@ -104,7 +104,8 @@ class Valves():
 class MirrorsVoltages():
 
 	def __init__(self):
-		self.directory = "/dls_sw/i22/software/var/voltages/"
+		#self.directory = "/dls_sw/i22/software/var/voltages/"
+		self.directory = "/dls/i22/data/2025/cm40643-3/var/voltages/"
 		self.HFM = "hfm_v"
 		self.VFM = "vfm_v"
 		self.vfmZeroVoltages = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -172,5 +173,5 @@ class MirrorsVoltages():
 			return 1
 		
 valves = Valves()
-#mirrorsVoltages = MirrorsVoltages()
+mirrorsVoltages = MirrorsVoltages()
 i22 = I22()
