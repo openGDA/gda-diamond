@@ -6,7 +6,6 @@ from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 from gda.epics import CAClient
 from org.slf4j import LoggerFactory
-import time
 
 #The Class for changing the underline EPICS motor at different ID polarisation conditions so that the same energy device name is used
 class CombinedIDEnergyClass(ScannableBase):
@@ -112,10 +111,10 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		self.switchMotor();
 # 		currentPos = self.getPosition()
 # 		if self.skipDuplicateMoveOptimisation or not self.inPositionTolerance or (abs(newPos-currentPos) > self.inPositionTolerance):
+		#stop must be called before request to a new position to avoid exception throw due to energy is already busy which lead to Timer stays in busy forever.
 		if self.energy.isBusy():
 			self.energy.stop()
 			sleep(0.2)
-		# the above checking is required to prevent the line below to throw exception which causes Timer to not being set in the thread
 		self.energy.asynchronousMoveTo(newPos);
 # 			self.skipDuplicateMoveOptimisation=False
 # 		else:
