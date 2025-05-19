@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans profile="laser-heating"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="LH_upstream_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="LH_upstream_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Laser heating upstream" />
+		<property name="url" value="http://bl15i-di-serv-01.diamond.ac.uk:8099/gige6.mjpg.mjpg" />
+		<!-- This doesn't work, it times out connecting to BL15I-EA-GIGE-06:ARR:ArraySize0_RBV
+		<property name="arrayPv" value="BL15I-EA-GIGE-06:ARR" />
+		 -->
+		<property name="pvAccessPv" value="BL15I-EA-GIGE-06:PVA:ARRAY" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_upstream_camera_control" />
+				<property name="includeExposureTimeControl" value="false" />
+				<property name="extensions">
+					<list>
+						<ref bean="LH_upstream_extension_tweak_x" />
+						<ref bean="LH_upstream_extension_tweak_y" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_upstream_camera_control" />
+				<property name="extensions">
+					<list>
+						<ref bean="LH_upstream_extension_tweak_z" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="LH_upstream_extension_tweak_x"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="US X" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OPTIC:US:X"/>
+	</bean>
+
+	<bean name="LH_upstream_extension_tweak_y"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="US Y" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OPTIC:US:Y"/>
+	</bean>
+
+	<bean name="LH_upstream_extension_tweak_z"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="US FOCUS" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OBJ:US"/>
+	</bean>
+
+	<bean id="LH_downstream_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="LH_downstream_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Laser heating downstream" />
+		<property name="url" value="http://bl15i-di-serv-01.diamond.ac.uk:8099/gige7.mjpg.mjpg" />
+		<property name="arrayPv" value="BL15I-EA-GIGE-07:ARR" />
+		<property name="pvAccessPv" value="BL15I-EA-GIGE-07:PVA:ARRAY" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_downstream_camera_control" />
+				<property name="includeExposureTimeControl" value="false" />
+				<property name="extensions">
+					<list>
+						<ref bean="LH_downstream_extension_tweak_x" />
+						<ref bean="LH_downstream_extension_tweak_y" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="bottomUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="LH_downstream_camera_control" />
+				<property name="extensions">
+					<list>
+						<ref bean="LH_downstream_extension_tweak_z" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean name="LH_downstream_extension_tweak_x"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="DS X" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OPTIC:DS:X"/>
+	</bean>
+
+	<bean name="LH_downstream_extension_tweak_y"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="DS Y" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OPTIC:DS:Y"/>
+	</bean>
+
+	<bean name="LH_downstream_extension_tweak_z"
+			class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControlsScannableTweaker">
+		<property name="displayName" value="DS FOCUS" />
+		<property name="tweakScannablePV" value="BL15I-MO-LHEAT-01:OBJ:DS"/>
+	</bean>
+
+	<bean id="psl_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="PSL" />
+		<property name="url" value="http://i15-control.diamond.ac.uk:8085/psl.mjpg.mjpg" />
+		<property name="arrayPv" value="BL15I-EA-PSL-01:ARR" />
+	</bean>
+</beans>
