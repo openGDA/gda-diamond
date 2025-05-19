@@ -229,13 +229,13 @@ class BeamlineFunctionClass(object):
 		sd=Finder.find("subdirectory");
 		sd.setValue( str(newSubDirName) );
 		print "New data path: %s" %( self.getDataPath() );
-
-	def setTerminalLogger(self, newLoggerName="gda_terminal.log"):
-		tlPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
-		
-		tlFile = os.path.join(tlPath, newLoggerName);
-		tlpp=Finder.find("terminallog_path_provider")
-		tlpp.setTemplate( str(tlFile) );
+ #
+ # def setTerminalLogger(self, newLoggerName="gda_terminal.log"):
+ # 	tlPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
+ #
+ # 	tlFile = os.path.join(tlPath, newLoggerName);
+ # 	tlpp=Finder.find("terminallog_path_provider")
+ # 	tlpp.setTemplate( str(tlFile) );
 
 	def getDataPath(self):
 		dataPath=InterfaceProvider.getPathConstructor().createFromDefaultProperty();
