@@ -7,6 +7,10 @@ Created on 10 Apr 2018
 from gdascripts.pd.epics_pds import EpicsReadWritePVClass
 from utils.ExceptionLogs import localStation_exception
 from i10shared import installation
+from high_field_magnet.scannable.intelligentPowerSupplyWithoutExtranames import IntelligentPowerSupplyField,\
+    IntelligentPowerSupplySweepRate
+from high_field_magnet.scannable.dummyIntelligentPowerSupplyWithoutExtranames import DummyIntelligentPowerSupplyField,\
+    DummyIntelligentPowerSupplySweepRate
 
 print("-"*100)
 print("Creating scannables for High Field Magnet control using EPICS PV directly:")
@@ -30,6 +34,8 @@ if installation.isLive():
         itc2.setLevel(6)
         itc3.setLevel(6)
         hfmpitch_off = EpicsReadWritePVClass('hfmpitch_off', 'BL10J-EA-MAG-01:INSERT:ROTY.OFF', 'deg', '%.6f')
+        hfmfield = IntelligentPowerSupplyField("hfmfield", 'BL10J-EA-SMC-01:', field_tolerance = 0.01)
+        hfmsweeprate = IntelligentPowerSupplySweepRate('hfmsweeprate', 'BL10J-EA-SMC-01:', sweeprate_tolerance = 0.01)
     except:
         import sys
         localStation_exception(sys.exc_info(), "initialising high field magnet")
@@ -46,3 +52,5 @@ else:
     itc2.setLevel(6)
     itc3.setLevel(6)
     hfmpitch_off = DummyEpicsReadWritePVClass('hfmpitch_off', 0.0, 30.0, 'deg', '%.6f')
+    hfmfield = DummyIntelligentPowerSupplyField('hfmfield', field_tolerance = 0.01)
+    hfmsweeprate = DummyIntelligentPowerSupplySweepRate("hfmsweeprate", sweeprate_tolerance = 0.01)
