@@ -84,6 +84,12 @@ if beamline != "lab44" and beamline != "i06-2":
     taper = TaperScannable("taper", __main__.smode, "urad", "%.3f", iddtaper=None, idutaper=None)
     from i06shared.metadata.harmonicScannable import HarmonicScannable
     harmonic = HarmonicScannable("harmonic", __main__.smode, iddhar, iduhar)
+    from metadata.beamDivergence import BeamDivergence
+    beam_divergence_at_sample = BeamDivergence("beam_divergence_at_sample", horizontal = 3.3, vertical = 4.9)
+    from metadata.beamFlux import BeamFlux
+    beam_flux_at_sample = BeamFlux("beam_flux_at_sample", flux = 0.0)
+    from metadata.beamExtent import BeamExtent
+    beam_size_at_sample =  BeamExtent("beam_size_at_sample", horizontal_size = 6.0, vertical_size = 10.0)
 
 
 print("-"*100)
