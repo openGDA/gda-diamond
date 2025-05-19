@@ -108,14 +108,12 @@ class AdOAVCam(NcdSubDetector):
     """
     Wrapper around Epics AreaDetector to support inclusion in ncddetectors
 
-    This allows non-standard detectors (eg visible light cameras) to be
-    be included in data collections with hardware triggering (as opposed
-    to single image per point).
+    This allows the i22 oav cam to be used as a detecor
 
     Example:
-        >>> d12_cam = AdCam('d12_cam', d12gige)
-        >>> ncddetectors.addDetector(d12_cam)
-        >>> staticscan ncddetectors #  includes d12 in hardware triggered collection
+        >>> oav_ncd = AdOAVCam('oav_cam', oav_cam)
+        >>> ncddetectors.addDetector(oav_ncd)
+        >>> staticscan ncddetectors #  includes oav in hardware triggered collection
     """
     def __init__(self, name, detector):
         """
@@ -140,6 +138,8 @@ class AdOAVCam(NcdSubDetector):
         self.hdfFileName = "BL22I-DI-OAV-01:HDF5:FileTemplate"
         self.hdfCaptureMode = "BL22I-DI-OAV-01:HDF5:FileWriteMode"
         self.imageMode = "BL22I-DI-OAV-01:DET:ImageMode"
+        self.TriggerSource = "BL22I-DI-OAV-01:DET:TriggerSource"
+
 
         self.fileTemplate = "i22-%%d-%s.h5" %name
 
@@ -162,7 +162,10 @@ class AdOAVCam(NcdSubDetector):
         self.extraDimY = "BL22I-DI-OAV-01:HDF5:ExtraDimSizeY"
 
         self.thisFile = ""
+    
     def atScanStart(self, info):
+
+        caput(self.acquirePV, 0)#stop camera acquire first to allow changing of acquisition settings
 
         frames = ncddetectors.getTimer().getFramesets().get(0).getFrameCount()
 
@@ -170,9 +173,11 @@ class AdOAVCam(NcdSubDetector):
         self.thisFile = "%s/%s" %(InterfaceProvider.getPathConstructor().createFromDefaultProperty(), self.fileTemplate %scanNumber)
         filename = [ord(x) for x in self.thisFile]+[0]
 
-        # self.detector.setTriggerMode(1) # External
-        # self.detector.setImageMode(1) # Multiple
-        caput(self.imageMode,1)
+        self.detector.setTriggerMode(1) # Trigger on
+        self.detector.setImageMode(1) # Multiple
+
+        caput(self.TriggerSource, 1) #trigger source to line1
+
         caput(self.hdfFileName, filename) #set hdf5 filename
         caput(self.hdfImageCount, frames) #set hdf5 frame count
         caput(self.extraDimN, frames)
@@ -204,10 +209,12 @@ class AdOAVCam(NcdSubDetector):
         caput(self.acquirePV, 0)#set camera to not acquire
         # caput(self.hdfStartAcquire, 0) #set hdf5 to not acquire
         # caput(self.hdfFileWriteMode, 0)
-        # self.detector.setImageMode(2) # continuous
+        # self.detector.setImageMode(2) # continuousBL22I-DI-OAV-01:DET:Acquire
         #
         caput(self.hdfStartAcquire, 0) #set hdf5 to not acquire
-        caput(self.hdfCaptureMode,2) #set camera capture mode back to single
+        caput(self.hdfCaptureMode,2) #set camera capture mode back to stream
+        caput(self.TriggerSource, 0) #trigger source back to freerun
+
         ######
 
         detectorPVprefix = 'BL22I-DI-OAV-01'
@@ -238,7 +245,7 @@ class AdOAVCam(NcdSubDetector):
         caput(detectorPVprefix + ':MJPG:EnableCallbacks', 'Enable')
 
         # Turn back on acquisition!
-        caput(detectorPVprefix + ':DET:Acquire', '1')
+        caput(self.acquirePV, 1)#start again
 
 
 
