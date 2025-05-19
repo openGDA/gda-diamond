@@ -208,7 +208,7 @@ class EpicsKeithleySourceMeter(object):
         if self.model == 2400:
             self.send_command('TRACe:POINts:ACTual?')
         # sleep required otherwise get_response() returns '?'
-        while self.get_response() == '?':
+        while self.get_response() == '?' or self.get_response() == '@':
             sleep(self.read_wait) 
         return int(self.get_response()) == 0
     
