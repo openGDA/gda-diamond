@@ -366,6 +366,12 @@ from config_tests import *
 add_default delta # this is needed to angular correct the mythen_nx detector when it is used statically eg scan ds 1 1 1
 add_default dcm_energy #useful to know for all experiments
 
+try:
+    from Mythen3RebootScannable import CMS
+    cms1 = CMS()
+except:
+    pass
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete."
