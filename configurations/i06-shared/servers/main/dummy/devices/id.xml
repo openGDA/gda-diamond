@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="idblena_id1" class="gda.epics.DummyAccessControl"/>
 	<!-- ===== Front End: Downstream Insertion Device (IDd or ID1) Motors -->
 	<bean id="MotorGap_ID1" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="16" />
@@ -76,6 +77,7 @@
 	</bean>
 
 	<!-- ===== Front End: Uptream Insertion Device (IDu or ID2) Motors -->
+	<bean id="idblena_id2" class="gda.epics.DummyAccessControl"/>
 	<bean id="MotorGap_ID2" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="16" />
 		<property name="maxPosition" value="200" />
