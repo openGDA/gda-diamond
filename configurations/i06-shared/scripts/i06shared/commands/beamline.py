@@ -8,7 +8,6 @@ print("create 'beamlinefunction' object and commands 'lastscan', 'gettitle', 'se
 beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
 beamlinefunction = BeamlineFunctionClass(beamline);
 
-
 def lastscan():
     return beamlinefunction.getLastScanFile();
 
