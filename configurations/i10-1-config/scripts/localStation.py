@@ -29,7 +29,7 @@ if installation.isLive():
 if "hfm" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "HFM")
     # High Field Magnet support
-    from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off  # @UnusedImport
+    from high_field_magnet.scannable.intelligent_power_supply_instances import ips_field, ips_sweeprate, itc2, itc3, hfmpitch_off, hfmfield, hfmsweeprate  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables_hfm import energy, mcsh16, mcsh17, mcsh18, mcsh19, mcsh20, mcsh21, mcsh22, mcsh23  # @UnusedImport
     if installation.isLive():
         try:
@@ -46,6 +46,7 @@ if "hfm" in spring_profiles:
     xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
     mode_path_slow = {TEY: "/entry/instrument/macj217/data", TFY_front: "/entry/instrument/macj218/data", TFY_side: "/entry/instrument/macj219/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
     xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
+    from scans.fastFieldScan import fastfieldscan, magnetflyscannable, magnet_field_show_demand_value, set_magnet_field_ramp_rate_factor  # @UnusedImport
 
 if "em" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "EM")
