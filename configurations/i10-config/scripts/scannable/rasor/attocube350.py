@@ -50,7 +50,7 @@ class MEAttocubePiezo(ScannableMotionBase):
         self.off.caput(1)
 
     def rawIsBusy(self):
-        return math.fabs(self.target - self.rawGetPosition()) < self.tor
+        return math.fabs(self.target - self.rawGetPosition()) > self.tor
 
     def toFormattedString(self):
             return self.name + " : " + self.getInputNames()[0] +" : " + str(self.getPosition())

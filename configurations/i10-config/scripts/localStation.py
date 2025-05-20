@@ -98,6 +98,8 @@ xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
 mode_path_slow = {TEY: "/entry/instrument/macr17/data", TFY: "/entry/instrument/macr18/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
 xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
 
+from scannable.rasor.attocube350 import rasorphi  # @UnusedImport
+
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
