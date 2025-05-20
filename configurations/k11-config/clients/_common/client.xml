@@ -8,6 +8,7 @@
 
 	<!-- KEEP FIRST -->
 	<context:component-scan base-package="uk.ac.diamond.daq.beamline.k11"></context:component-scan>
+	<context:component-scan base-package="gda.data.metadata" />
 	<!-- KEEP FIRST -->
 
 	<bean class="uk.ac.gda.client.ServerFileListener">
