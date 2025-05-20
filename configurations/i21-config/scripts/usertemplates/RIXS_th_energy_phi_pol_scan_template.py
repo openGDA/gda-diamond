@@ -102,7 +102,7 @@ dark_image_energy = 810
 
 detector_to_use = andor
 
-sample_no_images = 1
+# sample_no_images = 1
 ctape_no_images = 1
 
 sample_exposure_time = 60
@@ -270,7 +270,7 @@ def collect_sample_data(x_sample, y_sample, z_sample, det, no_images, exposure_t
     print('******************************************************************')
     return dark_image_link_added
 
-def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_ctape, chi_ctape, det, ctape_no_images, ctape_exposure_time, sample_no_images, sample_exposure_time, dark_image_filename):
+def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_ctape, chi_ctape, det, ctape_no_images, ctape_exposure_time, no_images, sample_exposure_time, dark_image_filename):
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
     from acquisition.darkImageAcqusition import remove_dark_image_link
     from gdaserver import chi  # @UnresolvedImport
@@ -280,7 +280,7 @@ def collect_data(x_sample, y_sample, z_sample, chi_sample, x_ctape, y_ctape, z_c
         ctape_image_link_added = collect_ctape_data(x_ctape, y_ctape, z_ctape, det, ctape_no_images, ctape_exposure_time)
     if enable_sample_collection:
         chi.moveTo(chi_sample)
-        dark_image_link_added = collect_sample_data(x_sample, y_sample, z_sample, det, sample_no_images, sample_exposure_time, dark_image_filename)
+        dark_image_link_added = collect_sample_data(x_sample, y_sample, z_sample, det, no_images, sample_exposure_time, dark_image_filename)
     if enable_ctape_collection and ctape_image_link_added:
         remove_ctape_image(det)
     if enable_sample_collection and dark_image_link_added:
