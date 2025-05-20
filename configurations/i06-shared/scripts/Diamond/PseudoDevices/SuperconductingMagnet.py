@@ -11,7 +11,7 @@ from gda.epics import CAClient;
 #import threading;
 #import synchronize;
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 logger=ScriptLoggerClass();

@@ -76,7 +76,8 @@ if ConfigUtils.profileActive("magnet"):
             print("Error:  execfile /magnet/useMagnet.py")
             logger.dump("---> ", exceptionType, exception, traceback)
         #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
-        from scan.fastFieldScan import magnetflyscannable, fastfieldscan  # @UnusedImport
+        # from scan.fastFieldScan import magnetflyscannable, fastfieldscan  # @UnusedImport
+        from scan.fastFieldScanWithEnergySwitch import fastfieldscan, magnetflyscannable  # @UnusedImport
 
 if ConfigUtils.profileActive("DD"):
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "DD")
