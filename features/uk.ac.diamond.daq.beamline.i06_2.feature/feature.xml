@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.diamond.daq.beamline.i06_2.feature"
       label="i06-2 Feature"
-      version="9.38.0.qualifier"
+      version="9.39.0.qualifier"
       provider-name="Diamond Light SOurce Ltd"
       plugin="uk.ac.diamond.daq.beamline.i06-2">
 

@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.p60.feature"
       label="P60 Feature"
-      version="9.38.0.qualifier"
+      version="9.39.0.qualifier"
       provider-name="Diamond Light Source"
       plugin="uk.ac.gda.beamline.p60"
       exclusive="true">
