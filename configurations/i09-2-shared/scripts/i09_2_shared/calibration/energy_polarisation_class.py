@@ -18,6 +18,7 @@ from gda.device.scannable import ScannableMotionBase, ScannableStatus
 from gda.device.scannable.scannablegroup import ScannableGroup
 from i09shared.lookup.threeKeysLookupTable_CSV import load_lookup_table, get_fitting_coefficents
 import numbers
+from gda.epics import CAClient
 
 from gda.device import MotorStatus
 
@@ -59,7 +60,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.mono_energy = pgmenergy
         self.scannables = ScannableGroup(name, [pgmenergy, idctrl])
         self.detune = gap_offset
-        self.feedbackPV = feedbackPV
         self._busy = 0
         self.setName(name)
         self.setLevel(3)
@@ -83,6 +83,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.submit = None
         self.energyObserver = None
         self.polarisationObserver =  None
+
+        if feedbackPV is not None:
+            self.feedback = CAClient(feedbackPV)
+            self.feedback.configure()
+        else:
+            self.feedback = None
 
     def configure(self):
         if self.idscannable is not None:
@@ -249,13 +255,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         except:
             raise #re-raise any exception from above try block
 
-        if self.feedbackPV is not None and not self.SCANNING:
+        if self.feedback is not None and not self.SCANNING:
             #stop feedback
-            from gdascripts.utils import caput
-            caput(self.feedbackPV, 1)
+            self.feedback.caput(1)
             self.moveDevices(gap, new_polarisation, phase, energy)
             self.waitWhileBusy()
-            caput(self.feedbackPV, 0)
+            self.feedback.caput(0)
         else:
             self.moveDevices(gap, new_polarisation, phase, energy)
 
@@ -264,21 +269,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''checks the busy status of all child scannables.
         If and only if all child scannables are done this will be set to False.
         '''
-        if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
-            sleep(0.1)
-            return False
-        else: #real hardware
-            self._busy=0
-            for s in self.scannables.getGroupMembers():
-                try:
-                    self._busy += s.isBusy()
-                except:
-                    print (s.getName() + " isBusy() throws exception ", sys.exc_info())
-                    raise
-            if self._busy == 0:
-                return 0
-            else:
-                return 1
+        # This checks all group members
+        return self.scannables.isBusy()
 
     def stop(self):
         self.mono_energy.stop()
