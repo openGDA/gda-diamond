@@ -10,3 +10,7 @@ To run all beamline tests, except the email tests, run:
 To run just the simple scan tests, for checking plot colours, run:
 
     run_tests(marks='plotting')
+
+To run all but email and plotting, run:
+
+    run_tests(marks="not (email or plotting)")
