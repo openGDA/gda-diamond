@@ -37,7 +37,7 @@
 					<property name="scannableName" value="pol"/>
 					<property name="failOnError" value="false"/>
 				</bean>
-				<bean class="uk.ac.diamond.daq.beamline.i06_shared.spring.spel.SpringExpressionLinkedField" init-method="init">
+				<bean class="gda.spring.spel.SpringExpressionLinkedField" init-method="init">
 					<property name="name" value="energy"/>
 					<property name="expression" value="(100.0 - @iddgap.getPosition()) > 2.0 ? '/entry/instrument/id/idd/energy' : '/entry/instrument/id/idu/energy'"/>
 				</bean>

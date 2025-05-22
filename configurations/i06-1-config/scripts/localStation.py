@@ -110,6 +110,8 @@ mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrumen
 mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", TFY_ft: "/entry/instrument/ca63sr/value", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
+xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
+xasscan.xasmode_scannable_name = "xasmode"
 
 print("="*100)
 print("End of i06-1 localStation.py")

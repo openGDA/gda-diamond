@@ -37,6 +37,7 @@ if "hfm" in spring_profiles:
             gflow2 = EpicsDeviceClass(name = 'gflow2', pvSet = "BL10J-EA-TCTRL-02:GFLOW:SET", pvGet = "BL10J-EA-TCTRL-02:GFLOW", pvStatus = None, strUnit = "", strFormat = "%.2f", timeout = None)
         except Exception as e:
             localStation_exception(sys.exc_info(), "creating gflow2 scannable error")
+    print("create 'xasmode_fast' for using in cvscan, and 'xasmode_slow' for using in xasscan in HFM end station")
     # NXxas App Def template objects
     XAS_MODES = ['TEY', 'TFY_front', 'TFY_side', 'PFY'] # this is different from i06.
     TEY, TFY_front, TFY_side, PFY = XAS_MODES
@@ -46,12 +47,15 @@ if "hfm" in spring_profiles:
     xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
     mode_path_slow = {TEY: "/entry/instrument/macj217/data", TFY_front: "/entry/instrument/macj218/data", TFY_side: "/entry/instrument/macj219/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
     xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
+    xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_hfm_slowscan.yaml"
+    xasscan.xasmode_scannable_name = "xasmode_slow"
     from scans.fastFieldScan import fastfieldscan, magnetflyscannable, magnet_field_show_demand_value, set_magnet_field_ramp_rate_factor  # @UnusedImport
 
 if "em" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "EM")
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables_em import energy, mcse16, mcse17, mcse18, mcse19, mcse20, mcse21, mcse22, mcse23  # @UnusedImport
+    print("create 'xasmode_fast' for using in cvscan, and 'xasmode_slow' for using in xasscan in EM end station")
     # NXxas App Def template objects
     XAS_MODES = ['TEY', 'TFY', 'PFY'] # this is different from i06.
     TEY, TFY, PFY = XAS_MODES
@@ -61,6 +65,8 @@ if "em" in spring_profiles:
     xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
     mode_path_slow = {TEY: "/entry/instrument/macj317/data", TFY: "/entry/instrument/macj318/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
     xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
+    xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_em_slowscan.yaml"
+    xasscan.xasmode_scannable_name = "xasmode_slow"
 
 import gdascripts
 scan_processor.rootNamespaceDict = globals()

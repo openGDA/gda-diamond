@@ -16,7 +16,7 @@ Created on Nov 15, 2021
 from gda.jython.commands.ScannableCommands import scan
 from gda.device import Scannable
 import time
-from scan.miscan import all_elements_are_list_of_number, all_elements_are_number, \
+from gdascripts.scan.miscan import all_elements_are_list_of_number, all_elements_are_number, \
     parse_other_arguments, save_detector_settings_before_scan, \
     restore_detector_setting_after_scan, parse_detector_arguments
 from types import TupleType

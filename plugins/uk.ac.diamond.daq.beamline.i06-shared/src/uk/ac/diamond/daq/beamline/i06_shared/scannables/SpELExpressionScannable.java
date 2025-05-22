@@ -33,7 +33,7 @@ import gda.device.Scannable;
 import gda.device.scannable.PVScannable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import uk.ac.diamond.daq.beamline.i06_shared.spring.spel.SpELUtils;
+import gda.spring.spel.SpELUtils;
 
 /**
  * A {@link Scannable} that applies the given expressions {@link #getMoveToExpression()} in {@link #asynchronousMoveTo(Object)} and

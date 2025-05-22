@@ -21,7 +21,7 @@ from gda.configuration.properties import LocalProperties
 from gda.jython import InterfaceProvider
 from java.io import File  # @UnresolvedImport
 from gdascripts.metadata.nexus_metadata_class import meta
-from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
+from gdascripts.functions.nexusYamlTemplateProcessor import preprocess_spring_expression_in_template
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 logger=ScriptLoggerClass();
@@ -688,9 +688,13 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 		if numPoint < 1:
 			print("Number of scan points is set to ZERO. Please check your command carefully!")
 			return
-		
+
 		fesData = self.fesDetector;
 		meta.addScalar("user_input", "command", command)
+		ndwc = Finder.find("nexusDataWriterConfiguration")
+		template = preprocess_spring_expression_in_template(NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+		ndwc.addNexusTemplate(NEXUS_TEMPLATE_YAML_FILE_NAME, template)
+		print("NXxas nexus template is added before scan")
 		try:
 			if beamline_name == "i06":
 				self.fesController.enableAreaDetector() #using area detector
@@ -700,16 +704,14 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			else:
 				theScan = PointsScan([self,0,numPoint-1,numPoint,fesData,0,numPoint-1])
 			theScan.runScan()
-			print("Creating NXxas sub-entry ...")
-			current_filename = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getCurrentFilename()
-			apply_template_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
-			print("NXxas subentry is added to %s" % current_filename)
 		except:
 			exceptionType, exception, traceback=sys.exc_info()
 			logger.fullLog(None, "Error occurs at FastEnergyDeviceClass.cvscan", exceptionType, exception, traceback, True)
 		finally:
 			meta.rm("user_input", "command")
-			
+			ndwc.removeNexusTemplate(NEXUS_TEMPLATE_YAML_FILE_NAME)
+			print("NXxas nexus template is removed after scan")
+
 		while(not self.fesController.isScanComplete() ):
 			logger.singlePrint( "Wait for the fast energy scan to finish" )
 			sleep(1)

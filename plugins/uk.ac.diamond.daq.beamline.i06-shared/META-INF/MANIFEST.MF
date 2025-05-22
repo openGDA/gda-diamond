@@ -23,7 +23,6 @@ Import-Package: com.google.common.base;version="30.1.0",
  org.yaml.snakeyaml;version="1.27.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.ac.diamond.daq.beamline.i06_shared.scannables,
- uk.ac.diamond.daq.beamline.i06_shared.spring.spel,
  uk.ac.diamond.daq.beamline.i06_shared.utils
 Require-Bundle: org.slf4j.api,
  uk.ac.gda.core;bundle-version="9.20.0",
