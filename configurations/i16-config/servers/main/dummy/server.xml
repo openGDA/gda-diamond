@@ -51,6 +51,7 @@
 	<bean id="terminallog_path_provider"
 		class="gda.data.SimpleObservablePathProvider"/>
 
+	<import resource="fastshutter.xml" />
 	<import resource="metadata.xml" />
 
 	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">

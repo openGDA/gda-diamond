@@ -1,6 +1,7 @@
 from gda.device import ScannableMotion
 from gda.device.scannable.scannablegroup import DeferredAndTrajectoryScannableGroup,\
     ScannableGroup, CoordinatedScannableGroup, CoordinatedScannableGroup, ScannableMotionWithScannableFieldsBase
+from gda.device.scannable import SimplePVScannable, TimeDelayScannable
 ScannableMotionWithScannableFieldsBase.ScannableField
 from gda.jython.commands.GeneralCommands import alias
 
@@ -133,29 +134,28 @@ def showlm():
             return grp.getGroupMembers()
         except AttributeError:
             return [grp.__getattr__(name) for name in grp.inputNames]
-        
+
     for group in scannable_groups:
         scannable_group_members += _get_members(group)
     print
     # 1. Non group members
     for key in sorted(ROOT_NAMESPACE.keys()):
         o = ROOT_NAMESPACE[key]
-        if isinstance(o, ScannableMotion) and o not in scannable_group_members and not isinstance(o, (ScannableMotionWithScannableFieldsBase.ScannableField, ScannableMotionWithScannableFieldsBase)):
+        if isinstance(o, ScannableMotion) and o not in scannable_group_members and not isinstance(o, (ScannableMotionWithScannableFieldsBase.ScannableField, ScannableMotionWithScannableFieldsBase)) and hasattr(o, "getLowerGdaLimits"):
             r = _show_scn(o)
             if r is not None:
                 print r
-            
     #2. Group members
     for group in scannable_groups:
         displayed_group = False
         for scn in _get_members(group):
-            r = _show_scn(scn)
-            if r is not None:
-                if not displayed_group:
-                    print '\n  ==%s==\n' % group.name
-                    displayed_group = True
-                print r
-                    
+            if hasattr(scn, "getLowerGdaLimits"):
+                r = _show_scn(scn)
+                if r is not None:
+                    if not displayed_group:
+                        print '\n  ==%s==\n' % group.name
+                        displayed_group = True
+                    print r
         if isinstance(group, CoordinatedScannableGroup):
             validator_dict = dict(group.getAdditionalPositionValidators())
             for name in validator_dict:
