@@ -104,7 +104,7 @@ print("-"*100)
 print("Import 'XASMode' class and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
 from gdascripts.scannable.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
 from gdascripts.scan.XASScan import xasscan  # @UnusedImport
-from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
+from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_template  # @UnusedImport
 
 from i06shared.metadata.sampleScannable import SampleName
 sample = SampleName("sample", sample_name = "name not given")
