@@ -25,9 +25,7 @@ from time import sleep
 from gda.device import Scannable
 from types import IntType, FloatType
 from gdascripts.metadata.nexus_metadata_class import meta
-
-from gda.jython import InterfaceProvider
-from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file
+from gdascripts.functions.nexusYamlTemplateProcessor import preprocess_spring_expression_in_template
 from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
 from uk.ac.diamond.daq.configuration import BeamlineConfiguration
 from gda.configuration.properties import LocalProperties
@@ -170,19 +168,20 @@ def cvscan(c_energy, start, stop, step, *args):
             sleep(5)
 
     meta.addScalar("user_input", "command", command)
+    ndwc = Finder.find("nexusDataWriterConfiguration")
+    template = preprocess_spring_expression_in_template(NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
+    ndwc.addNexusTemplate(NEXUS_TEMPLATE_YAML_FILE_NAME, template)
+    print("NXxas nexus template is added before scan")
     try:
         cvscan_traj([arg for arg in newargs])
-        print("Creating NXxas sub-entry ...")
-        current_filename = InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getCurrentFilename()
-        apply_template_to_nexus_file(current_filename, NEXUS_TEMPLATE_YAML_FILE_NAME, spel_expression_node = ["absorbed_beam/"])
-        print("NXxas subentry is added to %s" % current_filename)
     except Exception as e:
         localStation_exception(sys.exc_info(), "cvscan exits with Error: %s" % (e))
     finally:
         meta.rm("user_input", "command")
         if original_mode and xasmode_scannable:
             xasmode_scannable.asynchronousMoveTo(original_mode)
-
+        ndwc.removeNexusTemplate(NEXUS_TEMPLATE_YAML_FILE_NAME)
+        print("NXxas nexus template is removed after scan")
 
 alias('cvscan')
 

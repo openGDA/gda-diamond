@@ -96,8 +96,8 @@ from metadata.metashop import *  # @UnusedWildImport
 meta_add(*metadatalist)
 
 
-from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
-from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
+from scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
+from gdascripts.scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
 from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
 from  scan import flyscan_command; print flyscan_command.__doc__  # @UndefinedVariable
 

@@ -101,10 +101,10 @@ if beamline != "i06-2":
     from scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 print("-"*100)
-print("load 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
-from i06shared.scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
-from i06shared.scan.XASScan import xasscan  # @UnusedImport
-from i06shared.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
+print("Import 'XASMode' class and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
+from gdascripts.scannable.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
+from gdascripts.scan.XASScan import xasscan  # @UnusedImport
+from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
 
 from i06shared.metadata.sampleScannable import SampleName
 sample = SampleName("sample", sample_name = "name not given")

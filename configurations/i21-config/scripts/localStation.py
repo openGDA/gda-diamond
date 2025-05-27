@@ -147,7 +147,7 @@ alias("input_tcryostat")
 
 from scannable.continuous.continuous_energy_scannables import energy, energy_move_controller, draincurrent_c,diff1_c,m4c1_c,fy2_c  # @UnusedImport
 from scan.cvscan import cvscan  # @UnusedImport
-from scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
+from gdascripts.scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
 print("-"*100)
 from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, flyscancn  # @UnusedImport
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable

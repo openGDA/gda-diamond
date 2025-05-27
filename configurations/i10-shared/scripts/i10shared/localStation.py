@@ -77,7 +77,7 @@ from scannables.continuous.continuous_energy_scannables_diagnose import energyd,
 from scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan  # @UnusedImport
 print("-"*100)
 # multiple images per scan data point scan
-from scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
+from gdascripts.scan.miscan import miscan; print(miscan.__doc__)  # @UndefinedVariable
 print("-"*100)
 from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, flyscancn  # @UnusedImport
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
@@ -115,10 +115,10 @@ from scannables.sampleScannable import SampleName
 sample = SampleName("sample", sample_name = "name not given")
 
 print("-"*100)
-print("load 'xasmode' scannable, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
-from scannables.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
-from scan.XASScan import xasscan  # @UnusedImport
-from functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
+print("Import 'XASMode' class, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
+from gdascripts.scannable.XAS_Mode import XASMode, XASModePathMapper  # @UnusedImport
+from gdascripts.scan.XASScan import xasscan  # @UnusedImport
+from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_tamplate  # @UnusedImport
 
 from keithley.keithley2400_scannables_instances import keiCur1, keiVol1  # @UnusedImport
 

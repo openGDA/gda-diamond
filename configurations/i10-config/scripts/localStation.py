@@ -97,6 +97,8 @@ xasmode_path_fast = XASModePathMapper("xasmode_path_fast", xasmode_fast, mode_pa
 xasmode_slow = XASMode("xasmode_slow", XAS_MODES, mode = TEY)
 mode_path_slow = {TEY: "/entry/instrument/macr17/data", TFY: "/entry/instrument/macr18/data", PFY: "/entry/instrument/xmapMca/fullSpectrum"}
 xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
+xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
+xasscan.xasmode_scannable_name = "xasmode_slow"
 
 from scannable.rasor.attocube350 import rasorphi  # @UnusedImport
 
