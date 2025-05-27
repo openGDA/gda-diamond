@@ -1237,6 +1237,7 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanData
 		origin_offset_vector = [0., 0., 0.],
 		fast_pixel_direction_value = [0.055],
 		slow_pixel_direction_value = [0.055])
+	from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
 else:
 	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
 	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
