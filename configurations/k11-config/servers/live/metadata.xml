@@ -52,6 +52,10 @@
 			<property name="pvName" value="BL11K-BL-SET-01:IMG:ENERGY:SET" />
 			<property name="units" value="keV" />
 		</bean>
+		<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+			<property name="name" value="scintillator" />
+			<property name="pvName" value="BL11K-BL-SET-01:SCINTILLATOR" />
+		</bean>
 	</util:list>
 	
 	<!-- Ethercat -->
