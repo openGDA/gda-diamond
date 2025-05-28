@@ -107,6 +107,15 @@
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
 							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.ui.tomography.LaminographySubmitScanSection">
+								<property name="scriptFilePath" value="scanning/submit_laminography_scan.py"/>
+								<property name="description" value="Laminography scan" />
+								<property name="buttonText" value="Submit laminography scan" />
+								<property name="submitScanButtonColour" value="GREEN"/>
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
+							</bean>
 						</list>
 					</property>
 				</bean>
