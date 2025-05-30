@@ -465,7 +465,7 @@ try:
 
 	global mar, pil3, mpx, psl
 
-	if isFindable("pe"):
+	if isFindable("mar"):
 	  try:
 		mar.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-MAR-01:ARR:EnableCallbacks",	"Enable")
@@ -479,7 +479,8 @@ try:
 	  except:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
-	try:
+	if isFindable("pil3"):
+	  try:
 		def pil3_tiffs_on():
 			# Make sure Ridgeway is running
 			caput("BL15I-CS-IOC-12:AUTORESTART", "1") # On
@@ -520,10 +521,10 @@ try:
 		alias("pil3_threshold_check")
 		
 		pil3_threshold_check()
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler & threshold checker")
 
-	try:
+	  try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
@@ -538,7 +539,7 @@ try:
 		caput("BL15I-EA-PILAT-03:CDC:NDArrayPort", "pilatus3.pos")
 		caput("BL15I-EA-PILAT-03:POS:NDArrayPort", "pilatus3.cam") # Note, not stat, as stat can't run more than 100Hz.
 		pil3_tiffs_on()
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 
 	if isFindable("mpx"):
@@ -548,12 +549,13 @@ try:
 	  except:
 		localStation_exception(sys.exc_info(), "configuring mpx compression")
 
-	try:
+	if isFindable("psl"):
+	  try:
 		psl.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PSL-01:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PSL-01:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PSL-01:MJPG:EnableCallbacks",	"Enable")
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring psl compression & callbacks")
 
 	try:
