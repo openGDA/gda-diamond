@@ -541,10 +541,11 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 
-	try:
+	if isFindable("mpx"):
+	  try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-DET-18:ARR:EnableCallbacks",	"Enable")
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring mpx compression")
 
 	try:
