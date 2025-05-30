@@ -3,6 +3,7 @@ from time import sleep
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.parameters import beamline_parameters
+from org.slf4j import LoggerFactory
 
 global configured, beamline
 configured = False
@@ -89,7 +90,7 @@ def openEHShutter():
 	checkConfigured()
 	beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
 	beamline.setValue("Top","-PS-SHTR-02:CON",0)		#OPEN
-	simpleLog( "Opening the EH shutter...")
+	LoggerFactory.getLogger("openEHShutter").info("Opening the EH shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
 	count = 0
 	while (status != 1):
@@ -114,7 +115,7 @@ def closeEHShutter():
 	checkConfigured()
 	beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
 	beamline.setValue("Top","-PS-SHTR-02:CON",1)		#CLOSE
-	simpleLog( "Closing the EH shutter...")
+	LoggerFactory.getLogger("closeEHShutter").info("Closing the EH shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
 	count = 0
 	while (status != 3):
@@ -139,7 +140,7 @@ def openOH2Shutter():
 	checkConfigured()
 	beamline.setValue("Top","-PS-SHTR-01:CON",2)		#RESET
 	beamline.setValue("Top","-PS-SHTR-01:CON",0)		#OPEN
-	simpleLog( "Opening the OH2 shutter...")
+	LoggerFactory.getLogger("openOH2Shutter").info("Opening the OH2 shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-01:STA")
 	count = 0
 	while (status != 1):
@@ -165,7 +166,7 @@ def closeOH2Shutter():
 	checkConfigured()
 	beamline.setValue("Top","-PS-SHTR-01:CON",2)		#RESET
 	beamline.setValue("Top","-PS-SHTR-01:CON",1)		#CLOSE
-	simpleLog( "Closing the OH2 shutter...")
+	LoggerFactory.getLogger("closeOH2Shutter").info("Closing the OH2 shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-01:STA")
 	count = 0
 	while (status != 3):
@@ -188,7 +189,7 @@ def getShutterStatus(status):
 	"""
 	checkConfigured()
 	if (status=="3"):
-		simpleLog( " -> Shutter Closed")
+		LoggerFactory.getLogger("getShutterStatus").info(" -> Shutter Closed")
 	elif (status=="1"):
-		simpleLog( " -> Shutter Open")
+		LoggerFactory.getLogger("getShutterStatus").info(" -> Shutter Open")
 	return

@@ -10,6 +10,7 @@ from java.io import File
 from java.util import NoSuchElementException
 from shutil import copyfile
 from time import sleep
+from org.slf4j import LoggerFactory
 import os.path
 
 supported_line_motors = ('dx', 'dy', 'dz', 'ssx', 'sy', 'ssz')
@@ -559,7 +560,6 @@ def _defaultParameter(parameter, parameter_default, help_text):
 		msg = "%s is not defined, assuming %r. Add %s='xx' to localStationUser.py%s" % (
 			parameter, parameter_default, parameter, help_text)
 		logger.info(msg)
-		print msg
 		if isinstance(parameter_default, str) or isinstance(parameter_default, unicode):
 			logger.trace("Returning default scannable %s" % parameter_default)
 			return jythonNameMap[parameter_default]
@@ -610,7 +610,7 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 
 		rockscanMotor = jythonNameMap['dkphi_rockscan']
 		msg = "rockNumber > 1 so performing unsynchronised rockscan using %s. Moving to start position %r" % (rockscanMotor.name, rockCentre-rockAngle)
-		logger.info(msg)
+		logger.warn(msg)
 		print "-"*80
 		print msg
 		print "-"*80
@@ -671,7 +671,8 @@ def _vertScanParams(vertMotor, AbsoluteVertStart, AbsoluteVertEnd, vertStep, ver
 	if  vertStep == None and vertStepNumber != None:
 		vertStep =  _calcStepSize(start=AbsoluteVertStart,  stop=AbsoluteVertEnd,  numPoints=vertStepNumber)
 
-	if vertStepNumber != None: print "Number of vertical positions is vertStepNumber+1 (%r)" % (vertStepNumber+1.)
+	if vertStepNumber != None:
+		logger=LoggerFactory().getLogger("_vertScanParams").info("Number of vertical positions is vertStepNumber+1 ({})", vertStepNumber+1.)
 
 	# TODO: Do we need to check that vertMotor.level < numExposuresPD.level?
 	return [vertMotor,  AbsoluteVertStart,  AbsoluteVertEnd,  vertStep]
@@ -683,7 +684,8 @@ def _horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep
 	if horizStep == None and horizStepNumber != None:
 		horizStep = _calcStepSize(start=AbsoluteHorizStart, stop=AbsoluteHorizEnd, numPoints=horizStepNumber)
 
-	if horizStepNumber != None: print "Number of horizontal points is horizStepNumber+1 (%r)" % (horizStepNumber+1.)
+	if horizStepNumber != None:
+		logger=LoggerFactory().getLogger("_horizScanParams").info("Number of horizontal points is horizStepNumber+1 ({})", (horizStepNumber+1.))
 
 	# TODO: Do we need to check that horizMotor.level < numExposuresPD.level?
 	return [horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep]
@@ -820,10 +822,10 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 		scan.runScan()
 
 	if rockMotor:
-		print "Moving %s back to %r after rock scan" % (rockMotor.name, rockMotorPosition)
+		logger.info("Moving {} back to {} after rock scan", rockMotor.name, rockMotorPosition)
 		rockMotor.moveTo(rockMotorPosition)
 	elif sweepMotor:
-		print "Moving %s back to %r after sweep scan" % (sweepMotor.name, sweepMotorPosition)
+		logger.info("Moving %s back to %r after sweep scan", sweepMotor.name, sweepMotorPosition)
 		sweepMotor.moveTo(sweepMotorPosition)
 
 def exposeAliases(alias):
