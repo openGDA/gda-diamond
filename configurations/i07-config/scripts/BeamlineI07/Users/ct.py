@@ -10,16 +10,15 @@ try:
 	from odin_detector_snapper import ExcPvaSnapper, EigPvaSnapper
 	ex_snap = ExcPvaSnapper("ex_snap", exc_pva.getCollectionStrategy(),exc_pva.getAdditionalPluginList()[0].getNdPva(), excalibur_stats_verbose, "Excalibur", ex_mask)
 	ei_snap = EigPvaSnapper("ei_snap", eig_pva.getCollectionStrategy(),eig_pva.getAdditionalPluginList()[0].getNdPva(), eiger_stats_verbose, "Eiger", ei_mask)
+	from ad_detector_snapper import p2_snap, p3_snap
 except Exception as e:
-	print("Error setting up exc snapper", e)
+	print("Error setting up detector snappers", e)
 
 def ct(ct_time = 0):
 
-	def readout_pilatus(detector, name):
-		readout = detector.readout()
-		if isinstance(readout, NXDetectorDataWithFilepathForSrs):
-			readout = readout.toString().split('\t')
-		print name + " Total: " + str(readout[10]) + "  Max: " + str(readout[7]) + " (" + str(readout[5]) + "," + str(readout[6]) + ") Filename: " + detector.filename
+	def readout_det(detector, name):
+		stats = dict(zip(detector.getExtraNames(), detector.readout()))
+		print name +" Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
 
 	def ct_select_atten():
 		caput("BL07I-EA-EXCBR-01:CAM:PausePolling", "1")
@@ -91,22 +90,20 @@ def ct(ct_time = 0):
 	if ct.ei :
 		pos(ei_snap, ct_time)
 	if ct.p2 :
-		pos(pil2stats, ct_time)
+		pos(p2_snap, ct_time)
 	if ct.p3 :
-		pos(pil3stats, ct_time)
+		pos(p3_snap, ct_time)
 	pos(ct.fastshutter, 0)
 	panic_timer.cancel()
 
 	if ct.ex :
-		stats = dict(zip(ex_snap.getExtraNames(), ex_snap.readout()))
-		print "Excalibur Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
+		readout_det(ex_snap, "Excalibur")
 	if ct.ei :
-		stats = dict(zip(ei_snap.getExtraNames(), ei_snap.readout()))
-		print "Eiger Total: " + str(int(stats['total'])) + "   Max: " + str(int(stats['max_val'])) + " (" + str(int(stats['max_x'])) + ", " + str(int(stats['max_y'])) + ")"
+		readout_det(ei_snap, "Eiger")
 	if ct.p2 :
-		readout_pilatus(pil2stats, "Pilatus 2M")
+		readout_det(p2_snap, "Pilatus 2")
 	if ct.p3 :
-		readout_pilatus(pil3stats, "Pilatus 100K")
+		readout_det(p3_snap, "Pilatus 3")
 
 ct.p2, ct.p3, ct.ex, ct.ei = False, False, True, False
 
@@ -124,7 +121,7 @@ def ct_detectors(*detector_list):	#Need to make it interpret this as a list howe
 		print_detectors()
 		return
 
-	available_detectors = ["p2", "p3", "ex", "ei", "pil2stats", "pil3stats", "ex_snap", "ei_snap"]
+	available_detectors = ["p2", "p3", "ex", "ei", "p2_snap", "p3_snap", "ex_snap", "ei_snap"]
 	found=False
 
 	for det in detector_list :
@@ -133,13 +130,13 @@ def ct_detectors(*detector_list):	#Need to make it interpret this as a list howe
 			break
 
 	if found :
-		ct.p2 = "p2" in detector_list or  "pil2stats" in detector_list
-		ct.p3 = "p3" in detector_list or  "pil3stats" in detector_list
+		ct.p2 = "p2" in detector_list or  "p2_snap" in detector_list
+		ct.p3 = "p3" in detector_list or  "p3_snap" in detector_list
 		ct.ex = "ex" in detector_list or  "ex_snap" in detector_list
 		ct.ei = "ei" in detector_list or  "ei_snap" in detector_list
 		print_detectors()
 	else :
-		print "Only ex (ex_snap), ei (ei_snap), p2 (pil2stats) and p3 (pil3stats) are compatible with ct command."
+		print "Only ex (ex_snap), ei (ei_snap), p2 (p2_snap) and p3 (p3_snap) are compatible with ct command."
 
 alias("ct")
 alias("ct_detectors")
