@@ -385,7 +385,8 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		// XAS scannable and the list of (energy, time) values
 		argList.add(xasScannable);
-		argList.add(getEnergiesFromScanBean(xasScanParams));
+
+		argList.add(createPositionProvider(xasScanParams));
 
 		// Scannables at fixed position for the scan
 		fixedScannablePositions.entrySet().stream().forEach(entry -> {

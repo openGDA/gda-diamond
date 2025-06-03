@@ -63,6 +63,7 @@ import gda.jython.commands.ScannableCommands;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
 import gda.scan.ConcurrentScan;
 import gda.scan.ScanPlotSettings;
+import gda.scan.ScanPositionProvider;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -399,7 +400,8 @@ public class XesScanTest {
 
 		xesParams.addSpectrometerScanParameter(specParams);
 
-		Object[] scanArgs = runScan(xesParams);
+		Object[] scanArgs = runScanAndTestPositions(xesParams);
+
 		InOrder inorder = testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		inorder.verify(detectorPreparer).completeCollection();
@@ -442,7 +444,7 @@ public class XesScanTest {
 
 		xesParams.addSpectrometerScanParameter(specParams);
 
-		Object[] scanArgs = runScan(xesParams);
+		Object[] scanArgs = runScanAndTestPositions(xesParams);
 
 		// Check the scan arguments are correct
 		assertEquals(8, scanArgs.length);
@@ -568,7 +570,7 @@ public class XesScanTest {
 
 	private Object[] runScanAndTestPositions(XesScanParameters scanParams) throws Exception {
 		Object[] scanArgs = runScan(scanParams);
-		testPositions( (XesScanPositionProvider)scanArgs[1], scanParams);
+		testPositions(scanParams, scanArgs);
 		return scanArgs;
 	}
 
@@ -577,6 +579,22 @@ public class XesScanTest {
 		xesScan.doCollection();
 		return xesScan.createScanArguments("sample 1", new ArrayList<String>());
 	}
+
+	private void testPositions(XesScanParameters scanParams, Object[] scanArgs) throws IllegalArgumentException {
+		switch(scanParams.getScanType()) {
+		case XesScanParameters.SCAN_XES_REGION_FIXED_MONO,
+		XesScanParameters.FIXED_XES_SCAN_XANES,
+		XesScanParameters.FIXED_XES_SCAN_XAS :
+			assertEquals(scanArgs[1] instanceof ScanPositionProvider, true);
+		break;
+		case XesScanParameters.SCAN_XES_FIXED_MONO :
+			testPositions( (XesScanPositionProvider)scanArgs[1], scanParams);
+		break;
+		default :
+			throw new IllegalArgumentException("Unsupprted scan type "+scanParams.getScanType());
+		}
+	}
+
 	private class XesScanParameterBuilder {
 		private int scanType = XesScanParameters.SCAN_XES_FIXED_MONO;
 		private ScanColourType scanColour = ScanColourType.ONE_COLOUR_ROW1;
@@ -668,7 +686,7 @@ public class XesScanTest {
 		xesParams.setMonoStepSize(100.0);
 		xesParams.setLoopChoice(XesScanParameters.LOOPOPTIONS[0]);
 
-		Object[] scanArgs = runScanAndTestPositions(xesParams);
+		Object[] scanArgs = runScan(xesParams);
 		testOrder(xesParams, mockSampleEnvironmentIterator);
 
 		assertEquals(10, scanArgs.length);
