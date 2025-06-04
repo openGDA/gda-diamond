@@ -26,6 +26,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
+		<property name="swmrModeEnabled" value="true" />
 	</bean>
 
 <!-- ROI providers and plugins -->
