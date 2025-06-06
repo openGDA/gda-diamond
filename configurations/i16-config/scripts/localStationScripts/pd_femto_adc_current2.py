@@ -1,6 +1,7 @@
 from gda.device.scannable import ScannableMotionBase
 import logging
 import installation
+from gda.epics import CAClient
 
 class pd_epics_femto_gain(ScannableMotionBase):
 	'''Device to set femto amplifier gain
@@ -42,36 +43,6 @@ class pd_epics_femto_gain(ScannableMotionBase):
 		self()
 		logging.getLogger("pd_epics_femto_gain:"+self.name).debug("gain() called self(), returning gain %d" % self.gain)
 		return self.gain
-
-class pd_epics_femto_current(ScannableMotionBase):
-	'''Device to read current using femto amplifier and adc
-	Femto switched to REMOTE, AC, 10Hz for remote operation
-	Gains:\n10^3 low noise (0)\n10^4 low noise (1)\n10^5 low noise (2)\n10^6 low noise (3)\n10^7 low noise (4)\n10^8 low noise (5)\n10^9 low noise (6)\n10^5 high speed (8)\n10^6 high speed (9)\n10^7 high speed (10)\n10^8 high speed(11)\n10^9 high speed (12)\n10^10 high speed (13)\n10^11 high speed (14)\n
-	pd=pd_femto_adc_current(name, adcpv, femtogainpv , factor, unitstring, formatstring)
-	use pos device.gain to get/set gain
-	'''
-	def __init__(self, name, adcpv, femtogainpd , unitstring, formatstring, help=None):
-		self.setName(name);
-		self.setInputNames([])
-		self.setExtraNames([name]);
-		self.setOutputFormat([formatstring])
-		self.unitstring=unitstring
-		self.setLevel(9)
-		self.adccli=CAClient(adcpv)
-		self.adccli.configure()
-		self.__doc__+='Units for current: '+self.unitstring
-		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
-		self.gain=femtogainpd
-		self.gain()
-
-	def getPosition(self):
-		self.adcvolts=float(self.adccli.caget())
-		if abs(self.adcvolts)>9.9:
-			print "=== Warning: "+self.name+" out of range - reduce gain. Type help "+self.name
-		return self.adcvolts/self.gain.gain
-
-	def isBusy(self):
-		return 0
 
 class pd_epics_femto_current_from_monitor(ScannableMotionBase):
 	'''Device to read current using femto amplifier and adc
@@ -126,29 +97,17 @@ BL16I-DI-FEMTO-03:GAIN
                       [12] 10^10 high spd
                       [13] 10^11 high spd
 """
-#diode_gain_array=[1e3*1e-9,1e4*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e10*1e-9,1e11*1e-9]
 diode_gain_array=[1e3*1e-6,1e4*1e-6,1e5*1e-6,1e6*1e-6,1e7*1e-6,1e8*1e-6,1e9*1e-6,1e5*1e-6,1e6*1e-6,1e7*1e-6,1e8*1e-6,1e9*1e-6,1e10*1e-6,1e11*1e-6]
-#diode_gain_array=[-1e3*1e-6,-1e4*1e-6,-1e5*1e-6,-1e6*1e-6,-1e7*1e-6,-1e8*1e-6,-1e9*1e-6,-1e5*1e-6,-1e6*1e-6,-1e7*1e-6,-1e8*1e-6,-1e9*1e-6,-1e10*1e-6,-1e11*1e-6]
 
 bsdiode_gains_list=[-1e3*1e-6,-1e4*1e-6,-1e5*1e-6,-1e6*1e-6,-1e7*1e-6,-1e8*1e-6,-1e9*1e-6,-1e5*1e-6,-1e6*1e-6,-1e7*1e-6,-1e8*1e-6,-1e9*1e-6,-1e10*1e-6,-1e11*1e-6]
-#bsdiode_gains_list=[1e3*1e-6,1e4*1e-6,1e5*1e-6,1e6*1e-6,1e7*1e-6,1e8*1e-6,1e9*1e-6,1e5*1e-6,1e6*1e-6,1e7*1e-6,1e8*1e-6,1e9*1e-6,1e10*1e-6,1e11*1e-6]
 
-if installation.isLive():
-	diode=pd_epics_femto_current('diode','BL16I-EA-USER-01:AI1AV',
-		pd_epics_femto_gain('diode_gain',diode_gain_array,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
-		'microamps','%.6f',help='diode: usually use gain 0 for direct beam')
-	
-	bsdiode=pd_epics_femto_current('bsdiode','BL16I-EA-USER-01:AI1AV',
-		pd_epics_femto_gain('diode_gain',bsdiode_gains_list,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
-		'microamps','%.6f',help='beamstop diode (plug into Femto on detector arm): usually use gain 0 for direct beam')
-else:
-	diode=pd_epics_femto_current_from_monitor('diode',diode_,
-		pd_epics_femto_gain('diode_gain',diode_gain_array,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
-		'microamps','%.6f',help='diode: usually use gain 0 for direct beam')
-	
-	bsdiode=pd_epics_femto_current_from_monitor('bsdiode',diode_,
-		pd_epics_femto_gain('diode_gain',bsdiode_gains_list,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
-		'microamps','%.6f',help='beamstop diode (plug into Femto on detector arm): usually use gain 0 for direct beam')
+diode=pd_epics_femto_current_from_monitor('diode',diode_,
+	pd_epics_femto_gain('diode_gain',diode_gain_array,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
+	'microamps','%.6f',help='diode: usually use gain 0 for direct beam')
+
+bsdiode=pd_epics_femto_current_from_monitor('bsdiode',diode_,
+	pd_epics_femto_gain('diode_gain',bsdiode_gains_list,'BL16I-DI-FEMTO-03:GAIN' if installation.isLive() else None),
+	'microamps','%.6f',help='beamstop diode (plug into Femto on detector arm): usually use gain 0 for direct beam')
 
 """$caget -d31 BL16I-DI-FEMTO-01:GAIN
 BL16I-DI-FEMTO-01:GAIN
@@ -176,7 +135,6 @@ BL16I-DI-FEMTO-01:GAIN
 """
 
 ic1_gains_list=[-1e3*1e-9,-1e4*1e-9,-1e5*1e-9,-1e6*1e-9,-1e7*1e-9,-1e8*1e-9,-1e9*1e-9,-1e5*1e-9,-1e6*1e-9,-1e7*1e-9,-1e8*1e-9,-1e9*1e-9,-1e10*1e-9,-1e11*1e-9]
-#ic1_gains_list=[1e3*1e-9,1e4*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e10*1e-9,1e11*1e-9]
 
 ic1=pd_epics_femto_current_from_monitor('ic1', ic1poll_ ,
 	pd_epics_femto_gain('ic1_gain',ic1_gains_list,'BL16I-DI-FEMTO-01:GAIN' if installation.isLive() else None,help='some help on ic1 gain'),
@@ -212,13 +170,8 @@ BL16I-DI-FEMTO-02:GAIN
 """
 
 ic2_gains_list=[-1e3*1e-9,-1e4*1e-9,-1e5*1e-9,-1e6*1e-9,-1e7*1e-9,-1e8*1e-9,-1e9*1e-9,-1e5*1e-9,-1e6*1e-9,-1e7*1e-9,-1e8*1e-9,-1e9*1e-9,-1e10*1e-9,-1e11*1e-9]
-#ic2_gains_list=[1e3*1e-9,1e4*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e5*1e-9,1e6*1e-9,1e7*1e-9,1e8*1e-9,1e9*1e-9,1e10*1e-9,1e11*1e-9]
 
-ic2=pd_epics_femto_current('ic2','BL16I-EA-USER-01:AI6AV',
+ic2=pd_epics_femto_current_from_monitor('ic2', ic2poll_,
 	pd_epics_femto_gain('ic2_gain',ic2_gains_list,'BL16I-DI-FEMTO-02:GAIN' if installation.isLive() else None,help='some help on ic2 gain'),
 	'nanoamps','%.6f',help='ic2: He-filled ion chamber after attenuators. Gain typically around 5')
 
-#diode=adc1=DisplayEpicsPVClass('adc1','BL16I-EA-USER-01:AI1AV','V','%6f');diode.setLevel(9) #AV=average over pre-set number of readings (100 samples @ 1 kHz)
-#adc2=DisplayEpicsPVClass('adc2','BL16I-EA-USER-01:AI2AV','V','%6f')
-#ic1=adc4=DisplayEpicsPVClass('IC1','BL16I-EA-USER-01:AI4AV','V','%6f'); ic1.setLevel(9)
-#ic2=adc6=DisplayEpicsPVClass('IC2','BL16I-EA-USER-01:AI6AV','V','%6f'); ic2.setLevel(9)
