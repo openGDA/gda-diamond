@@ -80,7 +80,7 @@
 							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ExafsSubmitScanSection">
 								<property name="description" value="Sparse EXAFS scan"/>
 								<property name="buttonText" value="Submit Sparse EXAFS scan"/>
-								<property name="submitScanButtonColour" value="GREEN"/>
+								<property name="submitScanButtonColour" value="LIGHT_YELLOW"/>
 								<property name="outerScannableName" value="dcm_enrg"/>
 								<property name="scriptFilePath" value="scanning/submit_sparse_exafs_scan.py"/>
 								<property name="detectorName" ref="sparse_xanes_scan_detector"/>
@@ -115,7 +115,7 @@
 								<property name="scriptFilePath" value="scanning/submit_laminography_scan.py"/>
 								<property name="description" value="Laminography scan" />
 								<property name="buttonText" value="Submit laminography scan" />
-								<property name="submitScanButtonColour" value="GREEN"/>
+								<property name="submitScanButtonColour" value="TURQUOISE"/>
 								<property name="stateReporter">
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
