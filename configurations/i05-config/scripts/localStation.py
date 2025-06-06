@@ -119,7 +119,7 @@ from i05Shared.checkBeamlineHealth import *
 checkForBeamlineProblems()
 
 from i05Shared.resolutionEstimator import *
-estimateResolution()
+estimateResolution(100)
 
 def set_analyser_slit(slit):
 		""" Set analyser entrance slit by integer value """
