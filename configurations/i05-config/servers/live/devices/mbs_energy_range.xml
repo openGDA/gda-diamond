@@ -477,6 +477,7 @@
 				</entry>
 						</map>
 				</constructor-arg>
+				<property name="ignorePsuMode" value="true"/>
 		</bean>
 
 		<bean id="analyser_deflector_range" class="uk.ac.diamond.daq.pes.api.AnalyserDeflectorRangeConfiguration">
