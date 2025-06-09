@@ -106,11 +106,6 @@ try_execfile("BeamlineI07/createAdditionalMetadataDevices.py", "Metadata Header 
 
 try_execfile("BeamlineI07/createAlias.py")
 
-#try_execfile("BeamlineI07/useEpicsPilatus2M.py")
-try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
-
-try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
-
 try_execfile("BeamlineI07/useGigECams.py")
 
 from BeamlineI07.useEuroThermo import etoutput11, etoutput12, etoutput13, etoutput21, etoutput22, etoutput23, etoutput3, etoutput4, etoutput5
