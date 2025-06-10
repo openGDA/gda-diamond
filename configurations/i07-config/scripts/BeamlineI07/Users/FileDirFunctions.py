@@ -24,15 +24,6 @@ def createUserSetup():
 
 # sets the file path for both Pilatus detectors to the I07 defaults
 
-def setPilPaths():
-    pil2.setFile("pilatus2","p2mImage")
-    pil3.setFile("pilatus3","p3Image")    
-#    pil3.setFilePath(InterfaceProvider.getPathConstructor().createFromDefaultProperty()+"/pilatus3")
-#    pil3.setFileName("p3Image")
-#    print "pil3 path: " + pil3.getFilePath()
-#    print "p2m path:   " + pil2.getFullFileName()
-
-
 # gives i07user permission to access data directory
 
 def i07userperm(visit = ''):
@@ -68,6 +59,5 @@ def i07userperm_r(visit = ''):
     print getoutput("setfacl -R -n -m u:i07user:rwx " + d + "/processing")
 
 alias("createUserSetup")
-alias("setPilPaths")
 alias("i07userperm")
 alias("i07userperm_r")

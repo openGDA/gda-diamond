@@ -29,18 +29,4 @@ except:
 	logger.dump("---> ", exceptionType, exception, traceback)
 	
 
-try:	
-	#Pilatus path update
-	print
-	print "===================================================================";
-	pil2.setFile();
-	pil3.setFile();
-	
-#	execfile(gdaScriptDir + "BeamlineI07/useMotors.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Client script Error when updating Pilatus image path"
-	logger.dump("---> ", exceptionType, exception, traceback)
-	
-
 print "==================================================================="; print; print;
