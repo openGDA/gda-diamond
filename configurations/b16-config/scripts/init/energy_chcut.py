@@ -1,7 +1,7 @@
 from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableUtils
 import math
-from gdascripts.utils import caget
+from gdascripts.utils import caget, caput
 
 
 # channel cut PV that drives monochromator energy in electron volts
