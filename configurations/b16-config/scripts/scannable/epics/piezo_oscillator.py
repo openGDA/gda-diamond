@@ -6,6 +6,7 @@ from gda.device.scannable import ScannableMotionBase
 from gda.epics import LazyPVFactory
 from org.eclipse.january.dataset import DatasetFactory
 from threading import Thread, Event
+import time
 
 class OscillatorController:
     
@@ -166,17 +167,27 @@ class MotorWithBackgroundOscillations(ScannableMotionBase):
         self.sm = sm
         self.osc = osc
         self.setName(sm.getName() + "_osc")
+        self._busy = False
 
     def rawAsynchronousMoveTo(self, position):
+        while self.osc.isBusy():
+            # still performing previous oscillation!
+            time.sleep(0.01)
+        self._busy = True
         self.sm.moveTo(position)
+        time_to_start_oscillation = 1.5
+        Thread(target=self.turn_off_busy_after, args=(time_to_start_oscillation,)).start()
         self.osc.asynchronousMoveTo(self.osc.getPosition())
+    
+    def turn_off_busy_after(self, t_s):
+        time.sleep(t_s)
+        self._busy = False
     
     def rawGetPosition(self):
         return self.sm.getPosition()
     
     def isBusy(self):
-        return self.sm.isBusy()
-
+        return self._busy
 
 def create_osc_devices(name, pvbase):
     osc = PiezoOscillator(name + "_osc", EpicsOscillatorController(pvbase))
