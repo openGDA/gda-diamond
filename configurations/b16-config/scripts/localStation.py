@@ -1370,6 +1370,22 @@ if installation.isLive():
 	
 	print "zyla setup"
 
+if installation.isLive():
+	from gdaserver import _imagestar, _imagestar_for_snaps  # @UnresolvedImport
+	imagestar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'imagestar',
+			_imagestar,
+			None,
+			_imagestar_for_snaps,
+			[],
+			panel_name_rcp='imagestar',
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
+	imagestarmax2d = DetectorDataProcessorWithRoiForNexus('imagestarmax2d', imagestar, [SumMaxPositionAndValue()])
+	imagestarpeak2d = DetectorDataProcessorWithRoiForNexus('imagestarpeak2d', imagestar, [TwodGaussianPeak()])
+	imagestarintensity2d = DetectorDataProcessorWithRoiForNexus('imagestarintensity2d', imagestar, [PixelIntensity()])
+
 ######################################################################################################################################
 #Linkam temperature controller
 print "Setting up Linkam TS1500 hot stage from I18"
