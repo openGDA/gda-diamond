@@ -391,4 +391,11 @@
 		</property>
 	</bean>
 
+	<bean id="imagestar_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ImageStar" />
+		<property name="pvAccessPv" value="BL16B-EA-STAR-01:PVA:ARRAY" />
+		<property name="topUi" ref="imagestar_topUI" />
+		<property name="bottomUi" ref="imagestar_histogramBottomUI" />
+	</bean>
+
 </beans>
