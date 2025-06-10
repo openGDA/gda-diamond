@@ -2,7 +2,7 @@
     {
     	"text": "GDA Server",
         "command": "/usr/bin/env gda",
-        "args": "server"
+        "args": "server",
         "icon": "sgda.png",
         "type": "button"
     },
