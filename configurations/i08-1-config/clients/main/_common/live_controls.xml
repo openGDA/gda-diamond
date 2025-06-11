@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Sample transfer configuration -->
+	
+	<bean id="sample_transfer_composite_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferCompositeFactory" />
+
+	<bean id="sample_transfer_dialog_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferDialogFactory">
+		<property name="cameras" ref="sample_transfer_cameras" />
+		<property name="compositeFactory" ref="sample_transfer_composite_factory" />
+	</bean>
+	
+	<bean id="sample_transfer_control" class="uk.ac.gda.client.livecontrol.DialogButtonControl">
+		<property name="group" value="Sample transfer" />
+		<property name="buttonText" value="Sample Transfer Dialog" />
+		<property name="buttonTooltip" value="Open sample transfer dialog" />
+		<property name="dialogFactory" ref="sample_transfer_dialog_factory" />
+	</bean>
+
+	<!-- Overall control set -->
+	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="sample_transfer_control" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
