@@ -19,7 +19,7 @@ entry/:
         NX_class@: NXdetector
         default@: data
         data: "#{@xasmode_fast.getPosition()}" # Spring SpEL expression deriving link path from XAS mode value of 'xasmode' scannable using 'xasmode_fast' map
-        mode: "#{xasmode.getPosition()}"  # the user set XAS measurement mode, if user not set it, it default to TEY
+        mode: "#{@xasmode.getPosition()}"  # the user set XAS measurement mode, if user not set it, it default to TEY
     sample: /entry/sample
     monitor/:
      NX_class@: NXmonitor
