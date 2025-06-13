@@ -1257,6 +1257,13 @@ from scannable.hw.stanford_unit import StanfordUnit
 stanford1unit = StanfordUnit('stanford1unit', "BL16B-EA-STANF-01:SENS:")
 stanford2unit = StanfordUnit('stanford2unit', "BL16B-EA-STANF-02:SENS:")
 
+from scannable.smartamps import Keithley, Stanford
+from gdaserver import ai1, ai2, ai3  # @UnresolvedImport
+keithley = Keithley("keithley", keithley1gain, ai1)
+stanford1 = Stanford("stanford1", stanford1sensitivity, stanford1unit, ai2)
+stanford2 = Stanford("stanford2", stanford2sensitivity, stanford2unit, ai3)
+print("Created smart amplifiers: %s, %s and %s (https://confluence.diamond.ac.uk/x/JAUPF)" % (keithley.name, stanford1.name, stanford2.name))
+
 print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
 waitForAi8 = scannable.condition.WaitForCondition('waitForAi8', ai8, 'val<1')  # @UndefinedVariable
