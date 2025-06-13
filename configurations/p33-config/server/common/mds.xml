@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+
+	<!-- SP motion -->
+	<!-- mtg21 is a standard EpicsMotor, but needs to be energised before moving -->
+	<bean id="mtg21" class="gda.device.scannable.JythonScannableWrapper" >
+		<property name="scannableName" value="energisable_mtg21" /> <!-- ensure this exists! -->
+	</bean>
+	 
+	<gda:motor id="mtt21"
+		live-pvName="BL33P-MO-MDS-01:MTT-21"
+		dummy-unitString="mm"/>
+
+	<bean id="sp_motion" class="gda.device.scannable.scannablegroup.ScannableGroup" >
+		<property name="groupMembers">
+			<list>
+				<ref bean="mtg21" />
+				<ref bean="mtt21" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- LL motion -->
+	<gda:motor id="mtt11"
+		live-pvName="BL33P-MO-MDS-01:MTT-11"
+		dummy-unitString="mm"/>
+
+	<gda:motor id="mtt12"
+		live-pvName="BL33P-MO-MDS-01:MTT-12"
+		dummy-unitString="mm"/>
+
+	<bean id="ll_motion" class="gda.device.scannable.scannablegroup.ScannableGroup" >
+		<property name="groupMembers">
+			<list>
+				<ref bean="mtt11" />
+				<ref bean="mtt12" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Photodiodes -->
+	<import resource="file:${gda.config}/server/${gda.mode}/mds/photodiodes.xml" />
+	
+	<!-- Shutters -->
+
+</beans>
