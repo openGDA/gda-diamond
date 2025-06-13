@@ -27,7 +27,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
-		<property name="legacyFileFormatOverwrittenForSESSequenceJSONHanlder" value="false"/>
+		<property name="legacyFileFormatOverwrittenForSESSequenceJSONHanlder" value="true"/>
 		<property name="legacyConversionExcitationEnergyForSESRegion">
 			<map>
 				<!-- convert excitation energies in this range to source1 (dcmenergy) -->
