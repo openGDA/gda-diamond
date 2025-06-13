@@ -63,7 +63,6 @@ public class XesScan extends XasScanBase implements XasScan {
 	private List<IXesOffsets> xesOffsetsList;
 
 	private Map<Scannable, Scannable> energyTransferScannables = new HashMap<>();
-	private boolean scanEnergyTransfer;
 
 	// Scannable group containing XESBraggUpper and XESBraggLower
 	private Scannable xesBraggGroup;
@@ -186,7 +185,7 @@ public class XesScan extends XasScanBase implements XasScan {
 		Scannable xesBraggScannable = getXesAngleScannable(xesEnergyScannable);
 
 		Scannable spectrometerScanAxis;
-		if (scanEnergyTransfer) {
+		if (xesScanParameters.isScanEnergyTransfer()) {
 			spectrometerScanAxis = getEnergyTransferScannable(xesEnergyScannable);
 		} else {
 			spectrometerScanAxis = xesEnergyScannable;
@@ -214,7 +213,7 @@ public class XesScan extends XasScanBase implements XasScan {
 			List<Object> scanParams = Arrays.asList(spectrometerScanAxis, positionProvider, mono_energy,
 					xesScanParameters.getMonoEnergy(), xesBraggScannable);
 			xesScanArguments.addAll(scanParams);
-			if (scanEnergyTransfer) {
+			if (xesScanParameters.isScanEnergyTransfer()) {
 				xesScanArguments.add(xesEnergyScannable);
 			}
 			setXesEnergyAxisName(spectrometerScanAxis);
@@ -250,7 +249,7 @@ public class XesScan extends XasScanBase implements XasScan {
 			xesScanArguments.add(xesBraggScannable);
 
 			// add the spectrometer energy if doing scanning energy transfer
-			if (scanEnergyTransfer) {
+			if (xesScanParameters.isScanEnergyTransfer()) {
 				xesScanArguments.add(xesEnergyScannable);
 			}
 
@@ -500,12 +499,4 @@ public class XesScan extends XasScanBase implements XasScan {
 		this.energyTransferScannables = energyTransferScannables;
 	}
 
-
-	public boolean isScanEnergyTransfer() {
-		return scanEnergyTransfer;
-	}
-
-	public void setScanEnergyTransfer(boolean scanEnergyTransfer) {
-		this.scanEnergyTransfer = scanEnergyTransfer;
-	}
 }
