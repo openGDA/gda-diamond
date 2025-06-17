@@ -21,11 +21,11 @@ def get_file(relativefilenumber=0):
 def eEdge(relativefilenumber=0,axis1='energy2',axis2='ic1'):
     if relativefilenumber > 0:
         file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()    
-        file = file + "/" + `relativefilenumber`+".dat"
+        file = file + "/spool/" + `relativefilenumber`+".dat"
         filenumber=relativefilenumber
     else:
         file = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
-        file = file + "/" + `int(numTracker.getCurrentFileNumber()+relativefilenumber)`+".dat"
+        file = file + "/spool/" + `int(numTracker.getCurrentFileNumber()+relativefilenumber)`+".dat"
         filenumber=int(numTracker.getCurrentFileNumber()+relativefilenumber)
     print(file)
     data=dnp.io.load(file)
