@@ -182,3 +182,5 @@ if isLive() :
 from BeamlineI07.devices.IviumDevice import IviumMethodScannableClass
 ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-01", 1, subdir = "processing")
 
+from BeamlineI07.zocalofunctions import currentscan, mapstart, mapend, checkzocalo
+
