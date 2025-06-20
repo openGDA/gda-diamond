@@ -54,6 +54,9 @@ class QexafsTest(ZebraQexafsScannable):
         zebra.setPCPulseWidth(1e-5) # width of each position trigger
         zebra.setPCPulseMax(10000)  # max number of position trigger pulses to capture
         
+        # copy encoder4 value to zebra (i.e. Bragg angle of DCM)
+        zebra.encCopyMotorPosToZebra(4)
+
         super(QexafsTest, self).prepareForContinuousMove()
         
     def performContinuousMove(self):
@@ -65,9 +68,6 @@ class QexafsTest(ZebraQexafsScannable):
 #CrystalParameters.CrystalSpacing.Si_111.getLabel()
 
 zebra = Finder.find("zebra")
-
-# copy encoder4 value to zebra (i.e. Bragg angle of DCM)
-zebra.encCopyMotorPosToZebra(4)
 
 qexafs_energy = QexafsTest()
 qexafs_energy.setZebraDevice(zebra)
@@ -116,7 +116,7 @@ def generate_continuous_params(start, stop, num_points, total_time) :
     params.setContinuouslyScannableName(cont_scannable.getName())
     return params
 
-def run_tfg_continuous_scan(num_points, scan_time=5, external_trigger=False, detectors=None) :
+def run_tfg_continuous_scan(num_points, scan_time=5, external_start=False, external_frame=False, detectors=None) :
     """
         Run a continuous scan using Tfg (qexafs_counterTimer01) and a 'dummy' motor.
         Parameters : 
@@ -132,7 +132,8 @@ def run_tfg_continuous_scan(num_points, scan_time=5, external_trigger=False, det
         all_detectors.extend(detectors)
     all_detectors.append(qexafs_counterTimer01)
     
-    qexafs_counterTimer01.setUseExternalTriggers(external_trigger)
+    qexafs_counterTimer01.setExternalTriggerStart(external_start)
+    qexafs_counterTimer01.setExternalTriggeredFrames(external_frame)
     sc=ContinuousScan(cont_scannable, 0, num_points, num_points, scan_time, all_detectors)
     sc.runScan()
   
@@ -231,7 +232,90 @@ class TfgScanRunner :
         
         return sc
 
-   
+
+from gda.device.detector.countertimer import BufferedScaler
+
+
+class CustomBufferedScaler(BufferedScaler) :
+    """
+     Extension of BufferedScaler to have each cycle collect two sets of frames, each started by different trigger.
+     Each cycle consist of following steps :
+     Wait for 'laser on' trigger, optional pause, collect frames of data
+     wait for 'laser off' trigger, optional pause, collect frames of data
+     
+     The total number of frames for the scan are split evenly across laser on, and laser off parts of the collection. The
+     data collection frames are internally triggered with live_time = float(total_time/num_frames), dead time = frame_dead_time
+
+     * ports for laser on and laser off triggers can be set using laser_on_trig_port, laser_off_trig_port (8 and 9 are defaults)
+     * delay following each trigger and data collection can be set using delay_after_laser_on_trig, delay_after_laser_off_trig (0 default value)
+     * frame dead time can be set using frame_dead_time (0 default)
+    """
+    
+    def __init__(self, buffered_scaler) :
+        super(CustomBufferedScaler, self).__init__()
+        self.delay_after_laser_on_trig = 0.0
+        self.delay_after_laser_off_trig = 0.0
+        self.laser_on_trig_port = 8
+        self.laser_off_trig_port = 9
+        self.frame_dead_time = 0.0
+        self.setup(buffered_scaler)
+    
+    # Setup by copying the various fields from another BufferedScaler
+    def setup(self, buffered_scaler): 
+        self.setExtraNames(buffered_scaler.getExtraNames())
+        self.setOutputFormat(buffered_scaler.getOutputFormat())
+        self.setScaler(buffered_scaler.getScaler())
+        self.setTimer(buffered_scaler.getTimer())
+        self.setTimeChannelRequired(buffered_scaler.isTimeChannelRequired())
+        self.setDarkCurrentRequired(buffered_scaler.isDarkCurrentRequired())
+        self.setOutputLogValues(buffered_scaler.isOutputLogValues())
+        self.setTFGv2(buffered_scaler.isTFGv2())
+        self.setNumChannelsToRead(buffered_scaler.getNumChannelsToRead())
+        self.setTtlSocket(buffered_scaler.getTtlSocket())
+        self.setDaserver(buffered_scaler.getDaserver())
+
+    def getFrameDaServerCommand(self, num_frames, total_time,  external_trigger_frames) :
+        live_time = float(total_time / num_frames)
+        num_frames_laser_on = int(num_frames/2)
+        num_frames_laser_off = num_frames - num_frames_laser_on
+        
+        # wait for rising edge of 'laser_on' trigger
+        laser_on_start_command = "1 0 0 0 0 %d 0\n"%(self.laser_on_trig_port)
+        
+        # delay after 'laser on' trigger (use live time to wait, to also collect scaler data for this frame)
+        # using separate line of daserver command, to be absolutely sure the wait happens after the trigger!
+        laser_on_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_on_trig)
+        
+        # collect frames of data
+        laser_on_frames = "%d %.4g %.4g 0 0 %d %d \n"%(num_frames_laser_on, self.frame_dead_time, live_time, 0, 0)
+        
+        # wait for rising edge of 'laser off' trigger
+        laser_off_start_command = "1 0 0 0 0 %d 0\n"%(self.laser_off_trig_port)
+        
+        # delay after 'laser off trigger'
+        laser_off_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_off_trig)
+        
+        # collect frames of data
+        laser_off_frames = "%d %.4g %.4g 0 0 %d %d \n"%(num_frames_laser_off, self.frame_dead_time, live_time, 0, 0)
+
+        print("'Laser-on' frames  : \n{}{}".format(laser_on_start_command, laser_on_frames))
+        print("'Laser-off' frames : \n{}{}".format(laser_off_start_command, laser_off_frames))
+        return laser_on_start_command+laser_on_frames+laser_off_start_command+laser_off_frames
+    
+    
+buffered_scaler = CustomBufferedScaler(qexafs_counterTimer01)
+buffered_scaler.setName("buffered_scaler")
+buffered_scaler.setUseExternalTriggers(False)
+buffered_scaler.configure()
+buffered_scaler.delay_after_laser_on_trig = 2e-6
+buffered_scaler.delay_after_laser_off_trig = 2e-6
+
+buffered_scaler.laser_on_trig_port = 8
+buffered_scaler.laser_off_trig_port = 9
+
+buffered_scaler.setNumCycles(10)
+buffered_scaler.setFrameCountDuringCycles(False)
+
 # Scan runner for laser experiment     
 tfgScanRunner= TfgScanRunner()
 tfgScanRunner.buffered_scaler = qexafs_counterTimer01
