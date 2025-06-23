@@ -282,8 +282,8 @@ def setup():
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
 
     #  Make the spectrometer setup functions available
-    run_script("spectrometer-setup.py")
-    if XESEnergyJohann is not None :
+    if "XESEnergyJohann" in globals() :
+        run_script("spectrometer-setup.py")
         if LocalProperties.isDummyModeEnabled() :
             setup_dummy_spectrometer(XESEnergyJohann)
         set_initial_crystal_values(XESEnergyJohann)

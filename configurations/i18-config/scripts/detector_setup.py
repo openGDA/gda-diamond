@@ -41,6 +41,7 @@ def setup_xspress3Odin() :
         print("Not setting up xspress3Odin - PVs are not present")
         return
     xspress3Odin.getController().afterPropertiesSet()
+    xspress3Odin.setFilePath("") # clear file path, to use default data directory
     
     
 def setup_ffi0_channel(i0_channel=2) : 
