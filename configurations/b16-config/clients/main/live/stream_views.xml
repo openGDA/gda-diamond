@@ -398,4 +398,33 @@
 		<property name="bottomUi" ref="imagestar_histogramBottomUI" />
 	</bean>
 
+	<bean id="dcam9_histogramTopUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI">
+	</bean>
+	<bean id="dcam9_histogramBottomUI"
+		class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
+		<property name="topUI" ref="dcam9_histogramTopUI" />
+	</bean>
+	<bean id="dcam9_controlsUI"
+		class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+		<constructor-arg ref="dcam9_camera_control" />
+	</bean>
+	<bean id="dcam9_topUI"
+		class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+		<property name="customUIs">
+			<list>
+				<ref bean="dcam9_controlsUI" />
+				<ref bean="dcam9_histogramTopUI" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcam9_cam"
+		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="DCAM9" />
+		<property name="pvAccessPv" value="BL16B-DI-DCAM-09:PVA:ARRAY" />
+		<property name="topUi" ref="dcam9_topUI" />
+		<property name="bottomUi" ref="dcam9_histogramBottomUI" />
+	</bean>
+
 </beans>
