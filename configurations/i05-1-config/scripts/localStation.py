@@ -18,6 +18,17 @@ print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
+
+from i05Shared.scannableGroupSingleInput import ScannableGroupSingleInput
+try:
+	print "Configuring rawid_phase combined scannable for rawid_lowerphase and rawid_upperphase"
+	rawid_phase = ScannableGroupSingleInput('rawid_phase', [rawid_lowerphase, rawid_upperphase])
+	rawid_phase.configure()
+	print "rawid_phase combined scannable configured"
+except:
+	print "rawid_phase configuration FAILED"
+
+
 print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 from gdascripts.pd.dummy_pds import * #@UnusedWildImport
