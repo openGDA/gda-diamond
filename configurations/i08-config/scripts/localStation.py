@@ -56,4 +56,7 @@ alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
 
+# setting up xanes scans
+run('scanning/sparse_xanes_scan.py')
+
 print("Initialisation Complete");

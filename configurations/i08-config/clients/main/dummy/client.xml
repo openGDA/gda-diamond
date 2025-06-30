@@ -4,5 +4,9 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="../_common/client.xml" />
+	
+	<bean id="sparse_xanes_scan_detector" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="Simulated motors for mapping"></constructor-arg>
+	</bean>
 
 </beans>
