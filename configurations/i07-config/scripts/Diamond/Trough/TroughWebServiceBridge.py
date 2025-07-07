@@ -1,28 +1,14 @@
-
-from time import sleep;
-import math
-
-from xml.dom import minidom, Node;
-from pprint import pprint
 from time import sleep
-
-import sys,string
-import urllib2
-
 
 from java.lang import StringBuilder, Exception;
 from java.io import File, BufferedReader, InputStreamReader;
 from java.net import URL;
-
-#from org.w3c.dom import Document;
 
 from javax.xml.parsers import DocumentBuilderFactory;
 from javax.xml.parsers import DocumentBuilder;
 from javax.xml.transform.dom import DOMSource
 from javax.xml.transform import Transformer, TransformerFactory
 from javax.xml.transform.stream import StreamResult
-
-from gda.device import DeviceBase
 
 import __main__ as gdamain
 
@@ -39,6 +25,7 @@ class NimaLangmuirBlodgettTroughBridgeClass(object):
 		self.wsHost=None;
 		self.dsHost=None;
 		self.baseURL=None;
+		self.timeout = 5000
 		self.setHosts(webServiceHostName, dataSocketHostName)
 
 		self.mode = 2;
@@ -85,15 +72,27 @@ class NimaLangmuirBlodgettTroughBridgeClass(object):
 	
 	'''To get a xml doc from url using pure Java approach'''
 	def getDoc(self, url):
-		doc=None;
+		doc, connection, stream = None, None, None;
 		try:
 			newurl = URL( url );
+			connection = newurl.openConnection()
+			connection.setConnectTimeout(self.timeout)
+			connection.connect()
 			dbf = DocumentBuilderFactory.newInstance();
 			db = dbf.newDocumentBuilder();
-			doc = db.parse( newurl.openStream() );
+			stream = connection.getInputStream()
+			doc = db.parse( stream );
 		except Exception, e:
-			print 'Failed to reach a server.'
+			print 'Failed to reach trough server, please check it is running.'
 			print 'Details', str(e);
+		finally:
+			try :
+				if stream is not None :
+					stream.close()
+			except Exception, e:
+				raise e
+			finally :
+				connection.disconnect()
 			
 		return doc;
 
@@ -212,10 +211,9 @@ class NimaLangmuirBlodgettTroughBridgeClass(object):
 			if retry == 10:
 				print "Readback operation failed ten times. Please check all servers running.";
 				break;
-		
 		[self.area, self.pressure, self.temperature, self.time, self.areaB, self.pressureB, self.spot]=all[1:];
 		return [self.area, self.pressure, self.temperature, self.time, self.areaB, self.pressureB, self.spot];
-		
+
 	def isRunning(self):
 		return self.running;
 	
@@ -312,11 +310,6 @@ class NimaLangmuirBlodgettTroughBridgeClass(object):
 			self.onTarget = abs(newArea - self.getArea()) <= self.deadbandArea;
 			sleep(1)
 
-#from Diamond.Trough.IsothermScan import IsothermScanControlClass
-#from Diamond.Trough.TroughEpicsDevice import NimaLangmuirBlodgettTroughDeviceClass;
-#from Diamond.Trough.TroughEpicsDevice import TroughAreaDevice, TroughSpeedDevice, TroughPressureDevice
-
-
 ##Trough using WebService over LabVIEW
 ##Example url for reading all: 'http://diamrd2316.diamond.ac.uk:8080/TroughBridgeWS/BridgeWS_ReadAll/localhost''
 
@@ -326,19 +319,4 @@ class NimaLangmuirBlodgettTroughBridgeClass(object):
 #dsHost='diamrd2316.diamond.ac.uk'
 ##dsHost='i07-pw001.diamond.ac.uk'
 
-#trough = NimaLangmuirBlodgettTroughDeviceClass('trough', wsHost, dsHost);
 
-#troughArea = TroughAreaDevice("troughArea", trough);
-#troughSpeed = TroughSpeedDevice("troughSpeed", trough);
-#troughPressure = TroughPressureDevice("troughPressure", trough);
-
-#trough.setSpeedLimits(3.5, 110);
-#trough.setSpeed(60);
-#trough.setAreaLimits(10, 500);
-
-#troughArea.reset();
-#troughPressure.reset();
-
-##import Diamond.Trough.TroughEpicsDevice
-##reload(Diamond.Trough.TroughEpicsDevice
-##run "BeamlineI07/useTrough"
