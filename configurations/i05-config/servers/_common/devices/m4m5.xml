@@ -33,8 +33,8 @@
 				<ref bean="m4m5_x" />
 				<ref bean="m4m5_y" />
 				<ref bean="m4m5_z" />
-				<ref bean="m4m5_pitch" />
 				<ref bean="m4m5_yaw" />
+				<ref bean="m4m5_pitch" />
 				<ref bean="m4m5_roll" />
 				<ref bean="m4m5_mirror" />
 			</list>
