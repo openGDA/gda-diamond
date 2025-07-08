@@ -5,11 +5,11 @@
 
 	<bean id="bs1X_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-MO-SMAR-01:X" />
+		<property name="pvName" value="BL15J-MO-SMAR-02:X" />
 	</bean>
 
 	<bean id="bs1Y_motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-MO-SMAR-01:Y" />
+		<property name="pvName" value="BL15J-MO-SMAR-02:Y" />
 	</bean>
 </beans>
