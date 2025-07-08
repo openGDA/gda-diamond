@@ -1,2 +1,93 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_gUU7kCzfEeyjucGw--wEBg"/>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmi:id="_gUU7kCzfEeyjucGw--wEBg">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_xzgsALawEe2yoL2b0NBC_A" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.4">
+    <elements xsi:type="basic:PartStack" xmi:id="_t8fegLatEe2yoL2b0NBC_A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.6">
+      <children xsi:type="basic:Part" xmi:id="_vQHCgLatEe2yoL2b0NBC_A" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es1_control_set" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_MCyg4LSDEe2yJairNSqN8A" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.6">
+    <elements xsi:type="basic:PartSashContainer" xmi:id="_WiGYYLSDEe2yJairNSqN8A" elementId="uk.ac.gda.beamline.b07-2.partsashcontainer.1" horizontal="true">
+      <children xsi:type="basic:Part" xmi:id="_0v21oLRxEe2yJairNSqN8A" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es1b_cam1#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="ES1_Cam1"/>
+      <children xsi:type="basic:Part" xmi:id="_SPajkLR1Ee2yJairNSqN8A" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es1b_cam2#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="ES1_Cam2"/>
+    </elements>
+    <elements xsi:type="basic:PartStack" xmi:id="_geQ0oLSFEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.7">
+      <children xsi:type="basic:Part" xmi:id="_TaXEALSGEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.part.alignmentcontrol" contributionURI="bundleclass://uk.ac.diamond.daq.devices.specs.phoibos.ui/uk.ac.diamond.daq.devices.specs.phoibos.ui.control.SpecsAlignmentView" label="Alignment Controls" closeable="true">
+        <properties key="default_lens_mode" value="9"/>
+      </children>
+      <children xsi:type="basic:Part" xmi:id="_0ALF8GjrEe6HM5NvenjEZQ" elementId="gda.rcp.jythonterminalview" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console"/>
+    </elements>
+    <elements xsi:type="basic:PartStack" xmi:id="_7GP1ULSEEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.5" toBeRendered="false" visible="false"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_53c0YLwuEe2bJo8Iq2iPPg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspectivestack.0" positionInList="before:uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.specsperspective">
+    <elements xsi:type="advanced:Perspective" xmi:id="_nun2EFv6EfCAu_jqzh39vg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/bold_2.png" tooltip="ES-2">
+      <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
+      <children xsi:type="basic:PartSashContainer" xmi:id="_nun2EVv6EfCAu_jqzh39vg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_nun2Elv6EfCAu_jqzh39vg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
+          <children xsi:type="basic:PartStack" xmi:id="_nun2E1v6EfCAu_jqzh39vg" elementId="uk.ac.gda.beamline.b07.partstack.0" containerData="9000">
+            <children xsi:type="advanced:Placeholder" xmi:id="_nun2FFv6EfCAu_jqzh39vg" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_gGK_oFowEe-EkO7vP-z71w"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_nun2FVv6EfCAu_jqzh39vg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.8" containerData="6000">
+            <children xsi:type="basic:Part" xmi:id="_nun2Flv6EfCAu_jqzh39vg" elementId="gda.rcp.jythonterminalview" containerData="8000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI=""/>
+          </children>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_nun2F1v6EfCAu_jqzh39vg" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.9" containerData="6000">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_nun2GFv6EfCAu_jqzh39vg" elementId="uk.ac.gda.beamline.b07.partsashcontainer.0" containerData="6000" horizontal="true">
+            <children xsi:type="basic:Part" xmi:id="_nun2GVv6EfCAu_jqzh39vg" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es2b_cam1#MJPEG" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Camera 1" iconURI=" " tooltip=""/>
+            <children xsi:type="basic:Part" xmi:id="_nun2Glv6EfCAu_jqzh39vg" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es2b_cam2#MJPEG" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Camera 2" iconURI=" " tooltip=""/>
+          </children>
+          <children xsi:type="basic:Part" xmi:id="_nun2G1v6EfCAu_jqzh39vg" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es2_control_set" containerData="7250" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls" iconURI=""/>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_nun2HFv6EfCAu_jqzh39vg" elementId="uk.ac.gda.beamline.b07-2.partsashcontainer.3">
+          <children xsi:type="advanced:Placeholder" xmi:id="_nun2HVv6EfCAu_jqzh39vg" elementId="uk.ac.gda.beamline.b07-2.placeholder.2" ref="_05LgMF_xEe-E3LQLJg8irA" closeable="true"/>
+          <children xsi:type="advanced:Placeholder" xmi:id="_nun2Hlv6EfCAu_jqzh39vg" elementId="org.eclipse.ui.editorss" ref="_19c04F_WEe-E3LQLJg8irA" closeable="true"/>
+        </children>
+      </children>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_CAGyMM11Ee2rDLwMcifEKQ" featurename="snippets" parentElementId="org.eclipse.e4.legacy.ide.application">
+    <elements xsi:type="advanced:Perspective" xmi:id="_aG7kgF_XEe-E3LQLJg8irA" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.perspective.0" label="ES-2" iconURI="platform:/plugin/uk.ac.diamond.daq.devices.specs.phoibos.ui/icons/bold_2.png" tooltip="ES-2">
+      <tags>persp.actionSet:org.eclipse.ui.actionSet.openFiles</tags>
+      <children xsi:type="basic:PartSashContainer" xmi:id="_aG7kgV_XEe-E3LQLJg8irA" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.7" horizontal="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_aG7kgl_XEe-E3LQLJg8irA" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.8" containerData="6000">
+          <children xsi:type="basic:PartStack" xmi:id="_aG7kg1_XEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07.partstack.0" containerData="9000">
+            <children xsi:type="advanced:Placeholder" xmi:id="_aG7khF_XEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07.placeholder.0" ref="_gGK_oFowEe-EkO7vP-z71w"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_aG7khV_XEe-E3LQLJg8irA" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.8" containerData="6000">
+            <children xsi:type="basic:Part" xmi:id="_aG7khl_XEe-E3LQLJg8irA" elementId="gda.rcp.jythonterminalview" containerData="8000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console" iconURI=""/>
+          </children>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_aG7kh1_XEe-E3LQLJg8irA" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.9" containerData="6000">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_aG7kiF_XEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07.partsashcontainer.0" containerData="6000" horizontal="true">
+            <children xsi:type="basic:Part" xmi:id="_aG7kiV_XEe-E3LQLJg8irA" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es2b_cam1#MJPEG" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Camera 1" iconURI=" " tooltip=""/>
+            <children xsi:type="basic:Part" xmi:id="_aG7kil_XEe-E3LQLJg8irA" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es2b_cam2#MJPEG" containerData="" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Camera 2" iconURI=" " tooltip=""/>
+          </children>
+          <children xsi:type="basic:Part" xmi:id="_aG7ki1_XEe-E3LQLJg8irA" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:es2_control_set" containerData="7250" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls" iconURI=""/>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_aG7kjF_XEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07-2.partsashcontainer.3">
+          <children xsi:type="advanced:Placeholder" xmi:id="_aG7kjV_XEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07-2.placeholder.2" ref="_05LgMF_xEe-E3LQLJg8irA" closeable="true"/>
+          <children xsi:type="advanced:Placeholder" xmi:id="_aG7kjl_XEe-E3LQLJg8irA" elementId="org.eclipse.ui.editorss" ref="_19c04F_WEe-E3LQLJg8irA" closeable="true"/>
+        </children>
+      </children>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_XE84wFoaEe-EkO7vP-z71w" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partsashcontainer.3">
+    <elements xsi:type="basic:PartSashContainer" xmi:id="_racU4F_xEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07-2.partsashcontainer.2" selectedElement="_mP834F_vEe-E3LQLJg8irA">
+      <children xsi:type="advanced:Placeholder" xmi:id="_mP834F_vEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07-2.placeholder.1" ref="_05LgMF_xEe-E3LQLJg8irA" closeable="true"/>
+      <children xsi:type="advanced:Placeholder" xmi:id="_pp-HsF_vEe-E3LQLJg8irA" elementId="org.eclipse.ui.editorss" ref="_19c04F_WEe-E3LQLJg8irA" closeable="true"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_F-G2IFomEe-EkO7vP-z71w" featurename="sharedElements" parentElementId="IDEWindow">
+    <elements xsi:type="advanced:Area" xmi:id="_19c04F_WEe-E3LQLJg8irA" elementId="org.eclipse.ui.editor.area" selectedElement="_BM5v4F_XEe-E3LQLJg8irA" label="Editor Area">
+      <children xsi:type="basic:PartStack" xmi:id="_BM5v4F_XEe-E3LQLJg8irA" elementId="org.eclipse.e4.primaryDataStack">
+        <tags>newtablook</tags>
+        <tags>org.eclipse.e4.primaryDataStack</tags>
+        <tags>EditorStack</tags>
+        <tags>NoAutoCollapse</tags>
+      </children>
+    </elements>
+    <elements xsi:type="basic:Part" xmi:id="_gGK_oFowEe-EkO7vP-z71w" elementId="uk.ac.gda.client.liveplotview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scan Plot" iconURI="" closeable="true"/>
+    <elements xsi:type="basic:PartStack" xmi:id="_05LgMF_xEe-E3LQLJg8irA" elementId="uk.ac.gda.beamline.b07-2.partstack.navigator" selectedElement="_1SsnsF_WEe-E3LQLJg8irA">
+      <children xsi:type="basic:Part" xmi:id="_1SsnsF_WEe-E3LQLJg8irA" elementId="org.eclipse.ui.navigator.ProjectExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scripts" closeable="true"/>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>
