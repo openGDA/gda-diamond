@@ -220,12 +220,12 @@ def load_sequence(filename):
 ###############################################################################
 ###                   Save SamplePosition scannable                         ###
 ###############################################################################
-from i09shared.scannable.SamplePositions import SamplePositions # @UnusedImport
+from gdascripts.scannable.sample_positions import SamplePositions
 from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
 print("-"*100)
 sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
-print(sp.__doc__.replace("\n", "", 1))
+help(sp)
 
 print("="*100)
 print("localStation.py Initialisation script complete.")
