@@ -3,21 +3,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bs1X" class="gda.device.scannable.ScannableMotor">
+	<bean id="bs2X" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="um"/>
-		<property name="motor" ref="bs1X_motor" />
+		<property name="motor" ref="bs2X_motor" />
 	</bean>
 
-	<bean id="bs1Y" class="gda.device.scannable.ScannableMotor">
+	<bean id="bs2Y" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="um"/>
-		<property name="motor" ref="bs1Y_motor" />
+		<property name="motor" ref="bs2Y_motor" />
 	</bean>
 
-	<bean id="bs1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="bs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="bs1X" />
-				<ref bean="bs1Y" />
+				<ref bean="bs2X" />
+				<ref bean="bs2Y" />
 			</list>
 		</property>
 	</bean>
