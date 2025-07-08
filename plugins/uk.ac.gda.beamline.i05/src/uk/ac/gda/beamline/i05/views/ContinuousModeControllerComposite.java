@@ -218,8 +218,8 @@ public class ContinuousModeControllerComposite extends Composite {
 		Group beamlineGroup = new Group(this, SWT.NONE);
 		beamlineGroup.setText("Beamline");
 		beamlineGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(beamlineGroup);
-		GridDataFactory.fillDefaults().span(2, 2).applyTo(beamlineGroup);
+		GridLayoutFactory.swtDefaults().numColumns(3).spacing(10, 0).applyTo(beamlineGroup);
+		GridDataFactory.fillDefaults().span(3, 2).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
 		energyNPC.setScannable((Scannable) Finder.find("energy"));
@@ -228,16 +228,6 @@ public class ContinuousModeControllerComposite extends Composite {
 		exitSltNPC.setScannable((Scannable) Finder.find("exit_slit"));
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
 		exitSltNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2YsizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
-		s2YsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
-		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-
-//		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
-//		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(buttonsComposite);
-//		GridDataFactory.fillDefaults().span(5, 1).applyTo(buttonsComposite);
 
 		// Beamline shutter button
 		closeShutterButton = new Button(beamlineGroup, SWT.NONE);
@@ -252,6 +242,19 @@ public class ContinuousModeControllerComposite extends Composite {
 				InterfaceProvider.getCommandRunner().runCommand("hr_shutter('Close')");
 			}
 		});
+
+		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2YsizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
+		s2YsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
+		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+
+//		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
+//		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(buttonsComposite);
+//		GridDataFactory.fillDefaults().span(5, 1).applyTo(buttonsComposite);
+
+
 
 		// Beamline shutter button
 		openShutterButton = new Button(beamlineGroup, SWT.NONE);
