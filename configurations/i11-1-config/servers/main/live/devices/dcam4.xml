@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcam4BasePV" class="java.lang.String">
+		<constructor-arg value="BL11J-DI-DCAM-04:" />
+	</bean>
+
+	<bean id="dcam4_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{dcam4BasePV}CAM:" />
+	</bean>
+
+	<bean id="dcam4_fimg" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{dcam4BasePV}FIMG:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{dcam4BasePV}FIMG:" />
+			</bean>
+		</property>
+		<property name="initialWriteMode" value="2" />
+		<property name="initialNumCapture" value="-1" />
+		<property name="initialFileName" value="simcam_video" />
+		<property name="initialFileTemplate" value="%s%s%d.h5" />
+	</bean>
+
+	<bean id="dcam4_video" class="gda.device.detector.addetector.ADDetector" >
+		<property name="adBase" ref="dcam4_adbase" />
+		<property name="ndFile" ref="dcam4_fimg" />
+		<property name="readArray" value="false" />
+	</bean>
+</beans>
