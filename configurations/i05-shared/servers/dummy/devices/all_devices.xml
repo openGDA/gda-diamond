@@ -24,4 +24,8 @@
 	<!-- ADSIM motors -->
 	<import resource="sim_cam.xml"/>
 	<import resource="sim_motors.xml"/>
+
+
+	<!-- amplifiers      -->
+	<import resource="femto.xml" />
 </beans>
