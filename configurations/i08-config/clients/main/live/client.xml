@@ -6,5 +6,9 @@
 	<import resource="stream_views.xml" />
 
     <import resource="../_common/client.xml"/>
+    
+    <bean id="sparse_xanes_scan_detector" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="Photodiode"></constructor-arg>
+	</bean>
 
 </beans>

@@ -4,6 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Mapping view for I08 -->
+	
+	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
+		<property name="energyScannableName" value="energyFocus" />
+		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
+	</bean>
+	
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
@@ -17,6 +23,7 @@
 					<property name="darkFieldCollectorName" value="darkFieldCollector" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
+				<ref bean="sparseXanesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.NexusTemplatesSection" />
@@ -27,7 +34,22 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel">
 					<property name="createSeparator" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />	
+				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSelector">
+					<property name="sections">
+						<list>
+							<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection"/>
+							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.XanesSubmitScanSection">
+								<property name="description" value="Sparse XANES scan"/>
+								<property name="buttonText" value="Submit Sparse XANES scan"/>
+								<property name="submitScanButtonColour" value="PURPLE"/>
+								<property name="scriptFilePath" value="scanning/submit_sparse_xanes_scan.py"/>
+								<property name="outerScannableName" value="energyFocus"/>
+								<property name="detectorName" ref="sparse_xanes_scan_detector"/>
+								<property name="xanesParametersSection" ref="sparseXanesSection" />
+							</bean>
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
