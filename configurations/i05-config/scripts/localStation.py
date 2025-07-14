@@ -15,6 +15,15 @@ from gdascripts.pd.time_pds import actualTimeClass
 from gdascripts.scannable.timerelated import TimeSinceScanStart, clock, epoch  # @UnusedImport
 from i05Shared.dirFileCommands import pwd, lwf, nwf, nfn
 
+from i05Shared.scannableGroupSingleInput import ScannableGroupSingleInput
+try:
+		print "Configuring rawid_phase combined scannable for rawid_lowerphase and rawid_upperphase"
+		rawid_phase = ScannableGroupSingleInput('rawid_phase', [rawid_lowerphase, rawid_upperphase])
+		rawid_phase.configure()
+		print "rawid_phase combined scannable configured"
+except:
+		print "rawid_phase configuration FAILED"
+
 print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -130,6 +139,7 @@ def set_analyser_slit(slit):
 def get_analyser_slit():
 		""" Get current analyser entrance slit parameters """
 		return analyser.getEntranceSlitInformationProvider().getCurrentSlit()
+
 
 print "="*20
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
