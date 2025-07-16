@@ -38,6 +38,7 @@
 		<property name="attrByDimSupported" value="true" />
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true"/>
 	</bean>
 	<!-- used with live stream view -->
  	<bean id="andor" class="gda.device.detector.NXDetector">
