@@ -132,6 +132,15 @@ sz1.configure()
 sz2.configure()
 
 ###############################################################################
+###                   Creat time scannable                                  ###
+###############################################################################
+from gdascripts.scannable.timerelated import TimeSinceScanStart
+print("-"*100)
+print("Creating time scannable timeStart")
+timeStart = TimeSinceScanStart('timeStart')
+print("")
+
+###############################################################################
 ###                   Get check beam/control scannable                      ###
 ###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
