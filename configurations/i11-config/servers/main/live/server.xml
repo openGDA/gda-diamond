@@ -68,4 +68,8 @@
 	<beans profile="eh2">
 		<import resource="eh2/*.xml"/>
 	</beans>
+	<beans profile="nomythen">
+		<import resource="../dummy/newmythen3.xml"/>
+	</beans>
+
 </beans>
