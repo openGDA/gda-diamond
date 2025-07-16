@@ -24,4 +24,10 @@
 		<property name="maxGapPos" value="100.0"/>
 	</bean>
 
+	<!-- ID access control scannable to beused in checkid -->
+	<bean id="idaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR21I-MO-SERVC-01:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	
 </beans>
