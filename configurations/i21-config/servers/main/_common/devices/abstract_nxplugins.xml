@@ -16,6 +16,7 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true"/>
 	</bean>
 
 </beans>
