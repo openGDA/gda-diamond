@@ -23,4 +23,15 @@
 		<property name="speed" value="1.0" />
 	</bean>
 
+	<!-- ID access control scannable to beused in checkid -->
+	<bean id="idaccesscontrol" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>ENABLED</value>
+				<value>DISABLED</value>
+			</list>
+		</property>
+	</bean>
+	
 </beans>
