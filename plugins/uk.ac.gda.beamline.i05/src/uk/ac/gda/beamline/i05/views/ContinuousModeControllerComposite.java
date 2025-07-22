@@ -30,6 +30,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -68,15 +69,15 @@ public class ContinuousModeControllerComposite extends Composite {
 		this.analyser = analyser;
 
 		// Overall layout of groups
-		GridLayoutFactory.fillDefaults().numColumns(5).equalWidth(false).applyTo(this);
+		this.setLayout(new GridLayout(2, true)); // 2 columns
 		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 
 		// Analyser group
 		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
 		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.swtDefaults().numColumns(6).spacing(10, 0).applyTo(analyserGroup);
-		GridDataFactory.fillDefaults().span(5, 1).applyTo(analyserGroup);
+		GridLayoutFactory.swtDefaults().numColumns(6).equalWidth(false).applyTo(analyserGroup);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).span(2, 1).applyTo(analyserGroup);
 
 		// Lens mode
 		Label lensModeLabel = new Label(analyserGroup, SWT.NONE);
@@ -197,12 +198,18 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		});
 
+		// === Column 1 container ===
+		Composite column1 = new Composite(this, SWT.NONE);
+		GridLayoutFactory.fillDefaults().spacing(0, 10).applyTo(column1); // vertical stack
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).applyTo(column1);
+		column1.setLayout(new GridLayout(1, false)); // Vertical stack
+
 		// Sample Translations
-		Group translationNpcGroup = new Group(this, SWT.NONE);
+		Group translationNpcGroup = new Group(column1, SWT.NONE);
 		translationNpcGroup.setText("Sample Translations");
 		translationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
-		GridDataFactory.fillDefaults().span(3, 1).applyTo(translationNpcGroup);
+		RowLayoutFactory.fillDefaults().type(SWT.HORIZONTAL).spacing(10).margins(5, 5).applyTo(translationNpcGroup);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).applyTo(translationNpcGroup);
 
 		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
 		saxNPC.setScannable((Scannable) Finder.find("sax"));
@@ -219,7 +226,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		beamlineGroup.setText("Beamline");
 		beamlineGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(3).spacing(10, 0).applyTo(beamlineGroup);
-		GridDataFactory.fillDefaults().span(3, 2).applyTo(beamlineGroup);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
 		energyNPC.setScannable((Scannable) Finder.find("energy"));
@@ -229,8 +236,17 @@ public class ContinuousModeControllerComposite extends Composite {
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
 		exitSltNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
 
-		// Beamline shutter button
-		closeShutterButton = new Button(beamlineGroup, SWT.NONE);
+
+		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
+		GridLayoutFactory.fillDefaults().spacing(0, 20).applyTo(buttonsComposite);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).applyTo(buttonsComposite);
+		buttonsComposite.setLayout(new GridLayout(1, false)); // Vertical stack
+
+		Label shuttersLabel = new Label(buttonsComposite, SWT.NONE);
+//		shuttersLabel.setText("");
+
+		// Beamline close shutter button
+		closeShutterButton = new Button(buttonsComposite, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true,  false).applyTo(closeShutterButton);
 		closeShutterButton.setText("Close Shutter");
 		closeShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
@@ -243,21 +259,8 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		});
 
-		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2YsizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
-		s2YsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
-		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
-
-//		Composite buttonsComposite = new Composite(beamlineGroup, SWT.NONE);
-//		GridLayoutFactory.swtDefaults().numColumns(2).spacing(10, 0).applyTo(buttonsComposite);
-//		GridDataFactory.fillDefaults().span(5, 1).applyTo(buttonsComposite);
-
-
-
-		// Beamline shutter button
-		openShutterButton = new Button(beamlineGroup, SWT.NONE);
+		// Beamline open shutter button
+		openShutterButton = new Button(buttonsComposite, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(openShutterButton);
 		openShutterButton.setText("Open Shutter");
 		openShutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_DARK_BLUE));
@@ -270,12 +273,19 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		});
 
+		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2YsizeNPC.setScannable((Scannable) Finder.find("s2_ysize"));
+		s2YsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2XsizeNPC.setScannable((Scannable) Finder.find("s2_xsize"));
+		s2XsizeNPC.setIncrementTextWidth(NPC_INCREMENT_TEXT_WIDTH);
+
 		// Sample Rotations
-		Group rotationNpcGroup = new Group(this, SWT.NONE);
+		Group rotationNpcGroup = new Group(column1, SWT.NONE);
 		rotationNpcGroup.setText("Sample Rotations");
 		rotationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
-		GridDataFactory.fillDefaults().span(3, 1).applyTo(rotationNpcGroup);
+		RowLayoutFactory.fillDefaults().type(SWT.HORIZONTAL).spacing(10).margins(5, 5).applyTo(rotationNpcGroup);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.TOP).applyTo(rotationNpcGroup);
 
 		NudgePositionerComposite satiltNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
 		satiltNPC.setScannable((Scannable) Finder.find("satilt"));
