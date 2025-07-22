@@ -884,14 +884,6 @@
                 <ref bean="dpsy" />
                 <ref bean="dpsz" />
                 <ref bean="dpsz2" />
-            </list>
-        </property>
-        <property name="protectionLevel" value="0" />
-    </bean>
-
-    <bean id="DBS" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
                 <ref bean="dbsx" />
                 <ref bean="dbsy" />
             </list>
