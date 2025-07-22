@@ -51,13 +51,13 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{medipixBasePv}:HDF5:" />
-				<property name="initialArrayPort" value="marlin1.cam" />
+				<property name="initialArrayPort" value="merlin1.cam" />
 			</bean>
 		</property>
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="medipix" />
-		<property name="initialFileTemplate" value="%s%s.hdf5" />
+		<property name="initialFileTemplate" value="%s%s_%d.hdf5" />
 	</bean>
 
 	<bean id="medipix_hdf5"
