@@ -221,7 +221,7 @@ from pd_attenuator import Atten
 from pd_epics import DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerSetAndGetOnlyClass, SingleEpicsPositionerNoStatusClass2, Epics_Shutter #@UnusedImport #@UnusedImport
 from pd_ionpump import AllPumpsOnPD, EpicsIonpClass #@UnusedImport
 from pd_struck import Struck
-from pd_struck2 import Struck2
+from pd_struck2 import Struck2, ScannableWrapperDetector
 from pd_MoveScalarPDsToPresetValues import MoveScalarPDsToPresetValuesClass
 from pd_qbpm import EPICSODQBPMClass, EPICSODQBPMClass2 #@UnusedImport
 from pd_tca import tcasca
@@ -728,6 +728,7 @@ try:
 	localStation_print("   creating new Stuck counter-timer object, t    Type help t")
 	t=Struck2('t',"BL16I-EA-DET-01:SCALER",[3])
 	t.setname(3,'APD'); t.setname(4,'Scintillator1'); t.setname(5,'APD2'); t.setname(9,'SCA1'); t.setname(10,'SCA2'); t.setname(11,'SCA3'); t.setname(15,'IC2');
+	tdet = ScannableWrapperDetector("tdet", t)
 
 	### Wait for beam ###
 	localStation_print("   creating checkbeam scannables")
