@@ -89,6 +89,13 @@ checkForBeamlineProblems()
 from i05Shared.resolutionEstimator import *
 estimateResolution()
 
+print "-"*20
+from gdaserver import smx, smy, smz, smdefocus
+from gdascripts.scannable.sample_positions import SamplePositions
+sp = SamplePositions("sp", [smx, smy, smz, smdefocus])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+help(sp)
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
 		# Run the beamline staff scripts
 		print "==================================================================="

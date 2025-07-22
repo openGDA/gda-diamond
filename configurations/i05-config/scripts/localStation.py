@@ -140,6 +140,12 @@ def get_analyser_slit():
 		""" Get current analyser entrance slit parameters """
 		return analyser.getEntranceSlitInformationProvider().getCurrentSlit()
 
+print "-"*20
+from gdaserver import sax, say, saz, sapolar
+from gdascripts.scannable.sample_positions import SamplePositions
+sp = SamplePositions("sp", [sax, say, saz, sapolar])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+help(sp)
 
 print "="*20
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
