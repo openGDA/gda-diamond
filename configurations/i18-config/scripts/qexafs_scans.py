@@ -276,27 +276,37 @@ class CustomBufferedScaler(BufferedScaler) :
 
     def getFrameDaServerCommand(self, num_frames, total_time,  external_trigger_frames) :
         live_time = float(total_time / num_frames)
-        num_frames_laser_on = int(num_frames/2)
-        num_frames_laser_off = num_frames - num_frames_laser_on
+        if self.laser_off_trig_port == 0 and self.delay_after_laser_off_trig == 0 :
+            num_frames_laser_on = num_frames
+            num_frames_laser_off = 0
+        else :
+            num_frames_laser_on = int(num_frames/2)
+            num_frames_laser_off = num_frames - num_frames_laser_on
         
         # wait for rising edge of 'laser_on' trigger
         laser_on_start_command = "1 0 0 0 0 %d 0\n"%(self.laser_on_trig_port)
         
         # delay after 'laser on' trigger (use live time to wait, to also collect scaler data for this frame)
         # using separate line of daserver command, to be absolutely sure the wait happens after the trigger!
-        laser_on_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_on_trig)
+        if self.delay_after_laser_on_trig > 0 :
+            laser_on_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_on_trig)
         
         # collect frames of data
         laser_on_frames = "%d %.4g %.4g 0 0 %d %d \n"%(num_frames_laser_on, self.frame_dead_time, live_time, 0, 0)
         
         # wait for rising edge of 'laser off' trigger
-        laser_off_start_command = "1 0 0 0 0 %d 0\n"%(self.laser_off_trig_port)
+        laser_off_start_command = ""
+        if self.laser_off_trig_port > 0.0 :
+            laser_off_start_command = "1 0 0 0 0 %d 0\n"%(self.laser_off_trig_port)
         
         # delay after 'laser off trigger'
-        laser_off_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_off_trig)
+        if self.delay_after_laser_off_trig > 0.0 :
+            laser_off_start_command += "1 0 %.5g 0 0 0 0\n"%(self.delay_after_laser_off_trig)
         
         # collect frames of data
-        laser_off_frames = "%d %.4g %.4g 0 0 %d %d \n"%(num_frames_laser_off, self.frame_dead_time, live_time, 0, 0)
+        laser_off_frames = ""
+        if num_frames_laser_off > 0 :
+            laser_off_frames = "%d %.4g %.4g 0 0 %d %d \n"%(num_frames_laser_off, self.frame_dead_time, live_time, 0, 0)
 
         print("'Laser-on' frames  : \n{}{}".format(laser_on_start_command, laser_on_frames))
         print("'Laser-off' frames : \n{}{}".format(laser_off_start_command, laser_off_frames))
@@ -333,8 +343,8 @@ daServer.sendCommand("tfg setup-cc-chan 6 level")
 buffered_scaler.delay_after_laser_off_trig = 0.0
 buffered_scaler.delay_after_laser_on_trig = (1.0/25e3) - 300e-9 # delay until next 25Hz pulse - minus a bit
 
-buffered_scaler.laser_off_trig_port = 11 # trigger on rising edge of TTL3
 buffered_scaler.laser_on_trig_port = 10 # trigger on rising edge of TTL2
+buffered_scaler.laser_off_trig_port = 11 # trigger on rising edge of TTL3
 
 
 buffered_scaler.setNumCycles(10)
