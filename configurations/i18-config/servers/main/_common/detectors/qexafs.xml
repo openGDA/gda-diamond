@@ -21,7 +21,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
+		<property name="numChannelsToRead" value="8" />
 		<property name="ttlSocket" value="0" />
 		<property name="outputFormat">
 			<list>

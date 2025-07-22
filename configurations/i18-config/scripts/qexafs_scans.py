@@ -302,34 +302,53 @@ class CustomBufferedScaler(BufferedScaler) :
         print("'Laser-off' frames : \n{}{}".format(laser_off_start_command, laser_off_frames))
         return laser_on_start_command+laser_on_frames+laser_off_start_command+laser_off_frames
     
-    
+
+from gda.device.detector.countertimer.ScalerOutputProcessor import OutputConfig
+
+# configure output of buffered scaler to read frame time and scaler channels 4, 5, 6
+def setup_scaler_outputformat(buffered_scaler) :
+    buffered_scaler.setTimeChannelRequired(True)
+    buffered_scaler.setNumChannelsToRead(8) # read all 8 scaler channels
+
+    configs = [ OutputConfig("frame_time", "%.5g", -1),
+               OutputConfig("I0", "%5d", 4),
+               OutputConfig("Iapd", "%5d", 5),
+               OutputConfig("laser_trig", "%5d", 6)
+               ]
+
+    buffered_scaler.setScalerOutputConfig(configs)
+    buffered_scaler.setUseCustomisedOutput(True)
+
+
 buffered_scaler = CustomBufferedScaler(qexafs_counterTimer01)
 buffered_scaler.setName("buffered_scaler")
+setup_scaler_outputformat(buffered_scaler)
 buffered_scaler.setUseExternalTriggers(False)
 buffered_scaler.configure()
-buffered_scaler.delay_after_laser_on_trig = 2e-6
-buffered_scaler.delay_after_laser_off_trig = 2e-6
 
-buffered_scaler.laser_on_trig_port = 8
-buffered_scaler.laser_off_trig_port = 9
+# Setup scaler channel 6 : Record when input level is high (for marking the time frame when laser trigger occurs)
+daServer.sendCommand("tfg setup-cc-chan 6 level")
+
+# TTL trigger 2 : 25kHz (laser pulses), TTL trigger 3 : 50kHz
+buffered_scaler.delay_after_laser_off_trig = 0.0
+buffered_scaler.delay_after_laser_on_trig = (1.0/25e3) - 300e-9 # delay until next 25Hz pulse - minus a bit
+
+buffered_scaler.laser_off_trig_port = 11 # trigger on rising edge of TTL3
+buffered_scaler.laser_on_trig_port = 10 # trigger on rising edge of TTL2
+
 
 buffered_scaler.setNumCycles(10)
 buffered_scaler.setFrameCountDuringCycles(False)
 
 # Scan runner for laser experiment     
 tfgScanRunner= TfgScanRunner()
-tfgScanRunner.buffered_scaler = qexafs_counterTimer01
+tfgScanRunner.buffered_scaler = buffered_scaler
 
 output_directory = ""
-filename_template = ""
-
-if len(filename_template) == 0 :
-    filename_template = "%d"
+filename_template = "%d"
 
 tfgScanRunner.ascii_name_template = "%s/ascii/%s.dat"%(output_directory, filename_template)
 tfgScanRunner.nexus_name_template = "%s/nexus/%s.nxs"%(output_directory, filename_template)
-
-delay_after_trigger = 50e-9
-tfgScanRunner.initial_group_command = "1 %.5g 0 0 0 8 0"%(delay_after_trigger)
+tfgScanRunner.initial_group_command = ""
 
 print("Adding 'run_tfg_continuous_scan' and 'tfgScanRunner'.\nUse help(run_tfg_continuous_scan), for more info. ")

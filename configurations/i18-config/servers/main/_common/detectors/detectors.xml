@@ -11,7 +11,7 @@
 	<!-- Scaler channels -->
 	<bean id="CalMemory" class="gda.device.memory.Scaler">
 		<property name="daServer" ref="daserver" />
-		<property name="width" value="8" />
+		<property name="width" value="9" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
@@ -145,6 +145,105 @@
 		<property name="useCustomisedOutput" value="true" />
 	</bean>
 
+<!-- Read all 8 scaler channels and output raw counts  -->
+	<bean id="counterTimer01_8chan" class="gda.device.detector.countertimer.TfgScalerWithFrames">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>chan1</value>
+				<value>chan2</value>
+				<value>chan3</value>
+				<value>chan4</value>
+				<value>chan5</value>
+				<value>chan6</value>
+				<value>chan7</value>
+				<value>chan8</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="8" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+	     		<value>%9d</value>
+			</list>
+		</property>
+			<property name="scalerOutputConfig">
+			<list>
+			
+				<!-- liveTime -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="liveTime" />
+					<property name="format" value="%6.4g" />
+					<property name="channel1" value="-1" />
+				</bean>
+				
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler0" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="0" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler1" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="1" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler2" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="2" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler3" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="3" />
+				</bean>
+			
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler4" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="4" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler5" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="5" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler6" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="6" />
+				</bean>
+
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="scaler7" />
+					<property name="format" value="%10d" />
+					<property name="channel1" value="7" />
+				</bean>
+			</list>
+		</property>
+		<property name="timeChannelName" value="frame_time" />
+		<property name="useCustomisedOutput" value="true" />
+	</bean>
+	
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
