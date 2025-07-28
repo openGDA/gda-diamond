@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger('__main__')
 
 pgm_mlg_position = "1200 l/mm ML"
-cff_fitting_coeff = (1.05309182046023, 0.000228484584319837, 0.0000000612994937937659, 0.00000000000115572197952181)
+cff_fitting_coeff = (1.06632, 0.000182282, 0.0000000890301, -0.00000000000611146)
 
 class pgm_multilayer_grating(ScannableMotionBase):
 	"""
