@@ -33,4 +33,10 @@
 
 	<bean id="analyser_sledge_motor" class="gda.device.motor.DummyMotor"/>
 
+	<!--  	Busy method is not adequate for this scannable, but if used in Scan
+	analyser detector itself will be busy until this voltage is set -->
+	<bean id="detector_voltage" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{basePv}:DETECTOR_VOLTAGE" />
+	</bean>
+
 </beans>

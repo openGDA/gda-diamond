@@ -3,26 +3,36 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="basePv" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL07B-EA-DET-01"/>
+	</bean>
+
 	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
-		<property name="basePVName" value="BL07B-EA-DET-01:CAM:" />
+		<property name="basePVName" value="#{basePv}:CAM:" />
 	</bean>
 
 	<bean id="analyser_status" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyserStatus">
 		<property name="name" value="analyser_status"/>
 		<property name="collectionStrategy" ref="collection_strategy"/>
-		<property name="pvName" value="BL07B-EA-DET-01:CAM:DetectorState_RBV" />
+		<property name="pvName" value="#{basePv}:CAM:DetectorState_RBV" />
 	</bean>
 
 	<bean id="analyser_connection" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL07B-EA-DET-01:CAM:CONNECT" />
+		<property name="pvName" value="#{basePv}:CAM:CONNECT" />
 	</bean>
 
 	<bean id="analyser_connection_state" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL07B-EA-DET-01:CAM:CONNECTED_RBV" />
+		<property name="recordName" value="#{basePv}:CAM:CONNECTED_RBV" />
 	</bean>
 
 	<bean id="snapshotImageSizeX" class="java.lang.Integer">
 		<constructor-arg value="1920"/>
+	</bean>
+
+	<!--	Busy method is not adequate for this scannable, but if used in Scan
+	analyser detector itself will be busy until this voltage is set -->
+	<bean id="detector_voltage" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{basePv}:CAM:DETECTOR_VOLTAGE" />
 	</bean>
 
 </beans>
