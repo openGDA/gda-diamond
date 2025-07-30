@@ -1036,6 +1036,18 @@ try:
 
 	alias("setCbfTemplateFile")
 
+	def manyShortScans(enabled):
+		"""Speed up very short scans by leaving the detector shield up and EH shutter open
+		   after each scan.  Don't forget to close them manually when not running scans"""
+		global exposeSuppressCloseDetectorShieldAtScanEnd, exposeSuppressCloseEHShutterAtScanEnd
+		exposeSuppressCloseDetectorShieldAtScanEnd=enabled # Default is False
+		exposeSuppressCloseEHShutterAtScanEnd=enabled # Default is False
+		if enabled:
+			print "* Detector shield and EH Shutter configured to NOT close at end of scans"
+			print "  Don't forget to close them manually when not running scans"
+		else:
+			print "Detector shield and EH Shutter configured to close at end of scans"
+
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
