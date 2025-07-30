@@ -83,12 +83,22 @@ public class XesPeakScanPreparer implements DetectorPreparer {
 
 	private void runPeakFinding(XesScanParameters xesParams) throws Exception {
 
-		Map<String, SpectrometerScanParameters> spectrometerParams = xesParams.getActiveSpectrometerParameters();
-
-		// If 'one colour' mode, scan XESEnergyBoth rather than both rows separately
+		// If 'one colour' mode, set to 'two colour' type so that peak can be found for both
+		// rows and both rows can be set to their own peak energy position.
 		if (xesParams.getScanColourType() == ScanColourType.ONE_COLOUR) {
-			spectrometerParams = Map.of(oneColourXesScannableName, spectrometerParams.values().iterator().next());
+
+			// set row2 energy to match row row1
+			double fixedEnergy = xesParams.getPrimarySpectrometerScanParams().getFixedEnergy();
+
+			logger.info("Changing colour type from'{}' to '{}' and using initial fixed energy of {} eV for both rows - to allow different peak positions during scan",
+					ScanColourType.ONE_COLOUR.getDescription(), ScanColourType.TWO_COLOUR.getDescription(), fixedEnergy);
+
+			xesParams.getSpectrometerScanParameters().get(1).setFixedEnergy(fixedEnergy);
+
+			xesParams.setScanColourType(ScanColourType.TWO_COLOUR);
 		}
+
+		Map<String, SpectrometerScanParameters> spectrometerParams = xesParams.getActiveSpectrometerParameters();
 
 		logger.info("Colour mode : {}, XES scannables : {}", xesParams.getScanColourType(), spectrometerParams.keySet());
 

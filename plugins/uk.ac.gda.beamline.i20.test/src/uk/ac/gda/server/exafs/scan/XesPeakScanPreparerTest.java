@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.never;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -136,7 +137,7 @@ public class XesPeakScanPreparerTest {
 
 		preparer.configure(xesScanParameters, null, null, dataPath);
 		preparer.beforeEachRepetition();
-		testMocks(0, edgeEnergy, xesInitialEnergy, true);
+		testMocks(0, edgeEnergy, xesInitialEnergy);
 		assertEquals(specParams.getFixedEnergy().doubleValue(), scanRunners[0].fitData().getPosition(), 1e-6);
 	}
 
@@ -151,7 +152,7 @@ public class XesPeakScanPreparerTest {
 
 		preparer.configure(xesScanParameters, null, null, dataPath);
 		preparer.beforeEachRepetition();
-		testMocks(1, edgeEnergy, xesInitialEnergy, true);
+		testMocks(1, edgeEnergy, xesInitialEnergy);
 		assertEquals(specParams.getFixedEnergy().doubleValue(), scanRunners[1].fitData().getPosition(), 1e-6);
 	}
 
@@ -166,8 +167,15 @@ public class XesPeakScanPreparerTest {
 
 		preparer.configure(xesScanParameters, null, null, dataPath);
 		preparer.beforeEachRepetition();
-		testMocks(0, edgeEnergy, xesInitialEnergy, true);
+
+		// both rows move to *same* initial XES energy (from row0 SpectrometerScanParameters)
+		// and run the curve fitting scan
+		testMocks(List.of(0,1), edgeEnergy, List.of(xesInitialEnergy, xesInitialEnergy));
+
 		assertEquals(specParams.getFixedEnergy().doubleValue(), scanRunners[0].fitData().getPosition(), 1e-6);
+
+		SpectrometerScanParameters specParams1= xesScanParameters.getSpectrometerScanParameters().get(1);
+		assertEquals(specParams1.getFixedEnergy().doubleValue(), scanRunners[1].fitData().getPosition(), 1e-6);
 	}
 
 	@Test
@@ -184,30 +192,43 @@ public class XesPeakScanPreparerTest {
 
 		preparer.configure(xesScanParameters, null, null, dataPath);
 		preparer.beforeEachRepetition();
-		var inorder = Mockito.inOrder(monoScannable, scanRunners[0], scanRunners[1]);
-		inorder.verify(monoScannable).moveTo(edgeEnergy);
-		inorder.verify(scanRunners[0]).runScan(xesInitialEnergy1);
-		inorder.verify(scanRunners[0]).fitData();
-		inorder.verify(scanRunners[1]).runScan(xesInitialEnergy2);
-		inorder.verify(scanRunners[1]).fitData();
+
+		// both rows move to *different* XES energy (defined in their own spectrometerScanParameters)
+		// and run the curve fitting scan
+		testMocks(List.of(0,1), edgeEnergy, List.of(xesInitialEnergy1, xesInitialEnergy2));
 
 		assertEquals(specParams0.getFixedEnergy().doubleValue(), scanRunners[0].fitData().getPosition(), 1e-6);
 		assertEquals(specParams1.getFixedEnergy().doubleValue(), scanRunners[1].fitData().getPosition(), 1e-6);
 	}
 
-	private void testMocks(int row, double monoEnergy, double intialXesEnergy, boolean ensureNoOtherMoves) throws Exception {
-		var inorder = Mockito.inOrder(monoScannable, scanRunners[row]);
+	private void testMocks(int row, double monoEnergy, double intialXesEnergy) throws Exception {
+		testMocks(List.of(row), monoEnergy, List.of(intialXesEnergy));
+	}
+
+	private void testMocks(List<Integer> rows, double monoEnergy, List<Double> intialXesEnergy) throws Exception {
+		// Make list containing the mono and CurveFitScanRunner mocks to be verified
+		List<Object> objs = new ArrayList<>();
+		objs.add(monoScannable);
+		rows.forEach(i -> objs.add(scanRunners[i]));
+
+		var inorder = Mockito.inOrder(objs.toArray());
+
 		if (monoEnergy > 0) {
 			inorder.verify(monoScannable).moveTo(monoEnergy);
 		}
-		inorder.verify(scanRunners[row]).runScan(intialXesEnergy);
-		inorder.verify(scanRunners[row]).fitData();
+
+		for (int i = 0; i < rows.size(); i++) {
+			inorder.verify(scanRunners[rows.get(i)]).runScan(intialXesEnergy.get(i));
+			inorder.verify(scanRunners[rows.get(i)]).fitData();
+		}
+
 		inorder.verifyNoMoreInteractions();
-		if (ensureNoOtherMoves) {
-			for(int i=0; i<scanRunners.length; i++) {
-				if(i!=row) {
-					Mockito.verify(scanRunners[i], never()).runScan(anyDouble());
-				}
+
+		// make sure the CurveFitScanRunner for the unused row was not interacted with
+		for (int i = 0; i < scanRunners.length; i++) {
+			if (!rows.contains(i)) {
+				Mockito.verify(scanRunners[i], never()).runScan(anyDouble());
+				Mockito.verify(scanRunners[i], never()).fitData();
 			}
 		}
 	}

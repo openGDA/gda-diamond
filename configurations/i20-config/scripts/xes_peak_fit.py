@@ -1,21 +1,19 @@
 print("Running xes_peak_fit.py")
 
 from uk.ac.gda.beamline.i20.scannable import ScannableGaussian
-xesSignalGaussian = ScannableGaussian("xesSignalGaussian", XESEnergyLower.getPosition(), 5, 1)
-xesSignalGaussian.setNoiseLevel(0.01)
-xesSignalGaussian.setParams(2001.23, 5, 1)
-xesSignalGaussian.setScannableToMonitorForPosition(XESEnergyUpper)# position of braggoffset determines value returned by scannable
+
+def create_gaussian_signal(name, scannable_to_monitor) :
+    gaussian = ScannableGaussian(name, scannable_to_monitor.getPosition(), 5, 1)
+    gaussian.setNoiseLevel(0.01)
+    gaussian.setScannableToMonitorForPosition(scannable_to_monitor)# position of braggoffset determines value returned by scannable
+    return gaussian
+
+xesSignalGaussianUpper = create_gaussian_signal("xesSignalGaussianUpper", XESEnergyUpper)
+xesSignalGaussianLower = create_gaussian_signal("xesSignalGaussianLower", XESEnergyLower)
+xesSignalGaussianLower.setParams(XESEnergyLower.getPosition()+1, 5, 1)
 
 # Setup curve fitting scan runner to run XES scans
 from uk.ac.gda.server.exafs.scan.preparers import CurveFitScanRunner
-scanRunner = CurveFitScanRunner()
-scanRunner.setScannableToMove(XESEnergyLower)
-if LocalProperties.isDummyModeEnabled() :
-    scanRunner.setDetectorArgs([xesSignalGaussian])
-    scanRunner.setFitDataName("value")
-else :
-    scanRunner.setDetectorArgs([medipix1, 1.0])
-    scanRunner.setFitDataName("roi1_total")
 
 xesEnergyUpperPeakScan = CurveFitScanRunner()
 xesEnergyUpperPeakScan.setScannableToMove(XESEnergyUpper)
@@ -33,8 +31,10 @@ xesEnergyBothPeakScan.setDetectorArgs([I1, 1, medipix2])
 xesEnergyBothPeakScan.setFitDataName("FFI1_medipix2")
 
 if LocalProperties.isDummyModeEnabled() :
-    xesEnergyUpperPeakScan.setDetectorArgs([xesSignalGaussian])
+    xesEnergyUpperPeakScan.setDetectorArgs([xesSignalGaussianUpper])
     xesEnergyUpperPeakScan.setFitDataName("value")
+    xesEnergyLowerPeakScan.setDetectorArgs([xesSignalGaussianLower])
+    xesEnergyLowerPeakScan.setFitDataName("value")
 
 def set_scan_runner_range(scan_runner, start, end, step):
     scan_runner.setRelativeStart(start)
