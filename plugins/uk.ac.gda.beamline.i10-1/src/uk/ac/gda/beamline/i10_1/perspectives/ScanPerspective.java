@@ -57,26 +57,24 @@ public class ScanPerspective implements IPerspectiveFactory {
 	private void defineLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 
-		IFolderLayout leftfolder = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.65, editorArea); //$NON-NLS-1$
-		leftfolder.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		IFolderLayout leftfolder = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, 0.75f, editorArea); //$NON-NLS-1$
+		leftfolder.addView(gda.rcp.views.JythonTerminalView.ID);
+		leftfolder.addPlaceholder(IPageLayout.ID_PROJECT_EXPLORER);
 		leftfolder.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
 		leftfolder.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
-		IFolderLayout bottomLeftfolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.85, PROJ_FOLDER);
+		IFolderLayout bottomLeftfolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, 0.85f, PROJ_FOLDER);
 		bottomLeftfolder.addView(STATUS_VIEW_ID);
 		bottomLeftfolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
 		bottomLeftfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 		bottomLeftfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
-		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.RIGHT, (float)0.25, PROJ_FOLDER); //$NON-NLS-1$
+		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.RIGHT, 0.5f, PROJ_FOLDER); //$NON-NLS-1$
 		topMiddlefolder.addView(LivePlotView.ID);
 		topMiddlefolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
 		topMiddlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
 
-        IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.5f, PLOT_1D_FOLDER);
-        middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
-
-		IFolderLayout middleRightfolder = layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, 0.5f, editorArea);
+		IFolderLayout middleRightfolder = layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, 0.85f, editorArea);
 		if (ConfigUtils.profileActive("hfm")) {
 			middleRightfolder.addView(LiveControlsView.ID + ":controlSet_hfm");
 		}
