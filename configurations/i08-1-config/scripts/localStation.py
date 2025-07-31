@@ -36,8 +36,9 @@ try:
 except Exception, e:
     print("Exception getting Andor information: %s" %(e))
 
-# Run polarisation methods script
+# Run polarisation methods script and look up tables
 run("polarisation/read_write_polynomials.py")
+run("polarisation/lookup_tables_arbitrary_degrees.py")
 
 # Mode-specific setup
 if is_live():

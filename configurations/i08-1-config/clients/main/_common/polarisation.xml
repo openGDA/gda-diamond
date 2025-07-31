@@ -9,6 +9,7 @@
 
 	<!-- Beans referenced in the mapping view configurations for I08-1 -->
 
+	<!-- CIRCULAR POLARISATION -->
 	<!-- Mapping of absorption edge (as configured in elementAndEdgesList above) to required phase motor position -->
 	<util:map id="edgeToPhase"
 		map-class="java.util.HashMap" key-type="java.lang.String"
@@ -22,12 +23,20 @@
 		<entry key="Cu-L" value="18.8" />
 	</util:map>
 	
+	<!-- LINEAR POLARISATION -->
 	<util:map id="polarisationToPhase"
 		map-class="java.util.HashMap"
 		key-type="uk.ac.diamond.daq.mapping.api.PolarisationParameters.Polarisation"
 		value-type="java.lang.Double">
-		<entry key="LH" value="0"/>
-		<entry key="LV" value="26.5"/>
+		<entry key="LH" value="0"/> 	<!-- HORIZONTAL -->
+		<entry key="LV" value="26.5"/>	<!-- VERTICAL -->
 	</util:map>
+	
+	<!-- LINEAR ARBITRARY DEGREE POLARISATION -->
+	<util:list id="linearArbitraryEdges" list-class="java.util.ArrayList">
+	    <value>Mn-L</value>
+	    <value>Fe-L</value>
+	    <value>Co-L</value>
+	</util:list>
 
 </beans>
