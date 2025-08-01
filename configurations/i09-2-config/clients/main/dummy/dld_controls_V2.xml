@@ -10,16 +10,16 @@
 			<list>
 				<value>%4.3f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="dldAcquirePeriod" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
 		<property name="outputFormat">
 			<list>
 				<value>%4.3f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
 
 	<bean id="dldTimeStart" class="gda.device.scannable.PVScannable">
@@ -28,57 +28,61 @@
 			<list>
 				<value>%12.1f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="dldTimeLength" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:SizeT"/>
 		<property name="outputFormat">
 			<list>
 				<value>%12.1f</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
 
 	<bean id="dldState" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="readOnly" value="true"/>
 	</bean>
-	
+
 	<bean id="count_rate_monitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:Total_RBV"/>
 		<property name="outputFormat">
 			<list>
 					<value>%.1e</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="summ_time_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
 					<value>%10d</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="numFilter" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
 					<value>%10d</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
 	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFiltered_RBV"/>
 		<property name="outputFormat">
 			<list>
 					<value>%10d</value>
 			</list>
-		</property>	
+		</property>
 	</bean>
-	
+
+	<bean id="dld_movsum1_control" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:SUM1:EnableCallbacks"/>
+		<property name="readOnly" value="false"/>
+	</bean>
 </beans>
