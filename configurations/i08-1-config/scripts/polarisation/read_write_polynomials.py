@@ -57,11 +57,8 @@ def write_polynomials(undulator, direction, pol):
 
 def set_ID_poly(pol):
     # Sets polynomial coefficients for both forward and backward directions
-    #write_polynomials("ID", "forward",  pol)
-    #write_polynomials("ID", "backward", pol)
-    # TODO
-    arr = read_poly("forward",['LH','LV','C'])
-    print(arr)
+    write_polynomials("ID", "forward",  pol)
+    write_polynomials("ID", "backward", pol)
     
     
     
