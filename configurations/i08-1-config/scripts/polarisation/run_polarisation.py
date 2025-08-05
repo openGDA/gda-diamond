@@ -31,7 +31,7 @@ if str(typeOfExperiment) == "LINEARDEGREES":
     elif "fe" in edge_lower_case:
         energy_target_value, idgap_target_value, phase_target_value = get_idgap_energy_phase_for_fe(selected_degree_experiment) #@Undefinedvariable
     elif "co" in edge_lower_case:
-        energy_target_value, idgap_target_value, phase_target_value = get_idgap_energy_phase_for_c(selected_degree_experiment) #@Undefinedvariable
+        energy_target_value, idgap_target_value, phase_target_value = get_idgap_energy_phase_for_co(selected_degree_experiment) #@Undefinedvariable
     else:
         raise ValueError("Edge not supported. Please select another edge")
     
