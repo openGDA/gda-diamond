@@ -37,6 +37,7 @@
 						<ref bean="dld_clear_sum" />
 						<ref bean="dld_frames_control" />
 						<ref bean="dld_frames_monitor"/>
+						<ref bean="dld_movsum_onoff" />
 					</list>
 				</property>
 				<property name="cameraState">
@@ -51,6 +52,7 @@
 			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewLightHistogramControl"/>
 		</property>
 	</bean>
+
 	<bean id="dld_liveimagexy" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY"/>
 		<property name="displayName" value="DLD Live Image XY" />

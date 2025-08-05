@@ -95,6 +95,18 @@
 		<property name="rescalingFont" value="false"/>
 	</bean>
 
+	<bean id="dld_movsum_onoff" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="DLD movsum on/off" />
+		<property name="group" value="DLD" />
+		<property name="scannableName" value="dld_movsum1_control" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="0" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="horizontalLayout" value="true" />
+		<property name="readOnly" value="false" />
+	</bean>
+
 	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
