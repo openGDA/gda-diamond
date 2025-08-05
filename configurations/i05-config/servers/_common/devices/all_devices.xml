@@ -7,5 +7,7 @@
 	<import resource="combined_gonio.xml" />
 	<import resource="resolution_calculator_config.xml" />
 	<import resource="m4m5.xml"/>
-	
+
+	<!-- diodes -->
+	<import resource="diodes.xml" />
 </beans>

@@ -12,9 +12,9 @@
 	<!-- slits -->
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
-	<!-- diagnostics -->
-	<import resource="dj7.xml" />
-	<import resource="dj9.xml" />
+
+	<!-- diagnostic -->
+	<import resource="diodes.xml" />
 	<import resource="femto.xml" />
 	<!-- mirrors -->
 	<import resource="mj7j8.xml" />

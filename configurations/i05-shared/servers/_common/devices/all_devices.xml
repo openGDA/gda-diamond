@@ -19,4 +19,6 @@
 
 	<import resource="dummy_motor.xml" />
 
+	<!-- diodes -->
+	<import resource="d3.xml" />
 </beans>

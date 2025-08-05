@@ -50,4 +50,7 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="5" />
 	</bean>
+
+		<!-- diodes -->
+	<import resource="diodes.xml" />
 </beans>

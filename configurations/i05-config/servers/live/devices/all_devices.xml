@@ -9,8 +9,7 @@
 	<import resource="sj6.xml" />
 
 	<!-- diagnostics -->
-	<import resource="d7.xml" />
-	<import resource="dj7.xml" />
+	<import resource="diodes.xml" />
 	<import resource="femto.xml" />
 
 	<!-- mirrors -->
@@ -34,6 +33,6 @@
 
 	<!-- Tenma PSU -->
 	<import resource="tenma_psu.xml" />
-	
+
 	<import resource="keithley.xml"/>
 </beans>
