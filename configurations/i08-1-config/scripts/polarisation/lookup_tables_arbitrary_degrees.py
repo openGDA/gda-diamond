@@ -48,7 +48,7 @@ def get_idgap_energy_phase_for_mn(degree):
 
 def get_idgap_energy_phase_for_fe(degree):
     # Fixed energy value for Fe (Iron)
-    energy_value_fe = 641.2
+    energy_value_fe = 704.6
     
     # Print the selected angle in degrees
     print "Selected degree:", degree
@@ -97,8 +97,8 @@ def get_idgap_energy_phase_for_fe(degree):
 
 def get_idgap_energy_phase_for_co(degree):
     # Fixed energy value for Co (Cobalt)
-    energy_value_co = 704.6
-    
+    energy_value_co = 774.1
+        
     # Print the selected angle in degrees
     print "Selected degree:", degree
     
@@ -123,10 +123,10 @@ def get_idgap_energy_phase_for_co(degree):
         phase_value_co = 16.3
     elif degree == 60:
         igdap_value_co = 21.75
-        phase_value_co = 17.6
+        phase_value_co = 17.7
     elif degree == 70:
         igdap_value_co = 21.91
-        phase_value_co = 19.2
+        phase_value_co = 19.3
     elif degree == 80:
         igdap_value_co = 22.46
         phase_value_co = 21.3
