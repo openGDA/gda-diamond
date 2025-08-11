@@ -24,9 +24,9 @@ class WaitForBeamPDClass(ScannableMotionBase):
 		self.min=minval
 		self.lastcheck=1
 		self.sleeptime=30
+		self.command_string = None
 
 	def getPosition(self):
-		#print "WaitForBeamPDClass.getPosition() called"
 		while 1:
 			if self.pd()>self.min:
 				if self.lastcheck==1:
@@ -38,12 +38,8 @@ class WaitForBeamPDClass(ScannableMotionBase):
 			else:
 				self.lastcheck=0
 				print '===  Waiting for beam on: '+time.ctime()
-#				if cryolevel()<60:
-#					dofill()
-#					print '=== Filling Cryocooler vessel'
-#					sleep(self.sleeptime)
-				#next two lines replace previous section and allow more flexibillity. change back if problem
-				eval(self.command_string)
+				if self.command_string :
+					eval(self.command_string)
 				sleep(self.sleeptime)
 
 	def isBusy(self):
