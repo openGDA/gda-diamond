@@ -144,7 +144,7 @@ xes.setTwoDPlotter(xes_2d_plotter)
 xes.setDetectorOrder([I1])
 
 # Set the energy transfer scannables
-energyTransferScnMap = {XESEnergyLower:XESEnergyTransferLower, XESEnergyUpper:XESEnergyTransferUpper, XESEnergyBoth:XESEnergyTransferBoth}
+energyTransferScnMap = {XESEnergyLower:XESEnergyTransferLower, XESEnergyUpper:XESEnergyTransferUpper, XESEnergyGroup:XESEnergyTransferGroup}
 xes.setEnergyTransferScannables(energyTransferScnMap)
 
 theFactory = XasScanFactory();

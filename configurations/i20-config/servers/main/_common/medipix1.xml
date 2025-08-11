@@ -142,6 +142,7 @@
 		<constructor-arg ref="medipix1_adbase" />
 		<constructor-arg ref="medipix1_ndroi" />
 		<property name="useAcquireTimeMonitor" value="true" />
+		<property name="streamTriggerMode" value="0" />
 	</bean>
 
 

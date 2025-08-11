@@ -18,6 +18,12 @@
 			</list>
 		</property>
 
+		<property name="generators">
+			<list>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.MotorParameterGenerator" />
+			</list>
+		</property>
+
 		<property name="parameters">
 			<list>
 				<!-- Output file name -->

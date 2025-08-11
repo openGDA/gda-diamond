@@ -156,8 +156,8 @@ def purge(chamber_name) :
     purge_ionchamber(get_valve(chamber_name), get_pressure_readout(chamber_name))
 
 # inject Argon into i0, it, iref, or i1
-def inject_argon(chamber_name, target_pressure_Ar):
-    inject_gas_into_ionchamber(target_pressure_Ar, gir_argon_valve, get_valve(chamber_name))
+def inject_argon(chamber_name, target_pressure_Ar, background_pressure=8):
+    inject_gas_into_ionchamber(target_pressure_Ar+background_pressure, gir_argon_valve, get_valve(chamber_name))
 
 # inject He into i0, it, iref or i1
 def inject_helium(chamber_name, target_pressure_He):
