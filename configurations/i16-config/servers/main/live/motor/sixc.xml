@@ -5,42 +5,42 @@
 
 	<bean id="sixcKphiMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M4:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M4:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KPHI" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
 	<bean id="sixcKappaMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M5:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M5:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KAPPA" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
 	<bean id="sixcKthMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M8:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M8:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KTHETA" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
 	<bean id="sixcMuMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M6:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M6:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:MU" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
 	<bean id="sixcDeltaMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M9:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M9:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:ARM:DELTA" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
 	<bean id="sixcGammaMotor"
 			class="gda.device.motor.EpicsMotorDirect">
-		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M7:DirectDemand"/>
+		<property name="pvNameDirect" value ="BL16I-MO-PPMAC-13:CS2:M7:DirectDemand"/>
 		<property name="pvName" value="BL16I-MO-DIFF-01:ARM:GAMMA" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
@@ -77,7 +77,7 @@
 
 	<bean id="deferFlag"
 			class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameSetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves"/>
-		<property name="pvNameGetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves"/>
+		<property name="pvNameSetPoint" value="BL16I-MO-PPMAC-13:CS2:DeferMoves"/>
+		<property name="pvNameGetPoint" value="BL16I-MO-PPMAC-13:CS2:DeferMoves"/>
 	</bean>
 </beans>
