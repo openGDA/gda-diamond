@@ -1036,31 +1036,31 @@ try:
 
 	alias("setCbfTemplateFile")
 
-	def manyShortScans(suppressCloseAtScanEnd, suppressOpenAtScanStart=False):
-		"""Speed up very short scans by not opening or closing them during a scan. Don't forget to
-		   open them manually before running scans and close them manually when not running scans.
-		"""
-		global exposeSuppressOpenDetectorShieldAtScanStart, exposeSuppressOpenEHShutterAtScanStart, exposeSuppressCloseDetectorShieldAtScanEnd, exposeSuppressCloseEHShutterAtScanEnd
-		if not suppressCloseAtScanEnd and suppressOpenAtScanStart:
-			print "Invalid request, we should never suppress open at scan start if we're not suppressing close at scan end, suppressing both!"
-			suppressCloseAtScanEnd = suppressOpenAtScanStart
+	#def manyShortScans(suppressCloseAtScanEnd, suppressOpenAtScanStart=False):
+	#	"""Speed up very short scans by not opening or closing them during a scan. Don't forget to
+	#	   open them manually before running scans and close them manually when not running scans.
+	#	"""
+	#	global exposeSuppressOpenDetectorShieldAtScanStart, exposeSuppressOpenEHShutterAtScanStart, exposeSuppressCloseDetectorShieldAtScanEnd, exposeSuppressCloseEHShutterAtScanEnd
+	#	if not suppressCloseAtScanEnd and suppressOpenAtScanStart:
+	#		print "Invalid request, we should never suppress open at scan start if we're not suppressing close at scan end, suppressing both!"
+	#		suppressCloseAtScanEnd = suppressOpenAtScanStart
 
-		exposeSuppressOpenDetectorShieldAtScanStart=suppressOpenAtScanStart # Default is False
-		exposeSuppressOpenEHShutterAtScanStart=suppressOpenAtScanStart # Default is False
-		exposeSuppressCloseDetectorShieldAtScanEnd=suppressCloseAtScanEnd # Default is False
-		exposeSuppressCloseEHShutterAtScanEnd=suppressCloseAtScanEnd # Default is False
+	#	exposeSuppressOpenDetectorShieldAtScanStart=suppressOpenAtScanStart # Default is False
+	#	exposeSuppressOpenEHShutterAtScanStart=suppressOpenAtScanStart # Default is False
+	#	exposeSuppressCloseDetectorShieldAtScanEnd=suppressCloseAtScanEnd # Default is False
+	#	exposeSuppressCloseEHShutterAtScanEnd=suppressCloseAtScanEnd # Default is False
 
-		if suppressCloseAtScanEnd:
-			print "* Detector shield and EH Shutter configured NOT to"
-			if suppressOpenAtScanStart:
-				print "  close at scan end OR open at the of scan start"
-			else:
-				print "  close at scan end, but to open at scan start"
-			print "* OPEN them manually before running scans"
-			print "* CLOSE them manually when not running scans"
-		else:
-			print "* Detector shield and EH Shutter configured to open at"
-			print "  start of each scan and close at end of each scan"
+	#	if suppressCloseAtScanEnd:
+	#		print "* Detector shield and EH Shutter configured NOT to"
+	#		if suppressOpenAtScanStart:
+	#			print "  close at scan end OR open at the of scan start"
+	#		else:
+	#			print "  close at scan end, but to open at scan start"
+	#		print "* OPEN them manually before running scans"
+	#		print "* CLOSE them manually when not running scans"
+	#	else:
+	#		print "* Detector shield and EH Shutter configured to open at"
+	#		print "  start of each scan and close at end of each scan"
 
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
