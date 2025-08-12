@@ -34,4 +34,21 @@
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 		<property name="i0_channel" value="0" />
 	</bean>
+	
+	
+<!-- Single element xspress3 Mini  -->
+	<bean id="FFI0_xspress3Mini" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3Mini" />
+		<property name="i0_channel" value="1" />
+		<property name="counterTimer" ref="counterTimer01" />
+	</bean>
+ 	
+ 	<bean id="xspress3Mini" class="uk.ac.gda.devices.detector.xspress4.Xspress4OdinDetector">
+		<property name="controller" ref="xspress3MiniController" />
+		<property name="tfgFFI0" ref="FFI0_xspress3Mini" />
+		<property name="configFileName" value="${gda.config}/templates/Xspress3Mini_Parameters.xml" />
+		<property name="defaultSubdirectory" value="xspress3Mini" />
+		<property name="triggerModeForScans" value="3" /> <!--  0 = software trigger mode, 3 = TTL veto -->
+	</bean>
+	
 </beans>

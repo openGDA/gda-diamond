@@ -81,6 +81,10 @@ run "topup-scannable.py"
 # Create ionchamber sensitivity auto adjustment functions
 run 'ionchamber_adjustment/set_amplifiers_routines.py'
 
+run 'ionchamber_autofill.py'
+
+print("")
+
 # Function to set the initial state of the ionchamber and braggOffset preparers
 def setup_detector_preparers() :  
     ionchamberCheckerPreparer = IonchamberDetectorPreparer(ionchamberChecker)
@@ -140,7 +144,7 @@ xes.setTwoDPlotter(xes_2d_plotter)
 xes.setDetectorOrder([I1])
 
 # Set the energy transfer scannables
-energyTransferScnMap = {XESEnergyLower:XESEnergyTransferLower, XESEnergyUpper:XESEnergyTransferUpper, XESEnergyBoth:XESEnergyTransferBoth}
+energyTransferScnMap = {XESEnergyLower:XESEnergyTransferLower, XESEnergyUpper:XESEnergyTransferUpper, XESEnergyGroup:XESEnergyTransferGroup}
 xes.setEnergyTransferScannables(energyTransferScnMap)
 
 theFactory = XasScanFactory();
@@ -236,9 +240,10 @@ LocalProperties.set("gda.exafs.read.out.time", "1000.0");
 
 from gda.epics import CAClient
 
-# Set default output format xspress4 ascii numbers
-xspress4.setOutputFormat(["%.6f"])
+# Set default output format for xspress4 ascii numbers
 xspress3X.setOutputFormat(["%.6f"])
+xspress3.setOutputFormat(["%.6f"])
+xspress4.setOutputFormat(["%.6f"])
 
 print "\nSetting Tfg veto options to normal values for output 0"
 DAServer.sendCommand("tfg setup-veto veto0-inv 0")

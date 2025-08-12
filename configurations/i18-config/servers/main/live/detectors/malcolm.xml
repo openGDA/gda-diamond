@@ -69,22 +69,23 @@
 			</bean>
 		</property> 
 	</bean>
-
-	<!-- Xmap -->
 	
-	<bean id="xmapDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Xmap" />
-		<property name="description" value="Scan of Xmap and ion chambers" />
+	<!--  Xspress3Mini -->
+
+	<bean id="xspress3MiniDeviceInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xspress3 mini" />
+		<property name="description" value="Scan of Xspress3 mini and ion chambers" />
 	</bean>
-	<bean id="xmapMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="BL18I-ML-SCAN-08" />
-		<property name="exposureTime" value="0.5" />
-		<property name="minExposureTime" value="0.1"/>
+	<bean id="xspress3MiniMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-01" />
+		<property name="exposureTime" value="0.01" />
+		<property name="minExposureTime" value="0.0001"/>
 	</bean>
-	<bean id="xmapMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="BL18I-ML-SCAN-08" />
-		<property name="model" ref="xmapMalcolmModel" />
-		<property name="deviceInformation" ref="xmapDeviceInfo" />
+	    
+	<bean id="xspress3MiniMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-01" />
+		<property name="model" ref="xspress3MiniMalcolmModel" />
+		<property name="deviceInformation" ref="xspress3MiniDeviceInfo" />
 		<property name="activated" value="false" />
 	</bean>
 

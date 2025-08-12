@@ -20,7 +20,11 @@ collectionTime = 250e-9 #data collection time for each frame, sec.
 deadTime = 0.0 #dead time between frames
 delayAfterTrigger = 0 # delay after receiving trigger when the Tfg starts time frames
 
+tfgScanRunner.buffered_scaler = buffered_scaler
+
 # Frame ranges for pump on , off data
+laser_exp_processor.apd_data_name = "It"
+laser_exp_processor.detector_name = "buffered_scaler"
 laser_exp_processor.start_frame_range = 0,1
 laser_exp_processor.end_frame_range = 50,60
 
@@ -54,9 +58,13 @@ test_region = {
 
 #XANES_regions = test_region
 
+buffered_scaler.delay_after_laser_on_trig = 2e-6
+buffered_scaler.delay_after_laser_off_trig = 2e-6
+buffered_scaler.laser_on_trig_port = 8 # trigger on rising edge of ttl0
+buffered_scaler.laser_off_trig_port = 9 # trigger on rising edge of ttl1 
 
-tfgScanRunner.initial_group_command = "1 %.5g 0 0 0 8 0"%(delayAfterTrigger)
-#tfgScanRunner.initial_group_command=""
+# tfgScanRunner.initial_group_command = "1 %.5g 0 0 0 8 0"%(delayAfterTrigger)
+tfgScanRunner.initial_group_command=""
 tfgScanRunner.external_trigger_frames = False
 tfgScanRunner.external_trigger_start = False
 tfgScanRunner.frame_dead_time = deadTime

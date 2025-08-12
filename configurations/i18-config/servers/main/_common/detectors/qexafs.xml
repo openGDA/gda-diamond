@@ -6,6 +6,7 @@
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
+				<value>time</value>
 				<value>I0</value>
 				<value>It</value>
 				<value>Iother</value>
@@ -16,14 +17,15 @@
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="daserver" ref="daserver" />
-		<property name="timeChannelRequired" value="false" />
+		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
+		<property name="numChannelsToRead" value="8" />
 		<property name="ttlSocket" value="0" />
 		<property name="outputFormat">
 			<list>
+			    <value>%6.4g</value>
 				<value>%6.4g</value>
 				<value>%9d</value>
 				<value>%9d</value>

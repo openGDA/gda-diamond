@@ -71,7 +71,7 @@
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
 		<property name="initialFileName" value="medipix" />
-		<property name="initialFileTemplate" value="%s%s.hdf5" />
+		<property name="initialFileTemplate" value="%s%s_%d.hdf5" />
 	</bean>
 
 	<bean id="medipix_hdf5"

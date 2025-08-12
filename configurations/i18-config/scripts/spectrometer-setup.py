@@ -15,7 +15,9 @@ def set_initial_crystal_values(xesEnergyScannable, initialRadius=500.0):
             print "Setting initial value of {0} to 1".format(scn.getName())
             scn.moveTo(1)
 
-    xesEnergyScannable.getXes().getRadiusScannable().moveTo(initialRadius)
+    radius_scannable = xesEnergyScannable.getXes().getRadiusScannable()
+    if radius_scannable.getPosition() == None :
+        radius_scannable.moveTo(initialRadius)
     
 
 def setup_dummy_spectrometer(xesEnergyScannable, radiusValue=500.0) :

@@ -30,6 +30,5 @@ server.spring-xml.mode.dummy = [
     "servers/dummy/sim_area_detector.xml"
 ]
 client.spring-xml.common = [
-    "clients/_common/client.xml",
     "clients/_common/mapping_controllers.xml"
 ]

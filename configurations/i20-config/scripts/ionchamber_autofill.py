@@ -1,15 +1,19 @@
-from gda.device.enumpositioner.ValvePosition import *
+print("\nRunning 'ionchamber_autofill.py")
 
 ionchamber2fill="I0"
 targetPressureAr=35 #mbar
 targetPressureHe=1800 #mbar
 
-ionchamber_purge_time=10.00 #30
+ionchamber_purge_time=20.00 #30
 ionchamber_leak_wait_time=10.0 #10
-helium_equilibration_wait_time=5.0
+injection_equilibration_wait_time=20
+helium_equilibration_wait_time=10.0
 
 PRESSURE_CONTROL="Control"
 PRESSURE_HOLD="Hold"
+VALVE_OPEN = "Open"
+VALVE_CLOSE = "Close"
+VALVE_RESET = "Reset"
 
 def extract_device_name(scannable) :
     name=scannable.getName()
@@ -43,22 +47,22 @@ def pressure_mode_control(pressure_controller):
     
 def pump_on():
     print("Switching vacuum pump on")
-    gir_vacuum_pump.moveTo(RESET)
-    gir_vacuum_pump.moveTo(OPEN)  # pump on
+    gir_vacuum_pump.moveTo(VALVE_RESET)
+    gir_vacuum_pump.moveTo(VALVE_OPEN)  # pump on
     time.sleep(1)
 
 def pump_off():
     print("Switching vacuum pump off")
-    gir_vacuum_pump.moveTo(CLOSE) # pump off
+    gir_vacuum_pump.moveTo(VALVE_CLOSE) # pump off
     time.sleep(1)
 
 def open_valve(valve) :
     print("Opening valve : {}".format(valve.getName()))
     pv_name = valve.getPvName()
-    CAClient.put(pv_name, "Reset")
+    CAClient.put(pv_name, VALVE_RESET)
     #valve.moveTo(2) # reset valve
     time.sleep(1)
-    CAClient.put(pv_name, "Open")
+    CAClient.put(pv_name, VALVE_OPEN)
     #valve.moveTo(0) # open valve
     time.sleep(1)
 
@@ -66,7 +70,7 @@ def close_valve(valve) :
     print("Closing valve : {}".format(valve.getName()))
     pv_name = valve.getPvName()
     # valve.moveTo(1) # close valve
-    CAClient.put(pv_name, "Close")
+    CAClient.put(pv_name, VALVE_CLOSE)
     time.sleep(1)
 
 def print_header(str) :
@@ -88,7 +92,8 @@ def purge_line():
     pump_off()
 
 def purge_ionchamber(ionchamber_valve, ionchamber_pressure):
-    print_header("Purging ionchamber {}".format(extract_device_name(ionchamber_valve)))
+    device_name = extract_device_name(ionchamber_valve)
+    print_header("Purging ionchamber {}".format(device_name))
     pump_on()
     open_valve(gir_line_valve)
     open_valve(ionchamber_valve)
@@ -98,15 +103,15 @@ def purge_ionchamber(ionchamber_valve, ionchamber_pressure):
     close_valve(ionchamber_valve)
     print("Checking the ionchamber {} for leaks".format(ionchamber_pressure.getName()))
     long_sleep(ionchamber_leak_wait_time)
-    check_pressure=float(ionchamber_pressure.getPosition()) # record pressure after dwell
-    if check_pressure-base_pressure > 3:  # use math.abs here, or is sign important
-        print "WARNING, suspected leak in", ionchamber2fill, "Stopping here!!!"
-        # 'exit' early logic goes here ?
+    
+    check_pressure=float(ionchamber_pressure.getPosition()) # pressure after dwell
+    if math.fabs(check_pressure-base_pressure) > 3 :
+        print("----- WARNING, suspected leak in "+device_name+" !!! -----")
+
     close_valve(ionchamber_valve)
     close_valve(gir_line_valve)
     pump_off()
 
-injection_equilibration_wait_time=10
 def inject_gas_into_ionchamber(target_pressure, gas_valve, ionchamber_valve):
     print_header("Injecting {} into ionchamber {}".format(extract_device_name(gas_valve), 
                                                    extract_device_name(ionchamber_valve)))
@@ -130,38 +135,38 @@ def inject_helium_into_ionchamber(target_pressure_He, ionchamber_valve):
     close_valve(ionchamber_valve)
     pressure_mode_hold(gir_pressure2_mode) # set MFC2 to hold
 
+# Dictionaries to return valve and pressure readout scannables for i0, it, iref, i1 ionchambers
+valves_dict = {"i0":gir_i0_valve, "it":gir_it_valve, "iref":gir_iref_valve, "i1":gir_i1_valve, "argon":gir_argon_valve}
+pressures_dict = {"i0":gir_i0_pressure, "it":gir_it_pressure, "iref":gir_iref_pressure, "i1":gir_i1_pressure}
 
-def purge_Iref():
-    purge_ionchamber(gir_iref_valve, gir_iref_pressure)
+# Return valve scannable for i0, it, iref or i1 ionchamber
+def get_valve(chamber_name) :
+    if chamber_name.lower() not in valves_dict :
+        raise Exception("Could not get valve scannable for "+chamber_name)
+    return valves_dict[chamber_name.lower()]
 
-def inject_argonIntoIref(targetPressureAr):
-    inject_gas_into_ionchamber(targetPressureAr, gir_argon_valve, gir_iref_valve)
+# Return pressure readout scannable for i0, it, iref or i1 ionchamber
+def get_pressure_readout(chamber_name) :
+    if chamber_name.lower() not in pressures_dict :
+        raise Exception("Could not get pressure readout scannable for "+chamber_name)
+    return pressures_dict[chamber_name.lower()]
 
-def inject_heliumIntoIref(targetPressureHe):
-    inject_helium_into_ionchamber(targetPressureHe, gir_iref_valve)
-    
+# Purge i0, it, iref, i1
+def purge(chamber_name) :
+    purge_ionchamber(get_valve(chamber_name), get_pressure_readout(chamber_name))
 
-def purge_I0():
-    purge_ionchamber(gir_i0_valve, gir_i0_pressure)
+# inject Argon into i0, it, iref, or i1
+def inject_argon(chamber_name, target_pressure_Ar, background_pressure=8):
+    inject_gas_into_ionchamber(target_pressure_Ar+background_pressure, gir_argon_valve, get_valve(chamber_name))
 
-def inject_argonIntoI0(targetPressureAr):
-    inject_gas_into_ionchamber(targetPressureAr, gir_argon_valve, gir_i0_valve)
+# inject He into i0, it, iref or i1
+def inject_helium(chamber_name, target_pressure_He):
+    inject_helium_into_ionchamber(target_pressure_He, get_valve(chamber_name))
 
-def inject_heliumIntoI0(targetPressureHe):
-    inject_helium_into_ionchamber(targetPressureHe, gir_i0_valve)
 
-def test():
-    # repeat sometimes purge and He injection 2 or 3 times to clean out the lines
-    purge_line()
-    purge_I0()
-    inject_heliumIntoI0(targetPressureHe)
-    
-    # Fill with  argon
-    purge_I0()
-    inject_argonIntoI0(targetPressureAr)
-    
-    # then fill with Helium
-    inject_heliumIntoI0(targetPressureHe)
-    
-    print 'Script finished,',ionchamber2fill,'filled successfully!'
-    print 'Live long and prosper!'
+print("""Adding ionchamber gas fill and purge commands. Example command usage : 
+  purge_line()  - purge the gas supply line
+  purge('i0')   - purge I0 ionchamber
+  inject_argon('it', 80)    - fill It ionchamber with 80mbar of Argon
+  inject_helium('it', 1800) - fill It ionchamber with 1800mb of Helium""")
+

@@ -52,8 +52,13 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
     elif isinstance(dcm_enrg_model, AxialMultiStepModel):
         step_models = dcm_enrg_model.getModels()
 
-    print("Energy model scannable : "+dcm_enrg_model.getName())
-    energy_scannable = Finder.find(dcm_enrg_model.getName())
+    energy_scn_name = dcm_enrg_model.getName()
+    if not beam_available() :
+        print("Beam not avalable - using energy_nogap for energy scannable")
+        energy_scn_name = "energy_nogap"
+
+    print("Energy model scannable : "+energy_scn_name)
+    energy_scannable = Finder.find(energy_scn_name)
 
     #Conversion factor from model energy units to eV needed for the DCM
     energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
@@ -91,16 +96,17 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
     # Use the NumTracker to get the number of the next Nexus file to be created
     num_tracker = NumTracker()
     nexus_scan_number = num_tracker.getCurrentFileNumber() + 1
+    num_tracker.incrementNumber() # increment it
     
     # Setup Nexus file path format 
     beamline_name = LocalProperties.get("gda.beamline.name")
     visit_folder = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
-    nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d.nxs"
+    nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d_%03d.nxs"
     print("Nexus file path format : {}".format(nexus_name_format))
     print("Add all scans to queue : "+str(not block_on_submit))
     
-    for scan_number, energy in enumerate(all_energies) :
-        scan_name = "XANES scan {} of {}. Energy = {}".format(scan_number+1, len(all_energies), energy)
+    for index, energy in enumerate(all_energies) :
+        scan_name = "XANES scan {} of {}. Energy = {}".format(index+1, len(all_energies), energy)
 
         # set the scan metadata to include list of all nexus files in the stack of scans run so far
         smetadata = ScanMetadata()
@@ -108,6 +114,10 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
         smetadata.addField("all_nexus_file_names", "\n".join(all_nexus_file_names))
         smetadata.addField("edge_name", element_edge_string)
         scanRequest.setScanMetadata([smetadata])
+        
+        # Set full path to nexus file on scanRequest object
+        file_path = nexus_name_format%(nexus_scan_number, index)
+        scanRequest.setFilePath(file_path)
         
         # Update the beamline configuration to move the mono to the scan energy
         position_map = scanRequest.getStartPosition()
@@ -122,14 +132,12 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
             scanRequest.getProcessingRequest().getRequest().put("xanes-map-stack", [])
         
         print(scan_name)        
+        print(file_path)
         
         # Run scan and attempt a 2nd time if if goes wrong. Catch exceptions so subsequent scans are run.
         result = submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
         if result == False and num_retries > 0 :
             submit_scan(scanRequest, block=block_on_submit, name=scan_name, raise_on_failure=False)
-            nexus_scan_number += 1
         
         # Add the scan just run/submitted to the list of all nexus file names
-        all_nexus_file_names.append(nexus_name_format%(nexus_scan_number))
-        nexus_scan_number += 1
-                
+        all_nexus_file_names.append(file_path)
