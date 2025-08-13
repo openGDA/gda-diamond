@@ -6,7 +6,7 @@
 		DEBUG will filter out TRACE messages,
 		INFO will also filter out DEBUG messages,
 		WARN will filter out INFO messages, while
-		ERROR will filter out INFO messages too. 
+		ERROR will filter out INFO messages too.
 	 If you want any TRACE messages though, the gda.logging.root.level
 	 property imust be set to TRACE or ALL and the GDA server restarted
  -->
@@ -23,6 +23,7 @@
 		<logger level="INFO"	name="gda.i22.linkam"/>
 		<logger level="DEBUG"	name="gda.jython.batoncontrol.BatonManager"/>
 		<logger level="DEBUG"	name="gda.observable.ObservableComponent"/>
+		<logger level="TRACE"	name="gda.rcp.ncd.views.NcdStatusUpdater" />
 		<logger level="INFO"	name="gda.scan.MultithreadedScanDataPointPipeline" />
 		<logger level="INFO"	name="gda.scan.ScanDataPointPopulatorAndPublisher" />
 		<logger level="DEBUG"	name="gdascripts" />
@@ -33,6 +34,7 @@
 		<logger level="INFO"	name="org.eclipse.dawnsci" />
 		<logger level="INFO"	name="org.springframework" />
 		<logger level="DEBUG"	name="uk.ac.diamond" />
+		<logger level="TRACE"	name="uk.ac.diamond.daq.bluesky" />
 		<logger level="DEBUG"	name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" />
 		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" />
 		<logger level="INFO"	name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" />
