@@ -57,29 +57,28 @@ class DetectorShield(ScannableBase):
             self.openDetectorShield(suppressWaitForOpen=True)
 
     def openDetectorShield(self, suppressWaitForOpen=False):
-        if self.verbose:
-            simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        self.logger.info("%s:%s() called" % (self.name, self.pfuncname()))
 
         suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow = self._parameters()
         if suppressOpenDiode:
             zebraFastShutter = beamline_parameters.JythonNameSpaceMapping().zebraFastShutter
-            simpleLog("Forcing fast shutter open...")
+            self.logger.info("Forcing fast shutter open...")
             zebraFastShutter.forceOpen()
             self.waitForDiodeState(suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow)
             zebraFastShutter.forceOpenRelease()
-            simpleLog("...Released fast shutter from being forced open")
+            self.logger.info("...Released fast shutter from being forced open")
 
-        simpleLog("Detector Shield Opening...")
+        self.logger.info("Detector Shield Opening...")
 
         self.pvManager['CON'].caput(self.TIMEOUT, 0)
 
         if not suppressWaitForOpen:
             self.waitWhileBusy(self.TIMEOUT*2)
-            simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
+            self.logger.info("Detector Shield %s" % self.getDetectorShieldStatus())
 
     def waitForDiodeState(self, suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow):
         diodeValue=suppressOpenDiode.getPosition()
-        print "%r %r " % (suppressOpenWhenDiodeBelow >= diodeValue, diodeValue >= suppressOpenWhenDiodeAbove)
+        self.logger.info( "%r %r " % (suppressOpenWhenDiodeBelow >= diodeValue, diodeValue >= suppressOpenWhenDiodeAbove))
         while (suppressOpenWhenDiodeBelow > diodeValue or diodeValue > suppressOpenWhenDiodeAbove):
             msg = "The value of diode %r is %r which is outside of the range %r to %r, waiting before opening Detector Shield...\n%s\n%s\n%s\n%s" % (
                 suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove,
@@ -105,13 +104,13 @@ class DetectorShield(ScannableBase):
         if suppressOpenDiode==None and suppressOpenWhenDiodeAbove==None and suppressOpenWhenDiodeBelow==None:
             msg = "No exposeDetectorShieldSuppressOpen parameters are defined, so the Detector shield will always open"
             self.logger.warn(msg)
-            print msg
+            #print msg
             return None, None, None
 
         elif suppressOpenDiode==None or suppressOpenWhenDiodeAbove==None or suppressOpenWhenDiodeBelow==None:
             msg = "All three exposeDetectorShieldSuppressOpen parameters must be defined if any are"
             self.logger.error(msg)
-            print msg
+            #print msg
             raise Exception(msg)
 
         return suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow
@@ -123,7 +122,7 @@ class DetectorShield(ScannableBase):
             msg = "%s not defined, please add %s='xx' to localStationUser.py%s" % (
                 parameter, parameter, help_text)
             self.logger.warn(msg)
-            print msg
+            #print msg
             return None
 
         if isinstance(jythonNameMap[parameter], str) or isinstance(jythonNameMap[parameter], unicode):
@@ -157,7 +156,7 @@ class DetectorShield(ScannableBase):
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
-            simpleLog("Detector Shield Closing...")
+            self.logger.info("Detector Shield Closing...")
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if not suppressWaitForClose:
             self.waitWhileBusy(self.TIMEOUT*2)

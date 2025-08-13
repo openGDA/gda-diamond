@@ -465,7 +465,7 @@ try:
 
 	global mar, pil3, mpx, psl
 
-	if isFindable("pe"):
+	if isFindable("mar"):
 	  try:
 		mar.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-MAR-01:ARR:EnableCallbacks",	"Enable")
@@ -479,7 +479,8 @@ try:
 	  except:
 		localStation_exception(sys.exc_info(), "configuring mar area detector plugins, is the IOC running?")
 
-	try:
+	if isFindable("pil3"):
+	  try:
 		def pil3_tiffs_on():
 			# Make sure Ridgeway is running
 			caput("BL15I-CS-IOC-12:AUTORESTART", "1") # On
@@ -503,11 +504,12 @@ try:
 		def pil3_threshold_check():
 			pil3_threshold = float(caget("BL15I-EA-PILAT-03:CAM:ThresholdEnergy_RBV")) # keV
 			pil3_energy = float(caget("BL15I-EA-PILAT-03:CAM:Energy_RBV")) # keV
-			dcm_energy = float(caget("BL15I-OP-DCM-01:ENERGY.RBV"))/1000 # eV
+			dcm_energy_cal = float(caget("BL15I-OP-DCM-01:CAL.RBV"))/1000 # eV
+
 			first_exception=len(localStation_exceptions)
 
-			if pil3_energy + 1 < dcm_energy or dcm_energy < pil3_energy - 1:
-				localStation_exceptions.append("    dcm_energy (%f) is not within 1keV of pil3_energy (%f)" % (dcm_energy, pil3_energy))
+			if pil3_energy + 1 < dcm_energy_cal or dcm_energy_cal < pil3_energy - 1:
+				localStation_exceptions.append("    calibrated dcm_energy (%f) is not within 1keV of pil3_energy (%f)" % (dcm_energy_cal, pil3_energy))
 			if pil3_threshold < pil3_energy*0.5:
 				localStation_exceptions.append("    pil3_threshold (%f) is below 50% of pil3_energy (%f)" % (pil3_threshold, pil3_energy))
 			elif pil3_threshold > pil3_energy*0.8:
@@ -520,10 +522,10 @@ try:
 		alias("pil3_threshold_check")
 		
 		pil3_threshold_check()
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector tiff enabler & threshold checker")
 
-	try:
+	  try:
 		pil3.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
@@ -538,21 +540,23 @@ try:
 		caput("BL15I-EA-PILAT-03:CDC:NDArrayPort", "pilatus3.pos")
 		caput("BL15I-EA-PILAT-03:POS:NDArrayPort", "pilatus3.cam") # Note, not stat, as stat can't run more than 100Hz.
 		pil3_tiffs_on()
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring pil3 area detector plugins")
 
-	try:
+	if isFindable("mpx"):
+	  try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-DET-18:ARR:EnableCallbacks",	"Enable")
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring mpx compression")
 
-	try:
+	if isFindable("psl"):
+	  try:
 		psl.hdfwriter.getNdFileHDF5().reset()
 		caput("BL15I-EA-PSL-01:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PSL-01:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PSL-01:MJPG:EnableCallbacks",	"Enable")
-	except:
+	  except:
 		localStation_exception(sys.exc_info(), "configuring psl compression & callbacks")
 
 	try:
@@ -1031,6 +1035,32 @@ try:
 		cli.caput(java.lang.String(path).getBytes())
 
 	alias("setCbfTemplateFile")
+
+	#def manyShortScans(suppressCloseAtScanEnd, suppressOpenAtScanStart=False):
+	#	"""Speed up very short scans by not opening or closing them during a scan. Don't forget to
+	#	   open them manually before running scans and close them manually when not running scans.
+	#	"""
+	#	global exposeSuppressOpenDetectorShieldAtScanStart, exposeSuppressOpenEHShutterAtScanStart, exposeSuppressCloseDetectorShieldAtScanEnd, exposeSuppressCloseEHShutterAtScanEnd
+	#	if not suppressCloseAtScanEnd and suppressOpenAtScanStart:
+	#		print "Invalid request, we should never suppress open at scan start if we're not suppressing close at scan end, suppressing both!"
+	#		suppressCloseAtScanEnd = suppressOpenAtScanStart
+
+	#	exposeSuppressOpenDetectorShieldAtScanStart=suppressOpenAtScanStart # Default is False
+	#	exposeSuppressOpenEHShutterAtScanStart=suppressOpenAtScanStart # Default is False
+	#	exposeSuppressCloseDetectorShieldAtScanEnd=suppressCloseAtScanEnd # Default is False
+	#	exposeSuppressCloseEHShutterAtScanEnd=suppressCloseAtScanEnd # Default is False
+
+	#	if suppressCloseAtScanEnd:
+	#		print "* Detector shield and EH Shutter configured NOT to"
+	#		if suppressOpenAtScanStart:
+	#			print "  close at scan end OR open at the of scan start"
+	#		else:
+	#			print "  close at scan end, but to open at scan start"
+	#		print "* OPEN them manually before running scans"
+	#		print "* CLOSE them manually when not running scans"
+	#	else:
+	#		print "* Detector shield and EH Shutter configured to open at"
+	#		print "  start of each scan and close at end of each scan"
 
 except:
 	localStation_exception(sys.exc_info(), "in localStation")

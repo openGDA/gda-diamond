@@ -89,7 +89,7 @@ _diffrn_measurement.id
 _diffrn_measurement.number_of_axes
 _diffrn_measurement.method
 _diffrn_measurement.sample_detector_distance
- %(beamline)s GONIOMETER 2 rotation %(distance).2f
+ %(beamline)s GONIOMETER 2 rotation %(distance).3f
 
 loop_
 _diffrn_measurement_axis.measurement_id
@@ -115,7 +115,7 @@ _diffrn_scan_axis.displacement_increment
  SCAN1 GON_OMEGA  _omega_ _domega_ _domega_ 0.0 0.0 0.0
  SCAN1 GON_PHI    _phi_ _dphi_ _dphi_ 0.0 0.0 0.0
  SCAN1 DET_2THETA _2theta_ 0.0 0.0 0.0 0.0 0.0
- SCAN1 DET_Z      0.0 0.0 0.0 %(distance).2f 0.0 0.0
+ SCAN1 DET_Z      0.0 0.0 0.0 %(distance).3f 0.0 0.0
  SCAN1 DET_Y      0.0 0.0 0.0 0.0 0.0 0.0
  SCAN1 DET_X      0.0 0.0 0.0 0.0 0.0 0.0
 
@@ -136,7 +136,7 @@ _diffrn_scan_frame_axis.displacement
  FRAME1 GON_OMEGA _omega_ 0.0
  FRAME1 GON_PHI _phi_ 0.0
  FRAME1 DET_2THETA _2theta_ 0.0
- FRAME1 DET_Z 0.0 %(distance).2f
+ FRAME1 DET_Z 0.0 %(distance).3f
  FRAME1 DET_Y 0.0 0.0
  FRAME1 DET_X 0.0 0.0
 
@@ -155,7 +155,7 @@ _axis.offset[1] _axis.offset[2] _axis.offset[3]
  DET_Z      translation detector DET_2THETA 0 0 -1 0 0 0
  DET_Y      translation detector DET_Z     0 -1 0 0 0 0
  DET_X      translation detector DET_Y     1 0 0 0 0 0
- ELEMENT_X  translation detector DET_X     1 0 0 -%(beam_x).2f %(beam_y).2f 0
+ ELEMENT_X  translation detector DET_X     1 0 0 -%(beam_x).3f %(beam_y).3f 0
  ELEMENT_Y  translation detector ELEMENT_X 0 -1 0 0 0 0
 
 loop_
