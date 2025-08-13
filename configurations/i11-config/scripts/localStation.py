@@ -380,6 +380,12 @@ try:
 except:
     pass
 
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
+xtal1_temp_K = DisplayEpicsPVClass("xtal1_temp_K", "BL11I-DI-DCM-01:PT100-2", "K", "%1.1f")
+xtal2_temp_K = DisplayEpicsPVClass("xtal2_temp_K", "BL11I-DI-DCM-01:PT100-3", "K", "%1.1f")
+add_default xtal1_temp_K
+add_default xtal2_temp_K
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete."
