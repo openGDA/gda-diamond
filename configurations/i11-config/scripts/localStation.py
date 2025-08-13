@@ -372,6 +372,14 @@ try:
 except:
     pass
 
+
+try:
+    from TopupCountdown import TopupCountdown
+    topup = TopupCountdown("topup")
+    # add_default topup
+except:
+    pass
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete."
