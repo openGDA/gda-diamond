@@ -127,8 +127,8 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 	def atCommandFailure(self):
 		ScannableMotionWithScannableFieldsBase.atCommandFailure(self)
 		if self.last_move_involved_chi:
-			fmt = "         ETA, CHI, PHI = %s, %s, %s" % tuple(self.outputFormat[3:])
-			print "-"*80 + "\nWARNING: chi movement was incomplete, eta and phi may have changed:\n" + fmt % tuple(self.getPosition()[3:]) + '\n'+ "-"*68 + '\n'
+			fmt = "         PHI, CHI, ETA = %s, %s, %s" % tuple(self.outputFormat[:3])
+			print "-"*80 + "\nWARNING: chi movement was incomplete, eta and phi may have changed:\n" + fmt % tuple(self.getPosition()[:3]) + '\n'+ "-"*68 + '\n'
 
 	def stop(self):
 		self.kappa.stop()
