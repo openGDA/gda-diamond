@@ -364,7 +364,7 @@ from config_tests import *
 # config_tests can be found in /dls_sw/i11/scripts/config_tests
 
 add_default delta # this is needed to angular correct the mythen_nx detector when it is used statically eg scan ds 1 1 1
-add_default dcm_energy #useful to know for all experiments
+#add_default dcm_energy #useful to know for all experiments
 
 try:
     from Mythen3RebootScannable import CMS
