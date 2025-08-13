@@ -6,11 +6,15 @@
 
 	<!-- Sample transfer configuration -->
 	
-	<bean id="sample_transfer_composite_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferCompositeFactory" />
+	<bean id="sample_workflow_panel_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleWorkflowPanelFactory" />
 
 	<bean id="sample_transfer_dialog_factory" class="uk.ac.diamond.daq.mapping.ui.sampletransfer.SampleTransferDialogFactory">
 		<property name="cameras" ref="sample_transfer_cameras" />
-		<property name="compositeFactory" ref="sample_transfer_composite_factory" />
+		<property name="compositeFactories">
+			<list>
+				<ref bean="sample_workflow_panel_factory" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="sample_transfer_control" class="uk.ac.gda.client.livecontrol.DialogButtonControl">
