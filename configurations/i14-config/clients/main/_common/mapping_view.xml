@@ -7,7 +7,8 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- Mapping view for I14 including XANES -->
+
+	<!-- Mapping Scan Types -->
 	
 	<bean id="xanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
 		<property name="energyScannableName" value="dcm_enrg" />
@@ -21,7 +22,14 @@
 	</bean>
 	
 	<bean id="exafsSection" class="uk.ac.diamond.daq.mapping.ui.xanes.ExafsParametersSection"/>
+	
+	<bean id ="laminographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.LaminographySection">
+		<property name="sectionName" value="Laminography Stage Rotation" />
+	</bean>
+	<bean id ="tomographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySection" />
 
+	<!-- Mapping view for I14 including XANES -->
+	
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
@@ -35,7 +43,8 @@
 				<ref bean="xanesSection" />
 				<ref bean="sparseXanesSection" />
 				<ref bean="exafsSection" />
-				<bean class="uk.ac.diamond.daq.mapping.ui.tomography.TomographyAngleSection" />
+				<ref bean="tomographySection" />
+				<ref bean="laminographySection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.AlternativeDirectorySection" />
