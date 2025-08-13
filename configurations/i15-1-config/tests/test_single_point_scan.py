@@ -14,7 +14,7 @@ def test_single_point_scan_is_not_refused():
 
 	j15.setVisit(LocalProperties.get('gda.defVisit')) # Use the current commissioning visit
 
-	collect_pe2(sampleid="bkg", exposure_time=9, frames=1, monitorsPerScan=[],
+	collect_pe2(sampleid="bkg", exposure_time=9, frames=1,
 				monitorsPerPoint=[],comment="",f2="auto",preSleep=None,blocking=True,samX=None)
 
 def test_multiple_point_scan_completes():
@@ -32,5 +32,5 @@ def test_multiple_point_scan_completes():
 
 	j15.setVisit(LocalProperties.get('gda.defVisit')) # Use the current commissioning visit
 
-	collect_pe2(sampleid="bkg", exposure_time=9, frames=2, monitorsPerScan=[],
+	collect_pe2(sampleid="bkg", exposure_time=9, frames=2,
 				monitorsPerPoint=[],comment="",f2="auto",preSleep=None,blocking=True,samX=None)
