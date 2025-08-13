@@ -364,7 +364,7 @@ from config_tests import *
 # config_tests can be found in /dls_sw/i11/scripts/config_tests
 
 add_default delta # this is needed to angular correct the mythen_nx detector when it is used statically eg scan ds 1 1 1
-add_default dcm_energy #useful to know for all experiments
+#add_default dcm_energy #useful to know for all experiments
 
 try:
     from Mythen3RebootScannable import CMS
@@ -379,6 +379,12 @@ try:
     # add_default topup
 except:
     pass
+
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
+xtal1_temp_K = DisplayEpicsPVClass("xtal1_temp_K", "BL11I-DI-DCM-01:PT100-2", "K", "%1.1f")
+xtal2_temp_K = DisplayEpicsPVClass("xtal2_temp_K", "BL11I-DI-DCM-01:PT100-3", "K", "%1.1f")
+add_default xtal1_temp_K
+add_default xtal2_temp_K
 
 print
 print "=================================================================================================================";

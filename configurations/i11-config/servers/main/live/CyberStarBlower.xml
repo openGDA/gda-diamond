@@ -15,8 +15,8 @@
 	</bean>
 	<bean id="csb_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
-		<property name="maxRampRate" value="0.2" />
-		<property name="minRampRate" value="0.01" />
+		<property name="maxRampRate" value="12" />
+		<property name="minRampRate" value="0.5" />
 		<property name="maxOutput" value="35.0" />
 		<property name="basePVName" value="BL11I-EA-BLOW-01" />
 	</bean>
@@ -32,8 +32,8 @@
 	</bean>
 	<bean id="csb2_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
-		<property name="maxRampRate" value="0.2" />
-		<property name="minRampRate" value="0.01" />
+		<property name="maxRampRate" value="12" />
+		<property name="minRampRate" value="0.5" />
 		<property name="maxOutput" value="35.0" />
 		<property name="basePVName" value="BL11I-EA-BLOW-02:LOOP1" />
 	</bean>
