@@ -10,6 +10,7 @@ from java.io import File
 from java.util import NoSuchElementException
 from shutil import copyfile
 from time import sleep
+from org.slf4j import LoggerFactory
 import os.path
 
 supported_line_motors = ('dx', 'dy', 'dz', 'ssx', 'sy', 'ssz')
@@ -106,11 +107,11 @@ def exposeLineAbs(exposeTime, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepN
 exposeLineAbs.__doc__ += _exposeHelp + _lineHelp
 aliasList.append("exposeLineAbs")
 
-def exposeLineStep(exposeTime, lineMotor, stepSize, stepNumber, fileName, processing=None):
+def exposeLineStep(exposeTime, lineMotor, stepSize, stepNumber, fileName, centre=False, processing=None):
 	"""
 	Line scan using stepSize and stepNumber relative to the current motor position
 	"""
-	exposeNLineStep(exposeTime, 1, lineMotor, stepSize, stepNumber, fileName, processing)
+	exposeNLineStep(exposeTime, 1, lineMotor, stepSize, stepNumber, fileName, centre, processing)
 
 exposeLineStep.__doc__ += _exposeHelp + _lineHelp
 aliasList.append("exposeLineStep")
@@ -130,7 +131,7 @@ exposeNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _lineHelp
 aliasList.append("exposeNLineAbs")
 
 
-def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, fileName, processing=None):
+def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, fileName, centre=False, processing=None):
 	"""
 	Line scan with multiple exposures at each position using stepSize and stepNumber relative to the current motor position
 	"""
@@ -139,7 +140,7 @@ def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, f
 	if len(verification)>0:
 		return verification
 
-	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber)
+	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber, centre=centre)
 
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStep=stepSize, horizStepNumber=stepNumber)
 
@@ -159,11 +160,11 @@ exposeGridAbs.__doc__ += _exposeHelp + _gridHelp
 aliasList.append("exposeGridAbs")
 
 
-def exposeGridStep(exposeTime, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing=None):
+def exposeGridStep(exposeTime, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre=False, processing=None):
 	"""
 	Grid scan (in effect 2 dimensional line scans), relative
 	"""
-	exposeNGridStep(exposeTime, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing)
+	exposeNGridStep(exposeTime, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre, processing)
 
 exposeGridStep.__doc__ += _exposeHelp + _gridHelp
 aliasList.append("exposeGridStep")
@@ -183,7 +184,7 @@ exposeNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _gridHelp
 aliasList.append("exposeNGridAbs")
 
 
-def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing=None):
+def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre=False, processing=None):
 	"""
 	Grid scan (in effect 2 dimensional line scans), relative, with multiple exposures at each position
 	"""
@@ -191,8 +192,8 @@ def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertSt
 	if len(verification)>0:
 		return verification
 
-	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber)
-	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(),  stepSize=vertStep,  numSteps=vertStepNumber)
+	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber, centre=centre)
+	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(),  stepSize=vertStep,  numSteps=vertStepNumber, centre=centre)
 
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
@@ -271,11 +272,11 @@ exposeRockLineAbs.__doc__ += _exposeHelp + _rockHelp + _lineHelp
 aliasList.append("exposeRockLineAbs")
 
 
-def exposeRockLineStep(exposeTime, rockAngle, lineMotor, stepSize, stepNumber, fileName, processing=None):
+def exposeRockLineStep(exposeTime, rockAngle, lineMotor, stepSize, stepNumber, fileName, centre=False, processing=None):
 	"""
 	Rocking at every position during line scan, relative
 	"""
-	exposeNRockLineStep(exposeTime, 1, rockAngle, lineMotor, stepSize, stepNumber, fileName, processing)
+	exposeNRockLineStep(exposeTime, 1, rockAngle, lineMotor, stepSize, stepNumber, fileName, centre, processing)
 
 exposeRockLineStep.__doc__ += _exposeHelp + _rockHelp + _lineHelp
 aliasList.append("exposeRockLineStep")
@@ -291,11 +292,11 @@ exposeRockGridAbs.__doc__ += _exposeHelp + _rockHelp + _gridHelp
 aliasList.append("exposeRockGridAbs")
 
 
-def exposeRockGridStep(exposeTime, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing=None):
+def exposeRockGridStep(exposeTime, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre=False, processing=None):
 	"""
 	Rocking at every position during grid scan, relative
 	"""
-	exposeNRockGridStep(exposeTime, 1, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing)
+	exposeNRockGridStep(exposeTime, 1, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre, processing)
 
 exposeRockGridStep.__doc__ += _exposeHelp + _rockHelp + _gridHelp
 aliasList.append("exposeRockGridStep")
@@ -311,11 +312,11 @@ exposeNRockLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _lineHelp
 aliasList.append("exposeNRockLineAbs")
 
 
-def exposeNRockLineStep(exposeTime, exposeNumber, rockAngle, lineMotor, stepSize, stepNumber, fileName, processing=None):
+def exposeNRockLineStep(exposeTime, exposeNumber, rockAngle, lineMotor, stepSize, stepNumber, fileName, centre=False, processing=None):
 	"""
 	Multiple exposures at each position while rocking at every position during line scan, relative
 	"""
-	exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, 1, lineMotor, stepSize, stepNumber, fileName, processing)
+	exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, 1, lineMotor, stepSize, stepNumber, fileName, centre, processing)
 
 exposeNRockLineStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _lineHelp
 aliasList.append("exposeNRockLineStep")
@@ -331,11 +332,11 @@ exposeNRockGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _gridHelp
 aliasList.append("exposeNRockGridAbs")
 
 
-def exposeNRockGridStep(exposeTime, exposeNumber, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing=None):
+def exposeNRockGridStep(exposeTime, exposeNumber, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre=False, processing=None):
 	"""
 	Multiple exposures at each position while rocking at every position during grid scan, relative
 	"""
-	exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing)
+	exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre, processing)
 
 exposeNRockGridStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _gridHelp
 aliasList.append("exposeNRockGridStep")
@@ -355,7 +356,7 @@ exposeNRockNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHe
 aliasList.append("exposeNRockNLineAbs")
 
 
-def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMotor, stepSize, stepNumber, fileName, processing=None):
+def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMotor, stepSize, stepNumber, fileName, centre=False, processing=None):
 	"""
 	Multiple exposures while rocking several times per exposure at each position during line scan, relative
 	"""
@@ -363,7 +364,7 @@ def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMo
 	if len(verification)>0:
 		return verification
 
-	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber)
+	AbsoluteStartPos, AbsoluteEndPos=_calcAbsPositions(motor=lineMotor, stepSize=stepSize, numSteps=stepNumber, centre=centre)
 
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing,
 			rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber,
@@ -387,7 +388,7 @@ exposeNRockNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHe
 aliasList.append("exposeNRockNGridAbs")
 
 
-def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, processing=None):
+def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName, centre=False, processing=None):
 	""" Multiple exposures while rocking several times per exposure at each position during grid scan
 	horizontal is dx and vertical is dz
 	"""
@@ -395,8 +396,8 @@ def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizS
 	if len(verification)>0:
 		return verification
 
-	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber)
-	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(), stepSize=vertStep,  numSteps=vertStepNumber)
+	AbsoluteHorizStart, AbsoluteHorizEnd = _calcAbsPositions(motor=_horizMotor(), stepSize=horizStep, numSteps=horizStepNumber, centre=centre)
+	AbsoluteVertStart,  AbsoluteVertEnd  = _calcAbsPositions(motor=_vertMotor(), stepSize=vertStep,  numSteps=vertStepNumber, centre=centre)
 
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, processing=processing, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
@@ -496,14 +497,18 @@ def _calcStepSize(start, stop, numPoints):
 	LoggerFactory.getLogger("_calcStepSize").info("start=%r, step=%r, numPoints=%r, stepSize=%r" % (start, stop, numPoints, stepSize))
 	return stepSize
 
-def _calcAbsPositions(motor, stepSize, numSteps):
+def _calcAbsPositions(motor, stepSize, numSteps, centre):
 	if type(motor) is str:
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		motor = jythonNameMap[motor]
 
 	currentPosition =  motor.getPosition()
-	AbsoluteStartPos = currentPosition
-	AbsoluteEndPos =   currentPosition + stepSize * numSteps
+	if centre:
+		AbsoluteStartPos = currentPosition - stepSize / 2 * numSteps
+		AbsoluteEndPos =   currentPosition + stepSize / 2 * numSteps
+	else:
+		AbsoluteStartPos = currentPosition
+		AbsoluteEndPos =   currentPosition + stepSize * numSteps
 	return AbsoluteStartPos, AbsoluteEndPos
 
 def _d1out():
@@ -559,7 +564,6 @@ def _defaultParameter(parameter, parameter_default, help_text):
 		msg = "%s is not defined, assuming %r. Add %s='xx' to localStationUser.py%s" % (
 			parameter, parameter_default, parameter, help_text)
 		logger.info(msg)
-		print msg
 		if isinstance(parameter_default, str) or isinstance(parameter_default, unicode):
 			logger.trace("Returning default scannable %s" % parameter_default)
 			return jythonNameMap[parameter_default]
@@ -610,7 +614,7 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 
 		rockscanMotor = jythonNameMap['dkphi_rockscan']
 		msg = "rockNumber > 1 so performing unsynchronised rockscan using %s. Moving to start position %r" % (rockscanMotor.name, rockCentre-rockAngle)
-		logger.info(msg)
+		logger.warn(msg)
 		print "-"*80
 		print msg
 		print "-"*80
@@ -671,7 +675,8 @@ def _vertScanParams(vertMotor, AbsoluteVertStart, AbsoluteVertEnd, vertStep, ver
 	if  vertStep == None and vertStepNumber != None:
 		vertStep =  _calcStepSize(start=AbsoluteVertStart,  stop=AbsoluteVertEnd,  numPoints=vertStepNumber)
 
-	if vertStepNumber != None: print "Number of vertical positions is vertStepNumber+1 (%r)" % (vertStepNumber+1.)
+	if vertStepNumber != None:
+		LoggerFactory.getLogger("_vertScanParams").info("Number of vertical positions is vertStepNumber+1 ({})", vertStepNumber+1.)
 
 	# TODO: Do we need to check that vertMotor.level < numExposuresPD.level?
 	return [vertMotor,  AbsoluteVertStart,  AbsoluteVertEnd,  vertStep]
@@ -683,7 +688,8 @@ def _horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep
 	if horizStep == None and horizStepNumber != None:
 		horizStep = _calcStepSize(start=AbsoluteHorizStart, stop=AbsoluteHorizEnd, numPoints=horizStepNumber)
 
-	if horizStepNumber != None: print "Number of horizontal points is horizStepNumber+1 (%r)" % (horizStepNumber+1.)
+	if horizStepNumber != None:
+		LoggerFactory.getLogger("_horizScanParams").info("Number of horizontal points is horizStepNumber+1 ({})", (horizStepNumber+1.))
 
 	# TODO: Do we need to check that horizMotor.level < numExposuresPD.level?
 	return [horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep]
@@ -820,10 +826,10 @@ def _exposeN(exposeTime, exposeNumber, fileName, processing,
 		scan.runScan()
 
 	if rockMotor:
-		print "Moving %s back to %r after rock scan" % (rockMotor.name, rockMotorPosition)
+		logger.info("Moving {} back to {} after rock scan", rockMotor.name, rockMotorPosition)
 		rockMotor.moveTo(rockMotorPosition)
 	elif sweepMotor:
-		print "Moving %s back to %r after sweep scan" % (sweepMotor.name, sweepMotorPosition)
+		logger.info("Moving %s back to %r after sweep scan", sweepMotor.name, sweepMotorPosition)
 		sweepMotor.moveTo(sweepMotorPosition)
 
 def exposeAliases(alias):

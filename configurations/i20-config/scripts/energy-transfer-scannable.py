@@ -92,10 +92,15 @@ def createEnergyTransferScannable(sourceScn, name):
     energyTransfer.configure()
     return energyTransfer
 
-print("Creating energy transfer scannables : XESEnergyTransferLower, XESEnergyTransferUpper, XESEnergyTransferBoth")
+print("Creating energy transfer scannables : XESEnergyTransferLower, XESEnergyTransferUpper, XESEnergyTransferBoth, XESEnergyTransferGroup")
 
 XESEnergyTransferLower = createEnergyTransferScannable(XESEnergyLower, "XESEnergyTransferLower");
 XESEnergyTransferUpper = createEnergyTransferScannable(XESEnergyUpper, "XESEnergyTransferUpper");
+
+XESEnergyTransferGroup = ScannableGroup()
+XESEnergyTransferGroup.setGroupMembers([XESEnergyTransferLower,XESEnergyTransferUpper])
+XESEnergyTransferGroup.setName("XESEnergyTransferGroup")
+XESEnergyTransferGroup.configure()
 
 XESEnergyTransferBoth = ScannableGroupSinglePosition()
 XESEnergyTransferBoth.setGroupMembers([XESEnergyTransferLower,XESEnergyTransferUpper])

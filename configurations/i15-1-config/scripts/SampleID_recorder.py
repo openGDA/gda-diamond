@@ -4,8 +4,10 @@ from gda.data import NumTracker
 from gda.data.metadata import GDAMetadataProvider
 import json, zlib
 
-''' A zero input and extraName (zie) which records the current scan number and
-    sample_id in a simple line separated json
+''' A zero input and extraName (zie) scannable which records the current scan
+    number and sample_id in a simple line separated json file.
+
+    Note: this does nothing in Solstice (Malcolm) scans.
 
     from SampleID_recorder import SampleID_recorder
     sampleID_recorder = SampleID_recorder('sampleID_recorder',
@@ -35,10 +37,11 @@ class SampleID_recorder(ScannableMotionBase):
 
 	def atScanStart(self):
 		scan_number = NumTracker(GDAMetadataProvider.getInstance().getMetadataValue("instrument", "gda.instrument", None)).getCurrentFileNumber()
-		
-		with open(self.logfile, 'ab') as f:
-			line_item = {'scan': scan_number, 'sample_id': self.sample_id}
-			record = json.dumps(line_item).encode()
-			checksum = '{:8x}'.format(zlib.crc32(record)).encode()
-			f.write(record + b' ' + checksum + b'\n')
+		writeScanLog(self.logfile, scan_number, self.sample_id)
 
+def writeSampleLog(logfile, scan_number, sample_id):
+	with open(logfile, 'ab') as f:
+		line_item = {'scan': scan_number, 'sample_id': sample_id}
+		record = json.dumps(line_item).encode()
+		checksum = '{:8x}'.format(zlib.crc32(record)).encode()
+		f.write(record + b' ' + checksum + b'\n')

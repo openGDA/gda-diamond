@@ -26,30 +26,34 @@ class DiodeController(ScannableBase):
 		self.exposeDarkFlag = exposeDarkFlag
 		self.suppressOpenEHShutterAtScanStart = suppressOpenEHShutterAtScanStart
 		self.suppressCloseEHShutterAtScanEnd = suppressCloseEHShutterAtScanEnd
+		self.logger = LoggerFactory.getLogger("DiodeController")
+		self.logger.trace("DiodeController(d1out={}, d2out={}, d3out={}, exposeDarkFlag={},"+
+				"suppressOpenEHShutterAtScanStart={}, suppressCloseEHShutterAtScanEnd={})",
+				d1out, d2out, d3out, exposeDarkFlag, suppressOpenEHShutterAtScanStart, suppressCloseEHShutterAtScanEnd)
 
 	def atScanStart(self):
 		if self.d1out:
 			self.d1out()
 		else:
-			simpleLog("DiodeController: d1out disabled.")
+			self.logger.info("DiodeController: d1out disabled.")
 
 		if self.d2out:
 			self.d2out()
 		else:
-			simpleLog("DiodeController: d2out disabled.")
+			self.logger.info("DiodeController: d2out disabled.")
 
 		if self.d3out:
 			self.d3out()
 		else:
-			simpleLog("DiodeController: d3out disabled.")
+			self.logger.info("DiodeController: d3out disabled.")
 
 		self.zebraFastShutter.forceOpenRelease()
 
 		if (self.exposeDarkFlag):
-			simpleLog("DiodeController: Dark expose, so closing the EH shutter...")
+			self.logger.info("DiodeController: Dark expose, so closing the EH shutter...")
 			closeEHShutter()
 		elif self.suppressOpenEHShutterAtScanStart:
-			simpleLog("DiodeController: EH shutter open is suppressed.")
+			self.logger.info("DiodeController: EH shutter open is suppressed.")
 		else:
 			openEHShutter()
 
@@ -129,10 +133,10 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	filePathTemplate="$datadir$/"
 	if detector.name in ("pe"):
 		fileNameTemplate="%s-%s-$scan$" % (detector.name, sampleSuffix)
-		print "%s detector now using filenames where detector and sample names come before scan number." % detector.name
+		logger.info("Detector ({}) now using filenames where detector and sample names come before scan number.", detector.name)
 	else:
 		fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
-		print "%s has not been tested with using filenames where detector and sample names come before scan number." % detector.name
+		logger.info("Detector ({}) has not been tested with using filenames where detector and sample names come before scan number.", detector.name)
 
 	fileTemplate="%s%s" # filePathTemplate, fileNameTemplate & file number ignored
 
@@ -182,7 +186,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	if darkSubtractionPVs:
 		darkSubtractionArray = caget(darkSubtractionPVs['array']+"EnableBackground_RBV")
 		darkSubtractionLive =  caget(darkSubtractionPVs['live'] +"EnableBackground_RBV")
-		print "Dark subtraction %r on array and %r on live for detector %s " % (
+		logger.info("Dark subtraction {} on array and {} on live for detector {} ",
 			darkSubtractionArray, darkSubtractionLive, hardwareTriggeredNXDetector.name)
 
 	logger.trace("hardwareTriggeredNXDetector={}", hardwareTriggeredNXDetector)
@@ -193,15 +197,16 @@ def _darkExpose(detector,
 		exposureTime=1, sampleSuffix="expose_test", d1out=True, d2out=True, d3out=True):
 
 	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
+	logger = LoggerFactory.getLogger("detector_scan_commands.py:_darkExpose")
 
 	darkSubtractionPVs = _darkSubtractionPVs(detector)
 	if not darkSubtractionPVs:
 		raise Exception('No support for dark subtraction on detector %r' % (detector.name))
 
-	print "Dark subtraction is " + caget(darkSubtractionPVs['array']+"EnableBackground_RBV") + " on array"
-	print "Dark subtraction is " + caget(darkSubtractionPVs['live'] +"EnableBackground_RBV") + " on live"
+	logger.info("Dark subtraction is {} on array", caget(darkSubtractionPVs['array']+"EnableBackground_RBV"))
+	logger.info("Dark subtraction is {} on live",  caget(darkSubtractionPVs['live'] +"EnableBackground_RBV"))
 
-	print "Disabling dark subtraction before dark collection"
+	logger.info("Disabling dark subtraction before dark collection")
 	caput(darkSubtractionPVs['array']+"EnableBackground", 0)
 	caput(darkSubtractionPVs['live' ]+"EnableBackground", 0)
 
@@ -218,11 +223,11 @@ def _darkExpose(detector,
 						   detector, exposureTime ])
 	scan.runScan()
 
-	print "Saving dark image into area detector after dark collection"
+	logger.info("Saving dark image into area detector after dark collection")
 	caput(darkSubtractionPVs['array']+"SaveBackground", 1)
 	caput(darkSubtractionPVs['live' ]+"SaveBackground", 1)
 
-	print "Enabling dark subtraction"
+	logger.info("Enabling dark subtraction")
 	caput(darkSubtractionPVs['array']+"EnableBackground", 1)
 	caput(darkSubtractionPVs['live' ]+"EnableBackground", 1)
 

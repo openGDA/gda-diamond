@@ -73,6 +73,8 @@ class ProcessLaserData :
         
         self.detector_name = "qexafs_counterTimer01"
         self.processed_path = "/entry1/processed/"
+        self.apd_data_name = "/Iother"
+        
         self.end_frame_range = 50,60
         self.start_frame_range = 0,10
     
@@ -85,15 +87,18 @@ class ProcessLaserData :
         self.logger.info("Computing processed datasets at end of scan")
         
         i0_data = load_dataset(filename, '/entry1/'+self.detector_name+"/I0")
-        iapd_data = load_dataset(filename, '/entry1/'+self.detector_name+"/Iother")
+        iapd_data = load_dataset(filename, '/entry1/'+self.detector_name+"/"+self.apd_data_name)
         iapd_norm = iapd_data/i0_data
-        num_time_frames=iapd_norm.shape[1]
         
         #average of the last few frames for wach row of iapd_norm data
         end_range = self.end_frame_range[1]-self.end_frame_range[0]
+        if end_range == 0 :
+            end_range = 1
         end_timeframe_data = [sum(d)/end_range for d in iapd_norm[:, self.end_frame_range[0]:self.end_frame_range[1]]]
         
         start_range = self.start_frame_range[1]-self.start_frame_range[0]
+        if start_range == 0 :
+            start_range = 1
         start_timeframe_data = [sum(d)/start_range for d in iapd_norm[:, self.start_frame_range[0]:self.start_frame_range[1]]]
 
         start_end_diff = [start - end for start, end in zip(start_timeframe_data, end_timeframe_data) ]
@@ -133,4 +138,3 @@ class ProcessLaserData :
         return [list(row) for row in two_d_arr]
 
 laser_exp_processor = ProcessLaserData()
-

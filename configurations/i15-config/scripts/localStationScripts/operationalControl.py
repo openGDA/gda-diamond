@@ -5,6 +5,7 @@ from gdascripts.messages.handle_messages import simpleLog
 import java
 from localStationScripts.scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
+from org.slf4j import LoggerFactory
 
 global configured, isccd, beamline, dkappa, dktheta, cryobsx
 configured = False
@@ -130,11 +131,11 @@ def d3out():
 	setState("D3", "-DI-PHDGN-03:CON", CON_OUT)
 
 def d4cryoIn():
-	print "Moving d4cryo in."
+	LoggerFactory.getLogger("d4cryoIn").info("Moving d4cryo in.")
 	setState("D4cryo", "-RS-ABSB-04:CON", CON_IN)
 
 def d4cryoOut():
-	print "Moving d4cryo out."
+	LoggerFactory.getLogger("d4cryoOut").info("Moving d4cryo out.")
 	setState("D4cryo", "-RS-ABSB-04:CON", CON_OUT)
 
 def setState(name, pv, newState):
@@ -144,10 +145,10 @@ def setState(name, pv, newState):
 
 	currentState = beamline.getValue(None,"Top",pv)
 	if (newState == currentState):
-		print name + " position already: "  + text
+		LoggerFactory.getLogger("setState").info("{} position already: {}", name, text)
 	else:
 		beamline.setValue("Top",pv, newState)
-		print name + " position changed to: "  + text
+		LoggerFactory.getLogger("setState").info("{} position changed to: {}", name, text)
 
 def align():           # open EH and fast shutter
 	"""
@@ -291,12 +292,12 @@ def moveMotor(motor, newPos):
 	Moves motor to new position and checks that it has indeed moved to that position
 	(within a certain tolerance)
 	"""
-	simpleLog( "Moving " + motor.name + " to " + str(newPos))
+	LoggerFactory.getLogger("moveMotor").info("Moving {} to {}", motor.name, newPos)
 	motor(newPos)
 
 	tolerance = 0.1           # = motor.tolerance?
 	if (abs(motor.getPosition() - newPos) > tolerance):
 		raise Exception, "Error: motor has not moved to target position (currently at: " +  str(motor.getPosition()) + ") - SCRIPT TERMINATED"
 
-	simpleLog( "Now at: " + str(motor.getPosition()) )
+	LoggerFactory.getLogger("moveMotor").info("Motor {} Now at: {}", motor.name, motor.getPosition())
 

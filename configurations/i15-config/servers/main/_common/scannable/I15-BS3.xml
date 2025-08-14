@@ -1,4 +1,4 @@
-<beans profile="bs3"
+<beans profile="!nobs3"
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
@@ -10,4 +10,14 @@
 	<gda:motor id="bs3x" live-pvName="BL15I-RS-ABSB-09:X" />
 	<gda:motor id="bs3y" live-pvName="BL15I-RS-ABSB-09:Y" />
 	<gda:motor id="bs3z" live-pvName="BL15I-RS-ABSB-09:Z" />
+
+	<bean id="bs3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bs3x"/>
+				<ref bean="bs3y"/>
+				<ref bean="bs3z"/>
+			</list>
+		</property>
+	</bean>
 </beans>
