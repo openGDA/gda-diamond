@@ -891,9 +891,9 @@
         <property name="protectionLevel" value="0" />
     </bean>
 
-    <!-- Detector Slits DETS1  -->
-    <bean id="dets1hall" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXPos_DETS1" />
+    <!-- Detector Slits DS  -->
+    <bean id="dsl" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXLab_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -903,8 +903,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1ring" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXNeg_DETS1" />
+    <bean id="dsr" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXRing_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -914,8 +914,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1top" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYPos_DETS1" />
+    <bean id="dst" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYTop_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -925,8 +925,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1bottom" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYNeg_DETS1" />
+    <bean id="dsb" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYBottom_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -936,8 +936,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1xsize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXSize_DETS1" />
+    <bean id="dsxsize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXSize_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -947,8 +947,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1xcentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXCentre_DETS1" />
+    <bean id="dsxcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXCentre_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -958,8 +958,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1ysize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYSize_DETS1" />
+    <bean id="dsysize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYSize_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -969,8 +969,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets1ycentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYCentre_DETS1" />
+    <bean id="dsycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYCentre_DS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -980,17 +980,17 @@
             </list>
         </property>
     </bean>
-    <bean id="DETS1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+    <bean id="DS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="dets1hall" />
-                <ref bean="dets1ring" />
-                <ref bean="dets1top" />
-                <ref bean="dets1bottom" />
-                <ref bean="dets1xsize" />
-                <ref bean="dets1xcentre" />
-                <ref bean="dets1ysize" />
-                <ref bean="dets1ycentre" />
+                <ref bean="dst" />
+                <ref bean="dsb" />
+                <ref bean="dsr" />
+                <ref bean="dsl" />
+                <ref bean="dsxsize" />
+                <ref bean="dsxcentre" />
+                <ref bean="dsysize" />
+                <ref bean="dsycentre" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -1514,21 +1514,13 @@
                 <ref bean="tab1y" />
                 
                 <!-- Diffractometer 1 (DIFF1) -->
-                <ref bean="diff1x" />
-                <ref bean="diff1y" />
-                <ref bean="diff1z" />
                 <ref bean="diff1chi" />
                 <ref bean="diff1delta" />
                 <ref bean="diff1gamma" />
                 <ref bean="diff1omega" />
                 <ref bean="diff1theta" />
-                <ref bean="diff1cchi" />
-                <ref bean="diff1cphi" />
-                <ref bean="diff1detselect" />
                 <ref bean="diff1detdist" />
                 <ref bean="diff1prot" />
-                <ref bean="diff1dets2rot" />
-                <ref bean="diff1dets1rot" />
                 <ref bean="diff1basex" />
                 <ref bean="diff1basey" />
                 <ref bean="diff1basey1" />
@@ -1541,15 +1533,15 @@
                 <ref bean="dpsz" />
                 <ref bean="dpsz2" />
 
-                <!-- DETS1 -->
-                <ref bean="dets1hall" />
-                <ref bean="dets1ring" />
-                <ref bean="dets1top" />
-                <ref bean="dets1bottom" />
-                <ref bean="dets1xsize" />
-                <ref bean="dets1xcentre" />
-                <ref bean="dets1ysize" />
-                <ref bean="dets1ycentre" />
+                <!-- DS -->
+                <ref bean="dst" />
+                <ref bean="dsb" />
+                <ref bean="dsr" />
+                <ref bean="dsl" />
+                <ref bean="dsxsize" />
+                <ref bean="dsxcentre" />
+                <ref bean="dsysize" />
+                <ref bean="dsycentre" />
                 
                 <!-- DETS2 -->
                 <ref bean="dets2hall" />

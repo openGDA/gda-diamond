@@ -25,19 +25,17 @@ energyList = [dcm1energy]
 dcmList = [dcm1bragg, dcm1lambda, dcm1offset, dcm1xtalroll, dcm1xtalpitch,
         dcm1sep, dcm1t1h, dcm1t1, dcm1tgap, dcm1t2h, dcm1t2]
 
-slitList = [dets1xcentre, dets1xsize, dets1ycentre, dets1ysize, dets2xcentre,
+slitList = [dsxcentre, dsxsize, dsycentre, dsysize, dets2xcentre,
         dets2xsize, dets2ycentre, dets2ysize, mbs1xcentre, mbs1xsize,
         mbs1ycentre, mbs1ysize, mbs2xcentre, mbs2xsize, mbs2ycentre, mbs2ysize,
         mbs3xcentre, mbs3xsize, mbs3ycentre, mbs3ysize, s1xcentre, s1xsize,
         s1ycentre, s1ysize, jj1xpos, jj1xsize, jj1ypos, jj1ysize, jj2xpos,
         jj2xsize, jj2ypos, jj2ysize]
 
-diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch,
-        diff1cchi, diff1cphi, diff1vomega, diff1vdelta,
+diffList = [diff1basex, diff1basey, diff1basepitch, diff1vomega, diff1vdelta,
         diff1vgamma, diff1homega, diff1chi]
 
-diffDetList = [diff1detdist, diff1dets1rot, diff1dets2rot, diff1detselect,
-        diff1prot]
+diffDetList = [diff1detdist, diff1prot]
 
 diffOffsetList = [diff1chioffset, diff1homegaoffset,
         diff1vdeltaoffset, diff1vgammaoffset, diff1vomegaoffset]

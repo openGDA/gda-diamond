@@ -656,22 +656,22 @@
 
     <bean id="MotorY_DPS_Beamstop" class="gda.device.motor.DummyMotor"/>
 
-    <!-- Detector Slits DETS1 Motors -->
-    <bean id="MotorXPos_DETS1" class="gda.device.motor.DummyMotor"/>
+    <!-- Detector Slits DS Motors -->
+    <bean id="MotorXLab_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorXNeg_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorXRing_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorYPos_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorYTop_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorYNeg_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorYBottom_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorXSize_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorXSize_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorXCentre_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorXCentre_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorYSize_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorYSize_DS" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorYCentre_DETS1" class="gda.device.motor.DummyMotor"/>
+    <bean id="MotorYCentre_DS" class="gda.device.motor.DummyMotor"/>
 
     <!-- Detector Slits DETS2 Motors -->
     <bean id="MotorXPos_DETS2" class="gda.device.motor.DummyMotor"/>

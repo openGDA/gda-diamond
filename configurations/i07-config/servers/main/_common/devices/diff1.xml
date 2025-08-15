@@ -9,46 +9,10 @@
 	
 	<!-- I07-366 Aliases for backwards compatibility -->
 	<alias name="diff1omega" alias="diff1vomega"/>
-	<alias name="diff1alpha" alias="diff1valpha"/>
 	<alias name="diff1theta" alias="diff1homega"/>
 	<alias name="diff1chi" alias="diff1halpha"/>
 	<alias name="diff1delta" alias="diff1vdelta"/>
 	<alias name="diff1gamma" alias="diff1vgamma"/>
-
-	<!-- X, Y, Z -->
-	<bean id="diff1x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorX_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="diff1y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorY_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="diff1z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorZ_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
 
 	<bean id="diff1theta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorTHETA_DIFF1" />
@@ -106,58 +70,6 @@
 			</list>
 		</property>
 	</bean>	
-	
-	<bean id="diff1alpha" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorALPHA_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Chi on Eulerian (Chi2) -->
-	<bean id="diff1cchi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorCHI2_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Phi on Eulerian -->
-	<bean id="diff1cphi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorPHI_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Gonio Rotation (DRot) -->
-	<bean id="diff1detselect"
-		class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorDROT_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
 
 	<!-- Gonio Translation (DTrans) -->
 	<bean id="diff1detdist"
@@ -176,34 +88,6 @@
 	<!-- Pilatus -->
 	<bean id="diff1prot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorDETROT_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Point detector -->
-	<bean id="diff1dets2rot"
-		class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorNU2_DIFF1" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.5f</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Post sample slits rotation -->
-	<bean id="diff1dets1rot"
-		class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorNU1_DIFF1" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
@@ -276,22 +160,13 @@
 		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="diff1x" />
-				<ref bean="diff1y" />
-				<ref bean="diff1z" />
-				<ref bean="diff1alpha" />
 				<ref bean="diff1chi" />
 				<ref bean="diff1delta" />
 				<ref bean="diff1gamma" />
 				<ref bean="diff1omega" />
 				<ref bean="diff1theta" />
-				<ref bean="diff1cchi" />
-				<ref bean="diff1cphi" />
-				<ref bean="diff1detselect" />
 				<ref bean="diff1detdist" />
 				<ref bean="diff1prot" />
-				<ref bean="diff1dets2rot" />
-				<ref bean="diff1dets1rot" />
 				<ref bean="diff1basex" />
 				<ref bean="diff1basey" />
 				<ref bean="diff1basey1" />
@@ -306,14 +181,8 @@
 		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="diff1x" />
-				<ref bean="diff1y" />
-				<ref bean="diff1z" />
-				<ref bean="diff1detselect" />
 				<ref bean="diff1detdist" />
 				<ref bean="diff1prot" />
-				<ref bean="diff1dets2rot" />
-				<ref bean="diff1dets1rot" />
 				<ref bean="diff1basex" />
 				<ref bean="diff1basey" />
 				<ref bean="diff1basepitch" />

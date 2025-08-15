@@ -1037,29 +1037,29 @@
 		<property name="pvName" value="BL07I-MO-STOP-01:Y" />
 	</bean>
 
-	<!-- Detector Slits DETS1 Motors -->
-	<bean id="MotorXPos_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-AL-SLITS-06:X:PLUS" />
+	<!-- Detector Slits DS Motors -->
+	<bean id="MotorXLab_DS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-06:X:LAB" />
 	</bean>
-	<bean id="MotorXNeg_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-AL-SLITS-06:X:MINUS" />
+	<bean id="MotorXRing_DS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-06:X:RING" />
 	</bean>
-	<bean id="MotorYPos_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-AL-SLITS-06:Y:PLUS" />
+	<bean id="MotorYTop_DS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-06:Y:TOP" />
 	</bean>
-	<bean id="MotorYNeg_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL07I-AL-SLITS-06:Y:MINUS" />
+	<bean id="MotorYBottom_DS" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-AL-SLITS-06:Y:BOTTOM" />
 	</bean>
-	<bean id="MotorXSize_DETS1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorXSize_DS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:SIZE" />
 	</bean>
-	<bean id="MotorXCentre_DETS1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorXCentre_DS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:CENTER" />
 	</bean>
-	<bean id="MotorYSize_DETS1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorYSize_DS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:SIZE" />
 	</bean>
-	<bean id="MotorYCentre_DETS1" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorYCentre_DS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:CENTER" />
 	</bean>
 
