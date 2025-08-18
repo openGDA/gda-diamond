@@ -148,6 +148,14 @@ from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan
 from  scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 print("-"*100)
+from gdascripts.scannable.sample_positions import SamplePositions
+sm21b_sp = SamplePositions("sm21b_sp", [sm21b_x,sm21b_y,sm21b_z,sm21b_roty]) # @UndefinedVariable
+sm52b_sp = SamplePositions("sm52b_sp", [sm52b_xp,sm52b_yp,sm52b_zp,sm52b_roty,sm52b_rotz]) # @UndefinedVariable
+print("Creating sample positioner objects: " + sm21b_sp.getName() + ", " + sm52b_sp.getName())
+print("Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+help(sm21b_sp)
+
+print("-"*100)
 # import sputter functions
 execfile("/dls_sw/b07/scripts/Beamline/sputter_funcs.py")
 
