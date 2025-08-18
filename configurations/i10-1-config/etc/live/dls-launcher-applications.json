@@ -1,6 +1,6 @@
 [
     {
-        "type": "group", 
+        "type": "group",
         "children": [
             {
                 "type": "button", 
@@ -67,5 +67,18 @@
             }
         ], 
         "name": "Data Acquisition"
+    },
+    {
+        "type": "group",
+        "children": [
+            {
+                "type": "button", 
+                "text": "PolSpeX", 
+                "args": "-c 'module load polspex; polspex'",
+                "command": "/usr/bin/env bash",  
+                "icon": "/dls_sw/apps/polspex/0.1/polspex.png"
+            }
+        ], 
+        "name": "Data Analysis"
     }
 ]

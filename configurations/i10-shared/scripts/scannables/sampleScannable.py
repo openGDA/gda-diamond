@@ -25,5 +25,6 @@ class SampleName(ScannableMotionBase):
 
     def asynchronousMoveTo(self, v):
         self.sampleName = v
+
     def isBusy(self):
         return False
