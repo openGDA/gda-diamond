@@ -9,7 +9,7 @@
 	<import resource="testMotors.xml"/>
 	<import resource="leem.xml" />
 	<import resource="periscope_top.xml" />
-	<import resource="femto.xml" />
+<!-- 	<import resource="femto.xml" /> -->
 	<import resource="waveplates.xml" />
 	<import resource="laser_diag_trans.xml" />
 	<import resource="polarisation_motor.xml" />

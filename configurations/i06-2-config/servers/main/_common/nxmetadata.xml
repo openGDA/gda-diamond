@@ -140,10 +140,10 @@
 					<property name="name" value="y"/>
 					<property name="scannableName" value="pscy"/>
 				</bean>		
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="diode"/>
-					<property name="scannableName" value="pscd"/>
-				</bean>
+<!-- 				<bean class="org.eclipse.scanning.device.ScannableField"> -->
+<!-- 					<property name="name" value="diode"/> -->
+<!-- 					<property name="scannableName" value="pscd"/> -->
+<!-- 				</bean> -->
 			</list>
 		</property>
 	</bean>
@@ -158,10 +158,10 @@
 					<property name="name" value="pol"/>
 					<property name="scannableName" value="pol"/>
 				</bean>
-				<bean class="org.eclipse.scanning.device.ScannableField">
-					<property name="name" value="diode"/>
-					<property name="scannableName" value="pold"/>
-				</bean>		
+<!-- 				<bean class="org.eclipse.scanning.device.ScannableField"> -->
+<!-- 					<property name="name" value="diode"/> -->
+<!-- 					<property name="scannableName" value="pold"/> -->
+<!-- 				</bean>		 -->
 			</list>
 		</property>
 	</bean>
