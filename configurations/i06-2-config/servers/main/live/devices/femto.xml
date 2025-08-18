@@ -17,7 +17,7 @@
 	<bean id="pscd" class="gda.device.currentamplifier.EpicsBekhoffAdc">
 		<property name="basePVName" value="BL06K-DI-IAMP-02:D2:"/>
 		<property name="amplifier" ref="ca2_femto"/>
-		<property name="adcChannel" value="2"/>
+		<property name="adcChannel" value="1"/>
 	</bean>
 
 	<bean id="ca1_femto" class="gda.device.currentamplifier.EpicsFemtoAmplifier">
