@@ -31,6 +31,9 @@ from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @Unu
 
 from i09shared.scan.miscan import miscan  # @UnusedImport
 
+from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn, flyscan_should_wait_for_beam  # @UnusedImport
+print(flyscan.__doc__) #@UndefinedVariable
+
 print("-"*100)
 print("Installing pathscan command:")
 from gdascripts.scan.pathscanCommand import pathscan # @UnusedImport
