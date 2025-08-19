@@ -90,4 +90,7 @@
       <children xsi:type="basic:Part" xmi:id="_1SsnsF_WEe-E3LQLJg8irA" elementId="org.eclipse.ui.navigator.ProjectExplorer" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Scripts" closeable="true"/>
     </elements>
   </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_tkVp0HxHEfCPbsvRollucg" featurename="children" parentElementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.2">
+    <elements xsi:type="basic:Part" xmi:id="_9hH2oHxHEfCPbsvRollucg" elementId="gda.rcp.views.baton.BatonView" toBeRendered="false" visible="false"/>
+  </fragments>
 </fragment:ModelFragments>
