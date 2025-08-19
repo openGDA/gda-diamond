@@ -23,4 +23,7 @@
 	<!-- resolution calculator config -->
 	<import resource="resolution_calculator_config.xml"/>
 
+	<!-- diagnostics -->
+	<import resource="diodes.xml"/>
+
 </beans>

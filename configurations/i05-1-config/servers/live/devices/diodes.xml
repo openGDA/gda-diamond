@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="dj7y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-DI-PHDGN-02:IONC:Y" />
+	</bean>
+
+	<bean id="dj7y_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL05J-DI-PHDGN-02:IONC:Y:MP:SELECT" />
+	</bean>
+
+	<bean id="dj9y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-DI-PHDGN-03:DET:Y" />
+	</bean>
+
+	<bean id="dj9y_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL05J-DI-PHDGN-03:DET:Y:MP:SELECT" />
+	</bean>
+
+</beans>

@@ -25,7 +25,9 @@
 	<import resource="sim_cam.xml"/>
 	<import resource="sim_motors.xml"/>
 
-
 	<!-- amplifiers      -->
 	<import resource="femto.xml" />
+
+	<!-- diodes -->
+	<import resource="d3.xml" />
 </beans>

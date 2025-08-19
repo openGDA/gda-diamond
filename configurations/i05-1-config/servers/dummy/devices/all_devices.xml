@@ -13,6 +13,9 @@
 		<!-- shutters -->
 	<import resource="shtrj.xml" />
 
+	<!-- diagnostic -->
+	<import resource="diodes.xml" />
+
 	<!-- electron analyser -->
 	<import resource="scientaslit.xml" />
 	<!-- sample environment -->
@@ -24,7 +27,6 @@
 	<import resource="sj9.xml"/>
 	<!-- femtos -->
 	<import resource="femto.xml" />
-	<import resource="d3.xml" />
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />
 	<import resource="analyser_rotation.xml"/>

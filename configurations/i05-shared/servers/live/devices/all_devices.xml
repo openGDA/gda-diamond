@@ -24,4 +24,6 @@
 	<!-- amplifiers      -->
 	<import resource="femto.xml" />
 
+	<!-- diodes -->
+	<import resource="d3.xml" />
 </beans>

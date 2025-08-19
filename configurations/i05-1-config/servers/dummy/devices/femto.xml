@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="d3femto" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
 	<bean id="d3current" class="gda.device.scannable.DummyScannable" />
 	<bean id="dj7current" class="gda.device.scannable.DummyScannable"/>
 	<bean id="dj9current" class="gda.device.scannable.DummyScannable"/>
