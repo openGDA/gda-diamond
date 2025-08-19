@@ -89,6 +89,8 @@ alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
 
+from gdascripts.blueskyHandler import *
+
 import uk.ac.gda.server.ncd.config.DeviceLister
 import gda.util.ElogEntry
 device_list_html = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
