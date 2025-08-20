@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="polarisation_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Polarisation" />
+		<property name="group" value="Insertion Device" />
+		<property name="scannableName" value="polarisation_wrapper" />
+		<property name="userUnits" value=""/>
+		<property name="textInput" value="true"/>
+	</bean>	
+	<bean id="m6_pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="m6_pitch" />
+		<property name="group" value="M6" />
+		<property name="scannableName" value="m6_pitch_wrapper" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="m6fpitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="m6fpitch" />
+		<property name="group" value="M6" />
+		<property name="scannableName" value="m6fpitch_wrapper" />
+		<property name="increment" value="1" />
+	</bean>
+
 	<beans profile="hfm">
 		<bean id="hfmx_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 			<property name="displayName" value="X" />
@@ -20,12 +46,43 @@
 			<property name="scannableName" value="hfmpitch" />
 			<property name="increment" value="1" />
 		</bean>
+		<bean id="ips_field_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
+			<property name="displayName" value="" />
+			<property name="group" value="Magnet" />
+			<property name="scannableName" value="ips_field_wrapper" />
+			<property name="showStop" value="false"/>
+			<property name="userUnits">
+				<util:map>
+	    			<entry key="ips_field" value="T" />
+	    			<entry key="demand_field" value="T" />
+				</util:map>
+			</property>
+		</bean>
+		<bean id="itc3_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
+			<property name="displayName" value="" />
+			<property name="group" value="Cryojet" />
+			<property name="scannableName" value="itc3_wrapper" />
+			<property name="showStop" value="false"/>
+			<property name="userUnits">
+				<util:map>
+	    			<entry key="itc3" value="K" />
+	    			<entry key="sensor_temp" value="K" />
+				</util:map>
+			</property>
+		</bean>
+
 		<bean name="controlSet_hfm" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="viewName" value="Live Controls"/>
 			<property name="controls">
 				<list>
+					<ref bean="polarisation_control" />
+					<ref bean="m6_pitch_control" />
+					<ref bean="m6fpitch_control" />
 					<ref bean="hfmx_control" />
 					<ref bean="hfmy_control" />
 					<ref bean="hfmpitch_control" />
+					<ref bean="ips_field_control" />
+					<ref bean="itc3_control" />
 				</list>
 			</property>
 		</bean>
@@ -43,11 +100,39 @@
 			<property name="scannableName" value="empitch" />
 			<property name="increment" value="1" />
 		</bean>
+		<bean id="magnetField_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+			<property name="displayName" value="magnetField " />
+			<property name="group" value="Magnet" />
+			<property name="scannableName" value="magnetField_wrapper" />
+			<property name="userUnits" value=""/>
+			<property name="textInput" value="true"/>
+		</bean>	
+		<bean id="ls336_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl">
+			<property name="displayName" value="" />
+			<property name="group" value="Lakeshore336" />
+			<property name="scannableName" value="ls336" />
+			<property name="showStop" value="false"/>
+			<property name="userUnits">
+				<util:map>
+	    			<entry key="sample" value="K" />
+	    			<entry key="shield" value="K" />
+	    			<entry key="cryostat" value="K" />
+	    			<entry key="heater" value="" />
+	    			<entry key="heater_range" value="" />
+				</util:map>
+			</property>
+		</bean>
 		<bean name="controlSet_em" class="uk.ac.gda.client.livecontrol.ControlSet">
+			<property name="viewName" value="Live Controls"/>
 			<property name="controls">
 				<list>
+					<ref bean="polarisation_control" />
+					<ref bean="m6_pitch_control" />
+					<ref bean="m6fpitch_control" />
 					<ref bean="emy_control" />
 					<ref bean="empitch_control" />
+					<ref bean="magnetField_control" />
+					<ref bean="ls336_control" />
 				</list>
 			</property>
 		</bean>

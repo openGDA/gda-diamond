@@ -28,7 +28,8 @@ Extensions:
         self.stable = True
         self.verbose = False
         self.hold_timer = self._timer_factory()
-
+        self.increment = 0.
+        
         self.inputNames = [name]
         self.extraNames = ['sensor_temp']
         self.outputFormat = ['%f', '%f']
