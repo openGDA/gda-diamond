@@ -99,4 +99,13 @@
         <useScriptCommand>true</useScriptCommand>
         <useConfigFile>false</useConfigFile>
     </detectorConfiguration>
+    <detectorConfiguration>
+        <description>Open Laser</description>
+        <detectorName></detectorName>
+        <configFileName></configFileName>
+        <scriptCommand>CAClient.put("BL18B-DI-PHDGN-07:CON", 1)</scriptCommand>
+        <useDetectorInScan>true</useDetectorInScan>
+        <useScriptCommand>true</useScriptCommand>
+        <useConfigFile>false</useConfigFile>
+    </detectorConfiguration>
 </DetectorParameters>
