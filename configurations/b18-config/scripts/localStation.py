@@ -210,8 +210,8 @@ run_in_try_catch(setupXspress3X)
 run_in_try_catch(setupXspress4)
 run_in_try_catch(setupPilatus)
 
-# run("continuous_scans.py")
-run("continuous_scans_new.py")
+run("continuous_scans.py")
+# run("continuous_scans_new.py")
 run("meca_status.py")
 run("test-ionchamber-output.py")
 
@@ -255,7 +255,7 @@ def test_xspressOdin(numPoints=10000, maxReadFrames=1000, scanTime=10) :
     # setup_xspressOdin("/dls/b18/data/2022/cm31142-3/tmp/xsp4_odin_544490_meta.h5")
     
     qexafs_xspress4Odin.setMaximumReadFrames(maxReadFrames) 
-    qexafs_counterTimer01.setUseInternalTriggeredFrames(True)
+    qexafs_counterTimer01.setUseExternalTriggers(False)
     startTime = time()
     #qexafs_counterTimer0
     cv(dummy_qexafs_energy,2000,3000,numPoints, scanTime, [qexafs_xspress4Odin])

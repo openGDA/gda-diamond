@@ -2,57 +2,74 @@ from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
 from gda.scan import ContinuousScan
-from __builtin__ import False, True
+from __builtin__ import False
 from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 from gda.device import IScannableMotor
 from gda.device.scannable import TwoDScanPlotter
 import math
 from gda.device.detector import BufferedScannablePositions 
-import time
 
 print "Running 'continuous_scans.py"
-   
 
-class ContinuousMotorScannable(QexafsTestingScannable) :
+"""
+  Scannable that runs a jython command in atScanStart and atScanEnd command.
+  Similar to gda.device.scannable.ScriptAdapter, except works with Jython commands.
+  Set command to be run in atScanStart, atScanEnd by using setScanStartCommand, setScanEndCommand.
+"""
+class CommandStringAdapter(ScannableBase):
+
+    def __init__(self, name):
+        self.name = name
+        self.inputNames = [name]
+        self.setOutputFormat({});
+        self.setInputNames({});
+        self.scanStartCommand = ""
+        self.scanEndCommand = ""
+        self.scanLineStartCommand = ""
+
+    def runCommand(self, when, commandString) :
+        if len(commandString) > 0 :
+            InterfaceProvider.getTerminalPrinter().print("Running command for "+when+" : "+commandString)
+            InterfaceProvider.getCommandRunner().runsource(commandString)
+        
+    def atScanStart(self) :
+        self.runCommand("atScanStart", self.scanStartCommand)
+        
+    def atScanLineStart(self) :
+        self.runCommand("atScanLineStart", self.scanLineStartCommand)
+
+    def atScanEnd(self) :
+        self.runCommand("atScanEnd", self.scanEndCommand)    
+        
+    def setScanStartCommand(self, command) :
+        self.scanStartCommand = command
+      
+    def setScanLineStartCommand(self, command) :
+        self.scanLineStartCommand = command
+  
+    def getScanStartCommand(self) :
+        return self.scanStartCommand
+        
+    def setScanEndCommand(self, command) :
+        self.scanEndCommand = command
+  
+    def getScanEndCommand(self) :
+        return self.scanEndCommand
     
-    def __init__(self, bufferedScaler):
-        self.bufferedScaler = bufferedScaler
-        self.pulseDelayMs = 0.0
-        self.scannable_positions_detector=None
-        
-    def atScanLineStart(self):
-        # set the tfg to use internal triggered frames (each inner loop of the scan)
-        self.bufferedScaler.setUseExternalTriggers(False)
-        
-    def atScanStart(self):
-        # this ensures that tfg is only configured during call to setContinuousMode(True).
-        # Need to call startTfg method to actually start it.
-        self.bufferedScaler.setManualStart(True)
+    def isBusy(self):
+        return False
+
+    def rawAsynchronousMoveTo(self,new_position):
+        pass
+
+    def rawGetPosition(self):
+        return None
     
-    def performContinuousMove(self):
-        # Positions detector will already have been started by call to setContinuousMode(True), so need to stop it here
-        if self.scannable_positions_detector is not None :
-            print("Making sure positions detector has been stopped")
-            self.scannable_positions_detector.atScanEnd()
-            
-        # start the motor move
-        print("Moving %s"%(self.getName()))
-        super(ContinuousMotorScannable,self).performContinuousMove()
-        
-        # sleep for the delay time
-        if self.pulseDelayMs> 0 :
-            print("Waiting for %f ms before starting tfg"%(self.pulseDelayMs))
-            time.sleep(self.pulseDelayMs)
-        
-        #start the tfm
-        print("Starting Tfg")
-        self.bufferedScaler.startTfg()
-        
-        # Start the positions detector
-        if self.scannable_positions_detector is not None :
-            print("Starting the positions detector")
-            self.scannable_positions_detector.atScanStart()
-        
+
+set_tfg_internal_trigger = CommandStringAdapter("set_tfg_internal_trigger")
+set_tfg_internal_trigger.configure()
+set_tfg_internal_trigger.setScanLineStartCommand("qexafs_counterTimer01.setUseInternalTriggeredFrames(True)") # use software start for Tfg triggers
+
 twoDPlotter = TwoDScanPlotter()
 twoDPlotter.setName("twoDPlotter")
 # this should be set to one of the output quantities in the scan (e.g. I0, It, Iref if using counterTimer01 etc)
@@ -68,7 +85,7 @@ def test_2d_scan() :
 
     scan test 10 20 1.0 cs twoDPlotter
 
-def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, bidirectional=False, rampDistance=0, pulseDelayMs=0) :
+def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, bidirectional=False) :
     """
         Create continuous scan using 'step scan'-like parameter 
         i.e. between start and end positions, with num points and total time computed automatically.
@@ -82,20 +99,24 @@ def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, 
     num_points=abs( int((end-start)/step) )
     total_time=num_points*time_per_point
     
-    continuous_scannable = scnMotor
     ## Create continuously scannable object from the scannable motor
-    if not isinstance(scnMotor, ContinuouslyScannable) :
-        continuous_scannable = createContinuousScannable(scnMotor, pulseDelayMs=pulseDelayMs, rampDistance=rampDistance)
+    continuous_scannable = createContinuousScannable(scnMotor)
     
-    cs=getCscanUnsyncronized(continuous_scannable, start, end, num_points, total_time, dets, bidirectional=bidirectional)
+    # create detector to record positions of the scannable during the scan
+    scn_detector = createScannableDetector(scnMotor)
+    if dets is None :
+        dets=[]
+    dets.append(scn_detector)
+
+    cs=getCscanUnsyncronized(continuous_scannable, start, end, num_points, total_time, dets)
     cs.setBiDirectional(bidirectional)
 
     #add non continuous variable to get encoder values for motor position instead of values calculated by GDA according to speed
-    #cs.getAllScannables().add(scnMotor)
+    cs.getAllScannables().add(scnMotor)
 
     return cs
 
-def createContinuousScannable(scn, name=None, pulseDelayMs=0, rampDistance=0):
+def createContinuousScannable(scn, name=None):
     """
         Create a new continuous scannable object (QexafsTestingScannable) for use in ContinuousScans.
         Output format, current speed are taken from the supplied scannable. Speed to use when
@@ -105,8 +126,6 @@ def createContinuousScannable(scn, name=None, pulseDelayMs=0, rampDistance=0):
             scn  -  a scannable. This should be a scannable motor - provides the underlying motor object for the new scannable.
             name - name to use for the new scannable (optional). If not set new name is 'qexafs_'.scn.getName()
 
-            pulseDelay = delay between motor move and Tfg start (milli-seconds)
-            rampDistance = distance beyond start, end scan positions to move for initial and final positions.
     """
 
     if isinstance(scn, IScannableMotor) == False :
@@ -116,7 +135,7 @@ def createContinuousScannable(scn, name=None, pulseDelayMs=0, rampDistance=0):
     if name == None :
         name = "qexafs_"+scn.getName()
     
-    newScannable = ContinuousMotorScannable(qexafs_counterTimer01)
+    newScannable = QexafsTestingScannable()
     newScannable.setDelegateScannable(scn)
     newScannable.setName(name)
     newScannable.setOutputFormat(scn.getOutputFormat())
@@ -125,16 +144,7 @@ def createContinuousScannable(scn, name=None, pulseDelayMs=0, rampDistance=0):
     maxSpeed = motor.getMaxSpeed()
     # newScannable.setSpeed(motor.getSpeed())
     newScannable.setMaxMotorSpeed(maxSpeed*0.5)
-    
-    newScannable.pulseDelayMs = pulseDelayMs
-    newScannable.setRampDistance(rampDistance)
-    
     newScannable.configure()
-    
-    scannable_positions_detector = createScannableDetector(newScannable)
-    
-    newScannable.scannable_positions_detector = scannable_positions_detector
-    
     return newScannable
 
 def createScannableDetector(scn) :
@@ -152,20 +162,16 @@ def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDet
     if extraDetectors != None :
         detectors.extend(extraDetectors)
     
-    # Get the detector to be used for recording the scannable position during scan
-    scn_detector = None
-    if isinstance(continuous_axis, BufferedScannablePositions) :
-        scn_detector = continuous_axis.scannable_positions_detector
-    # Create default detector to record positions
-    if scn_detector is None : 
-        scn_detector = createScannableDetector(continuous_axis)
-        
+    # create detector for recording the scannable position during scan
+    scn_detector = createScannableDetector(continuous_axis)
     detectors.append(scn_detector)
     
     # add counterTimer01
     detectors.append(qexafs_counterTimer01)
     
     cs=ContinuousScan(continuous_axis, start, stop, readouts, time, detectors)
+    # cs.getAllScannables().add(axis) # add hoffset scannable to get the real position at each scan data point (from Epics)
+    cs.getAllScannables().add(set_tfg_internal_trigger)
     
     # set the bidirectional flag
     cs.setBiDirectional(bidirectional)
@@ -186,3 +192,9 @@ print "Create continuous scan object : getCscanUnsyncronized(axis, start, stop, 
 print "Run a 2d scan using continuous scan over sam2x for inner axis : "
 print "   cs = getCscanUnsyncronized(qexafs_sam2x, 100, 150, 100, 10)"
 print "   scan sam2y 50 100 1.0 cs"
+
+"""
+Delete the scannables - do this if you want to run the script again without doing a reset_namespace
+"""
+def delete_scannables() :
+    del set_tfg_internal_trigger
