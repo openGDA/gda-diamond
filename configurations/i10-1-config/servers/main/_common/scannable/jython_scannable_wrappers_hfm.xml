@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- These wrapper objects expose scannable defined in Jython scripts to the GUI components in Client -->
+	<bean id="polarisation_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="pol"/>
+		<property name="command" value="pol.deleteIObservers()"/>
+	</bean>
+	<bean id="m6_pitch_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="m6_pitch"/>
+		<property name="command" value="m6_pitch.deleteIObservers()"/>
+	</bean>
+	<bean id="m6fpitch_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="m6fpitch"/>
+		<property name="command" value="m6fpitch.deleteIObservers()"/>
+	</bean>
+	<bean id="ips_field_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="ips_field"/>
+		<property name="command" value="ips_field.deleteIObservers()"/>
+	</bean>
+	<bean id="itc3_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="itc3"/>
+		<property name="command" value="itc3.deleteIObservers()"/>
+	</bean>
+
+</beans>

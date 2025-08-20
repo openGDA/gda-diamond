@@ -13,8 +13,10 @@
 	<import resource="CAJ2.xml" />
 	<beans profile="hfm">
 		<import resource="HFM.xml" />
+		<import resource="jython_scannable_wrappers_hfm.xml"/>
 	</beans>
 	<beans profile="em">
 		<import resource="MES2.xml" />
+		<import resource="jython_scannable_wrappers_em.xml"/>
 	</beans>
 </beans>
