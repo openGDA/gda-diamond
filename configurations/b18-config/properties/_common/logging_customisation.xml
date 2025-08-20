@@ -9,6 +9,7 @@
         <logger name="org.apache.commons.beanutils.converters">         <level value="INFO"/> </logger>
         <logger name="org.apache.commons.beanutils.BeanUtils">          <level value="INFO"/> </logger>
         <logger name="gda.epics.LazyPVFactory">                         <level value="INFO"/> </logger>
+	<logger name="gda.util.NexusTreeWriter">                         <level value="INFO"/> </logger>
 
         <!-- Classes for which TRACE messages are excessive -->
         <!-- Classes where we want all messages -->
