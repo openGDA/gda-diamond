@@ -20,7 +20,7 @@
 	</bean>
 
 	<bean id="analysercamera" class="org.opengda.detector.electronanalyser.client.Camera">
-		<property name="frameRate"	value="${gda.analyser.camera.framerate}" />
+		<property name="frameRateScannable"	ref="analyser_frame_rate" />
 		<property name="energyResolution_meV" value="${gda.analyser.camera.energyresolutionmeV}"/>
 		<property name="cameraXSize" value="${gda.analyser.camera.xsize}"/>
 		<property name="cameraYSize" value="${gda.analyser.camera.ysize}"/>
