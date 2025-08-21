@@ -245,4 +245,9 @@
 		<property name="pvName" value="#{basePv}:CAM:ACQ_MODE" />
 	</bean>
 
+	 <bean id="analyser_frame_rate" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{basePv}:CAM:MAX_FRAMES_RBV" />
+		<property name="canMove" value="false" />
+	</bean>
+
 </beans>
