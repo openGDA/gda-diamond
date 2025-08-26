@@ -26,7 +26,9 @@
 	<bean id ="laminographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.LaminographySection">
 		<property name="sectionName" value="Laminography Stage Rotation" />
 	</bean>
-	<bean id ="tomographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySection" />
+	<bean id ="tomographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.TomographySection">
+		<property name="sectionName" value="Tomography Stage Rotation" />	
+	</bean>
 
 	<!-- Mapping view for I14 including XANES -->
 	
