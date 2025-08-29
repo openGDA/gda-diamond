@@ -11,9 +11,8 @@ print("Running submit_sparse_exafs_scan.py")
 marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
 
 scanRequest = marshaller_service.unmarshal(scanRequestJson, ScanRequest)
-xanesEdgeParams = marshaller_service.unmarshal(customParams, XanesEdgeParameters)
 
-run_sparse_exafs_scan_request(scanRequest, xanesEdgeParams)
+run_sparse_exafs_scan_request(scanRequest)
 
 
 

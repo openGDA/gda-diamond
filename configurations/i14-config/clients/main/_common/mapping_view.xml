@@ -21,7 +21,11 @@
 		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
 	</bean>
 	
-	<bean id="exafsSection" class="uk.ac.diamond.daq.mapping.ui.xanes.ExafsParametersSection"/>
+	<bean id="exafsSection" class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsParametersSection">
+		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
+	</bean>
+	
+	<bean id="exafsTimeSection" class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsTimeParametersSection"/>
 	
 	<bean id ="laminographySection" class="uk.ac.diamond.daq.mapping.ui.tomography.LaminographySection">
 		<property name="sectionName" value="Laminography Stage Rotation" />
@@ -39,14 +43,15 @@
 					<property name="createSeparator" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScriptFilesSection" />
+				<ref bean="exafsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.OuterScannablesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
 				<ref bean="xanesSection" />
 				<ref bean="sparseXanesSection" />
-				<ref bean="exafsSection" />
 				<ref bean="tomographySection" />
 				<ref bean="laminographySection" />
+				<ref bean="exafsTimeSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.AlternativeDirectorySection" />
@@ -88,15 +93,15 @@
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
 							</bean>
-							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.ExafsSubmitScanSection">
+							<bean class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsSubmitScanSection">
 								<property name="description" value="Sparse EXAFS scan"/>
 								<property name="buttonText" value="Submit Sparse EXAFS scan"/>
 								<property name="submitScanButtonColour" value="LIGHT_YELLOW"/>
 								<property name="outerScannableName" value="dcm_enrg"/>
 								<property name="scriptFilePath" value="scanning/submit_sparse_exafs_scan.py"/>
 								<property name="detectorName" ref="sparse_xanes_scan_detector"/>
-								<property name="xanesParametersSection" ref="sparseXanesSection" />
 								<property name="exafsParametersSection" ref="exafsSection" />
+								<property name="exafsTimeParametersSection" ref="exafsTimeSection" />
 								<property name="stateReporter">
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
