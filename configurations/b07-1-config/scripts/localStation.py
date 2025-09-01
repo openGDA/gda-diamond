@@ -54,7 +54,7 @@ from metadata.metashop import meta_add, meta_ll, meta_ls, meta_rm  # @UnusedImpo
 import metadata.metashop as metashop  # @UnusedImport
 
 print("-"*100)
-meta_data_list = [endstation, ring_current, analyser_sledge] # @UndefinedVariable
+meta_data_list = [endstation, ring_current, analyser_sledge, detector_voltage] # @UndefinedVariable
 # add sample positions depending on endstation in use
 if installation.isLive():
 	if ConfigUtils.profileActive("TPOT"):
