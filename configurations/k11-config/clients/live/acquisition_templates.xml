@@ -21,6 +21,10 @@
 		<constructor-arg value="BL11K-ML-SCAN-06"/>
 	</bean>
 	
+	<bean id="laminographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="BL11K-ML-SCAN-04"/>
+	</bean>
+	
 	<bean id="diffractionTomographyMalcolmMri" class="java.lang.String" factory-method="valueOf">
 		<constructor-arg ref="diffractionMalcolmMri" /> <!-- This scan contains gts_cs_theta too -->
 	</bean>
@@ -36,7 +40,11 @@
 	<bean id="tomographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
 		<constructor-arg value="gts_cs_theta"/>
 	</bean>
-	
+
+	<bean id="laminographyThetaScannable" class="java.lang.String"  factory-method="valueOf">
+		<constructor-arg value="smaract_zrot"/>
+	</bean>
+
 	<bean id="nxtomoTemplatePath" class="java.lang.String" factory-method="valueOf">
 		<constructor-arg value="/dls_sw/k11/software/gda_var/nexus_templates/nxtomo_template.yaml" /> 
 	</bean>
