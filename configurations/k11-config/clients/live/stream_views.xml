@@ -63,6 +63,8 @@
 	<bean id="histogram_bottomui" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="histogram_topui" />
 	</bean>
+	
+	<bean id="pco_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="pco_cam_config"
 		class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -73,7 +75,9 @@
 		<property name="topUi" ref="histogram_topui" />
 		<property name="bottomUi" ref="histogram_bottomui" />
 		<property name="calibratedAxesProvider">
-			<bean class="uk.ac.gda.client.live.stream.calibration.PixelCalibration" />
+			<bean class="uk.ac.gda.client.live.stream.calibration.BinnedPixelCalibration" >
+				<constructor-arg ref="pco_camera_control" />
+			</bean>
 		</property>
 	</bean>
 
