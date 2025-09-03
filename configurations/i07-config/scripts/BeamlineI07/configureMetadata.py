@@ -25,8 +25,8 @@ energyList = [dcm1energy]
 dcmList = [dcm1bragg, dcm1lambda, dcm1offset, dcm1xtalroll, dcm1xtalpitch,
         dcm1sep, dcm1t1h, dcm1t1, dcm1tgap, dcm1t2h, dcm1t2]
 
-slitList = [dsxcentre, dsxsize, dsycentre, dsysize, dets2xcentre,
-        dets2xsize, dets2ycentre, dets2ysize, mbs1xcentre, mbs1xsize,
+slitList = [dsxcentre, dsxsize, dsycentre, dsysize, ssxcentre,
+        ssxsize, ssycentre, ssysize, mbs1xcentre, mbs1xsize,
         mbs1ycentre, mbs1ysize, mbs2xcentre, mbs2xsize, mbs2ycentre, mbs2ysize,
         mbs3xcentre, mbs3xsize, mbs3ycentre, mbs3ysize, s1xcentre, s1xsize,
         s1ycentre, s1ysize, jj1xpos, jj1xsize, jj1ypos, jj1ysize, jj2xpos,
