@@ -136,7 +136,7 @@ metadata_group5 = [	ca18b_current,# @UndefinedVariable
 				ca36b_current ,# @UndefinedVariable
 				ca36b_average_current]# @UndefinedVariable
 
-meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4 + metadata_group5+[detector_voltage, endstation]# @UndefinedVariable
+meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4 + metadata_group5+[endstation]# @UndefinedVariable
 
 [meta_add(each) for each in meta_data_list]
 [meta_add(each) for each in patch_panel_ES1.getGroupMembersAsArray()]# @UndefinedVariable
