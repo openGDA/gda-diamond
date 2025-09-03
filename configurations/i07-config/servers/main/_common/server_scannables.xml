@@ -22,7 +22,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- FrontEnd Aperture -->
     <bean id="feapx" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorX_FEAP" />
@@ -45,7 +45,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- White Beam Slits S1 -->
     <bean id="s1hall" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorXPos_S1" />
@@ -274,7 +274,6 @@
             <list>
                 <ref bean="qbpm1y" />
                 <ref bean="qbpm1screen" />
-
                 <!-- current amplifier controller and beam position monitor -->
                 <ref bean="qbpm1" />
                 <ref bean="bpm1qca" />
@@ -390,7 +389,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!--Horizontal Focusing Mirror HFM -->
     <bean id="hfmpitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorPitch_HFM" />
@@ -532,7 +531,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="vfmy" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorY_VFM" />
         <property name="protectionLevel" value="0" />
@@ -555,7 +554,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="vfmy1" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorJack1_VFM" />
         <property name="protectionLevel" value="0" />
@@ -578,7 +577,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="VFM" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -593,7 +592,6 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
 
     <!-- Mono Beam Slits MBS2 -->
     <bean id="mbs2hall" class="gda.device.scannable.ScannableMotor">
@@ -662,7 +660,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- Beam Poistion Monitor QBPM2 (D3) -->
     <bean id="qbpm2y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D3" />
@@ -689,7 +687,7 @@
                 <ref bean="qbpm2dx" />
                 <ref bean="qbpm2dy" />
                 <ref bean="qbpm2screen" />
-                
+
                 <!-- current amplifier controller and beam position monitor -->
                 <ref bean="qbpm2" />
                 <ref bean="bpm2qca" />
@@ -724,7 +722,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- Mono Beam Slits MBS3 Positioner and Motors -->
     <bean id="mbs3xgap" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorXGap_MBS3" />
@@ -792,7 +790,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- Beam Poistion Monitor QBPM3 (D5)-->
     <bean id="qbpm3x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D5" />
@@ -805,7 +803,7 @@
             <list>
                 <ref bean="qbpm3x" />
                 <ref bean="qbpm3screen" />
-                
+
                 <!-- current amplifier controller and beam position monitor -->
                 <ref bean="qbpm3" />
                 <ref bean="bpm3qca" />
@@ -813,7 +811,6 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-
 
     <!-- Filter Set Table (TAB1) -->
     <bean id="tab1x" class="gda.device.scannable.ScannableMotor">
@@ -837,7 +834,6 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-
 
     <!-- Detector Positioner System (DPS) -->
     <bean id="dpsx" class="gda.device.scannable.ScannableMotor">
@@ -995,10 +991,10 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
-    <!-- Detector Slits DETS2 -->
-    <bean id="dets2hall" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXPos_DETS2" />
+
+    <!-- Detector Slits SS -->
+    <bean id="ssl" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXLab_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1008,8 +1004,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2ring" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXNeg_DETS2" />
+    <bean id="ssr" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXRing_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1019,8 +1015,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2top" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYPos_DETS2" />
+    <bean id="sst" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYTop_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1030,8 +1026,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2bottom" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYNeg_DETS2" />
+    <bean id="ssb" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYBottom_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1041,8 +1037,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2xsize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXSize_DETS2" />
+    <bean id="ssxsize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXSize_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1052,8 +1048,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2xcentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXCentre_DETS2" />
+    <bean id="ssxcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorXCentre_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1063,8 +1059,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2ysize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYSize_DETS2" />
+    <bean id="ssysize" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYSize_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1074,8 +1070,8 @@
             </list>
         </property>
     </bean>
-    <bean id="dets2ycentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYCentre_DETS2" />
+    <bean id="ssycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYCentre_SS" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
@@ -1085,22 +1081,22 @@
             </list>
         </property>
     </bean>
-    <bean id="DETS2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+    <bean id="SS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="dets2hall" />
-                <ref bean="dets2ring" />
-                <ref bean="dets2top" />
-                <ref bean="dets2bottom" />
-                <ref bean="dets2xsize" />
-                <ref bean="dets2xcentre" />
-                <ref bean="dets2ysize" />
-                <ref bean="dets2ycentre" />
+                <ref bean="ssl" />
+                <ref bean="ssr" />
+                <ref bean="sst" />
+                <ref bean="ssb" />
+                <ref bean="ssxsize" />
+                <ref bean="ssxcentre" />
+                <ref bean="ssysize" />
+                <ref bean="ssycentre" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- Hexapod 1 -->
     <bean id="hex1x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorX_HEX1" />
@@ -1168,7 +1164,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="HEX1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -1178,11 +1174,9 @@
                 <ref bean="hex1rx" />
                 <ref bean="hex1ry" />
                 <ref bean="hex1rz" />
-<!--                
-                <ref bean="hex1pivotx" />
+<!--                <ref bean="hex1pivotx" />
                 <ref bean="hex1pivoty" />
-                <ref bean="hex1pivotz" />
--->                
+                <ref bean="hex1pivotz" /> -->
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -1205,7 +1199,7 @@
         <property name="motor" ref="MotorMTR4_U1" />
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <bean id="USER1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -1217,7 +1211,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <bean id="PATCHPANEL" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -1225,7 +1219,7 @@
                 <ref bean="u2" />
                 <ref bean="u3" />
                 <ref bean="u4" />
-                
+
                 <ref bean="dac1" />
                 <ref bean="dac2" />
                 <ref bean="dac3" />
@@ -1234,12 +1228,12 @@
                 <ref bean="dac6" />
                 <ref bean="dac7" />
                 <ref bean="dac8" />
-                
+
                 <ref bean="adc11" />
                 <ref bean="adc12" />
                 <ref bean="adc13" />
                 <ref bean="adc14" />
-                
+
                 <ref bean="adc21" />
                 <ref bean="adc22" />
                 <ref bean="adc23" />
@@ -1248,7 +1242,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- DCD Motors -->
     <bean id="dcdc1pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorPitch1_DCD" />
@@ -1283,7 +1277,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="dcdc2pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorPitch2_DCD" />
         <property name="protectionLevel" value="0" />
@@ -1340,7 +1334,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="dcdyaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorYaw_DCD" />
         <property name="protectionLevel" value="0" />
@@ -1417,7 +1411,7 @@
                 <!-- FE -->
                 <ref bean="feapx" />
                 <ref bean="feapy" />
-                
+
                 <!-- S1 -->
                 <ref bean="s1hall" />
                 <ref bean="s1ring" />
@@ -1427,11 +1421,11 @@
                 <ref bean="s1xcentre" />
                 <ref bean="s1ysize" />
                 <ref bean="s1ycentre" />
-                
+
                 <!-- D1 -->
                 <ref bean="d1y" />
                 <ref bean="d1screen" />
-                
+
                 <!-- DCM1 -->
                 <ref bean="dcm1energy" />
                 <ref bean="dcm1bragg" />
@@ -1445,11 +1439,11 @@
                 <ref bean="dcm1tgap" />
                 <ref bean="dcm1t2h" />
                 <ref bean="dcm1t2" />
-                
+
                 <!-- QBPM1 -->
                 <ref bean="qbpm1y" />
                 <ref bean="qbpm1screen" />
-                
+
                 <!-- MBS1 -->
                 <ref bean="mbs1hall" />
                 <ref bean="mbs1ring" />
@@ -1459,7 +1453,7 @@
                 <ref bean="mbs1xcentre" />
                 <ref bean="mbs1ysize" />
                 <ref bean="mbs1ycentre" />
-                
+
                 <!-- HFM -->
                 <ref bean="hfmpitch" />
                 <ref bean="hfmfinepitch" />
@@ -1471,7 +1465,7 @@
                 <ref bean="hfmx2" />
                 <ref bean="hfmy" />
                 <ref bean="hfmstripe" />
-                
+
                 <!-- VFM -->
                 <ref bean="vfmpitch" />
                 <ref bean="vfmfinepitch" />
@@ -1480,7 +1474,7 @@
                 <ref bean="vfmy1" />
                 <ref bean="vfmy2" />
                 <ref bean="vfmstripe" />
-                
+
                 <!-- MBS2 -->
                 <ref bean="mbs2hall" />
                 <ref bean="mbs2ring" />
@@ -1490,7 +1484,7 @@
                 <ref bean="mbs2xcentre" />
                 <ref bean="mbs2ysize" />
                 <ref bean="mbs2ycentre" />
-                
+
                 <!-- D4 -->
                 <ref bean="d4x" />
                 <ref bean="d4screenfoil" />
@@ -1498,7 +1492,7 @@
                 <ref bean="d4screendiode" />
                 <ref bean="d4i" />
                 <ref bean="d4s" />
-                
+
                 <!-- MBS3 -->
                 <ref bean="mbs3xgap" />
                 <ref bean="mbs3xpos" />
@@ -1508,11 +1502,11 @@
                 <ref bean="mbs3xcentre" />
                 <ref bean="mbs3ysize" />
                 <ref bean="mbs3ycentre" />
-                
+
                 <!-- Filter Set Table -->
                 <ref bean="tab1x" />
                 <ref bean="tab1y" />
-                
+
                 <!-- Diffractometer 1 (DIFF1) -->
                 <ref bean="diff1chi" />
                 <ref bean="diff1delta" />
@@ -1542,17 +1536,17 @@
                 <ref bean="dsxcentre" />
                 <ref bean="dsysize" />
                 <ref bean="dsycentre" />
-                
-                <!-- DETS2 -->
-                <ref bean="dets2hall" />
-                <ref bean="dets2ring" />
-                <ref bean="dets2top" />
-                <ref bean="dets2bottom" />
-                <ref bean="dets2xsize" />
-                <ref bean="dets2xcentre" />
-                <ref bean="dets2ysize" />
-                <ref bean="dets2ycentre" />
-                
+
+                <!-- SS -->
+                <ref bean="ssl" />
+                <ref bean="ssr" />
+                <ref bean="sst" />
+                <ref bean="ssb" />
+                <ref bean="ssxsize" />
+                <ref bean="ssxcentre" />
+                <ref bean="ssysize" />
+                <ref bean="ssycentre" />
+
                 <!-- Hexapod 1 -->
                 <ref bean="hex1x" />
                 <ref bean="hex1y" />
@@ -1560,13 +1554,13 @@
                 <ref bean="hex1rx" />
                 <ref bean="hex1ry" />
                 <ref bean="hex1rz" />
-                
+
                 <!-- Patch Panel User Motors -->
                 <ref bean="u1" />
                 <ref bean="u2" />
                 <ref bean="u3" />
                 <ref bean="u4" />
-                
+
                 <!-- DCD -->
                 <ref bean="dcdc1pitch" />
                 <ref bean="dcdc1roll" />
@@ -1578,7 +1572,7 @@
                 <ref bean="dcddrad" />
                 <ref bean="dcdyaw" />
                 <ref bean="dcdjack" />
-                
+
                 <!-- Yogurt Pot -->
                 <ref bean="sampchange" />
 
@@ -1586,31 +1580,26 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <!-- Beam Poistion Monitors -->
     <bean id="ALL_QBPMS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
                 <!-- QBPM1 (D2)-->
                 <ref bean="qbpm1" />
-                
                 <!-- MBS1QBPM-->
                 <ref bean="mbs1qbpm" />
-                
                 <!-- MBS2QBPM-->
                 <ref bean="mbs2qbpm" />
-                
                 <!-- QBPM2 (D3)-->
                 <ref bean="qbpm2" />
-                
                 <!-- MBS3QBPM-->
                 <ref bean="mbs3qbpm" />
-                
                 <!-- QBPM3 (D5)-->
                 <ref bean="qbpm3" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
 </beans>
