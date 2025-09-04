@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <targlets:ComponentDefinition
-    xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:targlets="http://www.eclipse.org/oomph/targlets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Targlets.ecore"
-    id="b07-1-config">
-  <requirement
-      name="dls-config"/>
-  <requirement
-      name="uk.ac.gda.beamline.b07_1.feature.feature.group"/>
+	xmi:version="2.0"
+	xmlns:xmi="http://www.omg.org/XMI"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:targlets="http://www.eclipse.org/oomph/targlets/1.0"
+	xsi:schemaLocation="http://www.eclipse.org/oomph/targlets/1.0 https://raw.githubusercontent.com/eclipse-oomph/oomph/master/setups/models/Targlets.ecore"
+	id="b07-1-config">
+	<requirement
+		name="b07-shared"/>
+	<requirement
+		name="uk.ac.gda.beamline.b07_1.feature.feature.group"/>
 </targlets:ComponentDefinition>

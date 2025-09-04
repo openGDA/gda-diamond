@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template"
+			value="${gda.data}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="terminallog_path_provider" />
+	</bean>
+
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+
+	<!-- Link path to GDA beamline scripts to be used in localstation -->
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts"/>
+		<property name="name" value="Scripts: GDA"/>
+		<property name="type" value="CONFIG	"/>
+	</bean>
+
+	<!-- Link path to shared scripts to be used in localstation -->
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config.shared}/scripts"/>
+		<property name="name" value="Scripts: b07-shared"/>
+		<property name="type" value="CONFIG"/>
+	</bean>
+
+	<!-- Add user script paths to Jython -->
+	<bean class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.users.scripts.dir}"/>
+		<property name="name" value="Scripts: User"/>
+		<property name="type" value="USER"/>
+	</bean>
+</beans>

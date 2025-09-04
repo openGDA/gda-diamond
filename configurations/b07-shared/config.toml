@@ -1,0 +1,20 @@
+server.spring-xml =	[
+	"servers/_common/server.xml",
+]
+
+properties = [
+	"properties/${gda.mode}/${gda.mode}_family_java.properties",
+	"properties/_common/common_family_java.properties",
+]
+
+[extras.dls]
+root = "../../dls-config"
+server.spring-xml = [
+	"servers/_common/file_registrar.xml",
+	"servers/${gda.mode}/icat_xml_creator.xml",
+	"servers/_common/machine_status.xml",
+]
+
+client.spring-xml = [
+	"clients/_common/serverFileListener.xml"
+]
