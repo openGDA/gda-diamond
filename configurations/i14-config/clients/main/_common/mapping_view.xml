@@ -23,6 +23,9 @@
 	
 	<bean id="exafsSection" class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsParametersSection">
 		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
+		<property name="offsetStart" value="0.12" />
+		<property name="offsetEnd" value="0.020" />
+		<property name="preEdgeStep" value="0.010" />
 	</bean>
 	
 	<bean id="exafsTimeSection" class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsTimeParametersSection"/>
