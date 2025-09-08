@@ -4,7 +4,6 @@
 # or the gda servers are restarted.                                           #
 ###############################################################################
 
-from analysis.RequiredRoiManager import RequiredRoiManager
 from datawriting.geometry import GeometryScannable
 from gda.device.scannable import DummyScannable
 from localstation_functions import localStation_print, localStation_exception,\
@@ -904,7 +903,6 @@ if USE_PIL1:
 		global pil_100k
 		with overwriting:  # @UndefinedVariable
 			pil1 = pil_100k  # @UnusedVariable
-		pil1_required = RequiredRoiManager(pil_100k)
 		pil1_geometry = GeometryScannable('pil_geometry', 'pilatus1',
 			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml',
 			origin_offset_vector = [50.40, -17.96, 525.95],
@@ -951,7 +949,6 @@ if USE_PIL3:
 		global pil3_100k
 		with overwriting:  # @UndefinedVariable
 			pil = pil3_100k  # @UnusedVariable
-		pil3_required = RequiredRoiManager(pil3_100k)
 		pil3_geometry = GeometryScannable('pil3_geometry', 'pilatus3',
 			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml')
 		# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
@@ -1231,7 +1228,6 @@ localStation_print("-------------------------------MEDIPIX INIT COMPLETE--------
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
 if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
 	global merlin
-	merlin_required = RequiredRoiManager(merlin)
 	merlin_geometry = GeometryScannable('merlin_geometry', 'merlin',
 		'/dls_sw/i16/scripts/pilatus_calibration/geometry_merlin.xml',
 		origin_offset_vector = [0., 0., 0.],

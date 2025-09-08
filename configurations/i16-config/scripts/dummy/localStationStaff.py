@@ -14,18 +14,7 @@ roi3params = (int(ci-1/2.),0,int(ci+1/2.),maxj)
 roi4params = (0,int(cj-1/2.),maxi,int(cj+1/2.))
 
 if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-	# TODO: Implement an equivalent of roi1-4 initially for pil3, later for merlin and other pilatus detectors
-	global pil3_required
-	pil3_required.rois()
-	pil3_required.roi('roi1', *roi1params)
-	pil3_required.roi('roi2', *roi2params)
-	pil3_required.roi('roi3', *roi3params)
-	pil3_required.roi('roi4', *roi4params)
-	pil3_required.active('roi1', True)
-	pil3_required.active('roi2', True)
-	pil3_required.active('roi3', False)
-	pil3_required.active('roi4', False)
-	pil3_required.rois()
+	pass
 else:
 	from detector_wrappers.pilatus_instances import pil3
 	from gdascripts.scannable.detector.DetectorDataProcessor import HardwareTriggerableDetectorDataProcessor
