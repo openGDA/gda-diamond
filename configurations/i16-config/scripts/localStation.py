@@ -247,9 +247,6 @@ alias("jobs")
 if not USE_NEXUS:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
-# USE_NEXUS & USE_NEXUS_METADATA_COMMANDS are now defined in the
-# localStationConfiguration.py user script
-
 if USE_NEXUS and USE_NEXUS_METADATA_COMMANDS:
 
 	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical #@UnusedImport
@@ -494,33 +491,10 @@ if Finder.find("kbmbase") and installation.isLive():
 		RsV=ReadSingleValueFromVectorPDClass
 		kbm=ReadPDGroupClass('kbm calibrated mirror values',[RsV(vmtrans,0,'vmtrans','%.3f'),RsV(hmtrans,0,'hmtrans','%.3f'),RsV(vmpitch,0,'vmpitch','%.3f'),RsV(hmpitch,0,'hmpitch','%.3f'),RsV(kbmx,0,'kbmx','%.3f'),RsV(kbmroll,0,'kbmroll','%.3f')], help='Use help vmpitch etc for help on each. Use kbm1/kbm2 for raw values\nCalibrated values all close to zero when mirrors aligned with zero pitch ')
 	
-		###########################################
-	
 	except:
 		localStation_exception("creating kbm1 and kbm2.")
 else:
 	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the 'kbm' transient device enabled, if you need them.")
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-#
-#                             END OF DUMMYSTARTUP
-#
-# if installation.isDummy():
-# 	localStation_print("Running localStation.test_only.py ...")
-# 	run("localStationScripts/localStation.test_only")
-# 	localStation_print("... completed localStation.test_only.py")
-# 	print
-# 	setDatadirPropertyFromPersistanceDatabase()
-# 	raise Exception("Manually INTERRUPTING localStation.py run as this is a test installation")
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-
 
 ###############################################################################
 ###                          Tune finepitch using QBPM                      ###
@@ -1194,11 +1168,11 @@ if Finder.find("andor1"):
 else:
 	localStation_warning("finding andor detector. Please restart the GDA servers with the andor transient device enabled, if you need it.")
 
+'''
 localStation_print("-------------------------------MEDIPIX INIT---------------------------------------")
 try:
 
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
-	'''
 	medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
 																	_medipix,
 																	None,
@@ -1217,7 +1191,6 @@ try:
 	#pil100k.printNfsTimes = True
 
 	medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
-	'''
 	pass
 except gda.factory.FactoryException as e:
 	localStation_exception("connecting to medipix (FactoryException)", e)
@@ -1226,7 +1199,7 @@ except java.lang.IllegalStateException as e:
 except:
 	localStation_exception("connecting to medipix (Other)")
 localStation_print("-------------------------------MEDIPIX INIT COMPLETE---------------------------------------")
-
+'''
 
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
 if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
@@ -1247,9 +1220,6 @@ localStation_print("-------------------------------MERLIN INIT COMPLETE---------
 if USE_XMAP:
 	from scannable.detector.dxp import DxpSingleChannelRoiOnly
 	Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
-###############################################################################
-###                             Configure firecam                           ###
-###############################################################################
 
 ###############################################################################
 ###                           Theta with offset eta                         ###
@@ -1416,10 +1386,6 @@ def open_valves():
 #checkbeam.command_string='open_valves()'	#uncomment to attempt to open valves if closed
 #### end of temp fix for valves closing due to img03###################
 
-###############################################################################
-# The Detector regions of interest are now defined in the localStationStaff.py user script
-###############################################################################
-
 # This depends on lcroi
 run('localStationScripts/FlipperClass')
 
@@ -1518,33 +1484,7 @@ if installation.isLive():
 		localStation_exception("running localStationScripts/startup_pie725 script")
 
 try:
-	from localStationScripts.user_input_meta import input_metadata, _title, _sample, user_command_scannable
-	import scisoftpy as dnp
-	class UBMatrixMeta(ScannableBase) :
-		def getPosition(self) :
-			ubmatrix = ubcalc._UB
-			if ubmatrix is None : return [ubcalc._state.crystal.B.tolist()]
-			transformed_matrix = dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], ubmatrix.tolist()) / ( 2 * dnp.pi )
-			return [transformed_matrix.tolist()]
-	ub_matrix_meta = UBMatrixMeta()
-	ub_matrix_meta.name = "ub_matrix"
-
-	class OrientationMatrixMeta(ScannableBase) :
-		def getPosition(self) :
-			try :
-				pos_list = ubcalc.U.tolist()
-			except :
-				return [dnp.eye(3).tolist()]
-			transformed_matrix =  dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], [pos_list[0], pos_list[1], pos_list[2]])
-			return [transformed_matrix.tolist()]
-	orientation_matrix_meta = OrientationMatrixMeta()
-	orientation_matrix_meta.name = "orientation_matrix"
-
-	class DiffcalcNameMeta(ScannableBase) :
-		def getPosition(self) :
-			return ubcalc.name
-	diffcalc_name_meta = DiffcalcNameMeta()
-	diffcalc_name_meta.name = "diffcalc_name"
+	from localStationScripts.user_input_meta import input_metadata, _title, _sample, user_command_scannable, ub_matrix_meta, orientation_matrix_meta, diffcalc_name_meta
 	run("datawriting/i16_nexus")
 except:
 	localStation_exception("running datawriting/i16_nexus script")
@@ -1641,8 +1581,6 @@ def protect_all_scannables():
 	if scannables_to_protect:
 		print "Scannables now protected: %r" % scannables_to_protect
 
-alias("protect_all_scannables")
-
 if installation.isLive():
 	print "*"*80
 	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
@@ -1692,7 +1630,8 @@ print("-"*100)
 
 from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, flyscan, setflyscandeadtime, getflyscandeadtime, flyscancn, fscan, fscancn, flyscan_should_wait_for_beam  # @UnusedImport
 from scan.miscan import miscan  # @UnusedImport
-from detector_wrappers.snap import snap
+if installation.isLive() :
+	from detector_wrappers.snap import snap  # @UnusedImport
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
