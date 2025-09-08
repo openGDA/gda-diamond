@@ -1367,55 +1367,8 @@ def meta_minimal():
 alias("meta_std")
 alias("meta_minimal")
 
-# Define a function which turns any scannable into one which doesn't pause the
-# scan if it's moving.
-from gda.device.scannable import PassthroughScannableMotionUnitsDecorator
-
-class AsyncMonitor(PassthroughScannableMotionUnitsDecorator):
-
-	def waitWhileBusy(self):
-		return
-
-	def stop(self):
-		return
-
-def asyncMonitor(scannable):
-	return AsyncMonitor(scannable)
-
-alias(asyncMonitor)
-
-class AsyncScannable(PassthroughScannableMotionUnitsDecorator):
-
-	def __init__(self, scannable, targetPosition):
-		super(AsyncScannable, self).__init__(scannable)
-		self.targetPosition = targetPosition
-
-	def atScanStart(self):
-		self.asynchronousMoveTo(self.targetPosition)
-		super(AsyncScannable, self).atScanStart()
-
-	def atScanEnd(self):
-		self.stop()
-		super(AsyncScannable, self).atScanEnd()
-
-	def atCommandFailure(self):
-		self.stop()
-		super(AsyncScannable, self).atCommandFailure()
-
-	def waitWhileBusy(self):
-		return
-
-	def stop(self):
-		return
-
-def asyncScannable(scannable, targetPosition):
-	return AsyncScannable(scannable, targetPosition)
-
-alias(asyncScannable)
-###Default Scannables###
 try:
-	for scannable_name in SIXC_SCANNABLEMOTOR_NAMES:
-		add_default(asyncMonitor(jythonNameMap[scannable_name]))
+	add_default(showkap6)
 	add_default(jythonNameMap["delta_axis_offset"])
 except:
 	localStation_exception("setting default scannables")
