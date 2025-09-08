@@ -85,7 +85,7 @@ def snap(detector, count_time = 1):
     elif detector == pil3_100k :
         det = pil_snap_viewer
     else :
-        raise ValueError("Snap only works for merlin and pil3_100k (pil), please use pos for other detectors.")
+        det = detector
     pos(det, count_time)
 
 from gda.jython.commands.GeneralCommands import alias 
