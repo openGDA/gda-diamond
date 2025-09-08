@@ -32,9 +32,6 @@ print("Running submit_standards_exafs_scan.py")
 marshaller_service = OsgiJythonHelper.getService(IMarshallerService)
 scanParams = marshaller_service.unmarshal(customParams, StandardsScanParams)
 
-energy_ranges = scanParams.getScanPath().split(';')
-path = [split_and_convert_energy_range(i) for i in energy_ranges]
-
 # absorption energy line, not fluorescence energy line
 lineToTrack = scanParams.getLineToTrack()
 if lineToTrack is not None:
@@ -46,7 +43,7 @@ xas_position = scanParams.getXasPosition()
 
 if move_xas_stage(xas_position):
     try:
-        standards_exafs_scan(path, scanParams.getExposureTime(), scanParams.isReverseScan(), lineToTrack)
+        standards_exafs_scan(scanParams.getExposureTime(), scanParams.isReverseScan(), lineToTrack)
     except Exception as e:
         print("[ERROR] Exception occurred during standards scan: %s" % e)
     except JavaException as e:
