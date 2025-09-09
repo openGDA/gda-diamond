@@ -1,5 +1,7 @@
 from gda.epics import CAClient 
 from gda.device.scannable import ScannableMotionBase
+from gda.device.detector import DetectorBase
+from beamline_objects import isBusy
 
 class Struck2(ScannableMotionBase):
 	'''
@@ -58,8 +60,6 @@ class Struck2(ScannableMotionBase):
 		self.rate.configure()
 #		self.rate.caput(60)
 		self.rate.clearup()
-		self.count_time=0
-
 
 		self.ch1.configure()
 		self.chgate1.configure()
@@ -67,12 +67,14 @@ class Struck2(ScannableMotionBase):
 		self.tp.configure()
 		self.clock.configure()
 
-	
+	def getCountTime(self):
+		return self.tp.caget()
+
 	def getPosition(self):
 		counts=[]
 		for cli in self.clients:
 			counts+=[float(cli.caget())]
-		return [self.count_time]+counts
+		return [self.getCountTime()]+counts
 
 	def isBusy(self):
 			if self.clock.caget()=='0':
@@ -81,8 +83,7 @@ class Struck2(ScannableMotionBase):
 				return 1 
 			
 	def asynchronousMoveTo(self,new_position):
-		if new_position!=self.count_time:
-			self.count_time=new_position	# new count time
+		if new_position!=self.getCountTime():
 			self.tp.caput(new_position)
 		self.clock.caput("1")
 
@@ -117,5 +118,38 @@ class Struck2(ScannableMotionBase):
 		self.channellist=channellist
 		self.restart()
 
- 
+class ScannableWrapperDetector(DetectorBase):
 
+	def __init__(self, name, scannable):
+		self.setName(name)
+		self.scannable = scannable
+
+		self.setInputNames(scannable.getInputNames())
+		self.setLevel(scannable.getLevel())
+		self.setExtraNames(scannable.getExtraNames())
+		self.setOutputFormat(scannable.getOutputFormat())
+
+	def getPosition(self):
+		return self.scannable.getPosition()
+
+	def isBusy(self):
+		return self.scannable.isBusy()
+
+	def asynchronousMoveTo(self, newpos):
+		self.scannable.asynchronousMoveTo(newpos)
+
+	def setCollectionTime(self, time):
+		self.asynchronousMoveTo(time)
+		super(ScannableWrapperDetector, self).setCollectionTime(time)
+
+	def collectData(self):
+		self.scannable.clock.caput("1")
+
+	def getStatus(self):
+		return 1 if self.isBusy() else 0
+
+	def readout(self):
+		return self.getPosition()[1]
+
+	def createsOwnFiles(self):
+		return False
