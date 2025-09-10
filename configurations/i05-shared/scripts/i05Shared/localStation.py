@@ -62,12 +62,6 @@ from gdascripts.constants import * #@UnusedWildImport
 print("")
 
 print("-"*100)
-print "Installing standard scans with processing"
-from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
-print("")
-
-print("-"*100)
 print(" Loading metadatatweaks")
 from i05Shared import metadatatweaks
 getSubdirectory = metadatatweaks.getSubdirectory

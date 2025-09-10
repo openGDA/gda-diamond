@@ -11,6 +11,12 @@ print "Creating beamline specific devices...";
 print ("")
 
 print("-"*100)
+print "Installing standard scans with processing"
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+print("")
+
+print("-"*100)
 print(" Setting up sample_name ")
 sample_name = metadatatweaks.SampleNameScannable("sample_name", "samplename")
 print("")
