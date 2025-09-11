@@ -209,11 +209,12 @@ public class BeamlineReadinessDisplay extends FourStateDisplay {
 		try {
 			final Object intensityPos = intensity.getPosition();
 			if (intensityPos instanceof Double) {
+				ionChambersOn = true;
 				return (double) intensityPos;
 			} else if (intensityPos instanceof double[] intensityValue) {
+				ionChambersOn = true;
 				return Arrays.stream(intensityValue).average().orElse(0);
 			}
-			ionChambersOn = true;
 		} catch (DeviceException e) {
 			ionChambersOn = false;
 			logger.error(ReadinessState.ION_CHAMBERS_OFF.getMessage(), e);
