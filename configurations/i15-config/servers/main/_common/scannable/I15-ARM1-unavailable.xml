@@ -1,4 +1,4 @@
-<beans profile='ddelta_and_dgamma_available'
+<beans profile='!ddelta_and_dgamma_available'
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
@@ -7,8 +7,15 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<gda:motor id="ddelta" live-pvName="BL15I-MO-DIFF-01:ARM:DELTA" />
-	<gda:motor id="dgamma" live-pvName="BL15I-MO-DIFF-01:ARM:GAMMA" />
+	<bean id="Ddelta_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Dgamma_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="ddelta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Ddelta_motor" />
+	</bean>
+	<bean id="dgamma" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Dgamma_motor" />
+	</bean>
 
 	<bean id="ARM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
