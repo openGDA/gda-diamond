@@ -76,7 +76,7 @@ class AdDetSnapper(DetectorSnapper, DetectorBase):
 from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats
 
 mdet = merlin.getDetector()
-merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[2].getNdArray(), merlin_stats, "Merlin")
+merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[1].getNdArray(), merlin_stats, "Merlin")
 merlin_snap_viewer.array_port = "mpx2.cam"
 
 pildet = pil3_100k.getDetector()
