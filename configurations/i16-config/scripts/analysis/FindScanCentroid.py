@@ -35,13 +35,12 @@ def FindScanCentroid(ordinateName, abscissaName, printNameList=[], scanID=0, ToP
 			import gda.data.NumTracker
 			numtracker = gda.data.NumTracker('scanbase_numtracker')
 			scanID = numtracker.getCurrentFileNumber() + scanID
-		
 		# Implicit else: scanID must be a positive number
 
 		# scanID now contains the number of a scan
-		import gda.configuration.properties   
+		import gda.configuration.properties
 		filepath = gda.configuration.properties.LocalProperties.get("gda.data.scan.datawriter.datadir")
-		filepath = filepath + '/' + str(scanID) + '.dat'  
+		filepath = filepath + "/spool/" + str(scanID) + '.dat'
 
 	if ToPrint == 1:
 		print "In file: %s" % filepath
