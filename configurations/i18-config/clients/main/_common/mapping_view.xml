@@ -12,7 +12,7 @@
 		<property name="linesToTrackList" ref="linesToTrackList" />
 	</bean>
 	
-	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
+	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.SparseXanesSection">
 		<property name="energyScannableName" value="energy" />
 		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
 	</bean>
