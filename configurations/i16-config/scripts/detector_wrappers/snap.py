@@ -3,6 +3,7 @@ from gda.device import DetectorSnapper
 from gda.device.detector import DetectorBase
 from org.eclipse.january.dataset import DatasetFactory
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
+import scisoftpy as dnp
 
 '''
 I16 has a requirement to be able to take a single image from a detector, display it and calculate stats quickly and 
@@ -21,15 +22,18 @@ class AdDetSnapper(DetectorSnapper, DetectorBase):
         self.setOutputFormat(self.statsProc.getOutputFormat())
         self.currentStats = None
         self.plotName = plotName
+        self.last_dataset = None
 
     def acquire(self):
         self.adBase.startAcquiring()
         while self.nd_array.getPluginBase().getArrayCounter_RBV() != 1:
             sleep(0.1)
         height = self.nd_array.getPluginBase().getArraySize0_RBV(); width = self.nd_array.getPluginBase().getArraySize1_RBV()
-        imageData = DatasetFactory.createFromObject(self.nd_array.getImageData(height * width), width, height)
-        SDAPlotter.imagePlot(self.plotName, imageData)
-        self.currentStats = self.statsProc.process(self.getName(), "", imageData)
+        image_data = self.nd_array.getImageData(height * width)
+        dataset = DatasetFactory.createFromObject(image_data, width, height)
+        SDAPlotter.imagePlot(self.plotName, dataset)
+        self.currentStats = self.statsProc.process(self.getName(), "", dataset)
+        self.last_dataset = dnp.reshape(image_data, [width, height])
         return [""]
 
     def getAcquirePeriod(self):
@@ -72,7 +76,7 @@ class AdDetSnapper(DetectorSnapper, DetectorBase):
 from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats
 
 mdet = merlin.getDetector()
-merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[2].getNdArray(), merlin_stats, "Merlin")
+merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[1].getNdArray(), merlin_stats, "Merlin")
 merlin_snap_viewer.array_port = "mpx2.cam"
 
 pildet = pil3_100k.getDetector()

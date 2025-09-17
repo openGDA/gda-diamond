@@ -51,19 +51,6 @@
 	</bean>
 
 	<!-- NXDetector file writers -->
-	
-	<bean id="merlin_nxfilewriter_for_scans"
-		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="merlin" />
-		<property name="ndFile" ref="merlin_ndfiletif" />
-		<property name="fileNameTemplate" value=""/>
-		<property name="filePathTemplate" value="$datadir$/$scan$-merlin-files"/>
-		<property name="keyNameForMetadataPathTemplate" value="merlin_path_template" />
-		<property name="writeErrorStatusSupported" value="false"/>
-		<property name="waitForFileArrival" value="false" />
-		<property name="alwaysPrepare" value="true" />
-		<property name="returnPathRelativeToDatadir" value="true" />
-	</bean>
 
 	<bean id="merlin_hdf5_filewriter_for_scans"
 			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -108,7 +95,6 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="merlin_hdf5_filewriter_for_scans" />
-				<ref bean="merlin_nxfilewriter_for_scans" />
 			</list>
 		</property>
 	</bean>

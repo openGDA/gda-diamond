@@ -21,7 +21,6 @@
 				<property name="collectionStrategy" ref="merlin_nxcollectionstrategy"/>
 				<property name="additionalPluginList">
 					<list>
-						<ref bean="merlin_nxfilewriter_for_scans" />
 						<ref bean="merlin_hdf5_filewriter_for_scans" />
 					</list>
 				</property>
