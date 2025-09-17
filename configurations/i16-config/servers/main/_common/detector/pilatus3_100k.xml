@@ -29,6 +29,7 @@
 					<list>
 						<ref bean="pilatus3_nxfilewriter_for_scans" />
 						<ref bean="pilatus3_hdf5filewriter_for_scans" />
+						<ref bean="pilatus3_ad_array_plugin" />
 					</list>
 				</property>
 			</bean>
@@ -58,6 +59,12 @@
 				 -->
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="pilatus3_ad_array_plugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="pilatus3_ndarray"/>
+		<property name="enabled" value="False" />
+		<property name="writeDataToFile" value="False" />
 	</bean>
 
 	<bean id="pilatus3_plotName" class="java.lang.String" factory-method="valueOf">

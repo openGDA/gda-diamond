@@ -22,6 +22,7 @@
 				<property name="additionalPluginList">
 					<list>
 						<ref bean="merlin_hdf5_filewriter_for_scans" />
+						<ref bean="merlin_ad_array_plugin" />
 					</list>
 				</property>
 			</bean>
@@ -51,6 +52,12 @@
 				 -->
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="merlin_ad_array_plugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="merlin_ndarray"/>
+		<property name="enabled" value="False" />
+		<property name="writeDataToFile" value="False" />
 	</bean>
 
 	<bean id="merlin_plotName" class="java.lang.String" factory-method="valueOf">
