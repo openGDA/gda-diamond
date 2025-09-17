@@ -6,7 +6,6 @@
 	<import resource="required_at_start.xml"/>
 	<import resource="fastshutter.xml"/>
 
-	<import resource="nxmetadata_NexusDataWriter.xml" />
 	<import resource="nxmetadata_NexusScanDataWriter.xml" />
 
 	<import resource="detector/pilatus3_100k.xml"/>

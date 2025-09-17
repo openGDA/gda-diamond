@@ -61,29 +61,6 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
             print "Warning: gda.scan.endscan.neworder must be True to create hdf links"
             return
 
-        if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusDataWriter':
-            writer = writers[0]
-            ndfile = writer.getNdFile()
-            detectorFileName = ndfile.getFileTemplate_RBV() % (ndfile.getFilePath_RBV(), ndfile.getFileName_RBV())
-            nexusPaths = ["/entry1/instrument/%s" % self.name, "/entry1/%s" % self.name]
-            datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
-            if LocalProperties.isDummyModeEnabled(): # Resolve symlinks which mess up relpath in dummy mode
-                self.logger.debug("datadirectory WAS '{}'", datadirectory)
-                datadirectory = os.path.realpath(datadirectory)
-                self.logger.debug("datadirectory NOW '{}'", datadirectory)
-            nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
-            detectorPath = "/entry/instrument/detector/data"
-            detectorFileName = os.path.relpath(detectorFileName, datadirectory)
-            if detectorFileName[0] == '/':
-                self.logger.debug("detectorFileName='{}', datadirectory='{}'", detectorFileName, datadirectory)
-                self.logger.warn("Relative path conversion failed, falling back to stripping the leading /")
-                detectorFileName = detectorFileName.split('/', 1)[1]
-
-            self.logger.debug("Calling nexusHDFLink.detectorLinkInserter({}, {}, {}, {}) on %s" % self.getName(),
-                nexusFileName, detectorFileName, nexusPaths, detectorPath)
-            print "Creating HDF Links"
-            self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
-
     def getExtraNames(self):
         return ['count_time'] + SwitchableHardwareTriggerableProcessingDetectorWrapper.getExtraNames(self)[1:]
 

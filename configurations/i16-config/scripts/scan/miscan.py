@@ -15,7 +15,6 @@ from gda.device.scannable import DummyScannable
 from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.jython.commands.ScannableCommands import scan
-from gdascripts.metadata.nexus_metadata_class import meta
 from gda.configuration.properties import LocalProperties
 from gdascripts.metadata.metadata_commands import meta_add, meta_rm
 from gda.jython import InterfaceProvider
@@ -224,11 +223,8 @@ def miscan(*args):
                 CACHE_PARAMETER_TOBE_CHANGED = True
             command, newargs = parse_detector_arguments(command, newargs, args, i, arg)
             i = i + 1
-    
-    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-        meta.addScalar("user_input", "cmd", command)
-    if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
-        meta_add("cmd", command)
+
+    meta_add("cmd", command)
     cmd_string = "cmd='" + str(command).strip() + "'\n"
     jython_namespace = InterfaceProvider.getJythonNamespace();
     existing_info = jython_namespace.getFromJythonNamespace("SRSWriteAtFileCreation")
@@ -243,10 +239,7 @@ def miscan(*args):
         if CACHE_PARAMETER_TOBE_CHANGED:
             restore_detector_setting_after_scan(adbase, image_mode, num_images)
             
-        if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusScanDataWriter":
-            meta.rm("user_input", "cmd")
-        if LocalProperties.get(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT) == "NexusDataWriter":
-            meta_rm("cmd")
+        meta_rm("cmd")
         jython_namespace.placeInJythonNamespace("SRSWriteAtFileCreation", existing_info)
 
     if PRINTTIME: print("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time() - start))
