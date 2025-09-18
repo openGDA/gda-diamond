@@ -1,76 +1,100 @@
 import os
 import json
 from time import sleep
+
 import scisoftpy as dnp
 
+# Num tracker imports
+from gda.data import NumTracker  #@Unresolvedimport
+
 # Java imports
-from java.lang import Exception as JavaException #@Unresolvedimport
-from java.lang import InterruptedException #@Unresolvedimport
+from java.lang import Exception as JavaException  #@Unresolvedimport
+from java.lang import InterruptedException  #@Unresolvedimport
+from mapping_scan_commands import submit
 
-# Scanning imports
-from org.eclipse.scanning.sequencer import ScanRequestBuilder #@Unresolvedimport
-from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
-from org.eclipse.scanning.api.points.models import AxialArrayModel, AxialStepModel, CompoundModel #@Unresolvedimport
-from uk.ac.diamond.osgi.services import ServiceProvider #@Unresolvedimport
-from org.eclipse.scanning.api.device import IScannableDeviceService #@Unresolvedimport
-
-# Dawn and Nexus imports
-from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI #@Unresolvedimport
-from org.eclipse.dawnsci.nexus import NexusNodeFactory #@Unresolvedimport
-from uk.ac.diamond.daq.scanning import NXObjectScannable #@Unresolvedimport
+# Dawn, Nexus and scanning imports
+from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI  #@Unresolvedimport
+from org.eclipse.dawnsci.nexus import NexusNodeFactory  #@Unresolvedimport
+from org.eclipse.scanning.sequencer import ScanRequestBuilder  #@Unresolvedimport
+from org.eclipse.scanning.api.device import IScannableDeviceService  #@Unresolvedimport
+from org.eclipse.scanning.api.scan.models import ScanMetadata  #@Unresolvedimport
+from org.eclipse.scanning.api.points.models import (  #@Unresolvedimport
+    AxialArrayModel,
+    AxialStepModel,
+    CompoundModel,
+)
+from uk.ac.diamond.daq.scanning import NXObjectScannable  #@Unresolvedimport
+from uk.ac.diamond.osgi.services import ServiceProvider  #@Unresolvedimport
 
 # Scripts imports
-from scanning.xanes_utils import get_visit_path, get_edge_to_energy, get_models, get_energies
-from scanning.xanes_utils import get_x_dimensions, get_y_dimensions, create_scan_metadata
-from mapping_scan_commands import submit
-from gda.data import NumTracker #@Unresolvedimport
+from scanning.xanes_utils import (
+    create_scan_metadata,
+    get_edge_to_energy,
+    get_energies,
+    get_models,
+    get_visit_path,
+    get_x_dimensions,
+    get_y_dimensions,
+)
+
 #from gda.epics import CAClient
-
-
-# Scannables imports
 
 numtracker = NumTracker('tmp')
 
 print("Setting up sparse xanes scan")
 
 PROCESSING_REQUEST_NAME = "i08-xanes-sparse-stack"
+SCANS_FOLDER_NAME = "sparse_xanes"
 ENERGY_SCANNABLE = energyFocus
 
 def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     print(scanRequest)
     print("Xanes parameters: {}\n".format(xanesEdgeParams))
 
+    # Validation for detector used
     valid_malcolm_detector_name = '-ML-SCAN-01'
     malcolm_detector_name = scanRequest.getDetectors().keys()[0]
     if (not malcolm_detector_name.endswith(valid_malcolm_detector_name)):
         print("Selected detector is not valid for this type of scan")
         return;
-
-    visitPath = get_visit_path()
-    edgeElement = get_edge_to_energy(xanesEdgeParams)
-
-    # percentage of rows to keep in the model
-    sparseParameters = xanesEdgeParams.getSparseParameters()
-    percentage = float(sparseParameters.getPercentage())/100
-
+    
+    # Get energy model from the ScanRequest
     energy_model, map_model = get_models(scanRequest)
     energies = get_energies(energy_model)
     min_energy = min(energies)
     max_energy = max(energies)
     print("\nEnergy Range: Min = {:.4f}, Max = {:.4f}".format(min_energy, max_energy))
     print("Energies: {}".format(energies))
-
     num_scans = len(energies)
     print("Total number of scans: {}\n".format(num_scans))
 
+    # Get the 2D dimensions
     y_min, y_max, y_range, y_step = get_y_dimensions(map_model)
     x_min, x_max, x_range, x_step = get_x_dimensions(map_model)
     print("Region: ")
     print("Y-axis: min = {:.5f}, max = {:.5f}, range = {:.5f}, step = {:.5f}".format(y_min, y_max, y_range, y_step))
     print("X-axis: min = {:.5f}, max = {:.5f}, range = {:.5f}, step = {:.5f}\n".format(x_min, x_max, x_range, x_step))
-
+    
+    # Percentage of rows to keep in the model
+    sparseParameters = xanesEdgeParams.getSparseParameters()
+    fraction_to_keep = float(sparseParameters.getPercentage())/100
+    print("Percentage of rows to keep in the model: {}%".format(int(fraction_to_keep * 100)))
     y_positions = dnp.arange(y_min, y_max+0.5*y_step, y_step)
-    n_lines = int (percentage*len(y_positions))
+    n_lines = int(fraction_to_keep*len(y_positions))
+    print("Number of y positions available: {}".format(len(y_positions)))
+    print("Number of lines to scan (n_lines): {}".format(n_lines))
+
+    # Use the NumTracker to get the number of the next Nexus file to be created
+    num_tracker = NumTracker()
+    nexus_scan_number = num_tracker.getCurrentFileNumber() + 1
+    num_tracker.incrementNumber() # increment it
+
+    # Setup Nexus file path format 
+    beamline_name = LocalProperties.get("gda.beamline.name")
+    visit_folder = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+    #nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d_%03d.nxs"
+    nexus_name_format = visit_folder+"/"+ SCANS_FOLDER_NAME +"/"+str(beamline_name)+"-%d_%03d.nxs"
+    print("Nexus file path format : {}".format(nexus_name_format))
 
     # configure NeXus group for file paths
     nxc = NexusNodeFactory.createNXcollection()
@@ -86,53 +110,49 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     mnps = scanRequest.getMonitorNamesPerScan()
     mnps.add("magic_nexus_scannable")
     scanRequest.setMonitorNamesPerScan(mnps)
+    
+    
+    # TODO
+    edgeElement = get_edge_to_energy(xanesEdgeParams) # to be used by processing request
 
     try:
-        # move to first energy and disable harmonic switching
         print("Moving energy scannable to first energy {}\n".format(dnp.amin(energies)))
         ENERGY_SCANNABLE.moveTo(dnp.amin(energies))
-        # TODO does energyFocus do anything related to disableHarmonicSwitching?
-        # energyFocus.disableHarmonicSwitching()
-        sleep(10)
+        sleep(5)
 
-        # TODO does the energy scannable have anything related to current gain?
-        # disable locum gain switching
-        #range_dict = {1:"100pA", 2:"1nA", 4:"10nA", 8:"100nA", 16:"1uA", 32:"10uA",64:"100uA", 128:"1mA"}
-        #current_gain1 = int(caget("BL14I-DI-BPM-03:IAMP1:MR").encode("ascii"))
-        #current_gain2 = int(caget("BL14I-DI-BPM-03:IAMP2:MR").encode("ascii"))
-        #current_gain1 = range_dict[current_gain1]
-        #current_gain2 = range_dict[current_gain2]
-        #current_gain = max(current_gain1,current_gain2)
-        #print("Amplifier Gains",current_gain1,current_gain2,current_gain)
-        #sleep(2)
-        #caput("BL14I-DI-BPM-03:IAMP1:SETRANGE",current_gain)
-        #caput("BL14I-DI-BPM-03:IAMP2:SETRANGE",current_gain)
-        #sleep(2)
-
-        # create 2d map per energy point
-        files = []
-        for idx, energy in enumerate(energies):
+        # Create 2d map per energy point
+        all_nexus_file_names = []
+        for index, energy in enumerate(energies):
             print("Moving energy scannable to energy {}".format(energy))
             pos(ENERGY_SCANNABLE, energy) #@Undefinedvariable
             sleep(2)
-            # last scan will be all positions
-            if idx < len(energies)-1:
-                rand_index = []
-                while len(rand_index) < n_lines:
-                    r=dnp.random.randint(0, len(y_positions))
-                    if r not in rand_index:
-                        rand_index.append(r)
-                if (len(rand_index) < 2):
+            
+            # Last scan will be all positions
+            if index < len(energies)-1:
+                random_y_indices = []
+                
+                while len(random_y_indices) < n_lines:
+                    random_index = dnp.random.randint(0, len(y_positions))
+                    if random_index not in random_y_indices:
+                        random_y_indices.append(random_index)
+                        
+                if (len(random_y_indices) < 2):
                     print("Not enough points to run the scan")
                     break
-                rand_index = dnp.sort(rand_index) # sort the indices
-                # get the random y positions using sorted indices
-                rand_y_positions = y_positions[rand_index]
-                print("Selected {} random y positions: {}".format(len(rand_y_positions), rand_y_positions))
+                
+                # Sort the random y indices
+                random_y_indices = dnp.sort(random_y_indices)
+                # Get the random y positions using sorted indices
+                random_y_positions = y_positions[random_y_indices]
+                print("Selected {} random y positions: {}".format(len(random_y_positions), random_y_positions))
+            else:
+                # For the last scan, use **all** y positions
+                random_y_positions = y_positions
+                print("Last scan: using all y positions ({} total)".format(len(random_y_positions)))
 
-            # TODO removed for now
+            # TODO Processing Request: removed for now
             # for last scan, save the files of this stack
-            #if idx == len(energies) - 1:
+            # if index == len(energies) - 1:
             #    # kick off the processing request when it is the last scan
             #    print('At last sparse XANES scan...')
             #    config = {"edge_element": edgeElement}
@@ -140,24 +160,24 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
             #    scanRequest.getProcessingRequest().getRequest().put(PROCESSING_REQUEST_NAME, [json.dumps(config)])
             #    print("scanRequest = {}".format(scanRequest))
 
-            # y model
-            y_axis_model = AxialArrayModel("SampleY",rand_y_positions)
+            # Create the Y and X axis model
+            y_axis_model = AxialArrayModel("SampleY",random_y_positions)
             y_axis_model.setContinuous(False)
-
-            # x model
             x_axis_model = AxialStepModel("SampleX", x_min, x_max, x_step)
             x_axis_model.setContinuous(True)
-
-            # create the model
             cm = CompoundModel([y_axis_model,x_axis_model])
 
-            # create the region
-            region =  RectangularROI(y_min-y_step,x_min,y_range+2*y_step,x_range,0.0)
+            # Create the Rectangular region
+            region =  RectangularROI(y_min - y_step, x_min, y_range + 2*y_step, x_range, 0.0)
 
-            # add sparse positions to metadata
-            sparse_pos_y = ''.join(str(x)+" " for x in rand_y_positions)
-            sparse_ind_y = ''.join(str(x)+" " for x in rand_index)
+            # Add sparse positions to metadata
+            sparse_pos_y = ''.join(str(x)+" " for x in random_y_positions)
+            sparse_ind_y = ''.join(str(x)+" " for x in random_y_indices)
             smetadata = create_scan_metadata(sparse_pos_y, sparse_ind_y)
+
+            # Create full file path
+            file_path = nexus_name_format%(nexus_scan_number, index)
+            print("NeXus file path is: {}".format(file_path))
 
             # create request
             request = ScanRequestBuilder() \
@@ -166,47 +186,41 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
                       .ignorePreprocess(True)\
                       .withScanMetadata([smetadata]) \
                       .withMonitorNamesPerScan(scanRequest.getMonitorNamesPerScan()) \
+                      .withFilePath(file_path) \
                       .build()
-            # TODO to add later
+                      
+            # TODO ProcessingRequest: to add later
             #.withProcessingRequest(scanRequest.getProcessingRequest()) \
-
+            
             # Submit the scan
-            print("Submitting scan {}/{} at energy: {:.4f}\n".format(idx+1, len(energies), energy))
-            scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
+            print("Submitting scan {}/{} at energy: {:.4f}\n".format(index+1, len(energies), energy))
+            scan_name = "Sparse XANES_scan_{0}_of_{1}".format(index+1, num_scans)
+            
             try:
                 submit(request, block=True, name=scan_name)
             except InterruptedException as e:
                 print(e)
-                print("Stopping script")
+                print("Stopping script as requested")
                 break
             except JavaException as e:
                 print(e)
                 print("Problem with the scan at :",energy)
             else:
-                # collection filepaths
-                # calculate path of last and append
-                files.append(os.path.join(visitPath, "scan", "i08-{0}.nxs".format(numtracker.currentFileNumber)))
-                node.setDataset(dnp.array(files)._jdataset())
-                # TODO
-                
-
+                # Collection filepaths
+                all_nexus_file_names.append(file_path)
+                node.setDataset(dnp.array(all_nexus_file_names)._jdataset())
     except Exception as e:
-        print(e)
-        # TODO 
-        #dcm_enrg.enableHarmonicSwitching()
-        #print("XANES scan crashed...re-enabling harmonic switching")
         print("XANES scan crashed...")
+        print(e)
     except JavaException as e:
-        print(e)
         print("XANES scan crashed...")
+        print(e)
     finally:
-        # TODO
         print("Sequence of XANES scans finished")
-        #print("Locum-4 amplifer gains to auto")
-        #caput("BL14I-DI-BPM-03:IAMP1:SETRANGE","Auto")
-        #caput("BL14I-DI-BPM-03:IAMP2:SETRANGE","Auto")
-        #print("At end, re-enabling harmonic switching")
-        #dcm_enrg.enableHarmonicSwitching()
+        
+        
+        
+        
         
         
         
