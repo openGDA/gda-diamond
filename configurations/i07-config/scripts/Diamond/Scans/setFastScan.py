@@ -17,7 +17,7 @@ MOTORS={
 			testMotor2: 'MotorTestMotor2',
 			diff1vomega:'MotorOMEGA_DIFF1',
 			omega:'MotorOMEGA_DIFF1',
-			d4x: 'MotorFoil_D4',
+			d1a: 'MotorFoil_D4',
 			d4dx: 'MotorDiode_D4',
 			}
 

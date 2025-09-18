@@ -46,7 +46,7 @@ dcdList = [dcdc1pitch, dcdc1roll, dcdc1rad, dcdc2pitch, dcdc2roll, dcdc2rad,
 hex1List = [hex1x, hex1y, hex1z, hex1rx, hex1ry, hex1rz, hex1pivotx,
         hex1pivoty, hex1pivotz]
 
-deviceList = [d4dx, d4x, dbsx, dbsy, dpsx, dpsy, dpsz, dpsz2, fatt, fatt_filters,
+deviceList = [d4dx, d1a, dbsx, dbsy, dpsx, dpsy, dpsz, dpsz2, fatt, fatt_filters,
         hfmpitch, hfmstripe, hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw, 
         vfmpitch, vfmx, vfmy, vfmy1, vfmy2]
 

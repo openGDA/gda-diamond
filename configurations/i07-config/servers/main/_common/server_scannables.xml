@@ -697,7 +697,7 @@
     </bean>
 
     <!-- Screen Diode D4 Positioner and Motors -->
-    <bean id="d4x" class="gda.device.scannable.ScannableMotor">
+    <bean id="d1a" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D4" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
@@ -712,7 +712,7 @@
     <bean id="D4" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="d4x" />
+                <ref bean="d1a" />
                 <ref bean="d4screenfoil" />
                 <ref bean="d4dx" />
                 <ref bean="d4screendiode" />
@@ -1486,7 +1486,7 @@
                 <ref bean="mbs2ycentre" />
 
                 <!-- D4 -->
-                <ref bean="d4x" />
+                <ref bean="d1a" />
                 <ref bean="d4screenfoil" />
                 <ref bean="d4dx" />
                 <ref bean="d4screendiode" />
