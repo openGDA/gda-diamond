@@ -100,7 +100,7 @@ print("Example:")
 print("\tsequence = load_sequence(filename)")
 print("\tsequence.enable('region_name1')")
 print("\tsequence.disable('region_name2')")
-print("\tanalyserscan ew4000 sequence")
+print("\tanalyserscan r4000 sequence")
 def load_sequence(filename):
     from org.opengda.detector.electronanalyser.api import SESSequenceHelper #@UnresolvedImport
     return SESSequenceHelper.loadSequence(filename)

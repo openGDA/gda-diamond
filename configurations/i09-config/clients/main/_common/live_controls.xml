@@ -142,14 +142,80 @@
 			</util:map>
 		</property>
 	</bean>
-	
+
 	<bean id="clear_intensity_protection" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="command" value="pos intensity_protection 'Clear'" />
 		<property name="buttonText" value="Clear" />
 		<property name="buttonTooltip" value="Move the intensity protection into a clear state: 'pos intensity_protection &#34;Clear&#34;'"/>
 		<property name="group" value="Analyser" />
 	</bean>
-	
+
+	<bean id="close_shutters_between_regions_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="close_shutters_between_regions" />
+		<property name="group" value="Analyser" />
+		<property name="scannableName" value="close_shutters_between_regions_wrapper" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="true" value-ref="green_colour" />
+				<entry key="false" value-ref="red_colour" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="close_shutters_between_regions_control" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="close_shutters_between_regions_wrapper"/>
+		<property name="buttonTooltip" value="Test"/>
+		<property name="group" value="Analyser" />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="false" value="Enable" />
+				<entry key="true" value="Disable" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="true" value="pos close_shutters_between_regions_wrapper False" />
+				<entry key="false" value="pos close_shutters_between_regions_wrapper True" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="close_shutters_at_end_of_scan_status" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="close_shutters_at_end_of_scan" />
+		<property name="group" value="Analyser" />
+		<property name="scannableName" value="close_shutters_at_end_of_scan_wrapper" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="true" value-ref="green_colour" />
+				<entry key="false" value-ref="red_colour" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="close_shutters_at_end_of_scan_control" class="uk.ac.gda.client.livecontrol.JythonMonitorScannableDynamicCommandControl">
+		<property name="scannableName" value="close_shutters_at_end_of_scan_wrapper"/>
+		<property name="buttonTooltip" value="Test"/>
+		<property name="group" value="Analyser" />
+		<property name="buttonTextMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="false" value="Enable" />
+				<entry key="true" value="Disable" />
+			</util:map>
+		</property>
+		<property name="commandMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="true" value="pos close_shutters_at_end_of_scan_wrapper False" />
+				<entry key="false" value="pos close_shutters_at_end_of_scan_wrapper True" />
+			</util:map>
+		</property>
+	</bean>
+
 	<bean id="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="viewName" value="Live Monitor"/>
 		<property name="numberOfColumns" value="3"/>
@@ -169,6 +235,10 @@
 				
 				<ref bean="intensity_protection_status" />
 				<ref bean="clear_intensity_protection" />
+				<ref bean="close_shutters_between_regions_status" />
+				<ref bean="close_shutters_between_regions_control" />
+				<ref bean="close_shutters_at_end_of_scan_status" />
+				<ref bean="close_shutters_at_end_of_scan_control" />
 			</list>
 		</property>
 	</bean>

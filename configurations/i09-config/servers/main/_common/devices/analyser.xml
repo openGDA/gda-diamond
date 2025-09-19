@@ -200,6 +200,8 @@
 			</map>
 		</property>
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
+		<property name="closeShuttersBetweenRegionsScannable" ref="close_shutters_between_regions_wrapper" />
+		<property name="closeShuttersAtEndOfScanScannable" ref="close_shutters_at_end_of_scan_wrapper" />
 	</bean>
 
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.VGScientaAnalyserNXDetector">

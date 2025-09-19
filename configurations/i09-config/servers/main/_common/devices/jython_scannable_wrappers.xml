@@ -13,7 +13,7 @@
 		<property name="scannableName" value="igap_offset"/>
 		<property name="command" value="igap_offset.deleteIObservers()"/>
 	</bean>
-	
+
 	<bean id="jgap_offset_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="jgap_offset"/>
 		<property name="command" value="jgap_offset_wrapper.deleteIObservers()"/>
@@ -23,10 +23,20 @@
 		<property name="scannableName" value="ienergy_order"/>
 		<property name="command" value="ienergy_order.deleteIObservers()"/>
 	</bean>
-	
+
 	<bean id="jenergy_order_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="jenergy_order"/>
 		<property name="command" value="jenergy_order.deleteIObservers()"/>
 	</bean>
-	
+
+	<bean id="close_shutters_between_regions_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="close_shutters_between_regions"/>
+		<property name="command" value="close_shutters_between_regions.deleteIObservers()"/>
+	</bean>
+
+	<bean id="close_shutters_at_end_of_scan_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="close_shutters_at_end_of_scan"/>
+		<property name="command" value="close_shutters_at_end_of_scan.deleteIObservers()"/>
+	</bean>
+
 </beans>

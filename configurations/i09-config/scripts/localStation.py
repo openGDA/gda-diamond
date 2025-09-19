@@ -233,6 +233,16 @@ from gdaserver import lakeshore # @UnresolvedImport
 tsample = SampleTemperature("tsample", lakeshore, channel_number = 1)
 
 print("="*100)
+print("Toggle shutter settings for analyserscan using the following boolean scannables: ")
+from analyser.shutter_control_scannables import close_shutters_between_regions, close_shutters_at_end_of_scan
+from gdaserver import close_shutters_between_regions_wrapper, close_shutters_at_end_of_scan_wrapper #@UnresolvedImport
+close_shutters_between_regions_wrapper.connectScannable()
+close_shutters_at_end_of_scan_wrapper.connectScannable()
+print("	close_shutters_between_regions - Currently set to '" + str(close_shutters_between_regions.getPosition()) + "'")
+print("	close_shutters_at_end_of_scan - Currently set to '" + str(close_shutters_at_end_of_scan.getPosition()) + "'")
+print("")
+#ToDo - This doesn't seem to notify the initial values on reset_namespace
+
+print("="*100)
 print("localStation.py Initialisation script complete.")
 print("="*100)
-###Must leave what after this line last.
