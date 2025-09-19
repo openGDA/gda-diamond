@@ -304,6 +304,7 @@
 		<property name="userDeviceName" value="user01" />
 		<property name="additionalDeviceNames">
 			<set>
+				<value>notes</value>
 				<value>xbpm1</value>
 				<value>xbpm2</value>
 				<value>s1</value>

@@ -200,6 +200,7 @@
 		<property name="additionalDeviceNames">
 			<set>
 				<!-- i06-shared devices-->
+				<value>notes</value>
 				<value>xbpm1</value>
 				<value>xbpm2</value>
 				<value>s1</value>

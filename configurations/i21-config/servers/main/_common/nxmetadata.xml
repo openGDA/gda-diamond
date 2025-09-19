@@ -52,6 +52,24 @@
 	 	<property name="name" value="user01"/>
 	</bean>
 
+	<bean id="notesNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="notes" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXnote"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="data"/>
+					<property name="scannableName" value="comment"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="type"/>
+					<property name="value" value="text/plain"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="idNexusDevice" class="org.eclipse.scanning.device.InsertionDeviceNexusDevice" init-method="register">
 		<property name="name" value="id" />
 		<property name="type" value="UNDULATOR" />
@@ -727,4 +745,33 @@
 		</property>
 	</bean>
 
+	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
+		<!-- configure per-scan monitors -->
+		<property name="sourceName" value="source" />
+		<property name="beamName" value="beam" />
+		<property name="userDeviceName" value="user01" />
+		<property name="insertionDeviceName" value="id" />
+		<property name="monochromatorName" value="pgm" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>notes</value>
+				<value>s1</value>
+				<value>s2</value>
+				<value>s3</value>
+				<value>s4</value>
+				<value>s5</value>
+				<value>s6</value>
+				<value>m1</value>
+				<value>m2</value>
+				<value>m4</value>
+				<value>m5</value>
+				<value>manipulator</value>
+				<value>lakeshore336</value>
+				<value>sgm</value>
+				<value>spectrometer</value>
+				<value>polariser</value>
+				<value>fast_shutter</value>
+			</set>
+		</property>
+	</bean>
 </beans>

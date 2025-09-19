@@ -74,6 +74,8 @@ scan_processor.rootNamespaceDict=globals()
 import gdascripts
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 
 print("="*100)
 print("end of localStation.py for Beamline I06-2)")

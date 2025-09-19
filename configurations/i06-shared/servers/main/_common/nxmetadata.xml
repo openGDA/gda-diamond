@@ -384,4 +384,22 @@
 		<!-- Note: The user name is retrieved from the baton holder -->
 	</bean>
 
+	<bean id="notesNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="notes" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXnote"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="data"/>
+					<property name="scannableName" value="comment"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="type"/>
+					<property name="value" value="text/plain"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 </beans>

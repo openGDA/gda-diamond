@@ -257,6 +257,8 @@ from functions.sampleAlignment import halfcut  # @UnusedImport
 
 from functions.sample_vessel_vacuum_control import sample_vessel_valves  # @UnusedImport
 from scannabledevices.He_Needle import needle  # @UnusedImport
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

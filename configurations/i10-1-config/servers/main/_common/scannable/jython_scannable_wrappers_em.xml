@@ -4,18 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- These wrapper objects expose scannable defined in Jython scripts to the GUI components in Client -->
-	<bean id="polarisation_wrapper" class="gda.device.scannable.JythonScannableWrapper">
-		<property name="scannableName" value="pol"/>
-		<property name="command" value="pol.deleteIObservers()"/>
-	</bean>
-	<bean id="m6_pitch_wrapper" class="gda.device.scannable.JythonScannableWrapper">
-		<property name="scannableName" value="m6_pitch"/>
-		<property name="command" value="m6_pitch.deleteIObservers()"/>
-	</bean>
-	<bean id="m6fpitch_wrapper" class="gda.device.scannable.JythonScannableWrapper">
-		<property name="scannableName" value="m6fpitch"/>
-		<property name="command" value="m6fpitch.deleteIObservers()"/>
-	</bean>
 	<bean id="magnetField_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="magnetField"/>
 		<property name="command" value="magnetField.deleteIObservers()"/>

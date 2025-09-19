@@ -121,6 +121,8 @@ from gdascripts.scan.XASScan import xasscan  # @UnusedImport
 from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_template  # @UnusedImport
 
 from keithley.keithley2400_scannables_instances import keiCur1, keiVol1  # @UnusedImport
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 
 # Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

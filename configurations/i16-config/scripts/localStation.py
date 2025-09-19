@@ -17,7 +17,7 @@ print("=============================================================")
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
 	from localStationConfiguration import USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
-	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
 	USE_DIFFCALC = True
@@ -25,6 +25,7 @@ except:
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
+	USE_XMAP= False
 	USE_SMARGON = False
 	USE_PIL1 = True
 	USE_PIL2 = True
@@ -33,8 +34,8 @@ except:
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
-				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
 				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
@@ -122,14 +123,14 @@ if installation.isDummy():
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
 		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
-				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
 				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
 # Java
-import java
-from Jama import Matrix
+import java  # @UnresolvedImport
+from Jama import Matrix  # @UnusedImport
 
 # Python
 from time import sleep
@@ -501,6 +502,30 @@ localStation_print("Tuning finepitch using QBPM *Use with care*")
 run("localStationScripts/pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos
 pitchup=pitchupClass()
 
+
+###############################################################################
+###                   HOMEBREW Hardware support                             ###
+###############################################################################
+
+### vortex
+#print "Creating Vortex detector chain scannables"
+#vortexName = "epicsMca01"
+#print "creating Vortex objects for ", vortexName
+#import mca_utils
+#reload(mca_utils)
+#vortexName = "epicsMca02"
+#print "creating Vortex objects for ", vortexName
+#import mca_utils
+#reload(mca_utils)
+#mca=Finder.find(vortexName)
+#if (mca != None):
+#	ctmca=mca_utils.ctmcaClass('ctmca',mca)
+#	rdmca=mca_utils.rdmcaClass('rdmca',mca)
+#	mcaROI1=mca_utils.rdROIClass('rdROI1',mca,910,917)
+#	mcaROI2=mca_utils.rdROIClass('rdROI2',mca,913,914)
+#	mcaSca1 = mca_utils.rdScaClass('mcaSca1',mca,910,917)
+#	mcaSca2 = mca_utils.rdScaClass('mcaSca2',mca,913,914)
+
 try:
 	### Various ###
 	localStation_print("   running localStationScripts/startup_epics_monitors.py")
@@ -611,27 +636,27 @@ if installation.isLive():
 	Al75u0=Foilinserter('Al75u',"BL16I-OP-ATTN-04:F4TRIGGER","BL16I-OP-ATTN-04:F4STATE",AlBulk,0)
 	atten = Atten('Attenuator',[Al10u,Al20u,Al40u,Al75u,Al150u,Al300u,Al500u,Al880u])
 	atten.setOutputFormat(['%.0f', '%.4g'])
-
-	try:
-		### Polarization analyser ###
-		from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
-
-		### TCA  ###
-		localStation_print("   creating TCA scanables")
-		tca=TCA('BL16I-EA-DET-01:tca1')
-		tcasca1=tcasca('TCAsca1',"%4.3f",tca,"%",'1')
-		tcasca2=tcasca('TCAsca2',"%4.3f",tca,"%",'2')
-		tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')
-
-		### MCA ###
-		if installation.isLive():
-			localStation_print("Creating MCA scannables: mca1")
-			mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
-	except:
-		localStation_exception("configuring epics pol, tca and mca scannables")
 else:
 	atten = Atten('Attenuator',[])
 	atten.setOutputFormat(['%.0f', '%.4g'])
+
+try:
+	### Polarization analyser ###
+	from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
+
+	### TCA  ###
+	localStation_print("   creating TCA scanables")
+	tca=TCA('BL16I-EA-DET-01:tca1')
+	tcasca1=tcasca('TCAsca1',"%4.3f",tca,"%",'1')
+	tcasca2=tcasca('TCAsca2',"%4.3f",tca,"%",'2')
+	tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')
+
+	### MCA ###
+	if installation.isLive():
+		localStation_print("Creating MCA scannables: mca1")
+		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+except:
+	localStation_exception("configuring epics pol, tca and mca scannables")
 
 
 if installation.isLive():
@@ -1182,10 +1207,18 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanData
 		origin_offset_vector = [0., 0., 0.],
 		fast_pixel_direction_value = [0.055],
 		slow_pixel_direction_value = [0.055])
+
+ # from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
 else:
 	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
 	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
 localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
+###############################################################################
+###                              Configure Xmap                            ###
+###############################################################################
+if USE_XMAP:
+	from scannable.detector.dxp import DxpSingleChannelRoiOnly
+	Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 
 ###############################################################################
 ###                           Theta with offset eta                         ###
@@ -1437,11 +1470,11 @@ run('localStationScripts/pd_read_list')	#to make PD's that can scan a list
 run('localStationScripts/pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
-print "==========================="
+print("===========================")
 localStation_print("Setting up continuous scans")
 run("localStationScripts/setup_cvscan")
 localStation_print("Continuous scans setup")
-print "==========================="
+print("===========================")
 
 if installation.isLive():
 	try:
@@ -1598,7 +1631,9 @@ from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, fly
 from scan.miscan import miscan  # @UnusedImport
 if installation.isLive() :
 	from detector_wrappers.snap import snap  # @UnusedImport
-	from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
+
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
