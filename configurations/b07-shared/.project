@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>b07-1-config</name>
+	<name>b07-shared</name>
 	<comment></comment>
 	<projects>
-		<project>b07-shared</project>
-		<project>uk.ac.gda.client</project>
+		<project>uk.ac.diamond.daq.devices.specs.phoibos</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.epics</project>
 	</projects>
@@ -14,14 +13,8 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>

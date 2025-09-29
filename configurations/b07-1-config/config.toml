@@ -22,14 +22,5 @@ logging = "properties/_common/logging_customisation.xml"
 [system]
 "gov.aps.jca.JCALibrary.properties" = "${gda.config}/properties/${gda.mode}/JCALibrary.properties"
 
-[extras.dls]
-root = "../../dls-config"
-server.spring-xml = [
-	"servers/_common/file_registrar.xml",
-	"servers/${gda.mode}/icat_xml_creator.xml",
-	"servers/_common/machine_status.xml",
-]
-
-client.spring-xml = [
-	"clients/_common/serverFileListener.xml"
-]
+[extras.b07-shared]
+root = "../b07-shared"

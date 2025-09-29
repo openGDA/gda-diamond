@@ -3,6 +3,7 @@
 	<name>b07-config</name>
 	<comment></comment>
 	<projects>
+		<project>b07-shared</project>
 		<project>uk.ac.diamond.daq.devices.specs.phoibos</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.epics</project>

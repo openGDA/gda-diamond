@@ -1,51 +1,23 @@
 # localStation.py
 # For beamline specific initialisation code.
 #
-from gda.configuration.properties import LocalProperties #@UnusedImport
-from gda.device.scannable import DummyScannable #@UnusedImport
-from gdascripts import installation #@UnusedImport
+
+from b07Shared.localStation import * # @UnusedWildImport
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (b07).";
 print "=================================================================================================================";
-print
+print ("")
 
-print "Load EPICS pseudo device utilities for creating scannable object from a PV name."
-from gdascripts.pd.epics_pds import * #@UnusedWildImport
-
-print "Load time utilities."
-from gdascripts.pd.time_pds import * #@UnusedWildImport
-# Make time scannable
-# Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
-from gdascripts.scannable.timerelated import TimeSinceScanStart, clock, epoch  # @UnusedImport
-timeScannable = TimeSinceScanStart('timeScannable')
-
-print "Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)"
-from gdascripts.utils import * #@UnusedWildImport
-
-print "Installing standard scans with processing"
+print("-"*100)
+print "installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
+print("")
 
-from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
-
-# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
-# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
-extraDetectors = ""
-
-# if installation.isLive():
 from scannables.detector_output_processing import BekhoffAdcOutputProcessing
 ca35b_ca18b_quotient = BekhoffAdcOutputProcessing('ca35b_ca18b_quotient', ca35b, ca18b, 'divide_detector_output')  # @UndefinedVariable
 ca36b_ca18b_quotient = BekhoffAdcOutputProcessing('ca36b_ca18b_quotient', ca36b, ca18b, 'divide_detector_output')  # @UndefinedVariable
-
-#check beam scannables
-from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
-
-print("-"*100)
-print("To create a PVScannable from a PV:")
-print("   >>> my_scannable = PVScannable('my_scannable', 'PV_name')")
-print("   >>> my_scannable.configure()")
-from gda.device.scannable import PVScannable  # @UnusedImport
 
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")

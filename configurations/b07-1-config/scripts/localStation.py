@@ -1,36 +1,24 @@
 # localStation.py
 # For beamline specific initialisation code.
 #
-import sys
-from gda.configuration.properties import LocalProperties
-from uk.ac.diamond.daq.configuration import ConfigUtils
-from utils.ExceptionLogs import localStation_exceptions, localStation_exception
-from gdascripts.messages.handle_messages import simpleLog
-from gdascripts import installation
+
+from b07Shared.localStation import * # @UnusedWildImport
+from b07Shared.utils.ExceptionLogs import localStation_exceptions, localStation_exception
 
 print("=================================================================================================================")
 print("Performing beamline specific initialisation code (b07-1).")
 print("=================================================================================================================")
-print
+print("")
 
-print("Load EPICS pseudo device utilities for creating scannable object from a PV name.")
-from gdascripts.pd.epics_pds import *  # @UnusedWildImport
+import sys
+from gdascripts.messages.handle_messages import simpleLog
+from uk.ac.diamond.daq.configuration import ConfigUtils
 
-print("Load time utilities.")
-from gdascripts.pd.time_pds import *  # @UnusedWildImport
-# Make time scannable
-# Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
-from gdascripts.scannable.timerelated import TimeSinceScanStart, clock, epoch  # @UnusedImport
-timeScannable = TimeSinceScanStart('timeScannable')
-
-print("Load utilities: caget(pv), caput(pv,value), attributes(object), iterableprint(iterable), listprint(list), frange(start,end,step)")
-from gdascripts.utils import *  # @UnusedWildImport
-
-print("Installing standard scans with processing")
-from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
-scan_processor.rootNamespaceDict = globals()
-
-from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
+print("-"*100)
+print "installing standard scans with processing"
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+print("")
 
 print("Installing configure_analyser_fixed_transmission")
 from beamline.configure_analyser_fixed_transmission import configure_analyser_fixed_transmission
@@ -45,8 +33,6 @@ from scannables.rga24 import rga24, rga24AR, rga24CF3, rga24CH2, rga24CH3, rga24
 
 from scannables.PLV1000 import plv1, plv2  # @UnusedImport
 
-# check beam scannables
-from scannables.checkbeanscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
 
 print("-"*100)
 print("setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm ")
@@ -168,23 +154,11 @@ for each in meta_data_list:
 print("-"*100)
 from scannables.pgm_energy_multilayer_grating import pgm_energy_mlg
 help(pgm_energy_mlg)
-print("-"*100)
-# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
-# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
-extraDetectors = ""
 
 print("-"*100)
-print("To create a PVScannable from a PV:")
-print("   >>> my_scannable = PVScannable('my_scannable', 'PV_name')")
-print("   >>> my_scannable.configure()")
-from gda.device.scannable import PVScannable  # @UnusedImport
-
-print("-"*100)
-
 if len(localStation_exceptions) > 0:
-		simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
-
-for localStationException in localStation_exceptions:
+	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+	for localStationException in localStation_exceptions:
 		simpleLog(localStationException)
 
 print("**************************************************")
