@@ -43,7 +43,6 @@
 	<import resource="ccmc.xml"/>
 
 	<!-- Endstation -->
-	<import resource="sample_manipulator.xml"/>
 	<import resource="sample_heater.xml"/>
 	<import resource="analyser.xml"/>
 
@@ -67,7 +66,6 @@
 	<import resource="gv36.xml"/>
 	<import resource="gv50.xml"/>
 
-	<import resource="tcup.xml"/>
 
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml" />
@@ -79,4 +77,11 @@
 
 	<!-- spring profile monitor to metadata -->
 	<import resource="profile_monitor.xml"/>
+		<!-- Endstation -->
+	<beans profile="TPOT">
+		<import resource="sample_manipulator.xml"/>
+	</beans>
+	<beans profile="TCUP">
+		<import resource="tcup.xml"/>
+	</beans>
 </beans>
