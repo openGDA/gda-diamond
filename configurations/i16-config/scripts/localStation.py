@@ -17,7 +17,7 @@ print("=============================================================")
 localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
 	from localStationConfiguration import USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
-	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS # @UnresolvedImport
 	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
 	USE_DIFFCALC = True
@@ -25,7 +25,6 @@ except:
 	USE_DUMMY_IDGAP_MOTOR = False
 	USE_NEXUS = True
 	USE_NEXUS_METADATA_COMMANDS = True
-	USE_XMAP= False
 	USE_SMARGON = False
 	USE_PIL1 = True
 	USE_PIL2 = True
@@ -34,8 +33,8 @@ except:
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
 		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
-				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
 				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
@@ -123,8 +122,8 @@ if installation.isDummy():
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
 		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
-		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r,\n" %
-				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS,    USE_XMAP) +
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
+				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
 		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
 				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
@@ -501,30 +500,6 @@ else:
 localStation_print("Tuning finepitch using QBPM *Use with care*")
 run("localStationScripts/pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos
 pitchup=pitchupClass()
-
-
-###############################################################################
-###                   HOMEBREW Hardware support                             ###
-###############################################################################
-
-### vortex
-#print "Creating Vortex detector chain scannables"
-#vortexName = "epicsMca01"
-#print "creating Vortex objects for ", vortexName
-#import mca_utils
-#reload(mca_utils)
-#vortexName = "epicsMca02"
-#print "creating Vortex objects for ", vortexName
-#import mca_utils
-#reload(mca_utils)
-#mca=Finder.find(vortexName)
-#if (mca != None):
-#	ctmca=mca_utils.ctmcaClass('ctmca',mca)
-#	rdmca=mca_utils.rdmcaClass('rdmca',mca)
-#	mcaROI1=mca_utils.rdROIClass('rdROI1',mca,910,917)
-#	mcaROI2=mca_utils.rdROIClass('rdROI2',mca,913,914)
-#	mcaSca1 = mca_utils.rdScaClass('mcaSca1',mca,910,917)
-#	mcaSca2 = mca_utils.rdScaClass('mcaSca2',mca,913,914)
 
 try:
 	### Various ###
@@ -1212,12 +1187,6 @@ else:
 	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
 	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
 localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
-###############################################################################
-###                              Configure Xmap                            ###
-###############################################################################
-if USE_XMAP:
-	from scannable.detector.dxp import DxpSingleChannelRoiOnly
-	Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 
 ###############################################################################
 ###                           Theta with offset eta                         ###
