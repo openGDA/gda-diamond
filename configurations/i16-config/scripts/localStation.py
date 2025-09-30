@@ -611,27 +611,27 @@ if installation.isLive():
 	Al75u0=Foilinserter('Al75u',"BL16I-OP-ATTN-04:F4TRIGGER","BL16I-OP-ATTN-04:F4STATE",AlBulk,0)
 	atten = Atten('Attenuator',[Al10u,Al20u,Al40u,Al75u,Al150u,Al300u,Al500u,Al880u])
 	atten.setOutputFormat(['%.0f', '%.4g'])
+
+	try:
+		### Polarization analyser ###
+		from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
+
+		### TCA  ###
+		localStation_print("   creating TCA scanables")
+		tca=TCA('BL16I-EA-DET-01:tca1')
+		tcasca1=tcasca('TCAsca1',"%4.3f",tca,"%",'1')
+		tcasca2=tcasca('TCAsca2',"%4.3f",tca,"%",'2')
+		tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')
+
+		### MCA ###
+		if installation.isLive():
+			localStation_print("Creating MCA scannables: mca1")
+			mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+	except:
+		localStation_exception("configuring epics pol, tca and mca scannables")
 else:
 	atten = Atten('Attenuator',[])
 	atten.setOutputFormat(['%.0f', '%.4g'])
-
-try:
-	### Polarization analyser ###
-	from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
-
-	### TCA  ###
-	localStation_print("   creating TCA scanables")
-	tca=TCA('BL16I-EA-DET-01:tca1')
-	tcasca1=tcasca('TCAsca1',"%4.3f",tca,"%",'1')
-	tcasca2=tcasca('TCAsca2',"%4.3f",tca,"%",'2')
-	tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')
-
-	### MCA ###
-	if installation.isLive():
-		localStation_print("Creating MCA scannables: mca1")
-		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
-except:
-	localStation_exception("configuring epics pol, tca and mca scannables")
 
 
 if installation.isLive():
@@ -1182,7 +1182,6 @@ if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanData
 		origin_offset_vector = [0., 0., 0.],
 		fast_pixel_direction_value = [0.055],
 		slow_pixel_direction_value = [0.055])
-	from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
 else:
 	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
 	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
@@ -1599,6 +1598,7 @@ from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, fly
 from scan.miscan import miscan  # @UnusedImport
 if installation.isLive() :
 	from detector_wrappers.snap import snap  # @UnusedImport
+	from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
 
 if localStation_warnings:
 	print("\n====================== %r WARNINGS DURING STARTUP WHILE ======================\n%s" % (
