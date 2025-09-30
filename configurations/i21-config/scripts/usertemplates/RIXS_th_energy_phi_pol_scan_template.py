@@ -315,14 +315,14 @@ if answer == "y":
     ###########################################
     # shutter control
     ###########################################
-    from shutters.detectorShutterControl import primary, polpi, polsigma
+    from shutters.detectorShutterControl import primary, polpi, pol_sigma
 
     if detector_to_use in andor: #[andor, xcam]:
         primary()
     if detector_to_use is Polandor_H:
         polpi()
     if detector_to_use is Polandor_V:
-        polsigma()
+        pol_sigma()
     fastshutter('Open')
 
     energy.moveTo(energy_list[0]) ###do this really required???

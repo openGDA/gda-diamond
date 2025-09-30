@@ -10,7 +10,7 @@ Created on Sep 15, 2022
 '''
 
 from gdaserver import  fastshutter, s5v1gap, d7gascell, d8stick  # @UnresolvedImport
-from shutters.detectorShutterControl import primary, polpi, polsigma
+from shutters.detectorShutterControl import primary, polpi, pol_sigma
 from gdaserver import andor, Polandor_H, Polandor_V #xcam # @UnresolvedImport
 
 ######### user-defined parameter section ###########################################
@@ -62,7 +62,7 @@ if detector_to_use in andor: #[andor, xcam]
 elif detector_to_use is Polandor_H:
     polpi()
 elif detector_to_use is Polandor_V:
-    polsigma()
+    pol_sigma()
 fastshutter('Open')
 
 from commissioning.cff_b2_scannable import cff_b2

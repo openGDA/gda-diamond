@@ -16,7 +16,7 @@ from org.eclipse.dawnsci.analysis.api.tree import Node
 import os
 from gda.jython.commands.GeneralCommands import alias
 from acquisition.acquire_images import acquireImages
-from shutters.detectorShutterControl import primary, polpi, polsigma
+from shutters.detectorShutterControl import primary, polpi, pol_sigma
 from gdaserver import fastshutter, andor, Polandor_H, Polandor_V # @UnresolvedImport
 
 def acquire_flat_field(num_images, detector, acquire_time, *args):
@@ -28,7 +28,7 @@ def acquire_flat_field(num_images, detector, acquire_time, *args):
     elif detector is Polandor_H:
         polpi()
     elif detector is Polandor_V:
-        polsigma()
+        pol_sigma()
     fastshutter("Open")
     acquireImages(num_images, detector, acquire_time, *args)
     entry_name = str(LocalProperties.get(NexusScanDataWriter.PROPERTY_NAME_ENTRY_NAME, NexusScanDataWriter.DEFAULT_ENTRY_NAME)) 

@@ -10,7 +10,7 @@
 	</bean>
 	<bean id="polsigma" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="polariserSigmaMotor" />
-		<property name="userUnits" value="um" />
+		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="Polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">
