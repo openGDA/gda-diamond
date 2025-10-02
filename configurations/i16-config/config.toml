@@ -10,7 +10,7 @@ logging = "properties/_common/logging_customisation.xml"
 
 # profiles are not required but profiles that should be enabled by default should be specified here
 # rather than in a properties file using gda.spring.profiles.active
-profiles = ["NexusScanDataWriter","kbm"]
+profiles = ["NexusScanDataWriter"]
 
 [defaults]
 "gda.mode" = "dummy"
