@@ -22,4 +22,5 @@
 	<import resource="CA1.xml" />
 	<import resource="Zebra.xml" />
 	<!-- 	<import resource="xmap_detector.xml"/> -->
+	<import resource="Halbach.xml"/>
 </beans>

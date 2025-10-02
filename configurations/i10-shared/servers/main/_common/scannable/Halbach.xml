@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">     
+	
+	<!-- Primary Slits / S1 Optical Elements -->
+
+	<bean id="mag1th" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="mag1_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="mag2th" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="mag2_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="mag3th" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="mag3_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="mag4th" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="mag4_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	
+	
+	<bean id="Halbach" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mag1th" />
+				<ref bean="mag2th" />
+				<ref bean="mag3th" />
+				<ref bean="mag4th" />
+			</list>
+		</property>
+	</bean>
+</beans>

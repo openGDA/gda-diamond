@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+           
+	<!-- Primary Slits / S1 Optical Elements -->
+
+	<bean id="mag1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-360.00" />
+		<property name="maxPosition" value="360.00" />
+		<property name="speed" value="2.49" />
+		<property name="unitString" value="deg"/>
+	</bean>	
+	<bean id="mag2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-360.00" />
+		<property name="maxPosition" value="360.00" />
+		<property name="speed" value="2.49" />
+		<property name="unitString" value="deg"/>
+	</bean>	
+	<bean id="mag3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-360.00" />
+		<property name="maxPosition" value="360.00" />
+		<property name="speed" value="2.49" />
+		<property name="unitString" value="deg"/>
+	</bean>	
+	<bean id="mag4_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-360.00" />
+		<property name="maxPosition" value="360.00" />
+		<property name="speed" value="2.49" />
+		<property name="unitString" value="deg"/>
+	</bean>	
+</beans>

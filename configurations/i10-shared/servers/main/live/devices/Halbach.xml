@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Primary Slits / S1 Optical Elements -->
+
+	<bean id="mag1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-RHMA-01:MAG1:THETA" />
+	</bean>
+
+	<bean id="mag2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-RHMA-01:MAG2:THETA" />
+	</bean>
+	
+	<bean id="mag3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-RHMA-01:MAG3:THETA" />
+	</bean>
+	
+	<bean id="mag4_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-RHMA-01:MAG4:THETA" />
+	</bean>
+
+</beans>
