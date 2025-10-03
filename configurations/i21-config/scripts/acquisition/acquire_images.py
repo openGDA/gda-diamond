@@ -10,7 +10,7 @@ from gdascripts.utils import caput
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from gdaserver import sgmpitch, fastshutter  # @UnresolvedImport
 from shutters.detectorShutterControl import primary, polpi, erio, fsxas,\
-    polsigma
+    pol_sigma
 from gda.jython.commands.GeneralCommands import alias
 from gda.device.scannable import DummyScannable
 
@@ -62,7 +62,7 @@ def acquireRIXS(n, det, exposure_time, *args):
     elif det is Polandor_H:
         polpi()
     elif det is Polandor_V:
-        polsigma()
+        pol_sigma()
     fastshutter("Open")
     lightOff()
     acquireImages(n, det, exposure_time, *args)
@@ -81,6 +81,6 @@ def acquiredark(n, det, exposure_time, *args):
     elif det is Polandor_H:
         polpi()
     elif det is Polandor_V:
-        polsigma()
+        pol_sigma()
 
 alias("acquiredark")

@@ -75,13 +75,13 @@ sgmpitch_spech_scannable_group.addGroupMember(sgmpitch, spech_wraper)
 
 s5v1gap.moveTo(s5v1gap_val)
 
-from shutters.detectorShutterControl import primary, polpi, polsigma
+from shutters.detectorShutterControl import primary, polpi, pol_sigma
 if detector_to_use in andor: #[andor, xcam]:
     primary()
 elif detector_to_use is Polandor_H:
     polpi()
 elif detector_to_use is Polandor_V:
-    polsigma()
+    pol_sigma()
 fastshutter('Open')
 
 #collec data using nested scan

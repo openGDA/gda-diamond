@@ -40,7 +40,7 @@ def polpi():
     else:
         caput(SOURCE_CONTROL_PV, 4)
 
-def polsigma():
+def pol_sigma():
     if installation.isDummy():
         print("set '%s'to 5" % SOURCE_CONTROL_PV)
     else:
@@ -51,5 +51,5 @@ alias("erio")
 alias("primary")
 alias("spare")
 alias("polpi")
-alias("polsigma")
+alias("pol_sigma")
 

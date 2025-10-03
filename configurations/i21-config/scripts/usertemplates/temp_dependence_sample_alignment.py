@@ -7,7 +7,7 @@ Created on 12th Oct 2021
 from gdaserver import andor, Polandor_H, Polandor_V #,xcam  # @UnresolvedImport
 from gdaserver import fy2_i, s5v1gap,th,fastshutter,gv17,difftth,m5tth,draincurrent_i,diff1_i,z  # @UnresolvedImport
 from gdascripts.scan.installStandardScansWithProcessing import rscan
-from shutters.detectorShutterControl import erio, primary, polpi, polsigma
+from shutters.detectorShutterControl import erio, primary, polpi, pol_sigma
 
 #########################################################################
 
@@ -80,7 +80,7 @@ if detector_to_use in andor: #[andor, xcam]:
 if detector_to_use is Polandor_H:
     polpi()
 if detector_to_use is Polandor_V:
-    polsigma()
+    pol_sigma()
 
 # Then we open the valve between the SGM and the detector:
 gv17('Open')

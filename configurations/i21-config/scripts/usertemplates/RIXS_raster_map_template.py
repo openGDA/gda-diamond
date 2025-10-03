@@ -361,7 +361,7 @@ if answer == "y":
 
     from gdaserver import th, s5v1gap, difftth, fastshutter, spech  # @UnresolvedImport
     from acquisition.darkImageAcqusition import acquire_dark_image, remove_dark_image_link
-    from shutters.detectorShutterControl import primary, polpi, polsigma
+    from shutters.detectorShutterControl import primary, polpi, pol_sigma
     from functions.go_founctions import go
     from scannable.continuous.continuous_energy_scannables import energy
     from acquisition.acquireCarbonTapeImages import remove_ctape_image
@@ -387,7 +387,7 @@ if answer == "y":
     if detector_to_use is Polandor_H:
         polpi()
     if detector_to_use is Polandor_V:
-        polsigma()
+        pol_sigma()
     fastshutter('Open')
 
     th.asynchronousMoveTo(th_val)
