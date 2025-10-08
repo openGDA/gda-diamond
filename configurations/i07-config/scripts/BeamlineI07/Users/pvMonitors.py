@@ -45,19 +45,6 @@ imbs1=MonitorEpicsPVClass('imbs1', 'BL07I-AL-SLITS-02:INTEN', 'uA', '%.10f');
 #print 'Using vac5p for presure on Vacum gauge 5'
 vac5p=MonitorEpicsPVClass('vac5p', 'BL07I-VA-GAUGE-05:P', 'mBar', '%.10f');
 
-#print 'Using d4i and d4s for Diode reading from D4'
-#d4i=MonitorEpicsPVClass('d4i', 'BL07I-DI-PHDGN-04:INLINE:I', 'V', '%.6f');
-#d4s=MonitorEpicsPVClass('d4s', 'BL07I-DI-PHDGN-04:SCATTER:I', 'V', '%.6f');
-
-#print 'Using dcm1xtal1roll_lvdt for 1st crystal roll LVDT'
-#dcm1xtal1roll_lvdt=MonitorEpicsPVClass('dcm1xtal1roll_lvdt', 'BL07I-OP-DCM-01:ROLL1:LVDT', 'mrad', '%.6f');
-
-#print 'Using dcm1xtal1pitch_lvdt for 2nd crystal pitch LVDT'
-#dcm1xtal2pitch_lvdt=MonitorEpicsPVClass('dcm1xtal2pitch_lvdt', 'BL07I-OP-DCM-01:PITCH2:LVDT', 'mrad', '%.6f');
-
-#print 'Using dcm1xtal2roll_lvdt for 2nd crystal roll LVDT'
-#dcm1xtal2roll_lvdt=MonitorEpicsPVClass('dcm1xtal2roll_lvdt', 'BL07I-OP-DCM-01:ROLL2:LVDT', 'mrad', '%.6f');
-
 #print 'Using rc for the ring current'
 rc=MonitorEpicsPVClass('rc', 'SR-DI-DCCT-01:SIGNAL', 'mA', '%.4f');
 

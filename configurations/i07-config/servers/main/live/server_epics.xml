@@ -478,6 +478,19 @@
 
 	<!-- ============================== Epics Monitor definition section ============== -->
 	<!-- ============================== Monitor definition section ============================== -->
+
+	<bean id="d1i" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-01:I" />
+	</bean>
+
+	<bean id="d2i" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-02:INTEN" />
+	</bean>
+
+	<bean id="d3i" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-03:INTEN" />
+	</bean>
+
 	<!-- D4 inline diode" name="D4.INLINE" -->
 	<bean id="d4i" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-DI-PHDGN-04:INLINE:I" />
