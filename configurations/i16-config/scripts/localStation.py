@@ -1451,7 +1451,8 @@ if installation.isLive():
 
 try:
 	from localStationScripts.user_input_meta import input_metadata, _title, _sample, user_command_scannable, ub_matrix_meta, orientation_matrix_meta, diffcalc_name_meta
-	run("datawriting/i16_nexus")
+	from datawriting.i16_nexus_extender2 import set_diffcalc_instance
+	set_diffcalc_instance(diffcalc if USE_DIFFCALC else None)
 except:
 	localStation_exception("running datawriting/i16_nexus script")
 
