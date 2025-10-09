@@ -8,8 +8,27 @@ class JyPred(Predicate):
     def __init__(self, fn):
         self.test = fn
 
+class PilatusThreshold(ScannableBase):
 
-class ExcThreshold(ScannableBase):
+    def __init__(self, name, basePv):
+        self.setName(name)
+        self.threshold_setter = PVWithSeparateReadback(LazyPVFactory.newDoublePV(basePv + "CAM:ThresholdEnergy"), LazyPVFactory.newReadOnlyDoublePV(basePv + "CAM:ThresholdEnergy_RBV"))
+        self.amIbusy = False
+
+    def isBusy(self):
+        return self.amIbusy
+
+    def getPosition(self):
+        return self.threshold_setter.get()
+
+    def rawAsynchronousMoveTo(self, threshold):
+        self.amIbusy = True
+        self.threshold_setter.putWait(float(threshold));
+        if abs(self.threshold_setter.get() - threshold) > 0.001 :
+            print("Detector did not reach desired threshold, please check the requested value is reasonable for this detector.")
+        self.amIbusy = False
+
+class ExcaliburThreshold(ScannableBase):
 
     def __init__(self, name, basePv):
         self.setName(name)
@@ -35,6 +54,8 @@ class ExcThreshold(ScannableBase):
             self.calibrating.waitForValue(JyPred(self.waitForCalibrating), 5.0)
 
 try:
-    excthresh = ExcThreshold("excthresh", "BL07I-EA-EXCBR-01:")
+    exthresh = ExcaliburThreshold("excthresh", "BL07I-EA-EXCBR-01:")
+    p2thresh = PilatusThreshold("p2thresh", "BL07I-EA-PILAT-02:")
+    p3thresh = PilatusThreshold("p3thresh", "BL07I-EA-PILAT-03:")
 except Exception as e:
     print("Error setting up exc threshold", e)
