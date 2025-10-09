@@ -123,6 +123,7 @@ try_execfile("BeamlineI07/useVirtual6CircleMotors.py")
 try_execfile("BeamlineI07/useElectroChemValves.py")
 try_execfile("BeamlineI07/i07_mscan.py")
 
+from BeamlineI07.useMalcolm import restart_ei, restart_ex, restart_p2, restart_p3 # @UnusedImport
 from det_threshold_setter import exthresh, p2thresh, p3thresh # @UnusedImport
 
 try:
