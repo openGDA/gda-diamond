@@ -357,7 +357,7 @@ entry/:
       # Description of one or more coordinate systems that are specific to the setup and the measurement geometry.
     sample/:
       NX_class@: NXsample
-      name: 'NA'
+      name: /entry/sample/name
 #      substance/:
 #        NX_class@: NXsubstance
          #For samples containing a single pure substance. For mixtures use the NXsample_component_set and NXsample_component group in NXsample instead.
