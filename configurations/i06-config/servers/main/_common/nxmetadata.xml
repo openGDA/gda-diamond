@@ -305,6 +305,7 @@
 		<property name="additionalDeviceNames">
 			<set>
 				<value>notes</value>
+				<value>sample</value>
 				<value>xbpm1</value>
 				<value>xbpm2</value>
 				<value>s1</value>
@@ -335,20 +336,6 @@
 				<value>${gda.config}/nexus/templates/NXmpes_peem_template.yaml</value>
 <!-- 				<value>${gda.config}/nexus/templates/NXxas_template.yaml</value> -->
 			</list>
-		</property>
-		<property name="metadataScannables">
-			<set>
-				<value>sample</value>
-			</set>
-		</property>
-		<property name="locationMap">
-			<map>
-				<entry key="sample">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="sample:NXsample/name" />
-					</bean>
-				</entry>
-			</map>
 		</property>
 	</bean>
 	<!-- org.eclipse.dawnsci.nexus.scan.IDefaultDataGroupCalculator -->

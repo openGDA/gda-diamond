@@ -111,8 +111,6 @@ from scannables.idcontrols.taperScannable import TaperScannable
 taper = TaperScannable("taper", smode, "urad", "%.3f", iddtaper = None, idutaper = None)
 from scannables.idcontrols.harmonicScannable import HarmonicScannable
 harmonic = HarmonicScannable("harmonic", pol)
-from scannables.sampleScannable import SampleName
-sample = SampleName("sample", sample_name = "name not given")
 
 print("-"*100)
 print("Import 'XASMode' class, and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
@@ -123,6 +121,7 @@ from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_ne
 from keithley.keithley2400_scannables_instances import keiCur1, keiVol1  # @UnusedImport
 from gdascripts.scannable.virtual_scannable import VirtualScannable
 comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
+sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
 
 # Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

@@ -106,10 +106,9 @@ from gdascripts.scannable.XAS_Mode import XASMode, XASModePathMapper  # @UnusedI
 from gdascripts.scan.XASScan import xasscan  # @UnusedImport
 from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_nexus_file, set_nexus_template  # @UnusedImport
 
-from i06shared.metadata.sampleScannable import SampleName
-sample = SampleName("sample", sample_name = "name not given")
 from gdascripts.scannable.virtual_scannable import VirtualScannable
 comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
+sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
 
 print("*"*100) 
 print("I06 shared localStation.py completed successfully!")
