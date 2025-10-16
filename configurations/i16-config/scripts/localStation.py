@@ -632,6 +632,8 @@ if installation.isLive():
 else:
 	atten = Atten('Attenuator',[])
 	atten.setOutputFormat(['%.0f', '%.4g'])
+	from pd_polarisation_simulator import StokesParameters
+	stokes_pars = StokesParameters("stokes_pars")
 
 
 if installation.isLive():
