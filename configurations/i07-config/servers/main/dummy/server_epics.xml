@@ -271,6 +271,12 @@
 
     <!--  ============================== Epics Monitor definition section ============== -->
     <!--  ============================== Monitor definition section ============================== -->
+    <bean id="d1i" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="d2i" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="d3i" class="gda.device.monitor.DummyEpicsMonitor"/>
+
     <!-- D4 inline diode" name="D4.INLINE" -->
     <bean id="d4i" class="gda.device.monitor.DummyEpicsMonitor"/>
 
