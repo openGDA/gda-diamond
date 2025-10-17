@@ -15,6 +15,13 @@
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="userDeviceName" value="user" />
+		<property name="beamName" value="beam" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>notes</value>
+				<value>sample</value>
+			</set>
+		</property>
 	</bean>
 
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">

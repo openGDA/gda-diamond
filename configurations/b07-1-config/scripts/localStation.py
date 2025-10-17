@@ -171,6 +171,10 @@ if ConfigUtils.profileActive("TCUP"):
 	print("Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 	help(sm2_sp)
 
+#sample temperature
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", sample_temperature)  # @UndefinedVariable
+
 print("-"*100)
 if len(localStation_exceptions) > 0:
 	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))

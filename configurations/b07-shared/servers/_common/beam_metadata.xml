@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="beamNexusDevice" class="org.eclipse.scanning.device.BeamNexusDevice" init-method="register">
+		<property name="name" value="beam" />
+		<property name="incidentEnergyScannableName" value="pgm_energy" />
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name">
+						<util:constant static-field="org.eclipse.dawnsci.nexus.NXbeam.NX_EXTENT"/>
+					</property>
+					<property name="scannableName" value="beam_size_at_sample"/>
+					<property name="units" value="µm²"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name">
+						<util:constant static-field="org.eclipse.dawnsci.nexus.NXbeam.NX_INCIDENT_BEAM_DIVERGENCE"/>
+					</property>
+					<property name="scannableName" value="beam_divergence_at_sample"/>
+					<property name="units" value="mrad²"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name">
+						<util:constant static-field="org.eclipse.dawnsci.nexus.NXbeam.NX_FLUX"/>
+					</property>
+					<property name="scannableName" value="beam_flux_at_sample"/>
+					<property name="units" value="photons/sec"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

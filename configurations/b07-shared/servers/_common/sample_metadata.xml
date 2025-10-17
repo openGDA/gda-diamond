@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="chemical_formula" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="chemical_formula"/>
+	</bean>
+
+	<bean id="electric_field" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="magnetic_field" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="pressure" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="sampleNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="sample" />
+		<property name="category" value="NX_ENTRY"/>
+		<property name="nexusClass" value="NXsample"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="name"/>
+					<property name="scannableName" value="sample_name"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="chemical_formula"/>
+					<property name="scannableName" value="chemical_formula"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="temperature"/>
+					<property name="scannableName" value="tsample"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="electric_field"/>
+					<property name="scannableName" value="electric_field"/>
+					<property name="units" value="V" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="magnetic_field"/>
+					<property name="scannableName" value="magnetic_field"/>
+					<property name="units" value="T" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="pressure"/>
+					<property name="scannableName" value="pressure"/>
+					<property name="units" value="Pa" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

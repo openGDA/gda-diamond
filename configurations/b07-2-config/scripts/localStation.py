@@ -3,6 +3,8 @@
 #
 
 from b07Shared.localStation import * # @UnusedWildImport
+from uk.ac.diamond.osgi.services import ServiceProvider
+from uk.ac.diamond.daq.configuration import BeamlineConfiguration
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (b07-2).";
@@ -126,6 +128,31 @@ sm52b_sp = SamplePositions("sm52b_sp", [sm52b_xp,sm52b_yp,sm52b_zp,sm52b_roty,sm
 print("Creating sample positioner objects: " + sm21b_sp.getName() + ", " + sm52b_sp.getName())
 print("Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 help(sm21b_sp)
+
+spring_profiles = ServiceProvider.getService(BeamlineConfiguration).profiles.toList()
+
+#sample temperature
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+if "es1" in spring_profiles:
+	if installation.isLive():
+		# there are 2 temperature es1_temp_51, and es1_temp_52, which Fajin is not sure which is sample temperature
+		tsample = SampleTemperature("tsample", es1_temp_52)  # @UndefinedVariable
+	else:
+		# there are 2 temperature monitor in ES1 - es1_51_temp_temperature, es1_52_temp_temperature
+		tsample = es1_52_temp_temperature  # @UndefinedVariable
+
+if "es2" in spring_profiles:
+	if installation.isLive():
+		tsample = SampleTemperature("tsample", es2_temp)  # @UndefinedVariable
+	else:
+		tsample = es2_21_temp_temperature  # @UndefinedVariable
+
+if not spring_profiles or ("es1" in spring_profiles and "es2" in spring_profiles):
+	# no profile or both profiles default to es1_temp_51
+	if installation.isLive():
+		tsample = SampleTemperature("tsample", es1_temp_51)  # @UndefinedVariable
+	else:
+		tsample = es1_51_temp_temperature  # @UndefinedVariable
 
 print("-"*100)
 # import sputter functions

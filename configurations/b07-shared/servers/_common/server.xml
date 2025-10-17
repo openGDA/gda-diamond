@@ -20,6 +20,9 @@
 
 	<import resource="common_nxplugins.xml"/>
 	<import resource="command_server.xml" />
+	<import resource="sample_metadata.xml"/>
+	<import resource="beam_metadata.xml"/>
+	<import resource="notes_metadata.xml"/>
 	<import resource="nexus_datawriter.xml"/>
 
 </beans>
