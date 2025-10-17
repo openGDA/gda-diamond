@@ -42,14 +42,14 @@
 
 				<!-- Sample wheel -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Filter wheel" />
+					<property name="description" value="Filter wheel position" />
 					<property name="fullPathToGetter" value="getSampleWheelPosition" />
 					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
 					<property name="allowedValuesFromEnum" ref="filterwheel" />
 				</bean>
 
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Enable filter wheel" />
+					<property name="description" value="Use filter wheel" />
 					<property name="fullPathToGetter" value="getUseSampleWheel" />
 					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
 					<property name="allowedValuesFromBoolean" value="true" />
@@ -64,12 +64,19 @@
 					<property name="fullPathToGetter" value="getBeforeFirstRepetition" />
 					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20OutputParameters" />
 				</bean>
+				
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="XES(upper) fixed energy value" />
+					<property name="fullPathToGetter" value="getSpectrometerScanParameters.get(0).getFixedEnergy" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.XesScanParameters" />
+				</bean>
+				
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="XES(lower) fixed energy value" />
+					<property name="fullPathToGetter" value="getSpectrometerScanParameters.get(1).getFixedEnergy" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.XesScanParameters" />
+				</bean>
 
-				<!-- <bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig"> -->
-				<!-- <property name="description" value="QEXAFS initial energy" /> -->
-				<!-- <property name="fullPathToGetter" value="getInitialEnergy" /> -->
-				<!-- <property name="beanType" value="uk.ac.gda.beans.exafs.QEXAFSParameters" 	/> -->
-				<!-- </bean> -->
 			</list>
 		</property>
 	</bean>

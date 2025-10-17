@@ -19,7 +19,7 @@ XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
 
 # axis_detector_map_malcolm = {XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
 
-axis_detector_map_malcolm = {XESEnergyBoth : ("xes_01_xtal_all_pitch", "BL20I-ML-SCAN-02"), XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-01"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
+axis_detector_map_malcolm = {XESEnergyBoth : ("xes_01_xtal_all_pitch", "BL20I-ML-SCAN-02"), XESEnergyLower : ("xes_02_xtal_lo_pitch", "BL20I-ML-SCAN-02"),  XESEnergyUpper : ("xes_01_xtal_up_pitch", "BL20I-ML-SCAN-01")}
 
 # axes for doing software malcolm scan (dummy mode).
 axis_detector_map_gda = {XESEnergyLower : ("lower_zero_pitch", "medipix2_addetector"),  XESEnergyUpper : ("upper_zero_pitch", "medipix1_addetector")}
