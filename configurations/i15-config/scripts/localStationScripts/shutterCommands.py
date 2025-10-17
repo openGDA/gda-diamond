@@ -88,15 +88,22 @@ def openEHShutter():
 	syntax: openEHShutter()
 	"""
 	checkConfigured()
-	beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
-	beamline.setValue("Top","-PS-SHTR-02:CON",0)		#OPEN
-	LoggerFactory.getLogger("openEHShutter").info("Opening the EH shutter...")
+	logger=LoggerFactory.getLogger("openEHShutter")
+	logger.info("Checking the EH shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
+	"""status: 0)Fault, 1)Open, 2)Opening, 3)Closed, 4)Closing"""
+	if status != 1:
+		beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
+		beamline.setValue("Top","-PS-SHTR-02:CON",0)		#OPEN
+		logger.info("Opening the EH shutter required...")
+	else:
+		logger.info("Opening the EH shutter not required...")
 	count = 0
 	while (status != 1):
 		sleep(1)  # Pause for 1 second.
 		count = count +1
 		if count ==6:
+			logger.error("Opening the EH shutter timed out!")
 			simpleLog( " -> Time out: Could not Open EH shutter")
 			return
 		status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
