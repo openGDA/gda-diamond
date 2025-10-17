@@ -70,7 +70,9 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.lastExposureTime = self.collectionTime
         # Reset the zebra box before each arm, so that internal dividers are reset
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
+        self.logger.trace("%s() ...reset collectionTime=%r" % (self.pfuncname(), self.collectionTime))
         self.pvs['PC_ARM'].caput(TIMEOUT, 1)
+        self.logger.trace("%s() ...armed collectionTime=%r" % (self.pfuncname(), self.collectionTime))
 
 #    def setCollectionTime(self):
         """ Sets the collection time, in seconds, to be used during the next
@@ -177,6 +179,8 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # Setting is not reliable, three times seems to be the charm
         self.pvs['DIV3_DIV'      ].caput(TIMEOUT, 10000000) # TODO: Remove when this fixed
         self.pvs['POLARITY'      ].caput(TIMEOUT, 0)
+
+        self.logger.trace("%s() ... armed collectionTime=%r" % (self.pfuncname(), self.collectionTime))
 
 #    def endCollection(self):
         """ Method called at the end of collection to tell detector when a
