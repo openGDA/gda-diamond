@@ -156,6 +156,22 @@ from scannables.pgm_energy_multilayer_grating import pgm_energy_mlg
 help(pgm_energy_mlg)
 
 print("-"*100)
+from beamline.sample_positions_custom_move import B07C_Sample_Positions
+
+if ConfigUtils.profileActive("TPOT"):
+	print("add TPOT scannables to metadata list ...")
+	sm_sp = B07C_Sample_Positions("sm_sp", [sm_yp,sm_zp,sm_xp]) # @UndefinedVariable
+	print("Creating sample positioner objects: " + sm_sp.getName() + ", " + sm_sp.getName())
+	print("Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+	help(sm_sp)
+if ConfigUtils.profileActive("TCUP"):
+	print("add TCUP scannables to metadata list ...")
+	sm2_sp = B07C_Sample_Positions("sm2_sp", [sm2_yp,sm2_zp,sm2_xp]) # @UndefinedVariable
+	print("Creating sample positioner objects: " + sm2_sp.getName() + ", " + sm2_sp.getName())
+	print("Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+	help(sm2_sp)
+
+print("-"*100)
 if len(localStation_exceptions) > 0:
 	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 	for localStationException in localStation_exceptions:
