@@ -420,6 +420,17 @@ def _sanitise(fileName, detector):
 	except Exception, e:
 		LoggerFactory.getLogger("_sanitise").error("Failure checking {}", fileName, e)
 
+	if ('pil3cbf' in detector.name):
+		maxPil3cbfFilename=50
+		if len(fileName) > maxPil3cbfFilename:
+			sanitised=fileName[:maxPil3cbfFilename]
+			msg="Maximum 'filename' length is %i for %s detector. Using %s rather than %s" % (maxPil3cbfFilename, detector.name, sanitised, fileName)
+			print "-"*80
+			print msg
+			print "-"*80
+			LoggerFactory.getLogger("_sanitise").warn(msg)
+			return sanitised
+
 	if fileName == None or not "_" in fileName:
 		return fileName
 
