@@ -15,4 +15,4 @@ xanesEdgeParams = marshaller_service.unmarshal(customParams, XanesEdgeParameters
 
 run("scanning/sparse_xanes_scan.py")
 
-run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams)
+run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=False)

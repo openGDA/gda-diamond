@@ -14,7 +14,7 @@
 
 	<bean id="FFI0_xspress3Odin" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress3Odin" />
-		<property name="i0_channel" value="1" />
+		<property name="i0_channel" value="2" />
 		<property name="counterTimer" ref="counterTimer01" />
 	</bean>
 	
@@ -27,6 +27,7 @@
 <!-- 		<property name="triggerModeForContinuousScan" value="3" /> -->
 		<property name="twoDHdfData" value="true" />
 		<property name="minFramesBeforeHdfRead" value="50" /> <!-- should be >= chunk size in Odin Hdf writer -->
+		<property name="useHdfFileNumFrames" value="false" />
 	</bean>
 	
 	<bean id="qexafs_FFI0_xspress3Odin"	class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
@@ -39,11 +40,11 @@
 <!-- Single element xspress3 Mini  -->
 	<bean id="FFI0_xspress3Mini" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress3Mini" />
-		<property name="i0_channel" value="1" />
+		<property name="i0_channel" value="2" />
 		<property name="counterTimer" ref="counterTimer01" />
 	</bean>
  	
- 	<bean id="xspress3Mini" class="uk.ac.gda.devices.detector.xspress4.Xspress4OdinDetector">
+ 	<bean id="xspress3Mini" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="controller" ref="xspress3MiniController" />
 		<property name="tfgFFI0" ref="FFI0_xspress3Mini" />
 		<property name="configFileName" value="${gda.config}/templates/Xspress3Mini_Parameters.xml" />

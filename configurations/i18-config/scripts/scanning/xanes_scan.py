@@ -17,12 +17,13 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs):
     try:
         run_scan_request(scanRequest, xanesEdgeParams, *args, **kwargs)
     except:
-        msg="XANES scan script terminated abnormally: {}".format(sys.exc_info()[0])
-        xanes_logger.error(msg, traceback.format_exc())
+        stacktrace=traceback.format_exc()
+        msg="XANES scan script terminated abnormally: {} {}".format(sys.exc_info()[0], stacktrace)
+        xanes_logger.error(msg, stacktrace) # , traceback.format_exc())
         print(msg)
-        print(traceback.format_exc())
     
-from gda.jython import JythonServerFacade, ScriptBase
+from gda.jython import JythonServerFacade, ScriptBase, InterfaceProvider
+
 def wait_if_paused() :
     if ScriptBase.isPaused() == True :
         print "Waiting while paused..."
@@ -40,7 +41,10 @@ def run_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True, num_ret
     compound_model = scanRequest.getCompoundModel()
     print("Original compound model: {}".format(compound_model))
 
-    element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
+    element_edge_string = "unknown" if xanesEdgeParams.getEdgeToEnergy() is None \
+        else xanesEdgeParams.getEdgeToEnergy().getEdge()
+        
+    #element_edge_string = xanesEdgeParams.getEdgeToEnergy().getEdge()
 
     models = compound_model.getModels()
 
