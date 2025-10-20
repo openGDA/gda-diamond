@@ -48,14 +48,17 @@ def continuous_scan(num_points, time_per_point, *detectors) :
     """
     qexafs_ionchambers = qexafs_I1
     
-    dets = list(detectors)
+    if detectors is None:
+        dets = []
+    else:
+        dets = list(detectors)
     
     frame_live_time = time_per_point-frame_dead_time
     
     # append qexafs_counterTimer01 (at end, so other detectors are prepared and armed first)
     if qexafs_ionchambers not in dets :
         dets.append(qexafs_ionchambers)
-        
+    
     # Set the collection time on each detector to match the live time
     # (this shouldn't make a difference if hardware trigger length determines frame length)
     #for d in detectors : 
@@ -181,6 +184,11 @@ class TfgTriggerPreparer(ScannableBase):
 
 trigger_preparer=TfgTriggerPreparer("trigger_preparer")
 trigger_preparer.buffered_scaler = qexafs_I1
+
+trigger_preparer_new=TfgTriggerPreparer("trigger_preparer_new")
+trigger_preparer_new.buffered_scaler = qexafs_I1
+trigger_preparer_new.sequences = { "initial":[1], "one" : [2,1], "two":[1,2], "none":[3]}
+# scan trigger_preparer_new ("initial", "two", "none")*2 continuous_scan(5, 1, qexafs_counterTimer01)
 
 """
 Procedure :

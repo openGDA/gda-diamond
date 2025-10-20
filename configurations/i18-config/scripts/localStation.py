@@ -304,6 +304,8 @@ def setup():
     
     run_script("vma_start_stop.py")
     
+    run_script("linear_malcolm_scans.py")
+    
     print("\n...initialisation complete!")
     print_useful_info()
 

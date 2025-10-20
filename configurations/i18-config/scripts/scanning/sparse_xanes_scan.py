@@ -3,12 +3,14 @@ from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
 from org.eclipse.scanning.api.points.models import CompoundModel #@Unresolvedimport
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI #@Unresolvedimport
 from org.eclipse.scanning.api.points.models import AxialStepModel, AxialArrayModel
+from org.eclipse.scanning.api.points import MapPosition
+from gda.data import NumTracker
 
 from scanning.xanes_utils import submit_scan, get_models, get_energies, get_x_dimensions, get_y_dimensions
 
 import scisoftpy as dnp
 
-def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
+def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=True):
 
     sparse_parameters = xanesEdgeParams.getSparseParameters()
     rows_percentage = 1.0
@@ -24,8 +26,13 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
     print("Number of scans: {}".format(num_scans))
     print("Energies: {}".format(energies))
 
-    print("Energy axis : %s"%(energy_model.getName()))
-    energy_scannable = Finder.find(energy_model.getName())    
+    energy_scn_name = energy_model.getName()
+    if not beam_available() :
+        print("Beam not avalable - using energy_nogap for energy scannable")
+        energy_scn_name = "energy_nogap"
+        
+    print("Energy axis : %s"%(energy_scn_name))
+    energy_scannable = Finder.find(energy_scn_name)
 
     #Conversion factor from model energy units to eV needed for the DCM
     energy_units = LocalProperties.get("gda.scan.energy.defaultUnits", "kev")
@@ -47,9 +54,20 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
 
     all_nexus_file_names = []
     
+    # Use the NumTracker to get the number of the next Nexus file to be created
+    num_tracker = NumTracker()
+    nexus_scan_number = num_tracker.getCurrentFileNumber() + 1
+    num_tracker.incrementNumber() #
+    
+    # Setup Nexus file path format 
+    beamline_name = LocalProperties.get("gda.beamline.name")
+    visit_folder = InterfaceProvider.getPathConstructor().createFromDefaultProperty()
+    nexus_name_format = visit_folder+"/"+str(beamline_name)+"-%d_%03d.nxs"
+    
     for idx, energy in enumerate(energies):
         
-        print("\nPreparing Sparse XANES scan %d of %d"%(idx+1, num_scans))
+        scan_name = "Sparse XANES scan {} of {}. Energy = {}".format(idx+1, num_scans, energy)
+        
         
         # last scan will be all positions
         if idx < len(energies)-1:
@@ -95,6 +113,12 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
         print("Positions : %s"%(sparse_pos_y_str))
         print("Indices   : %s"%(sparse_ind_y_str))
         
+        # position of the dcm for this energy
+        dcm_energy_position = MapPosition({energy_scannable.getName():energy*energy_multiplier})
+        
+        # full path to the nexus file
+        file_path = nexus_name_format%(nexus_scan_number, idx)        
+        
         # create request
         request = ScanRequestBuilder() \
                   .withPathAndRegion(cm, None) \
@@ -102,25 +126,23 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams):
                   .ignorePreprocess(True) \
                   .withScanMetadata([smetadata]) \
                   .withProcessingRequest(scanRequest.getProcessingRequest()) \
+                  .withStartPosition(dcm_energy_position) \
+                  .withFilePath(file_path) \
                   .build()
                   
         # Add processing to scan request to reconstruct the map after final energy has been collected
         if energy == energies[-1] :
             print("Adding processing to reconstruct the map after final energy point")
             request.getProcessingRequest().getRequest().put("xanes-map-stack", [])
-
-        # Move the monochromator
-        print("Moving %s to %.5f eV"%(energy_scannable.getName(), energy*energy_multiplier))
-        energy_scannable.moveTo(energy*energy_multiplier)
-        sleep(0.5)
-        
-        scan_name = "Sparse XANES_scan_{0}_of_{1}".format(idx+1, num_scans)
-        print("Submitting %s "%(scan_name))
-
-        result = submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
-        if result == False :
-            submit_scan(request, block=True, name=scan_name, raise_on_failure = False)
             
-        all_nexus_file_names.append(filename_listener.file_name)
-        print("File path "+filename_listener.file_name)
+        
+        print(scan_name)
+        print(file_path)
+
+        result = submit_scan(request, block=block_on_submit, name=scan_name, raise_on_failure = False)
+        if result == False :
+            submit_scan(request, block=block_on_submit, name=scan_name, raise_on_failure = False)
+            
+        # Add the scan just run/submitted to the list of all nexus file names
+        all_nexus_file_names.append(file_path)
 
