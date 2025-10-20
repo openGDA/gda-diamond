@@ -20,8 +20,8 @@
         </property>
     </bean>
 
-    <gda:motor id="bs1_x" live-pvName="BL22I-MO-SAXSP-01:BS1:X" protectionLevel="3" />
-    <gda:motor id="bs1_y" live-pvName="BL22I-MO-SAXSP-01:BS1:Y" protectionLevel="3" />
+    <gda:motor id="bs1_x" live-pvName="BL22I-MO-SAXSP-01:BS1:X" protectionLevel="2" />
+    <gda:motor id="bs1_y" live-pvName="BL22I-MO-SAXSP-01:BS1:Y" protectionLevel="2" />
     <bean id="bs1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
