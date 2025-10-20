@@ -26,6 +26,7 @@ from amplifiers.femto_instances import ca1je, ca2je, ca3je  # @UnusedImport
 if installation.isLive():
     from scannable.haxpod.m6_haxpod_motors import m6_x, m6_y, m6_z, m6_yaw, m6_pitch, m6_roll, M6  # @UnusedImport
 
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 if "hfm" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "HFM")
     # High Field Magnet support
@@ -50,6 +51,7 @@ if "hfm" in spring_profiles:
     xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_hfm_slowscan.yaml"
     xasscan.xasmode_scannable_name = "xasmode_slow"
     from scans.fastFieldScan import fastfieldscan, magnetflyscannable, magnet_field_show_demand_value, set_magnet_field_ramp_rate_factor  # @UnusedImport
+    tsample = SampleTemperature("tsample", itc3, channel_number = 1)  # @UndefinedVariable
 
 if "em" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "EM")
@@ -67,6 +69,8 @@ if "em" in spring_profiles:
     xasmode_path_slow = XASModePathMapper("xasmode_path_slow", xasmode_slow, mode_path_slow)
     xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_em_slowscan.yaml"
     xasscan.xasmode_scannable_name = "xasmode_slow"
+    #sample temperature
+    tsample = SampleTemperature("tsample", ls336, channel_number = 1)  # @UndefinedVariable
 
 import gdascripts
 scan_processor.rootNamespaceDict = globals()

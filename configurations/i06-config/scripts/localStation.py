@@ -127,6 +127,8 @@ xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
 xasscan.xasmode_scannable_name = "xasmode"
+# sample temperature
+tsample = temp  # @UndefinedVariable
 
 print("="*100)
 print("end of localStation.py for Beamline I06)")

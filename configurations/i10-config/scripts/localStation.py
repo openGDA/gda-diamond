@@ -39,7 +39,6 @@ print("*"*80)
 # DiffCalc
 if installation.isDummy():
     # install UB matrix data files in dummy mode when first time run GDA server after checkout GDA source codes from repositories!
-    from gda.configuration.properties import LocalProperties
     import os
     to_directory = LocalProperties.get(LocalProperties.GDA_VAR_DIR) + os.sep + "diffcalc"
     if not os.path.exists(to_directory):
@@ -101,6 +100,10 @@ xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
 xasscan.xasmode_scannable_name = "xasmode_slow"
 
 from scannable.rasor.attocube350 import rasorphi  # @UnusedImport
+
+#sample temperature
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", ls340, channel_number = 0)  # @UndefinedVariable
 
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))

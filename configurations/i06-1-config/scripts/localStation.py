@@ -2,6 +2,7 @@
 from utils.ExceptionLogs import localStation_exception
 from gda.factory import Finder
 from uk.ac.diamond.daq.configuration import ConfigUtils
+from gda.device.temperature import DummyTemp
 
 print("="*100)
 print("Performing Beamline I06-1 specific initialisation code (localStation.py).")
@@ -78,6 +79,8 @@ if ConfigUtils.profileActive("magnet"):
         #run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
         # from scan.fastFieldScan import magnetflyscannable, fastfieldscan  # @UnusedImport
         from scan.fastFieldScanWithEnergySwitch import fastfieldscan, magnetflyscannable  # @UnusedImport
+    #sample temperature
+    tsample = magnetSampleTemp  # @UndefinedVariable
 
 if ConfigUtils.profileActive("DD"):
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "DD")
@@ -89,11 +92,16 @@ if ConfigUtils.profileActive("DD"):
         from startup.i06 import *  # @UnusedWildImport
     except:
         localStation_exception(sys.exc_info(), "import diffcalc error.")
+    #sample temperature
+    from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+    tsample = SampleTemperature("tsample", ls336, channel_number = 1)  # @UndefinedVariable
 
 if ConfigUtils.profileActive("xabs"):
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "xabs")
     from beam.xabsvalve import closebeam, openbeam  # @UnusedImport @Reimport
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
+    #sample temperature
+    tsample = DummyTemp(); tsample.setName("tsample")
 
 from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()  
