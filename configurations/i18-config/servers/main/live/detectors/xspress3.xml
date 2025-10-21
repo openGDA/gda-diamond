@@ -20,11 +20,5 @@
 			</map>
 		</property>
 	</bean>
-
-	<bean id="xspress3MiniController"
- 		class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
- 		<property name="basePv" value="BL18I-EA-XSP-03" />
-		<property name="numElements" value="1" />
- 	</bean>
  	
 </beans>
