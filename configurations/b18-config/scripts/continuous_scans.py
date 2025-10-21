@@ -1,7 +1,7 @@
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
-from gda.scan import ContinuousScan
+from gda.scan import ContinuousScanWithSleep
 from __builtin__ import False, True
 from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 from gda.device import IScannableMotor
@@ -68,7 +68,7 @@ def test_2d_scan() :
 
     scan test 10 20 1.0 cs twoDPlotter
 
-def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, bidirectional=False, rampDistance=0, pulseDelayMs=0) :
+def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, bidirectional=False, rampDistance=0, pulseDelayMs=0, **kwargs) :
     """
         Create continuous scan using 'step scan'-like parameter 
         i.e. between start and end positions, with num points and total time computed automatically.
@@ -87,7 +87,7 @@ def createContinuousScan(scnMotor, start, end, step, time_per_point, dets=None, 
     if not isinstance(scnMotor, ContinuouslyScannable) :
         continuous_scannable = createContinuousScannable(scnMotor, pulseDelayMs=pulseDelayMs, rampDistance=rampDistance)
     
-    cs=getCscanUnsyncronized(continuous_scannable, start, end, num_points, total_time, dets, bidirectional=bidirectional)
+    cs=getCscanUnsyncronized(continuous_scannable, start, end, num_points, total_time, dets, bidirectional=bidirectional, **kwargs)
     cs.setBiDirectional(bidirectional)
 
     #add non continuous variable to get encoder values for motor position instead of values calculated by GDA according to speed
@@ -146,7 +146,7 @@ def createScannableDetector(scn) :
 """
 No zebra used for synchronization. Motor move and tfg start at same time 
 """
-def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None, extraScannables=None, bidirectional=False) :
+def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDetectors=None, extraScannables=None, bidirectional=False, timeBetweenStarts=0.0) :
     detectors=[]
 
     if extraDetectors != None :
@@ -165,10 +165,13 @@ def getCscanUnsyncronized(continuous_axis, start, stop, readouts, time, extraDet
     # add counterTimer01
     detectors.append(qexafs_counterTimer01)
     
-    cs=ContinuousScan(continuous_axis, start, stop, readouts, time, detectors)
+    cs=ContinuousScanWithSleep(continuous_axis, start, stop, readouts, time, detectors)
     
     # set the bidirectional flag
     cs.setBiDirectional(bidirectional)
+    
+    # set the time between starts
+    cs.setTimeBetweenStarts(timeBetweenStarts)
     
     # Add any extra scannables (to record the position for each point in the scan)
     if extraScannables != None :
