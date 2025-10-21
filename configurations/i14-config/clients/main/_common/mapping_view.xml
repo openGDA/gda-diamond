@@ -16,7 +16,7 @@
 		<property name="linesToTrackList" ref="linesToTrackList" />
 	</bean>
 	
-	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.XanesParametersSection">
+	<bean id="sparseXanesSection" class="uk.ac.diamond.daq.mapping.ui.xanes.SparseXanesSection">
 		<property name="energyScannableName" value="dcm_enrg" />
 		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
 	</bean>
@@ -26,6 +26,11 @@
 		<property name="offsetStart" value="0.12" />
 		<property name="offsetEnd" value="0.020" />
 		<property name="preEdgeStep" value="0.010" />
+	</bean>
+	
+	<bean id="dataDrivenSection" class="uk.ac.diamond.daq.mapping.ui.xanes.DataDrivenSection">
+		<property name="energyScannableName" value="dcm_enrg" />
+		<property name="elementAndEdgesList" ref="elementsAndEdgesList" />
 	</bean>
 	
 	<bean id="exafsTimeSection" class="uk.ac.diamond.daq.mapping.ui.exafs.ExafsTimeParametersSection"/>
@@ -47,6 +52,7 @@
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScriptFilesSection" />
 				<ref bean="exafsSection" />
+				<ref bean="dataDrivenSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.OuterScannablesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
@@ -135,6 +141,18 @@
 								<property name="description" value="Laminography scan" />
 								<property name="buttonText" value="Submit laminography scan" />
 								<property name="submitScanButtonColour" value="TURQUOISE"/>
+								<property name="stateReporter">
+									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
+								</property> 
+							</bean>
+							<bean class="uk.ac.diamond.daq.mapping.ui.xanes.DataDrivenSubmitScanSection">
+								<property name="outerScannableName" value="dcm_enrg"/>
+								<property name="scriptFilePath" value="scanning/data_driven/submit_initial_xanes_scan.py"/>
+								<property name="secondScriptFilePath" value="scanning/data_driven/submit_data_driven_scan.py"/>
+								<property name="description" value="Data driven XANES scan" />
+								<property name="buttonText" value="Submit initial XANES scan" />
+								<property name="submitScanButtonColour" value="PURPLE"/>
+								<property name="xanesParametersSection" ref="dataDrivenSection" />
 								<property name="stateReporter">
 									<bean class="uk.ac.gda.beamline.i14.views.beamlinereadiness.ShuttersStateListener"/>
 								</property> 
