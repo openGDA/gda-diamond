@@ -129,8 +129,9 @@ class QuickXesNexusProcessor :
         self.add_pitch_energy_values()
         
         self.add_time_values()
-
-        self.add_active_row_info()
+        
+        if xes_hardare_preparer.is_power_pmac_mode():
+            self.add_active_row_info()
 
     def get_i1_values(self) :
         return self.load_dataset(self.I1DataPath)

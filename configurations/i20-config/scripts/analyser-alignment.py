@@ -4,6 +4,15 @@ from __builtin__ import True, None
 from  gda.data.scan.datawriter import DefaultDataWriterFactory
 from gda.scan import ConcurrentScan, CentroidScan
 
+# Parameters to control the range and step size of the pitch, yaw
+pitch_scan_range = 0.2
+pitch_scan_step_size = 0.025
+
+yaw_scan_range = 0.3
+yaw_scan_step_size = 0.025
+
+energy_scan_range = 5.0
+energy_scan_step_size = 0.3
 
 moveableImageDet = MoveableImageDetector()
 moveableImageDet.setName("moveableImageDet")
@@ -65,6 +74,7 @@ def showProcessingRois() :
 setupProcessingRois(100, 100)
 
 
+
 def getYawScannable(analyserCrystal) :
     return analyserCrystal.getRotMotor()
 
@@ -72,13 +82,13 @@ def getPitchScannable(analyserCrystal) :
     return analyserCrystal.getPitchMotor()
 
 def doPitchScan(pitchScannable, centralPitch) :
-    return runScanAndFindPeak(pitchScannable, centralPitch, 0.5, 0.025, "horizontalRoi")
+    return runScanAndFindPeak(pitchScannable, centralPitch, pitch_scan_range, pitch_scan_step_size, "horizontalRoi")
 
 def doYawScan(yawScannable, centralYaw) :
-    return runScanAndFindPeak(yawScannable, centralYaw, 1.0, 0.025, "verticalRoi")
+    return runScanAndFindPeak(yawScannable, centralYaw, yaw_scan_range, yaw_scan_step_size, "verticalRoi")
 
 def doEnergyScan(energyScannable, expectedEnergy) :
-    return runScanAndFindPeak(energyScannable, expectedEnergy, 5.0, 0.3, "centreRoi")
+    return runScanAndFindPeak(energyScannable, expectedEnergy, energy_scan_range, energy_scan_step_size, "centreRoi")
 
 def doEnergyScanLoop(energyScannable, pitchScannable, expectedEnergy, offsets) :
     # Do energy scan, but disable all the analysers stages except the one being optimised
