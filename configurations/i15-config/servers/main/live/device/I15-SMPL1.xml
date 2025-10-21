@@ -23,11 +23,19 @@
 		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KAPPA" />
 	</bean>
 
-	<bean id="Dr1kthetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KTHETA" />
-	</bean>
+	<beans profile='dktheta_available'>
+		<bean id="Dr1kthetaMotor" class="gda.device.motor.EpicsMotor">
+			<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KTHETA" />
+		</bean>
 
-	<bean id="Dr1muMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:MU" />
-	</bean>
+		<bean id="Dr1muMotor" class="gda.device.motor.EpicsMotor">
+			<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:MU" />
+		</bean>
+	</beans>
+
+	<beans profile='!dktheta_available'>
+		<bean id="Dr1kthetaMotor" class="gda.device.motor.DummyMotor"/>
+		<bean id="Dr1muMotor" class="gda.device.motor.DummyMotor"/>
+	</beans>
+
 </beans>
