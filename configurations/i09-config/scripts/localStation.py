@@ -30,10 +30,11 @@ print "Custom i09 initialisation code.";
 ###############################################################################
 from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
 from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
+from i09_1_shared.beam.beam_properteis import dcm_beam_divergence_at_sample, dcm_beam_flux_at_sample, dcm_beam_size_at_sample  # @UnusedImport
 
 from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
 from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc  # @UnusedImport
-
+from i09_2_shared.beam.beam_properteis import pgm_beam_divergence_at_sample, pgm_beam_flux_at_sample, pgm_beam_size_at_sample  # @UnusedImport
 #Connect the JythonScannableWrappers for client live controls
 from gdaserver import ienergy_order_wrapper, jenergy_order_wrapper, igap_offset_wrapper, jgap_offset_wrapper, polarisation_wrapper # @UnresolvedImport
 ienergy_order_wrapper.connectScannable()
@@ -226,6 +227,9 @@ print("-"*100)
 sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 help(sp)
+
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", lakeshore, channel_number = 1)  # @UndefinedVariable
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

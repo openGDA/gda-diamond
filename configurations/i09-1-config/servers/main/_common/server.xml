@@ -8,5 +8,5 @@
 
 	<import resource="devices/all_devices.xml"/>
 	<import resource="nexus_datawriter.xml"/>
-
+	<import resource="nxmetadata.xml"/>
 </beans>

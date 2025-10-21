@@ -66,6 +66,7 @@ print("Importing utility mathmatical scannable class ScannableFunctionClassFor2S
 ###############################################################################
 from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ienergy_s, igap_offset # @UnusedImport
 from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
+from i09_1_shared.beam.beam_properteis import dcm_beam_divergence_at_sample, dcm_beam_flux_at_sample, dcm_beam_size_at_sample  # @UnusedImport
 
 from gdaserver import psi1, iidaccesscontrol #@UnresolvedImport
 from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
@@ -83,6 +84,9 @@ print("-"*100)
 sp = SamplePositions("sp", [hsmpmx, hsmpmy, hsmpmz, hsmpmpolar])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 help(sp)
+
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", lakeshore, channel_number = 3)  # @UndefinedVariable
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

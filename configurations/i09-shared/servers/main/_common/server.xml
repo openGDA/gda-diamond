@@ -10,5 +10,5 @@
 	<import resource="terminal_logger.xml"/>
 	<import resource="GDAMetadata.xml"/>
 	<import resource="devices/all_devices.xml"/>
-
+	<import resource="nxmetadata.xml"/>
 </beans>
