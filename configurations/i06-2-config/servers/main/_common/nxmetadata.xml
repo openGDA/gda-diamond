@@ -17,11 +17,11 @@
 		<property name="name" value="chemical_formula"/>
 	</bean>
 
-	<bean id="electric_field" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="electric_field" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="magnetic_field" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="magnetic_field" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="pressure" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="pressure" class="gda.device.scannable.DummyScannable" />
 	
 	<bean id="sampleNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="sample" />
