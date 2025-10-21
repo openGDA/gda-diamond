@@ -20,6 +20,7 @@
 		<property name="scalerDataNameFormat" value="scalar_%d" />
 <!-- 		<property name="triggerModeForContinuousScan" value="3" /> -->
 		<property name="twoDHdfData" value="true" />
+		<property name="useHdfFileNumFrames" value="false" />
 	</bean>
 
 	<bean id="xspress4OdinFFI0" class="gda.device.detector.TfgFFoverI0">
