@@ -14,6 +14,7 @@ class PilatusThreshold(ScannableBase):
         self.setName(name)
         self.threshold_setter = PVWithSeparateReadback(LazyPVFactory.newDoublePV(basePv + "CAM:ThresholdEnergy"), LazyPVFactory.newReadOnlyDoublePV(basePv + "CAM:ThresholdEnergy_RBV"))
         self.amIbusy = False
+        self.timeout = 10.0
 
     def isBusy(self):
         return self.amIbusy
@@ -23,7 +24,7 @@ class PilatusThreshold(ScannableBase):
 
     def rawAsynchronousMoveTo(self, threshold):
         self.amIbusy = True
-        self.threshold_setter.putWait(float(threshold));
+        self.threshold_setter.putWait(float(threshold), self.timeout);
         if abs(self.threshold_setter.get() - threshold) > 0.001 :
             print("Detector did not reach desired threshold, please check the requested value is reasonable for this detector.")
         self.amIbusy = False
@@ -56,6 +57,7 @@ class ExcaliburThreshold(ScannableBase):
 try:
     exthresh = ExcaliburThreshold("excthresh", "BL07I-EA-EXCBR-01:")
     p2thresh = PilatusThreshold("p2thresh", "BL07I-EA-PILAT-02:")
+    p2thresh.timeout = 30.0
     p3thresh = PilatusThreshold("p3thresh", "BL07I-EA-PILAT-03:")
 except Exception as e:
     print("Error setting up exc threshold", e)
