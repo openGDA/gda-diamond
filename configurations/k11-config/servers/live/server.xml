@@ -7,5 +7,8 @@
 	<import resource="detectors/malcolm/tomography.xml" />
 	<import resource="detectors/malcolm/beamSelectorScan.xml" />
 	<import resource="detectors/malcolm/diffTomo.xml" />
+	
+	<!-- Remote visit REST service (used by BlueAPI) -->
+	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext" />
 
 </beans>
