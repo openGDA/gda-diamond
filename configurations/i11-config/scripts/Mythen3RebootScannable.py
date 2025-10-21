@@ -1,8 +1,8 @@
-from gdascripts.utils import caput, caget
 import time
+import os
 from datetime import datetime
 from gda.device.scannable import ScannableMotionBase
-
+from gdascripts.utils import caput, caget
 """
 
 Usage:
@@ -25,13 +25,19 @@ You can also run this script directly to just reboot the mythen3
 """
 
 
-def caput_and_ensure(PV, value):
+def caput_and_ensure(PV, value, max_tries=100):
 
     caput(PV, value)
 
-    while int(caget(PV)) != value:
-        print(caget(PV), value)
-        time.sleep(1)
+    tries = 0
+
+    while (int(caget(PV)) != value) and (tries < max_tries):
+        time.sleep(0.2)
+
+        if tries%20 == 0:
+            caput(PV, value)
+        
+        tries = tries+1
 
 
 class CMS(ScannableMotionBase):
@@ -48,14 +54,34 @@ class CMS(ScannableMotionBase):
         self.name = name #not sure if this is needed?
         self.n_modules = n_modules
         self.mythen3_config = "/dls_sw/i11/software/mythen3/diamond/mythen3.config"
-        self.fh = '/dls/i11/data/2025/cm40625-3/processing/PSD_Health.log'
+
+        self.time_now = datetime.now()
+        self.year = str(self.time_now.year)
+
+        self.path = os.path.join('/dls/i11/data',self.year)
+        self.commissioning_visits = [f for f in os.listdir(self.path) if "cm" in f]
+        self.commissioning_visits.sort()
+        self.current_visit = self.commissioning_visits[-1]
+        self.current_visit_path =  os.path.join('/dls/i11/data',self.year,self.current_visit) 
+        self.fh = os.path.join(self.current_visit_path,'processing/PSD_Health.log')
+
+        print("cms1 log:",self.fh)
+
         self.enabled_modules = self.read_config(self.mythen3_config)
         self._stop = False
 
     def stop(self):
-        self._stop = True
+        # self._stop = True
+        quit()
 
-    def isBusy(self, reset_hdf=True):
+    def atPointStart(self):
+
+        isHealthy = self.reboot_if_unhealthy()
+
+        return 1
+
+
+    def reboot_if_unhealthy(self):
 
         self.enabled_modules = self.read_config(self.mythen3_config)
         isMythenHealthy = self.isMythenHealthyCheck()
@@ -64,7 +90,7 @@ class CMS(ScannableMotionBase):
             #not busy so continue
             print(self.time_now_str(),"Mythen3 is healthy")
             #Return not busy. busy = False
-            return False
+            return True
 
         if not isMythenHealthy:
             print(self.time_now_str(),"MYTHEN3 IS UNHEALTHY!!")
@@ -79,15 +105,16 @@ class CMS(ScannableMotionBase):
             unhealthy_modules = [n_mod+1 for n_mod in self.enabled_modules if n_mod not in active_modules]
             print(self.time_now_str(),"The following modules are not healthy:")
             print(unhealthy_modules, "(Counting from 1)")
-            self.rebootMythen3(write_reset=True)
-
-            if reset_hdf:
-                self.resethdfwriter()
+            self.reboot_mythen(write_reset=True)
+            self.resethdfwriter()
             ######## maybe just return False after reboot?
             #Return busy. busy = True
             return False
 
-        return False
+
+    def isBusy(self):
+
+        return
 
 
     def getPosition(self):
@@ -95,7 +122,7 @@ class CMS(ScannableMotionBase):
 
         active_modules = self.check_modules()
         print("active modules:",active_modules)
-        self.isBusy(reset_hdf=False)
+        # self.isBusy(reset_hdf=False)
 
         return 1
 
@@ -150,12 +177,10 @@ class CMS(ScannableMotionBase):
 
     def resethdfwriter(self):
         print("resethdfwriter")
-        caput("BL11I-EA-DET-07:HDF:FileWriteMode", 2) #set hdf to stream
-        time.sleep(5)
-        caput("BL11I-EA-DET-07:HDF:Capture", 1) #set hdf to acquire
-        time.sleep(5)
-        caput("BL11I-EA-DET-07:DET:Acquire", 1)
-        time.sleep(5)
+        caput_and_ensure("BL11I-EA-DET-07:HDF:FileWriteMode", 2) #set hdf to stream
+        caput_and_ensure("BL11I-EA-DET-07:HDF:Capture", 1) #set hdf to acquire
+        # caput("BL11I-EA-DET-07:DET:Acquire", 1)
+        # time.sleep(5)
         # acquiretime = caget('BL11I-EA-DET-07:DET:AcquireTime')
         # time.sleep(int(acquiretime))
 
@@ -198,31 +223,7 @@ class CMS(ScannableMotionBase):
 
     def write_bad_modules_to_log(self):
 
-        with open(self.fh, 'a') as file:
-            line = 'Modules and status after reboot' + '\n'
-            file.write(line)
-            file.flush()
-            file.close()
-
-        for i in range(1, 29, 1):
-            if i < 10:
-                j = 'BL11I-DI-PSD-01:Module0'+str(i)+'Connected_RBV'
-                h = caget(j)
-                with open(self.fh, 'a') as file:
-                    line = 'Module ' + str(j) + ' Status ' + str(h)  + '\n'
-                    file.write(line)
-                    file.flush()
-                    file.close()
-            else:
-                j = 'BL11I-DI-PSD-01:Module'+str(i)+'Connected_RBV'
-                h = caget(j)
-                with open(self.fh, 'a') as file:
-                    line = 'Module ' + str(j) + ' Status ' + str(h)  + '\n'
-                    file.write(line)
-                    file.flush()
-                    file.close()
-
-    def write_reset_dates(self):
+        print("Saving bad modules to log file:", self.fh)
 
         reset_date = datetime.now()
 
@@ -233,36 +234,28 @@ class CMS(ScannableMotionBase):
             file.close()
 
         with open(self.fh, 'a') as file:
-            line = 'Modules and status before reboot' + '\n'
+            line = 'Modules and status after reboot' + '\n'
             file.write(line)
             file.flush()
             file.close()
 
-        for i in range(1, 29, 1):
-            if i < 10:
-                j = 'BL11I-DI-PSD-01:Module0'+str(i)+'Connected_RBV'
-                h = caget(j)
-                with open(self.fh, 'a') as file:
-                    line = 'Module ' + str(j) + ' Status ' + str(h)  + '\n'
-                    file.write(line)
-                    file.flush()
-                    file.close()
-            else:
-                j = 'BL11I-DI-PSD-01:Module'+str(i)+'Connected_RBV'
-                h = caget(j)
-                with open(self.fh, 'a') as file:
-                    line = 'Module ' + str(j) + ' Status ' + str(h)  + '\n'
-                    file.write(line)
-                    file.flush()
-                    file.close()
+        for n_mod in range(0, 28, 1):
+            j = "BL11I-DI-PSD-01:Module{:02}Connected_RBV".format(n_mod+1)
+            h = caget(j)
+            with open(self.fh, 'a') as file:
+                line = 'Module ' + str(j) + ' Status ' + str(h)  + '\n'
+                file.write(line)
+                file.flush()
+                file.close()
 
 
-    def rebootMythen3(self, write_reset=False):
+
+    def reboot_mythen(self, write_reset=False):
         print(self.time_now_str(),'Mythen Reboot started')
         print("Will take approx 15 minutes")
 
         if write_reset:
-            self.write_reset_dates()
+            self.write_bad_modules_to_log()
 
         #IOCs off
         caput( 'BL11I-EA-MYTHN-01:STOP',1)
@@ -323,4 +316,4 @@ class CMS(ScannableMotionBase):
 if __name__ == "__main__":
 
     cms1 = CMS()
-    cms1.rebootMythen3()
+    cms1.reboot_mythen()

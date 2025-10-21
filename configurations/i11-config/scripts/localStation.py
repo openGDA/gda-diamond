@@ -388,6 +388,8 @@ xtal2_temp_K = DisplayEpicsPVClass("xtal2_temp_K", "BL11I-DI-DCM-01:PT100-3", "K
 add_default xtal1_temp_K
 add_default xtal2_temp_K
 
+from gdascripts.blueskyHandler import * #import run_plan, get_plans etc for bluesky
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete."
