@@ -104,6 +104,10 @@ def configureScanPipeline(length = None, simultaneousPoints = None):
         show()
 alias('configureScanPipeline')
 
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
+sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
+
 print("-"*100);
 print "i09-shared script complete.";
 print(""*100)

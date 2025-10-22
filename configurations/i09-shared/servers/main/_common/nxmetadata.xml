@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
+		<property name="name" value="source" />
+		<property name="currentScannableName" value="rc" />
+		<property name="sourceName" value="Diamond Light Source" /> <!-- This is the default, so you can skip this line -->
+		<property name="customNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="energy"/>
+					<property name="scannableName" value="beamenergy"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
+		<!-- Note: The user name is retrieved from the baton holder -->
+		<property name="name" value="user" />
+	</bean>
+	<import resource="notes_metadata.xml"/>
+	<import resource="sample_metadata.xml"/>
+</beans>

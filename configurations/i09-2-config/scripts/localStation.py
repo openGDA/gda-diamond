@@ -67,6 +67,7 @@ if installation.isLive():
 ###############################################################################
 from i09_2_shared.scannable.energy_polarisation_order_gap_instances import LH, LV, CR, CL, LH3, jenergy_s, polarisation,jenergypolarisation,jenergy_order, jgap_offset #@UnusedImport
 from i09_2_shared.scannable.continuous.jenergy_scannable_instances import jenergy, jenergy_move_controller, jI0, sdc # @UnusedImport
+from i09_2_shared.beam.beam_properteis import pgm_beam_divergence_at_sample, pgm_beam_flux_at_sample, pgm_beam_size_at_sample  # @UnusedImport
 from i09shared.scan.cvscan import cvscan #@UnusedImport
 
 ###############################################################################
@@ -178,6 +179,9 @@ from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannabl
 from gdaserver import polarisation_wrapper,sy_wrapper # @UnresolvedImport
 polarisation_wrapper.connectScannable()
 sy_wrapper.connectScannable()
+
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", None)  # @UndefinedVariable
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

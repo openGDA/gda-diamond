@@ -6,9 +6,9 @@
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="userDeviceName" value="user" />
-		<property name="insertionDeviceName" value="jid" />
-		<property name="monochromatorName" value="pgm" />
-		<property name="beamName" value="beam_pgm" />
+		<property name="insertionDeviceName" value="iid" />
+		<property name="monochromatorName" value="dcm" />
+		<property name="beamName" value="beam_dcm" />
 
 		<property name="additionalDeviceNames">
 			<set>
