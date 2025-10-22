@@ -139,20 +139,20 @@ if "es1" in spring_profiles:
 		tsample = SampleTemperature("tsample", es1_temp_52)  # @UndefinedVariable
 	else:
 		# there are 2 temperature monitor in ES1 - es1_51_temp_temperature, es1_52_temp_temperature
-		tsample = es1_52_temp_temperature  # @UndefinedVariable
+		tsample = SampleTemperature("tsample", es1_52_temp_temperature)  # @UndefinedVariable
 
 if "es2" in spring_profiles:
 	if installation.isLive():
 		tsample = SampleTemperature("tsample", es2_temp)  # @UndefinedVariable
 	else:
-		tsample = es2_21_temp_temperature  # @UndefinedVariable
+		tsample = SampleTemperature("tsample", es2_21_temp_temperature)  # @UndefinedVariable
 
 if not spring_profiles or ("es1" in spring_profiles and "es2" in spring_profiles):
 	# no profile or both profiles default to es1_temp_51
 	if installation.isLive():
 		tsample = SampleTemperature("tsample", es1_temp_51)  # @UndefinedVariable
 	else:
-		tsample = es1_51_temp_temperature  # @UndefinedVariable
+		tsample = SampleTemperature("tsample", es1_51_temp_temperature)  # @UndefinedVariable
 
 print("-"*100)
 # import sputter functions
