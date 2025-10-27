@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<!-- This can't be imported as doesn't apply to P60. Have individual beamlines, i09, i09-1, i09-2 import this directly instead -->
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="source" />
 		<property name="currentScannableName" value="rc" />
@@ -17,11 +18,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
-		<!-- Note: The user name is retrieved from the baton holder -->
-		<property name="name" value="user" />
-	</bean>
-	<import resource="notes_metadata.xml"/>
-	<import resource="sample_metadata.xml"/>
 </beans>

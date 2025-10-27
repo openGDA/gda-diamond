@@ -105,6 +105,9 @@ def load_sequence(filename):
     from org.opengda.detector.electronanalyser.api import SESSequenceHelper #@UnresolvedImport
     return SESSequenceHelper.loadSequence(filename)
 
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature("tsample", None)
+
 print("="*100)
 print "Initialisation script complete."
 print("="*100)
