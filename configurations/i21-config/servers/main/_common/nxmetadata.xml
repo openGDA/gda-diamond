@@ -776,6 +776,10 @@
 					<property name="name" value="stick"/>
 					<property name="scannableName" value="polstick"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="polsigma"/>
+					<property name="scannableName" value="polsigma"/>
+				</bean>
 			</list>
 		</property>
 	</bean>
