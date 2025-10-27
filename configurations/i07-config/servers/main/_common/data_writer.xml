@@ -2,7 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<import resource="notes_metadata.xml"/>
+	<import resource="sample_metadata.xml"/>
 	<bean id="commonBeamlineDevicesConfiguration"
 		class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="sourceNexusDevice" />
@@ -10,8 +11,14 @@
 		<!-- <property name="bendingMagnetName" value="bmNexusDevice" /> --> <!-- only use one of insertionDeviceName or bendingMagnetName -->
 		<!-- property name="monochromatorName"
 			value="monochromatorNexusDevice" /-->
-		<!-- property name="beamName" value="beamNexusDevice" /-->
+		<property name="beamName" value="beamNexusDevice" />
 		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="additionalDeviceNames">
+			<set>
+				<value>notes</value>
+				<value>sample</value>
+			</set>
+		</property>
 	</bean>
 
 
@@ -41,18 +48,18 @@
 		<property name="energyErrorScannableName" value="" />
 	</bean>
 
-	<!-- bean id="beamNexusDevice"
+	<bean id="beamNexusDevice"
 		class="org.eclipse.scanning.device.BeamNexusDevice"
 		init-method="register">
 		<property name="name" value="beamNexusDevice" />
 		<property name="incidentEnergyScannableName" value="energy" />
 		<property name="incidentBeamDivergenceScannableName"
-			value="dummy1" />
-		<property name="incidentPolarizationScannableName"
-			value="dummy1" />
-		<property name="beamExtentScannableName" value="dummy1" />
-		<property name="fluxScannableName" value="dummy1" />
-	</bean-->
+			value="beam_divergence_at_sample" />
+<!-- 		<property name="incidentPolarizationScannableName" -->
+<!-- 			value="dummy1" /> -->
+		<property name="beamExtentScannableName" value="beam_size_at_sample" />
+		<property name="fluxScannableName" value="beam_flux_at_sample" />
+	</bean>
 
 	<bean id="userNexusDevice"
 		class="org.eclipse.scanning.device.UserNexusDevice"

@@ -185,3 +185,16 @@ ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-01", 1,
 
 from BeamlineI07.zocalofunctions import currentscan, mapstart, mapend, checkzocalo
 
+# scannables for scientist to set its value at sample position - please update the default value to i07 one if existing.
+from beam.beam_properteis import beam_divergence_at_sample, beam_flux_at_sample, beam_size_at_sample  # @UnusedImport
+
+from gdascripts.scannable.virtual_scannable import VirtualScannable
+comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
+sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
+
+# sample temperature metadata
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+tsample = SampleTemperature('tsample', lakeshore_base)  # @UndefinedVariable
+
+
+
