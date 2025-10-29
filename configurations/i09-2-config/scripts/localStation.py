@@ -181,7 +181,7 @@ polarisation_wrapper.connectScannable()
 sy_wrapper.connectScannable()
 
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
-tsample = SampleTemperature("tsample", None)  # @UndefinedVariable
+tsample = SampleTemperature("tsample", None)
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

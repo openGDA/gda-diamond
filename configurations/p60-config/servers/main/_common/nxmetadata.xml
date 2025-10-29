@@ -3,11 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="userNexusDevice" class="org.eclipse.scanning.device.UserNexusDevice" init-method="register">
-		<!-- Note: The user name is retrieved from the baton holder -->
-		<property name="name" value="user" />
-	</bean>
-
 	<bean id="sourceNexusDevice" class="org.eclipse.scanning.device.SourceNexusDevice" init-method="register">
 		<property name="name" value="source" />
 		<property name="type" value="Fixed Tube x-ray" />
@@ -24,11 +19,20 @@
 		<property name="incidentEnergyScannableName" value="mg_kalpha_energy" />
 	</bean>
 
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="laboratoryConfig" value="true" />
 
-		<property name="userDeviceName" value="userNexusDevice" />
+		<property name="userDeviceName" value="user" />
 		<property name="sourceName" value="source" />
+
+		<property name="additionalDeviceNames">
+			<set>
+				<!-- End station -->
+				<value>notes</value>
+				<value>sample</value>
+			</set>
+		</property>
 
 		<!-- NOTE: beam nexus devices are added by DynamicScanMetadata class in localstation.py to reduce duplicate configuration -->
 	</bean>
