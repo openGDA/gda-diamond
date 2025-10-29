@@ -86,7 +86,8 @@ print("Creating sample positioner object sp. Store sample manipulator position c
 help(sp)
 
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
-tsample = SampleTemperature("tsample", lakeshore, channel_number = 3)  # @UndefinedVariable
+from gdaserver import lakeshore # @UnresolvedImport
+tsample = SampleTemperature("tsample", lakeshore, channel_number = 3)
 
 print("="*100)
 print("localStation.py Initialisation script complete.")

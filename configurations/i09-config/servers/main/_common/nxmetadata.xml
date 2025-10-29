@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+	<!-- Needed because p60 can't use ringcurrent, this way still allows for no duplicate config between beamlines. -->
+	<import resource="file:${gda.config.shared}/servers/main/_common/metadata/source_metadata.xml"/>
+
 	<bean id="commonBeamlineDevicesConfiguration" class="org.eclipse.scanning.device.CommonBeamlineDevicesConfiguration">
 		<property name="sourceName" value="source" />
 		<property name="userDeviceName" value="user" />
