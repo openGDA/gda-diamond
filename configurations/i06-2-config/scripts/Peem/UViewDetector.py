@@ -52,7 +52,7 @@ class UViewDetectorClass(DetectorBase):
 
 		self.panel = panelName;
 		self.detector = detector;
-		self.scanNumberTracker = NumTracker("tmp");
+		self.scanNumberTracker = NumTracker(LocalProperties.get("gda.data.numtracker.extension"));
 
 		self.fileName=None;
 		self.data = ScanFileHolder()

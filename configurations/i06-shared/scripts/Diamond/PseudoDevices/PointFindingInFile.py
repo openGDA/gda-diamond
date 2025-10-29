@@ -11,7 +11,7 @@ import scisoftpy as dnp;
 
 #####################################################################################
 #def getScanNumber():
-#	nt = NumTracker("tmp")
+#	nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 #	scanNumber = nt.getCurrentFileNumber();
 #	del nt;
 #	return scanNumber
@@ -48,7 +48,7 @@ class PointFindingInFileClass(ScannableBase):
 		
 #		self.dataHolder=ScanFileHolder();
 		self.dataHolder=None;
-		self.index=long(NumTracker("tmp").getCurrentFileNumber());
+		self.index=long(NumTracker(LocalProperties.get("gda.data.numtracker.extension")).getCurrentFileNumber());
 		self.yMax=None;
 		self.pos=None;
 		self.xVal=None;
@@ -87,7 +87,7 @@ class PointFindingInFileClass(ScannableBase):
 
 	def	getSrsFileName(self, scanNumber=None, srsPath=None):
 		if scanNumber is None:
-			nt = NumTracker("tmp")
+			nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 			sn = nt.getCurrentFileNumber();
 		else:
 			sn = scanNumber;

@@ -11,6 +11,7 @@ from gda.analysis import Plotter
 
 
 import scisoftpy as dnp
+from gda.configuration.properties import LocalProperties
 
 # #The Class for creating a Constant Velocity Scan object directly from EPICS PV
 # #Motor status pvs
@@ -246,7 +247,7 @@ class FastEnergyScanClass:
 		srsHeader=[" &SRS\n", " SRSRUN=null,SRSDAT=null,SRSTIM=null,\n", " SRSSTN='null',SRSPRJ='null    ',SRSEXP='null    ',\n", " SRSTLE='                                                            ',\n", " SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',\n", " &END\n"];
 
 		try:
-			runs=NumTracker("tmp")
+			runs=NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 			nextNum = runs.getCurrentFileNumber()
 			#nextNum = runs.incrementNumber()
 			path = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")

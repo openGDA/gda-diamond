@@ -7,6 +7,7 @@ from gda.device.Detector import BUSY, IDLE;
 
 from Diamond.Comm.SocketDevice import SocketDeviceClass
 from Diamond.Comm.SocketDevice import SocketError;
+from gda.configuration.properties import LocalProperties
 
 #The Class for creating a socket-based Device
 class ClassixSystemClass(SocketDeviceClass):
@@ -166,7 +167,7 @@ class ClassixCameraPseudoDeviceClass(DetectorBase):
 		self.readout();
 		
 	def getScanNumber(self):
-		nt = NumTracker("tmp")
+		nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		#get current scan number
 		return int(nt.getCurrentFileNumber());
 		

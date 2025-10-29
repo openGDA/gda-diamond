@@ -31,6 +31,7 @@ from gov.aps.jca import CAStatus;
 from gov.aps.jca.dbr import DBRType;
 
 import scisoftpy as dnp;
+from gda.configuration.properties import LocalProperties
 
 
 class NdFilePluginDeviceClass(DetectorBase):
@@ -105,7 +106,7 @@ class NdFilePluginDeviceClass(DetectorBase):
 		
 	def setNewImagePath(self):
 		"""Set file path and name based on current scan run number"""
-		nextNum = NumTracker("tmp").getCurrentFileNumber();
+		nextNum = NumTracker(LocalProperties.get("gda.data.numtracker.extension")).getCurrentFileNumber();
 		
 		basePath=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
 		subDir="%d_%s"%(nextNum, self.pathPostfix); 

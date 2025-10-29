@@ -14,6 +14,7 @@ from gda.device.detector import DetectorBase
 #from gda.device import Scannable
 
 from temp.SocketDevice import SockteDeviceClass;
+from gda.configuration.properties import LocalProperties
 
 #The Class for creating a socket-based Psuedo Device
 #class CameraSockteDeviceClass(ScannableBase):
@@ -139,7 +140,7 @@ class ClassixCameraDeviceClass(SockteDeviceClass, DetectorBase):
         self.readout();
         
     def getScanNumber(self):
-        nt = NumTracker("tmp")
+        nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
         #get current scan number
         return int(nt.getCurrentFileNumber());
         

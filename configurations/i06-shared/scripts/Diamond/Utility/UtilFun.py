@@ -11,6 +11,7 @@ import cPickle as pickle;
 
 
 from gda.jython.commands import GeneralCommands
+from gda.configuration.properties import LocalProperties
 
 
 class UtilFunctions(object):
@@ -27,7 +28,7 @@ class UtilFunctions(object):
     #To get the current scan number
     def getScanNumber(self):
         from gda.data import NumTracker
-        nt = NumTracker("tmp")
+        nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
         scanNumber = nt.getCurrentFileNumber();
         del nt;
         return scanNumber
@@ -35,7 +36,7 @@ class UtilFunctions(object):
     #To get the current scan number
     def incScanNumber(self):
         from gda.data import NumTracker
-        nt = NumTracker("tmp")
+        nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
         nt.incrementNumber();
         del nt;
         return;

@@ -30,7 +30,7 @@ def swap(a, b):
 #To get the current scan number
 def getScanNumber():
     from gda.data import NumTracker
-    nt = NumTracker("tmp")
+    nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
     scanNumber = nt.getCurrentFileNumber();
     del nt;
     return scanNumber
@@ -38,7 +38,7 @@ def getScanNumber():
 #To get the current scan number
 def incScanNumber():
     from gda.data import NumTracker
-    nt = NumTracker("tmp")
+    nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
     nt.incrementNumber();
     del nt;
     return;

@@ -16,6 +16,7 @@ from gda.jython import ScriptBase;
 
 #Introduce the script logger
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
+from gda.configuration.properties import LocalProperties
 logger=ScriptLoggerClass();
 
 
@@ -170,7 +171,7 @@ class MagneticDichroismDevice(object):
         srsHeader=[" &SRS\n", " SRSRUN=null,SRSDAT=null,SRSTIM=null,\n", " SRSSTN='null',SRSPRJ='null    ',SRSEXP='null    ',\n", " SRSTLE='                                                            ',\n", " SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',\n", " &END\n"];
 
         try:
-            runs=NumTracker("tmp")
+            runs=NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
             currentNum = runs.getCurrentFileNumber()
             #currentNum = runs.incrementNumber()
             path = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")
