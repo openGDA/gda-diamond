@@ -8,6 +8,7 @@ from gda.jython import InterfaceProvider
 #import gda
 from org.eclipse.january.dataset import DatasetFactory
 from gda.analysis import Plotter
+from gda.configuration.properties import LocalProperties
 
 # THIS HAS NOt BE CHECKED FOR DATASET CONSISTENCY AS IT IS MARKED OLD. RobW
 
@@ -240,7 +241,7 @@ class FastEnergyScanClass:
 		srsHeader=[" &SRS\n", " SRSRUN=null,SRSDAT=null,SRSTIM=null,\n", " SRSSTN='null',SRSPRJ='null    ',SRSEXP='null    ',\n", " SRSTLE='                                                            ',\n", " SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',\n", " &END\n"];
 
 		try:
-			runs=NumTracker("tmp")
+			runs=NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 			nextNum = runs.getCurrentFileNumber()
 			#nextNum = runs.incrementNumber()
 			path = InterfaceProvider.getPathConstructor().createFromProperty("gda.data.scan.datawriter.datadir")

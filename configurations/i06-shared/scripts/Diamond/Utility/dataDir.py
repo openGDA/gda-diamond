@@ -70,7 +70,7 @@ def getDir(proposal=None, visit=1):
 		userDir="/dls/" + beamlineName + "/data/" + str(currentYear) + "/" + proposal + "-" + str(visit);
 		print userDir + " should the user data directory for this proposal and visit.";
 
-def lastscan(extension="tmp"):
+def lastscan(extension=LocalProperties.get("gda.data.numtracker.extension")):
 	nt=NumTracker(extension);
 	lastSRSFileName= InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
 	del nt;
@@ -80,7 +80,7 @@ alias("lastscan");
 
 #To get the current scan number
 def getScanNumber():
-	nt = NumTracker("tmp")
+	nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 	scanNumber = nt.getCurrentFileNumber();
 	del nt;
 	return scanNumber

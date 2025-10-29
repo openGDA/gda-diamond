@@ -21,6 +21,7 @@ from java.util import Date
 from java.text import SimpleDateFormat
 from gda.jython import InterfaceProvider
 from gda.factory import Finder
+from gda.configuration.properties import LocalProperties
 
 # ========================================
 # EXAFS SCAN
@@ -58,7 +59,7 @@ class I18ExafsScanClass(ScriptBase):
 		self.ionchamberData=[]
 		self.mcaList=[]
 		self.scalarList=[]
-		self.runs=NumTracker("tmp")
+		self.runs=NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		self.runprefix='i18exafs'
 		self.runext='.dat'
 		self.fileno=self.runs.getCurrentFileNumber()+1

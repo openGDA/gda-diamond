@@ -13,6 +13,7 @@ import scisoftpy as dnp;
 
 from Diamond.Utility.Threads import BackgroundRunningTask
 import sys
+from gda.configuration.properties import LocalProperties
 
 class ADDetectorDeviceClass(DetectorBase):
 	DETECTOR_STATUS_IDLE, DETECTOR_STATUS_BUSY, DETECTOR_STATUS_PAUSED, DETECTOR_STATUS_STANDBY, DETECTOR_STATUS_FAULT, DETECTOR_STATUS_MONITORING = range(6);
@@ -340,7 +341,7 @@ class ADDetectorDeviceClass(DetectorBase):
 		
 	def setNewImagePath(self):
 		"""Set file path and name based on current scan run number"""
-		next_num = NumTracker("tmp").getCurrentFileNumber();
+		next_num = NumTracker(LocalProperties.get("gda.data.numtracker.extension")).getCurrentFileNumber();
 		
 		base_path=InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator;
 		sub_dir="%d_%s"%(next_num, self.pathPostfix); 

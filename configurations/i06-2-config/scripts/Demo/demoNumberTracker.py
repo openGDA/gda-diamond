@@ -1,8 +1,9 @@
 
 #How to use Track Number (Scan number)
 from gda.data import NumTracker
+from gda.configuration.properties import LocalProperties
 
-nt = NumTracker("tmp")
+nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 
 #get current scan number
 nt.getCurrentFileNumber()

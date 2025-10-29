@@ -1,4 +1,5 @@
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
+from gda.configuration.properties import LocalProperties
 logger=ScriptLoggerClass();
 
 from java.io import File;
@@ -195,13 +196,13 @@ class SrsFileFilterClass(object):
 		return srsFileName;
 
 	def getScanNumber(self):
-		nt = NumTracker("tmp")
+		nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		scanNumber = nt.getCurrentFileNumber();
 		del nt;
 		return scanNumber
 	
 	def incScanNumber(self):
-		nt = NumTracker("tmp")
+		nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		#increase the scan number for one
 #		scanNumber = nt.getCurrentFileNumber();
 		scanNumber=nt.incrementNumber();

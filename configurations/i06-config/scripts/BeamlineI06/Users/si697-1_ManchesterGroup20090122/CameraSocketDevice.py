@@ -153,7 +153,7 @@ class CameraSockteDeviceClass(ScannableBase):
         self.readout();
         
     def getScanNumber(self):
-        nt = NumTracker("tmp")
+        nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
         #get current scan number
         return int(nt.getCurrentFileNumber());
         

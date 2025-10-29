@@ -62,7 +62,7 @@ class BeamlineFunctionClass(object):
 	
 	#To get the current scan number
 	def getScanNumber(self):
-		nt = NumTracker("tmp")
+		nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		scanNumber = nt.getCurrentFileNumber();
 		del nt;
 		return scanNumber
@@ -70,7 +70,7 @@ class BeamlineFunctionClass(object):
 	#To get the current scan number
 	def incScanNumber(self):
 		from gda.data import NumTracker
-		nt = NumTracker("tmp")
+		nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 		nt.incrementNumber();
 		del nt;
 		return;
@@ -218,7 +218,7 @@ class BeamlineFunctionClass(object):
 		lastScanFile=lsdp.getCurrentFilename();
 		return lastScanFile;
 		
-	def getLastSrsScanFile(self, extension="tmp"):
+	def getLastSrsScanFile(self, extension=LocalProperties.get("gda.data.numtracker.extension")):
 		nt=NumTracker(extension);
 		lastSRSFileName= InterfaceProvider.getPathConstructor().createFromDefaultProperty() + File.separator + str(nt.getCurrentFileNumber()) + ".dat";
 

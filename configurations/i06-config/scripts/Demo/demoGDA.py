@@ -1,4 +1,5 @@
 #GDA Demos
+from gda.configuration.properties import LocalProperties
 
 #============================ GDA Objects ==================================
 # When the GDA is started, all the devices are accessible in the Jython interpreter
@@ -175,7 +176,7 @@ print y;
 #=================GDA Track Number (Scan Number)=============================================
 from gda.data import NumTracker
 
-nt = NumTracker("tmp")
+nt = NumTracker(LocalProperties.get("gda.data.numtracker.extension"))
 
 #get current scan number
 nt.getCurrentFileNumber()

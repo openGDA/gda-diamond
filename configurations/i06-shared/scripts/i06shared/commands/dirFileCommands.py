@@ -8,6 +8,7 @@ from gda.jython.commands.GeneralCommands import alias
 from gda.factory import Finder
 import os
 import sys
+from gda.configuration.properties import LocalProperties
 
 print "-"*100
 print "commands for directory/file operations: "
@@ -20,7 +21,7 @@ print "   >>>getSubdirectory() - return the current sub-directory setting if exi
 print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
  
 # set up a nice method for getting the latest file path
-numTracker = NumTracker("scanbase_numtracker");
+numTracker = NumTracker(LocalProperties.get("gda.data.numtracker.extension"));
  
 # function to find the working directory
 def pwd():
