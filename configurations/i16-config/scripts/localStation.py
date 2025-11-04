@@ -492,7 +492,7 @@ if Finder.find("kbmbase") and installation.isLive():
 	except:
 		localStation_exception("creating kbm1 and kbm2.")
 else:
-	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the 'kbm' transient device enabled, if you need them.")
+	localStation_warning("creating kbm1 and kbm2. Please restart the GDA servers with the 'kbm' transient device enabled if you need them.")
 
 ###############################################################################
 ###                          Tune finepitch using QBPM                      ###
@@ -704,7 +704,7 @@ except:
 
 ### Homebrew positioners
 localStation_print('Creating positioners with preset values: mono_screens, mono_diode')
-mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')  # @UndefinedVariable
+mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,12],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')  # @UndefinedVariable
 mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[90,76.3,20,33,20,35],[90,33,20,75.5,20,35],[90,33,20,33,20,76.5]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')  # @UndefinedVariable
 
 ### Homebrew groups
@@ -855,15 +855,8 @@ if USE_PIL1:
 		global pil_100k
 		with overwriting:  # @UndefinedVariable
 			pil1 = pil_100k  # @UnusedVariable
-		pil1_geometry = GeometryScannable('pil_geometry', 'pilatus1',
-			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml',
-			origin_offset_vector = [50.40, -17.96, 525.95],
-			fast_pixel_direction_value = [0.000172],
-			fast_pixel_direction_units = 'm',
-			fast_pixel_direction_vector = [0.7191, -0.01268, -0.6948],
-			slow_pixel_direction_value = [0.000172],
-			slow_pixel_direction_units = 'm',
-			slow_pixel_direction_vector = [0.01198, 0.9999, -0.005853])
+		pil1_geometry = GeometryScannable('pil_geometry', 'pilatus1', '/dls_sw/i16/scripts/detector_calibration/geometry_pil_100k.xml')
+		pil1_geometry.updatePosition()
 	else:
 		localStation_warning("pil1 = NXProcessingDetectorWrapper (not NXDetector)")
 		global pilatus1, zebrapil1, pilatus1_for_snaps, pilatus1_hardware_triggered
@@ -901,8 +894,8 @@ if USE_PIL3:
 		global pil3_100k
 		with overwriting:  # @UndefinedVariable
 			pil = pil3_100k  # @UnusedVariable
-		pil3_geometry = GeometryScannable('pil3_geometry', 'pilatus3',
-			'/dls_sw/i16/scripts/pilatus_calibration/geometry.xml')
+		pil3_geometry = GeometryScannable('pil3_geometry', 'pil3_100k', '/dls_sw/i16/scripts/detector_calibration/geometry_pil3_100k.xml')
+		pil3_geometry.updatePosition()
 		# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
 		# as scans will fail with an inobvious error message if not
 	else:
@@ -1141,7 +1134,7 @@ if Finder.find("andor1"):
 	except:
 		localStation_exception("configuring andor. Is IOC running?")
 else:
-	localStation_warning("finding andor detector. Please restart the GDA servers with the andor transient device enabled, if you need it.")
+	localStation_warning("finding andor detector. Please restart the GDA servers with the andor transient device enabled if you need it.")
 
 '''
 localStation_print("-------------------------------MEDIPIX INIT---------------------------------------")
@@ -1180,10 +1173,8 @@ localStation_print("-------------------------------MERLIN INIT------------------
 if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
 	global merlin
 	merlin_geometry = GeometryScannable('merlin_geometry', 'merlin',
-		'/dls_sw/i16/scripts/pilatus_calibration/geometry_merlin.xml',
-		origin_offset_vector = [0., 0., 0.],
-		fast_pixel_direction_value = [0.055],
-		slow_pixel_direction_value = [0.055])
+		'/dls_sw/i16/scripts/detector_calibration/geometry_merlin.xml')
+	merlin_geometry.updatePosition()
 else:
 	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
 	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport

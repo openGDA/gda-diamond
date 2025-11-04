@@ -49,7 +49,7 @@ class UBCalcMetadata (ScannableBase):
 				# Diffcalc's UB matrix is scaled up by 2*PI
 				ubMatrix = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMatrix ]
 				#transform by [[1, 0, 0], [0, 0, -1], [0, 1, 0]] to get UB in lab frame
-				ubMatrix = np.dot(np.array(ubMatrix), np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]])).tolist()
+				ubMatrix = np.dot(np.array(ubMatrix), np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]])).tolist() #I16-898 27/10/2025
 				return [ubMatrix]
 		except DiffcalcException :
 			#TODO this should only print once per scan but can't use atScanStart or something because it's not actually in the scan.
