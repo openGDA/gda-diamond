@@ -614,7 +614,8 @@ if installation.isLive():
 
 	try:
 		### Polarization analyser ###
-		from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, stokes_pars, pa_jones
+		from stokes_parameters import stokes_pars
+		from pd_polarizationAnalyser import pa_crystal, pa_detector, pol, pa_jones
 
 		### TCA  ###
 		localStation_print("   creating TCA scanables")
@@ -632,8 +633,7 @@ if installation.isLive():
 else:
 	atten = Atten('Attenuator',[])
 	atten.setOutputFormat(['%.0f', '%.4g'])
-	from pd_polarisation_simulator import StokesParameters
-	stokes_pars = StokesParameters("stokes_pars")
+	from stokes_parameters import stokes_pars
 
 
 if installation.isLive():
