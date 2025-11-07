@@ -393,6 +393,50 @@
 					<property name="scannableName" value="pressure"/>
 					<property name="units" value="Pa" />
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="orientation_matrix"/>
+					<property name="scannableName" value="sample_orientation"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="sample_history"/>
+					<property name="nexusClass" value="NXnote"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="description"/>
+								<property name="scannableName" value="sample_history_description"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="type"/>
+								<property name="scannableName" value="sample_history_description_type"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="data"/>
+								<property name="scannableName" value="sample_history_description_data"/>
+							</bean>
+						</list>
+					</property>
+				</bean> 
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="preparation_description"/>
+					<property name="nexusClass" value="NXnote"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="description"/>
+								<property name="scannableName" value="sample_preparation_description"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="type"/>
+								<property name="scannableName" value="sample_preparation_description_type"/>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScannableField">
+								<property name="name" value="data"/>
+								<property name="scannableName" value="sample_preparation_description_data"/>
+							</bean>
+						</list>
+					</property>
+				</bean> 
 			</list>
 		</property>
 	</bean>

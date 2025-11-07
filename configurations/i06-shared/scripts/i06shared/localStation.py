@@ -108,7 +108,17 @@ from gdascripts.functions.nexusYamlTemplateProcessor import apply_template_to_ne
 
 from gdascripts.scannable.virtual_scannable import VirtualScannable
 comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
+
 sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
+sample_description = VirtualScannable("sample_description", initial_value="No description", value_format="%s")
+sample_orientation = VirtualScannable("sample_orientation", initial_value=[[1,0,0],[0,1,1],[0,0,1]], value_format="%f")
+sample_preparation_description = VirtualScannable("sample_preparation_description", initial_value="No sample preparation description", value_format="%s")
+sample_preparation_description_type = VirtualScannable("sample_preparation_description_type", initial_value="text/plain", value_format="%s", valid_values=['image/jpeg', 'image/png', 'image/gif', 'image/bpm', 'text/plain', 'text/html'])
+sample_preparation_description_data = VirtualScannable("sample_preparation_description_data", initial_value="No sample preparation description data", value_format="%f")
+
+sample_history_description = VirtualScannable("sample_history_description", initial_value="No sample history description", value_format="%s")
+sample_history_description_type = VirtualScannable("sample_history_description_type", initial_value="text/plain", value_format="%s", valid_values=['image/jpeg', 'image/png', 'image/gif', 'image/bpm', 'text/plain', 'text/html'])
+sample_history_description_data = VirtualScannable("sample_history_description_data", initial_value="No sample preparation description data", value_format="%f")
 
 print("*"*100) 
 print("I06 shared localStation.py completed successfully!")
