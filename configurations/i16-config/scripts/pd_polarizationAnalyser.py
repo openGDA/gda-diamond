@@ -40,7 +40,7 @@ By Dan Porter, BLI16
 October 2023
 """
 
-from gda.device.scannable import ScannableMotionBase
+from gda.device.scannable import ScannableBase
 from mathd import pi, asin, cosd, sind
 from scisoftpy import asarray
 import beamline_info as BLi
@@ -70,7 +70,7 @@ def jones_analyser(xi, two_theta):
 "----------------------------------------------------------------------------------------------------------------------"
 
 
-class AnalyserCrystal(ScannableMotionBase):
+class AnalyserCrystal(ScannableBase):
     """
     Device to set and get polarisation analyser crystal
     Usage:
@@ -265,7 +265,7 @@ class AnalyserCrystal(ScannableMotionBase):
         return jones_analyser(stokes, 2 * bragg)
 
 
-class AnalyserDetector(ScannableMotionBase):
+class AnalyserDetector(ScannableBase):
     """
     Device to set and get polarisation analyser detector
     Usage:
@@ -383,29 +383,26 @@ class AnalyserDetector(ScannableMotionBase):
         self.use_mtthp = True if use_mtthp else False
 
 
-class AnalyserJonesMatrix(ScannableMotionBase):
+class AnalyserJonesMatrix(ScannableBase):
     """
     Jones Matrix for Analyser crystal
     """
 
     def __init__(self, name, pd_stokes_motor, pa_crystal):
         self.setName(name)
-        self.setInputNames([])
-        self.setExtraNames(['pa_jones_matrix'])
-        self.setOutputFormat(["%s"])
+        # self.setInputNames([])
+        # self.setExtraNames(['pa_jones_matrix'])
+        self.setOutputFormat(["%5.5g"])
         self.setLevel(5)
 
         self.pd_stokes_motor = pd_stokes_motor
         self._pa_crystal = pa_crystal
 
     def getPosition(self):
-        return self._pa_crystal.calcJones(self.pd_stokes_motor())
+        return [self._pa_crystal.calcJones(self.pd_stokes_motor()).tolist()]
 
     def isBusy(self):
         return 0
-
-    def asynchronousMoveTo(self, index_name):
-        pass
 
 
 "----------------------------------------------------------------------------------------------------------------------"
@@ -413,7 +410,7 @@ class AnalyserJonesMatrix(ScannableMotionBase):
 "----------------------------------------------------------------------------------------------------------------------"
 
 
-class PolarisationAnalyser(ScannableMotionBase):
+class PolarisationAnalyser(ScannableBase):
     """
     New Polarisation Analyser scannable device
     Contains offsets for thp, tthp, dettrans, mtthp at different Stokes values to
@@ -909,8 +906,6 @@ class PolarisationAnalyser(ScannableMotionBase):
             print("Change Aborted")
 
 
-from pd_polarisation_simulator import StokesParameters, AnalyserJonesMatrix
-
 import pd_offset
 APD_tthp_offset=pd_offset.Offset('APD_tthp_offset')
 APD_dettrans_offset=pd_offset.Offset('APD_dettrans_offset')
@@ -995,8 +990,7 @@ pol = PolarisationAnalyser(
     mtthp_offset_0=pa_mtthp_offset_0,
     mtthp_offset_90=pa_mtthp_offset_90
 )
-stokes_pars = StokesParameters('stokes_pars')
-pa_jones = AnalyserJonesMatrix('pa_jones', stokes, pa_crystal, stokes_pars)
+pa_jones = AnalyserJonesMatrix('pa_jones', stokes, pa_crystal)
 # sample_moment = CrystalMagneticMoment('sample_moment', hkl)
 # charge_scattering = SampleCharge('charge_scattering', sample_moment, stokes_pars, pa_jones)
 # magE1E1_scattering = SampleMagE1E1('magE1E1_scattering', sample_moment, stokes_pars, pa_jones)

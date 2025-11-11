@@ -145,11 +145,10 @@
 					<property name="nexusClass" value="NXtransformations"/>
 					<property name="childNodes">
 						<list>
-							<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScannableComponentField">
 								<property name="name" value="origin_offset"/>
-								<property name="value">
-										<array value-type="java.lang.Double"><value>1.0</value></array>
-								</property>
+								<property name="scannableName" value="pil3_geometry"/>
+								<property name="componentName" value="origin_offset_value"/>
 								<property name="attributes">
 									<list>
 										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
