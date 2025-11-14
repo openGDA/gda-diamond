@@ -29,15 +29,14 @@ import uk.ac.gda.client.livecontrol.LiveControlBase;
 
 public class LiveControlImage extends LiveControlBase {
 	private String imagePath;
-	private Image backgroundImage;
 
 	@Override
-	public void createControl(Composite composite) {
+	public void createControl(Composite parent) {
 		if (getImagePath()==null) return;
-		backgroundImage = SWTResourceManager.getImage(getClass(), getImagePath());
-		Label imageLabel = new Label(composite, SWT.NONE);
+		final Image backgroundImage = SWTResourceManager.getImage(getClass(), getImagePath());
+		Label imageLabel = new Label(parent, SWT.NONE);
 		imageLabel.setImage(backgroundImage);
-		}
+	}
 
 	public String getImagePath() {
 		return imagePath;
@@ -45,13 +44,5 @@ public class LiveControlImage extends LiveControlBase {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
-	}
-
-	@Override
-	public void dispose() {
-		if (backgroundImage != null && !backgroundImage.isDisposed()) {
-			backgroundImage.dispose();
-		}
-		super.dispose();
 	}
 }
