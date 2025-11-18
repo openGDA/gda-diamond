@@ -18,11 +18,8 @@
 
 package gda.device.detector.xstrip;
 
-import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
-import gda.device.detector.Roi;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -48,78 +45,33 @@ public interface StripDetector extends EdeDetector {
 	 * @param newParameters
 	 * @throws DeviceException
 	 */
-	public void loadParameters(EdeScanParameters newParameters) throws DeviceException;
+	void loadParameters(EdeScanParameters newParameters) throws DeviceException;
 
 	/**
 	 * Reload the last scan as defined by the last call to loadParameters;
 	 *
 	 * @throws DeviceException
 	 */
-	public void loadTemplateParameters() throws DeviceException;
+	void loadTemplateParameters() throws DeviceException;
 
 	/**
 	 * Return the scan that would be run by the next call to collectData or start, or that is underway.
 	 *
 	 * @return EdeScanParameters
 	 */
-	public EdeScanParameters getLoadedParameters();
+	EdeScanParameters getLoadedParameters();
 
 	/**
 	 * Start the time frame sequence supplied by the last call of loadParameters().
 	 *
 	 * @throws DeviceException
 	 */
-	public void start() throws DeviceException;
-
-	/**
-	 * @param startFrame
-	 * @param finalFrame
-	 * @return read a range of frames
-	 * @throws DeviceException
-	 */
-	@Override
-	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
+	void start() throws DeviceException;
 
 	/**
 	 * @return the size of the mca produced by the detector i.e. the number of strips
 	 */
-	public int getNumberChannels();
-
-	/**
-	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
-	 *
-	 * @return the array of regions
-	 */
-	@Override
-	public Roi[] getRois();
-
-	/**
-	 * Ignoring the lower and upper channel properties, explicitly set the regions in use.
-	 *
-	 * @param rois
-	 */
-	@Override
-	public void setRois(Roi[] rois);
-
-	/**
-	 * Set evenly sized regions of interest, ignoring channels outside of the lower and upper channel limits.
-	 *
-	 * @param numberOfRois
-	 */
-	@Override
-	public void setNumberRois(int numberOfRois);
-
-	@Override
-	public void setLowerChannel(int channel);
-
-	@Override
-	public int getLowerChannel();
-
-	@Override
-	public void setUpperChannel(int channel);
-
-	@Override
-	public int getUpperChannel();
+	int getNumberChannels();
 
 	/**
 	 * Sets the bias voltage. If the given value is 0.0 then the bias will be switched off. If non-zero then the bias will be switched on if necessary and then
@@ -127,24 +79,24 @@ public interface StripDetector extends EdeDetector {
 	 *
 	 * @throws DeviceException
 	 */
-	public void setBias(Double biasVoltage) throws DeviceException;
+	void setBias(Double biasVoltage) throws DeviceException;
 
 	/**
 	 * @return the current bias voltage or 0.0 if bias switched off
 	 * @throws DeviceException
 	 *             - thrown if there is a problem reading the current status
 	 */
-	public Double getBias() throws DeviceException;
+	Double getBias() throws DeviceException;
 
 	/**
 	 * @return Double - the highest acceptable bias voltage
 	 */
-	public Double getMaxBias();
+	Double getMaxBias();
 
 	/**
 	 * @return Double - the lowest acceptable bias voltage
 	 */
-	public Double getMinBias();
+	Double getMinBias();
 
 	/**
 	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
@@ -154,59 +106,33 @@ public interface StripDetector extends EdeDetector {
 	 * @param excludedStrips
 	 * @throws DeviceException
 	 */
-	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException;
+	void setExcludedStrips(Integer[] excludedStrips) throws DeviceException;
 
-	public Integer[] getExcludedStrips();
-
-	/**
-	 * @return details of the experiment progress using an enhanced progress bean object
-	 * @throws DeviceException
-	 */
-	@Override
-	public DetectorStatus fetchStatus() throws DeviceException;
+	Integer[] getExcludedStrips();
 
 	/**
 	 * Send the software trigger continue command.
 	 *
 	 * @throws DeviceException
 	 */
-	public void fireSoftTrig() throws DeviceException;
+	void fireSoftTrig() throws DeviceException;
 
 	/**
 	 * Connect to the underlying hardware. These detectors do not connect to the hardware during their configure().
 	 *
 	 * @throws DeviceException
 	 */
-	public void connect() throws DeviceException;
+	void connect() throws DeviceException;
 
 	/**
 	 * Disconnect to the underlying hardware
 	 *
 	 * @throws DeviceException
 	 */
-	public void disconnect() throws DeviceException;
+	void disconnect() throws DeviceException;
 
 	/**
 	 * @return true if a successful call to connect() has been made, and not subsequently disconnected.
 	 */
-	public boolean isConnected();
-
-	/**
-	 * Returns the function used to convert channel number to energy. If not calibrated it should return a simple y = x
-	 * function.
-	 *
-	 * @return PolynomialFunction
-	 * @throws DeviceException
-	 */
-	//public CalibrationDetails getEnergyCalibration() throws DeviceException;
-
-	/**
-	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
-	 *
-	 * @param calibrationDetails
-	 * @throws DeviceException
-	 */
-	//public void setEnergyCalibration(CalibrationDetails calibrationDetails) throws DeviceException;
-
-	//boolean isEnergyCalibrationSet();
+	boolean isConnected();
 }

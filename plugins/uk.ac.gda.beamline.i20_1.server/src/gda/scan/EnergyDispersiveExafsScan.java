@@ -29,23 +29,23 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EnergyDispersiveExafsScan extends Scan {
 
-	public void setProgressUpdater(IObserver progressUpdater);
+	void setProgressUpdater(IObserver progressUpdater);
 
-	public List<ScanDataPoint> getData();
+	List<ScanDataPoint> getData();
 
-	public EdeScanParameters getScanParameters();
+	EdeScanParameters getScanParameters();
 
-	public void setScanParameters(EdeScanParameters scanParameters);
+	void setScanParameters(EdeScanParameters scanParameters);
 
-	public EdeScanType getScanType();
+	EdeScanType getScanType();
 
-	public void setScanType(EdeScanType scanType);
+	void setScanType(EdeScanType scanType);
 
-	public DoubleDataset extractEnergyDetectorDataSet();
+	DoubleDataset extractEnergyDetectorDataSet();
 
-	public DoubleDataset extractDetectorDataSet(int i);
+	DoubleDataset extractDetectorDataSet(int i);
 
-	public String getHeaderDescription();
+	String getHeaderDescription();
 
-	public EdeDetector getDetector();
+	EdeDetector getDetector();
 }

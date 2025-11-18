@@ -21,8 +21,8 @@ package uk.ac.gda.client.plotting.model;
 import java.util.List;
 
 public interface ITreeNode {
-	public ITreeNode getParent();
-	public List<ITreeNode> getChildren();
-	public String getLabel();
-	public String getIdentifier();
+	ITreeNode getParent();
+	List<ITreeNode> getChildren();
+	String getLabel();
+	String getIdentifier();
 }

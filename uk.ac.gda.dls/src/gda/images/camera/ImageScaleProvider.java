@@ -25,11 +25,10 @@ public interface ImageScaleProvider {
 	/**
 	 * Returns the number of microns per X pixel.
 	 */
-	public double getMicronsPerXPixel() throws DeviceException;
-	
+	double getMicronsPerXPixel() throws DeviceException;
+
 	/**
 	 * Returns the number of microns per Y pixel.
 	 */
-	public double getMicronsPerYPixel() throws DeviceException;
-
+	double getMicronsPerYPixel() throws DeviceException;
 }

@@ -54,25 +54,25 @@ public interface Camera extends Device, ImageScaleProvider {
 	 * @return string - filename
 	 * @throws DeviceException
 	 */
-	public String getImageFileName() throws DeviceException;
+	String getImageFileName() throws DeviceException;
 
 	/**
 	 * @return string - name of the camera
 	 * @throws DeviceException
 	 */
-	public String getCameraName() throws DeviceException;
+	String getCameraName() throws DeviceException;
 
 	/**
 	 * @return double - current focus level
 	 * @throws DeviceException
 	 */
-	public double getFocus() throws DeviceException;
+	double getFocus() throws DeviceException;
 
 	/**
 	 * @return double - current zoom level
 	 * @throws DeviceException
 	 */
-	public double getZoom() throws DeviceException;
+	double getZoom() throws DeviceException;
 
 	/**
 	 * Sets the zoom level. Number must be a member of the list returned by {@link #getZoomLevels()}.
@@ -80,19 +80,19 @@ public interface Camera extends Device, ImageScaleProvider {
 	 * @param zoom
 	 * @throws DeviceException
 	 */
-	public void setZoom(double zoom) throws DeviceException;
+	void setZoom(double zoom) throws DeviceException;
 
 	/**
 	 * Sets the zoom level via an index, based on array values (see {@link #getZoomLevels()}):
 	 * @param targetIndex array index of new zoom level, ignored if out of range
 	 * @throws DeviceException
 	 */
-	public void selectZoomAt(int targetIndex) throws DeviceException;
+	void selectZoomAt(int targetIndex) throws DeviceException;
 
 	/**
 	 * @return the zoom index of the present zoom setting, else -1 if no zoom level is set, or no levels are present
 	 */
-	public int getZoomIndex();
+	int getZoomIndex();
 
 	/**
 	 * Sets the focus level. Number must be a member of the list returned by getFcouslevels.
@@ -100,7 +100,7 @@ public interface Camera extends Device, ImageScaleProvider {
 	 * @param focus
 	 * @throws DeviceException
 	 */
-	public void setFocus(double focus) throws DeviceException;
+	void setFocus(double focus) throws DeviceException;
 
 	/**
 	 * Writes the current image to disk.
@@ -111,22 +111,22 @@ public interface Camera extends Device, ImageScaleProvider {
 	 * @param filename
 	 * @throws DeviceException
 	 */
-	public void captureImage(String filename) throws DeviceException;
+	void captureImage(String filename) throws DeviceException;
 
 	/**
 	 * Captures and returns an image.
 	 */
-	public BufferedImage getImage() throws DeviceException;
+	BufferedImage getImage() throws DeviceException;
 
 	/**
 	 * @return double[] - the possible zoom levels
 	 * @throws DeviceException
 	 */
-	public double[] getZoomLevels() throws DeviceException;
+	double[] getZoomLevels() throws DeviceException;
 
 	/**
 	 * @return double[] - the possible focus levels
 	 * @throws DeviceException
 	 */
-	public double[] getFocusLevels() throws DeviceException;
+	double[] getFocusLevels() throws DeviceException;
 }

@@ -18,11 +18,9 @@
 
 package gda.device.detector.xstrip;
 
-import gda.device.DeviceException;
-
-import java.util.HashMap;
-
 import org.eclipse.january.dataset.IDataset;
+
+import gda.device.DeviceException;
 
 /**
  * Sub-interface for functionality specifically relating the XH and XStrip detectors.
@@ -30,10 +28,6 @@ import org.eclipse.january.dataset.IDataset;
  * XCHIP relates to the common electronics of those two read heads.
  */
 public interface XCHIPDetector extends StripDetector {
-
-
-	@Override
-	HashMap<String, Double> getTemperatures() throws DeviceException;
 
 	/**
 	 * Given, in seconds, the frame time and the scan time, returns back the number of scans which would be fitted into
@@ -61,14 +55,14 @@ public interface XCHIPDetector extends StripDetector {
 	 */
 	IDataset[][] fetchTemperatureData() throws DeviceException;
 
-	public void startTemperatureLogging() throws DeviceException;
+	void startTemperatureLogging() throws DeviceException;
 
-	public void stopTemperatureLogging() throws DeviceException;
+	void stopTemperatureLogging() throws DeviceException;
 
 	/**
 	 * This will be a file of format LocalProperties.getVarDir() + getName() + "_temperatures_" + today's date + ".log";
 	 *
 	 * @return String - full path to the current fiel being written to.
 	 */
-	public String getTemperatureLogFile();
+	String getTemperatureLogFile();
 }

@@ -20,12 +20,12 @@ package uk.ac.gda.exafs.detectortemperature.service;
 
 public interface XCHIPTemperatureLogService {
 
-	public void startObservingLogFile();
+	void startObservingLogFile();
 
-	public void stopObservingLogFile();
+	void stopObservingLogFile();
 
 	/**
 	 * Where data exists, extend the plot backwards in time by two hours.
 	 */
-	public void extendPlottingHistory();
+	void extendPlottingHistory();
 }

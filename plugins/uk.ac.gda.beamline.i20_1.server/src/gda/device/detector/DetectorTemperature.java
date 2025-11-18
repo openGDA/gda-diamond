@@ -18,14 +18,16 @@
 
 package gda.device.detector;
 
-import gda.device.DeviceException;
-
 import java.util.HashMap;
 
 import org.eclipse.january.dataset.IDataset;
 
+import gda.device.DeviceException;
+
 public interface DetectorTemperature {
+
 	HashMap<String, Double> getTemperatures() throws DeviceException;
+
 	/**
 	 * Fetches the logged temperatures since the last time startTemperatureLogging called.
 	 * <p>
@@ -36,15 +38,14 @@ public interface DetectorTemperature {
 	 */
 	IDataset[][] fetchTemperatureData() throws DeviceException;
 
-	public void startTemperatureLogging() throws DeviceException;
+	void startTemperatureLogging() throws DeviceException;
 
-	public void stopTemperatureLogging() throws DeviceException;
+	void stopTemperatureLogging() throws DeviceException;
 
 	/**
 	 * This will be a file of format LocalProperties.getVarDir() + getName() + "_temperatures_" + today's date + ".log";
 	 *
 	 * @return String - full path to the current fiel being written to.
 	 */
-	public String getTemperatureLogFile();
-
+	String getTemperatureLogFile();
 }

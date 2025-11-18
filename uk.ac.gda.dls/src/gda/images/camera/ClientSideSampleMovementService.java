@@ -28,22 +28,22 @@ public interface ClientSideSampleMovementService {
 	/**
 	 * Moves the sample by the requested number of pixels. X +ve is always the
 	 * right hand side of the image; Y +ve is always the top of the image.
-	 * 
+	 *
 	 * <p><img src="doc-files/onscreen.png" />
-	 * 
+	 *
 	 * <p>The requested move in pixels is converted to a 'real-world' movement in microns. The X and Y axes for the
 	 * pixel movement map onto the H and V axes respectively for the 'real-world' micron movement. (If the image has
 	 * been flipped horizontally, this will automatically be taken into account.)
-	 * 
+	 *
 	 * <p><img src="doc-files/pixel_coords.png" />
-	 * 
+	 *
 	 * <p>The B movement along the beam is fixed at zero, as a beam axis movement in pixels is not allowed.
 	 */
-	public void moveSampleByPixels(int x, int y) throws DeviceException;
-	
+	void moveSampleByPixels(int x, int y) throws DeviceException;
+
 	/**
 	 * Moves the sample in microns. H +ve is always the right hand side of the image. V +ve is always the top of the
 	 * image. B +ve is along the beam.
 	 */
-	public void moveSampleByMicrons(double h, double v, double b) throws DeviceException;
+	void moveSampleByMicrons(double h, double v, double b) throws DeviceException;
 }
