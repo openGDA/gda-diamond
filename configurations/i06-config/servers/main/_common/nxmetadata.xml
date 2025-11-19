@@ -292,6 +292,10 @@
 					<property name="scannableName" value="tSampleET"/>
 					<property name="units" value="C"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="AC_state"/>
+					<property name="scannableName" value="leem_AC_state"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

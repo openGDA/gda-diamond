@@ -31,8 +31,7 @@ LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "PEEM")
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
-from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens  # @UnusedImport
-
+from peem.leem_scannables import leem_FOV_A, leem_FOV_B, leem_intermlens, leem_obj, leem_objAlignX, leem_objAlignY, leem_objStigmA, leem_objStigmB, leem_p3alignx, leem_p3aligny, leem_rot, leem_stv, leem_temp, leem_transferlens, leem_AC_state  # @UnusedImport
 def picture(acqTime):
     scan(t,1,1,1,medipix,acqTime)  # @UndefinedVariable
 from gda.jython.commands.GeneralCommands import alias
