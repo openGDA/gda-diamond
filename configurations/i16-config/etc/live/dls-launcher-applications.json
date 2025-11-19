@@ -1,71 +1,99 @@
 [
     {
-        "args": "server",
-        "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",        "icon": "sgda.png", 
-        "text": "Start GDA Servers (with no transient devices)", 
-        "type": "button"
-    }, 
+        "type": "group",
+        "children": [
+            {
+                "args": "-c 'module load dawn; dawn'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+                "text": "Dawn Stable",
+                "type": "button"
+            },
+            {
+                "args": "-c 'module load dawn; dawn --reset'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+                "text": "Dawn Stable with fresh workspace (dawn --reset)",
+                "type": "button"
+            },
+            {
+                "type": "button",
+                "text": "PolSpeX",
+                "args": "-c 'module load polspex; polspex'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/polspex/0.1/polspex.png"
+            },
+            {
+                "type": "button",
+                "text": "MMG DataViewer",
+                "args": "-c 'module load mmg && python -m mmg_toolbox gui'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/i16/software/python/Py16/Logo.png"
+            },
+            {
+                "type": "button",
+                "text": "Dans_Diffraction",
+                "args": "-c 'module load Dans_Diffraction && python -m Dans_Diffraction gui'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/Dans_Diffraction/3.4/Dans_Diffraction/DD_icon.png"
+            }
+        ],
+        "name": "Data Analysis"
+    },
     {
-        "args": "/dls_sw/i16/software/gda_versions/var/i16.cfg", 
-        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py", 
-        "icon": "sgda.png", 
-        "text": "Start GDA Servers (with transient devices)", 
+        "args": "server",
+        "command": "/dls_sw/apps/gda_launcher/stable/gda-gui",
+        "icon": "sgda.png",
+        "text": "Start GDA Servers (with no transient devices)",
         "type": "button"
-    }, 
+    },
+    {
+        "args": "/dls_sw/i16/software/gda_versions/var/i16.cfg",
+        "command": "/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/core-config/bin/gda-conf.py",
+        "icon": "sgda.png",
+        "text": "Start GDA Servers (with transient devices)",
+        "type": "button"
+    },
     {
         "args": "client --foreground",
         "command": "/dls_sw/apps/gda_launcher/stable/gda",
-        "icon": "cgda.png", 
-        "text": "GDA Client", 
+        "icon": "cgda.png",
+        "text": "GDA Client",
         "type": "button"
-    }, 
+    },
     {
         "args": "client --foreground --reset",
         "command": "/dls_sw/apps/gda_launcher/stable/gda",
-        "icon": "cgda.png", 
-        "text": "GDA Client with fresh workspace (gda client --reset)", 
+        "icon": "cgda.png",
+        "text": "GDA Client with fresh workspace (gda client --reset)",
         "type": "button"
-    }, 
+    },
     {
         "args": "--foreground",
         "command": "/dls_sw/apps/gda_launcher/stable/gda-logpanel",
-        "icon": "lgda.png", 
-        "text": "GDA Log Panel", 
+        "icon": "lgda.png",
+        "text": "GDA Log Panel",
         "type": "button"
-    }, 
-    {
-        "args": "-c 'module load dawn; dawn'",
-        "command": "/usr/bin/env bash", 
-        "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
-        "text": "Dawn Stable", 
-        "type": "button"
-    }, 
-    {
-        "args": "-c 'module load dawn; dawn --reset'",
-        "command": "/usr/bin/env bash", 
-        "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
-        "text": "Dawn Stable with fresh workspace (dawn --reset)", 
-        "type": "button"
-    }, 
+    },
     {
         "args": "-new-window http://diffcalc.readthedocs.org/en/latest",
-        "command": "/usr/bin/firefox", 
+        "command": "/usr/bin/firefox",
         "icon": "firefox",
-        "text": "Diffcalc Manual", 
+        "text": "Diffcalc Manual",
         "type": "button"
-    }, 
+    },
     {
         "args": "-new-window http://confluence.diamond.ac.uk/display/$BEAMLINE/Webcams",
-        "command": "/usr/bin/firefox", 
+        "command": "/usr/bin/firefox",
         "icon": "firefox",
-        "text": "Webcams", 
+        "text": "Webcams",
         "type": "button"
-    }, 
+    },
     {
         "args": "-new-window http://confluence.diamond.ac.uk/display/$BEAMLINE",
-        "command": "/usr/bin/firefox", 
+        "command": "/usr/bin/firefox",
         "icon": "firefox",
-        "text": "Beamline Wiki", 
+        "text": "Beamline Wiki",
         "type": "button"
     }
 ]

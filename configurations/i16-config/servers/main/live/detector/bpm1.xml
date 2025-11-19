@@ -32,6 +32,7 @@
 		<constructor-arg value="bpm1" />
 		<property name="ndFile" ref="bpm1_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="bpm1_path_template" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-bpm-files"/>
 		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="alwaysPrepare" value="true" />

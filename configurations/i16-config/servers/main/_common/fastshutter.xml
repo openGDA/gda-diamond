@@ -27,7 +27,7 @@
 		<property name="endValue">
 			<list>
 				<value>0</value>
-				<value>0</value>
+				<value>0.2</value>
 			</list>
 		</property>
 		<property name="hook">

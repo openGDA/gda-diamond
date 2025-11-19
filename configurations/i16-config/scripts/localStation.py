@@ -704,8 +704,8 @@ except:
 
 ### Homebrew positioners
 localStation_print('Creating positioners with preset values: mono_screens, mono_diode')
-mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,12],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')  # @UndefinedVariable
-mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[90,76.3,20,33,20,35],[90,33,20,75.5,20,35],[90,33,20,33,20,76.5]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')  # @UndefinedVariable
+mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,10,20,10,20,12],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')  # @UndefinedVariable
+mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,10,20,10,20,12],[90,53.5,20,10,20,12],[90,10,20,50,20,12],[90,10,20,10,20,52]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')  # @UndefinedVariable
 
 ### Homebrew groups
 localStation_print("Creating OD current amplifier monitors")
