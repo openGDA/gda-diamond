@@ -93,6 +93,8 @@ public class DLDPerspective implements IPerspectiveFactory {
 		// third row
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.3, editorArea); //$NON-NLS-1$
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.LiveImageXY:dld_liveimagexy#EPICS_ARRAY");
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcXT:dld_proc_XT#EPICS_ARRAY");
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcYT:dld_proc_YT#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
 
