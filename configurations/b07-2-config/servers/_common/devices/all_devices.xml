@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- 	all devices from b07 - this is specified in config.toml -->
+    <!-- 	all devices from b07 - this is specified in config.toml -->
+    <!--  Processing scannable for zocalo -->
+	<import resource="processing_scannable.xml"/>
 
 </beans>
