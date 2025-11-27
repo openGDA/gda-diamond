@@ -18,12 +18,10 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.rcp.views.CompositeFactory;
-
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -34,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
+import gda.rcp.views.CompositeFactory;
 import uk.ac.gda.dls.client.Activator;
 
 public class OpenViewCompositeFactory implements CompositeFactory, InitializingBean{
@@ -66,7 +65,7 @@ public class OpenViewCompositeFactory implements CompositeFactory, InitializingB
 			throw new IllegalArgumentException("viewID is null");
 		if( buttonText == null)
 			throw new IllegalArgumentException("buttonText is null");
-		
+
 	}
 
 	@Override
@@ -88,8 +87,8 @@ class OpenViewComposite extends Composite{
 		button.setText(buttonText);
 		button.setToolTipText(tooltipText);
 		button.setImage(buttonImage);
-		button.addSelectionListener(new SelectionListener() {
-			
+		button.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				try {
@@ -98,12 +97,7 @@ class OpenViewComposite extends Composite{
 					logger.error("Error opening  view " + viewID, e);
 				}
 			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
 		});
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(button);
 	}
-	
 }

@@ -18,15 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.detectorfilemonitor.FileProcessor;
-import gda.device.detectorfilemonitor.HighestExistingFileMonitorData;
-import gda.device.detectorfilemonitor.HighestExistingFileMonitorDataProvider;
-import gda.device.detectorfilemonitor.HighestExistingFileMonitorSettings;
-import gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor;
-import gda.observable.IObserver;
-import gda.rcp.GDAClientActivator;
-import gda.rcp.views.CompositeFactory;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -41,7 +32,6 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
@@ -56,6 +46,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.springframework.beans.factory.InitializingBean;
 
+import gda.device.detectorfilemonitor.FileProcessor;
+import gda.device.detectorfilemonitor.HighestExistingFileMonitorData;
+import gda.device.detectorfilemonitor.HighestExistingFileMonitorDataProvider;
+import gda.device.detectorfilemonitor.HighestExistingFileMonitorSettings;
+import gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor;
+import gda.observable.IObserver;
+import gda.rcp.GDAClientActivator;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
@@ -95,15 +93,15 @@ public class LatestFileNameCompositeFactory implements CompositeFactory, Initial
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	private boolean showButtonSeparator;
-	
+
 	public void setShowButtonSeparator(boolean showButtonSeparator) {
 		this.showButtonSeparator = showButtonSeparator;
 	}
-	
+
 	private boolean separatePlayPauseButtons;
-	
+
 	public void setSeparatePlayPauseButtons(boolean separatePlayPauseButtons) {
 		this.separatePlayPauseButtons = separatePlayPauseButtons;
 	}
@@ -124,9 +122,9 @@ public class LatestFileNameCompositeFactory implements CompositeFactory, Initial
 		comp.setImages(toStartImage, toLatestImage, pauseImage, runImage, backOneImage, forwardOneImage);
 		comp.setShowButtonSeparator(showButtonSeparator);
 		comp.setSeparatePlayPauseButtons(separatePlayPauseButtons);
-		
+
 		comp.createControls();
-		
+
 		return comp;
 	}
 
@@ -203,7 +201,7 @@ class SimpleFileProcessor extends Composite implements FileProcessor {
 		final Button btnMakeFiles = new Button(this, SWT.PUSH);
 		btnMakeFiles.setText("MakeFiles");
 		nextFileNumber = settings.startNumber;
-		btnMakeFiles.addSelectionListener(new SelectionListener() {
+		btnMakeFiles.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -219,11 +217,6 @@ class SimpleFileProcessor extends Composite implements FileProcessor {
 					}
 				}
 				btnMakeFiles.setText(Integer.toString(nextFileNumber));
-
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 	}
@@ -251,10 +244,10 @@ class LatestFileNameComposite extends Composite {
 	private Button btnSkipToLatest;
 	private Button btnBackOne;
 	private Button btnForwardOne;
-	
+
 	// Used when there's just one combined play/pause button
 	private Button btnShowLatest;
-	
+
 	// Used when there are separate play/pause buttons
 	private Button playButton;
 	private Button pauseButton;
@@ -272,38 +265,38 @@ class LatestFileNameComposite extends Composite {
 	private Group group;
 
 	private String label;
-	
+
 	private Image toStartImage;
 	private Image toLatestImage;
 	private Image pauseImage;
 	private Image runImage;
 	private Image backOneImage;
 	private Image forwardOneImage;
-	
+
 	private boolean showButtonSeparator;
-	
+
 	private boolean separatePlayPauseButtons;
-	
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	public void setHighestExistingFileMonitorDataProvider(HighestExistingFileMonitorDataProvider highestExistingFileMonitorDataProvider) {
 		this.highestExistingFileMonitorDataProvider = highestExistingFileMonitorDataProvider;
 	}
-	
+
 	public void setFileProcessor(FileProcessor fileProcessor) {
 		this.fileProcessor = fileProcessor;
 	}
-	
+
 	public void setShowButtonSeparator(boolean showButtonSeparator) {
 		this.showButtonSeparator = showButtonSeparator;
 	}
-	
+
 	public void setSeparatePlayPauseButtons(boolean separatePlayPauseButtons) {
 		this.separatePlayPauseButtons = separatePlayPauseButtons;
 	}
-	
+
 	public void setImages(Image toStartImage, Image toLatestImage, Image pauseImage, Image runImage, Image backOneImage, Image forwardOneImage) {
 		this.toStartImage = toStartImage;
 		this.toLatestImage = toLatestImage;
@@ -316,7 +309,7 @@ class LatestFileNameComposite extends Composite {
 	public LatestFileNameComposite(Composite parent, int style) {
 		super(parent, style);
 	}
-	
+
 	public LatestFileNameComposite(Composite parent, int style, String label,
 			HighestExistingFileMonitorDataProvider highestExistingFileMonitorDataProvider,
 			final FileProcessor fileProcessor, Image toStartImage, Image toLatestImage, final Image pauseImage,
@@ -328,13 +321,13 @@ class LatestFileNameComposite extends Composite {
 		setImages(toStartImage, toLatestImage, pauseImage, runImage, backOneImage, forwardOneImage);
 		createControls();
 	}
-	
+
 	public void createControls() {
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 
 		int numColumns = 5 + (showButtonSeparator ? 1 : 0) + (separatePlayPauseButtons ? 2 : 1);
-		
+
 		group = new Group(this, SWT.NONE);
 		group.setText(label);
 		GridLayoutFactory.swtDefaults().numColumns(numColumns).applyTo(group);
@@ -350,17 +343,13 @@ class LatestFileNameComposite extends Composite {
 		btnSkipToStart.setToolTipText("Skip to first");
 		btnSkipToStart.setImage(toStartImage);
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(btnSkipToStart);
-		
-		btnSkipToStart.addSelectionListener(new SelectionListener() {
+
+		btnSkipToStart.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectLatestFoundIndex(false);
 				setSelectedIndex(latestSettings.startNumber);
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 
@@ -368,23 +357,18 @@ class LatestFileNameComposite extends Composite {
 		btnBackOne.setToolTipText("Back One Image");
 		btnBackOne.setImage(backOneImage);
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(btnBackOne);
-		
-		btnBackOne.addSelectionListener(new SelectionListener() {
 
+		btnBackOne.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectLatestFoundIndex(false);
 				setSelectedIndex(Math.max(latestSettings.startNumber, getSelectedIndex() - 1));
 			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
 		});
 
 		textIndex = new Text(group, SWT.SINGLE | SWT.BORDER);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textIndex);
-		
+
 		textIndex.addFocusListener(new FocusListener() {
 
 			@Override
@@ -428,17 +412,12 @@ class LatestFileNameComposite extends Composite {
 		btnForwardOne.setToolTipText("Forward One Image");
 		btnForwardOne.setImage(forwardOneImage);
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(btnForwardOne);
-		
-		btnForwardOne.addSelectionListener(new SelectionListener() {
 
+		btnForwardOne.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectLatestFoundIndex(false);
 				setSelectedIndex(Math.min(latestFoundIndex, getSelectedIndex() + 1));
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 
@@ -446,17 +425,12 @@ class LatestFileNameComposite extends Composite {
 		btnSkipToLatest.setToolTipText("Skip to latest");
 		btnSkipToLatest.setImage(toLatestImage);
 		GridDataFactory.fillDefaults().grab(false, false).applyTo(btnSkipToLatest);
-		
-		btnSkipToLatest.addSelectionListener(new SelectionListener() {
 
+		btnSkipToLatest.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setSelectLatestFoundIndex(false);
 				setSelectedIndex(latestFoundIndex);
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 
@@ -464,41 +438,36 @@ class LatestFileNameComposite extends Composite {
 			final Label separator = new Label(group, SWT.SEPARATOR | SWT.VERTICAL);
 			GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 0).grab(false, false).applyTo(separator);
 		}
-		
+
 		if (!separatePlayPauseButtons) {
 			btnShowLatest = new Button(group, SWT.TOGGLE);
 			btnShowLatest.setToolTipText(AUTO_SKIP_TO_LATEST);
 			btnShowLatest.setImage(pauseImage);
 			GridDataFactory.fillDefaults().grab(false, false).applyTo(btnShowLatest);
-			
-			btnShowLatest.addSelectionListener(new SelectionListener() {
-				
+
+			btnShowLatest.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					boolean selection = btnShowLatest.getSelection();
 					// selected means pause
 					setPlaying(!selection);
 				}
-				
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-				}
 			});
 		}
-		
+
 		else {
 			playButton = new Button(group, SWT.TOGGLE);
 			playButton.setToolTipText(AUTO_SKIP_TO_LATEST);
 			playButton.setImage(runImage);
 			GridDataFactory.fillDefaults().grab(false, false).applyTo(playButton);
-			
+
 			pauseButton = new Button(group, SWT.TOGGLE);
 			pauseButton.setToolTipText("Manual selection");
 			pauseButton.setImage(pauseImage);
 			GridDataFactory.fillDefaults().grab(false, false).applyTo(pauseButton);
-			
+
 			playButton.setSelection(true);
-			
+
 			playButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -506,7 +475,7 @@ class LatestFileNameComposite extends Composite {
 					setPlaying(playSelected);
 				}
 			});
-			
+
 			pauseButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -538,7 +507,7 @@ class LatestFileNameComposite extends Composite {
 			}
 		};
 		highestExistingFileMonitorDataProvider.addIObserver(observer);
-		
+
 		addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -546,15 +515,15 @@ class LatestFileNameComposite extends Composite {
 			}
 		});
 	}
-	
+
 	private void setPlaying(boolean playing) {
 		setSelectLatestFoundIndex(playing);
-		
+
 		if (!separatePlayPauseButtons) {
 			btnShowLatest.setImage(selectLatestFoundIndex ? pauseImage : runImage);
 			btnShowLatest.setToolTipText(selectLatestFoundIndex ? "Manual selection" : AUTO_SKIP_TO_LATEST);
 		}
-		
+
 		else {
 			playButton.setSelection(playing);
 			pauseButton.setSelection(!playing);
@@ -566,15 +535,15 @@ class LatestFileNameComposite extends Composite {
 			return;
 		int index = getSelectedIndex();
 		if (latestSettings != null) {
-			
+
 			String filename;
 			String text;
-			
+
 			if (latestSettings.isEmpty()) {
 				filename = "";
 				text = WAITING;
 			}
-			
+
 			else {
 				filename = String.format(latestSettings.getFullTemplate(), index);
 				text = String.format(latestSettings.fileTemplate, index);
@@ -689,5 +658,4 @@ class LatestFileNameComposite extends Composite {
 			}
 		}
 	}
-
 }

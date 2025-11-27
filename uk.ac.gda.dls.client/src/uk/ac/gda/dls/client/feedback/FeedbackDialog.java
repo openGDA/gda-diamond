@@ -30,7 +30,6 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -202,8 +201,7 @@ public class FeedbackDialog extends TitleAreaDialog {
 			}
 		});
 
-		attachButton.addSelectionListener(new SelectionListener() {
-
+		attachButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				hasFiles = !hasFiles;
@@ -212,20 +210,12 @@ public class FeedbackDialog extends TitleAreaDialog {
 				attachments.setVisible(hasFiles);
 				topParent.layout();
 			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
 		});
 
-		screenGrabButton.addSelectionListener(new SelectionListener() {
+		screenGrabButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				screenshot = ((Button)e.widget).getSelection();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 	}
@@ -271,8 +261,6 @@ public class FeedbackDialog extends TitleAreaDialog {
 				attachedFileList.remove(attachedFileList.getSelectionIndices());
 			}
 		});
-
-
 	}
 
 	private void captureScreen(final String filename) {
