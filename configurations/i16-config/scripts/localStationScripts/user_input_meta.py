@@ -65,7 +65,7 @@ class UBMatrixMeta(ScannableBase) :
     def getPosition(self) :
         ubmatrix = ubcalc._UB
         if ubmatrix is None : return [ubcalc._state.crystal.B.tolist()]
-        transformed_matrix = dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], ubmatrix.tolist()) / ( 2 * dnp.pi )
+        transformed_matrix = dnp.dot([[0, 0, 1], [1, 0, 0], [0, 1, 0]], ubmatrix.tolist()) / ( 2 * dnp.pi )
         return [transformed_matrix.tolist()]
 ub_matrix_meta = UBMatrixMeta()
 ub_matrix_meta.name = "ub_matrix"
@@ -76,7 +76,7 @@ class OrientationMatrixMeta(ScannableBase) :
             pos_list = ubcalc.U.tolist()
         except :
             return [dnp.eye(3).tolist()]
-        transformed_matrix =  dnp.dot([[1, 0, 0], [0, 0, -1], [0, 1, 0]], [pos_list[0], pos_list[1], pos_list[2]])
+        transformed_matrix =  dnp.dot([[0, 0, 1], [1, 0, 0], [0, 1, 0]], [pos_list[0], pos_list[1], pos_list[2]])
         return [transformed_matrix.tolist()]
 orientation_matrix_meta = OrientationMatrixMeta()
 orientation_matrix_meta.name = "orientation_matrix"
