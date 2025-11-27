@@ -219,6 +219,16 @@ def set_energy_output_format() :
     for d in dets :
         d.setOutputFormat([out_format])
 
+def setup_position_notification():
+    # Setup  ScannableMotors for table to 
+    scannables = []
+    scannables.extend(t1.getGroupMembers())
+    print("Setting up position notifications for : ")
+    for scn in scannables:
+        if isinstance(scn, ScannableMotor):
+            print("  "+scn.getName())
+            scn.setNotifyObserverPositionChangeEvents(True)
+                                                  
 def setup():
     print("Initialisation started...\n");
 
@@ -305,6 +315,10 @@ def setup():
     run_script("vma_start_stop.py")
     
     run_script("linear_malcolm_scans.py")
+    
+    run_script("ionchamber-checker-scannables.py")
+    
+    setup_position_notification()
     
     print("\n...initialisation complete!")
     print_useful_info()

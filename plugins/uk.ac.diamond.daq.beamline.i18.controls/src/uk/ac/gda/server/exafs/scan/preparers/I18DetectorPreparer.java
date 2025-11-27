@@ -25,6 +25,7 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
+import uk.ac.gda.server.exafs.scan.DetectorPreparerDelegate;
 import uk.ac.gda.server.exafs.scan.DetectorPreparerFunctions;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
@@ -41,6 +42,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private Map<String, List<BufferedDetector>> qexafsDetectorsMap = new HashMap<>();
 	private Detector activeDetector;
 	private String initialHdfPath = "";
+	private DetectorPreparerDelegate preparerDelegates = new DetectorPreparerDelegate();
 
 	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
 			BufferedDetector qexafsCounterTimer01) {
@@ -53,6 +55,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
+
+		preparerDelegates.runConfigure(scanBean, detectorBean, outputBean, experimentFullPath);
 
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
@@ -89,6 +93,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
+		preparerDelegates.runBeforeEachRepetition();
+
 		Double[] times = getScanTimeArray();
 		if (times.length > 0) {
 			counterTimer01.setTimes(times);
@@ -97,6 +103,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void completeCollection() {
+		preparerDelegates.runCompleteCollection();
+
 		restoreHdfFilePath();
 	}
 
@@ -143,5 +151,13 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void addQexafsDetectors(String detectorType, List<BufferedDetector> detectors) {
 		qexafsDetectorsMap.put(detectorType, detectors);
+	}
+
+	public DetectorPreparerDelegate getPreparerDelegates() {
+		return preparerDelegates;
+	}
+
+	public void setPreparerDelegates(DetectorPreparerDelegate preparerDelegates) {
+		this.preparerDelegates = preparerDelegates;
 	}
 }
