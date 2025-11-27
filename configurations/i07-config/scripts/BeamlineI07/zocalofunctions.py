@@ -22,12 +22,13 @@ def mapstart():
     scanlist=[]
     return scanlist,ps
 
-def mapend(scanlist,ps,setup_paths):
+def mapend(scanlist,ps,setup_paths,testing=0):
     """
     takes in scanlist, processing scannable (ps), and yamlpath, then sends of dummy scan to start the processing
     """
     scanlistout= str(scanlist).replace(','," ")
-    ps['i07-multirsm']=[{'exp_file':setup_paths[0],'calc_file':setup_paths[1],'scans':scanlistout}]
+    ps_index = 'i07-multirsm-testing' if testing else 'i07-multirsm'
+    ps[ps_index]=[{'exp_file':setup_paths[0],'calc_file':setup_paths[1],'scans':scanlistout}]
     scan(testMotor1, 1, 1, 1, ps)
 
 def checkzocalo():
