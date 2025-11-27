@@ -14,6 +14,7 @@
 	<import resource="detector/merlin.xml"/>
 	<import resource="detector/pilatus2M.xml"/>
 	<import resource="detector/merlin_burst.xml"/>
+	<import resource="detector/cam*"/>
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/smargon.xml"/>
 
