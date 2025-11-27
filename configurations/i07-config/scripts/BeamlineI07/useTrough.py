@@ -11,11 +11,8 @@ from Diamond.Trough.IsothermScan import IsothermScanControlClass
 #Trough using WebService over LabVIEW
 #Example url for reading all: 'http://diamrd2316.diamond.ac.uk:8080/TroughBridgeWS/BridgeWS_ReadAll/localhost''
 
-#wsHost='diamrd2316.diamond.ac.uk'
-wsHost='diamrl5344.diamond.ac.uk'
-
-#dsHost='diamrd2316.diamond.ac.uk'
-dsHost='diamrl5344.diamond.ac.uk'
+wsHost='diamrl8056.diamond.ac.uk'
+dsHost='diamrl8056.diamond.ac.uk'
 
 trough = NimaLangmuirBlodgettTroughBridgeClass('trough', wsHost, dsHost);
 #trough.setHosts(webServiceHostName='i07-solo.diamond.ac.uk', dataSocketHostName='diamrd2316.diamond.ac.uk')
