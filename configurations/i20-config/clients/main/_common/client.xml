@@ -115,6 +115,14 @@
 		<property name="detectorName" value="xspress4" />
 	</bean>
 
+	<bean id="qxesScanViewFactory" class="uk.ac.gda.exafs.ui.xes.QxesScanViewFactory">
+		<property name="templateFileName" value="var/templates/QXES_Parameters.xml" />
+		<property name="initialXmlSubFolderName" value="Qxes" />
+		<property name="saveOffsetsCommand" value="save_tmp_offsets(%s)" />
+		<property name="runScanFunctionName" value="prepare_run_qxes_scan" />
+		<property name="stopScanCommand" value="stop_scan()" />	
+	</bean>
+	
 	<beans profile="xmap">
 		<bean id="vortexViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
 			<property name="name" value="vortexViewFactory" />

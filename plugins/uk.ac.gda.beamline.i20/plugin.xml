@@ -653,6 +653,14 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactoryFinder:qxesScanViewFactory"
+            icon="icons/XesParametersIcon.png"
+            id="uk.ac.gda.exafs.ui.xes.qxesScanView"
+            name="QXes scan view"
+            restorable="true">
+      </view>
+      <view
             class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
             id="uk.ac.gda.exafs.ui.spreadsheetview"
             name="&apos;Spreadsheet view&apos; scan generator"
