@@ -7,7 +7,8 @@
 from datawriting.geometry import GeometryScannable
 from gda.device.scannable import DummyScannable
 from localstation_functions import localStation_print, localStation_exception,\
-	localStation_warning, localStation_warnings, localStation_exceptions
+	localStation_warning, localStation_warnings, localStation_exceptions,\
+	localStation_run
 from localStationScripts.startup_epics_positioners import X1_DELAY
 
 print("=============================================================")
@@ -109,10 +110,10 @@ if installation.isDummy():
 	print "*"*80
 	localStation_print("DUMMY Mode!")
 	print "*"*80
-	
+
 	from lab84.installVarDataFromBeamlineIfNotPresent import install_cache_data
 	install_cache_data()
-	
+
 	USE_DIFFCALC = True
 	USE_DIFFCALC_WITHOUT_LASTUB = False
 	USE_DUMMY_IDGAP_MOTOR = True
@@ -143,7 +144,7 @@ from gda.device.epicsdevice import ReturnType #@UnusedImport
 from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableMotionBase as PseudoDevice
 from gda.epics import CAClient #@UnusedImport
-from gda.jython.commands.GeneralCommands import alias, run #@UnusedImport
+from gda.jython.commands.GeneralCommands import alias #@UnusedImport
 
 localStation_print("Importing LocalJythonShelfManager")
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
@@ -324,8 +325,7 @@ w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
 ### Create offset devices
-localStation_print("Running localStationScripts/startup_offsets.py: Starting database system...")
-run("localStationScripts/startup_offsets")
+localStation_run("localStationScripts/startup_offsets", start_message="Running localStationScripts/startup_offsets.py: Starting database system...")
 localStation_print("...Database system started")
 offsetshelf=LocalJythonShelfManager.open('offsets')
 localStation_print("  use 'offsetshelf' to see summary of offsets")
@@ -338,15 +338,14 @@ do=delta_axis_offset
 if installation.isDummy():
 	from lab84.initialise_offsets import setup_scannables_offsets
 	setup_scannables_offsets()
-	
+
 ###############################################################################
 ###                            Generic Functions                            ###
 ###############################################################################
 
 ### Create datadir functions
-localStation_print("Running localStationScripts/startup_dataDirFunctions.py")
-localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
-run("localStationScripts/startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
+localStation_run("localStationScripts/startup_dataDirFunctions",
+				"Running localStationScripts/startup_dataDirFunctions.py, use 'datadir' to read the current directory or 'datadir name' to change it") # depends on globals pil2mdet and pil100kdet
 alias('datadir')
 
 ### Pipeline
@@ -403,11 +402,11 @@ localStation_print("Creating diffractometer base scannable base_z")
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15 @UndefinedVariable
 
-run("localStationScripts/startup_diffractometer_euler")
+localStation_run("localStationScripts/startup_diffractometer_euler")
 
 if not USE_DIFFCALC:
 	localStation_warning("setting up diffractometer, using Allesandro's code instead of diffcalc")
-	run("localStationScripts/startup_diffractometer_hkl")
+	localStation_run("localStationScripts/startup_diffractometer_hkl")
 	azihkl=AzihklClass('aziref')
 	azihkl.azir_function = azir
 	psi.setInputNames(['psi'])
@@ -415,7 +414,7 @@ if not USE_DIFFCALC:
 else:
 	del sixc
 	robot_startup_script = "diffractometer/scannable/RobotArmBeamline"
-	run(robot_startup_script)
+	localStation_run(robot_startup_script)
 	from startup.i16 import *
 
 	if USE_DIFFCALC_WITHOUT_LASTUB:
@@ -469,16 +468,16 @@ if Finder.find("kbmbase") and installation.isLive():
 		from scannable.tripod import TripodToolBase
 
 		kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
-	
+
 		kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
-	
+
 		from pd_single_element_of_vector_pd import * #@UnusedWildImport
 		#kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
 		#vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
 		#hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
 		#vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
 		#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
-	
+
 		##### new devices for KBM pitch and trans. Now with offsets.
 		vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
 		hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
@@ -488,7 +487,7 @@ if Finder.find("kbmbase") and installation.isLive():
 		kbmroll=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_roll', kbm2, 'kbm2_alpha1', kbmroll_offset, help='KBM1/2 roll: usually close to zero')
 		RsV=ReadSingleValueFromVectorPDClass
 		kbm=ReadPDGroupClass('kbm calibrated mirror values',[RsV(vmtrans,0,'vmtrans','%.3f'),RsV(hmtrans,0,'hmtrans','%.3f'),RsV(vmpitch,0,'vmpitch','%.3f'),RsV(hmpitch,0,'hmpitch','%.3f'),RsV(kbmx,0,'kbmx','%.3f'),RsV(kbmroll,0,'kbmroll','%.3f')], help='Use help vmpitch etc for help on each. Use kbm1/kbm2 for raw values\nCalibrated values all close to zero when mirrors aligned with zero pitch ')
-	
+
 	except:
 		localStation_exception("creating kbm1 and kbm2.")
 else:
@@ -497,8 +496,7 @@ else:
 ###############################################################################
 ###                          Tune finepitch using QBPM                      ###
 ###############################################################################
-localStation_print("Tuning finepitch using QBPM *Use with care*")
-run("localStationScripts/pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos
+localStation_run("localStationScripts/pitchup", "Tuning finepitch using QBPM *Use with care*") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos
 pitchup=pitchupClass()
 
 try:
@@ -507,11 +505,10 @@ try:
 	from localStationScripts.startup_epics_monitors import *
 	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 except:
-	localStation_exception("running localStationScripts/startup_epics_monitors.py")
+	localStation_exception("in localStationScripts/startup_epics_monitors.py")
 
 if installation.isLive():
-	localStation_print("   running localStationScripts/startup_epics_positioners.py")
-	run("localStationScripts/startup_epics_positioners")
+	localStation_run("localStationScripts/startup_epics_positioners")
 else:
 	frontendx = DummyScannable('frontendx', 0)
 	frontendy = DummyScannable('frontendy', 0)
@@ -535,17 +532,8 @@ else:
 	T1dcm = DummyScannable('T1dcmSi111', 108.24045790941138) # From scan 971324
 	T2dcm = DummyScannable('T2dcmSi111', 11.705548057664442)
 
-try:
-	localStation_print("   running localStationScripts/startup_cryocooler.py")          #[NOTE: Also creates commands]
-	run("localStationScripts/startup_cryocooler")
-except:
-	localStation_exception("running localStationScripts/startup_cryocooler.py")
-
-try:
-	localStation_print("   running pd_femto_adc_current2.py")
-	run("localStationScripts/pd_femto_adc_current2.py")
-except:
-	localStation_exception("running localStationScripts/pd_femto_adc_current2.py")
+localStation_run("localStationScripts/startup_cryocooler")			#[NOTE: Also creates commands]
+localStation_run("localStationScripts/pd_femto_adc_current2.py")
 
 try:
 	localStation_print("   running pd_xyslit.py")
@@ -561,11 +549,7 @@ try:
 except:
 	localStation_exception("creating attocube devices")
 
-try:
-	localStation_print("   creating ion pump scannables")
-	run("localStationScripts/startup_ionpumps")
-except:
-	localStation_exception("running localStationScripts/startup_ionpumps.py")
+localStation_run("localStationScripts/startup_ionpumps", "   creating ion pump scannables")
 
 try:
 	localStation_print("   creating shutter scannable")
@@ -708,9 +692,7 @@ mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5
 mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,10,20,10,20,12],[90,53.5,20,10,20,12],[90,10,20,50,20,12],[90,10,20,10,20,52]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')  # @UndefinedVariable
 
 ### Homebrew groups
-localStation_print("Creating OD current amplifier monitors")
-run("localStationScripts/startup_currents")
-run("localStationScripts/startup_currents2")
+localStation_run("localStationScripts/startup_currents", "Creating OD current amplifier monitors")
 sleep(1)
 
 
@@ -766,7 +748,7 @@ if installation.isLive():
 ###                                 Energy                                  ###
 ###############################################################################
 import beamline_info as BLi #@UnusedImport - contains energy and wavelength
-run("localStationScripts/startup_energy_related")
+localStation_run("localStationScripts/startup_energy_related")
 #defaults changed by SPC on 29/6/11 comment out next two lines to go back to previous settings
 energy.maxEnergyChangeBeforeMovingMirrors=0.01	#energy value to prevent mirrors or diffractomter moving for small energy step
 energy.moveDiffWhenNotMovingMirrors=True	#set this to True to move diffractometer to compensate for inverted beam movement
@@ -789,7 +771,7 @@ gam.setOutputFormat(['%.5f'])
 ###                               Peak Optimiser                            ###
 ###############################################################################
 if installation.isLive():
-	run("localStationScripts/OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
+	localStation_run("localStationScripts/OptimizePeak") #--> ptimizePeak, OP2, OP3 commands
 
 
 
@@ -800,11 +782,7 @@ import limits
 reload(limits)
 from limits import * #@UnusedWildImport
 limits.ROOT_NAMESPACE = globals()
-localStation_print("Setting user limits (running ConfigureLimits.py)")
-try:
-	run("localStationScripts/ConfigureLimits")
-except:
-	localStation_exception("configuring limits")
+localStation_run("localStationScripts/ConfigureLimits","Setting user limits (running ConfigureLimits.py)")
 
 
 
@@ -863,7 +841,7 @@ if USE_PIL1:
 		try:
 			pil100kdet = pilatus1
 			_pilatus1_counter_monitor = Finder.find("pilatus1_plugins").get('pilatus1_counter_monitor')
-	
+
 			pil100k = NxProcessingDetectorWrapper('pil100k',
 				pilatus1,
 				zebrapil1,
@@ -881,7 +859,7 @@ if USE_PIL1:
 			pil100ks = DetectorWithShutter(pil100k, x1, X1_DELAY)
 			pil_tmp = pil100k
 			pils_tmp = pil100ks
-	
+
 			pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 			pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 		except:
@@ -1097,13 +1075,13 @@ with overwriting:  # @UndefinedVariable
 			"camlab84", camlab84_for_scans, camlab84_for_snaps, "LA84R-DI-DCAM-01:", panel_name_rcp='Plot 1')
 	except:
 		localStation_exception("configuring wrapped auto detectors - camlab84")
-	
+
 	try:
 		camlab84b, camlab84b_peak2d, camlab84b_max2d, camlab84bAuto, camlab84bAutopeak2d, camlab84bAutomax2d = wrappedAutoDetector(
 			"camlab84", camlab84b_for_scans, camlab84b_for_snaps, "LA84R-DI-DCAM-03:", panel_name_rcp='Plot 2')
 	except:
 		localStation_exception("configuring wrapped auto detectors - camlab84b")
-	
+
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
@@ -1124,7 +1102,7 @@ if Finder.find("andor1"):
 									iFileLoader=TIFFImageLoader,
 									fileLoadTimout=15,
 									returnPathAsImageNumberOnly=True)
-	
+
 		from scannable.adbase import ADTemperature
 		andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
 		from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
@@ -1193,9 +1171,7 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 ###############################################################################
 ###                                Metadata                                 ###
 ###############################################################################
-localStation_print("Configuring metadata capture")
-
-run('localStationScripts/Sample_perpMotion')
+localStation_run('localStationScripts/Sample_perpMotion',"Configuring metadata capture")
 
 try:
 	diffractometer_sample_scannables = [delta, eta, chi, phi, gam, mu, hkl]
@@ -1309,28 +1285,25 @@ beamline = Finder.find("Beamline")
 
 #run('Sample_perpMotion') #move to before metadata
 
-run('localStationScripts/Struck_with_fastshutter')
+localStation_run('localStationScripts/Struck_with_fastshutter')
 
 #ADC optics table XMAP
-run('localStationScripts/pd_adc_table')
+localStation_run('localStationScripts/pd_adc_table')
 
-run('localStationScripts/enable_xps_gda.py')
+localStation_run('localStationScripts/enable_xps_gda.py')
 
 from edgeDetectRobust import edgeDetectRobust as edge #@UnusedImport
 from edgeDetectEnergy import eEdge as eedge #@UnusedImport
 
-run('localStationScripts/rePlot')
+localStation_run('localStationScripts/rePlot')
 
-run('localStationScripts/whynobeam')
+localStation_run('localStationScripts/whynobeam')
 
-localStation_print("New minimirrors function - type help minimirrors")
-run('localStationScripts/minimirrors')
+localStation_run('localStationScripts/minimirrors', "New minimirrors function - type help minimirrors")
 
 if USE_DIFFCALC == False:
-	localStation_print("run possiblehkl_new")
-	run('localStationScripts/possiblehkl_new')
-	localStation_print("run Space Group Interpreter")
-	run('localStationScripts/SGinterpreter')
+	localStation_run('localStationScripts/possiblehkl_new',"run possiblehkl_new")
+	localStation_run('localStationScripts/SGinterpreter',"run Space Group Interpreter")
 
 #### temp fix for valves closing due to img03#######################
 gv1= Epics_Shutter('gv1','BL16I-VA-VALVE-01:CON')
@@ -1346,12 +1319,9 @@ def open_valves():
 #### end of temp fix for valves closing due to img03###################
 
 # This depends on lcroi
-run('localStationScripts/FlipperClass')
+localStation_run('localStationScripts/FlipperClass')
+localStation_run('scannable/pd_rs_remap_autorun')
 
-try:
-	run('scannable/pd_rs_remap_autorun')
-except:
-	localStation_exception("running pd_rs_remap_autorun")
 
 ###############################################################################
 ###                             Complete Localstation                       ###
@@ -1383,7 +1353,7 @@ if type(perp.getMotor())==DummyMotor:
 
 print "======================================================================"
 
-run('diffractometer/pid.py')
+localStation_run('diffractometer/pid.py')
 ###############################################################################
 ###                           Diff - xpsgather                              ###
 ###############################################################################
@@ -1419,28 +1389,24 @@ from scannable.detector import pilatuscbfswitcher #@UnusedImport
 ###############################################################################
 
 
-run('localStationScripts/bpm')
-run('localStationScripts/align1')
-run('localStationScripts/select_and_move_detector')
-run('localStationScripts/showdiff')
-run('localStationScripts/showdiff_new')
 # bpmroi1 is now defined in the localStationStaff.py user script
+localStation_run('localStationScripts/bpm')
+localStation_run('localStationScripts/align1')
+localStation_run('localStationScripts/select_and_move_detector')
+localStation_run('localStationScripts/showdiff')
+localStation_run('localStationScripts/showdiff_new')
 #run('pd_searchref2') #put at the end as it gave some errors
-run('localStationScripts/pd_read_list')	#to make PD's that can scan a list
-run('localStationScripts/pd_function')	#to make PD's that return a variable
+localStation_run('localStationScripts/pd_read_list')	#to make PD's that can scan a list
+localStation_run('localStationScripts/pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 print "==========================="
-localStation_print("Setting up continuous scans")
-run("localStationScripts/setup_cvscan")
+localStation_run("localStationScripts/setup_cvscan","Setting up continuous scans")
 localStation_print("Continuous scans setup")
 print "==========================="
 
 if installation.isLive():
-	try:
-		run("localStationScripts/startup_pie725")
-	except:
-		localStation_exception("running localStationScripts/startup_pie725 script")
+	localStation_run("localStationScripts/startup_pie725")
 
 try:
 	from localStationScripts.user_input_meta import input_metadata, _title, _sample, user_command_scannable, ub_matrix_meta, orientation_matrix_meta, diffcalc_name_meta
@@ -1495,7 +1461,7 @@ if USE_SMARGON and Finder.find("sgphi"):
 	try:
 		exec("del hkl")
 		exec("del euler")
-		run("localStationScripts/SmargonTopClass")
+		localStation_run("localStationScripts/SmargonTopClass")
 		from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice
 		reload(HklSmargon)
 		reload(EulerSmargonPseudoDevice)
@@ -1543,41 +1509,18 @@ def protect_all_scannables():
 
 if installation.isLive():
 	print "*"*80
-	localStation_print("Attempting to run localStationStaff.py from user scripts directory")
+	localStation_run("localStationStaff",start_message="Attempting to run localStationStaff.py from user scripts directory", error_message="running localStationStaff user script! See above for details.", complete_message="localStationStaff.py completed.")
 	print "*"*80
-	try:
-		run("localStationStaff")
-		localStation_print("localStationStaff.py completed.")
-	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationStaff user script! See above for details.", e)
-	except:
-		localStation_exception("running localStationStaff user script! See above for details.")
-
+	localStation_run("localStationUser",start_message="Attempting to run localStationUser.py from user scripts directory", error_message="running localStationUser user script! See above for details.", complete_message="localStationUser.py completed.")
 	print "*"*80
-	localStation_print("Attempting to run localStationUser.py from user scripts directory")
-	print "*"*80
-	try:
-		run("localStationUser")
-		localStation_print("localStationUser.py completed.")
-	except java.io.FileNotFoundException, e:
-		localStation_exception("running localStationUser user script! See above for details.", e)
-	except:
-		localStation_exception("running localStationUser user script! See above for details.")
 else:
 	print "*"*80
-	try:
-		run("dummy/localStationStaff")
-		from lab84.initialise_offsets import setup_pil3_centre
-		setup_pil3_centre()
-
-	except:
-		localStation_exception("running localStationStaff dummy script")
-
+	localStation_run("dummy/localStationStaff", error_message="running localStationStaff dummy script")
 	print "*"*80
-	try:
-		run("dummy/localStationUser")
-	except:
-		localStation_exception("running localStationUser dummy script")
+	localStation_run("dummy/localStationUser", error_message="running localStationUser dummy script")
+
+	from lab84.initialise_offsets import setup_pil3_centre
+	setup_pil3_centre()
 
 print("*"*80)
 protect_all_scannables()
