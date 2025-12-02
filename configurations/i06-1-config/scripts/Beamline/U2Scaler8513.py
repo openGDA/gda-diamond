@@ -2,9 +2,10 @@
 from Diamond.PseudoDevices.Scaler8512Device import Scaler8512ChannelEpicsDeviceClass;
 from i06shared import installation
 from gdascripts.pd.dummy_pds import DummyEpicsReadWritePVClass
-print "-"*100
-print "Set up the Patch Panel U2 scaler card"
-print "Create RAW scalar objects: 'ca61sr','ca62sr','ca63sr','ca64sr','ca65sr','ca66sr','ca67sr','ca68sr'"
+print("-"*100)
+print("Set up the Patch Panel U2 scaler card")
+print("Create RAW scalar objects: 'ca61sr','ca62sr','ca63sr','ca64sr','ca65sr','ca66sr','ca67sr','ca68sr' for DD and XABS end stations")
+print("Create RAW scalar objects: 'tey','i0','fdu','fdd','d90','ffz' for magnet end stations")
 
 if installation.isLive():
     #Patch Panel U2 use the same scaler preset/trigger signal from the same scaler card
@@ -30,6 +31,22 @@ if installation.isLive():
     ca66sr = Scaler8512ChannelEpicsDeviceClass('ca66sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA66CRAW);
     ca67sr = Scaler8512ChannelEpicsDeviceClass('ca67sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA67CRAW);
     ca68sr = Scaler8512ChannelEpicsDeviceClass('ca68sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA68CRAW);
+    
+    #magnet scaler channels
+    pvTEYCRAW = "BL06J-EA-MAG-01:TEYC-RAW"
+    pvSC2RAW  = "BL06J-EA-USER-01:SC2-RAW"
+    pvFDUCRAW = "BL06J-EA-MAG-01:FDUC-RAW"
+    pvFDDCRAW = "BL06J-EA-MAG-01:FDDC-RAW"
+    pv90DCRAW = "BL06J-EA-MAG-01:90DC-RAW"
+    pvFIELDCRAW = "BL06J-EA-MAG-01:FIELDC-RAW"
+    
+    tey = Scaler8512ChannelEpicsDeviceClass('tey',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvTEYCRAW);
+    i0 = Scaler8512ChannelEpicsDeviceClass('i0',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvSC2RAW);
+    fdu = Scaler8512ChannelEpicsDeviceClass('fdu',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvFDUCRAW);
+    fdd = Scaler8512ChannelEpicsDeviceClass('fdd',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvFDDCRAW);
+    d90 = Scaler8512ChannelEpicsDeviceClass('d90',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pv90DCRAW);
+    ffz = Scaler8512ChannelEpicsDeviceClass('ffz',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvFIELDCRAW);
+    
 else:
     ca61sr = DummyEpicsReadWritePVClass('ca61sr', 0.0, 5000.0, '', '%.0f');
     ca62sr = DummyEpicsReadWritePVClass('ca62sr', 0.0, 5000.0, '', '%.0f');
@@ -39,8 +56,15 @@ else:
     ca66sr = DummyEpicsReadWritePVClass('ca66sr', 0.0, 5000.0, '', '%.0f');
     ca67sr = DummyEpicsReadWritePVClass('ca67sr', 0.0, 5000.0, '', '%.0f');
     ca68sr = DummyEpicsReadWritePVClass('ca68sr', 0.0, 5000.0, '', '%.0f');
+
+    tey = DummyEpicsReadWritePVClass('tey', 0.0, 5000.0, '', '%.0f');
+    i0 = DummyEpicsReadWritePVClass('i0', 0.0, 5000.0, '', '%.0f');
+    fdu = DummyEpicsReadWritePVClass('fdu', 0.0, 5000.0, '', '%.0f');
+    fdd = DummyEpicsReadWritePVClass('fdd', 0.0, 5000.0, '', '%.0f');
+    d90 = DummyEpicsReadWritePVClass('d90', 0.0, 5000.0, '', '%.0f');
+    ffz = DummyEpicsReadWritePVClass('ffz', 0.0, 5000.0, '', '%.0f');
     
-scaler2=[ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr]
+scaler2=[ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr, tey,i0,fdu,fdd,d90,ffz]
 
 #acqtime = DetectorIntegrationsDevice('acqtime', [ca61sr]);
 #acqtime.addDetectors([ca11sr]);

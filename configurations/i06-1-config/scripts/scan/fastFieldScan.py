@@ -31,8 +31,8 @@ SHOW_DEMAND_VALUE=False
 from Diamond.PseudoDevices.SuperconductingMagnetController import magz_ramp_rate, magx_ramp_rate, magy_ramp_rate
 SUPPORTED_MAGNET_SCANNABLES = {"magx" : magx_ramp_rate, "magy" : magy_ramp_rate, "magz" : magz_ramp_rate}
 
-from Beamline.U2Scaler8513 import ca61sr, ca62sr, ca63sr, ca64sr, ca65sr, ca66sr, ca67sr, ca68sr
-SUPPORTED_DETECTOR_SCANNABLES = [ca61sr, ca62sr, ca63sr, ca64sr, ca65sr, ca66sr, ca67sr, ca68sr]
+from Beamline.U2Scaler8513 import tey, i0, fdu, fdd, d90, ffz, ca67sr, ca68sr
+SUPPORTED_DETECTOR_SCANNABLES = [tey, i0, fdu, fdd, d90, ffz, ca67sr, ca68sr]
 
 
 class MagnetFieldFlyScannable(ScannableBase):

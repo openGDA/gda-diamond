@@ -21,7 +21,7 @@ if installation.isDummy():
 #End Station Section
 import sys
 
-from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
+from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,tey,i0,fdu,fdd,d90,ffz,scaler2  # @UnusedImport
 if installation.isLive():
     from laserCabin.TOPASScaler8512 import ca81sr,ca82sr,ca83sr,ca84sr,ca85sr,ca86sr,ca87sr,ca88sr,topas_scaler  # @UnusedImport
     from functionDevices.idivio import idio,ifio,ifioft,ifiofb,testFun  # @UnusedImport
@@ -62,6 +62,8 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
+from zacscan.PV_setup import switch_to_magnet_pvs_for_zacscan, switch_to_xabs_or_dd_pvs_for_zacscan  # @UnusedImport
+
 # amplifer gain splitter objects used by metadata
 from metadata.amplifierGainPaser import AmplifierGainParser
 if ConfigUtils.profileActive("magnet"):
@@ -81,6 +83,7 @@ if ConfigUtils.profileActive("magnet"):
         from scan.fastFieldScanWithEnergySwitch import fastfieldscan, magnetflyscannable  # @UnusedImport
     #sample temperature
     tsample = magnetSampleTemp  # @UndefinedVariable
+    switch_to_magnet_pvs_for_zacscan()
 
 if ConfigUtils.profileActive("DD"):
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "DD")
@@ -95,6 +98,7 @@ if ConfigUtils.profileActive("DD"):
     #sample temperature
     from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
     tsample = SampleTemperature("tsample", ls336, channel_number = 1)  # @UndefinedVariable
+    switch_to_xabs_or_dd_pvs_for_zacscan()
 
 if ConfigUtils.profileActive("xabs"):
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "xabs")
@@ -102,6 +106,7 @@ if ConfigUtils.profileActive("xabs"):
     xabs_amp_1 = AmplifierGainParser("xabs_amp_1", "BL06I-DI-IAMP-40:XABS:GAIN")
     #sample temperature
     tsample = DummyTemp(); tsample.setName("tsample")
+    switch_to_xabs_or_dd_pvs_for_zacscan()
 
 from i06shared.scan.installStandardScansWithAdditionalScanListeners import *  # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()  
@@ -114,8 +119,12 @@ print("load 'xasmode' scannable")
 XAS_MODES = ['TEY', 'TFY_ft', 'TFY_fb', 'TFY_90']
 TEY, TFY_ft, TFY_fb, TFY_90 = XAS_MODES
 xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
-mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrument/fesData/C3", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "/entry/instrument/fesData/C5"}
-mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", TFY_ft: "/entry/instrument/ca63sr/value", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
+if ConfigUtils.profileActive("magnet"):
+    mode_path_slow = {TEY: "/entry/instrument/tey/value", TFY_ft: "/entry/instrument/fdu/value", TFY_fb: "/entry/instrument/fdd/value", TFY_90: "/entry/instrument/d90/value"}
+    mode_path_fast = {TEY: "/entry/instrument/fesData/tey", TFY_ft: "/entry/instrument/fesData/fdu", TFY_fb: "/entry/instrument/fesData/fdd", TFY_90: "/entry/instrument/fesData/d90"}
+else:
+    mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", TFY_ft: "/entry/instrument/ca63sr/value", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
+    mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrument/fesData/C3", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "/entry/instrument/fesData/C5"}
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
 xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"

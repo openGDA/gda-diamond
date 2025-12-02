@@ -21,6 +21,7 @@ from gda.jython.commands.GeneralCommands import alias
 from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 from gda.configuration.properties import LocalProperties
+from uk.ac.diamond.daq.configuration import ConfigUtils
 
 ENABLE_KB_RASTERING = True
 
@@ -41,7 +42,11 @@ fesController = FastEnergyScanControlClass("fesController", rootPV);
 zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
 # configure data collection object
 if beamline_name == "i06-1":
-    fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
+    if ConfigUtils.profileActive("magnet"):
+        fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['tey','i0', 'fdu', 'fdd', 'iddenergy', 'pgmenergy', 'd90', 'ffz'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
+    else:
+        fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
+        
 elif beamline_name == "i06":
     fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'ROI1', 'ROI2'], ['roi1io1', 'roi1io2', 'roi2io1', 'roi2io2'],elementCounter=fastScanElementCounter);
 

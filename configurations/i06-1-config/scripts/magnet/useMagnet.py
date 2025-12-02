@@ -37,22 +37,22 @@ print("Note: Use object name 'hyst2' for the hysteresis measurement with flippin
 print("Usage: scan hyst2 -1 1 0.1")
 print("To change magnet device : hyst2.setMagnet(magnetName='magz')")
 print("To change energy setting: hyst2.setEnergy(energyName='rpenergy', startEnergy=700, endEnergy=750)")
-print("To change detector:       hyst2.setCounters(counterName1='ca61sr', counterName2='ca62sr', counterName3='ca63sr', integrationTime=1)")
+print("To change detector:       hyst2.setCounters(counterName1='tey', counterName2='i0', counterName3='fdu', integrationTime=1)")
 
-hyst2 = FlipperClass('hyst2', 'magz', 'denergy', 700, 750, 'ca61sr', 'ca62sr', 'ca63sr', 1);
+hyst2 = FlipperClass('hyst2', 'magz', 'denergy', 700, 750, 'tey', 'i0', 'fdu', 1);
 hyst2.setMagnet(magnetName='magz');
 hyst2.setEnergy(energyName='denergy', startEnergy=700, endEnergy=750);
-hyst2.setCounters(counterName1='ca61sr', counterName2='ca62sr', counterName3='ca63sr', integrationTime=1);
+hyst2.setCounters(counterName1='tey', counterName2='i0', counterName3='fdu', integrationTime=1);
 
 
 print("Note: Use object name 'dhyst' for the hysteresis measurement with dichroitic flipping magnet")
-dhyst = DichroicFlipperClass('dhyst', 'magz', 'denergy', 770, 777, 'iddpol', 'PosCirc', 'NegCirc' , 'ca61sr', 'ca62sr', 'ca63sr', 1)
+dhyst = DichroicFlipperClass('dhyst', 'magz', 'denergy', 770, 777, 'iddpol', 'PosCirc', 'NegCirc' , 'tey', 'i0', 'fdu', 1)
 #dhyst.setMagnet('magnet.magz');
 #dhyst.setEnergy('denergy', startEnergy=700, endEnergy=750);
-#dhyst.setCounters(counterName1='ca61sr', counterName2='ca62sr', counterName3='ca63sr', integrationTime=1);
+#dhyst.setCounters(counterName1='tey', counterName2='i0', counterName3='fdu', integrationTime=1);
 #dhyst.setPolarisation('iddpol', pol1='PosCirc', pol2='NegCirc');
 
-#dhyst = DichroicFlipperClass('dhyst2', 'dummyMotor1', 'dummyMotor2', 700, 750, 'dummyPol', 'PosCirc', 'NegCirc' , 'ca61sr', 'ca62sr', 'ca63sr', 1);
+#dhyst = DichroicFlipperClass('dhyst2', 'dummyMotor1', 'dummyMotor2', 700, 750, 'dummyPol', 'PosCirc', 'NegCirc' , 'tey', 'i0', 'fdu', 1);
 
 from math import exp, log
 
