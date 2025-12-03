@@ -78,10 +78,10 @@ class MagnetFieldFlyScannable(ScannableBase):
         self.alreadyStarted=False
         self.moveToStartCompleted=False
         self.showDemandValue=False
-        
+
     def getCurrentPositionOfScannable(self):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
-    
+
     def isBusy(self):
         self.lastreadPosition = self.getCurrentPositionOfScannable()
         if self.positive:
@@ -105,7 +105,7 @@ class MagnetFieldFlyScannable(ScannableBase):
     
     def atScanStart(self):
         self.alreadyStarted=False
-                    
+
     def moveToStart(self):
         if self.startVal is not None:
             print( "move magnet field to start position %f " % (self.startVal))
@@ -117,43 +117,41 @@ class MagnetFieldFlyScannable(ScannableBase):
                 count=count+1
             print("Start position is reached after %f seconds" % (count))
             self.moveToStartCompleted=True
-    
+
     def atScanEnd(self):
         self.restoreMotorSpeed()
-        
+
     def restoreMotorSpeed(self):
         if self.origionalRampRate is not None:
             print("Restore magnet field ramp rate from %r to %r" % (self.ramp_rate, self.origionalRampRate))
             if self.scannable.isBusy():
                 self.scannable.stop()
-                # sleep(2)
             try:
                 self.setRampRate(self.origionalRampRate)
             except:
                 print("Restore magnet field ramp rate failed with Exception, try again after 5 second sleep")
-                # sleep(5)
                 self.setRampRate(self.origionalRampRate)
             self.origionalRampRate=None
         self.alreadyStarted=False
         self.moveToStartCompleted=False
-        
+
     def stop(self):
         self.scannable.stop()
         self.restoreMotorSpeed()
-        
+
     def atCommandFailure(self):
         self.restoreMotorSpeed()
-    
+
     def moveTo(self, val):
         self.scannable.moveTo(val)
-        
+
     def rawAsynchronousMoveTo(self,new_position):
         if  not  isinstance( new_position,  FlyScanPosition):
             raise TypeError("Only support positions of type FlyScanPosition")
         self.scannable_position = new_position.position
         self.requiredPosVal = ScannableUtils.positionToArray(self.scannable_position, self.scannable)[0]
         self.stepVal = ScannableUtils.positionToArray(new_position.step, self.scannable)[0]
-        
+
         if new_position.stop is None:
             return;
         if self.alreadyStarted:
@@ -169,7 +167,7 @@ class MagnetFieldFlyScannable(ScannableBase):
         print("Move to stop position %f" % stop_position)
         self._move_to_target(stop_position)
         self.alreadyStarted=True
-            
+
         self.stopVal = ScannableUtils.positionToArray(stop_position, self.scannable)[0]
         self.positive = self.stopVal > self.requiredPosVal
 
@@ -180,11 +178,11 @@ class MagnetFieldFlyScannable(ScannableBase):
         else:
             self.thread = threading.Thread(atrget = self._move_not_cross_zero_field, name='not_cross_zero_field', args = (target_value,)) 
         self.thread.start()
-    
+
     def _move_not_cross_zero_field(self, target_value):
         # the following call is block in its implementation class - SingleAxisMagnetClass, so wrap it in a new thread here.
         self.scannable.asynchronousMoveTo(target_value)
-        
+
     def _move_cross_zero_field(self, target):
         self.scannable.moveTo(0)
         sleep(20.0)
@@ -206,7 +204,7 @@ def fastfieldscan(*args):
     '''
     if len(args) < 5:
         raise SyntaxError("Not enough parameters provided: You must provide '<magnet_scannable> <start_field> <stop_field> <field_ramp_rate_in_TPM> <integration_time>' and may be followed by other optional scannables!")
-    
+
     command = "fastfieldscan "
     newargs=[]
     i=0;

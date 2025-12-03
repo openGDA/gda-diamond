@@ -25,15 +25,14 @@ from i06shared.scan.flyscan_command import ScannableError, FlyScanPosition,\
     FlyScanPositionsProvider, configure_fly_scannable_extraname
 import scisoftpy as np
 import threading
-from __main__ import energy  # @UnresolvedImport
 
 SHOW_DEMAND_VALUE=False
 
 from Diamond.PseudoDevices.SuperconductingMagnetController import magz_ramp_rate, magx_ramp_rate, magy_ramp_rate
 SUPPORTED_MAGNET_SCANNABLES = {"magx" : magx_ramp_rate, "magy" : magy_ramp_rate, "magz" : magz_ramp_rate}
 
-from Beamline.U2Scaler8513 import tey, i0, fdu, fdd, d90, ffz, ca67sr, ca68sr
-SUPPORTED_DETECTOR_SCANNABLES = [tey, i0, fdu, fdd, d90, ffz, ca67sr, ca68sr]
+from Beamline.U2Scaler8513 import tey, i0, fdu, fdd, d90, ffz
+SUPPORTED_DETECTOR_SCANNABLES = [tey, i0, fdu, fdd, d90, ffz]
 
 
 class MagnetFieldFlyScannable(ScannableBase):
@@ -58,7 +57,7 @@ class MagnetFieldFlyScannable(ScannableBase):
     @param ramp_rate  - the magnet field rame rate 
     @param param: timeout_secs - time out in seconds, default is 1.0 second
     """
-    def __init__(self, scannable, ramp_rate, energy1, energy2, energy_scannable = energy, timeout_secs=1.0):
+    def __init__(self, scannable, ramp_rate, timeout_secs=1.0):
         self.scannable = scannable
         self.ramp_rate = ramp_rate
         if len( self.scannable.getInputNames()) != 1:
@@ -79,10 +78,6 @@ class MagnetFieldFlyScannable(ScannableBase):
         self.alreadyStarted=False
         self.moveToStartCompleted=False
         self.showDemandValue=False
-        self.energy1 = energy1
-        self.energy2 = energy2
-        self.energy =  energy_scannable
-        self.first_energy = True
 
     def getCurrentPositionOfScannable(self):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
@@ -154,13 +149,6 @@ class MagnetFieldFlyScannable(ScannableBase):
         if  not  isinstance( new_position,  FlyScanPosition):
             raise TypeError("Only support positions of type FlyScanPosition")
         self.scannable_position = new_position.position
-        if self.energy1 is not None and self.energy2 is not None:
-            if self.first_energy:
-                self.energy.moveTo(self.energy1)
-                self.first_energy = False
-            else:
-                self.energy.moveTo(self.energy2)
-                self.first_energy = True
         self.requiredPosVal = ScannableUtils.positionToArray(self.scannable_position, self.scannable)[0]
         self.stepVal = ScannableUtils.positionToArray(new_position.step, self.scannable)[0]
 
@@ -216,7 +204,7 @@ def fastfieldscan(*args):
     '''
     if len(args) < 5:
         raise SyntaxError("Not enough parameters provided: You must provide '<magnet_scannable> <start_field> <stop_field> <field_ramp_rate_in_TPM> <integration_time> [energy1] [energy2]' and may be followed by other optional scannables!")
-    
+
     command = "fastfieldscan "
     newargs=[]
     i=0;
@@ -244,8 +232,10 @@ def fastfieldscan(*args):
                     command += " ".join(map(str, [startpos, stoppos, ramprate, integrationtime])) + " "
                 stepsize = float(ramprate)*float(integrationtime)/60.0
                 number_steps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
-                newargs, command, flyscannablewraper = create_magnet_field_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize, ramprate, energy1, energy2)
+                newargs, command, flyscannablewraper = create_magnet_field_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize, ramprate)
                 for scn in SUPPORTED_DETECTOR_SCANNABLES:
+                    scn.energy1 = energy1
+                    scn.energy2 = energy2
                     newargs.append(scn)
                     newargs.append(integrationtime)
                 configure_fly_scannable_extraname(arg, flyscannablewraper)
@@ -279,8 +269,8 @@ from gda.jython.commands.GeneralCommands import alias
 alias('fastfieldscan')
 
 
-def create_magnet_field_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize, ramprate, energy1, energy2):
-    flyscannablewraper = MagnetFieldFlyScannable(arg, ramprate, energy1, energy2)
+def create_magnet_field_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize, ramprate):
+    flyscannablewraper = MagnetFieldFlyScannable(arg, ramprate)
     flyscannablewraper.startVal = startpos
     newargs.append(flyscannablewraper)
     command += arg.getName() + " "
