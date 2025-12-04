@@ -47,4 +47,7 @@
 	<!-- Stanfords -->
 	<import resource="stanford_amplifiers.xml"/>
 
+	<!--  Processing scannable for zocalo -->
+	<import resource="processing_scannable.xml"/>
+
 </beans>

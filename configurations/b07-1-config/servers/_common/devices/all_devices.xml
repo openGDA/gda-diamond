@@ -44,6 +44,9 @@
 	<!-- Gas Rig -->
 	<import resource="gas_rig.xml" />
 
+    <!--  Processing scannable for zocalo -->
+	<import resource="processing_scannable.xml"/>
+
 	<!-- Endstation -->
 	<beans profile="TPOT">
 		<import resource="sample_manipulator.xml"/>

@@ -11,4 +11,8 @@
 	<!--  End Station -->
 	<import resource="analyser.xml" />
 	<import resource="manipulator.xml" />
+
+
+	<!--  Processing scannable for zocalo -->
+	<import resource="processing_scannable.xml"/>
 </beans>
