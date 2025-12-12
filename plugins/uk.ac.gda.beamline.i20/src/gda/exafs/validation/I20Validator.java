@@ -31,6 +31,7 @@ import gda.device.DeviceException;
 import gda.exafs.scan.ExafsValidator;
 import gda.exafs.scan.ScanObject;
 import gda.exafs.xes.IXesEnergyScannable;
+import gda.exafs.xes.XesUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.DetectorParameters;
@@ -163,6 +164,20 @@ public class I20Validator extends ExafsValidator {
 			}
 		}
 		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+
+			// find the allowed range of energy transfer values
+			if (xesScanParams.isScanEnergyTransfer()) {
+				List<Double> allowedRange;
+				if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
+					allowedRange = XesUtils.convertToEnergyTransfer(List.of(energyRange[0], energyRange[1]), xesScanParams.getMonoEnergy());
+				} else {
+					List<Double> monoRange = List.of(xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy());
+					allowedRange = XesUtils.convertToEnergyTransfer(List.of(energyRange[0], energyRange[1]),  monoRange);
+				}
+				energyRange[0] = Collections.min(allowedRange);
+				energyRange[1] = Collections.max(allowedRange);
+			}
+
 			checkBounds("Integration Time", specParams.getIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
 			checkBounds("XES Initial energy", specParams.getInitialEnergy(), energyRange[0], energyRange[1], errors);
 			checkBounds("XES Final energy", specParams.getFinalEnergy(), energyRange[0], energyRange[1], errors);
