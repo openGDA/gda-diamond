@@ -11,27 +11,14 @@ It is also written to the NXdetector directly for the Nexus file.
 """
 class RoiMetaDatFileDevice(ScannableBase):
 
-	def __init__(self, name, det_name, detectors, plot_name):
+	def __init__(self, name, det_name, plot_name):
 		self.name = name
 
 		"""List of detector names to be checked if present in a scan"""
-		self.detectors = detectors
 		self.plot_name = plot_name
 		self.setInputNames({})
 		self.setOutputFormat(["%s"])
 		self.setExtraNames([det_name + "_ROIs"])
-
-	def getScanDetectorNames(self):
-		scanController = InterfaceProvider.getCurrentScanInformationHolder()
-		info = scanController.getCurrentScanInformation()
-		if info is not None:
-			return info.getDetectorNames()
-		return []
-
-	def scanIncludesDetectorOfInterest(self):
-		detectorsInScan = self.getScanDetectorNames()
-		return any(det in detectorsInScan for det in self.detectors)
-
 
 	def isBusy(self):
 		return False
@@ -40,8 +27,5 @@ class RoiMetaDatFileDevice(ScannableBase):
 		pass
 
 	def getPosition(self):
-		if self.scanIncludesDetectorOfInterest():
-			return json.dumps({r.getName(): {"x": r.getX(), "y": r.getY(), "width": r.getWidth(), "height": r.getHeight()} for r in RegionOfInterest.getRoisForPlot(self.plot_name)})
-		else:
-			return "N/A"
+		return json.dumps({r.getName(): {"x": r.getX(), "y": r.getY(), "width": r.getWidth(), "height": r.getHeight()} for r in RegionOfInterest.getRoisForPlot(self.plot_name)})
 
