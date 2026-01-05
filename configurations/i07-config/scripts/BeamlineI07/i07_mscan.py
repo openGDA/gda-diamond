@@ -72,11 +72,11 @@ except Exception as e:
 # ROI def meta recorder for dat
 try:
     from roi_dat_meta import RoiMetaDatFileDevice
-    ex_rois = RoiMetaDatFileDevice("ex_rois", "excalibur", ["exr", "exv"], "Excalibur")
+    ex_rois = RoiMetaDatFileDevice("ex_rois", "excalibur", "Excalibur")
     meta_add(ex_rois)
-    p2_rois = RoiMetaDatFileDevice("p2_rois", "pilatus2", ["p2r", "p2v"], "Pilatus 2")
+    p2_rois = RoiMetaDatFileDevice("p2_rois", "pilatus2", "Pilatus 2")
     meta_add(p2_rois)
-    p3_rois = RoiMetaDatFileDevice("p3_rois", "pilatus3", ["p3r", "p3v"], "Pilatus 3")
+    p3_rois = RoiMetaDatFileDevice("p3_rois", "pilatus3", "Pilatus 3")
     meta_add(p3_rois)
 except Exception as e:
     print("Error setting up ROI meta devices", e)
