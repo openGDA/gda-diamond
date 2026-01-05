@@ -28,3 +28,13 @@ def localStation_warning(msg):
 def localStation_print(msg):
     print(msg)
     localStation_slf4j_logger.info(msg)
+
+from gda.jython.commands.GeneralCommands import run
+
+def localStation_run(script_name, start_message=None, error_message=None, complete_message=None):
+    localStation_print(start_message if start_message is not None else "   running " + script_name)
+    try :
+        run(script_name)
+    except :
+        localStation_exception(error_message if error_message is not None else "running " + script_name)
+    if complete_message is not None : localStation_print(complete_message)
