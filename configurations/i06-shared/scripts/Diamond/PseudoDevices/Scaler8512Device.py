@@ -2,6 +2,7 @@ from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
 from gda.device import Detector
+from __main__ import energy  # @UnresolvedImport
 
 #A Class to set all the detector's integration time in one go
 class DetectorIntegrationsDevice(ScannableMotionBase):
@@ -11,25 +12,24 @@ class DetectorIntegrationsDevice(ScannableMotionBase):
 		self.setExtraNames([]);
 		self.setLevel(7);
 		self.setOutputFormat(["%20.8f"]);
-		
 		self.integrationTime=1;
 		self.detectorList=[];
 		self.detectorList.extend( detectorList );
 
 	def addDetectors(self, detectorList):
 		self.detectorList.extend( detectorList );
-		
+
 	def removeDetectors(self, detectorList):
 		for d in detectorList:
 			while d in self.detectorList:
 				self.detectorList.remove( d );
-		
+
 	def setCollectionTime(self, t):
 		self.integrationTime = t;
 		for d in self.detectorList:
 			print d.getName();
 			d.setCollectionTime(self.integrationTime);
-			
+
 	#Scannable Implementations
 	def getPosition(self):
 		for d in self.detectorList:
@@ -38,7 +38,7 @@ class DetectorIntegrationsDevice(ScannableMotionBase):
 				return;
 			
 		return self.integrationTime;
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.setCollectionTime(newPos);
 
@@ -52,7 +52,7 @@ class DetectorIntegrationsDevice(ScannableMotionBase):
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
 class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
-	def __init__(self, name, strChTP, strChCNT, strChSn):
+	def __init__(self, name, strChTP, strChCNT, strChSn, energy_scannable= energy, energy1=None, energy2=None):
 		self.setName(name);
 		self.setInputNames([name]);
 		self.setExtraNames([]);
@@ -63,6 +63,10 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 		self.chCNT=CAClient(strChCNT);
 		self.chSn=CAClient(strChSn);
 		self.tp = -1;
+		self.energy1 = energy1
+		self.energy2 = energy2
+		self.energy = energy_scannable
+		self.first_energy_value = True
 
 #		self.setTimePreset(time)
 
@@ -73,12 +77,22 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 			self.chCNT.configure()
 		if not self.chSn.isConfigured():
 			self.chSn.configure()
-
+		if self.energy1 is not None and self.energy2 is not None:
+			self.energy.moveTo(self.energy1)
+			self.first_energy_value = True
+		
 	#Scannable Implementations
 	def getPosition(self):
 		return self.getCount();
-	
+
 	def asynchronousMoveTo(self,newPos):
+		if self.energy1 is not None and self.energy2 is not None:
+			if self.first_energy_value:
+				self.energy.moveTo(self.energy1)
+				self.first_energy_value = False
+			else:
+				self.energy.moveTo(self.energy2)
+				self.first_energy_value = True
 		self.setCollectionTime(newPos);
 		self.collectData();
 
@@ -146,7 +160,7 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 	#public void setCollectionTime(double time) throws DeviceException;
 	def setCollectionTime(self, newTime):
 		self.setTimePreset(newTime)
-		
+
 	#Returns the latest data collected.
 	#public Object readout() throws DeviceException;
 	def getCollectionTime(self):
@@ -154,7 +168,7 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 		return nc
 
 	#Returns the current collecting state of the device.
-	# return ACTIVE (1) if the detector has not finished the requested operation(s), 
+	# return ACTIVE (1) if the detector has not finished the requested operation(s),
 	#        IDLE(0) if in an completely idle state and 
 	#        STANDBY(2) if temporarily suspended.
 	#public int getStatus() throws DeviceException;
