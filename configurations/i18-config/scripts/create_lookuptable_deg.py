@@ -87,30 +87,32 @@ def fitdata(xdata,ydata):
 #
 # Script to regenerate a lookup table for a given harmonic
 #
-angleStart=16.7
-angleStop=14.300
-angleStep=-0.200
-gaprange=0.040
+#angleStart=10439
+#angleStart=55400
+angleStart=7050
+angleStop=6710
+angleStep=-20
+gaprange=0.0400
 gapstep=0.003
-offset=0
+offset=0.0
 
 
 
 #
 # The code uses comboDCM, i.e. the current lookup table to get a starting point for the scans
 #
-converter = Finder.find("auto_mDeg_idGap_mm_converter")
+converter = Finder.find("auto_mDeg_idGap_mm_converter_Si111")
 
 converter.enableAutoConversion()
 
-pos sc_comboDCM_d angleStart
+pos sc_comboDCM_d_Si111 angleStart/1000.0
 #pos comboDCM_eV 7200
 
-#converter = Finder.find("auto_mDeg_idGap_mm_converter")
+#converter = finder.find("auto_mDeg_idGap_mm_converter")
 
 converter.disableAutoConversion()
 
-lookup = Finder.find("lookup_name_provider")
+lookup = Finder.find("lookup_name_provider_Si111")
 print 'Harmonic set to ',lookup.getConverterName()
 
 #
@@ -119,10 +121,11 @@ print 'Harmonic set to ',lookup.getConverterName()
 # 1 use the peak position
 selectionMode=1
 
-new_harmonic_file='/dls/science/groups/i18/lookuptables/Fe_Jul19b.txt'
-#new_harmonic_file='/dls/i18/data/2017/sp15308-1/processing/Fe-Jan17.txt'
-#new_harmonic_file='/dls/i18/data/2014/cm4970-4/U_l3-Oct14.txt'
-#new_harmonic_file='/dls/i18/data/2018/cm19669-3/P_Jun18.txt'
+new_harmonic_file='/dls/science/groups/i18/lookuptables/Th_L3_Dec25_sn.txt'
+#new_harmonic_file='/dls/science/groups/i18/lookuptables/S_K_May24.txt'
+#new_harmonic_file='/dls/science/groups/i18/lookuptables/Ni_K_May24.txt'
+#new_harmonic_file='/dls/science/groups/i18/lookuptables/Ir_L3_Jan24.txt'
+
 
 fod=open(new_harmonic_file,"w")
 print >>fod,"Bragg\tGap"
@@ -131,19 +134,22 @@ print >>fod,"Bragg\tGap"
 #
 #pos comboDCM angleStart
 #current_gap=idgap.getPosition()
-for i in range(angleStart,angleStop,angleStep):
+for j in range(angleStart,angleStop,angleStep):
+	#convert to degrees
+	i = j / 1000.0
+	
 	# Move to position
-	pos sc_comboDCM_d i
-	sleep(6)
+	pos sc_comboDCM_d_Si111 i
+	sleep(2)
 	current_gap=sc_idgap.getPosition()+offset
 	# Scan gap
 	myxdata,myydata=scangap(current_gap-gaprange,current_gap+gaprange,gapstep)
 	result,bestx=fitdata(myxdata,myydata)
 	# Write to new file
 	if(selectionMode==0):
-		myline="%d\t%.5f" %(i,result[1])
+		myline="%.3f\t%.5f" %(i,result[1])
 	else:
-		myline="%d\t%.5f" %(i,bestx)
+		myline="%.3f\t%.5f" %(i,bestx)
 	print >>fod,myline
 	#print >>fod,i,"\t",result[1]
 fod.close()
