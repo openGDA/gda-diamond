@@ -18,6 +18,7 @@ import logging
 logger = logging.getLogger('localStation')
 
 alias('fs')
+overwriting.protect("fs")
 
 try:
 	print 'Running beamline staff configuration (localStationStaff.py)'
