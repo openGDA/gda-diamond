@@ -129,6 +129,8 @@ xasscan.xasmode_scannable_name = "xasmode"
 # sample temperature
 tsample = temp  # @UndefinedVariable
 
+from scans.xray_dichroism import xmcd, CRW, SRW  # @UnusedImport
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 
