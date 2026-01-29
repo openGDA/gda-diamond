@@ -10,7 +10,8 @@ Created on 31 Jan 2017
 '''
 import time
 from gda.device.detector import NXDetector
-from types import TupleType, ListType, FloatType, IntType, StringType
+from types import TupleType, ListType, FloatType, IntType, StringType,\
+    BooleanType
 from gda.device.scannable import DummyScannable
 from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
@@ -34,7 +35,7 @@ def all_elements_are_scannable(arg):
 
 def all_elements_are_list_of_number(arg):
     for each in arg:
-        if not type(each) == ListType:
+        if type(each) != ListType:
             return False
         for item in each:
             if not (type(item) == FloatType or type(item) == IntType):
@@ -43,13 +44,21 @@ def all_elements_are_list_of_number(arg):
 
 def all_elements_are_list_of_number_or_string(arg):
     for each in arg:
-        if not type(each) == ListType:
+        if type(each) != ListType:
             return False
         for item in each:
             if not (type(item) == FloatType or type(item) == IntType or type(item) == StringType):
                 return False
     return True
 
+def all_elements_are_list_of_number_or_boolean(arg):
+    for each in arg:
+        if type(each) != ListType:
+            return False
+        for item in each:
+            if not (type(item) == FloatType or type(item) == IntType or type(item) == BooleanType):
+                return False
+    return True
 
 def all_elements_are_number(arg):
     for each in arg:
@@ -60,7 +69,7 @@ def all_elements_are_number(arg):
 
 def all_elements_are_string(arg):
     for each in arg:
-        if not (type(each) == StringType):
+        if (type(each) != StringType):
             return False
     return True
 
@@ -68,7 +77,7 @@ def all_elements_are_string(arg):
 def all_elements_are_tuples_of_numbers(arg):
     for each in arg:
         # Check its a tuple or Check all elements of the tuple are numbers
-        if not (type(each) == TupleType) or not all_elements_are_number(each):
+        if type(each) != TupleType or not all_elements_are_number(each):
             return False
     return True
 
@@ -101,7 +110,7 @@ def parse_tuple_arguments(command, newargs, arg):
         command += ",".join(scannable_names)
         scannable_group.setName("pathgroup")
         newargs.append(scannable_group)
-    elif all_elements_are_list_of_number_or_string(arg):  # parsing scannable group's position lists
+    elif all_elements_are_list_of_number_or_string(arg) or all_elements_are_list_of_number_or_boolean(arg):  # parsing scannable group's position lists
         newargs.append(arg)
         list_of_lists = []
         for each in arg:
