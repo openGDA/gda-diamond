@@ -131,6 +131,13 @@ tsample = temp  # @UndefinedVariable
 
 from scans.xray_dichroism import xmcd, CRW, SRW  # @UnusedImport
 
+#--new default processor DP 20/01/26
+from gda.device.scannable import ProcessingScannable
+from gda.jython.commands.ScannableCommands import add_default
+nexus_processor = ProcessingScannable('nexus_processor')
+nexus_processor['mmg-nexus'] = [{'nxs2dat': False}]
+add_default(nexus_processor)
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 
