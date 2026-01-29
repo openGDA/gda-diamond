@@ -57,7 +57,7 @@ elif beamline_name == "i06":
     fesController.setKBRastering(ENABLE_KB_RASTERING) 
 
     ### configure which area detector to use in zacscan
-    from __main__ import medipix  # @UnresolvedImport
+    from __main__ import medipix, zacmedipix  # @UnresolvedImport
     fesController.setAreaDetector(medipix)
 
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData)
@@ -66,8 +66,9 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:
         if beamline_name == "i06":
             # configure collection strategy for zacscan
-            from __main__ import medipixCollectionStrategy4zacscan  # @UnresolvedImport
-            medipix.setCollectionStrategy(medipixCollectionStrategy4zacscan)
+            zac_collection_strategy = zacmedipix.getCollectionStrategy()
+            normal_collection_strategy = medipix.getCollectionStrategy()
+            medipix.setCollectionStrategy(zac_collection_strategy)
         uuu.backupDefaults()
         if beamline_name=="i06-1":
             uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr'])
@@ -78,8 +79,7 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
         uuu.restoreDefaults()
         if beamline_name == "i06":
             # restore collection strategy to the original medipix bean setting.
-            from __main__ import medipixCollectionStrategy  # @UnresolvedImport
-            medipix.setCollectionStrategy(medipixCollectionStrategy)
+            medipix.setCollectionStrategy(normal_collection_strategy)
     except :
         errortype, exception, traceback = sys.exc_info()
         logger.fullLog(None, "Error in zacscan", errortype, exception , traceback, False)
