@@ -97,8 +97,8 @@ print("create command for 'acquire_flat_field' and 'remove_flat_field'\n")
 from i06shared.commands.flatFieldAcqusition import acquire_flat_field, remove_flat_field  # @UnusedImport
 print("-"*100)
 if beamline != "i06-2":
-    from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, flyscancn  # @UnusedImport
-    from scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
+    from i06shared.scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan, flyscancn  # @UnusedImport
+    from i06shared.scan import flyscan_command; print(flyscan_command.__doc__)  # @UndefinedVariable
 
 print("-"*100)
 print("Import 'XASMode' class and 'xasscan' command for X-ray Absorption Spectroscopy experiments ")
