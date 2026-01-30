@@ -296,6 +296,19 @@
 					<property name="name" value="AC_state"/>
 					<property name="scannableName" value="leem_AC_state"/>
 				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="presetA"/>
+					<property name="scannableName" value="leem_presetA"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="extractor_voltage"/>
+					<property name="scannableName" value="extractor_voltage"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="energy_interval"/>
+					<property name="scannableName" value="energy_interval"/>
+					<property name="units" value="eV"/>
+				</bean>
 			</list>
 		</property>
 	</bean>

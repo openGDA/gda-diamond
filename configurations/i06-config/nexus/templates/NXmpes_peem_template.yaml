@@ -1,6 +1,6 @@
 entry/:
   NX_class@: NXentry
-  mpes_peem_entry/:
+  peem/:
     NX_class@: NXsubentry
     default@: data # Declares which NXdata group contains the data to be shown by default
     definition: NXmpes_peem # Official NeXus NXDL schema to which this subentry conforms
@@ -8,30 +8,24 @@ entry/:
     start_time: /entry/start_time # Starting time of measurement
     end_time: /entry/end_time # Ending time of measurement
     method: PEEM # [XPS, ARXPS, UPS, ARPES, HAXPES, NAPXPS, PEEM, ESCA, trARPES, spin-ARPES, momentum microscopy]
-    experiment_identifier: /entry/experiment_identifier 
-    experiment_description: 'NA' # Brief summary of the experiment, including key objectives.
-    collection_identifier: /entry/experiment_identifier # User or Data Acquisition defined group of NeXus files or NXentry
-    collection_description: 'NA' # Brief summary of the collection, including grouping criteria.
-    entry_identifier: /entry/diamond_scan/entry_identifier # unique identifier for the measurement, defined by the facility.
-    duration: /entry/duration # Duration of measurement
-    collection_time: /entry/diamond_scan/scan_estimated_duration # Time transpired actually collecting data i.e. taking out time when collection was suspended
-    run_cycle: NaN # Such as “2007-3”. Some user facilities organize their beam time into run cycles.
-    program_name: /entry/program_name # Name of program used to generate this file
-    revision: NaN # re-calibration, reprocessing, new analysis, etc.
-    pre_sample_flightpath: NaN # distance to the component which gives the T0 signal to the detector electronics
-    experiment_documentation: "NA" # Description of the full experiment (document in pdf, latex, …)
-    notes: "NA" # Notes describing entry
-    thumbnail: "NA" # A small image that is representative of the entry, such as a low resolution plot of the NXdata
+    transitions: "NA" #Array of strings representing the electronic core levels and Auger transitions probed in this MPES experiment.
     monitors/:
       NX_class@: NXmonitor
       data@: data
       data: /entry/sample/beam/flux # contains field named in the **flux** attribute of :ref:`NXbeam`
     instrument/:
       NX_class@: NXinstrument
+#      energy_resolution/:
+#        NX_class@: NXresolution
+#        doc: "Overall energy resolution of the photoemission instrument."
+#        physical_quantity: energy
+#        type: PGM
+#        resolution: NaN
+#        relative_resolution: # resolution/energy
       device_information/:
         NX_class@: NXfabrication
         vendor: Diamond Light Source Ltd
-        model: I06
+        model: I06 PEEM
         identifier: I06
       insertion_device/:
         NX_class@: NXinsertion_device
@@ -89,32 +83,27 @@ entry/:
             AXISNAME_end: 'NA' # a placeholder for a name constructed from the actual name of an axis to which _end has been appended.
       source_probe/: # [Synchrotron X-ray Source, Rotating Anode X-ray, Fixed Tube X-ray, UV Laser, Free-Electron Laser, Optical Laser, UV Plasma Source, Metal Jet X-ray, HHG laser, UV lamp, Monochromatized electron source, other]
         NX_class@: NXsource
-        name: Diamond Light Source
+        name: Diamond Light Source Ltd
         energy: /entry/instrument/source/energy
         probe: electron
         type: Synchrotron X-ray Source
         current: /entry/instrument/source/current
-        associated_beam: /entry/mpes_peem_entry/instrument/beam_probe
+        device_information/:
+          NX_class@: NXfabrication
+          vendor: "NA"
+          model: "NA"
+          identifier: "NA"
+        associated_beam: /entry/peem/instrument/beam_probe
       beam_probe/:
         NX_class@: NXbeam
-        flux@: /entry/mpes_peem_entry/monitors/data@
+        flux@: /entry/peem/monitors/data@
         distance: NaN # distance between source_probe and sample
         incident_energy: /entry/instrument/pgm/energy # this should be a link to monochromator energy
         incident_energy_spread: /entry/sample/beam/incident_beam_divergen
         incident_polarization: /entry/instrument/id/polarisation
         extent: /entry/sample/beam/extent
         incident_polarization_stokes: /entry/sample/beam/incident_polarisation#use this or **incident_polarization**
-        associated_source: /entry/mpes_peem_entry/instrument/source_brobe
-        depends_on: "."
-        transformations/:
-          NX_class@: NXtransformations
-          direction: [0,0,1] # default is [0,0,1]
-          reference_plane: [0,1,0] # defined as normal to the plane used to measure azimuth. Default is [0,1,0] through the origin
-      optical_system_em/:
-        NX_class@: NXoptical_system_em
-        field_of_view: /entry/instrument/leem/fov_a# One or two values for size of image on sample or in another space along slow and fast pixel dimensions.
-        working_distance: NaN # 
-        magnification: NaN
+        associated_source: /entry/peem/instrument/source_brobe
       electronanalyser/:
         NX_class@: NXelectronanalyser
         device_information/:
@@ -125,7 +114,7 @@ entry/:
         work_function: NaN # unit: NX_ENERGY
 #        energy_resolution/:
 #          NX_class@: NXresolution
-#          type: NaN
+#          type: "NA"
 #          physical_quantity: energy
 #          resolution: NaN
         fast_axes: NaN
@@ -133,130 +122,28 @@ entry/:
         transmission_function: NaN # NXdata
         collectioncolumn/:
           NX_class@: NXcollectioncolumn
-          scheme: PEEM # Scheme of the electron collection column. [standard, angular dispersive, selective area, deflector, PEEM, PEEM dark-field, LEEM, LEEM dark-field, LEED, dispersive plane, momentum microscope]
-          lens_mode: "NA"
-          projection: real # The space projected in the angularly dispersive direction. [real, reciprocal, energy]
-          angular_acceptance: NaN
-          spatial_acceptance: NaN
-          field_aperture: NaN # The size and position of the field aperture inserted in the column.
-          contrast_aperture: NaN # The size and position of the contrast aperture inserted in the column.
-          iris: NaN # Size, position and shape of the iris inserted in the column.
-          device_information/:
-            NX_class@: NXfabrication
-            vendor: "NA"
-            model: "NA"
-            identifier: "NA"
-          extractor_voltage: NaN
-          objective_lens: NaN # list of electromagnetic lenses of the microscope column.
-        # other EM lenses in column
+          scheme: PEEM_XMCD # Scheme of the electron collection column. [standard, angular dispersive, selective area, deflector, PEEM, PEEM dark-field, LEEM, LEEM dark-field, LEED, dispersive plane, momentum microscope]
+          projection: /entry/instrument/leem/presetA # The space projected in the angularly dispersive direction. [real, reciprocal, energy]
+          extractor_voltage: /entry/instrument/leem/extractor_voltage
+          objective_lens: /entry/instrument/leem/obj # list of electromagnetic lenses of the microscope column.
         electron_gun/: # when doing LEEM/LEED
           NX_class@: NXebeam_column
+          exits: True
           field_aperture: 'NA' # NXaperture_em group or link to it
           beam: 'NA' # NXbeam group or link to it
         energydispersion/:
           NX_class@: NXenergydispersion
-          scheme: 'double hemispherical' # [tof, hemispherical, double hemispherical, cylindrical mirror, display mirror, retarding grid]
-          pass_energy: NaN # Either `pass_energy` or `drift_energy` must be supplied.`pass_energy` should be used when working with hemispherical analysers.
-          drift_energy: NaN # Either `pass_energy` or `drift_energy` must be supplied. `drift_energy` should be used if a TOF is used in the energy dispersive part of the electron analyzer.
-          energy_interval: NaN # only in dispersive mode
-          center_energy: NaN # Center of the energy window (only in dispersive mode)
-          energy_scan_mode: "NA"
-          entrance_slit: NaN # Size, position and shape of the entrance slit in dispersive analyzers.
-          exit_slit: NaN # Size, position and shape of the exit slit in dispersive analyzers.
-          device_information/:
-            NX_class@: NXfabrication
-            vendor: 'NA'
-            model: 'NA'
-            identifier: 'NA'
-        detector/:
+          energy_interval: /entry/instrument/leem/energy_interval # only in dispersive mode
+          doc: "Width of energy window across the detector side (only in dispersive mode)"
+        electron_detector/:
           NX_class@: NXdetector
-          amplifier_type: MCP # Type of electron amplifier in the first amplification step. [MCP, channeltron]
-          detector_type: Phosphor+CCD # Description of the detector type. [DLD, Phosphor+CCD, Phosphor+CMOS, ECMOS, Anode, Multi-anode]
-          device_information/:
-            NX_class@: NXfabrication
-            vendor: /entry/instrument/medipix/manufacture
-            model: /entry/instrument/medipix/model
-            identifier: "NA"
-          raw_data/: # Contains the raw data collected by the detector before calibration.
-            NX_class@: NXdata
-            pixel_x: NaN # Detector pixel in x direction.
-            pixel_y: NaN # Detector pixel in y direction.
-            energy: NaN # (Un)calibrated energy (kinetic or binding energy). Unit category: NX_ENERGY (e.g., eV).
-            kx: NaN # (Un)calibrated x axis in k-space. Unit category: NX_ANY (e.g., 1/Angström).
-            ky: NaN # (Un)calibrated y axis in k-space. Unit category: NX_ANY (1/Angström).
-            kz: NaN # (Un)calibrated z axis in k-space. Unit category: NX_ANY (1/Angström).
-            angular0: NaN # Fast-axis angular coordinate (or second slow axis if angularly integrated).
-            angular1: NaN # Slow-axis angular coordinate (or second fast axis if simultaneously dispersed in 2 dimensions)
-            spatial0: NaN # Fast-axis spatial coordinate (or second slow axis if spatially integrated)
-            spatial1: NaN # Slow-axis spatial coordinate (or second fast axis if simultaneously dispersed in 2 dimensions)
-            delay: NaN # Calibrated delay time. Unit category: NX_TIME (s).
-            polarization_angle: NaN # Linear polarization angle of the incoming or outgoing beam. NX_ANGLE (° or rad)
-            ellipticity: NaN # Ellipticity of the incoming or outgoing beam. NX_ANGLE (° or rad)
-            time_of_flight: NaN # Total time of flight. Unit category: NX_TIME_OF_FLIGHT
-            time_of_flight_adc: NaN # Time-of-flight values, analog-to-digital converted.
-            external_AXIS: NaN # Describes an axis which is coming from outside the detectors scope.
-          signal@: raw
-          raw: NaN # Raw data before calibration.
-          depends_on: "."
+          flatfield_image: /entry/instrument/medipix/flatfield
+          raw_data: /entry/instrument/medipix/data
           transformations: NaN # Virtual transformations to sample that map the pixels onto sample coordinates.
           detector_module: NaN # For detectors with irregular pixel sizes or composed by modules tiled together.
           dark_image: NaN # external link to a dark image.
-          flatfield_image: NaN  # external link to a flat field image.
-          data: NaN
-        manipulator/: # Manipulator for positioning of the sample.
-          NX_class@: NXmanipulator
-          temperature_sensor/:
-            NX_class@: NXsensor
-            name: 'NA'
-            measurement: temperature
-            type: 'NA'
-            value: NaN
-#          sample_heater/:
-#            NX_class@: NXactuator
-#            name: 'NA'
-#            physical_quantity: temperature
-#            type: 'NA'
-#            heater_power: NaN
-#            pid/:
-#              NX_class@: NXpid
-#              setpoint: NaN
-#          cryostat/:
-#            NX_class@: NXactuator
-#            name: 'NA'
-#            physical_quantity: temperature
-#            type: 'NA'
-#            heater_power: NaN
-#            pid/:
-#              NX_class@: NXpid
-#              setpoint: NaN
-          drain_current_amperemeter/:
-            NX_class@: NXsensor
-            name: 'NA'
-            measurement: current
-            type: 'NA'
-            value: NaN
-          sample_bias_voltmeter/:
-            NX_class@: NXsensor
-            name: 'NA'
-            measurement: voltage
-            type: 'NA'
-            value: NaN
-#          sample_bias_potentiostat/:
-#            NX_class@: NXactuator
-#            name: 'NA'
-#            physical_quantity: voltage
-#            type: 'NA'
-#            heater_power: NaN
-#            pid/:
-#              NX_class@: NXpid
-#              setpoint: NaN
-          device_information/:
-            NX_class@: NXfabrication
-            vendor: 'NA'
-            model: 'NA'
-            identifier: 'NA'
-          positioner: /entry/instrument/ps # One of a group of sample positioners
-          sample_bias: /entry/instrument/leem/stv # Start voltage (sample retarding potential).
+        manipulator: /entry/instrument/ps # Manipulator for positioning of the sample.
+        sample_bias_potentiostat: /entry/instrument/leem/stv
         pressure_gauge/: # Device to measure the gas pressure around the sample.
           NX_class@: NXsensor
           name: 'NA'
@@ -266,38 +153,6 @@ entry/:
           value_log/:
             NX_class@: NXlog
             value: NaN # In the case of an experiment in which the gas pressure changes and is recorded, this is an array of length m of gas pressures.
-#        flood_gun/:
-#          NX_class@: NXactuator
-#          name: 'NA'
-#          physical_quantity: current
-#          type: 'NA'
-#          current: NaN # In case of a fixed or averaged electron current, this is the scalar current. It can also be an 1D array of output current (without time stamps).
-#          current_log/:
-#            NX_class@: NXlog
-#            value: NaN # In the case of an experiment in which the electron current is changed and recorded with time stamps, this is an array of length m of current setpoints.
-#        history/:
-#          NX_class@: NXhistory #  A set of activities that occurred to the instrument prior to/during the photoemission experiment, including any activities performed on the individual instrument parts. This group can be used to describe the preparation of the instrument prior to the experiment, e.g. the cleaning procedure for a spin filter crystal.
-#          activity/:
-#            NX_class@: NXactivity # Any activity that was performed on the physical entity prior or during the experiment.
-#            start_time: 'NA'
-#            end_time: 'NA'
-#            description: 'NA'
-#            notes:  'NA'
-#          physical_process/:
-#            NX_class@: NXphysical_process # Any physical process that was performed on the physical entity prior or during the experiment.
-#            start_time: 'NA'
-#            end_time: 'NA'
-#            description: 'NA'
-#            method:  'NA' # Method by which this process was performed.
-#            notes: 'NA'
-#          chemical_process/:
-#            NX_class@: NXchemical_process # Any chemical process that was performed on the physical entity prior or during the experiment.
-#            start_time: 'NA'
-#            end_time: 'NA'
-#            description: 'NA'
-#            method:  'NA' # Method by which this process was performed.
-#            identifier:  'NA' # An ID or reference to the location or a unique (globally persistent) identifier of e.g. another file which gives as many as possible details of the history event.
-#            notes: 'NA'
     process/:
       NX_class@: NXprocess # definition using 'NXprocess_mpes' which is not supported in dawnsci.nexus yet.
       program: 'NA' # Name of the program used
@@ -352,12 +207,13 @@ entry/:
           axes@: kinetic_energy
           kinetic_energy: NaN # Kinetic energy values
           relative_intensity: NaN # Relative transmission efficiency for the given kinetic energies
-#    geometries/:
-#      NX_class@: NXcoordinate_system_set
-      # Description of one or more coordinate systems that are specific to the setup and the measurement geometry.
+    geometries/:
+      NX_class@: NXcoordinate_system_set
+      doc: "NA" # Description of one or more coordinate systems that are specific to the setup and the measurement geometry.
     sample/:
       NX_class@: NXsample
       name: /entry/sample/name
+      preparation_description: /entry/sample/preparation_description
 #      substance/:
 #        NX_class@: NXsubstance
          #For samples containing a single pure substance. For mixtures use the NXsample_component_set and NXsample_component group in NXsample instead.
@@ -375,26 +231,26 @@ entry/:
       temperature/:
         NX_class@: NXenvironment
         # Sample temperature (either controlled or just measured) and actuators/sensors controlling/measuring it.
-        temperature_sensor: /entry/mpes_peem_entry/instrument/manipulator/temperature_sensor
-        sample_heater: /entry/mpes_peem_entry/instrument/manipulator/sample_heater
-        cryostat: /entry/mpes_peem_entry/instrument/manipulator/cryostat
+        temperature_sensor: /entry/peem/instrument/manipulator/temperature_sensor
+        sample_heater: /entry/peem/instrument/manipulator/sample_heater
+        cryostat: /entry/peem/instrument/manipulator/cryostat
       gas_pressure/:
         NX_class@: NXenvironment
         # Gas pressure surrounding the sample.
-        pressure_gauge: /entry/mpes_peem_entry/instrument/pressure_gauge # the gauge in closest proximity to the sample
+        pressure_gauge: /entry/peem/instrument/pressure_gauge # the gauge in closest proximity to the sample
       bias/:
         NX_class@: NXenvironment
         # Bias of the sample with respect to analyser ground.
-        voltmeter: /entry/mpes_peem_entry/instrument/manipulator/sample_bias_voltmeter
-        potentiostat: /entry/mpes_peem_entry/instrument/manipulator/sample_bias_potentiostat
+        voltmeter: /entry/peem/instrument/manipulator/sample_bias_voltmeter
+        potentiostat: /entry/peem/instrument/manipulator/sample_bias_potentiostat
       drain_current/:
         NX_class@: NXenvironment
         # Drain current of the sample and sample holder.
-        amperemeter: /entry/mpes_peem_entry/instrument/manipulator/drain_current_amperemeter
+        amperemeter: /entry/peem/instrument/manipulator/drain_current_amperemeter
       flood_gun_current/:
         NX_class@: NXenvironment
         # Current of low-energy electrons to the sample for charge neutralization.
-        flood_gun: /entry/mpes_peem_entry/instrument/flood_gun # Flood gun creating a current of low-energy electrons.
+        flood_gun: /entry/peem/instrument/flood_gun # Flood gun creating a current of low-energy electrons.
       transformations/: # # links to fields in NXmanipulator
        NX_class@: NXtransformations
        vector@: [1, 1, 1]
@@ -404,21 +260,21 @@ entry/:
     data/:
       NX_class@: NXdata
       # The default NXdata field containing a view on the measured data.
-      kx: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/kx # Calibrated x axis in k-space. Unit category: NX_ANY (e.g., 1/Angström).
-      ky: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/ky # Calibrated y axis in k-space. Unit category: NX_ANY (1/Angström).
-      kz: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/kz # Calibrated z axis in k-space. Unit category: NX_ANY (1/Angström).
-      angular0: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/angular0 # Fast-axis angular coordinate (or second slow axis if angularly integrated). NX_ANGLE
-      angular1: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/angular1 # Slow-axis angular coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_ANGLE
-      spatial0: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/spatial0 # Fast-axis spatial coordinate (or second slow axis if spatially integrated) NX_LENGTH
-      spatial1: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/spatial1 # Slow-axis spatial coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_LENGTH
-      delay: /entry/mpes_peem_entry/instrument/electronanalyser/detector/raw_data/delay # Calibrated delay time. Unit category: NX_TIME (s).
-      polarization_angle: /entry/mpes_peem_entry/instrument/beam/incident_polarization_angle
-      ellipticity: /entry/mpes_peem_entry/instrument/beam/incident_ellipticity
+      kx: /entry/peem/instrument/electronanalyser/detector/raw_data/kx # Calibrated x axis in k-space. Unit category: NX_ANY (e.g., 1/Angström).
+      ky: /entry/peem/instrument/electronanalyser/detector/raw_data/ky # Calibrated y axis in k-space. Unit category: NX_ANY (1/Angström).
+      kz: /entry/peem/instrument/electronanalyser/detector/raw_data/kz # Calibrated z axis in k-space. Unit category: NX_ANY (1/Angström).
+      angular0: /entry/peem/instrument/electronanalyser/detector/raw_data/angular0 # Fast-axis angular coordinate (or second slow axis if angularly integrated). NX_ANGLE
+      angular1: /entry/peem/instrument/electronanalyser/detector/raw_data/angular1 # Slow-axis angular coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_ANGLE
+      spatial0: /entry/peem/instrument/electronanalyser/detector/raw_data/spatial0 # Fast-axis spatial coordinate (or second slow axis if spatially integrated) NX_LENGTH
+      spatial1: /entry/peem/instrument/electronanalyser/detector/raw_data/spatial1 # Slow-axis spatial coordinate (or second fast axis if simultaneously dispersed in 2 dimensions) NX_LENGTH
+      delay: /entry/peem/instrument/electronanalyser/detector/raw_data/delay # Calibrated delay time. Unit category: NX_TIME (s).
+      polarization_angle: /entry/peem/instrument/beam/incident_polarization_angle
+      ellipticity: /entry/peem/instrument/beam/incident_ellipticity
       signal@: data
       axes@: energy
       data: NaN # Represents a measure of one- or more-dimensional photoemission counts
-      energy: /entry/mpes_peem_entry/process/energy_calibration/calibrated_axis # Calibrated energy axis
-      #energy_depends@: /entry/mpes_peem_entry/process/energy_calibration@ # The energy can be dispersed according to different strategies.
+      energy: /entry/peem/process/energy_calibration/calibrated_axis # Calibrated energy axis
+      #energy_depends@: /entry/peem/process/energy_calibration@ # The energy can be dispersed according to different strategies.
     user/:
       NX_class@: NXuser
       name: /entry/user01/name

@@ -139,6 +139,10 @@ nexus_processor = ProcessingScannable('nexus_processor')
 nexus_processor['mmg-nexus'] = [{'nxs2dat': False}]
 add_default(nexus_processor)
 
+from scannables.leem_projection import leem_presetA  # @UnusedImport
+extractor_voltage = VirtualScannable("extractor_voltage", initial_value=2000.0, value_format="%f")
+energy_interval = VirtualScannable("energy_interval", initial_value=0.0, value_format="%f")
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 
