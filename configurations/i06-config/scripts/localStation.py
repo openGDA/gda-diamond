@@ -130,6 +130,7 @@ xasscan.xasmode_scannable_name = "xasmode"
 tsample = temp  # @UndefinedVariable
 
 from scans.xray_dichroism import xmcd, CRW, SRW  # @UnusedImport
+from scans.flat_field import flatField  # @UnusedImport
 
 #--new default processor DP 20/01/26
 from gda.device.scannable import ProcessingScannable
