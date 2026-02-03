@@ -10,6 +10,7 @@ from gda.configuration.properties import LocalProperties #@UnusedImport @Unresol
 from gda.util import PropertyUtils #@UnusedImport @UnresolvedImport
 from gda.device.scannable import PVScannable, DummyScannable #@UnusedImport @UnresolvedImport
 from gdascripts import installation
+from pseudodevices.pandaPvScannable import PandaPVScannableClass
 
 print("="*100);
 print "Performing beamline specific initialisation code for i09-2.";
@@ -182,6 +183,9 @@ sy_wrapper.connectScannable()
 
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 tsample = SampleTemperature("tsample", None)
+
+from pseudodevices.pandaPvScannable import PandaPVScannableClass
+panda_scannable = PandaPVScannableClass('panda_scannable', 'BL09K-EA-PANDA-01', 'V', '%.3e')
 
 print("="*100)
 print("localStation.py Initialisation script complete.")
