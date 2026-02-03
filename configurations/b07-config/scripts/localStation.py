@@ -157,5 +157,8 @@ if not spring_profiles or ("es1" in spring_profiles and "es2" in spring_profiles
 print("-"*100)
 # import sputter functions
 execfile("/dls_sw/b07/scripts/Beamline/sputter_funcs.py")
+# import XAS autogeneration functions
+print ("Importing XAS autogeneration functions from /dls_sw/b07/scripts/Beamline/XAS_autogen.py")
+execfile("/dls_sw/b07/scripts/Beamline/XAS_autogen.py")
 
 print "-----------------------------------------------------------------------------------------------------------------"
