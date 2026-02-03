@@ -9,15 +9,15 @@ from gda.device.scannable import ScannableMotionBase
 class DummyIntelligentPowerSupplyFieldScannable(ScannableMotionBase):
 
     def __init__(self, name, field_tolerance):
-        self.name = name
+        self.setName(name)
         self.field_tolerance = field_tolerance
         self.setpoint = 0.0
         self.demand_field = 0.0
         self.increment = 0.0
 
-        self.inputNames = [name]
-        self.extraNames = ['demand_field']
-        self.outputFormat = ['%f', '%f']
+        self.setInputNames([name])
+        self.setExtraNames(['demand_field'])
+        self.setOutputFormat(['%f', '%f'])
 
     def getPosition(self):
         return (self.setpoint, self.demand_field)

@@ -17,7 +17,7 @@ Extensions:
     `scn.verbose=True` prints out extra debugging info (at 10Hz) defaults to False"""
 
     def __init__(self, name, temp_tolerance, stable_time_sec = 0, stop_sets_setpoint_to_readback = False):
-        self.name = name
+        self.setName(name)
 
         self.temp_tolerance = temp_tolerance
         self.stable_time_sec = stable_time_sec
@@ -30,9 +30,9 @@ Extensions:
         self.hold_timer = self._timer_factory()
         self.increment = 0.
         
-        self.inputNames = [name]
-        self.extraNames = ['sensor_temp']
-        self.outputFormat = ['%f', '%f']
+        self.setInputNames([name])
+        self.setExtraNames(['sensor_temp'])
+        self.setOutputFormat(['%f', '%f'])
 
     def _timer_factory(self):
         return Timer(self.stable_time_sec, self._timer_completed)

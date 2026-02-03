@@ -5,9 +5,10 @@ for use with GDA at Diamond Light Source
 
 from gda.device.scannable import ScannableMotionBase
 from high_field_magnet.device.intelligentPowerSupply import IntelligentPowerSupply
+from gov.aps.jca.event import MonitorListener  # @UnresolvedImport
 
 
-class IntelligentPowerSupplyFieldScannable(ScannableMotionBase):
+class IntelligentPowerSupplyFieldScannable(ScannableMotionBase, MonitorListener):
 
     def __init__(self, name, pvroot, field_tolerance):
         self.name = name
@@ -16,9 +17,10 @@ class IntelligentPowerSupplyFieldScannable(ScannableMotionBase):
         self.field_tolerance = field_tolerance
         self.setpoint = 0
 
-        self.inputNames = [name]
-        self.extraNames = ['demand_field']
-        self.outputFormat = ['%f', '%f']
+        self.setInputNames([name])
+        self.setExtraNames(['demand_field'])
+        self.setOutputFormat(['%f', '%f'])
+        self.monitor = None
 
     def __repr__(self):
         return "IntelligentPowerSupplyFieldScannable(%r, %r)" % (
@@ -39,6 +41,19 @@ class IntelligentPowerSupplyFieldScannable(ScannableMotionBase):
 
     def isBusy(self):
         return abs(self.setpoint - self.ips.getFieldDemand()) > self.field_tolerance
+
+    def monitorChanged(self, mevent):
+        self.current = float(mevent.getDBR().getDoubleValue()[0])
+        self.notifyIObservers(self, self.current)
+        
+    def addIObserver(self, ob):
+        self.monitor = self.ips.pvs['setpointRbv'].camonitor(self)
+        super(IntelligentPowerSupplyFieldScannable, self).addIObserver(ob)
+        
+    def deleteIObserver(self, ob):
+        if self.monitor:
+            self.ips.pvs['setpointRbv'].removeMonitor(self.monitor)
+        super(IntelligentPowerSupplyFieldScannable, self).deleteIObserver(ob)
 
 
 class IntelligentPowerSupplySweepRateScannable(ScannableMotionBase):

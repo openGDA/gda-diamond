@@ -11,16 +11,37 @@ import math
 from utils.ExceptionLogs import localStation_exception
 from gdascripts.messages.handle_messages import simpleLog
 from i10shared import installation
-logger = logging.getLogger('__main__')
-
+from gda.observable import IObserver
+from org.apache.commons.lang3.builder import EqualsBuilder, HashCodeBuilder
+from uk.ac.diamond.daq.concurrent import Async
+from gda.device import MotorStatus
 from gda.configuration.properties import LocalProperties
-from gda.device.scannable import ScannableMotionBase
+from gda.device.scannable import ScannableMotionBase, ScannableStatus
 from lookups.fourKeysLookupTable import get_fitting_coefficents, load_lookup_table
 import numbers
+
+logger = logging.getLogger('__main__')
 
 ROW_PHASE_MOTOR_TOLERANCE = 0.004
 MAXIMUM_ROW_PHASE_MOTOR_POSITION = 24.0
 X_RAY_POLARISATIONS = ['pc', 'nc', 'lh', 'lv', 'la', 'lh3', 'unknown']
+
+# cannot use python 'lambda source, change : updateFunction(source, change)' for anonymous IObserver as you cannot delete it after added it, which results in 'reset_namespace' add more observer again
+class GenericObserver(IObserver):
+    def __init__(self, name, update_function):
+        self.name =name
+        self.updateFunction = update_function # a function point
+        
+    def update(self, source, change):
+        self.updateFunction(source, change)
+    
+    #both equals and hashCode method required by addIObserver and deleteIOberser in Java observers set.        
+    def equals(self, other):
+        return EqualsBuilder.reflectionEquals(self, other, True)
+      
+    def hashCode(self):
+        # Apache lang3 org.apache.commons.lang3.builder.HashCodeBuilder
+        return HashCodeBuilder.reflectionHashCode(self, True)
 
 
 class BeamEnergyPolarisationClass(ScannableMotionBase):
@@ -57,10 +78,15 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.SCANNING = False
         if self.energyConstant and self.polarisationConstant:
             raise ValueError("Cannot create an instance with both energy and polarisation being constant.")
+        self.isConfigured = False
+        self.submit = None
+        self.energyObserver = None
+        self.polarisationObserver =  None
         self.logger = logger.getChild(self.__class__.__name__)
         self.maxGap = maxGap
         self.minGap = minGap
         self.maxPhase = maxPhase
+
 
     def determinePhaseFromHardware(self, insertiondevice = {}):
         rowphase1 = float(insertiondevice['rowphase1'].getPosition())
@@ -221,8 +247,16 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             idcontrol['rowphase4'].asynchronousMoveTo(0.0)
             if polarisation == X_RAY_POLARISATIONS[6]:
                 raise RuntimeError("polarisation is not defined!")
-            if not polarisation == X_RAY_POLARISATIONS[4]:
+            if polarisation != X_RAY_POLARISATIONS[4]:
                 idcontrol['jawphase'].asynchronousMoveTo(0.0)  # set ID jawphase to 0 position except for la
+            sleep(0.2)
+            if self.polarisationConstant:
+                self.submit = Async.submit(lambda : self.updateValue(), "Updating energy value from %1$s", self.getName())   
+            if self.energyConstant:
+                self.submit = Async.submit(lambda : self.updateValue(), "Updating polarisation value from %1$s", self.getName())
+            if not self.polarisationConstant and not self.energyConstant:
+                self.submit = Async.submit(lambda : self.updateEnergyValue(), "Updating energy field from %1$s", self.getName())
+                self.submit = Async.submit(lambda : self.updatePolarisationValue(), "Updating polarisation field from %1$s", self.getName())
         except:
             localStation_exception(sys.exc_info(), "Error move %s to position (%f, %s, %f)" % (self.source.getPosition(), gap, polarisation, phase))
             simpleLog(localStation_exception)
@@ -320,6 +354,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
 
     def stop(self):
         self.pgmenergy.stop()
+        if self.submit is not None:
+            self.submit.cancel(self.isBusy())
         if installation.isLive():
             print("ID motion stop is not supported according to ID-Group instruction. Please wait for the Gap motion to complete!")
         else:
@@ -340,3 +376,29 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def atScanEnd(self):
         self.SCANNING = False
 
+    def updateValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.pgmenergy.isBusy() or self.isIDBusy(self.idd if self.source.getPosition() == X_RAY_SOURCE_MODES[0] else self.idu):
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition())
+        #last update on not busy
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition())
+    
+    def updatePolarisationValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.pgmenergy.isBusy() or self.isIDBusy(self.idd if self.source.getPosition() == X_RAY_SOURCE_MODES[0] else self.idu):
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[1])
+        #last update on not busy
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition()[1])
+            
+    def updateEnergyValue(self):
+        sleep(0.2) # wait for motor to start moving
+        while self.pgmenergy.isBusy() or self.isIDBusy(self.idd if self.source.getPosition() == X_RAY_SOURCE_MODES[0] else self.idu):
+            sleep(0.1)
+            self.notifyIObservers(self, self.rawGetPosition()[0])
+        #last update on stop
+        sleep(0.1)
+        self.notifyIObservers(self, self.rawGetPosition()[0])

@@ -52,7 +52,10 @@ if "hfm" in spring_profiles:
     xasscan.xasmode_scannable_name = "xasmode_slow"
     from scans.fastFieldScan import fastfieldscan, magnetflyscannable, magnet_field_show_demand_value, set_magnet_field_ramp_rate_factor  # @UnusedImport
     tsample = SampleTemperature("tsample", itc3, channel_number = 1)  # @UndefinedVariable
-
+    from gdaserver import ips_field_wrapper, itc3_wrapper  # @UnresolvedImport
+    ips_field_wrapper.connectScannable()
+    itc3_wrapper.connectScannable()
+    
 if "em" in spring_profiles:
     LocalProperties.set(LocalProperties.GDA_END_STATION_NAME, "EM")
     from scannable.positions.magnet_instances import magnetCurrent, magnetField  # @UnusedImport
@@ -71,6 +74,13 @@ if "em" in spring_profiles:
     xasscan.xasmode_scannable_name = "xasmode_slow"
     #sample temperature
     tsample = SampleTemperature("tsample", ls336, channel_number = 1)  # @UndefinedVariable
+
+#--new default processor DP 20/01/26
+from gda.device.scannable import ProcessingScannable
+from gda.jython.commands.ScannableCommands import add_default
+nexus_processor = ProcessingScannable('nexus_processor')
+nexus_processor['mmg-nexus'] = [{}]
+add_default(nexus_processor)
 
 import gdascripts
 scan_processor.rootNamespaceDict = globals()

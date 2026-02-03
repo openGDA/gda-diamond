@@ -12,9 +12,11 @@ Created on 4 Jan 2021
 from gda.epics import CAClient
 from gda.device.scannable import ScannableMotionBase
 from i10shared import installation
+from gov.aps.jca.event import MonitorListener  # @UnresolvedImport
+from _random import Random
 
 
-class PositionCompareClass(ScannableMotionBase):
+class PositionCompareClass(ScannableMotionBase, MonitorListener):
     '''Create a position compare scannable with separate PV names for demand, target and readback positions.'''
 
     def __init__(self, name, pvdemand, pvreadback, tolerance, unitstring, formatstring):
@@ -35,13 +37,19 @@ class PositionCompareClass(ScannableMotionBase):
         self.readback = CAClient(pvreadback)
         self._tolerance = tolerance
         self.currentPos = 0.0
-
+        self.monitor = None
+        
     def setTolerance(self, tolerance):
         self._tolerance = tolerance
 
     def getTolerance(self):
         return self._tolerance
 
+    def configure(self):
+        if installation.isLive() and not self.readback.isConfigured():
+            self.readback.configure()
+        super(PositionCompareClass, self).setConfigured(True)
+                
     def atScanStart(self):
         if installation.isDummy():
             return
@@ -99,7 +107,7 @@ class PositionCompareClass(ScannableMotionBase):
             raise e
 
     def isBusy(self):
-        return (not abs(self.rawGetPosition() - self.getTargetPosition()) < self._tolerance)
+        return (abs(self.rawGetPosition() - self.getTargetPosition()) > self._tolerance)
 
     def atScanEnd(self):
         if installation.isDummy():
@@ -117,4 +125,25 @@ class PositionCompareClass(ScannableMotionBase):
 
     def toString(self):
         return self.name + " : " + str(self.getPosition())
+
+    def monitorChanged(self, mevent):
+        if installation.isLive():
+            self.currenttemp = float(mevent.getDBR().getDoubleValue()[0])
+            self.notifyIObservers(self, self.currenttemp)
+        else:
+            self.notifyIObservers(self, Random.random())
+        
+    def addIObserver(self, ob):
+        if installation.isLive():
+            if not self.readback.isConfigure():
+                self.readback.configure()
+            self.monitor = self.readback.camonitor(self)
+        super(PositionCompareClass, self).addIObserver(ob)
+        
+    def deleteIObserver(self, ob):
+        if installation.isLive() and self.monitor is not None:
+            if not self.readback.isConfigure():
+                self.readback.configure()
+            self.readback.removeMonitor(self.monitor)
+        super(PositionCompareClass, self).deleteIObserver(ob)
 

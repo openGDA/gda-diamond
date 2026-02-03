@@ -6,9 +6,10 @@ for use with GDA at Diamond Light Source
 from gda.device.scannable import ScannableMotionBase
 from cryojets.CryojetController import CryojetController
 from threading import Timer
+from gov.aps.jca.event import MonitorListener  # @UnresolvedImport
 
 
-class CryojetScannable(ScannableMotionBase):
+class CryojetScannable(ScannableMotionBase, MonitorListener):
     """CryojetScannable:
     `pos scn` returns setpoint and current sensor temperature
     `pos scn X` sets a new setpoint and returns it and the final sensor reading
@@ -33,6 +34,7 @@ Extensions:
         self.inputNames = [name]
         self.extraNames = ['sensor_temp']
         self.outputFormat = ['%f', '%f']
+        self.monitor = None
 
     def __repr__(self):
         return "CryojetScannable(name=%r, pvroot=%r, temp_tolerance=%r, stable_time_sec=%r)" % (
@@ -92,3 +94,17 @@ Extensions:
         if self.verbose:
             print("CryojetScannable: No longer busy")
         return False
+
+    def monitorChanged(self, mevent):
+        self.currenttemp = float(mevent.getDBR().getDoubleValue()[0])
+        self.notifyIObservers(self, self.currenttemp)
+        
+    def addIObserver(self, ob):
+        self.monitor = self.itc.pvs['sensor'].camonitor(self)
+        super(CryojetScannable, self).addIObserver(ob)
+        
+    def deleteIObserver(self, ob):
+        if self.monitor:
+            self.itc.pvs['sensor'].removeMonitor(self.monitor)
+        super(CryojetScannable, self).deleteIObserver(ob)
+
