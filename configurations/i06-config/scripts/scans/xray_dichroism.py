@@ -16,6 +16,8 @@ from gda.device.scannable import DummyScannable
 from gda.jython.commands.ScannableCommands import scan
 from gdascripts.metadata.nexus_metadata_class import meta
 from gda.device.scannable.scannablegroup import ScannableGroup
+from i06shared.scan.miscan import save_detector_settings_before_scan,\
+    get_image_mode_decorator, restore_detector_setting_after_scan
 
 
 PRINTTIME = False
@@ -125,18 +127,23 @@ def xmcd(*args):
         newargs.append(integration_time)
     if use_mpx:
         newargs.append(mpx)
+        CACHE_PARAMETER_TOBE_CHANGED = False
+        adbase, image_mode, num_images = save_detector_settings_before_scan(mpx)
+        if all((adbase, image_mode, num_images)):
+            CACHE_PARAMETER_TOBE_CHANGED = True
+        image_mode_decorator = get_image_mode_decorator(mpx.getCollectionStrategy())
+        if image_mode_decorator is not None:
+            image_mode_decorator.setNumberOfImagesPerCollection(number_images)
         newargs.append(integration_time)
-        newargs.append(number_images)
     if not others:
         newargs.extend(others)
-    #debug
-    # print(newargs)
-    # print(command)
 
     meta.addScalar("user_input", "command", command)
     try:
         scan([e for e in newargs])
     finally:
+        if use_mpx and CACHE_PARAMETER_TOBE_CHANGED:
+            restore_detector_setting_after_scan(adbase, image_mode, num_images)
         meta.rm("user_input", "command")
 
     if PRINTTIME: print("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time() - start))
