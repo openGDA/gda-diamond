@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="id_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths">
+			<list>
+				<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
+				<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label</value>
+				<value>instrument:NXinstrument/insertion_device:NXinsertion_device/phase</value>
+			</list>
+		</property>
+		<property name="units">
+			<list>
+				<value>mm</value>
+				<value></value>
+				<value>mm</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="energy_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths" value="instrument:NXinstrument/monochromator:NXmonochromator/energy" />
+		<property name="units" value="eV" />
+	</bean>
+
+	<bean id="cff_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/cff" />
+		<property name="prerequisiteScannableNames">
+			<list>
+				<value>energy</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pgm_grating_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/pgm_grating" />
+	</bean>
+
+
+	<bean id="exit_slit_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/exit_slit_size" />
+		<property name="units" value="mm" />
+		<property name="prerequisiteScannableNames">
+			<list>
+				<value>energy</value>
+				<value>pgm_cff</value>
+				<value>pgm_linedensity</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2y_size_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/s2_vertical_slit_size" />
+		<property name="units" value="mm" />
+	</bean>
+
+	<bean id="s2x_size_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/s2_horizontal_slit_size" />
+		<property name="units" value="mm" />
+	</bean>
+
+	<bean id="pgm_linedensity_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths"
+			value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/line_density" />
+		<property name="units" value="1/mm" />
+	</bean>
+
+
+	<bean id="cryostat_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths">
+			<list>
+				<value>sample:NXsample/temperature_demand</value>
+				<value>sample:NXsample/cryostat_temperature</value>
+				<value>sample:NXsample/temperature</value>
+				<value>sample:NXsample/shield_temperature</value>
+				<value>sample:NXsample/shield2_temperature</value>
+				<value>sample:NXsample/heater_percent</value>
+				<value>sample:NXsample/heater_setting</value>
+			</list>
+		</property>
+		<property name="units">
+			<list>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value></value>
+				<value></value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sample_name_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths" value="sample:NXsample/name" />
+	</bean>
+
+	<bean id="rc_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths" value="instrument:NXinstrument/source:NXsource/current" />
+		<property name="units" value="mA" />
+	</bean>
+
+	<bean id="re_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths" value="instrument:NXinstrument/source:NXsource/energy" />
+		<property name="units" value="GeV" />
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="file_registrar" />
+				<ref bean="twodplot" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
