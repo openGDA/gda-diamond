@@ -11,7 +11,6 @@
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />
 	<import resource="mj7j8.xml" />
-	<import resource="beam_coordinate_system.xml" />
 	<import resource="raw_sample_stage.xml"/>
 	<import resource="BeamMonitor.xml"/>
 
