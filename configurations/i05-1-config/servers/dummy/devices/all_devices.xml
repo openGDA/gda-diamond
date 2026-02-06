@@ -35,4 +35,6 @@
 	<import resource="mcp.xml" />
 	<import resource="keithley.xml" />
 
+	<!-- pressure gauges -->
+	<import resource="pressure_gauges.xml"/>
 </beans>
