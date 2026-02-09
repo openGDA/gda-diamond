@@ -3,7 +3,7 @@ entry/:
   peem/:
     NX_class@: NXsubentry
     default@: data # Declares which NXdata group contains the data to be shown by default
-    definition: NXmpes_peem # Official NeXus NXDL schema to which this subentry conforms
+    definition: NXpeem # Official NeXus NXDL schema to which this subentry conforms
     title: /entry/title # Extended title for entry
     start_time: /entry/start_time # Starting time of measurement
     end_time: /entry/end_time # Ending time of measurement
@@ -104,8 +104,8 @@ entry/:
         extent: /entry/sample/beam/extent
         incident_polarization_stokes: /entry/sample/beam/incident_polarisation#use this or **incident_polarization**
         associated_source: /entry/peem/instrument/source_brobe
-      electronanalyser/:
-        NX_class@: NXelectronanalyser
+      electronanalyzer/:
+        NX_class@: NXelectronanalyzer
         device_information/:
           NX_class@: NXfabrication
           vendor: "NA"
@@ -208,7 +208,7 @@ entry/:
           kinetic_energy: NaN # Kinetic energy values
           relative_intensity: NaN # Relative transmission efficiency for the given kinetic energies
     geometries/:
-      NX_class@: NXcoordinate_system_set
+      NX_class@: NXcoordinate_system
       doc: "NA" # Description of one or more coordinate systems that are specific to the setup and the measurement geometry.
     sample/:
       NX_class@: NXsample
