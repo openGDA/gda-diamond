@@ -310,6 +310,14 @@
 									</bean>
 								</list>
 						</entry>
+								<entry key="75">
+									<list>
+										<bean class="uk.ac.diamond.daq.pes.api.EnergyRange">
+										<constructor-arg><description>MinKE</description><value>15</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>1055</value></constructor-arg>
+									</bean>
+								</list>
+						</entry>
 								<entry key="100">
 									<list>
 										<bean class="uk.ac.diamond.daq.pes.api.EnergyRange">
@@ -367,6 +375,14 @@
 										<bean class="uk.ac.diamond.daq.pes.api.EnergyRange">
 										<constructor-arg><description>MinKE</description><value>18</value></constructor-arg>
 										<constructor-arg><description>MaxKE</description><value>855</value></constructor-arg>
+									</bean>
+								</list>
+						</entry>
+								<entry key="75">
+									<list>
+										<bean class="uk.ac.diamond.daq.pes.api.EnergyRange">
+										<constructor-arg><description>MinKE</description><value>26</value></constructor-arg>
+										<constructor-arg><description>MaxKE</description><value>900</value></constructor-arg>
 									</bean>
 								</list>
 						</entry>
