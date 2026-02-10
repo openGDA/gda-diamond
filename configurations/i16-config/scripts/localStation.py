@@ -874,6 +874,7 @@ if USE_PIL3:
 			pil = pil3_100k  # @UnusedVariable
 		pil3_geometry = GeometryScannable('pil3_geometry', 'pil3_100k', '/dls_sw/i16/scripts/detector_calibration/geometry_pil3_100k.xml')
 		pil3_geometry.updatePosition()
+		from scannable.pilatus import pil3_100kthresh, pil3_100kgain # @UnusedImport
 		# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
 		# as scans will fail with an inobvious error message if not
 	else:
