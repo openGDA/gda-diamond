@@ -1,7 +1,9 @@
 from gda.device.scannable import ScannableBase
 from gda.device.detector.areadetector.v17.ADDriverPilatus import Gain
+from gdaserver import kphiZebraPil3 # @UnresolvedImport
+
 class PilatusThreshold(ScannableBase):
-    
+
     def __init__(self, name, adDriverPilatus):
         self.name = name
         self.inputNames = [name + '_keV']
@@ -19,7 +21,7 @@ class PilatusThreshold(ScannableBase):
 
 
 class PilatusGain(ScannableBase):
-    
+
     def __init__(self, name, adDriverPilatus):
         self.name = name
         self.inputNames = [name]
@@ -40,12 +42,15 @@ class PilatusGain(ScannableBase):
 
     def getPosition(self):
         return int(self.adDriverPilatus.getGain().ordinal())
-    
+
     def __str__(self):
         return self.__repr__()
-    
+
     def __repr__(self):
         gainNumber = self.getPosition()
         gainEnum = Gain.values()[gainNumber]
         result = self.name + ' : ' + str(gainNumber) + ' (' + str(gainEnum) + ')'
         return result
+
+pil3_100kthresh = PilatusThreshold('pil3_100kthresh', kphiZebraPil3.getCollectionStrategy().getAdDriverPilatus())
+pil3_100kgain = PilatusGain('pil3_100kgain', kphiZebraPil3.getCollectionStrategy().getAdDriverPilatus())
