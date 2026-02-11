@@ -2,14 +2,11 @@
 <beamlinestaff>
 	<!-- beamline staff -->
 	<b21user>3</b21user>
-	<njt78>3</njt78>
-	<lsd43>3</lsd43>
-	<tyz49132>3</tyz49132>
-	<zbs27213>3</zbs27213>
-	<vdf31527>3</vdf31527>
-	<ckn54496>3</ckn54496>
+	<b21dev>1</b21dev>
+	<vdf31527>3</vdf31527> <!--  Katsuaki Inoue  -->
+	<wxx81772>3</wxx81772> <!--  Barbara Gerbelli  -->
+	<rvv47355>3</rvv47355> <!--  Nikul Khunti  -->
+	<xaf46449>3</xaf46449> <!--  Nathan Cowieson  -->
 	<!-- data acq -->
-	<zjt21856>4</zjt21856>
-	<tjs15132>3</tjs15132>
-        <sgj38332>3</sgj38332>
+	<ffv81422>3</ffv81422> <!--  Dominic Oram -->
 </beamlinestaff>
