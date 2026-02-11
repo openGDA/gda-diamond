@@ -194,6 +194,8 @@
 				<value>sample_name</value>
 				<!-- Analyser Rotation -->
 				<value>anapolar</value>
+				<!-- Pressure Monitor -->
+				<value>ac_pressure</value>
 			</set>
 		</property>
 	</bean>
