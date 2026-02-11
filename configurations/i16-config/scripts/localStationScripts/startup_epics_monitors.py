@@ -42,10 +42,10 @@ diag1=DisplayEpicsPVClass('diag1','SR15C-DI-EBPM-07:SA:Y','mm','%6f')
 diag2=DisplayEpicsPVClass('diag2','SR16C-DI-EBPM-07:SA:Y','mm','%6f')
 diag3=DisplayEpicsPVClass('diag3','SR17C-DI-EBPM-07:SA:Y','mm','%6f')
 
-hrcxp=DisplayEpicsPVClass('hirescam_xpos','BL16I-DI-DCAM-01:CAM:XP', 'pixels', '%.4f') 
-hrcyp=DisplayEpicsPVClass('hirescam_ypos','BL16I-DI-DCAM-01:CAM:YP', 'pixels', '%.4f') 
-hrcxw=DisplayEpicsPVClass('hirescam_xwidth','BL16I-DI-DCAM-01:CAM:XW', 'pixels', '%.4f') 
-hrcyw=DisplayEpicsPVClass('hirescam_ywidth','BL16I-DI-DCAM-01:CAM:YW', 'pixels', '%.4f') 
+hrcxp=DisplayEpicsPVClass('hirescam_xpos','BL16I-DI-DCAM-01:CAM:XP', 'pixels', '%.4f')
+hrcyp=DisplayEpicsPVClass('hirescam_ypos','BL16I-DI-DCAM-01:CAM:YP', 'pixels', '%.4f')
+hrcxw=DisplayEpicsPVClass('hirescam_xwidth','BL16I-DI-DCAM-01:CAM:XW', 'pixels', '%.4f')
+hrcyw=DisplayEpicsPVClass('hirescam_ywidth','BL16I-DI-DCAM-01:CAM:YW', 'pixels', '%.4f')
 
 d3cyp=DisplayEpicsPVClass('d3_ypos','BL16I-DI-PHDGN-03:CAM:YP', 'pixels', '%.4f')
 d3cxp=DisplayEpicsPVClass('d3_xpos','BL16I-DI-PHDGN-03:CAM:XP', 'pixels', '%.4f')
@@ -57,7 +57,7 @@ d5cxw=DisplayEpicsPVClass('d5_xwidth','BL16I-DI-PHDGN-05:CAM:XW', 'pixels', '%.4
 d5cyw=DisplayEpicsPVClass('d5_ywidth','BL16I-DI-PHDGN-05:CAM:YW', 'pixels', '%.4f')
 
 # 01/09/08 comment out temporarily as pv not working
-#k2xp=DisplayEpicsPVClass('k2_xpos','BL16I-DI-DCAM-02:XP', 'pixels', '%.4f') 
+#k2xp=DisplayEpicsPVClass('k2_xpos','BL16I-DI-DCAM-02:XP', 'pixels', '%.4f')
 
 #heater=DisplayEpicsPVClass('heater','BL16I-EA-LS340-01:HTR', '%', '%.2f')
 
@@ -74,19 +74,18 @@ BPM2XR=DisplayEpicsPVClass('BPM2XR','FE16I-DI-PBPM-02:BEAMX', 'mm', '%.4f')	#PBP
 BPM2YR=DisplayEpicsPVClass('BPM2YR','FE16I-DI-PBPM-02:BEAMY', 'mm', '%.4f')	#PBPM2 y-relative
 
 m1piezo_readback=DisplayEpicsPVClass('m1piezo_readback','BL16I-OP-VFM-01:PIEZO:FBACK','V','%.3f')
-
-showkphi=DisplayEpicsPVClass('kphi_','BL16I-MO-DIFF-01:SAMPLE:KPHI.RBV', 'deg', '%.5f')
-showkap=DisplayEpicsPVClass('kap_','BL16I-MO-DIFF-01:SAMPLE:KAPPA.RBV', 'deg', '%.5f')
-showkth=DisplayEpicsPVClass('kth_','BL16I-MO-DIFF-01:SAMPLE:KTHETA.RBV', 'deg', '%.5f')
-showmu=DisplayEpicsPVClass('mu_','BL16I-MO-DIFF-01:SAMPLE:MU.RBV', 'deg', '%.5f')
-showdelta=DisplayEpicsPVClass('delta_','BL16I-MO-DIFF-01:ARM:DELTA.RBV', 'deg', '%.5f')
-showgam=DisplayEpicsPVClass('gam_','BL16I-MO-DIFF-01:ARM:GAMMA.RBV', 'deg', '%.5f')
-showkap6=ReadPDGroupClass('showkap6',[showkphi,showkap,showkth, showmu, showdelta, showgam])
-
 blower_temp_c=DisplayEpicsPVClass('cyberstar_gas_blower_temp','BL16I-EA-BLOW-01:LOOP1:PV:RBV', 'C', '%.1f')
 
 import installation
 if installation.isLive():
+	showkphi=DisplayEpicsPVClass('kphi_','BL16I-MO-DIFF-01:SAMPLE:KPHI.RBV', 'deg', '%.5f')
+	showkap=DisplayEpicsPVClass('kap_','BL16I-MO-DIFF-01:SAMPLE:KAPPA.RBV', 'deg', '%.5f')
+	showkth=DisplayEpicsPVClass('kth_','BL16I-MO-DIFF-01:SAMPLE:KTHETA.RBV', 'deg', '%.5f')
+	showmu=DisplayEpicsPVClass('mu_','BL16I-MO-DIFF-01:SAMPLE:MU.RBV', 'deg', '%.5f')
+	showdelta=DisplayEpicsPVClass('delta_','BL16I-MO-DIFF-01:ARM:DELTA.RBV', 'deg', '%.5f')
+	showgam=DisplayEpicsPVClass('gam_','BL16I-MO-DIFF-01:ARM:GAMMA.RBV', 'deg', '%.5f')
+	showkap6=ReadPDGroupClass('showkap6',[showkphi,showkap,showkth, showmu, showdelta, showgam])
+
 	from localStationScripts.phase_plate_motor_temp_monitor import PhasePlateTempMonitor, MotorTempMonitor
 	ppchitemp=MotorTempMonitor('ppchitemp', 'BL16I-OP-PPR-01:CHI',      'deg', '%.9e'); ppchitemp.setLevel(9)
 	ppth1temp=MotorTempMonitor('ppth1temp', 'BL16I-OP-PPR-01:S1:THETA', 'deg', '%.9e'); ppth1temp.setLevel(9)
@@ -96,6 +95,8 @@ if installation.isLive():
 	pptTempMonitor = PhasePlateTempMonitor('pptTempMonitor')
 	pptTempMonitor.addMotor(ppchitemp); pptTempMonitor.addMotor(ppth1temp); pptTempMonitor.addMotor(ppz1temp); pptTempMonitor.addMotor(ppth2temp); pptTempMonitor.addMotor(ppz2temp)
 else:
+	from gdaserver import sixckappa
+	showkap6=sixckappa
 	ppchitemp=DummyPD('ppchitemp') ; ppchitemp.Units=['deg'], ppchitemp.setOutputFormat(['%.9e']); ppchitemp.setLevel(9)
 	ppth1temp=DummyPD('ppth1temp') ; ppth1temp.Units=['deg']; ppth1temp.setOutputFormat(['%.9e']); ppth1temp.setLevel(9)
 	ppz1temp =DummyPD('ppz1temp')  ;  ppz1temp.Units=['deg'];  ppz1temp.setOutputFormat(['%.9e']);  ppz1temp.setLevel(9)
