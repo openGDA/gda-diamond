@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- 	<bean id="medipixAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+	<bean id="medipixAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="medipix" />
 		<property name="childNodes">
 			<list>
@@ -47,11 +47,11 @@
 								<property name="name" value="mode"/>
 								<property name="value" value="24 bit"/><!-- there is no BL06I-EA-DET-02:CAM:QuadMerlinMode PV in ADSIM -->
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="24bit"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="CRW_mode"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="Disabled"/>
 							</bean>
@@ -88,33 +88,33 @@
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
 							</bean>
 							<!-- medipix specific PVs -they are not in ADSIM thus use ScalarField -->
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="gain_mode"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file_name"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FileName_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FullFileName_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="equalization_files"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:EqFilePath_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="threshold_energy_0"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="x_inversion"/>
-								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI:ReverseX"/>
+								<property name="scannableName" value="x_inversion"/>
 							</bean>
 						</list>
 					</property>
@@ -123,7 +123,7 @@
 		</property>
 	</bean>
 
- 	<bean id="mpxAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+	<bean id="mpxAppender" class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
 		<property name="name" value="mpx" />
 		<property name="childNodes">
 			<list>
@@ -162,11 +162,11 @@
 								<property name="name" value="image_mode"/>
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ImageMode"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="pixel_depth"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="24bit"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="CRW_mode"/> <!-- there is no bit_depth PV in ADSIM -->
 								<property name="value" value="Disabled"/>
 							</bean>
@@ -203,33 +203,33 @@
 								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:ArraySizeY_RBV"/>
 							</bean>
 							<!-- medipix specific PVs -they are not in ADSIM thus use ScalarField -->
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="gain_mode"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file_name"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FileName_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="configuration_file"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:FullFileName_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="equalization_files"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:EqFilePath_RBV"/>
 							</bean>
-	 						<bean class="org.eclipse.scanning.device.ScalarField">
+							<bean class="org.eclipse.scanning.device.ScalarField">
 								<property name="name" value="threshold_energy_0"/>
 								<property name="value" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="x_inversion"/>
-								<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI:ReverseX"/>
+								<property name="scannableName" value="x_inversion"/>
 							</bean>
 						</list>
 					</property>
