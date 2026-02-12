@@ -47,11 +47,11 @@
 								<property name="name" value="mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:QuadMerlinMode"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="pixel_depth"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:CounterDepth_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="CRW_mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ContinuousRW_RBV"/>
 							</bean>
@@ -63,57 +63,57 @@
 								<property name="name" value="sensor_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MaxSizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="gain_mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file_name"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FileName_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FullFileName_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="equalization_files"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:EqFilePath_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="threshold_energy_0"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="x_inversion"/>
-								<property name="pvName" value="BL06I-EA-DET-02:ROI:ReverseX"/>
+								<property name="scannableName" value="x_inversion"/>
 							</bean>
 						</list>
 					</property>
@@ -161,11 +161,11 @@
 								<property name="name" value="image_mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ImageMode"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="pixel_depth"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:CounterDepth_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="CRW_mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ContinuousRW_RBV"/>
 							</bean>
@@ -177,58 +177,59 @@
 								<property name="name" value="sensor_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MaxSizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_start_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:MinY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="region_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:SizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_x"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeX_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="image_size_y"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ArraySizeY_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="gain_mode"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:GainMode_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file_path"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FilePath_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file_name"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FileName_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="configuration_file"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:FullFileName_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="equalization_files"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:EqFilePath_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
 								<property name="name" value="threshold_energy_0"/>
 								<property name="pvName" value="BL06I-EA-DET-02:CAM:ThresholdEnergy0_RBV"/>
 							</bean>
-	 						<bean class="uk.ac.gda.epics.nexus.device.ProcessingVariableField">
+							<bean class="org.eclipse.scanning.device.ScannableField">
 								<property name="name" value="x_inversion"/>
-								<property name="pvName" value="BL06I-EA-DET-02:ROI:ReverseX"/>
+								<property name="scannableName" value="x_inversion"/>
 							</bean>
+
 						</list>
 					</property>
 				</bean>
