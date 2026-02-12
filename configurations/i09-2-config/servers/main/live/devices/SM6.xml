@@ -5,6 +5,7 @@
 
 	<bean id="sm6fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
 		<property name="pvName" value="BL09K-MO-SM-06:FPITCH" />
+		<property name="reduceExcessiveReadyLogs" value="true"/>
 	</bean>
 	<bean id="sm6iamp27" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL09K-MO-SM-06:IAMP27" />

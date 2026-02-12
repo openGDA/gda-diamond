@@ -23,5 +23,6 @@
 	</bean>
 	<bean id="sm3fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
 		<property name="pvName" value="BL09J-MO-SM-03:FPITCH" />
+		<property name="reduceExcessiveReadyLogs" value="true"/>
 	</bean>
 </beans>
