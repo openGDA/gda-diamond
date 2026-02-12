@@ -868,7 +868,7 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		return outputlist
 
 	def getFilteredPosition(self):
-		filtered_readout = self.applyFilter(list(self.readout()), self.low-1.0, self.high+1.0, self.keyChannel-1)
+		filtered_readout = self.applyFilter(list(self.readout()), self.low-1.0, self.high+2.0, self.keyChannel-1)
 		result_list = [self.readPointer] #The index
 		result_list.extend(filtered_readout) # the readout		
 		result_java_array = jarray.array(result_list, 'd')
@@ -876,8 +876,8 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 
 # DetectorBase Implementation
 	def getPosition(self):
-#		return self.getUnFilteredPosition()
-		return self.getFilteredPosition()
+		return self.getUnFilteredPosition()
+#		return self.getFilteredPosition()
 
 	def asynchronousMoveTo(self,newPosition):
 		self.readPointer = int(newPosition);
