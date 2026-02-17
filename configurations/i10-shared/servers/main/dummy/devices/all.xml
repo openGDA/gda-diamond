@@ -21,6 +21,7 @@
 	<import resource="../../_common/scannable/M3M5.xml" />
 	<import resource="CA1.xml" />
 	<import resource="Zebra.xml" />
+	<import resource="SCALER2.xml" />
 	<!-- 	<import resource="xmap_detector.xml"/> -->
 	<import resource="Halbach.xml"/>
 </beans>

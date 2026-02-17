@@ -3,7 +3,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- for all end stations -->
 	<import resource="RASOR-SCALER1.xml" />
-	<import resource="SCALER2.xml" />
 	<import resource="Shutter1.xml" />
 	<import resource="accessControl4I.xml" />
 	<import resource="D4.xml" />
