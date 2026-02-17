@@ -21,6 +21,7 @@
 	<import resource="D3.xml"/>
 <!-- replace M1 haxpod control by position compare script -->
 <!-- 	<import resource="M3M5.xml"/> -->
+	<import resource="SCALER2.xml" />
 	<import resource="CA1.xml"/>
 	<import resource="Zebra.xml" />
 	<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
