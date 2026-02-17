@@ -39,6 +39,7 @@ ionc2.setOutputFormat([u'%20.12e'])
 #The Struct Scaler Card
 from Diamond.PseudoDevices.StruckScaler import StructScalerGdaClass, StructScalerGdaChannelClass;
 from Diamond.PseudoDevices.Scaler8512DirectPV import ScalerChannelEpicsPVClass;
+from gdaserver import struck1
 
 eh1sc = StructScalerGdaClass("eh1sc", struck1);
 

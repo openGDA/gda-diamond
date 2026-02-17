@@ -3,6 +3,7 @@
 from Diamond.PseudoDevices.FilterBank import EpicsFilter, FilterSet;
 from gda.device.scannable import DummyScannable
 from gdascripts.installation import isLive
+from gdaserver import dcm1energy # @UnresolvedImport
 
 if isLive():
 	

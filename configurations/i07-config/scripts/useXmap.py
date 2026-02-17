@@ -14,7 +14,6 @@ def setRequiredXmapPVs(max_e, binning):
 	except:
 		print "WARNING: Could not ensure xmapMca settings are correct"
 
-
 enable_nexus()
 
 setRequiredXmapPVs(max_e = 20.48, binning=2048)

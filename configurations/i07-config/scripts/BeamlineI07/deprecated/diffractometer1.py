@@ -10,15 +10,15 @@ from Diamond.PseudoDevices.DiffractometerDevices import DiffractometerModeClass,
 	mode in "Horizontal" or 0:
 		alpha = diff1halpha;
 		delta = diff1vgamma;
-		gamma = diff1vdelta; 
+		gamma = diff1vdelta;
 		omega = diff1homega;
 		chi = diff1cchi;
 		phi = diff1cphi;
-		
+
 	mode in "Vertical" or 1:
 		alpha = diff1valpha;
 		delta = diff1vdelta;
-		gamma = diff1vgamma; 
+		gamma = diff1vgamma;
 		omega = diff1vomega;
 		chi = diff1cchi;
 		phi = diff1cphi;
@@ -26,7 +26,7 @@ from Diamond.PseudoDevices.DiffractometerDevices import DiffractometerModeClass,
 	mode in "Dummy" or 2:
 		alpha = dummyAlpha;
 		delta = dummyDelta;
-		gamma = dummyGamma; 
+		gamma = dummyGamma;
 		omega = dummyOmega;
 		chi = dummyChi;
 		phi = dummyPhi;
@@ -62,5 +62,5 @@ print "Diffractometer1 setup using DiffCalc"
 # Currently configured to create dummy axes alpha, delta, gamma, omega, chi, phi.
 #execfile(gdaScriptDir + "BeamlineI07/sixcircle_dummy.py");
 
-execfile(gdaScriptDir + "BeamlineI07/sixcircle_i07.py");
+try_execfile("BeamlineI07/sixcircle_i07.py");
 #execfile(gdaScriptDir + "BeamlineI07/sixcircle_dummy.py");

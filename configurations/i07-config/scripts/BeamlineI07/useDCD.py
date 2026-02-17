@@ -1,7 +1,7 @@
 
 from Diamond.PseudoDevices.ReflectivityDevices import DoubleCrystalDeflectorClass, DoubleCrystalDeflectorMonitorClass, MomentumTransferDeviceClass, ThetaXClass;
 from gda.device.scannable import DummyScannable
-
+from gdaserver import dcm1lambda, diff1vdelta, dcdomega, diff1vgamma # @UnresolvedImport
 #Example:
 motorWavelength, motorTheta, motorOmega, motorGamma = dcm1lambda, diff1vdelta, dcdomega, diff1vgamma;
 

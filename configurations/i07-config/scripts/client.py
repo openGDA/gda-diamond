@@ -9,24 +9,18 @@ from time import ctime;
 
 from gda.configuration.properties import LocalProperties;
 
-	
-# Get the locatation of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
-
 # Get the location of the USERS script directory
 userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
-	
-try:	
+
+try:
 	print
 	print "===================================================================";
 	clientStartTime=ctime();
 	print "The latest client was started at: " + clientStartTime;
-	
-#	execfile(gdaScriptDir + "BeamlineI07/useMotors.py");
+
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  Client script Error"
 	logger.dump("---> ", exceptionType, exception, traceback)
-	
 
 print "==================================================================="; print; print;

@@ -12,7 +12,7 @@ if diffmode == "eh1h":
 elif diffmode == "eh1v":
 	sgam = Virtual6CircleCompositeMotor('sgam', diff1theta, diff1gamma,  diff1delta, 'verticalVirtualGamma')
 	sdel = Virtual6CircleCompositeMotor('sdel', diff1theta, diff1gamma,  diff1delta, 'verticalVirtualDelta')
-elif diffmode == "eh2":
+else : # diffmode == "eh2"
 	sgam = Virtual6CircleCompositeMotor('sgam', diff2alpha, diff2gamma,  diff2delta, 'verticalVirtualGamma')
 	sdel = Virtual6CircleCompositeMotor('sdel', diff2alpha, diff2gamma,  diff2delta, 'verticalVirtualDelta')
 

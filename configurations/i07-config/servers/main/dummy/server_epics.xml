@@ -1,12 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
+
     <!--  ============================== Epics Eurotherm Devices ============== -->
 
        <!-- Controller 1 Three loops -->
 
-    <bean id="temp11" class="gda.device.temperature.DummyTemp"> 
+    <bean id="temp11" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
@@ -94,7 +94,7 @@
     <!--  ============================== Epics MCA ============== -->
     <bean id="mca1" class="gda.device.detector.DummyDetector">
     </bean>
-    
+
     <!--  ============================== Epics Scaler ============== -->
     <bean id="struck1" class="gda.device.detector.DummyDetector">
         <!-- <property name="frequency" value="50000000"/>-->
@@ -124,7 +124,7 @@
     </bean>
 
     <bean id="qbpm2range" class="gda.device.monitor.DummyMonitor" />
-    
+
     <!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -136,7 +136,7 @@
     </bean>
 
     <bean id="qbpm3range" class="gda.device.monitor.DummyMonitor" />
-    
+
     <!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs1qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
@@ -172,25 +172,25 @@
     </bean>
 
     <bean id="mbs3qbpmrange" class="gda.device.monitor.DummyMonitor" />
-    
+
     <!--  ==================== Single Channel Current Amplifier definition section ===================== -->
     <!-- D1 Current Amplifier-->
-<!--    
+<!--
     <bean id="d1ca" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
     </bean>
 -->
-    
+
     <!-- D4 Inline Current Amplifier-->
-<!--    
+<!--
     <bean id="d4ca1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
     </bean>
--->    
-    
+-->
+
     <!-- D4 Scatter Current Amplifier-->
-<!--    
+<!--
     <bean id="d4ca2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
     </bean>
--->    
+-->
     <!--  ==================== Quadra Current Amplifier definition section ===================== -->
     <!-- Ion Chamber Quadra Current Amplifier-->
     <bean id="adcqca1" class="gda.device.enumpositioner.DummyEnumPositioner"/>
@@ -235,7 +235,7 @@
     <bean id="vfmstripe" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <!--  ============================== Epics Control Point definition section ============== -->
-    
+
     <!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
     <bean id="dac1" class="gda.device.controlpoint.DummyControlPoint"/>
 
@@ -292,14 +292,14 @@
     <bean id="dcdc2" class="gda.device.monitor.DummyEpicsMonitor"/>
 
     <!--Hexapod 1 Pivot values-->
-<!--    
+<!--
     <bean id="hex1pivotx" class="gda.device.monitor.DummyEpicsMonitor">
     </bean>
     <bean id="hex1pivoty" class="gda.device.monitor.DummyEpicsMonitor">
     </bean>
     <bean id="hex1pivotz" class="gda.device.monitor.DummyEpicsMonitor">
     </bean>
--->    
+-->
     <!-- GB1 Temperature 1 -->
     <bean id="gb1t1" class="gda.device.monitor.DummyEpicsMonitor"/>
 
@@ -423,7 +423,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
     <bean id="SHUTTERS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -436,7 +436,7 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
+
 
     <!--  ============================== EPICS Motor definition section ============================== -->
     <!-- ID Motors -->
@@ -765,6 +765,9 @@
 
     <bean id="syringerightvalve" class="gda.device.scannable.DummyScannable" />
 
-    <bean id="fatt" class="gda.device.scannable.DummyScannable" />
+    <bean id="fatt" class="gda.device.scannable.DummyScannable" >
+        <property name="name" value="fatt" />
+        <property name="inputNames" value="fatt" />
+    </bean>
 
 </beans>

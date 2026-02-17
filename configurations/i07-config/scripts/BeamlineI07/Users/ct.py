@@ -1,8 +1,7 @@
-from gda.device.detector import NXDetectorDataWithFilepathForSrs
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
 from gdascripts.installation import isLive
-from gdaserver import exc_pva, eig_pva, excalibur_stats_verbose, eiger_stats_verbose, ex_mask, ei_mask
+from gdaserver import exc_pva, eig_pva, excalibur_stats_verbose, eiger_stats_verbose, ex_mask, ei_mask, fastshutter as fs
 from threading import Timer
 
 # PVA snapper
@@ -22,7 +21,7 @@ def ct(ct_time = 0):
 
 	def ct_select_atten():
 		caput("BL07I-EA-EXCBR-01:CAM:PausePolling", "1")
-		# set single shot mode	
+		# set single shot mode
 		caput('BL07I-OP-FILT-01:MODE', 'MANUAL')
 		sleep(0.2)
 		caput('BL07I-OP-FILT-01:MODE', 'SINGLESHOT')

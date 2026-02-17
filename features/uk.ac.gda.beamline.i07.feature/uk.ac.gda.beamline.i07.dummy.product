@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.dummy.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="9.41.0" useFeatures="true" includeLaunchers="true" autoIncludeRequirements="true">
+<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.dummy.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="9.41.0" type="features" includeLaunchers="true" autoIncludeRequirements="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -23,6 +23,8 @@ http://www.opengda.org
       <vmArgs>-Xms128m
 -Xmx1024m
 -Dgda.config=${project_loc:i07-config}
+-Dgda.mode=dummy
+-Drun.in.eclipse=false
       </vmArgs>
       <vmArgsLin>-XX:MaxHeapFreeRatio=70
 -XX:+DisableExplicitGC
@@ -32,8 +34,6 @@ http://www.opengda.org
       </vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
-      <vmArgsWin>
-      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>

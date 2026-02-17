@@ -1,3 +1,4 @@
+
 def troughReset():
     global trough, troughArea, troughSpeed, troughPressure
     if 'trough' in globals():

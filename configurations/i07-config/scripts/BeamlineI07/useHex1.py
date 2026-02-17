@@ -4,6 +4,7 @@ from time import sleep;
 from Diamond.Objects.EpicsPv import EpicsButtonClass
 from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
 from Diamond.PseudoDevices.HexapodPivot import HexapodPivotDeviceClass;
+from gdaserver import HEX1, hex1x, hex1y, hex1z # @UnresolvedImport
 
 pvNamePivotX = "BL07I-MO-HEX-01:PIVOT:X"
 pvNamePivotY = "BL07I-MO-HEX-01:PIVOT:Y"
