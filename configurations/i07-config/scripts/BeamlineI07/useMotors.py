@@ -22,16 +22,14 @@ from gda.device.scannable import ScannableBase
 
 class ScaledVirtualMotor(ScannableBase):
     """
-    Wrapper for ScannableMotor which scales the value by a fixed (settable) amount.
+    Wrapper for ScannableMotor which scales the value by a fixed (settable) amount and applies an (unscaled) offset.
     """
 
     def __init__(self, name, gda_motor):
         self.setName(name)
         self.setRealMotor(gda_motor)
         self.scale_factor = 1.0
-
-    def rawAsynchronousMoveTo(self, posn):
-        self.real_motor.rawAsynchronousMoveTo(posn / self.scale_factor)
+        self.offset = 0.0
 
     def setRealMotor(self, motor):
         self.real_motor = motor
@@ -42,8 +40,21 @@ class ScaledVirtualMotor(ScannableBase):
     def getScaleFactor(self):
         return self.scale_factor
 
+    def setOffset(self, new_offset):
+        self.offset = new_offset
+
+    def getOffset(self):
+        return self.offset
+
+    def zeroPosition(self):
+        print("Offsetting thv so that the current position of the real motor is thv=zero.")
+        self.setOffset(self.real_motor.getPosition())
+
+    def rawAsynchronousMoveTo(self, posn):
+        self.real_motor.rawAsynchronousMoveTo((posn / self.scale_factor) + self.offset)
+
     def getPosition(self):
-        return self.real_motor.getPosition() * self.scale_factor
+        return (self.real_motor.getPosition() - self.offset) * self.scale_factor
 
     def isBusy(self):
         return self.real_motor.isBusy()

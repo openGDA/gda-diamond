@@ -1,12 +1,15 @@
 from gda.device.scannable import ScannableMotor
 from gda.jython.commands.GeneralCommands import alias
 from gda.device.scannable.scannablegroup import CoordinatedChildScannableMotionUnits
-from gda.device.scannable.scannablegroup import CoordinatedChildScannableMotor
+from BeamlineI07.useMotors import thv
 
 def setpos(motor, newpos):
 	if (type(newpos) != int and type(newpos) != float):
 		raise TypeError('Position must be given a value')
-	if (isinstance(motor, ScannableMotor)):
+	if(isinstance(motor, thv.__class__)) :
+		motor.setOffset(motor.real_motor.getPosition() - (newpos/motor.getScaleFactor()))
+		print "Offset changed"
+	elif (isinstance(motor, ScannableMotor)):
 		motor.setPosition(float(newpos))
 		print "Offset changed"
 	elif (isinstance(motor, CoordinatedChildScannableMotionUnits)):
@@ -29,7 +32,5 @@ def setpos(motor, newpos):
 			inc(offsetscannable, float(newpos)-oldpos)
 	else:
 		raise TypeError('Not a scannable')
-
-	
 
 alias("setpos")
