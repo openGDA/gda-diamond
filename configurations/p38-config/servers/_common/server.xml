@@ -13,7 +13,4 @@
     <import resource="datawriter.xml" />
     <import resource="terminal_logger.xml"/>
 
-	<!-- GDA REST Server -->
-	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
-
 </beans>
