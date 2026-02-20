@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="vici_valve_1" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL21B-EA-GIR-01:VALVE1:POSN" />
+	</bean>
+
+	<bean id="vici_valve_2" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL21B-EA-GIR-01:VALVE2:POSN" />
+	</bean>
+
+</beans>

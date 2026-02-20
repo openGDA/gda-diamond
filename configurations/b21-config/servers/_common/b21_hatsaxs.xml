@@ -49,6 +49,13 @@
 			<ref bean="hplcPlate" />
 		</property>
 		<property name="availableCapillaries" value="KW402.5,KW403,KW404,KW405,S200,Superose6,Other"/>
+		<property name="viciValves">
+			<list>
+				<ref bean="vici_valve_1" />
+				<ref bean="vici_valve_2" />
+			</list>
+		</property>
+		<property name="useEpicsValves" value="false"/>
 	</bean>
 	<bean id="hplcPlate" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="I"/>

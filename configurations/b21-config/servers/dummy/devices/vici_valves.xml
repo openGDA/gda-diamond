@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="vici_valve_1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Sep300</value>
+				<value>KW402.5</value>
+				<value>S200</value>
+				<value>Sup6</value>
+				<value>Guest1</value>
+				<value>Bypass1</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="vici_valve_2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>KW403</value>
+				<value>KW402.5</value>
+				<value>S200</value>
+				<value>Sep500</value>
+				<value>Guest2</value>
+				<value>Bypass2</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
