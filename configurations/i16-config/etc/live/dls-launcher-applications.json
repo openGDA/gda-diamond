@@ -25,6 +25,13 @@
             },
             {
                 "type": "button",
+                "text": "Bonsu",
+                "args": "-c 'module load bonsu; bonsu'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/bonsu/3.7.1/lib/python3.12/site-packages/bonsu/image/bonsu.ico"
+            },
+            {
+                "type": "button",
                 "text": "MMG DataViewer",
                 "args": "-c 'module load mmg && python -m mmg_toolbox gui'",
                 "command": "/usr/bin/env bash",
