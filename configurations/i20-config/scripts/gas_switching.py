@@ -1,6 +1,7 @@
 from uk.ac.gda.server.exafs.epics.device.scannable import QexafsTestingScannable
 from test.test_contains import seq
 from gda.device.detector.nxdetector import BufferedNXDetector
+from gda.device.detector.countertimer import BufferedScaler
 
 from gda.device.motor import DummyMotor
 from gda.device.scannable import ScannableMotor
@@ -46,7 +47,7 @@ def continuous_scan(num_points, time_per_point, *detectors) :
     
     total scan duration = num_points*time_per_point = num_points*(live time + dead time )
     """
-    qexafs_ionchambers = qexafs_I1
+    qexafs_ionchambers = buffered_scaler # qexafs_I1
     
     if detectors is None:
         dets = []
@@ -61,9 +62,9 @@ def continuous_scan(num_points, time_per_point, *detectors) :
     
     # Set the collection time on each detector to match the live time
     # (this shouldn't make a difference if hardware trigger length determines frame length)
-    #for d in detectors : 
-    #    if isinstance(d, BufferedNXDetector) :
-    #        d.getCollectionStrategy().setCollectionTime(frame_live_time)
+    for d in detectors : 
+        if isinstance(d, BufferedNXDetector) :
+            d.getCollectionStrategy().setCollectionTime(0.001)
     # 4/2/2/2025 : this causes problems for subsequent medipix step scans with tfg if time per point is < collectionStrategy.collectionTime 
     # Symptom is scan waits forever for when waiting for first point, frame counter never increment.
     # --> to avoid problems, make collectionTime < typical time per point (default is 0.1 sec for medipix)
@@ -100,7 +101,7 @@ def reset_valves() :
     """
     switch_valve_positions([3])
 
-def switch_valve_positions(usr_outputs_list, pulse_length=0.01) :
+def switch_valve_positions(usr_outputs_list, pulse_length=0.01, pulse_gap=0.0) :
     """ 
     Send series of pulses on usr output ports of Tfg. Each pulse has same length
     Parameters :
@@ -109,7 +110,7 @@ def switch_valve_positions(usr_outputs_list, pulse_length=0.01) :
     """
     group="tfg setup-groups\n1 0.0000000 0.0 0 0 0 0\n"
     start_tfg = "-1 0 0 0 0 0 0\ntfg arm\ntfg start\n"
-    triggers=get_tfg_pulse_triggers(usr_outputs_list, pulse_length)
+    triggers=get_tfg_pulse_triggers(usr_outputs_list, pulse_length, pulse_gap)
 
     DAServer.sendCommand(group+triggers+start_tfg)
 
@@ -132,6 +133,10 @@ class TfgTriggerPreparer(ScannableBase):
         self.sequence = None
         self.buffered_scaler = None
         self.pausetime_after_switch = 0.0
+        self.allow_reset = False
+        self.pulse_length = 0.01
+        self.pulse_gap =0.0
+        
 
 
     def atScanStart(self):
@@ -144,6 +149,8 @@ class TfgTriggerPreparer(ScannableBase):
         self.reset()
           
     def reset(self) :
+        if not self.allow_reset:
+            return
         print("Sending command to reset valve state")
         reset_valves()
         self.first_after_reset = True
@@ -165,7 +172,7 @@ class TfgTriggerPreparer(ScannableBase):
             if self.first_after_reset :
                 seq = self.sequences["initial"]
                 
-            pulse_commands = get_tfg_pulse_triggers(seq)
+            pulse_commands = get_tfg_pulse_triggers(seq, self.pulse_length, self.pulse_gap)
             
             #insert gap after switching
             if float(self.pausetime_after_switch) > 0.0 :
@@ -182,13 +189,90 @@ class TfgTriggerPreparer(ScannableBase):
     def isBusy(self):
         return False
 
+from gda.device.detector.countertimer import BufferedScaler
+class CustomBufferedScaler(BufferedScaler) :
+    
+    def __init__(self, buf_scaler) :
+        super(CustomBufferedScaler, self).__init__()
+        self.setup(buf_scaler)
+        self.offset=0
+        self.frame_readout_offset = 0
+        self.frame_trigger_usr_port = 4
+    
+    def getFrameReadoutOffset(self):
+        return 4
+
+        # Setup by copying the various fields from another BufferedScaler
+    def setup(self, buf_scaler): 
+        self.setExtraNames(buf_scaler.getExtraNames())
+        self.setOutputFormat(buf_scaler.getOutputFormat())
+        self.setScaler(buf_scaler.getScaler())
+        self.setTimer(buf_scaler.getTimer())
+        self.setTimeChannelRequired(buf_scaler.isTimeChannelRequired())
+        self.setDarkCurrentRequired(buf_scaler.isDarkCurrentRequired())
+        self.setOutputLogValues(buf_scaler.isOutputLogValues())
+        self.setTFGv2(buf_scaler.isTFGv2())
+        self.setNumChannelsToRead(buf_scaler.getNumChannelsToRead())
+        self.setTtlSocket(buf_scaler.getTtlSocket())
+        self.setDaserver(buf_scaler.getDaserver())
+        self.setFirstDataChannel(buf_scaler.getFirstDataChannel()) #very important - to start reading data at correct channel for I1!
+    
+    #Override readoutFrames in TfgScaler, readout frames with offset
+    def readFrames(self, start_frame, final_frame):
+        offset = self.getFrameReadoutOffset()
+        # print("Readout : {} - {} , {}".format(start_frame, final_frame, offset))
+        return super(CustomBufferedScaler,self).readFrames(start_frame + offset, final_frame+offset)
+    
+    # Make frame command with 
+    def getFrameDaServerCommand(self, num_frames, total_time, external_trigger_frames):
+        live_time = total_time / num_frames
+        command = "%d %.4g %.4g 0 %d 0 0 \n"%(num_frames, self.frameDeadTime, live_time, self.frame_trigger_usr_port)
+        return command
+    
+    def getNumberFrames(self):
+        params = self.getContinuousParameters()
+        if params is not None :
+            num_points = params.getNumberDataPoints()
+            #set number of datapoints temporarily - this value is returned once tfg has finished and is disarmed
+            params.setNumberDataPoints(num_points+self.getFrameReadoutOffset())
+    
+        num_from_tfg = super(CustomBufferedScaler, self).getNumberFrames()
+        if params is not None :
+            #set it back
+            params.setNumberDataPoints(num_points)
+        
+        adj_number = num_from_tfg - self.getFrameReadoutOffset()  # frame_readout_offset
+        # print("Frames : {} , {}".format(num_from_tfg, adj_number))
+        return adj_number if adj_number > 0 else 0
+    
+qexafs_I1.setTtlSocket(0) # need to be set to something (0 for no trigger input)
+
+I1.setLivePort(4) # remove once this is set in spring config : _common/ionchambers.xml
+buffered_scaler = CustomBufferedScaler(qexafs_I1)
+buffered_scaler.setName("buffered_scaler")
+buffered_scaler.setUseExternalTriggers(False)
+buffered_scaler.configure()
+buffered_scaler.frame_readout_offset = lambda : 4
+# buffered_scaler.setDarkCurrentRequired(False)
+
+# make sure medipix2 plugin chain is using new buffered_scaler for I1 values
+get_medipix_plugins(medipix2)[1].setCounterTimer(buffered_scaler)
+
+def send_usr0_pulse():
+    switch_valve_positions([1,1], 0.01, 0.01)
+
 trigger_preparer=TfgTriggerPreparer("trigger_preparer")
 trigger_preparer.buffered_scaler = qexafs_I1
 
 trigger_preparer_new=TfgTriggerPreparer("trigger_preparer_new")
-trigger_preparer_new.buffered_scaler = qexafs_I1
-trigger_preparer_new.sequences = { "initial":[1], "one" : [2,1], "two":[1,2], "none":[3]}
-# scan trigger_preparer_new ("initial", "two", "none")*2 continuous_scan(5, 1, qexafs_counterTimer01)
+trigger_preparer_new.buffered_scaler = buffered_scaler # qexafs_I1
+trigger_preparer_new.pulse_gap =0.01
+trigger_preparer_new.pulse_length =0.01
+
+#trigger_preparer_new.sequences = { "initial":[1], "one" : [1]}
+trigger_preparer_new.sequences = { "initial":[1,1], "one" : [1,1], "two":[2,2] }
+# scan test 0 5 1 trigger_preparer_new ("one", "two") continuous_scan(15, 1, qexafs_medipix1, qexafs_I1)
+
 
 """
 Procedure :

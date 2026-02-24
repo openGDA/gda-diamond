@@ -52,7 +52,7 @@
 		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="3" />
 		<property name="darkCurrentRequired" value="true" />
-		<property name="livePort" value="0" />
+		<property name="livePort" value="4" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
