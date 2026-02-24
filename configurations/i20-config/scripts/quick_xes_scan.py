@@ -8,8 +8,9 @@ from org.eclipse.scanning.command.Services import getRunnableDeviceService
 from uk.ac.gda.api.io import PathConstructor
 from gda.device.scannable import PVScannable
 from org.eclipse.scanning.api.scan.models import ScanMetadata #@Unresolvedimport
+from uk.ac.gda.util.beans.xml import XMLHelpers
 
-from os import name
+from os import name, path
 
 XesMotorOffsetsLower = Finder.find("XesMotorOffsetsLower")
 XesMotorOffsetsUpper = Finder.find("XesMotorOffsetsUpper")
@@ -34,53 +35,27 @@ def run_mapping_scan(scan_request, scan_name="QXES") :
         print("Run complete")
     except Exception as e:
         print("Exception running scan",e)
+        
+def stop_scan():
+    print("Stopping scan")
+    serv = getRunnableDeviceService()
+    active_scanner=serv.getActiveScanner()
+    if active_scanner is not None :
+        active_scanner.abort() # abort scan
+    else:
+        print("No scan running")
 
 def run_qxes_scan_energy(xes_energy_scn, energy_start, energy_end, energy_step, exposure_time=0.1, num_reps=1, outer_scannable=None,
                          use_malcolm = True, continuous_scan = True, is_alternating=True, scan_metadata=None):
     
+    print("\nRunning QXes energy scan")
     pitch_start, pitch_end, pitch_step = calculate_pitch_for_scan(xes_energy_scn, energy_start, energy_end, energy_step)
-    
-    if num_reps > 1 and outer_scannable is not None :
-        run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, num_reps, outer_scannable,
-                                 use_malcolm, continuous_scan, is_alternating, scan_metadata=scan_metadata)
-    else :
-        run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time,
-                            use_malcolm, continuous_scan, scan_metadata=scan_metadata)
 
-def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, use_malcolm = True, 
-                        continuous_scan = True, scan_metadata=None):
-    
-    # lookup detector and axis name to use for given XESEnergyScannable object
-    axis_det_pair = axis_detector_map_malcolm[xes_energy_scn] if use_malcolm else axis_detector_map_gda[xes_energy_scn]
-    axis_name = axis_det_pair[0]
-    detector_name = axis_det_pair[1]
-    
-    print("Running scan using %s with %s detector (exposure time = %.2f sec)"%(axis_name, detector_name, exposure_time))
-    print("Scan start, stop, step : %.5f, %.5f, %.5f"%(pitch_start, pitch_end, pitch_step))
+    run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time, num_reps, outer_scannable,
+                             use_malcolm, continuous_scan, is_alternating, scan_metadata=scan_metadata)
 
-    # Get detector runnable device
-    detector_device = getRunnableDeviceService().getRunnableDevice(detector_name)
-    if detector_device is None :
-        raise Exception("Could not find runnable device for detector called "+detector_name)
-    
-    # Set the exposure time on detector model
-    detector_model = detector_device.getModel()
-    detector_model.setExposureTime(exposure_time)
-    detectors = {detector_model.getName() : detector_model}
-    
-    # Make step scan style model with single axis
-    path_model = AxialStepModel(axis_name, pitch_start, pitch_end, pitch_step)
-    path_model.setContinuous(continuous_scan)
-    
-    # Generate ScanRequest using the builder
-    request = ScanRequestBuilder().withPathAndRegion(path_model, None).withDetectors(detectors).build()
-    if scan_metadata is not None :
-        request.setScanMetadata([scan_metadata])
-    
-    name_for_queue = "Qxes (Malcolm)" if use_malcolm else "Qxes"
-    run_mapping_scan(request, scan_name=name_for_queue)
 
-def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, num_reps=2, outer_scannable=None, 
+def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, num_reps=1, outer_scannable=None, 
                              use_malcolm = True, continuous_scan = True, is_alternating=True, scan_metadata=None):
     
     # lookup detector and axis name to use for given XESEnergyScannable object
@@ -89,8 +64,8 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     detector_name = axis_det_pair[1]
     
     print("Running scan using %s with %s detector (exposure time = %.2f sec)"%(axis_name, detector_name, exposure_time))
-    print("Scan start, stop, step : %.5f, %.5f, %.5f"%(pitch_start, pitch_end, pitch_step))
-    print("Number of repetitions : %d"%(num_reps))
+    print("\tScan start, stop, step : %.5f, %.5f, %.5f"%(pitch_start, pitch_end, pitch_step))
+    print("\tNumber of repetitions : %d"%(num_reps))
     
     # Get detector runnable device
     detector_device = getRunnableDeviceService().getRunnableDevice(detector_name)
@@ -102,18 +77,24 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     detector_model.setExposureTime(exposure_time)
     detectors = {detector_model.getName() : detector_model}
     
-    # Create model for outer axis : dummy scannable that just tracks the current repetition number
-    path_model_outer = AxialStepModel(outer_scannable.getName(), 0, num_reps-1, 1)
-    path_model_outer.setContinuous(True)
-
     # Model for the inner axis : step scan style model with single axis
     path_model_inner = AxialStepModel(axis_name, pitch_start, pitch_end, pitch_step)
     path_model_inner.setContinuous(continuous_scan)
     path_model_inner.setAlternating(is_alternating)
     
-    # Compount model : outer axis is dummy scannable, inner axis is continuous malcolm scan
-    path_model = CompoundModel([path_model_outer, path_model_inner])
-    
+    if num_reps > 1 :
+        if outer_scannable is None :
+            raise Exception("Cannot run scan - number of repetitions is > 1 but outer_scannable has not been set!")
+        
+            # Create model for outer axis : dummy scannable that just tracks the current repetition number
+        path_model_outer = AxialStepModel(outer_scannable.getName(), 0, num_reps-1, 1)
+        path_model_outer.setContinuous(True)
+        
+        # Compound model : outer axis is dummy scannable, inner axis is continuous malcolm scan
+        path_model = CompoundModel([path_model_outer, path_model_inner])
+    else:
+        path_model = path_model_inner
+        
     # Generate ScanRequest using the builder
     request = ScanRequestBuilder().withPathAndRegion(path_model, None).withDetectors(detectors).build()
     if scan_metadata is not None :
@@ -123,6 +104,34 @@ def run_qxes_scan_pitch_reps(xes_energy_scn, pitch_start, pitch_end, pitch_step,
     run_mapping_scan(request, scan_name=name_for_queue)
 
 class HardwarePreparer() :
+    
+    def __init__(self):
+        self.medipix_cam_controls = {medipix1:medipix1_camera_control, medipix2:medipix2_camera_control}
+        self.medipix_initial_rois = {}
+        
+    def set_medipix_roi(self, medipix_det, xml_file_full_path):
+        dirname = path.dirname(xml_file_full_path)+"/"
+        fname = path.basename(xml_file_full_path)
+        
+        print("Setting ROI on {} using XML file {}".format(medipix_det.getName(), xml_file_full_path))
+        
+        det_config_bean = XMLHelpers.getBeanObject(dirname, fname) # MedipixParameters.class
+        roi = det_config_bean.getRegionList()[0]
+        
+        controller = self.medipix_cam_controls[medipix_det]
+        # store the ROI
+        self.medipix_initial_rois[medipix_det] = controller.getRoi()
+        # set the new ROI
+        controller.setRoi(roi.getXRoi().getRoiStart(), roi.getYRoi().getRoiStart(),
+                       roi.getXRoi().getRoiSize(), roi.getYRoi().getRoiSize())
+        print("Detector ROI : {}".format(controller.getRoi()))
+
+    # restore the original ROI values
+    def restore_medipix_rois(self, clear_after_restore = True):
+        for medipix, roi in self.medipix_initial_rois.items():
+            self.medipix_cam_controls[medipix].setRoi(*roi)
+        if clear_after_restore :
+            self.medipix_initial_rois = {}
     
     def reset_medipix(self) :
         print("Setting Medipix trigger mode to internal, PositionMode to 0 and XML layout path to default")
@@ -147,6 +156,9 @@ class HardwarePreparer() :
                 caput_pv_value(pv_name, pv_value)
 
     def setup_panda_offsets(self, debug=False) :
+        if LocalProperties.isDummyModeEnabled():
+            return
+        
         motor_order = ["C", "P1", "P2", "P3", "M1", "M2", "M3"]
         spec_pitch_pv_base = "BL20I-EA-XES-0%d:XTAL:%s:PITCH"
         panda_posbus_pv_pattern = "BL20I-EA-PANDA-0%d:DRV:POSBUS%d:SETPOS"
@@ -182,6 +194,8 @@ class HardwarePreparer() :
             CAClient.put(posbus_pv, new_posbus_val)
             
     def is_geobrick_mode(self) :
+        if LocalProperties.isDummyModeEnabled():
+            return True
         geobrick_pvs = "BL20I-MO-IOC-17:STATUS", "BL20I-MO-IOC-21:STATUS"
 
         geobrick_status = [CAClient.get(pv) for pv in geobrick_pvs]
@@ -189,6 +203,8 @@ class HardwarePreparer() :
         return is_geobrick_mode
     
     def is_power_pmac_mode(self) :
+        if LocalProperties.isDummyModeEnabled():
+            return False
         ppmac_pv = "BL20I-MO-IOC-33:STATUS"
         return CAClient.get(ppmac_pv) == "Running"
 
@@ -327,7 +343,7 @@ def calculate_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step_ener
     if isinstance(xes_energy_scn, ScannableGroup) :
         print("Using pitch values using first scannable in %s group"%(xes_energy_scn.getName()))
         xes_energy_scn = xes_energy_scn.getGroupMembers()[0]
-    print("Calculating pitch using %s"%(xes_energy_scn.getName()))
+    print("Calculating pitch for %s"%(xes_energy_scn.getName()))
     
     start_pitch = calculate_pitch(xes_energy_scn, start_energy)
     end_pitch = calculate_pitch(xes_energy_scn, end_energy)
@@ -338,8 +354,8 @@ def calculate_pitch_for_scan(xes_energy_scn, start_energy, end_energy, step_ener
     if end_pitch < start_pitch :
         step_pitch *= -1.0
     
-    print("Energy : start = %.3f, end = %.3f, step = %.4f"%(start_energy, end_energy, step_energy))
-    print("Pitch  : start = %.4f, end = %.4f, step = %.5f"%(start_pitch, end_pitch, step_pitch))
+    print("\tEnergy : start = %.3f, end = %.3f, step = %.4f"%(start_energy, end_energy, step_energy))
+    print("\tPitch  : start = %.4f, end = %.4f, step = %.5f"%(start_pitch, end_pitch, step_pitch))
 
     return start_pitch, end_pitch, step_pitch
 
@@ -413,7 +429,7 @@ class PositionTimeScannable(ScannableBase) :
     def rawAsynchronousMoveTo(self, position):
         # print("Sleeping for %s sec"%(self.move_sleep_time_sec))
         sleep(self.move_sleep_time_sec)
-        print("Moving %s to %s"%(self.scn_to_move.getName(), str(position)))
+        # print("Moving %s to %s"%(self.scn_to_move.getName(), str(position)))
         self.scn_to_move.rawAsynchronousMoveTo(position)
     
     def isBusy(self) :
@@ -434,7 +450,11 @@ pos_time_scn.setUseUtcTime(True)
 
 def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy_step_size, integration_time, 
                           row2_energy_start=None, row2_energy_step_size=None,
-                          is_alternating=True, num_reps=1, mono_energy=None, use_malcolm=True) :
+                          is_alternating=True, num_reps=1, mono_energy=None, use_malcolm=True,
+                          medipix1_xml_file=None, medipix2_xml_file=None) :
+    
+    if LocalProperties.isDummyModeEnabled():
+        use_malcolm = False
     
     if xes_energy_scannable is None : 
         raise ValueError("Scannable called "+scannable_name+" was not found")
@@ -462,23 +482,29 @@ def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy
         xes_scannables = XESEnergyUpper, XESEnergyLower
         xes_energies = (energy_start+energy_end)*0.5, (row2_energy_start+row2_energy_end)*0.5
 
-    print("Running Qxes scan using : "+str(xes_scannables))
+    xes_names = ",".join(scn.getName() for scn in xes_scannables)
+    print("Running Qxes scan using : %s", xes_names)
     print("Time per point : %.2f sec"%(integration_time))
     print("Row 1 energy start, stop, step : %.4g, %.4g, %.4g\n"%(energy_start, energy_end, energy_step_size))
     if row2_energy_start is not None : 
         print("Row 2 energy start, step : %.4g, %.4g\n"%(row2_energy_start, row2_energy_step_size))
 
     if mono_energy is not None : 
-        print("Moving mono to %.4g eV"%(mono_energy))
+        print("Moving mono to %.4g eV\n"%(mono_energy))
         bragg1WithOffset.moveTo(mono_energy)
-
+    
     # Save the current pitch offsets, set new offsets so that pitch values are all the same for start energy
     for scn, energy in zip(xes_scannables, xes_energies) :
         restore_tmp_offsets(scn)
         sleep(1)
         prepare_pitch_offsets(scn, energy)
     
-    
+    # setup the medipix ROIS
+    if xes_energy_scannable == XESEnergyUpper and medipix1_xml_file is not None:
+        xes_hardare_preparer.set_medipix_roi(medipix1, medipix1_xml_file)
+    elif xes_energy_scannable == XESEnergyLower and medipix2_xml_file is not None:
+        xes_hardare_preparer.set_medipix_roi(medipix2, medipix2_xml_file)
+
     # Set the 'gain' and 'offset' parameters for row2 based on row1
     if xes_hardare_preparer.is_power_pmac_mode() :
         print("Setting axis offsets for PowerPmac mode")
@@ -502,7 +528,7 @@ def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy
         bragg1WithOffset.waitWhileBusy()
     
     xes_hardare_preparer.setup_panda_offsets()
-    
+
     # setup metadata object to record current bragg1 energy
     smetadata = ScanMetadata()
     smetadata.setType(ScanMetadata.MetadataType.ENTRY)
@@ -515,7 +541,8 @@ def prepare_run_qxes_scan(xes_energy_scannable, energy_start, energy_end, energy
     for scn in xes_scannables :
         restore_tmp_offsets(scn)
     
-    reset_medipix()
+    xes_hardare_preparer.reset_medipix()
+    xes_hardare_preparer.restore_medipix_rois()
 
 
 # clear the subdirectory, so data is written in top level of visit.
@@ -529,4 +556,5 @@ lower_xes_enable = xes_axis_control.lower_enable
 reset_medipix = xes_hardare_preparer.reset_medipix
 
 from xspress_functions import run_in_try_catch
-run_in_try_catch(reset_medipix)
+run_in_try_catch(xes_hardare_preparer.reset_medipix)
+
