@@ -6,6 +6,10 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util.xsd">
 	
+	<bean id="default_live_port" class="java.lang.String">
+		<constructor-arg value="12" />
+	</bean>
+	
 	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
@@ -23,7 +27,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
 		<property name="useReset" value="false" />
-		<property name="livePort" value="0" />
+		<property name="livePort" value="#{default_live_port}" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -52,7 +56,7 @@
 		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="3" />
 		<property name="darkCurrentRequired" value="true" />
-		<property name="livePort" value="4" />
+		<property name="livePort" value="#{default_live_port}" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -139,7 +143,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="4" />
 		<property name="useReset" value="false" />
-		<property name="livePort" value="1" />
+		<property name="livePort" value="#{default_live_port}" />
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>

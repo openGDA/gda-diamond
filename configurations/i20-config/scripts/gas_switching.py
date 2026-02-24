@@ -101,7 +101,7 @@ def reset_valves() :
     """
     switch_valve_positions([3])
 
-def switch_valve_positions(usr_outputs_list, pulse_length=0.01, pulse_gap=0.0) :
+def switch_valve_positions(usr_outputs_list, pulse_length=0.01, pulse_gap=0.01) :
     """ 
     Send series of pulses on usr output ports of Tfg. Each pulse has same length
     Parameters :
@@ -196,9 +196,11 @@ class CustomBufferedScaler(BufferedScaler) :
         super(CustomBufferedScaler, self).__init__()
         self.setup(buf_scaler)
         self.offset=0
-        self.frame_readout_offset = 0
-        self.frame_trigger_usr_port = 4
-    
+        self.frame_readout_offset = 4
+        self.frame_trigger_usr_port = 12  # 4 = USR2 or 12 = USR2 + USR3
+        
+    # for some reason member variables in this class don't all work properly, so
+    # we must use a function to pass the offset!
     def getFrameReadoutOffset(self):
         return 4
 
@@ -216,7 +218,7 @@ class CustomBufferedScaler(BufferedScaler) :
         self.setTtlSocket(buf_scaler.getTtlSocket())
         self.setDaserver(buf_scaler.getDaserver())
         self.setFirstDataChannel(buf_scaler.getFirstDataChannel()) #very important - to start reading data at correct channel for I1!
-    
+        
     #Override readoutFrames in TfgScaler, readout frames with offset
     def readFrames(self, start_frame, final_frame):
         offset = self.getFrameReadoutOffset()
@@ -238,7 +240,6 @@ class CustomBufferedScaler(BufferedScaler) :
     
         num_from_tfg = super(CustomBufferedScaler, self).getNumberFrames()
         if params is not None :
-            #set it back
             params.setNumberDataPoints(num_points)
         
         adj_number = num_from_tfg - self.getFrameReadoutOffset()  # frame_readout_offset
@@ -247,12 +248,11 @@ class CustomBufferedScaler(BufferedScaler) :
     
 qexafs_I1.setTtlSocket(0) # need to be set to something (0 for no trigger input)
 
-I1.setLivePort(4) # remove once this is set in spring config : _common/ionchambers.xml
 buffered_scaler = CustomBufferedScaler(qexafs_I1)
 buffered_scaler.setName("buffered_scaler")
 buffered_scaler.setUseExternalTriggers(False)
 buffered_scaler.configure()
-buffered_scaler.frame_readout_offset = lambda : 4
+# buffered_scaler.getFrameReadoutOffset = lambda : 4
 # buffered_scaler.setDarkCurrentRequired(False)
 
 # make sure medipix2 plugin chain is using new buffered_scaler for I1 values
@@ -272,6 +272,14 @@ trigger_preparer_new.pulse_length =0.01
 #trigger_preparer_new.sequences = { "initial":[1], "one" : [1]}
 trigger_preparer_new.sequences = { "initial":[1,1], "one" : [1,1], "two":[2,2] }
 # scan test 0 5 1 trigger_preparer_new ("one", "two") continuous_scan(15, 1, qexafs_medipix1, qexafs_I1)
+
+
+# reset valve state and send USR0 or USR1 to switch to gas 1 or 2.
+trigger_preparer_new.sequences = { "initial":[3,1], "one" : [3,1], "two":[3,2] }
+
+## Set FFI1 medipix plugin to use buffered_scaler as source of I1 value
+get_medipix_plugins(medipix1)[1].setCounterTimer(buffered_scaler)
+get_medipix_plugins(medipix2)[1].setCounterTimer(buffered_scaler)
 
 
 """

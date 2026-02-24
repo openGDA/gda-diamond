@@ -59,4 +59,16 @@
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>table1_x</scannableName>
+        <description>Table1 X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>cryostick_pos</scannableName>
+        <description>Cryostick position</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
 </I20SampleParameters>
