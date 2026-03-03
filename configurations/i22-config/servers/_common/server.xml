@@ -20,9 +20,6 @@
 
     <bean id="dataPointCache" class="gda.scan.SortedScanDataPointCache"/>
 
-	<!-- GDA REST Server -->
-	<bean class="uk.ac.diamond.daq.server.services.rest.RestContext"/>
-
     <import resource="beam_monitor.xml"/>
     <import resource="command_queue_processor.xml"/>
     <import resource="metadata.xml" />
