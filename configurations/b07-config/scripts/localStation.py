@@ -158,7 +158,7 @@ print("-"*100)
 # import sputter functions
 execfile("/dls_sw/b07/scripts/Beamline/sputter_funcs.py")
 # import XAS autogeneration functions
-print ("Importing XAS autogeneration functions from /dls_sw/b07/scripts/Beamline/XAS_autogen.py")
-execfile("/dls_sw/b07/scripts/Beamline/XAS_autogen.py")
-
+print ("Importing XAS autogeneration functions from /dls_sw/b07/scripts/Beamline/XAS_autogen_v2.py")
+execfile("/dls_sw/b07/scripts/Beamline/XAS_autogen_v2.py")
+print ("Done")
 print "-----------------------------------------------------------------------------------------------------------------"
