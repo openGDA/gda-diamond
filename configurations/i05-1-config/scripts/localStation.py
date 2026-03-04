@@ -68,6 +68,16 @@ sp = SamplePositions("sp", [smx, smy, smz, smdefocus])
 print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
 help(sp)
 
+print "-"*100
+print "Adding Fast scannable motor smy_fast"
+from beamlineGDA.fast_motor import FastScannableMotor
+
+if LocalProperties.get("gda.mode") == "live":
+	smy_fast = FastScannableMotor("smy_fast", smy.motor)
+else:
+	smy_fast = FastScannableMotor("smy_fast", smy_sim.motor)
+print("")
+
 print("="*100)
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
