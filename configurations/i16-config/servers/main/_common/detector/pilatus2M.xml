@@ -1,0 +1,204 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="NexusScanDataWriter">
+
+	<!-- NXDetectors -->
+	<bean id="pil2M_snap" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="pilatus2_for_snaps" />
+		<property name="snappingCollectionStrategy" ref="pilatus2_nxcollectionstrategy"/>
+		<property name="snapperPluginList">
+			<list>
+				<ref bean="pilatus2_nxfilewriter_for_snaps" />
+				<ref bean="pilatus2_force_callbacks" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Add support for gda.device.detector.HardwareTriggeredNXDetector later -->
+
+	<!-- Objects for Processing -->
+
+	<bean id="pil2M" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor" >
+		<property name="detector">
+			<bean class="gda.device.detector.NXDetector">
+				<property name="name" value="pil2M" />
+				<property name="collectionStrategy" ref="pilatus2_nxcollectionstrategy"/>
+				<property name="additionalPluginList">
+					<list>
+						<ref bean="pilatus2_nxfilewriter_for_scans" />
+						<ref bean="pilatus2_hdf5filewriter_for_scans" />
+						<ref bean="pilatus2_ad_array_plugin" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="processor">
+			<bean class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
+				<property name="detName" value="pil2M" />
+				<property name="processors">
+					<list>
+						<bean class="gda.device.detector.nexusprocessor.DatasetPlotter">
+							<property name="plotName" ref="pilatus2_plotName" />
+						</bean>
+						<ref bean="pilatus2_rois" />
+						<ref bean="pilatus2_stats" />
+					</list>
+				</property>
+				<property name="datasetCreator" >
+					<bean id="pilatus2_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator" />
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pilatus2_ad_array_plugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="pilatus2_ndarray"/>
+		<property name="enabled" value="False" />
+		<property name="writeDataToFile" value="False" />
+	</bean>
+
+	<bean id="pilatus2_plotName" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="Pilatus"/>
+	</bean>
+
+	<bean id="pilatus2_rois" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
+		<property name="plotName" ref="pilatus2_plotName" />
+		<property name="statsProcessor" ref="pilatus2_stats" />
+	</bean>
+
+	<bean id="pilatus2_stats" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>SUM</value>
+			</list>
+		</property>
+		<property name="statNames">
+			<map>
+				<entry key="MAX_VAL" value="pil2M_max_val"/>
+				<entry key="MAX_X" value="pil2M_max_x"/>
+				<entry key="MAX_Y" value="pil2M_max_y"/>
+				<entry key="SUM" value="pil2M_total"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="pilatus2_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+
+	<bean id="pilatus2_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pilatus2_ndfile_hdf5" />
+		<property name="fileNameTemplate" value="$scan$-pilatus2_100k" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
+		<property name="blocking" value="false" />
+		<!--
+		<property name="enabled" value="true" />
+		 -->
+	</bean>
+
+	<bean class="org.eclipse.scanning.device.NexusMetadataAppender" init-method="register">
+		<property name="name" value="pil2M" />
+		<property name="childNodes">
+			<list>
+				<!-- I16-648 -->
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="depends_on"/>
+					<property name="value" value="/entry/instrument/pil2M/transformations/origin_offset"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="saturation_value"/>
+					<property name="value">
+							<array value-type="java.lang.Double"><value>1000000</value></array>
+					</property>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="sensor_material"/>
+					<property name="value" value="Silicon"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<constructor-arg name="fieldName" value="sensor_thickness" />
+					<constructor-arg name="value">
+							<array value-type="java.lang.Double"><value>0.32</value></array>
+					</constructor-arg>
+					<constructor-arg name="units" value="mm" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="description" />
+					<property name="value" value="Pilatus" />
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScalarField">
+					<property name="name" value="id" />
+					<property name="value" value="Pilatus" />
+				</bean>
+				<!-- I16-649 -->
+				<bean class="org.eclipse.scanning.device.GroupMetadataNode">
+					<property name="name" value="module"/>
+					<property name="nexusClass" value="NXdetector_module"/>
+					<property name="childNodes">
+						<list>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="data_origin"/>
+								<property name="value">
+									<array value-type="java.lang.Integer"><value>0</value><value>0</value></array>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<property name="name" value="data_size"/>
+								<property name="value">
+									<array value-type="java.lang.Integer"><value>195</value><value>487</value></array>
+								</property>
+							</bean>
+							<bean class="org.eclipse.scanning.device.ScalarField">
+								<constructor-arg name="fieldName" value="module_offset" />
+								<constructor-arg name="value">
+										<array value-type="java.lang.Double"><value>0.0</value></array>
+								</constructor-arg>
+								<constructor-arg name="units" value="mm" />
+								<property name="attributes">
+									<list>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="depends_on"/>
+											<constructor-arg name="value" value="/entry/instrument/pil2M/transformations/origin_offset"/>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset" />
+											<constructor-arg name="value">
+												<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="offset_units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="transformation_type" />
+											<constructor-arg name="value" value="translation" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="units" />
+											<constructor-arg name="value" value="mm" />
+										</bean>
+										<bean class="org.eclipse.scanning.device.ScalarMetadataAttribute">
+											<constructor-arg name="attrName" value="vector" />
+											<constructor-arg name="value">
+													<array value-type="java.lang.Double"><value>0.</value><value>0.</value><value>0.</value></array>
+											</constructor-arg>
+										</bean>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

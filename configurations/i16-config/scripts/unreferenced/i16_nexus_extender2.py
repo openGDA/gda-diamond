@@ -450,16 +450,10 @@ class I16NexusExtender(DataWriterExtenderBase):
         for det in detectors:
             detName = det.getName()
             detGroup = nFile.getGroup(instrument, detName, "NXdetector", False)
-            self.writeDetector(nFile, detGroup, detName, dependsOn)
+            self.writeDetector(nFile, detGroup, detName, dependsOn
             pathTemplate=None
             self.logger.debug("writeDynamicDetectors() calling isinstance({}, {})", det, ProcessingDetectorWrapper)
-            # This isinstance is failing because det and ProcessingDetectorWrapper are both showing as 
-            #  writeDynamicDetectors() calling isinstance(pil2m<
-            #    class org.python.proxies.epics.detector.NxProcessingDetectorWrapper$NxProcessingDetectorWrapper$740>,
-            #    class org.python.proxies.gdascripts.scannable.detector.ProcessingDetectorWrapper$ProcessingDetectorWrapper$732)
-            #if isinstance(det, ProcessingDetectorWrapper):
             try: # Rather than checking type, just try to call the function
-                #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
                 pathTemplate = det.getFilepathRelativeToRootDataDir()
             except java.lang.Exception, e:
                 self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Java.lang.Exception]", det, e)

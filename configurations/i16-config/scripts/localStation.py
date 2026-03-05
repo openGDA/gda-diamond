@@ -183,9 +183,6 @@ from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDu
 #localStation_print("Importing EpicsFirewireCamera")
 #from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera #@UnusedImport
 
-localStation_print("Importing NxProcessingDetectorWrapper")
-from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper #@UnusedImport
-
 # I16
 localStation_print("Importing ShelveIO")
 import ShelveIO
@@ -797,89 +794,34 @@ from scannable.pilatus import PilatusThreshold, PilatusGain
 ### 2m ###
 if USE_PIL2:
 	localStation_print("Configuring pilatus 2 (2m)")
-	global pilatus2, pilatus2_hardware_triggered, pilatus2_for_snaps
-	try:
-		#pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
-		pil2mdet = pilatus2
-		_pilatus2_counter_monitor = Finder.find("pilatus2_plugins").get('pilatus2_counter_monitor')
-
-		#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
-		pil2m = NxProcessingDetectorWrapper('pil2m',
-			pilatus2,
-			pilatus2_hardware_triggered,
-			pilatus2_for_snaps,
-			[],
-			panel_name_rcp='Pilatus',
-			toreplace=None,
-			replacement=None,
-			iFileLoader=PilatusTiffLoader,
-			fileLoadTimout=60,
-			returnPathAsImageNumberOnly=True,
-			array_monitor_for_hardware_triggering = _pilatus2_counter_monitor)
-		pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
-		pil2m.printNfsTimes = True
-		pil2m.display_image = True
-		pil2ms = DetectorWithShutter(pil2m, x1, X1_DELAY)
-	except:
-		localStation_exception("configuring pilatus 2 (2m)")
+	global pilatus2, pilatus2_hardware_triggered, pilatus2_for_snaps, pil2M
 else:
 	localStation_print("Not configuring pilatus 2 (2m)")
 
 ### 100k ###
 if USE_PIL1:
+	"""
+	Need to add the extra config to move this detector to NexusScanDataWriter or remove it entirely, one or the other
+	ALso copy thresh and gain from pil3
+	"""
 	localStation_print("Configuring pilatus 1 (100k)")
-	if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-		localStation_warning("pil1 = NXDetector (not NXProcessingDetectorWrapper)")
-		global pil_100k
-		with overwriting:  # @UndefinedVariable
-			pil1 = pil_100k  # @UnusedVariable
-		pil1_geometry = GeometryScannable('pil_geometry', 'pilatus1', '/dls_sw/i16/scripts/detector_calibration/geometry_pil_100k.xml')
-		pil1_geometry.updatePosition()
-	else:
-		localStation_warning("pil1 = NXProcessingDetectorWrapper (not NXDetector)")
-		global pilatus1, zebrapil1, pilatus1_for_snaps, pilatus1_hardware_triggered
-		try:
-			pil100kdet = pilatus1
-			_pilatus1_counter_monitor = Finder.find("pilatus1_plugins").get('pilatus1_counter_monitor')
-
-			pil100k = NxProcessingDetectorWrapper('pil100k',
-				pilatus1,
-				zebrapil1,
-				pilatus1_for_snaps,
-				[],
-				panel_name_rcp='Pilatus',
-				toreplace=None,
-				replacement=None,
-				iFileLoader=PilatusTiffLoader,
-				fileLoadTimout=60,
-				returnPathAsImageNumberOnly=True,
-				array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
-			pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
-			pil100k.printNfsTimes = False
-			pil100ks = DetectorWithShutter(pil100k, x1, X1_DELAY)
-			pil_tmp = pil100k
-			pils_tmp = pil100ks
-
-			pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-			pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-		except:
-			localStation_exception("configuring pilatus 1 (100k)")
+	global pil_100k
+	with overwriting:  # @UndefinedVariable
+		pil1 = pil_100k  # @UnusedVariable
+	pil1_geometry = GeometryScannable('pil_geometry', 'pilatus1', '/dls_sw/i16/scripts/detector_calibration/geometry_pil_100k.xml')
+	pil1_geometry.updatePosition()
 else:
 	localStation_print("Not configuring pilatus 1 (100k)")
 
 if USE_PIL3:
-	if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-		global pil3_100k
-		with overwriting:  # @UndefinedVariable
-			pil = pil3_100k  # @UnusedVariable
-		pil3_geometry = GeometryScannable('pil3_geometry', 'pil3_100k', '/dls_sw/i16/scripts/detector_calibration/geometry_pil3_100k.xml')
-		pil3_geometry.updatePosition()
-		from scannable.pilatus import pil3_100kthresh, pil3_100kgain # @UnusedImport
-		# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
-		# as scans will fail with an inobvious error message if not
-	else:
-		from detector_wrappers.pilatus_instances import pil, pil3,pil3_100k, pil3_100kgain, pil3_100ks, pil3_100kthresh, pil3s, pils  # @UnusedImport
-		localStation_warning("pil3 = NXProcessingDetectorWrapper (not NXDetector)")
+	global pil3_100k
+	with overwriting:  # @UndefinedVariable
+		pil = pil3_100k  # @UnusedVariable
+	pil3_geometry = GeometryScannable('pil3_geometry', 'pil3_100k', '/dls_sw/i16/scripts/detector_calibration/geometry_pil3_100k.xml')
+	pil3_geometry.updatePosition()
+	from scannable.pilatus import pil3_100kthresh, pil3_100kgain # @UnusedImport
+	# Should check here that BL16I-EA-PILAT-03:HDF5:SWMRMode_RBV is On
+	# as scans will fail with an inobvious error message if not
 else:
 	localStation_print("Not configuring pilatus 3 (100k)")
 
@@ -1149,14 +1091,10 @@ localStation_print("-------------------------------MEDIPIX INIT COMPLETE--------
 '''
 
 localStation_print("-------------------------------MERLIN INIT---------------------------------------")
-if LocalProperties.get("gda.data.scan.datawriter.dataFormat") == u'NexusScanDataWriter':
-	global merlin
-	merlin_geometry = GeometryScannable('merlin_geometry', 'merlin',
-		'/dls_sw/i16/scripts/detector_calibration/geometry_merlin.xml')
-	merlin_geometry.updatePosition()
-else:
-	localStation_warning("merlin = NXProcessingDetectorWrapper (not NXDetector)")
-	from detector_wrappers.merlin_instances import merlin, merlins  # @UnusedImport
+global merlin
+merlin_geometry = GeometryScannable('merlin_geometry', 'merlin',
+	'/dls_sw/i16/scripts/detector_calibration/geometry_merlin.xml')
+merlin_geometry.updatePosition()
 localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
 
 ###############################################################################
