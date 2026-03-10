@@ -150,7 +150,6 @@
 
 	<bean id="pilatus3_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 
-	<!-- Used in localStation for NxProcessingDetectorWrapper -->
 	<bean id="pilatus3_for_snaps"
 			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus3_for_snaps" />

@@ -6,7 +6,7 @@ from uk.ac.diamond.scisoft.analysis import SDAPlotter
 import scisoftpy as dnp
 
 '''
-I16 has a requirement to be able to take a single image from a detector, display it and calculate stats quickly and 
+I16 has a requirement to be able to take a single image from a detector, display it and calculate stats quickly and
 without saving the image.  This is no longer provided by the pos command as this is not supported by gda, so this script
 has been added based on i07's ct.py script.
 '''
@@ -73,7 +73,7 @@ class AdDetSnapper(DetectorSnapper, DetectorBase):
         self.nd_array.getPluginBase().enableCallbacks()
         self.currentStats = None
 
-from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats
+from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats, pil2M, pilatus2_stats
 
 mdet = merlin.getDetector()
 merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[1].getNdArray(), merlin_stats, "Merlin")
@@ -83,14 +83,20 @@ pildet = pil3_100k.getDetector()
 pil_snap_viewer = AdDetSnapper("pil_snap_viewer", pildet.getCollectionStrategy().getAdBase(), pildet.getAdditionalPluginList()[2].getNdArray(), pilatus3_stats, "Pilatus")
 pil_snap_viewer.array_port = "PILATUS3.cam"
 
+pil2det = pil2M.getDetector()
+pil2_snap_viewer = AdDetSnapper("pil2_snap_viewer", pil2det.getCollectionStrategy().getAdBase(), pil2det.getAdditionalPluginList()[2].getNdArray(), pilatus2_stats, "Pilatus")
+pil2_snap_viewer.array_port = "PILATUS2.CAM"
+
 def snap(detector, count_time = 1):
     if detector == merlin :
         det = merlin_snap_viewer
     elif detector == pil3_100k :
         det = pil_snap_viewer
+    elif detector == pil2M :
+        det = pil2_snap_viewer
     else :
         det = detector
     pos(det, count_time)
 
-from gda.jython.commands.GeneralCommands import alias 
+from gda.jython.commands.GeneralCommands import alias
 alias("snap")
