@@ -1,17 +1,22 @@
 from uk.ac.gda.server.ncd.actions import NcdAction
 from gda.device.detector.areadetector.v17.impl import NDPluginBaseImpl
+from gda.configuration.properties import LocalProperties
 
 # image mode as int
 MULTIPLE = 1
 # trigger mode as int
 EXT_ENABLE = 1
+MULTI_TRIGGER = 3
 
 class NcdPilatusReset(NcdAction):
     def __init__(self, detector):
         self.det = detector.controller
     def run(self):
         self.det.imageMode = MULTIPLE
-        self.det.triggerMode = EXT_ENABLE
+        if LocalProperties.check("gda.ncd.saxs.forceExternalTrigger",False):
+            self.det.triggerMode = MULTI_TRIGGER
+        else:
+            self.det.triggerMode = EXT_ENABLE
 
         self.det.codec.pluginBase.NDArrayPort = self.det.areaDetector.getPortName_RBV()
 

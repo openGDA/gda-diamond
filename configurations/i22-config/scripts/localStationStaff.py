@@ -19,6 +19,8 @@ from gdascripts import mscanHandler
 from gdascripts.utils import caput, caget
 import time
 from gda.device.scannable import DummyScannable
+from gda.configuration.properties import LocalProperties
+from gda.data.scan.datawriter import NXPtychoEntryLinkCreator
 
 rds = mscanHandler.runnableDeviceService
 p1xy_fly = rds.getRunnableDevice("BL22I-ML-SCAN-01")
@@ -56,7 +58,12 @@ def resetPilatusDetector(detectorPVprefix, detectorType):
 
     # So, let's start by reconfiguring CAM
     caputWithCheck (detectorPVprefix + ':CAM:ImageMode', "Multiple")
-    caputWithCheck(detectorPVprefix + ':CAM:TriggerMode', "Ext. Enable")
+    if LocalProperties.check("gda.ncd.saxs.forceExternalTrigger",False):
+        trigger_mode = "Mult. Trigger"
+    else:
+        trigger_mode = "Ext. Enable"
+        
+    caputWithCheck(detectorPVprefix + ':CAM:TriggerMode', trigger_mode)
 
     # Then CDC
     caputWithCheck(detectorPVprefix + ':CDC:NDArrayPort', PVprefix + '.PIL.CAM')
@@ -134,12 +141,22 @@ def resetOpticalDetector(detectorPVprefix):
 
 def resetSAXSdetector():
     print('Setting up SAXS detector')
+    try:
+        from gdaserver import Pilatus2M_SAXS
+    except ImportError:
+        print("Cannot find SAXS detector, assuming deliberately removed in options!!!")
+        return
     resetPilatusDetector('BL22I-EA-PILAT-01', 'SAXS')
     print('SAXS detector set up')
 
 
 def resetWAXSdetector():
     print('Setting up WAXS detector')
+    try:
+         from gdaserver import Pilatus2M_WAXS
+    except ImportError:
+        print("Cannot find WAXS detector, assuming deliberately removed in options!!!")
+        return
     resetPilatusDetector('BL22I-EA-PILAT-03', 'WAXS')
     print('WAXS detector set up')
 
@@ -304,7 +321,7 @@ except:
 
 
 from setup import malcolm_tfg
-from gdaserver import Pilatus2M_SAXS, Pilatus2M_WAXS, I0, bsdiodes
+from gdaserver import Pilatus2M_SAXS, I0, bsdiodes
 
 saxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_SAXS)
 # waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
