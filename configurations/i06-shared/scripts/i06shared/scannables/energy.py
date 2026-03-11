@@ -60,10 +60,12 @@ class CombinedEnergy(ScannableBase):
         self.currpol=self.pol.getPosition()
         if self.currsmode == SourceMode.SOURCE_MODES[0]:
             self.drpenergy.asynchronousMoveTo(newenergy+offhar)
-            self.idugap.asynchronousMoveTo(self.opengap)
+            if abs(float(self.idugap.getPosition()) - self.opengap) > 5.0:
+                self.idugap.asynchronousMoveTo(self.opengap)
         elif self.currsmode == SourceMode.SOURCE_MODES[1]:
             self.urpenergy.asynchronousMoveTo(newenergy+offhar)
-            self.iddgap.asynchronousMoveTo(self.opengap)
+            if abs(float(self.iddgap.getPosition()) - self.opengap) > 5.0:
+                self.iddgap.asynchronousMoveTo(self.opengap)
         elif self.currsmode == SourceMode.SOURCE_MODES[2]:
             self.drpenergy.asynchronousMoveTo(newenergy+offhar)
             self.urpenergy.asynchronousMoveTo(newenergy+offhar)
