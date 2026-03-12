@@ -137,6 +137,11 @@ from gda.device.scannable import ProcessingScannable
 from gda.jython.commands.ScannableCommands import add_default
 nexus_processor = ProcessingScannable('nexus_processor')
 nexus_processor['mmg-nexus'] = [{'nxs2dat': False}]
+# remove old nexus_processor instances
+from gda.jython.commands.ScannableCommands import get_defaults, remove_default
+for _default in get_defaults():
+    if 'nexus_processor' in repr(_default):
+        remove_default(_default)
 add_default(nexus_processor)
 
 from scannables.leem_projection import leem_presetA  # @UnusedImport
