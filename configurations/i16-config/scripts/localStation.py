@@ -244,7 +244,6 @@ if not USE_NEXUS:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
 if USE_NEXUS and USE_NEXUS_METADATA_COMMANDS:
-
 	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical #@UnusedImport
 	alias("setTitle")
 	alias("getTitle")
@@ -333,7 +332,7 @@ delta_axis_offset.pil=8.6#new offset 19/02/17
 do=delta_axis_offset
 
 if installation.isDummy():
-	from lab84.initialise_offsets import setup_scannables_offsets
+	from dummy.initialise_offsets import setup_scannables_offsets
 	setup_scannables_offsets()
 
 ###############################################################################
@@ -1458,7 +1457,7 @@ else:
 	print "*"*80
 	localStation_run("dummy/localStationUser", error_message="running localStationUser dummy script")
 
-	from lab84.initialise_offsets import setup_pil3_centre
+	from dummy.initialise_offsets import setup_pil3_centre
 	setup_pil3_centre()
 
 print("*"*80)
