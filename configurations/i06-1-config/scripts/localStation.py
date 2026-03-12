@@ -122,13 +122,26 @@ xasmode = XASMode("xasmode", XAS_MODES, mode = TEY)
 if ConfigUtils.profileActive("magnet"):
     mode_path_slow = {TEY: "/entry/instrument/tey/value", TFY_ft: "/entry/instrument/fdu/value", TFY_fb: "/entry/instrument/fdd/value", TFY_90: "/entry/instrument/d90/value"}
     mode_path_fast = {TEY: "/entry/instrument/fesData/tey", TFY_ft: "/entry/instrument/fesData/fdu", TFY_fb: "/entry/instrument/fesData/fdd", TFY_90: "/entry/instrument/fesData/d90"}
+    xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan_magnet.yaml"
 else:
     mode_path_slow = {TEY: "/entry/instrument/ca61sr/value", TFY_ft: "/entry/instrument/ca63sr/value", TFY_fb: "/entry/instrument/ca64sr/value", TFY_90: "/entry/instrument/ca65sr/value"}
     mode_path_fast = {TEY: "/entry/instrument/fesData/C1", TFY_ft: "/entry/instrument/fesData/C3", TFY_fb: "/entry/instrument/fesData/C4", TFY_90: "/entry/instrument/fesData/C5"}
+    xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
 xasmode_fast = XASModePathMapper("xasmode_fast", xasmode, mode_path_fast)
 xasmode_slow = XASModePathMapper("xasmode_slow", xasmode, mode_path_slow)
-xasscan.NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_slowscan.yaml"
 xasscan.xasmode_scannable_name = "xasmode"
+
+#--new default processor DP 20/01/26
+from gda.device.scannable import ProcessingScannable
+from gda.jython.commands.ScannableCommands import add_default
+nexus_processor = ProcessingScannable('nexus_processor')
+nexus_processor['mmg-nexus'] = [{'nxs2dat': False}]
+# remove old nexus_processor instances
+from gda.jython.commands.ScannableCommands import get_defaults, remove_default
+for _default in get_defaults():
+    if 'nexus_processor' in repr(_default):
+        remove_default(_default)
+add_default(nexus_processor)
 
 print("="*100)
 print("End of i06-1 localStation.py")

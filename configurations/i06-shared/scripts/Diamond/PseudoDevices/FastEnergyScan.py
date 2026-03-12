@@ -22,12 +22,16 @@ from gda.jython import InterfaceProvider
 from java.io import File  # @UnresolvedImport
 from gdascripts.metadata.nexus_metadata_class import meta
 from gdascripts.functions.nexusYamlTemplateProcessor import preprocess_spring_expression_in_template
+from uk.ac.diamond.daq.configuration import ConfigUtils
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 logger=ScriptLoggerClass();
 
-NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
-
+if ConfigUtils.profileActive("magnet"):
+	NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan_magnet.yaml"
+else:
+	NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_fastscan.yaml"
+	
 class FastEnergyScanControlClass(object):
 	""" """
 	#CA Put Callback listener that handles the callback event

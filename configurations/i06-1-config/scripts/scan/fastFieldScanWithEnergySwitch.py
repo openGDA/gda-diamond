@@ -85,10 +85,10 @@ class MagnetFieldFlyScannable(ScannableBase):
     def isBusy(self):
         self.lastreadPosition = self.getCurrentPositionOfScannable()
         if self.positive:
-            print("positive: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+            # print("positive: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
             res = self.requiredPosVal > self.lastreadPosition
         else:
-            print("negative:: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
+            # print("negative:: required position is %f, current position is %f" % (self.requiredPosVal, self.lastreadPosition))
             res = self.requiredPosVal < self.lastreadPosition
         return res
 
@@ -176,7 +176,7 @@ class MagnetFieldFlyScannable(ScannableBase):
         if np.sign(target_value) != np.sign(current_pos):
             self.thread = threading.Thread(target= self._move_cross_zero_field, name='cross_zero_field', args =(target_value,))
         else:
-            self.thread = threading.Thread(atrget = self._move_not_cross_zero_field, name='not_cross_zero_field', args = (target_value,)) 
+            self.thread = threading.Thread(target = self._move_not_cross_zero_field, name='not_cross_zero_field', args = (target_value,)) 
         self.thread.start()
 
     def _move_not_cross_zero_field(self, target_value):
@@ -200,7 +200,7 @@ def fastfieldscan(*args):
     from scaler channels at specified integration time back to back.
     
     :usage: 
-        fastfieldscan magz start_T stop_T ramp_rate_T integration_time_in_seconds [other_scannables]
+        fastfieldscan magz start_T stop_T ramp_rate_T integration_time_in_seconds [energy1] [energy2] [other_scannables]
     '''
     if len(args) < 5:
         raise SyntaxError("Not enough parameters provided: You must provide '<magnet_scannable> <start_field> <stop_field> <field_ramp_rate_in_TPM> <integration_time> [energy1] [energy2]' and may be followed by other optional scannables!")
@@ -221,11 +221,13 @@ def fastfieldscan(*args):
                 ramprate = args[i + 3]
                 integrationtime = args[i + 4]
                 if len(args) >= 7 and isinstance(args[i + 5], (int, float)) and isinstance(args[i + 6], (int, float)):
+                    energy_switch_enabled = True
                     energy1 = args[i + 5]
                     energy2 = args[i + 6]
                     i = i + 7
                     command += " ".join(map(str, [startpos, stoppos, ramprate, integrationtime, energy1, energy2])) + " "
                 else:
+                    energy_switch_enabled = False
                     energy1 = None
                     energy2 = None
                     i = i + 5
@@ -234,6 +236,7 @@ def fastfieldscan(*args):
                 number_steps = ScannableUtils.getNumberSteps(arg, startpos, stoppos, stepsize)
                 newargs, command, flyscannablewraper = create_magnet_field_fly_scannable_and_positions(newargs, command, arg, startpos, stoppos, stepsize, ramprate)
                 for scn in SUPPORTED_DETECTOR_SCANNABLES:
+                    scn.energy_switch_enabled = energy_switch_enabled
                     scn.energy1 = energy1
                     scn.energy2 = energy2
                     newargs.append(scn)
@@ -261,6 +264,12 @@ def fastfieldscan(*args):
         if original_topup_threshold:
             topup_checker = checkbeamcv.getDelegate().getGroupMember("checktopup_time_cv")
             topup_checker.minimumThreshold = original_topup_threshold
+        if energy_switch_enabled:
+            for scn in SUPPORTED_DETECTOR_SCANNABLES:
+                scn.energy_switch_enabled = False
+                scn.energy1 = None
+                scn.energy2 = None
+            
             
 def magnetflyscannable(scannable, timeout_secs=1.):
     return MagnetFieldFlyScannable(scannable, timeout_secs)

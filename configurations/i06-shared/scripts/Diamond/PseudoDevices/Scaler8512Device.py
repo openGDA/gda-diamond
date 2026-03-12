@@ -3,6 +3,8 @@ from gda.epics import CAClient
 
 from gda.device import Detector
 from __main__ import energy  # @UnresolvedImport
+import threading
+from time import sleep
 
 #A Class to set all the detector's integration time in one go
 class DetectorIntegrationsDevice(ScannableMotionBase):
@@ -52,7 +54,7 @@ class DetectorIntegrationsDevice(ScannableMotionBase):
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
 class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
-	def __init__(self, name, strChTP, strChCNT, strChSn, energy_scannable= energy, energy1=None, energy2=None):
+	def __init__(self, name, strChTP, strChCNT, strChSn, energy_scannable= energy, enery_switch_enabled = False, energy1=None, energy2=None):
 		self.setName(name);
 		self.setInputNames([name]);
 		self.setExtraNames([]);
@@ -63,10 +65,13 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 		self.chCNT=CAClient(strChCNT);
 		self.chSn=CAClient(strChSn);
 		self.tp = -1;
+		self.energy_switch_enabled = enery_switch_enabled
 		self.energy1 = energy1
 		self.energy2 = energy2
 		self.energy = energy_scannable
 		self.first_energy_value = True
+		self._iambusy = False
+		self.move_energy_thread = None
 
 #		self.setTimePreset(time)
 
@@ -85,18 +90,32 @@ class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 	def getPosition(self):
 		return self.getCount();
 
-	def asynchronousMoveTo(self,newPos):
-		if self.energy1 is not None and self.energy2 is not None:
+	def move_energy(self, *args):
+		if args[0].isBusy():
+			print("%s: is busy, so wait now before switch energy to %f" % (args[0].getName(), args[1]))
+		while args[0].isBusy():
+			sleep(0.1)
+		print("%s: moves to %f" % (args[0].getName(), args[1]))
+		args[0].moveTo(args[1])
+					
+	def asynchronousMoveTo(self, new_pos):
+		if self.energy_switch_enabled and self.energy1 is not None and self.energy2 is not None:
+			self._iambusy = True
 			if self.first_energy_value:
-				self.energy.moveTo(self.energy1)
+				self.move_energy_thread = threading.Thread(target=self.move_energy, args=(self.energy, self.energy1))
+				self.move_energy_thread.start()
 				self.first_energy_value = False
 			else:
-				self.energy.moveTo(self.energy2)
+				self.move_energy_thread = threading.Thread(target=self.move_energy, args=(self.energy, self.energy2))
+				self.move_energy_thread.start()
 				self.first_energy_value = True
-		self.setCollectionTime(newPos);
+			self._iambusy = False
+		self.setCollectionTime(new_pos);
 		self.collectData();
 
 	def isBusy(self):
+		if self.energy1 is not None and self.energy2 is not None:
+			return self.getStatus() and self.move_energy_thread.is_alive() and self._iambusy
 		return self.getStatus()
 
 	def atScanEnd(self):
