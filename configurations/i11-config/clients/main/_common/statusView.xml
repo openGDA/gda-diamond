@@ -147,7 +147,7 @@
 					</property>
 				</bean>
 				<bean class="uk.ac.gda.beamline.synoptics.composites.DetectorFileSelectionFactory">
-					<property name="fileListener" ref="dirListener"/>
+					<property name="fileListener" ref="dirListener" />
 					<property name="fileFilters">
 						<map>
 							<entry key="All Data" value=".*" />
