@@ -43,12 +43,7 @@ server.spring-xml.common = [
 	"servers/${gda.mode}/icat_xml_creator.xml",
 	"servers/_common/topup_watchdog.xml",
 	"servers/_common/machine_status.xml",
-	"servers/_common/solstice_scanning.xml",
 ]
-
-# IMPORTANT: Importing solstice_scanning.xml will start processing the
-#            scanning queue, so detectors must be created before doing this.
-#    ADVICE: Do it last or towards the end, scan will now start to run!
 
 server.spring-xml.mode.dummy = [
 	"servers/dummy/det.xml",
