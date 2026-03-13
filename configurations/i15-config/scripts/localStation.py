@@ -530,6 +530,7 @@ try:
 		caput("BL15I-EA-PILAT-03:ARR:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:PROC:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:MJPG:EnableCallbacks",	"Enable")
+		caput("BL15I-EA-PILAT-03:PVA:EnableCallbacks",	"Enable")
 		caput("BL15I-EA-PILAT-03:ARR:MinCallbackTime", 0) # I15-566
 		caput("BL15I-EA-PILAT-03:HDF5:NDArrayPort", "pilatus3.cdc") # Needed for fast compression
 		caput("BL15I-EA-PILAT-03:HDF5:Compression", "Blosc") # cdc plugin produces Blosc compression instead
