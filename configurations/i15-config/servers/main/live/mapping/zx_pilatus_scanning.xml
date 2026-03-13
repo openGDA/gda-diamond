@@ -11,7 +11,7 @@
 	<bean id="zxPilatusScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Pilatus zx"/>
 		<property name="description" value="Hardware mapping scanning using the ZX stages"/>
-		<property name="shownByDefault" value="false"/>
+		<property name="shownByDefault" value="true"/>
 	</bean>
 
 	<bean id="zxPilatusScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">

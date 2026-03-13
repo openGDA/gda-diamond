@@ -11,7 +11,7 @@
 	<bean id="zxDiodeScanInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Diodes zx"/>
 		<property name="description" value="Hardware mapping scanning using the ZX stages"/>
-		<property name="shownByDefault" value="true"/>
+		<property name="shownByDefault" value="false"/>
 	</bean>
 
 	<bean id="zxDiodeScanDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">

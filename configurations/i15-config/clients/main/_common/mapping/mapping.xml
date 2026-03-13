@@ -106,10 +106,12 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion" />
+				<!-- 
 				<bean class="uk.ac.diamond.daq.mapping.region.CircularMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.PolygonMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.LineMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
+				 -->
 			</list>
 		</property>
 		<property name="twoDPaths">
@@ -120,11 +122,14 @@
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridStepModel">
 					<property name="alternating" value="true" />
 				</bean>
+				<!-- 
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisSpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLissajousModel" />
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisGridPointsRandomOffsetModel" />
+				 -->
 			</list>
 		</property>
+		<!-- 
 		<property name="oneDPaths">
 			<list>
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisLinePointsModel" />
@@ -136,5 +141,6 @@
 				<bean class="org.eclipse.scanning.api.points.models.TwoAxisPointSingleModel" />
 			</list>
 		</property>
+		 -->
 	</bean>
 </beans>
