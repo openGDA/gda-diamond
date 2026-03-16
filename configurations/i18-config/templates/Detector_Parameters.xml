@@ -17,9 +17,9 @@
         <detector>counterTimer01</detector>
     </detectorGroup>
     <detectorGroup>
-        <name>Xmap</name>
-        <detector>xmapMca</detector>
-        <detector>FFI0_xmapMca</detector>
+        <name>Xspress3Mini</name>
+        <detector>xspress3Mini</detector>
+        <detector>FFI0_xspress3Mini</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
     <experimentType>Fluorescence</experimentType>    

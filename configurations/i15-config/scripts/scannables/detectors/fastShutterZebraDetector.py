@@ -152,11 +152,22 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, self.timeunit)
         self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, 961)      # Complex bitfield
 
-        self.pvs['OR3_ENA'       ].caput(TIMEOUT, 7)        # 1, 2 & 3
+        # Pilatus trigger signal'
+        #self.pvs['OR3_ENA'       ].caput(TIMEOUT, 7)        # 1, 2 & 3
+        self.pvs['OR3_ENA'       ].caput(TIMEOUT, 5)        # 1 & 3 - Disable SOFT_IN3 for pilatus trigger
         self.pvs['OR3_INP1'      ].caput(TIMEOUT, 31)       # PC_PULSE
         self.pvs['OR3_INP2'      ].caput(TIMEOUT, 62)       # SOFT_IN3
+
         self.pvs['OR3_INP3'      ].caput(TIMEOUT, 4)        # IN2_TTL
+
         self.pvs['OUT3_OC'       ].caput(TIMEOUT, 38)       # OR3
+
+        # TODO: Implement Shutter gate signal
+        self.pvs['OR4_ENA'	     ].caput(TIMEOUT, 7)       # 1, 2 & 3
+        self.pvs['OR4_INP1'	     ].caput(TIMEOUT, 31)      # PC_PULSE
+        self.pvs['OR4_INP2'	     ].caput(TIMEOUT, 62)      # SOFT_IN3
+        self.pvs['OR4_INP3'	     ].caput(TIMEOUT, 7)       # IN3_TTL
+        self.pvs['OUT4_TTL'	     ].caput(TIMEOUT, 39)      # OR4
 
         self.pvs['PC_ARM_SEL'    ].caput(TIMEOUT, 'Soft')
         self.pvs['PC_GATE_SEL'   ].caput(TIMEOUT, 'Time')

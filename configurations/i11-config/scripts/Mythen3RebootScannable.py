@@ -20,6 +20,8 @@ scan delta 1 2 0.5 mythen_nx 1 cms1
 
 You can also run this script directly to just reboot the mythen3
 
+ie cms1.reboot_mythen()
+
 ###############
 
 """
@@ -71,8 +73,11 @@ class CMS(ScannableMotionBase):
         self._stop = False
 
     def stop(self):
-        # self._stop = True
+        self._stop = True
         quit()
+
+    def start(self):
+        self._stop = False
 
     def atPointStart(self):
 
@@ -118,7 +123,6 @@ class CMS(ScannableMotionBase):
 
 
     def getPosition(self):
-
 
         active_modules = self.check_modules()
         print("active modules:",active_modules)
@@ -171,7 +175,7 @@ class CMS(ScannableMotionBase):
         else:
             DetectorState = 2
 
-        isMythenHealthyBool = (len(self.enabled_modules) == len(active_modules)) and (len(active_modules) != 0) and (DetectorState != 1)
+        isMythenHealthyBool = (len(self.enabled_modules) == len(active_modules)) and (len(active_modules) != 0) and (DetectorState == 2)
 
         return isMythenHealthyBool
 
@@ -192,7 +196,7 @@ class CMS(ScannableMotionBase):
         time.sleep(90)
 
         Mythen3IOCHealthy = False
-        while not Mythen3IOCHealthy:
+        while not Mythen3IOCHealthy and not self._stop:
             try:
                 Mythen3IOCModel = caget("BL11I-EA-DET-07:DET:Model_RBV")
                 Mythen3IOCHealthy = (Mythen3IOCModel == "Mythen3")
@@ -254,6 +258,12 @@ class CMS(ScannableMotionBase):
         print(self.time_now_str(),'Mythen Reboot started')
         print("Will take approx 15 minutes")
 
+        last_beam_energy = int(caget("BL11I-EA-DET-07:DET:BeamEnergy"))
+        last_energy_threshold1 = int(caget("BL11I-EA-DET-07:DET:Counter1Threshold"))
+        last_energy_threshold2 = int(caget("BL11I-EA-DET-07:DET:Counter2Threshold"))
+        last_energy_threshold3 = int(caget("BL11I-EA-DET-07:DET:Counter3Threshold"))
+
+
         if write_reset:
             self.write_bad_modules_to_log()
 
@@ -277,7 +287,7 @@ class CMS(ScannableMotionBase):
         time.sleep(45)
 
         isMythenHealthy = False
-        while not isMythenHealthy:
+        while not isMythenHealthy and not self._stop:
             try:
                 isMythenHealthy = self.isMythenHealthyCheck(checkstate=False)
                 print("Waiting for modules to all turn on...")
@@ -304,10 +314,10 @@ class CMS(ScannableMotionBase):
 
         print(self.time_now_str(),"Setting energy and threshold...")
         #set PSD energy and threshold
-        caput_and_ensure('BL11I-EA-DET-07:DET:BeamEnergy', 15000)
-        caput_and_ensure('BL11I-EA-DET-07:DET:Counter1Threshold', 7500)
-        caput_and_ensure('BL11I-EA-DET-07:DET:Counter2Threshold', 20000)
-        caput_and_ensure('BL11I-EA-DET-07:DET:Counter3Threshold', 20000)
+        caput_and_ensure('BL11I-EA-DET-07:DET:BeamEnergy', last_beam_energy)
+        caput_and_ensure('BL11I-EA-DET-07:DET:Counter1Threshold', last_energy_threshold1)
+        caput_and_ensure('BL11I-EA-DET-07:DET:Counter2Threshold', last_energy_threshold2)
+        caput_and_ensure('BL11I-EA-DET-07:DET:Counter3Threshold', last_energy_threshold3)
 
         self.write_bad_modules_to_log()
         print(self.time_now_str(),"Mythen Reboot Complete")

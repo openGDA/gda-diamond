@@ -23,4 +23,6 @@
 	</bean>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	
+	<import resource="solstice_scanning.xml" />
 </beans>

@@ -8,6 +8,7 @@
 		<property name="fastAxes">
 			<list>
 				<value>t1x</value>
+				<value>t1theta</value>
 				<value>t3x</value>
 			</list>
 		</property>

@@ -359,9 +359,12 @@ def align_pitch(centre=None):
     rscan(dcm_pitch, -1.2, 1.2, 0.05, Io, 1, Ie, 1)
     scan_processor.go(peak)
 
-# Run any configuration needed for things under active development
-from config_tests import *
-# config_tests can be found in /dls_sw/i11/scripts/config_tests
+try:
+    # Run any configuration needed for things under active development
+    from config_tests import *
+    # config_tests can be found in /dls_sw/i11/scripts/config_tests
+except:
+    print "Failed to import config_tests"
 
 add_default delta # this is needed to angular correct the mythen_nx detector when it is used statically eg scan ds 1 1 1
 #add_default dcm_energy #useful to know for all experiments
@@ -372,6 +375,15 @@ try:
 except:
     pass
 
+try:
+	# Temporarily removed height because of UPPER_LIMIT error on motor
+    for scnbl in [Ie, Ic4, Io, dcm_energy, dcm_pitch, dcm_roll, m1pitch, delta, ringcurrent, ringenergy, spos, theta, tth, xtr1, xtr2, y1, y2, y3, yaw, s4xcentre, s4ycentre, s4xgap, s4ygap]:
+        try:
+            add_default scnbl
+        except:
+            pass
+except:
+    pass
 
 try:
     from TopupCountdown import TopupCountdown

@@ -4,6 +4,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="webcam3_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 3" />
+		<property name="url" value="http://i20:!20@i20-webcam3/mjpg/video.mjpg" />
+		<property name="rgb" value="true" />
+		<property name="sleepTime" value="100" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CustomCameraLiveControls">
+				<property name="customUIs" >
+					<list>
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewAxisCameraControls" />
+						<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewStartStopStream" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<bean id="webcam6_live_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Webcam 6" />
 		<property name="url" value="http://i20:!20@i20-webcam6/mjpg/video.mjpg" />

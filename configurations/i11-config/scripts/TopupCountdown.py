@@ -1,4 +1,5 @@
 from gda.epics import CAClient
+from gda.device.scannable import ScannableMotionBase
 
 """
     Purpose:     pause scan around topups
@@ -23,6 +24,7 @@ class TopupCountdown(ScannableMotionBase):
 		if (p < 0):
 			return False
 		if (p <= float(self.secsBefore) or (self.maxTimeBetweenTopUps-p) < self.secsAfter):
+			print("Pausing for topup")
 			return True
 		return False
 
