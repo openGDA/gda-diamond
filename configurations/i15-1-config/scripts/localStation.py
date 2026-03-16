@@ -239,6 +239,10 @@ try:
         print subprocess.check_output(['bash','-c', 'ps huxH | wc -l'])
 
     alias(checkthreads)
+
+    # Import athena commands to run bluesky plans
+    from gdascripts.blueskyHandler import *
+
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
