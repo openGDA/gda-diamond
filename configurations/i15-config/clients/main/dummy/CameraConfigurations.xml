@@ -39,6 +39,7 @@
 		<property name="displayName" value="PIL3 (aka Utilities > GDA AreaDetector Simulation)" />
 		<property name="url" value="http://${WORKSTATION:${HOSTNAME}}:8080/ADSIM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ADSIM_HOST}-AD-SIM-01:ARR" />
+		<property name="pvAccessPv" value="#{ADSIM_HOST}-AD-SIM-01::PVA:ARRAY" />
 	</bean>
 
 	<bean id="LH_upstream_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
