@@ -89,4 +89,16 @@
 		<property name="roiProvider" ref="es32_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
+
+	<bean id="dld_proc_XT" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcXT"/>
+		<property name="displayName" value="DLD PROC Image XT" />
+		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+	</bean>
+
+	<bean id="dld_proc_YT" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="viewID" value="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcYT"/>
+		<property name="displayName" value="DLD PROC Image YT" />
+		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+	</bean>
 </beans>

@@ -61,6 +61,18 @@
             name="ES32 accum image"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcXT"
+            name="DLD proc image XT"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
+            id="uk.ac.gda.beamline.i09-2.dld.live.stream.view.ProcYT"
+            name="DLD proc image YT"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.services">
