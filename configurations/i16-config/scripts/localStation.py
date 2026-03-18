@@ -974,10 +974,8 @@ def wrappedDetector(name, cam_for_scans, cam_for_snaps, display_image=True, sum_
 try:
 	bpm, bpmpeak2d, bpmmax2d = wrappedDetector("bpm", _bpm1, _bpm1_for_snaps, panel_name_rcp='BPM')
 	bpm_no_screen, bpm_no_screen_peak2d, bpm_no_screen_max2d = wrappedDetector("bpm", _bpm1_no_screen, _bpm1_no_screen_for_snaps, panel_name_rcp='BPM')
-	cam1, cam1_peak2d, cam1_max2d = wrappedDetector("cam1", _cam1, _cam1_for_snaps, panel_name_rcp='CAM1')
-	cam2, cam2_peak2d, cam2_max2d = wrappedDetector("cam2", _cam2, _cam2_for_snaps, panel_name_rcp='CAM2')
 except:
-	localStation_exception("configuring bpm, cam1, cam2 (COR)")
+	localStation_exception("configuring bpm")
 
 def wrappedAutoDetector(name, cam_for_scans, cam_for_snaps, auto_range_base_PV, display_image=True, sum_last=True, panel_name_rcp='Plot 2'):
 	try:

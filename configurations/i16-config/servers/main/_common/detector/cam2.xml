@@ -1,0 +1,132 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="NexusScanDataWriter">
+
+	<bean id="cam2" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor" >
+		<property name="detector" ref="_cam2"/>
+		<property name="processor">
+			<bean class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor">
+				<property name="detName" value="cam2" />
+				<property name="processors">
+					<list>
+						<bean class="gda.device.detector.nexusprocessor.DatasetPlotter">
+							<property name="plotName" ref="cam2_plotName" />
+						</bean>
+						<ref bean="cam2_rois" />
+						<ref bean="cam2_stats" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cam2_snap" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="_cam2_for_snaps" />
+		<property name="snappingCollectionStrategy" ref="cam2_nxcollectionstrategy"/>
+		<property name="snapperPluginList">
+			<list>
+				<ref bean="cam2_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cam2_ad_array_plugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="cam2_ndarray"/>
+		<property name="enabled" value="False" />
+		<property name="writeDataToFile" value="False" />
+	</bean>
+
+	<bean id="cam2_plotName" class="java.lang.String" factory-method="valueOf">
+		<constructor-arg value="CAM2"/>
+	</bean>
+
+	<bean id="cam2_rois" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor">
+		<property name="plotName" ref="cam2_plotName" />
+		<property name="statsProcessor" ref="cam2_stats" />
+	</bean>
+
+	<bean id="cam2_stats" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enabledStats">
+			<list>
+				<value>MAX_VAL</value>
+				<value>MAX_X</value>
+				<value>MAX_Y</value>
+				<value>SUM</value>
+			</list>
+		</property>
+		<property name="statNames">
+			<map>
+				<entry key="MAX_VAL" value="cam2_max_val"/>
+				<entry key="MAX_X" value="cam2_max_x"/>
+				<entry key="MAX_Y" value="cam2_max_y"/>
+				<entry key="SUM" value="cam2_total"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="cam2_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="cam2_adbase" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="cam2_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="cam2" />
+		<property name="ndFile" ref="cam2_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="cam2_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="cam2_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="cam2" />
+		<property name="ndFile" ref="cam2_ndfile" />
+		<property name="numTrackerExtension" value="cam2snaps" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<bean id="cam2_hdf5_filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="cam2_ndfile_hdf5" />
+		<property name="fileNameTemplate" value="$scan$-cam2" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+		<property name="alwaysPrepare" value="true" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="_cam2" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam2" />
+		<property name="collectionStrategy" ref="cam2_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam2_nxfilewriter_for_scans" />
+				<ref bean="cam2_hdf5_filewriter_for_scans" />
+				<ref bean="cam2_ad_array_plugin" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_cam2_for_snaps" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam2_for_snaps" />
+		<property name="collectionStrategy" ref="cam2_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam2_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
