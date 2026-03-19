@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="uk.ac.gda.devices.vgscienta.VGScientaOverExposureProtector">
+	<bean class="uk.ac.gda.arpes.utils.AnalyserOverExposureProtection">
 		<!-- PVs -->
 		<property name="basePv" value="BL05I-EA-DET-02:LIVE:STAT:MaxValue_RBV" />
 		<!-- Delay time (ms) -->
