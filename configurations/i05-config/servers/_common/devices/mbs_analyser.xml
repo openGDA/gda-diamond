@@ -1,0 +1,195 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="mbs_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:CAM:" />
+	</bean>
+
+	<bean id="mbs_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:ARR:" />
+				<property name="initialArrayPort" value="DET.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="mbs_controller" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserController">
+		<constructor-arg name="adBase" ref="mbs_adbase" />
+		<constructor-arg name="ndArray" ref="mbs_ndarray" />
+		<constructor-arg name="basePvName" value="#{ANALYSER_PV_BASENAME}:" />
+	</bean>
+
+	<bean id="mbs_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<property name="viewName" value="Detector Plot" />
+		<property name="maximumActiveRois" value="1" />
+	</bean>
+
+	<!-- Currently this config is the same for all modes so we're just going to re-use one DetectorConfiguration object -->
+	<bean id="detector_config" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
+		<property name="startX" value="202" />
+		<property name="sizeX" value="1034" />
+		<property name="startY" value="106" />
+		<property name="sizeY" value="835" />
+		<property name="slices" value="835" />
+	</bean>
+
+
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
+		<constructor-arg name="controller" ref="mbs_controller" />
+		<property name="name" value="analyser" />
+		<property name="collectionStrategy">
+			<bean id="mbs_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserCollectionStrategy" />
+		</property>
+		<property name="energyRange" ref="mbs_analyser_energy_range" />
+		<property name="fixedModeConfiguration" ref="detector_config" />
+		<property name="sweptModeConfiguration" ref="detector_config" />
+		<property name="ditherModeConfiguration" ref="detector_config" />
+		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
+		<property name="maximumNumberOfSteps" value="2000" />
+		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
+		<property name="energyStepPerPixel" value="0.08283989303014" />
+	</bean>
+
+	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
+		<constructor-arg name="controller" ref="mbs_controller" />
+		<property name="name" value="analyser" />
+		<property name="collectionStrategy">
+			<bean id="mbs_total_only_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserTotalOnlyCollectionStrategy" />
+		</property>
+		<property name="energyRange" ref="mbs_analyser_energy_range" />
+		<property name="fixedModeConfiguration" ref="detector_config" />
+		<property name="sweptModeConfiguration" ref="detector_config" />
+		<property name="ditherModeConfiguration" ref="detector_config" />
+		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
+	</bean>
+
+	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Plot" />
+		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:SINGLE:ARR:ArrayData" />
+		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+				<list>
+					<value>Fixed</value>
+					<value>Dither</value>
+				</list>
+		</property>
+	</bean>
+
+	<bean id="AnalyserSumLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Sum Plot" />
+		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:ARR:ArrayData" />
+		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+				<list>
+					<value>Fixed</value>
+					<value>Dither</value>
+				</list>
+		</property>
+	</bean>
+
+	<bean id="AnalyserSweptLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLimbs_energy_range.xmlveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Swept Plot" />
+		<property name="arrayPV" value="#{ANALYSER_PV_BASENAME}:ARR:ArrayData" />
+		<property name="frameNumberPV" value="#{ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="acquisitionModePV" value="#{ANALYSER_PV_BASENAME}:CAM:AcqMode" />
+		<property name="supportedAcquisitionModes">
+				<list>
+					<value>Swept</value>
+				</list>
+		</property>
+	</bean>
+
+	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
+		<property name="currentPointPV" value="#{ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
+		<property name="maxSweepPV" value="#{ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV" />
+		<property name="percentagePV" value="#{ANALYSER_PV_BASENAME}:CAM:ProgressPct_RBV" />
+		<property name="currentIterationPV" value="#{ANALYSER_PV_BASENAME}:CAM:CurrentScanNumber_RBV"/>
+	</bean>
+
+	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
+	</bean>
+
+	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
+		<!-- DeflX_RBV does not work properly in MBS software, see I05-542 -->
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:DeflX" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:DeflX" />
+		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
+	</bean>
+
+	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
+		<property name="limitsMap" ref="defl_x_range" />
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:LensMode"/>
+		<property name="useMonitor" value="true"/>
+	</bean>
+
+	<!-- Configure limits when using deflector_x in Jython -->
+	<bean id="defl_x_range" class="gda.device.controlpoint.LimitsMap">
+		<constructor-arg>
+			<map>
+				<entry key="L4Ang0d8">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-17.12" />
+						<constructor-arg name="high" value="17.12" />
+					</bean>
+				</entry>
+				<entry key="L4Ang1d6">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-8.07" />
+						<constructor-arg name="high" value="8.07" />
+					</bean>
+				</entry>
+				<entry key="L4Ang3d9">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-3.01" />
+						<constructor-arg name="high" value="3.01" />
+					</bean>
+				</entry>
+				<entry key="L4MSpat5">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-2.63" />
+						<constructor-arg name="high" value="2.63" />
+					</bean>
+				</entry>
+				<entry key="L4MAng0d7">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-17.85" />
+						<constructor-arg name="high" value="17.85" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+		</bean>
+
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
+</beans>

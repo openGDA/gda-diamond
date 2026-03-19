@@ -5,7 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="gonio.xml" />
-	<import resource="mbs_analyser.xml" />
 	<import resource="pressure_gauges.xml" />
 	<import resource="cryostat.xml" />
 	<import resource="shtr1.xml"/>
@@ -53,4 +52,6 @@
 
 		<!-- diodes -->
 	<import resource="diodes.xml" />
+
+	<import resource="mbs_analyser.xml" />
 </beans>

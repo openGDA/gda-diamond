@@ -10,4 +10,8 @@
 
 	<!-- diodes -->
 	<import resource="diodes.xml" />
+
+	<!-- analyser -->
+	<import resource="mbs_analyser.xml" />
+	<import resource="mbs_energy_range.xml"/>
 </beans>
