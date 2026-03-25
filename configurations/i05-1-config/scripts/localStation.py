@@ -29,13 +29,6 @@ mcp_roi = Finder.find('mcp_roi')
 print ("")
 
 print "-"*100
-print "Setting up centre_energy scannable";
-centre_energy = analyser.getCentreEnergyScannable()
-centre_energy.setName("centre_energy")
-centre_energy.setInputNames(["centre_energy"])
-print("")
-
-print "-"*100
 print "Adding ring_current as a default_scannable"
 add_default(ring_current)
 print("")

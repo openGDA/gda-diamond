@@ -6,9 +6,6 @@
 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ANALYSER_PV_BASENAME" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="BL05J-EA-DET-01"/>
-	</bean>
 	<!-- slits -->
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
@@ -20,8 +17,6 @@
 	<import resource="mj7j8.xml" />
 	<!-- shutters -->
 	<import resource="shtrj.xml" />
-	<!-- analyser -->
-	<import resource="scientaslit.xml" />
 	<!-- endstation -->
 	<import resource="sample_stage.xml" />
 	<import resource="zone_plate.xml" />
@@ -39,4 +34,6 @@
 
 	<!-- pressure gauges -->
 	<import resource="pressure_gauges.xml"/>
+
+	<import resource="mbs_analyser.xml"/>
 </beans>

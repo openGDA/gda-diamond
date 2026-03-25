@@ -10,7 +10,7 @@
 		<property name="gratingName" value="pgm_grating" />
 		<property name="exitSlitName" value="exit_slit" />
 		<property name="analyserName" value="analyser"/>
-		<property name="analyserEntranceSlitProviderName" value="scientaslit"/>
+		<property name="analyserEntranceSlitProviderName" value="mbs_slits"/>
 		<property name="analyserResolutionParamsFilePath" value="/dls_sw/i05-1/scripts/beamline/analyser_resolution_lookup.csv"/>
 		<property name="workFunctionFilePath" value=""/>
 		<property name="blResolutionParamsFilePath" value="/dls_sw/i05/scripts/beamline/beamline_resolution_lookup.csv"/>

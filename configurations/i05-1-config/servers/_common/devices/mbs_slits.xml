@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mbs_slits" class="org.opengda.detector.electronanalyser.entrance.slit.AnalyserEntranceSlit" destroy-method="dispose">
+		<property name="slitScannable" ref="analyser_slit"/>
+		<property name="defaultSlitString" value="100 0.1 curved vertical"/>
+	</bean>
+
+	<bean id="analyser_slit" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL05J-EA-SLITS-01:POS" />
+		<property name="values">
+			<map>
+				<entry	key="100 0.1 curved vertical"  	value="100 0.1 curved"/>
+				<entry  key="200 0.1 straight vertical" value="200 0.1 straight"/>
+				<entry 	key="300 0.2 curved vertical" 	value="300 0.2 curved" />
+				<entry  key="400 0.2 straight vertical" value="400 0.2 straight"/>
+				<entry  key="500 0.2 straight vertical" value="500 0.2 straight"/>
+				<entry  key="600 0.3 straight vertical" value="600 0.3 straight"/>
+				<entry  key="700 0.5 straight vertical" value="700 0.5 straight"/>
+				<entry 	key="800 0.8 straight vertical" value="800 0.8 straight" />
+				<entry 	key="850 3 hole vertical" 		value="850 3 hole" />
+				<entry 	key="900 1.5 straight vertical" value="900 1.5 straight" />
+			</map>
+		</property>
+	</bean>
+</beans>
