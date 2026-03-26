@@ -19,7 +19,7 @@ localStation_print("Import configuration booleans from user scripts localStation
 try:
 	from localStationConfiguration import USE_DIFFCALC, USE_DIFFCALC_WITHOUT_LASTUB, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS # @UnresolvedImport
-	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL2, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
+	from localStationConfiguration import USE_SMARGON, USE_PIL1, USE_PIL3, USE_ROCKING_SCANNABLES # @UnresolvedImport
 except:
 	USE_DIFFCALC = True
 	USE_DIFFCALC_WITHOUT_LASTUB = False
@@ -28,7 +28,7 @@ except:
 	USE_NEXUS_METADATA_COMMANDS = True
 	USE_SMARGON = False
 	USE_PIL1 = True
-	USE_PIL2 = True
+
 	USE_PIL3 = True
 	USE_ROCKING_SCANNABLES = False
 	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
@@ -36,8 +36,8 @@ except:
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
-		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
-				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
+		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
+				(USE_SMARGON,    USE_PIL1,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
 
 if USE_NEXUS_METADATA_COMMANDS and not USE_NEXUS:
@@ -116,14 +116,13 @@ if installation.isDummy():
 	USE_DUMMY_IDGAP_MOTOR = True
 	USE_SMARGON = False
 	USE_PIL1 = False
-	USE_PIL2 = False
 	localStation_print("Override some localStationConfiguration options in order to run in dummy mode:\n"+
 		"        USE_DIFFCALC=%r, USE_DIFFCALC_WITHOUT_LASTUB=%r, USE_DUMMY_IDGAP_MOTOR=%r,\n" %
 				(USE_DIFFCALC,    USE_DIFFCALC_WITHOUT_LASTUB,    USE_DUMMY_IDGAP_MOTOR) +
 		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r,\n" %
 				(USE_NEXUS,    USE_NEXUS_METADATA_COMMANDS) +
-		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL2=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
-				(USE_SMARGON,    USE_PIL1,    USE_PIL2,    USE_PIL3,    USE_ROCKING_SCANNABLES)
+		"        USE_SMARGON=%r, USE_PIL1=%r, USE_PIL3=%r, USE_ROCKING_SCANNABLES=%r" %
+				(USE_SMARGON,    USE_PIL1,    USE_PIL3,    USE_ROCKING_SCANNABLES)
 		)
 # Java
 import java  # @UnresolvedImport
@@ -782,15 +781,6 @@ localStation_run("localStationScripts/ConfigureLimits","Setting user limits (run
 ###############################################################################
 ###                             Configure Pilatus                           ###
 ###############################################################################
-from scannable.pilatus import PilatusThreshold, PilatusGain
-
-
-### 2m ###
-if USE_PIL2:
-	localStation_print("Configuring pilatus 2 (2m)")
-	global pilatus2, pilatus2_hardware_triggered, pilatus2_for_snaps, pil2M
-else:
-	localStation_print("Not configuring pilatus 2 (2m)")
 
 ### 100k ###
 if USE_PIL1:
