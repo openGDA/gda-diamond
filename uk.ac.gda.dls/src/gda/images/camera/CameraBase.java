@@ -62,10 +62,10 @@ public abstract class CameraBase extends DeviceBase implements Camera {
 		if( targetIndex < 0 ) return; // ignore negative target index
 
 		double[] availableZoomLevels = getZoomLevels();
-		if( targetIndex >= availableZoomLevels.length ) return; // ignore target index outside range
-
-		updateCameraToIndexedSettings(targetIndex); // apply indexed zoom level to camera hardware
-		setZoomIndex(targetIndex); // store recognised index in camera state, once zoom succeeds
+		if( targetIndex < availableZoomLevels.length ) {
+			updateCameraToIndexedSettings(targetIndex); // apply indexed zoom level to camera hardware
+			setZoomIndex(targetIndex); // store recognised index in camera state, once zoom succeeds
+		}
 	}
 
 	@Override
@@ -85,7 +85,8 @@ public abstract class CameraBase extends DeviceBase implements Camera {
 
 	@Override
 	public final void setZoom(double zoom) throws DeviceException {
-		selectZoomAt( ArrayUtils.indexOfNearest(getZoomLevels(), zoom) );
+		var nearestIndex = ArrayUtils.indexOfNearest(getZoomLevels(), zoom);
+		selectZoomAt(nearestIndex);
 	}
 
 	/**
