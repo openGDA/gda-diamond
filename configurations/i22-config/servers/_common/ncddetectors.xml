@@ -15,7 +15,8 @@
 
     <bean id="fast_shutter" class="gda.device.timer.TfgChannelEnum" >
         <property name="tfg" ref="Tfg" />
-        <property name="channel" value="2" />
+        <property name="channel1" value="2" />
+        <property name="channel2" value="1" />
     </bean>
 
     <bean id="CalibMemory" class="gda.device.memory.Scaler">
