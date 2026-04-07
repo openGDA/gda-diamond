@@ -1,0 +1,149 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="maranaxCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="maranax_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- use EPICS HDF5 plugin to write data to file -->
+	<bean id="maranaxHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="maranax_hdf5"/>
+		<property name="fileNameTemplate" value="maranax"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="swmrModeEnabled" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true"/>
+	</bean>
+	<!-- used with live stream view -->
+ 	<bean id="maranax" class="gda.device.detector.NXDetector">
+		<property name="name" value="maranax" />
+		<property name="collectionStrategy" ref="maranaxCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="maranax_RoiStats1" />
+				<ref bean="maranax_RoiStats2" />
+				<ref bean="maranax_RoiStats3" />
+				<ref bean="maranax_RoiStats4" />
+				<ref bean="maranax_RoiStats5" />
+				<ref bean="maranax_RoiStats6" />
+				<ref bean="maranaxHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Objects for Processing -->
+<!-- 	<bean id="maranax" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor"> -->
+<!-- 		<property name="detector"> -->
+<!-- 			<bean class="gda.device.detector.NXDetector"> -->
+<!-- 				<property name="name" value="maranax" /> -->
+<!-- 				<property name="collectionStrategy" ref="maranaxCollectionStrategy" /> -->
+<!-- 				<property name="additionalPluginList"> -->
+<!-- 					<list> -->
+<!-- 						<ref bean="maranaxHdf5Filewriter" /> -->
+<!-- 					</list> -->
+<!-- 				</property> -->
+<!-- 				<property name="level" value="7"/> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 		<property name="processor" ref="maranax_swmr_standard" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="maranax_swmr_standard" class="gda.device.detector.nexusprocessor.SwmrHdfDatasetProviderProcessor"> -->
+<!-- 		<constructor-arg index="0" value="" /> -->
+<!-- 		<constructor-arg index="1" value="" /> -->
+<!-- 		<constructor-arg index="2" value="SDS" /> -->
+<!-- 		<constructor-arg index="3"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="maranax_stats_standard" /> -->
+<!-- 				<ref bean="maranax_roistats_standard" /> -->
+<!-- 				<ref bean="maranax_plotter" /> -->
+<!-- 			</list> -->
+<!-- 		</constructor-arg> -->
+<!-- 		<constructor-arg index="4" ref="maranax_mask" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="maranax_mask" class="gda.device.detector.nexusprocessor.MaskedDatasetCreator"> -->
+<!-- 		<property name="minThreshold"> -->
+<!-- 			<value type="java.lang.Integer">0</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="maxThreshold" > -->
+<!-- 			<value type="java.lang.Integer">1000000000</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="enabled" value="false" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="maranax_stats_standard" class="gda.device.detector.nexusprocessor.DatasetStats"> -->
+<!-- 		<property name="enabledStats"> -->
+<!-- 			<list> -->
+<!-- 				<value>MAX_VAL</value> -->
+<!-- 				<value>MAX_X</value> -->
+<!-- 				<value>MAX_Y</value> -->
+<!-- 				<value>MIN_VAL</value> -->
+<!-- 				<value>MIN_X</value> -->
+<!-- 				<value>MIN_Y</value> -->
+<!-- 				<value>MEAN</value> -->
+<!-- 				<value>SUM</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="maranax_roistats_standard" class="gda.device.detector.nexusprocessor.roistats.RoiStatsProcessor"> -->
+<!-- 		<property name="plotName" value="maranax: EPICS Array" /> -->
+<!-- 		<property name="statsProcessor" ref="maranax_stats_standard" /> -->
+<!-- 		<property name="detectorName" value="maranax"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="maranax_plotter" class="gda.device.detector.nexusprocessor.DatasetPlotter"> -->
+<!-- 		<property name="plotName" value="maranax: EPICS Array" /> -->
+<!-- 	</bean> -->
+
+<!-- ADDetector used in new scanning -->
+	<bean id="maranax_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="maranaxCollectionStrategy"/>
+		<property name="adBase" ref="maranax_adbase" />
+		<property name="ndFile" ref="maranax_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="maranax_ndarray" />
+		<property name="ndStats" ref="maranax_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="maranaxHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="maranaxModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="maranax_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="maranaxInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i21.maranax.DeviceInformation" />
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<bean id="maranax_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="maranax_addetector" />
+		<property name="model" ref="maranaxModel" />
+		<property name="deviceInformation" ref="maranaxInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+</beans>
