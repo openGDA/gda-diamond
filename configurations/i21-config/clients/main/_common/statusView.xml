@@ -7,7 +7,9 @@
 	<bean id="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="feshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="feBeamPermit" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="feabsorber" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="fastshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="fvalve9" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="m4femto1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="m4femto2" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
@@ -19,7 +21,7 @@
 			<list>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Shutters" />
-					<property name="columns" value="4" />
+					<property name="columns" value="5" />
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
@@ -37,12 +39,15 @@
 								<property name="controlPermitted" value="true" />
 								<property name="shutter" ref="feBeamPermit" />
 							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
-								<property name="label" value="FS" />
+							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+								<property name="label" value="Absorber" />
 								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="fastshutter" />
-								<property name="openString" value="Open"/>
-								<property name="closeString" value="Closed"/>
+								<property name="shutter" ref="feabsorber" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="FValve" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="fvalve9" />
 							</bean>
 						</list>
 					</property>
@@ -55,10 +60,17 @@
 							<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
 								<property name="label" value="Baton" />
 							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory">
-								<property name="label" value="Beam" />
-								<property name="beamMonitor" ref="bm"/>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
+								<property name="label" value="FS" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="fastshutter" />
+								<property name="openString" value="Open"/>
+								<property name="closeString" value="Closed"/>
 							</bean>
+<!-- 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory"> -->
+<!-- 								<property name="label" value="Beam" /> -->
+<!-- 								<property name="beamMonitor" ref="bm"/> -->
+<!-- 							</bean> -->
 							<bean class="uk.ac.gda.beamline.synoptics.composites.LaserScannerStatusCompositeFactory">
 								<property name="label" value="Laser" />
 								<property name="pvName" value="BL21I-MO-ARM-01:TTH:LASER:STATUS"/>

@@ -7,4 +7,6 @@
 	</bean>
 	<bean id="gv16" class="gda.device.enumpositioner.DummyValve">
 	</bean>
+	<bean id="fvalve9" class="gda.device.enumpositioner.DummyValve">
+	</bean>
 </beans>
