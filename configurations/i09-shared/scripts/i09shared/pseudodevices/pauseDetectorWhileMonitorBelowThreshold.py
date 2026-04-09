@@ -255,3 +255,4 @@ class WaitForScannableStateAndHandleShutter(WaitForScannableState2):
                     shutter.moveTo("Out")
                     print shutter.getName() + " opened"
             self.previousStates= {}
+
