@@ -26,6 +26,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projFolder";
+	private static final String BATON_FOLDER = "batonFolder";
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String PLOT_1D_FOLDER = "Plot1DFolder";
 	private static final String PLOT_2D_FOLDER = "Plot2DFolder";
@@ -51,18 +52,20 @@ public class RIXSPerspective implements IPerspectiveFactory {
 		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		left.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
 		left.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
+		
+		IFolderLayout leftBottom = layout.createFolder(BATON_FOLDER, IPageLayout.BOTTOM, (float)0.85, PROJ_FOLDER); //$NON-NLS-1$
+		leftBottom.addView(uk.ac.gda.views.baton.BatonView.ID);
+		leftBottom.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
+		leftBottom.addPlaceholder("org.eclipse.ui.console.ConsoleView");
         
 		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea);
 		statusFolder.addView(STATUS_VIEW_ID);
-		statusFolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
-		statusFolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
-		statusFolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
         
 		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.45, STATUS_FOLDER); //$NON-NLS-1$
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamView:andor#EPICS_ARRAY");
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.Polandor_H.live.stream.view.LiveStreamView:Polandor_H#EPICS_ARRAY");
 		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.Polandor_V.live.stream.view.LiveStreamView:Polandor_V#EPICS_ARRAY");
-//		detectorPlotFolder.addPlaceholder("uk.ac.gda.beamline.i21.xcam.live.stream.view.LiveStreamView:xcam#EPICS_ARRAY");
+		detectorPlotFolder.addView("uk.ac.gda.beamline.i21.maranax.live.stream.view.LiveStreamView:maranax#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder(LiveStreamView.ID+":*");
 		detectorPlotFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		detectorPlotFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");

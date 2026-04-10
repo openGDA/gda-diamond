@@ -5,6 +5,7 @@
 
 	<import resource="devices/_all.xml"/>
 	<import resource="nxmetadata.xml"/>
+	<import resource="nxmetadata-maranax.xml"/>
 
 	<!-- add dummy motors from dls-config  for solstice scanning testing-->
 	<import resource="../../../../../dls-config/servers/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->

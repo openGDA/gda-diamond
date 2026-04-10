@@ -47,6 +47,7 @@
 	<import resource="fastshutter.xml" />
 	<import resource="spectrometer.xml"/>
 	<import resource="andor.xml"/>
+	<import resource="maranax.xml"/>
 	<import resource="Polandor_H.xml"/>
 	<import resource="Polandor_V.xml" />
 	<import resource="polariser.xml"/>
