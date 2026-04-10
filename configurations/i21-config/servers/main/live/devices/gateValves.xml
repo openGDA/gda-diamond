@@ -9,4 +9,7 @@
 	<bean id="gv16" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL21I-VA-VALVE-16" />
 	</bean>
+	<bean id="fvalve9" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL21I-VA-FVALV-09" />
+	</bean>
 </beans>
