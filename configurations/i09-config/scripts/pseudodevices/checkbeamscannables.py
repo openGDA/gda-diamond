@@ -24,8 +24,8 @@ try:
     from gda.device.scannable.scannablegroup import ScannableGroup
     from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableState2
 
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0, id1gap=igap, id2gap=jgap)
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0)
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0, id1gap=igap, id2gap=jgap, shutter1=fsi1, shutter2=fsj1)
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0, shutter1=fsi1, shutter2=fsj1)
     checkfe = WaitForScannableState2('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0)
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
