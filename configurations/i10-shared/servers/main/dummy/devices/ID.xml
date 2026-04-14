@@ -64,6 +64,16 @@
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
 	</bean>
+
+	<bean id="iddaccesscontrol" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>ENABLED</value>
+				<value>DISABLED</value>
+			</list>
+		</property>
+	</bean>
 	
 	<bean id="idu_rowphase1_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="-103" />
@@ -106,4 +116,15 @@
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
 	</bean>
+
+	<bean id="iduaccesscontrol" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>ENABLED</value>
+				<value>DISABLED</value>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

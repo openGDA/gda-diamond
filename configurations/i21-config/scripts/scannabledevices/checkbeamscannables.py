@@ -23,24 +23,24 @@ try:
     print(" 5. 'checkbeam', 'checkbeam_cv'- composite scannable of above 3 scannables")
     print(" Checking is done every second!")
        
-    from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
+    from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState, id_pause_msg
     from gda.device.scannable.scannablegroup import ScannableGroup
 
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5, id1gap = idgap, accesscontrol4id1 = idblena)
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60)
-    checkid = WaitForScannableState('checkid', idaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+    checkid = WaitForScannableState('checkid', idaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[idgap], additional_pause_msg=id_pause_msg(idgap))
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time, checkid])
     checkbeam.configure()
 
     #beam monitors used for continuous scan
-    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5, id1gap = idgap, accesscontrol4id1 = idblena)
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checkrc_cv.setOperatingContinuously(True)
     checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checktopup_time_cv.setOperatingContinuously(True)
     checkfe_cv = WaitForScannableState('checkfe_cv', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60)
     checkfe_cv.setOperatingContinuously(True)
-    checkid_cv = WaitForScannableState('checkid_cv', idaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+    checkid_cv = WaitForScannableState('checkid_cv', idaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[idgap], additional_pause_msg=id_pause_msg(idgap))
     checkid_cv.setOperatingContinuously(True)
     checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checkfe_cv, checktopup_time_cv, checkid_cv])
     checkbeam_cv.configure()

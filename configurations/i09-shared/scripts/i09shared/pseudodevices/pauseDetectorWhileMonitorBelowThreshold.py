@@ -138,49 +138,6 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
             self.handleStatusChange(status)
             sleep(self.secondsBetweenChecks)
 
-class WaitForScannableState2(WaitWhileScannableBelowThresholdMonitorOnly):
-    '''Useful mainly for waiting for a shutter or beamline front-end to open
-    '''
-
-    def __init__(self, name, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp=None, readyStates=['Open'], faultStates=['Fault']):
-        WaitWhileScannableBelowThresholdMonitorOnly.__init__( self, name, scannableToMonitor, None, secondsBetweenChecks, secondsToWaitAfterBeamBackUp)
-        self.readyStates = readyStates
-        self.faultStates = faultStates
-
-    def atScanStart(self):
-        readyStatesString = self.readyStates[0] if len(self.readyStates)==1 else str(self.readyStates)
-        print '=== Beam checking enabled: '+self.scannableToMonitor.getName()+' must be in state: ' + readyStatesString+', currently '+str(self._getStatus())
-        self.statusRemainedGoodSinceLastGetPosition = True
-
-    def getPosition(self):
-        return WaitWhileScannableBelowThresholdMonitorOnly.getPosition(self)
-
-    def _getStatus(self):
-        pos = self.scannableToMonitor.getPosition()
-        if type(pos) in (type(()), type([])):
-            pos = pos[0]
-        if pos in self.faultStates:
-            raise DeviceException(self.name + " found " + self.scannableToMonitor.name + " to be in state: " + pos)
-        return pos in self.readyStates
-
-    def handleStatusChange(self, status):
-        readyStatesString = self.readyStates[0] if len(self.readyStates)==1 else str(self.readyStates)
-        ## check for status change to provide feedback:
-        if status and self.lastStatus:
-            pass # still okay
-        if status and not self.lastStatus:
-            delayReport = " . Resuming scan" if not self.secondsToWaitAfterBeamBackUp else (" . Resuming scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s...")
-            print "*** " + self.name + ": ready in state " + readyStatesString + " at: " + reprtime() + delayReport
-            self.lastStatus = True
-            if self.secondsToWaitAfterBeamBackUp:
-                sleep(self.secondsToWaitAfterBeamBackUp)
-                print "*** " + self.name + ": " + reprtime() + " . Resuming scan now."
-        if not status and not self.lastStatus:
-            pass # beam still down
-        if not status and self.lastStatus:
-            print "*** " + self.name + ": not ready: " + reprtime() + " . Pausing scan..."
-            self.lastStatus = False
-
 class PauseableDetector():
     '''Implement pause and resume acquisition for a detector, e.g. VG Scienta electron analyser
     '''
@@ -221,38 +178,4 @@ class PauseableDetector():
 
     def isPaused(self):
         return int(self.outcli.caget())==1
-
-class WaitForScannableStateAndHandleShutter(WaitForScannableState2):
-    def __init__(self, name, shutters, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp=None, readyStates=['Open'], faultStates=['Fault']):
-        self.shutters = shutters
-        super(WaitForScannableStateAndHandleShutter, self).__init__(name, scannableToMonitor, secondsBetweenChecks, secondsToWaitAfterBeamBackUp, readyStates, faultStates)
-
-    def atScanStart(self):
-        super(WaitForScannableStateAndHandleShutter, self).atScanStart()
-        #Always reset this back to True so that if pausing of detector is ever interrupted, i'e stop scan, it will check to close shutters again
-        self.lastStatus = True
-
-    def handleStatusChange(self, status):
-        lastStatus = self.lastStatus
-
-        super(WaitForScannableStateAndHandleShutter, self).handleStatusChange(status)
-
-        if not status and lastStatus:
-            print "Closing shutters... "
-            self.previousStates = {}
-            for shutter in self.shutters:
-                shutterpos = shutter.getPosition()
-                self.previousStates[shutter] = shutterpos
-                if shutterpos == "Out":
-                    shutter.moveTo("In")
-                    print shutter.getName() + " closed"
-
-        if status and not lastStatus:
-            print "Opening shutters..."
-            for shutter in self.shutters:
-                prevShutterPos = self.previousStates[shutter]
-                if prevShutterPos == "Out":
-                    shutter.moveTo("Out")
-                    print shutter.getName() + " opened"
-            self.previousStates= {}
 
