@@ -3,6 +3,7 @@ from gdascripts.utils import caget, caput
 from gdascripts.installation import isLive
 from gdaserver import exc_pva, eig_pva, excalibur_stats_verbose, eiger_stats_verbose, ex_mask, ei_mask, fastshutter as fs
 from threading import Timer
+from time import sleep
 
 # PVA snapper
 try:
