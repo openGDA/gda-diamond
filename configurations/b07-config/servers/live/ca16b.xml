@@ -73,13 +73,13 @@
 	</bean>
 
 	<bean id="ca16b_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07B-DI-IAMP-16:I1:I"/>
+		<property name="pvName" value="BL07B-OP-HRFM-01:I1:I"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
 	<bean id="ca16b_average_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07B-DI-IAMP-16:I1:IAV"/>
+		<property name="pvName" value="BL07B-OP-HRFM-01:I1:IAV"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>

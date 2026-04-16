@@ -72,13 +72,13 @@
 	</bean>
 
 	<bean id="ca36b_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07B-DI-IAMP-36:I1:I"/>
+		<property name="pvName" value="BL07B-EA-ENDST-02:I2:I"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
 	<bean id="ca36b_average_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07B-DI-IAMP-36:I1:IAV"/>
+		<property name="pvName" value="BL07B-EA-ENDST-02:I2:IAV"/>
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
