@@ -36,6 +36,7 @@
 	<import resource="ca18b.xml"/>
 	<import resource="ca35b.xml"/>
 	<import resource="ca36b.xml"/>
+	<import resource="ca37b.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutter.xml"/>

@@ -108,7 +108,21 @@ metadata_group5 = [	ca18b_current,# @UndefinedVariable
 				ca36b_offset_current ,# @UndefinedVariable
 				ca36b_inverted ,# @UndefinedVariable
 				ca36b_current ,# @UndefinedVariable
-				ca36b_average_current]# @UndefinedVariable
+				ca36b_average_current ,# @UndefinedVariable
+				ca37b_sensitivity ,# @UndefinedVariable
+				ca37b_sensitivity_units ,# @UndefinedVariable
+				ca37b_bias_voltage_status ,# @UndefinedVariable
+				ca37b_bias_voltage ,# @UndefinedVariable
+				ca37b_filter_type ,# @UndefinedVariable
+				ca37b_filter_highpass ,# @UndefinedVariable
+				ca37b_filter_lowpass ,# @UndefinedVariable
+				ca37b_gain_mode ,# @UndefinedVariable
+				ca37b_offset ,# @UndefinedVariable
+				ca37b_offset_units ,# @UndefinedVariable
+				ca37b_offset_current ,# @UndefinedVariable
+				ca37b_inverted ,# @UndefinedVariable
+				ca37b_current ,# @UndefinedVariable
+				ca37b_average_current]# @UndefinedVariable
 
 meta_data_list = metadata_group1 + metadata_group2 + metadata_group3 + metadata_group4 + metadata_group5+[endstation]# @UndefinedVariable
 
