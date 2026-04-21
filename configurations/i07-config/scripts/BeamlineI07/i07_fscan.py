@@ -6,6 +6,7 @@ from gda.device.scannable import ScannableUtils
 import scisoftpy as dnp
 import datetime as fscan_datetime
 from org.eclipse.scanning.api.scan import ScanningException
+from gda.jython.commands.GeneralCommands import alias
 
 def log_error(error_message):
     timestamp = fscan_datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -167,3 +168,8 @@ def fhklscan_e(hkl, start, stop, step, runnable_device, exposure_time):
 
 def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
     perform_scan(scan_method=fhklscan_e, args=[hkl, start, stop, step, runnable_device, exposure_time])
+
+alias("fscan")
+alias("fpscan")
+alias("fhklscan")
+alias("cfscan")

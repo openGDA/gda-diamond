@@ -5,6 +5,8 @@ from uk.ac.diamond.osgi.services import ServiceProvider
 from org.eclipse.scanning.api.device import IRunnableDeviceService
 from diffcalc.util import DiffcalcException
 from gdascripts.metadata.metadata_commands import meta_add
+from useFourc import fc
+from diffcalc.gdasupport.you import hkl
 
 ird_service = ServiceProvider.getService(IRunnableDeviceService)
 
@@ -37,12 +39,6 @@ p3c = ird_service.getRunnableDevice("BL07I-ML-SCAN-35")
 # Pilatus 3 for static malcolm scans
 p3s = ird_service.getRunnableDevice("BL07I-ML-SCAN-32")
 
-from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan
-alias("fscan")
-alias("fpscan")
-alias("fhklscan")
-alias("cfscan")
-
 class DCHklAdapter(HklAdapter):
 # eh1h: '_fourc', (diff1delta, diff1gamma, diff1chi, diff1theta)
     def getHkl(self, positions):
@@ -53,10 +49,10 @@ class DCHklAdapter(HklAdapter):
             raise
 
     def getCurrentAnglePositions(self):
-        return {scn_name:scn_pos for scn_name, scn_pos in zip(_fourc.getGroupMemberNames(), _fourc.getPosition())}
+        return {scn_name:scn_pos for scn_name, scn_pos in zip(fc.getInputNames(), fc.getPosition())}
 
     def getFourCNames(self):
-        return list(_fourc.getGroupMemberNames())
+        return list(fc.getInputNames())
 
 try:
     hkl_prov = DCHklAdapter()

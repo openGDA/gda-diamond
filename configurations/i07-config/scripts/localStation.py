@@ -113,8 +113,8 @@ from BeamlineI07.Users.ct import ct, ct_detectors # @UnusedImport
 from BeamlineI07.useHtc import htc # @UnusedImport
 from BeamlineI07.useVirtual6CircleMotors import sgam, sdel # @UnusedImport
 from BeamlineI07.useElectroChemValves import openvalve, closevalve  # @UnusedImport
-from gdascripts.mscanHandler import mscan, static # @UnusedImport
-from BeamlineI07.i07_fscan import fscan, fpscan, fhklscan, cfscan # @UnusedImport
+from gdascripts.mscanHandler import static # @UnusedImport
+from BeamlineI07.i07_fscan import mscan, fscan, fpscan, fhklscan, cfscan # @UnusedImport
 from BeamlineI07.i07_mscan import exc, exs, p2c, p2s, p3c, p3s, eic, m3, ex_rois, p2_rois, p3_rois # @UnusedImport
 from BeamlineI07.useMalcolm import restart_ei, restart_ex, restart_p2, restart_p3 # @UnusedImport
 from det_threshold_setter import exthresh, p2thresh, p3thresh # @UnusedImport
