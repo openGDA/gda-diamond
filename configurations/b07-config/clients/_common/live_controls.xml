@@ -137,6 +137,29 @@
 		<property name="readOnly" value="true" />
 	</bean>
 
+	<bean id="ca37b_sensitivity_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca37b sensitivity " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca37b_sensitivity" />
+		<property name="showStop" value="false" />
+	</bean>
+
+	<bean id="ca37b_sensitivity_units_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca37b sensitivity units " />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca37b_sensitivity_units" />
+		<property name="showStop" value="false" />
+	</bean>
+
+	<bean id="ca37b_adc_output_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="ca37b ADC output" />
+		<property name="group" value="..." />
+		<property name="scannableName" value="ca37b_adc_output_client" />
+		<property name="showStop" value="false" />
+		<property name="showIncrement" value="false" />
+		<property name="readOnly" value="true" />
+	</bean>
+
 	<bean id="sm21b_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="SM21b_X " />
 		<property name="group" value=".." />
@@ -438,6 +461,9 @@
 				<ref bean="ca36b_sensitivity_control" />
 				<ref bean="ca36b_sensitivity_units_control" />
 				<ref bean="ca36b_adc_output_control" />
+				<ref bean="ca37b_sensitivity_control" />
+				<ref bean="ca37b_sensitivity_units_control" />
+				<ref bean="ca37b_adc_output_control" />
 				<ref bean="img22_control" />
 				<ref bean="img23_control" />
 				<ref bean="cap21_control" />
