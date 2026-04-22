@@ -12,7 +12,7 @@
 	<import resource="../_common/maranax_controls.xml"/>
 	<bean id="maranax" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="MARANAX" />
-		<property name="url" value="http://bl21i-di-serv-01.diamond.ac.uk:8099/MARANAX.mjpg.mjpg" />
+		<property name="url" value="http://bl21i-ea-serv-01.diamond.ac.uk:8080/MARANAX.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-05:ARR" />
 		<property name="roiProvider" ref="maranax_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
