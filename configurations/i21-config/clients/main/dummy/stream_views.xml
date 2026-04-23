@@ -147,7 +147,7 @@
 	</bean>
 	<bean id="s5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="S5 Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="s5_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -160,7 +160,7 @@
 	</bean>
 	<bean id="dgn_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagon Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="dgn_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -173,7 +173,7 @@
 	</bean>
 	<bean id="d1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 1 Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d1_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -186,7 +186,7 @@
 	</bean>
 	<bean id="d2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 2 Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d2_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -199,7 +199,7 @@
 	</bean>
 	<bean id="d3a_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 3A Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d3a_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -212,7 +212,7 @@
 	</bean>
 	<bean id="d4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 4 Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d4_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -225,7 +225,7 @@
 	</bean>
 	<bean id="d8_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagnostic 8 Camera" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="d8_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -238,7 +238,7 @@
 	</bean>
 	<bean id="smp_cam_1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 1" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam1_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -251,7 +251,7 @@
 	</bean>
 	<bean id="smp_cam_2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 2" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam2_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -266,7 +266,7 @@
 	<bean id="smp_cam_3" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 3" />
 		<property name="viewID" value="uk.ac.gda.beamline.i21.smp_cam_3.live.stream.view.LiveStreamView"/>
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam3_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -297,7 +297,7 @@
 	</bean>	
 	<bean id="smp_cam_4" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 4" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam4_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
@@ -310,7 +310,7 @@
 	</bean>	
 	<bean id="smp_cam_5" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 5" />
-		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpg" />
+		<property name="urlPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="smplcam5_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
