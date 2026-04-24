@@ -72,7 +72,6 @@ else:
 print("")
 
 print("="*100)
-
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
 		# Run the beamline staff scripts
 		print "Running i05-1 LOCAL scripts."
@@ -82,6 +81,8 @@ if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
 		# module location is /dls_sw/ixx/scripts/
 		from beamline.masterj import *
 		# run "beamline/masterj.py"
+
+
 
 print "Beamline initialization completed"
 print "*"*100
