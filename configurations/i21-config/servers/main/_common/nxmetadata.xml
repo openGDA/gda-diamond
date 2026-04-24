@@ -783,7 +783,27 @@
 			</list>
 		</property>
 	</bean>
-
+	<bean id="energyCalibrationNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
+		<property name="name" value="calibration" />
+		<property name="category" value="NX_INSTRUMENT"/>
+		<property name="nexusClass" value="NXcollection"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="energy_dispersion"/>
+					<property name="scannableName" value="energy_dispersion"/>
+				 </bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="elastic_slope"/>
+					<property name="scannableName" value="elastic_slope"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.ScannableField">
+					<property name="name" value="elastic_offset"/>
+					<property name="scannableName" value="elastic_offset"/>
+				 </bean>
+			</list>
+		</property>
+	</bean>
 	<bean id="fastshutterNexusDevice" class="org.eclipse.scanning.device.NexusMetadataDevice" init-method="register">
 		<property name="name" value="fast_shutter" />
 		<property name="category" value="NX_INSTRUMENT"/>
@@ -825,6 +845,7 @@
 				<value>spectrometer</value>
 				<value>polariser</value>
 				<value>fast_shutter</value>
+				<value>calibration</value>
 			</set>
 		</property>
 	</bean>

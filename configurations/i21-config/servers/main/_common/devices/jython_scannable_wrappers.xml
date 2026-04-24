@@ -22,4 +22,17 @@
 <!-- 		<property name="command" value="uvw.removeIObservers()"/> -->
 <!-- 	</bean>	 -->
 
+	<bean id="energy_dispersion_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="energy_dispersion"/>
+		<property name="command" value="energy_dispersion.deleteIObservers()"/>
+	</bean>
+	<bean id="elastic_offset_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="elastic_offset"/>
+		<property name="command" value="elastic_offset.deleteIObservers()"/>
+	</bean>
+	<bean id="elastic_slope_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="elastic_slope"/>
+		<property name="command" value="elastic_slope.deleteIObservers()"/>
+	</bean>
+	
 </beans>
