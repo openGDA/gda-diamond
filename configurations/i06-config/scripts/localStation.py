@@ -150,6 +150,8 @@ energy_interval = VirtualScannable("energy_interval", initial_value=0.0, value_f
 
 from scannables.image_inversion import x_inversion  # @UnusedImport
 
+from medipix_util import restart_medipix #@UnusedImport
+
 print("="*100)
 print("end of localStation.py for Beamline I06)")
 
