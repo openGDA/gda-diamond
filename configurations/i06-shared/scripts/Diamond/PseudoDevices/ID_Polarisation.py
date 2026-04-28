@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime, timedelta
 from threading import Timer
-from time import sleep
+from time import sleep, time
 from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 from gda.epics import CAClient
@@ -114,7 +114,18 @@ class EnergyConsolidationClass(ScannableMotionBase):
 		#stop must be called before request to a new position to avoid exception throw due to energy is already busy which lead to Timer stays in busy forever.
 		if self.energy.isBusy():
 			self.energy.stop()
-			sleep(0.2)
+
+		timeout = 10.0
+		interval = 0.02
+		start = time.time()
+
+		while self.energy.isBusy():
+			if time.time() - start > timeout:
+				raise RuntimeError(
+					"%s is still busy. Timed out after %.0f seconds."
+					% (self.energy.getName(), timeout)
+				)
+			time.sleep(interval)
 		self.energy.asynchronousMoveTo(newPos);
 # 			self.skipDuplicateMoveOptimisation=False
 # 		else:
