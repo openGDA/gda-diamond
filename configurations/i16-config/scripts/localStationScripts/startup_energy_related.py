@@ -7,14 +7,17 @@ print "<<< Entering: startup_energy_related.py ..."
 
 #from pd_epics import SingleEpicsPositionerNoStatusClass2, SingleEpicsPositionerClass
 #run("pd_idgap")	#--> IDGapFromPVClass
-#id_gap=SingleEpicsPositionerNoStatusClass2('ID_gap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.4f'); 
+#id_gap=SingleEpicsPositionerNoStatusClass2('ID_gap','SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.4f');
 #id_gap.deadband=0.005
 #print "   creating idgap scannable"
 #idgap=IDGapFromPVClass('IDgap',5,'SR16I-MO-SERVC-01:BLGSET','SR16I-MO-SERVC-01:CURRGAPD','SR16I-MO-SERVC-01:BLGSETP','SR16I-MO-SERVC-01:ALLMOVE','SR16I-MO-SERVC-01:ESTOP','mm','%.3f')
 id_gap = idgap
 
 print "creating BLi"
-import beamline_info as BLi 
+import beamline_info as BLi
+from pd_dcm import EnergyFromBraggPD, EnergyFromBraggwithHarmonicPD, EnergyFromBraggFixedoffsetwithHarmonicPD
+from pd_undulator import Undulator, EnergyFromUndulator, EnergyFromIDandDCM
+from pd_ChannelCutMono import ChanCutMonoClass
 # 1. works with module data energy and wavelength or provides a persistant dummy value
 #    if AllBeamlineObjects.isDummySimulation() or BLobjects.isSimulation() from
 #    the shelf BLI
@@ -49,7 +52,7 @@ def ucalibrate(newenergy=None,H=None):
 ### Mono
 print "Creating ChanCutMono scannable: cc/energy"
 run("pd_ChannelCutMono") #--> ChanCutMonoClass
-cc=ChanCutMonoClass('energy')
+cc=ChanCutMonoClass('energy', energy2)
 energy=cc
 enf.fixedoffsetmode=0
 

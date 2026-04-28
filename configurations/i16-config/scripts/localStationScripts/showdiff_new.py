@@ -1,5 +1,6 @@
 #modified version - output names derived from PV name to allow multiple samples during scan
 from gda.device.scannable import ScannableMotionBase
+from gdascripts.scannable.epics.PvManager import PvManager
 
 class ShowDiff(ScannableMotionBase):
 	'''
@@ -8,7 +9,7 @@ class ShowDiff(ScannableMotionBase):
 	see also: showdiff.m
 	'''
 	def __init__(self, name, comchan='BL16I-MO-DIFF-01:', help=None):
-		self.name = name		
+		self.name = name
 		self.inputNames = []
 		self.extraNames = ['kphi_'+self.name, 'kap_'+self.name, 'kth_'+self.name, 'mu_'+self.name,'delta_'+self.name,'gam_'+self.name]
 		self.outputFormat =['%4.6f'] * 7

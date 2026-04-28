@@ -782,9 +782,7 @@ localStation_run("localStationScripts/ConfigureLimits","Setting user limits (run
 ###############################################################################
 ###                             Configure Pilatus                           ###
 ###############################################################################
-from scannable.detector.DetectorWithShutter import DetectorWithShutter
 from scannable.pilatus import PilatusThreshold, PilatusGain
-
 
 
 ### 2m ###

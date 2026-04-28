@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- Only bragg and perp are actually used anywhere, the rest are just listed in scannable group 'mono' -->
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmBraggMotor" />
 	</bean>
@@ -27,7 +28,7 @@
 	<bean id="dcmlat" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmLatMotor" />
 	</bean>
-	
+
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

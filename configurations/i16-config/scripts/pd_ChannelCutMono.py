@@ -1,8 +1,12 @@
 # NOTE: Needs classes from pd_undulator
+from pd_undulator import EnergyFromIDandDCM
 
 class ChanCutMonoClass(EnergyFromIDandDCM):
 	'''
-	energy pd 
+	This class is a wrapper for the energy class which moves the beamline after the DCM (which is actually a CCM) when
+	energy changes so they are still in line with the beam.  It is the top layer energy device used for scans but does
+	not control the actual CCM, that is done by the classes in pd_dcm.py.
+
 	pos energy value - changes energy and adjusts vertical positions to compensate
 	energy.si() - change to Si coating. Gives better harmonic rejection but usually low reflectivity above 8 keV
 	energy.rh() - change to Rh coating. Gives worse harmonic rejection but usually high reflectivity up to 15 keV
@@ -13,10 +17,10 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 	self.mirrormag=-0.666				ratio of vertical movement of focus to source (correct for normal focus)
 	self.moveppy=False    set this to False to stop ppy from moving when changing energy (Default True)
 	'''
-	def __init__(self,name,NoWarning=0):
+	def __init__(self,name,energyparam,NoWarning=0):
 		self.name = name
 		self.NoWarning=NoWarning
-		self.enpd=energy2
+		self.enpd=energyparam
 		self.setInputNames(self.enpd.getInputNames())
 		self.setExtraNames(self.enpd.getExtraNames())
 		self.setOutputFormat(self.enpd.getOutputFormat())
@@ -39,7 +43,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 
 	def asynchronousMoveTo(self,new_position):
 		self.enpd.asynchronousMoveTo(new_position)
-		self.nextheight=2*self.monogap*cos(self.enpd.dcme.next_bragg_angle*pi/180)  
+		self.nextheight=2*self.monogap*cos(self.enpd.dcme.next_bragg_angle*pi/180)
 		#option to move mirrors only with large move. Very small number means this is not used.
 		if abs(new_position-self.previousenergy)>self.maxEnergyChangeBeforeMovingMirrors or self.first_move==True:
 			self.first_move=False
@@ -69,7 +73,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		ztable.waitWhileBusy()
 		base_z.waitWhileBusy()
 		m1y.waitWhileBusy()
-		m2y.waitWhileBusy() 
+		m2y.waitWhileBusy()
 		ppy.waitWhileBusy()
 
 	def stop(self):
@@ -79,7 +83,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		m1y.stop()
 		m2y.stop()
 		ppy.stop()
-	
+
 	def calibrate(self):
 		self.ang=abs(self.braggpd())
 		self.beamheight=2*self.monogap*cos(self.braggpd()*pi/180)
@@ -98,13 +102,13 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		if newenergy>8.0:
 			if m2y()>0:
 				print "=== Warning: mirror coating may be wrong for this energy. Type 'help energy'."
-	
+
 	def si(self):
 		self.change_coating(m2_coating_offset.si,"=== Changing to Si coating. Gives better harmonic rejection but usually low reflectivity above 8 keV")
-	
+
 	def rh(self):
 		self.change_coating(m2_coating_offset.rh,"=== Changing to Rh coating. Gives worse harmonic rejection but usually high reflectivity up to 15 keV")
-	
+
 	def change_coating(self,offset,message):
 		print message
 		#move to new coating and cange offset
@@ -122,6 +126,7 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 		self.NoWarning=old_warning
 
 	def coating(self):
+		#Why is this not using the offset which is set when the coating is changed?
 		if m2y()>0:
 			print "=== Mirror coating is probably Si (uncoated). Good for up to 8keV"
 		else:
