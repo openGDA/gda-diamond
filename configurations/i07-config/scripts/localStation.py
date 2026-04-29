@@ -176,6 +176,7 @@ from BeamlineI07.devices.IviumDevice import IviumMethodScannableClass
 ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-01", 1, subdir = "processing")
 
 from BeamlineI07.zocalofunctions import currentscan, mapstart, mapend, checkzocalo
+from BeamlineI07.devices.seabreeze_client import connect_to_seabreeze
 
 # scannables for scientist to set its value at sample position - please update the default value to i07 one if existing.
 from beam.beam_properteis import beam_divergence_at_sample, beam_flux_at_sample, beam_size_at_sample  # @UnusedImport
