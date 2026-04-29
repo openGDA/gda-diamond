@@ -74,7 +74,7 @@ class AdDetSnapper(DetectorSnapper, DetectorBase):
         self.nd_array.getPluginBase().enableCallbacks()
         self.currentStats = None
 
-from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats, pil2M, pilatus2_stats, cam1, cam1_stats, cam2, cam2_stats, camd3, camd3_stats, camd4, camd4_stats, camd5, camd5_stats
+from gdaserver import merlin, merlin_stats, pil3_100k, pilatus3_stats, pil2M, pilatus2_stats, cam1, cam1_stats, cam2, cam2_stats, camd3, camd3_stats, camd4, camd4_stats, camd5, camd5_stats, fastshutter
 
 mdet = merlin.getDetector()
 merlin_snap_viewer = AdDetSnapper("merlin_snap_viewer", mdet.getCollectionStrategy().getAdBase(), mdet.getAdditionalPluginList()[1].getNdArray(), merlin_stats, "Merlin", "mpx2.cam")
@@ -111,5 +111,11 @@ def snap(detector, count_time = 1):
 
     pos(det, count_time)
 
+def fs_snap(detector, count_time = 1):
+    pos(fastshutter, 1)
+    snap(detector, count_time)
+    pos(fastshutter, 0)
+
 from gda.jython.commands.GeneralCommands import alias
 alias("snap")
+alias("fs_snap")
