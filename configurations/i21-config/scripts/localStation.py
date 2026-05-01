@@ -261,6 +261,16 @@ from gdascripts.scannable.virtual_scannable import VirtualScannable
 comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
 
+#import elastic energy calibration scannable so users can manually override their values if and when required.
+from metadata.energy_calibration import energy_dispersion, elastic_offset, elastic_slope  # @UnusedImport
+from gdaserver import energy_dispersion_wrapper, elastic_offset_wrapper, elastic_slope_wrapper  # @UnresolvedImport
+# connect Java wrapper scannable to Jython scannable to initialise the wrapper objects
+energy_dispersion_wrapper.connectScannable()
+elastic_offset_wrapper.connectScannable()
+elastic_slope_wrapper.connectScannable()
+# import setters for calibration scannables
+from calibration.calibration_commands import set_dark_scan, set_elastic_calibration, set_energy_calibration
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable

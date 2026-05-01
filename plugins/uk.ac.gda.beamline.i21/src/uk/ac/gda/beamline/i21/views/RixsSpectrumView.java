@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -53,6 +54,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.diamond.scisoft.analysis.processing.operations.rixs.RixsImageReductionBase;
 import uk.ac.gda.beamline.i21.I21BeamlineActivator;
 import uk.ac.gda.client.live.stream.view.LivePlottingComposite;
@@ -77,6 +81,29 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 	private DropdownMenuAction dropdownMenu;
 	private TraceListener traceListener;
 	private RegionListener regionListener;
+	private Optional<Scannable> energyDispersion = Optional.empty();
+	private Optional<Scannable> elasticSlope = Optional.empty();
+	private Optional<Scannable> elasticOffset = Optional.empty();
+	
+	private IObserver observer = (source, arg) -> {
+		if (source instanceof Scannable scannable) {
+			if (scannable.getInputNames()[0].equals(energyDispersion.get().getInputNames()[0])) {
+				Display.getDefault().asyncExec(
+						() -> energyResolution.setText(String.valueOf(arg))
+						);
+			} else if (scannable.getInputNames()[0].equals(elasticSlope.get().getInputNames()[0])) {
+				Display.getDefault().asyncExec(
+						() -> slope.setText(String.valueOf(arg))
+						);
+			} else if (scannable.getInputNames()[0].equals(elasticOffset.get().getInputNames()[0])) {
+				Display.getDefault().asyncExec(
+						() -> offset.setText(String.valueOf(arg))
+						);
+			} else {
+				logger.error("source object {} is not recognised", source);
+			}
+		}
+	};
 
 	@Override
 	public void createUi(Composite composite) {
@@ -96,6 +123,25 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		// add Region listener to update ROI selection drop down menu in spectrum plot
 		regionListener = new RegionListener();
 		getPlottingSystem().addRegionListener(regionListener);
+		
+		if (energyDispersion.isEmpty()) {
+			energyDispersion = Finder.findOptionalOfType("energy_dispersion_wrapper", Scannable.class);
+		}
+		if (elasticSlope.isEmpty()) {
+			elasticSlope = Finder.findOptionalOfType("elastic_slope_wrapper", Scannable.class);
+		}
+		if (elasticOffset.isEmpty()) {
+			elasticOffset = Finder.findOptionalOfType("elastic_offset_wrapper", Scannable.class);
+		}
+		if (energyDispersion.isPresent()) {
+			energyDispersion.get().addIObserver(observer);
+		}
+		if (elasticSlope.isPresent()) {
+			elasticSlope.get().addIObserver(observer);
+		}
+		if (elasticOffset.isPresent()) {
+			elasticOffset.get().addIObserver(observer);
+		}
 	}
 	
 	@Override
@@ -103,6 +149,15 @@ public class RixsSpectrumView extends AbstractLiveStreamViewCustomUi {
 		super.dispose();
 		if(regionListener != null) getPlottingSystem().removeRegionListener(regionListener);
 		if (traceListener != null) getPlottingSystem().removeTraceListener(traceListener);
+		if (energyDispersion.isPresent()) {
+			energyDispersion.get().deleteIObserver(observer);
+		}
+		if (elasticSlope.isPresent()) {
+			elasticSlope.get().deleteIObserver(observer);
+		}
+		if (elasticOffset.isPresent()) {
+			elasticOffset.get().deleteIObserver(observer);
+		}
 		dropdownMenu.dispose();
 	}
 	
