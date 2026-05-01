@@ -7,4 +7,5 @@ Bundle-Vendor: Diamond Light Source
 Automatic-Module-Name: uk.ac.gda.beamline.i05.1.singleton.true
 Require-Bundle: org.eclipse.equinox.app,
  org.eclipse.ui;bundle-version="3.107.0",
- uk.ac.diamond.daq.arpes.ui.e4;bundle-version="1.0.0"
+ uk.ac.diamond.daq.arpes.ui.e4;bundle-version="1.0.0",
+ uk.ac.diamond.daq.devices.mbs;bundle-version="1.0.0"

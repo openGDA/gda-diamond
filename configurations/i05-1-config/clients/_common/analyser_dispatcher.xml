@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean class="uk.ac.diamond.daq.arpes.ui.e4.context.SpringContextHolder"/>
+
+	<bean id="AnalyserPVConfig" class = "uk.ac.gda.apres.ui.config.AnalyserPVConfig">
+		<property name="analyserEnergyAxisPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:EScale_RBV" />
+		<property name="analyserEnergyAxisCountPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:EScale_RBV.NORD" />
+		<property name="analyserAngleAxisPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LensScale_RBV" />
+		<property name="analyserAngleAxisCountPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LensScale_RBV.NORD" />
+		<property name="analyserLensModePv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LensMode" />
+		<property name="analyserAcquisitionModePv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcqMode" />
+		<property name="analyserManufacturerPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Manufacturer_RBV"/>
+	</bean>
+
+	<!-- Data dispatchers with events-->
+	<bean id="AnalyserLiveDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
+		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
+		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:SINGLE:ARR:ArrayData" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="monitorIterationProgress" value="false"/>
+		<property name="supportedAcquisitionModes">
+				<list>
+					<value>Fixed</value>
+					<value>Dither</value>
+				</list>
+		</property>
+		<property name="tags">
+			<list>
+				<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_LIVE_DATA_UPDATE_TOPIC"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AnalyserSumDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
+		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
+		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:ARR:ArrayData" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
+		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
+		<property name="monitorIterationProgress" value="true"/>
+		<property name="numScansPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumScans_RBV"/>
+		<property name="progressCounterPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CompletedScans_RBV"/>
+		<property name="numStepsSweptPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV"/>
+		<property name="currentStepSweptPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
+		<property name="supportedAcquisitionModes">
+				<list>
+					<value>Fixed</value>
+					<value>Dither</value>
+					<value>Swept</value>
+				</list>
+		</property>
+		<property name="tags">
+			<list>
+				<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_SUM_DATA_UPDATE_TOPIC"/>
+				<util:constant static-field="uk.ac.diamond.daq.arpes.ui.e4.constants.ArpesUiConstants.ARPES_SWEPT_DATA_UPDATE_TOPIC"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
+		<property name="currentPointPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
+		<property name="maxSweepPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV" />
+		<property name="percentagePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ProgressPct_RBV" />
+		<property name="currentIterationPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentScanNumber_RBV"/>
+	</bean>
+
+	<bean id="analyser_lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LensMode" />
+	</bean>
+
+	<bean id="analyser_pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PassEnergy" />
+	</bean>
+
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
+	</bean>
+</beans>

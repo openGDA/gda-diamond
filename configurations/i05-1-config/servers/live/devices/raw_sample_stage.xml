@@ -7,16 +7,19 @@
 	<bean id="ssx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="xAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:X" />
+		<property name="reduceExcessiveReadyLogs" value="true"/>
 	</bean>
 
 	<bean id="ssy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="yAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:Y" />
+		<property name="reduceExcessiveReadyLogs" value="true"/>
 	</bean>
 
 	<bean id="ssz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="zAccessControl" />
 		<property name="pvName" value="BL05J-EA-SM-01:Z" />
+		<property name="reduceExcessiveReadyLogs" value="true"/>
 	</bean>
 
 </beans>

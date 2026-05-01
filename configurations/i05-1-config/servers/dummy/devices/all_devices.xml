@@ -6,18 +6,12 @@
 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ANALYSER_PV_BASENAME" class="java.lang.String">
-		<constructor-arg type="java.lang.String" value="BL05J-EA-DET-01"/>
-	</bean>
-
 		<!-- shutters -->
 	<import resource="shtrj.xml" />
 
 	<!-- diagnostic -->
 	<import resource="diodes.xml" />
 
-	<!-- electron analyser -->
-	<import resource="scientaslit.xml" />
 	<!-- sample environment -->
 	<import resource="sample_stage.xml" />
 	<import resource="raw_sample_stage.xml"/>
@@ -37,4 +31,6 @@
 
 	<!-- pressure gauges -->
 	<import resource="pressure_gauges.xml"/>
+
+	<import resource="mbs_analyser.xml"/>
 </beans>

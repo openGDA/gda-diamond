@@ -10,19 +10,14 @@
 				http://www.springframework.org/schema/util
 				http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<context:property-placeholder properties-ref="configProperties" />
-
-	<util:properties id="configProperties">
-		<prop key="ANALYSER_PV_BASENAME">BL05J-EA-DET-01</prop>
-	</util:properties>
-
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<import resource="dashboard.xml"/>
 	<import resource="live_controls.xml" />
 	<import resource="colours.xml"/>
-	<import resource="analyser_visual_data.xml"/>
 	<import resource="slicing_view_config.xml"/>
+
+	<import resource="analyser_dispatcher.xml"/>
 
 	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
