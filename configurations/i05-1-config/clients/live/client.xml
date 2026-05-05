@@ -13,6 +13,6 @@
 	<context:property-placeholder properties-ref="configProperties" />
 
 	<util:properties id="configProperties">
-		<prop key="ANALYSER_PV_BASENAME">BL05J-EA-DET-01</prop>
+		<prop key="ANALYSER_PV_BASENAME">BL05J-EA-DET-04</prop>
 	</util:properties>
 </beans>

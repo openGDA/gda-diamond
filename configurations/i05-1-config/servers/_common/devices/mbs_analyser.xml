@@ -59,7 +59,7 @@
 
 	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
-		<property name="name" value="analyser" />
+		<property name="name" value="analyser_total" />
 		<property name="collectionStrategy">
 			<bean id="mbs_total_only_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserTotalOnlyCollectionStrategy" />
 		</property>
