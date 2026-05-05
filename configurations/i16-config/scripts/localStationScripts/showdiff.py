@@ -1,4 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
+from gdascripts.scannable.epics.PvManager import PvManager
 
 class ShowDiff(ScannableMotionBase):
 	'''
@@ -6,13 +7,13 @@ class ShowDiff(ScannableMotionBase):
 	see also: showdiff_new.m
 	'''
 	def __init__(self, name, comchan='BL16I-MO-DIFF-01:', help=None):
-		self.name = name		
+		self.name = name
 		self.inputNames = []
 		self.extraNames = ['kphi_en', 'kap_en', 'kth_en', 'mu_en','delta_en','gam_en']
 		self.outputFormat =['%4.6f'] * 6
 		self.level = 7
 		self.pvs = PvManager(pvroot = comchan)
-		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help 
+		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
 
 	def getPosition(self):
 		#caput('BL16I-DI-COR-01:TIFF:Capture',1)
@@ -32,7 +33,7 @@ class ShowDiffDiff(ScannableMotionBase):
 	Same as ShowDiff but subtracts first value in scan for easy plotting
 	'''
 	def __init__(self, name, comchan='BL16I-MO-DIFF-01:', help=None):
-		self.name = name		
+		self.name = name
 		self.inputNames = []
 		self.extraNames = ['kphi_diff', 'kap_diff', 'kth_diff', 'mu_diff','delta_diff','gam_diff']
 		self.outputFormat =['%4.6f'] * 6
@@ -40,7 +41,7 @@ class ShowDiffDiff(ScannableMotionBase):
 		self.pvs = PvManager(pvroot = comchan)
 		self.startpositions=[0,0,0,0,0,0] #default positions if no scan started
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
-	
+
 	def atScanStart(self):
 		self.startpositions=self.getDiffPosition()
 

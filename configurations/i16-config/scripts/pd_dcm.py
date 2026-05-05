@@ -1,9 +1,8 @@
-from gda.epics import CAClient 
+from gda.epics import CAClient
 from java import lang
 from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
-
 
 class EnergyFromBraggPD(ScannableMotionBase):
 	'Energy PD - calls Bragg angle PD'
@@ -47,7 +46,7 @@ class EnergyFromBraggPD(ScannableMotionBase):
 			self.getPosition()
 
 		return i_am_busy
-	
+
 	def stop(self):
 		self.braggpd.stop()
 
@@ -59,7 +58,7 @@ class EnergyFromBraggPD(ScannableMotionBase):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
+class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):#EnergyFromBraggPD with harmonic
 	'Energy PD - calls Bragg angle PD'
 	def __init__(self, name,link,harmonicPD):
 		self.setName(name);
@@ -101,7 +100,7 @@ class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
 			self.getPosition()
 
 		return i_am_busy
-	
+
 	def stop(self):
 		self.braggpd.stop()
 
@@ -113,7 +112,7 @@ class EnergyFromBraggwithHarmonicPD(ScannableMotionBase):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 
-class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
+class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):#EnergyFromBraggPD with perp
 	'Energy PD with optional fixed offset - calls Bragg angle PD'
 	def __init__(self, name,link):
 		self.setName(name);
@@ -167,9 +166,6 @@ class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
 
 		return i_am_busy
 
-
-
-	
 	def stop(self):
 		self.braggpd.stop()
 
@@ -179,7 +175,7 @@ class EnergyFromBraggFixedoffsetPD(ScannableMotionBase):
 		bragg_offset(cal_ang-dcm_ang*self.scalefac)
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
-class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
+class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):#EnergyFromBraggPD with harmonic and perp
 	'Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD'
 	def __init__(self,name,link,harmonicPD):
 		self.setName(name)
@@ -247,8 +243,6 @@ class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
 
 		return i_am_busy
 
-
-	
 	def stop(self):
 		self.braggpd.stop()
 
@@ -257,5 +251,4 @@ class EnergyFromBraggFixedoffsetwithHarmonicPD(ScannableMotionBase):
 		dcm_ang=self.braggpd()
 		bragg_offset(cal_ang-dcm_ang*self.scalefac)
 		print 'Calculated offset='+str(bragg_offset())+' deg'
-
 
