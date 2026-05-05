@@ -4,6 +4,7 @@ from gdascripts.metadata.metadata_commands import \
         setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, \
         meta_clear_alldynamical
 from gdascripts.scannable.installStandardScannableMetadataCollection import meta, lsmeta, addmeta, rmmeta
+from BeamlineI07.useMotors import thv, thv_metadata
 
 # Configure metadata and add the required devices
 # If any device doesn't exist, no devices will be added at all
@@ -44,10 +45,10 @@ dcdList = [dcdc1pitch, dcdc1roll, dcdc1rad, dcdc2pitch, dcdc2roll, dcdc2rad,
         dcdomega, dcddrad, dcdyaw, dcdjack]
 
 hex1List = [hex1x, hex1y, hex1z, hex1rx, hex1ry, hex1rz, hex1pivotx,
-        hex1pivoty, hex1pivotz]
+        hex1pivoty, hex1pivotz, thv, thv_metadata]
 
 deviceList = [d4dx, d1a, dbsx, dbsy, dpsx, dpsy, dpsz, dpsz2, fatt, fatt_filters,
-        hfmpitch, hfmstripe, hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw, 
+        hfmpitch, hfmstripe, hfmx, hfmx1, hfmx2, hfmy, hfmy1, hfmy2, hfmyaw,
         vfmpitch, vfmx, vfmy, vfmy1, vfmy2]
 
 hexapodList = [hx, hy, hz, hrx, hry, hrz]
