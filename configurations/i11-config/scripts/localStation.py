@@ -40,6 +40,7 @@ print "   >>>nwf - return the full path of the next working data file"
 print "   >>>nfn - return the next data file number to be collected"
 print "   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
 print "   >>>getSubdirectory() - return the current sub-directory setting if exist"
+print "   >>>open_in_visit(path) - open a new file in the top of the visit folder. Matches the syntax of the builtin open command"
 print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
 print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
 # set up a nice method for getting the latest file path
@@ -78,6 +79,20 @@ def nfn():
     return filenumber+1
 
 alias("nfn")
+
+def open_in_visit(path, *args, **kwargs):
+    '''Open a new file in the top of the visit directory.
+    
+    The syntax of the function directly matches that of the builtin `open`.
+    '''
+    import os
+    
+    if not os.path.isabs(path):
+        path = os.path.join(pwd(), path)
+
+    return open(path, *args, **kwargs)
+
+alias("open_in_visit")
 
 # the subdirectory parts
 def setSubdirectory(dirname):
