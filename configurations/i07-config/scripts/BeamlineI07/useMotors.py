@@ -1,4 +1,3 @@
-
 from Diamond.PseudoDevices.EpicsMotors import EpicsMotorOffsetClass;
 from gdascripts.installation import isLive # @UnresolvedImport
 from gdaserver import MotorDELTA_DIFF1, MotorGAMMA_DIFF1, MotorOMEGA_DIFF1, MotorTHETA_DIFF1, MotorCHI_DIFF1, hex1rx # @UnresolvedImport
@@ -18,7 +17,7 @@ else :
     diff1chioffset = DummyScannable('diff1chioffset');
 
 from gda.device.scannable import ScannableBase
-
+from gdascripts.metadata.metadata_commands import meta_add
 
 class ScaledVirtualMotor(ScannableBase):
     """
@@ -30,6 +29,7 @@ class ScaledVirtualMotor(ScannableBase):
         self.setRealMotor(gda_motor)
         self.scale_factor = 1.0
         self.offset = 0.0
+        self.setInputNames([name])
 
     def setRealMotor(self, motor):
         self.real_motor = motor
@@ -65,4 +65,25 @@ class ScaledVirtualMotor(ScannableBase):
     def stop(self):
         self.real_motor.stop()
 
+
+class ScaledVirtualMotorMetadata(ScannableBase):
+
+    def __init__(self, svm):
+        self.svm = svm
+        self.setName(svm.getName() + "_metadata")
+        self.setInputNames(["real_motor","offset","scale_factor"])
+        self.setOutputFormat(["%s", "%f", "%f"])
+
+    def isBusy(self):
+        return False
+
+    def rawAsynchronousMoveTo(self, position):
+        "Cannot move"
+        pass
+
+    def getPosition(self):
+        return [self.svm.real_motor.getName(), self.svm.getOffset(), self.svm.getScaleFactor()]
+
+
 thv = ScaledVirtualMotor("thv", hex1rx)
+thv_metadata = ScaledVirtualMotorMetadata(thv)
