@@ -4,6 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<bean id="twodplot" class="gda.data.scan.TwoDPathScanPlotListener">
+		<property name="plotPanel" value="2D Scan Plot" />
+	</bean>
+
 	<import resource="archiver.xml"/>
 	<import resource="datawriter.xml"/>
 

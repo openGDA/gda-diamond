@@ -98,6 +98,12 @@ print("-"*100)
 print(" Creating timeScannable")
 timeScannable = TimeSinceScanStart('timeScannable')
 
+
+print "-"*100
+print "Load snake scan function snscan: "
+from i05Shared.snake_scan import snakescan #@UnusedWildImport
+print("")
+
 print("-"*100)
 print "Finished general initialisation code for i05-shared.";
 print("")
