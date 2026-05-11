@@ -4,30 +4,30 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- D9B cam1 plugin -->
-	<bean id="es2b_cam1_adbase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="#{basePvEs2}:DCAM1:CAM:" />
+
+	<bean id="es1b_cam5_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{basePvEs1}:DCAM5:CAM:" />
 	</bean>
 
 	<!-- The Object which get the ROIs from the client over RMI -->
-	<bean id="es2b_cam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean id="es1b_cam5_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/es2b1Roi" />
-		<property name="service" ref="es2b_cam1_roi" />
+		<property name="serviceName" value="gda/es1b5Roi" />
+		<property name="service" ref="es1b_cam5_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
 
 	<!-- ROI-STAT pairs for Live Stream View-->
-	<bean id="es2b_cam1_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="es2b_cam1_RoiStats1" />
-		<property name="baseRoiPVName" value="#{basePvEs2}:DCAM1:ROI1:" />
-		<property name="baseStatsPVName" value="#{basePvEs2}:DCAM1:STAT1:" />
-		<property name="roiInputNdArrayPort" value="ES2B.DCAM1.CAM" />
+	<bean id="es1b_cam5_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="es1b_cam5_RoiStats1" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM5:ROI1:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM5:STAT1:" />
+		<property name="roiInputNdArrayPort" value="ES1B.DCAM5.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-				<property name="liveStreamRoiProvider" ref="es2b_cam1_roi" />
+				<property name="liveStreamRoiProvider" ref="es1b_cam5_roi" />
 				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 			</bean>
 		</property>
@@ -35,29 +35,29 @@
 	</bean>
 
 	<!-- ROI-STAT pairs for Live Stream View-->
-	<bean id="es2b_cam1_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="es2b_cam1_RoiStats2" />
-		<property name="baseRoiPVName" value="#{basePvEs2}:DCAM1:ROI2:" />
-		<property name="baseStatsPVName" value="#{basePvEs2}:DCAM1:STAT2:" />
-		<property name="roiInputNdArrayPort" value="ES2B.DCAM1.CAM" />
+	<bean id="es1b_cam5_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="es1b_cam5_RoiStats2" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM5:ROI2:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM5:STAT2:" />
+		<property name="roiInputNdArrayPort" value="ES1B.DCAM5.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-			<property name="liveStreamRoiProvider" ref="es2b_cam1_roi" />
+			<property name="liveStreamRoiProvider" ref="es1b_cam5_roi" />
 			<property name="index" value="1" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
 		</bean>
 		</property>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
 
-	<bean id="es2b_cam1_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
-		<property name="fileNameTemplate" value="es2b_cam1"/>
+	<bean id="es1b_cam5_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="es1b_cam5"/>
 		<property name="ndFileHDF5">
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="#{basePvEs2}:DCAM1:HDF5:" />
+						<property name="prefix" value="#{basePvEs1}:DCAM5:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>
@@ -65,7 +65,7 @@
 		</property>
 	</bean>
 
-	<bean id="es2b_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+	<bean id="es1b_cam5_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
@@ -76,7 +76,7 @@
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
-								<property name="adBase" ref="es2b_cam1_adbase" />
+								<property name="adBase" ref="es1b_cam5_adbase" />
 							</bean>
 						</property>
 					</bean>
@@ -85,14 +85,14 @@
 		</property>
 	</bean>
 
-	<bean id="es2b_cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="es2b_cam1" />
-		<property name="collectionStrategy" ref="es2b_cam1_CollectionStrategy" />
+	<bean id="es1b_cam5" class="gda.device.detector.NXDetector">
+		<property name="name" value="es1b_cam5" />
+		<property name="collectionStrategy" ref="es1b_cam5_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="es2b_cam1_RoiStats1" />
-				<ref bean="es2b_cam1_RoiStats2" />
-				<ref bean="es2b_cam1_Hdf5Filewriter" />
+				<ref bean="es1b_cam5_RoiStats1" />
+				<ref bean="es1b_cam5_RoiStats2" />
+				<ref bean="es1b_cam5_Hdf5Filewriter" />
 			</list>
 		</property>
 	</bean>

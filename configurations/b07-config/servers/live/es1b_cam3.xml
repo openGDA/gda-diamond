@@ -6,7 +6,7 @@
 
 	<!-- D9B cam1 plugin -->
 	<bean id="es1b_cam3_adbase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL07B-EA-ENDST-01:DCAM3:CAM:" />
+		<property name="prefix" value="#{basePvEs1}:DCAM3:CAM:" />
 	</bean>
 
 	<!-- The Object which get the ROIs from the client over RMI -->
@@ -20,8 +20,8 @@
 	<!-- ROI-STAT pairs for Live Stream View-->
 	<bean id="es1b_cam3_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="es1b_cam3_RoiStats1" />
-		<property name="baseRoiPVName" value="BL07B-EA-ENDST-01:DCAM3:ROI1:" />
-		<property name="baseStatsPVName" value="BL07B-EA-ENDST-01:DCAM3:STAT1:" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM3:ROI1:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM3:STAT1:" />
 		<property name="roiInputNdArrayPort" value="ES1B.DCAM3.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -37,8 +37,8 @@
 	<!-- ROI-STAT pairs for Live Stream View-->
 	<bean id="es1b_cam3_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="es1b_cam3_RoiStats2" />
-		<property name="baseRoiPVName" value="BL07B-EA-ENDST-01:DCAM3:ROI2:" />
-		<property name="baseStatsPVName" value="BL07B-EA-ENDST-01:DCAM3:STAT2:" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM3:ROI2:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM3:STAT2:" />
 		<property name="roiInputNdArrayPort" value="ES1B.DCAM3.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -57,7 +57,7 @@
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL07B-EA-ENDST-01:DCAM3:HDF5:" />
+						<property name="prefix" value="#{basePvEs1}:DCAM3:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>
