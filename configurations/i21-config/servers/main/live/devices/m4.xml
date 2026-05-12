@@ -37,6 +37,12 @@
 	<bean id="m4femto1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-MO-POD-01:FEMTO1" />
 	</bean>
+
+	<bean id="m4femto1gain" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL21I-MO-POD-01:FEMTO1:GAIN" />
+		<property name="readOnly" value="false"/>
+	</bean>
+
 	<bean id="m4femto2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-MO-POD-01:FEMTO2" />
 	</bean>
