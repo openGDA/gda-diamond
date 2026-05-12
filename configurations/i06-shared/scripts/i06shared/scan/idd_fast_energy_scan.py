@@ -57,17 +57,24 @@ elif beamline_name == "i06":
     fesController.setKBRastering(ENABLE_KB_RASTERING) 
 
     ### configure which area detector to use in zacscan
-    from __main__ import medipix, zacmedipix  # @UnresolvedImport
+    from gdaserver import medipix  # @UnresolvedImport
     fesController.setAreaDetector(medipix)
 
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData)
 
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
+    # configure collection strategy for zacscan
+    if beamline_name == "i06":
+        from gdaserver import zacmedipix #@UnresolvedImport
+        zac_collection_strategy = zacmedipix.getCollectionStrategy()
+        normal_collection_strategy = medipix.getCollectionStrategy()
+    else:
+        medipix = None
+        zacmedipix = None
+        zac_collection_strategy = None
+        normal_collection_strategy = None
     try:
-        if beamline_name == "i06":
-            # configure collection strategy for zacscan
-            zac_collection_strategy = zacmedipix.getCollectionStrategy()
-            normal_collection_strategy = medipix.getCollectionStrategy()
+        if medipix is not None and zac_collection_strategy is not None:
             medipix.setCollectionStrategy(zac_collection_strategy)
         uuu.backupDefaults()
         if beamline_name=="i06-1":
@@ -77,12 +84,13 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
         beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() )
         beamlineutil.restoreArchiving()
         uuu.restoreDefaults()
-        if beamline_name == "i06":
-            # restore collection strategy to the original medipix bean setting.
-            medipix.setCollectionStrategy(normal_collection_strategy)
     except :
         errortype, exception, traceback = sys.exc_info()
         logger.fullLog(None, "Error in zacscan", errortype, exception , traceback, False)
+    finally:
+        if medipix is not None and normal_collection_strategy is not None:
+            # restore collection strategy to the original medipix bean setting.
+            medipix.setCollectionStrategy(normal_collection_strategy)
 
 alias("zacscan")
 
