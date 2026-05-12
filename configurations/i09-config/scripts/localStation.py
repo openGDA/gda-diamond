@@ -124,17 +124,17 @@ print("")
 ###############################################################################
 ###                       Check condition scannables                        ###
 ###############################################################################
-from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector  # @UnusedImport
+from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector
+from gdascripts.scannable.beamokay import WaitForScannableState, id_pause_msg  # @UnusedImport
 
-from gdaserver import fsi1, fsj1 #@UnresolvedImport
-from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+from gdaserver import fsi1, fsj1, igap, jgap #@UnresolvedImport
 print("-"*100)
 print("Creating 'checkjid' scannable to be used to pause or resume detector acquisition based on ID control")
 from gdaserver import  jidaccesscontrol #@UnresolvedImport
-checkjid = WaitForScannableStateAndHandleShutter('checkjid', [fsi1, fsj1], jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+checkjid = WaitForScannableState('checkjid', jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[jgap], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(jgap))
 from gdaserver import  iidaccesscontrol #@UnresolvedImport
 print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
-checkiid = WaitForScannableStateAndHandleShutter('checkiid', [fsi1, fsj1], iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+checkiid = WaitForScannableState('checkiid', iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[igap], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(igap))
 print("")
 
 ###############################################################################
@@ -190,6 +190,20 @@ print("Sweep mode: keithley_a_sweep_mode, keithley_b_sweep_mode")
 print("")
 
 ###############################################################################
+###                   Save SamplePosition scannable                         ###
+###############################################################################
+from gdascripts.scannable.sample_positions import SamplePositions
+from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
+print("-"*100)
+sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
+print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
+help(sp)
+
+from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
+from gdaserver import lakeshore # @UnresolvedImport
+tsample = SampleTemperature("tsample", lakeshore, channel_number = 1)
+
+###############################################################################
 ###                      Reflectivity camera help text                      ###
 ###############################################################################
 from gdaserver import nixswr_repeat, nixswr_time # @UnresolvedImport @UnusedImport
@@ -217,20 +231,6 @@ print("\tanalyserscan ew4000 sequence")
 def load_sequence(filename):
 	from org.opengda.detector.electronanalyser.api import SESSequenceHelper #@UnresolvedImport
 	return SESSequenceHelper.loadSequence(filename)
-
-###############################################################################
-###                   Save SamplePosition scannable                         ###
-###############################################################################
-from gdascripts.scannable.sample_positions import SamplePositions
-from gdaserver import smpmx, smpmy, smpmz, smpmpolar #@UnresolvedImport
-print("-"*100)
-sp = SamplePositions("sp", [smpmx, smpmy, smpmz, smpmpolar])
-print("Creating sample positioner object sp. Store sample manipulator position components in a dictionary, save them to a file and move sample manipulator to previously saved positions in the dictionary.")
-help(sp)
-
-from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
-from gdaserver import lakeshore # @UnresolvedImport
-tsample = SampleTemperature("tsample", lakeshore, channel_number = 1)
 
 print("="*100)
 print("Toggle shutter settings for analyserscan using the following boolean scannables: ")

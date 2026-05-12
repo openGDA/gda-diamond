@@ -139,4 +139,16 @@
 		<property name="pvNameSetPoint" value="SR06I-MO-SERVC-41:BLGSETVEL" />
 	</bean>
 
+	<!-- ID access in scannable form so can be used via checkidu -->
+	<bean id="iduaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR06I-MO-SERVC-21:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
+	<!-- ID access in scannable form so can be used via checkidd -->
+	<bean id="iddaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR06I-MO-SERVC-01:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
 </beans>

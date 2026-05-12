@@ -45,6 +45,12 @@
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLSEPMTR" />
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
+
+	<!-- ID access in scannable form so can be used via checkidd -->
+	<bean id="iddaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR10I-MO-SERVC-01:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
 	
 	<!-- idu ID2 upstream ID -->
 	<!--   ============================== Access control for ID2   ==============================  -->
@@ -88,4 +94,11 @@
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLSEPMTR" />
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
+
+	<!-- ID access in scannable form so can be used via checkidu -->
+	<bean id="iduaccesscontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="SR10I-MO-SERVC-21:IDBLENA"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
 </beans>
