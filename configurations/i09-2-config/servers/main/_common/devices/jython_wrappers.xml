@@ -9,8 +9,24 @@
 		<property name="command" value="polarisation.deleteIObservers()"/>
 	</bean>
 
+	<bean id="jenergy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="jenergy"/>
+		<property name="command" value="jenergy.deleteIObservers()"/>
+	</bean>
+
+	<bean id="Kenergy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="Kenergy"/>
+		<property name="command" value="Kenergy.deleteIObservers()"/>
+	</bean>
+
+	<bean id="focus_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="focus"/>
+		<property name="command" value="focus.deleteIObservers()"/>
+	</bean>
+
 	<bean id="sy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
 		<property name="scannableName" value="sy"/>
+		<property name="command" value="sy.deleteIObservers()"/>
 	</bean>
 
 </beans>

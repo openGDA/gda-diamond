@@ -20,6 +20,8 @@ VOLTAGE_SET_PV = "VoltageSet"
 CONTROL_SET_ON_PV = "Control:setOn"
 VOLTAGE_MEASURE_PV = "VoltageMeasure"
 
+DELAY_TIME = 0.1
+
 class ISegVoltageControl(ScannableMotionBase):
 	'''
 	A voltage controller - on, off, ramp speed, move to new position given
@@ -168,7 +170,6 @@ class ISegVoltageControl(ScannableMotionBase):
 		self.setRampSpeed(speed/self.ramp_factor)
 
 
-
 class ISegVoltageControlNoWait(ISegVoltageControl):
 	'''
 	A voltage controller - on, off, ramp speed, move to new position given.
@@ -178,6 +179,7 @@ class ISegVoltageControlNoWait(ISegVoltageControl):
 		self.delay = delay
 		super(ISegVoltageControlNoWait,self).__init__(name, module_number, channel_number, pv_root, tolerance, ramp_speed) ##self,
 
+	# TEST only - not ideal as this method should be non-blocking
 	def rawAsynchronousMoveTo(self,new_position):
 		if installation.isLive():
 			self.target = float(new_position)
@@ -196,3 +198,4 @@ class ISegVoltageControlNoWait(ISegVoltageControl):
 			return self.target
 		else:
 			return self.current_position
+

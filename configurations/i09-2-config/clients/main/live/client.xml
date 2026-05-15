@@ -33,6 +33,7 @@
 		<!-- Choose between V1 and V2 versions -->
 	<beans profile="V2">
 		<import resource="dld_controls_V2.xml"/>
+		<import resource="slicing_controls_V2.xml"/>
 		<import resource="stream_views_V2.xml"/>
 	</beans>
 

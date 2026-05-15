@@ -7,25 +7,26 @@
 	http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- DLD Controls in Live Stream Views-->
-	<bean id="dld_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+	<!-- Main first line PROC plugin summing of stream from CAM plugin -->
+	<bean id="dld_exposure_frames_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure Frames N " />
+		<property name="group" value="DLD LIVE IMAGE CONTROL" />
+		<property name="scannableName" value="dldProcFrames"/>
+		<property name="textWidth" value="50"/>
+	</bean>
+
+	<!-- Main CAM plugin exposure control - should around 0.2s -->
+	<bean id="dld_exposure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure " />
-		<property name="group" value="DLD" />
+		<property name="group" value="DLD LIVE IMAGE CONTROL" />
 		<property name="scannableName" value="dldExposureTime"/>
 		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
 
-	<bean id="dld_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Period " />
-		<property name="group" value="DLD" />
-		<property name="scannableName" value="dldAcquirePeriod" />
-		<property name="textWidth" value="85"/>
-		<property name="userUnits" value="s" />
-	</bean>
-
 	<bean id="dld_state_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="State" />
-		<property name="group" value="DLD" />
+		<property name="group" value="DLD LIVE IMAGE CONTROL" />
 		<property name="scannableName" value="dldState" />
 		<property name="textWidth" value="50"/>
 	</bean>
@@ -46,30 +47,9 @@
 		<property name="userUnits" value="ns" />
 	</bean>
 
-	<bean id="dld_frames_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value=" Set sum frames " />
-		<property name="group" value="DLD" />
-		<property name="scannableName" value="numFilter"/>
-		<property name="textWidth" value="85"/>
-	</bean>
-
-	<bean id="dld_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Frames acquired" />
-		<property name="group" value="DLD" />
-		<property name="scannableName" value="numFilter_monitor"/>
-		<property name="textWidth" value="51"/>
-	</bean>
-
-	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="command" value="clear_summed_data_separate()" />
-		<property name="buttonText" value="Clear Summed Data" />
-		<property name="group" value="DLD" />
-		<property name="buttonTooltip" value="Clear summed data"/>
-	</bean>
-
 	<bean id="count_rate" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
 		<property name="displayName" value="Intensity (cps)" />
-		<property name="group" value="DLD" />
+		<property name="group" value="DLD LIVE IMAGE CONTROL" />
 		<property name="scannableName" value="count_rate_monitor" />
 		<property name="textWidth" value="170" />
 		<property name="valueColour" value="6" />
@@ -83,7 +63,7 @@
 
 	<bean id="count_rate_fixed" class="uk.ac.gda.client.livecontrol.ScannableDisplayLiveControl">
 		<property name="displayName" value="Intensity (cps)" />
-		<property name="group" value="DLD" />
+		<property name="group" value="DLD LIVE IMAGE CONTROL" />
 		<property name="scannableName" value="count_rate_monitor" />
 		<property name="textWidth" value="170" />
 		<property name="valueColour" value="6" />
@@ -95,16 +75,50 @@
 		<property name="rescalingFont" value="false"/>
 	</bean>
 
-	<bean id="dld_movsum_onoff" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="DLD movsum on/off" />
-		<property name="group" value="DLD" />
-		<property name="scannableName" value="dld_movsum1_control" />
-		<property name="incrementTextWidth" value="60"/>
-		<property name="increment" value="0" />
-		<property name="showStop" value="false" />
-		<property name="showIncrement" value="false" />
-		<property name="horizontalLayout" value="true" />
-		<property name="readOnly" value="false" />
+	<!-- Clear all 3 moving sum plugins with one command -->
+	<bean id="dld_clear_sum" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="command" value="clear_summed_data_separate()" />
+		<property name="buttonText" value="Clear Summed Data" />
+		<property name="group" value="DLD ACCUMULATED LIVE IMAGE CONTROL" />
+		<property name="buttonTooltip" value="Clear summed data"/>
+	</bean>
+
+	<!-- Set number of frames on all 3 moving sum plugins with one command -->
+	<bean id="dld_accum_frames_control" class="uk.ac.gda.client.livecontrol.InputCommandControl">
+		<property name="displayName" value=" Set sum frames" />
+		<property name="group" value="DLD ACCUMULATED LIVE IMAGE CONTROL" />
+		<property name="command" value="set_moving_sum_plugins"/>
+	</bean>
+
+	<!-- Readback on number of frames accumulated from one of moving sum plugins  -->
+	<bean id="dld_accum_frames_monitor" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Frames acquired" />
+		<property name="group" value="DLD ACCUMULATED LIVE IMAGE CONTROL" />
+		<property name="scannableName" value="dld_movsum1_control_monitor"/>
+		<property name="textWidth" value="51"/>
+	</bean>
+
+	<!-- Control of main CAM and PROC plugins -->
+	<bean id="live_image_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="dld_exposure_time_control"/>
+				<ref bean="dld_exposure_frames_control" />
+				<ref bean="dld_state_control" />
+				<ref bean="count_rate_fixed" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Control of secondary moving summ plugins -->
+	<bean id="accum_image_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="dld_clear_sum" />
+				<ref bean="dld_accum_frames_control" />
+				<ref bean="dld_accum_frames_monitor"/>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="dld_count_rate" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -114,4 +128,5 @@
 			</list>
 		</property>
 	</bean>
+
 </beans>

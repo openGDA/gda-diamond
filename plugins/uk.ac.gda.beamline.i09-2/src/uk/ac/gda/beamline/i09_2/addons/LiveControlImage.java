@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2025 Diamond Light Source Ltd.
+ * Copyright © 2026 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *

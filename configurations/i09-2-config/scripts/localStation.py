@@ -10,7 +10,6 @@ from gda.configuration.properties import LocalProperties #@UnusedImport @Unresol
 from gda.util import PropertyUtils #@UnusedImport @UnresolvedImport
 from gda.device.scannable import PVScannable, DummyScannable #@UnusedImport @UnresolvedImport
 from gdascripts import installation
-from pseudodevices.pandaPvScannable import PandaPVScannableClass
 
 print("="*100);
 print "Performing beamline specific initialisation code for i09-2.";
@@ -82,38 +81,37 @@ if installation.isLive():
 	from detector.iseg_channel_scannable_instances import *  # @UnusedWildImport
 	from pseudodevices.bindingEnergyScannable import benergy,Benergy  # @UnusedImport
 
-	########################################################################################
-	###                   Create scannable/commands to reset average filter              ###
-	########################################################################################
-	try:
-		if ConfigUtils.profileActive("V2"):
-			clearAccum = EpicsReadWritePVClass("clearAccum","BL09K-EA-DET-01:SUM1:ResetFilter","","%f")
-			print "V2 profile loaded, 'clearAccum' scannable created"
-		if ConfigUtils.profileActive("V1"):
-			clearAccum = EpicsReadWritePVClass("clearAccum","BL09K-EA-D-01:cam1:ZeroCube","","%f")
-			print "V1 profile loaded, 'clearAccum' scannable created"
-	except:
-		print "No profile loaded, 'clearAccum' scannable is not created - going further"
-
+########################################################################################
+###                   Create commands to reset average filter              ###
+########################################################################################
 	def clear_summed_data():
 		if ConfigUtils.profileActive("V2"):
 			#print("Clear accumulated data")
 			caput("BL09K-EA-DET-01:SUM1:ResetFilter", 1)
+			caput("BL09K-EA-DET-01:SUM2:ResetFilter", 1)
+			caput("BL09K-EA-DET-01:SUM3:ResetFilter", 1)
 		if ConfigUtils.profileActive("V1"):
 			# commenting this out as caget to this PV crashes further scan in GDA
 			caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
 
 	def clear_summed_data_separate():
-		if ConfigUtils.profileActive("V2"):
-			print("Clear accumulated data")
-			caput("BL09K-EA-DET-01:SUM1:ResetFilter", 1)
-		if ConfigUtils.profileActive("V1"):
-			print("Clear accumulated data")
-			caput("BL09K-EA-D-01:cam1:ZeroCube", 1)
+		print("Clear accumulated data")
+		clear_summed_data()
+
+	def set_moving_sum_plugins(arg1):
+		print ("Setting movSum1, movSum2 and movSum3 plugins to the same value %d" % (arg1))
+		caput("BL09K-EA-DET-01:SUM1:NumFilter", arg1)
+		caput("BL09K-EA-DET-01:SUM2:NumFilter", arg1)
+		caput("BL09K-EA-DET-01:SUM3:NumFilter", arg1)
+
 else:
+
 	focus = DummyScannable("focus")
+
 	kenergy = DummyScannable("kenergy")
-	clearAccum = DummyScannable("clearAccum")
+
+	Kenergy = DummyScannable("Kenergy")
+
 	def clear_summed_data():
 		print "clear_summed_data called - dummy mode, skipping command"
 	def clear_summed_data_separate():
@@ -122,8 +120,16 @@ else:
 		print "MM turned ON"
 	def MM_off():
 		print "MM turned OFF"
-	alias("MM_on")
-	alias("MM_off")
+	def set_moving_sum_plugins(arg1):
+		print ("Skip setting movSum1, movSum2 and movSum3 plugins to the same value %d" % (arg1))
+		caput("ws667-AD-SIM-01:CAM:NumImages", arg1)
+
+	alias(MM_on)
+	alias(MM_off)
+
+alias(clear_summed_data)
+alias(set_moving_sum_plugins)
+
 
 ###############################################################################
 ###                   Get sample manipulator scannables                     ###
@@ -136,6 +142,23 @@ sx3.configure()
 sy.configure()
 sz1.configure()
 sz2.configure()
+
+###############################################################################
+###                   Configure stop command                                ###
+###############################################################################
+from gdaserver import ss7xgap,ss7ygap,sm6y # @UnresolvedImport
+def stop_beam_control():
+	print "Stopping slit, beam height motors and sample manipulator"
+	ss7xgap.stop()
+	ss7ygap.stop()
+	sm6y.stop()
+	sx1.stop()
+	sx2.stop()
+	sx3.stop()
+	sy.stop()
+	sz1.stop()
+	sz2.stop()
+alias(stop_beam_control)
 
 ###############################################################################
 ###                   Creat time scannable                                  ###
@@ -178,9 +201,12 @@ help(sp)
 from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
 
 #Connect the JythonScannableWrappers for client live controls
-from gdaserver import polarisation_wrapper,sy_wrapper # @UnresolvedImport
+from gdaserver import polarisation_wrapper,sy_wrapper,jenergy_wrapper, Kenergy_wrapper, focus_wrapper # @UnresolvedImport
 polarisation_wrapper.connectScannable()
 sy_wrapper.connectScannable()
+jenergy_wrapper.connectScannable()
+Kenergy_wrapper.connectScannable()
+focus_wrapper.connectScannable()
 
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 tsample = SampleTemperature("tsample", None)

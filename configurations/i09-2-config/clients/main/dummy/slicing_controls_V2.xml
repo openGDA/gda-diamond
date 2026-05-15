@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="dld_x_start" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:MinX"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_x_size" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:SizeX"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_x_binning" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:BinX"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_y_start" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:MinY"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_y_size" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:SizeY"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_y_binning" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:BinY"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_t_start" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:MinZ"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_t_size" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:SizeZ"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dld_t_binning" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:BinZ"/>
+		<property name="outputFormat">
+			<list>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+</beans>
