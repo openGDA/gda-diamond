@@ -17,7 +17,16 @@
 				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
 			</list>
 		</property>
-
+		 	
+		<property name="fluorTemplateMap">
+        	<map>
+        		<entry key="xspress2" value="Xspress_Parameters9.xml"/>
+          	 	<entry key="xspress3x" value="Xspress3X_Parameters_ME4.xml"/>
+            	<entry key="xspress4" value="Xspress4Odin_Parameters_16Ge.xml"/>
+           	 	<entry key="xspress4odin" value="Xspress4Odin_Parameters_16Ge.xml"/>
+        	</map>
+    	</property>
+    
 		<property name="generators">
 			<list>
 				<bean class="uk.ac.gda.exafs.ui.dialogs.DetectorConfigGenerator" />
@@ -114,5 +123,7 @@
 			</list>
 		</property>
 	</bean>
+	
+	
 
 </beans>
