@@ -6,13 +6,13 @@
 
 	<!-- D9B cam1 plugin -->
 	<bean id="es1b_cam4_adbase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL07B-EA-ENDST-01:DCAM4:CAM:" />
+		<property name="prefix" value="#{basePvEs1}:DCAM4:CAM:" />
 	</bean>
 
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="es1b_cam4_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/es1b3Roi" />
+		<property name="serviceName" value="gda/es1b4Roi" />
 		<property name="service" ref="es1b_cam4_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
@@ -20,8 +20,8 @@
 	<!-- ROI-STAT pairs for Live Stream View-->
 	<bean id="es1b_cam4_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="es1b_cam4_RoiStats1" />
-		<property name="baseRoiPVName" value="BL07B-EA-ENDST-01:DCAM4:ROI1:" />
-		<property name="baseStatsPVName" value="BL07B-EA-ENDST-01:DCAM4:STAT1:" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM4:ROI1:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM4:STAT1:" />
 		<property name="roiInputNdArrayPort" value="ES1B.DCAM4.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -37,8 +37,8 @@
 	<!-- ROI-STAT pairs for Live Stream View-->
 	<bean id="es1b_cam4_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="es1b_cam4_RoiStats2" />
-		<property name="baseRoiPVName" value="BL07B-EA-ENDST-01:DCAM4:ROI2:" />
-		<property name="baseStatsPVName" value="BL07B-EA-ENDST-01:DCAM4:STAT2:" />
+		<property name="baseRoiPVName" value="#{basePvEs1}:DCAM4:ROI2:" />
+		<property name="baseStatsPVName" value="#{basePvEs1}:DCAM4:STAT2:" />
 		<property name="roiInputNdArrayPort" value="ES1B.DCAM4.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -57,7 +57,7 @@
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL07B-EA-ENDST-01:DCAM4:HDF5:" />
+						<property name="prefix" value="#{basePvEs1}:DCAM4:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>

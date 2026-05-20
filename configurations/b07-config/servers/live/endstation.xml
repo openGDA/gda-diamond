@@ -4,12 +4,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Cameras -->
+	<bean id="basePvEs1" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL07B-EA-ENDST-01"/>
+	</bean>
+
+	<bean id="basePvEs2" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL07B-EA-ENDST-02"/>
+	</bean>
+
+	<!-- Cameras ES2-->
 	<import resource="es2b_cam1.xml"/>
 	<import resource="es2b_cam2.xml"/>
+
+	<!-- Cameras ES1-->
 	<import resource="es1b_cam1.xml"/>
 	<import resource="es1b_cam2.xml"/>
 	<import resource="es1b_cam3.xml"/>
 	<import resource="es1b_cam4.xml"/>
+	<import resource="es1b_cam5.xml"/>
+	<import resource="es1b_cam6.xml"/>
+	<import resource="es1b_cam7.xml"/>
 
 </beans>
