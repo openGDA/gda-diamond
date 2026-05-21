@@ -143,7 +143,7 @@
 		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
 	</bean>
 
-	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" init-method="init" destroy-method="destroy">
+	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" destroy-method="destroy">
 		<property name="limitsMap" ref="defl_x_range" />
 		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:LensMode"/>
 		<property name="useMonitor" value="true"/>
