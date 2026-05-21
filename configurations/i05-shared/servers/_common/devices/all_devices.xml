@@ -21,4 +21,7 @@
 
 	<!-- diodes -->
 	<import resource="d3.xml" />
+
+	<!-- MBS analyser -->
+	<import resource="mbs_analyser.xml" />
 </beans>
