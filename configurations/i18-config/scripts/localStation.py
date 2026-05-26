@@ -318,6 +318,8 @@ def setup():
     
     run_script("ionchamber-checker-scannables.py")
     
+    set_subdirectory(None) # clear any subdirectory that may have been set
+    
     setup_position_notification()
     
     print("\n...initialisation complete!")
@@ -336,12 +338,22 @@ def reconnect_daserver() :
     sleep(1)
     counterTimer01.getScaler().clear()
 
+def setup_short_scaler_mode(short_mode) :
+    
+    config_cmd = "~config-short-scalers.cmd" if short_mode else "config.cmd"
+    print "Setting Tfg scaler startup command to : "+config_cmd+" ..."
+    daServer = counterTimer01.getScaler().getDaServer()
+    daServer.setStartupCommands([config_cmd])
+    reconnect_daserver_new()
+
 from gda.data.metadata import GDAMetadataProvider
 def set_subdirectory(subdir=None):
     metadata=GDAMetadataProvider.getInstance()
-    if subdir is None : 
+    if subdir is None :
+        print("Clearing subdirectory setting")
         subdir = ""
-    print("Setting data subdirectory to : {}".format(subdir))
+    else:
+        print("Setting data subdirectory to : {}".format(subdir))
     metadata.setMetadataValue("subdirectory", subdir)
 
 
@@ -397,3 +409,4 @@ class FilenameListener(IBeanListener):
         
 filename_listener = FilenameListener()
 add_reset_hook(filename_listener.close)
+

@@ -12,4 +12,7 @@ gdalog
 
 profiles=$(generate-profile-list.py)
 echo "Profiles to use : $profiles"
-gda servers restart $profiles --debug $*
+
+DEBUG="--debug --debug-port 8001"
+
+gda -G servers restart $profiles $DEBUG $@

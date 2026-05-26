@@ -128,6 +128,9 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=
                   .withProcessingRequest(scanRequest.getProcessingRequest()) \
                   .withStartPosition(dcm_energy_position) \
                   .withFilePath(file_path) \
+                  .withBeforeScript(scanRequest.getBeforeScript()) \
+                  .withAfterScript(scanRequest.getAfterScript()) \
+                  .alwaysRunAfterScript(scanRequest.isAlwaysRunAfterScript()) \
                   .build()
                   
         # Add processing to scan request to reconstruct the map after final energy has been collected
