@@ -68,10 +68,10 @@ from i09_1_shared.scannable.ienergy_order_gap_instances import ienergy_order, ie
 from i09_1_shared.scannable.continuous.ienergy_scannable_instances import ienergy, ienergy_move_controller, iI0  # @UnusedImport
 from i09_1_shared.beam.beam_properteis import dcm_beam_divergence_at_sample, dcm_beam_flux_at_sample, dcm_beam_size_at_sample  # @UnusedImport
 
-from gdaserver import psi1, iidaccesscontrol #@UnresolvedImport
-from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+from gdaserver import psi1, iidaccesscontrol, igap #@UnresolvedImport
+from gdascripts.scannable.beamokay import WaitForScannableState, id_pause_msg  # @UnusedImport
 print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
-checkiid = WaitForScannableStateAndHandleShutter('checkiid', [psi1], iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+checkiid = WaitForScannableState('checkiid', iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[igap], shutters=[psi1], shutter_close_state="Close", additional_pause_msg=id_pause_msg(iidaccesscontrol))
 
 from i09shared.scan.cvscan import cvscan  # @UnusedImport
 

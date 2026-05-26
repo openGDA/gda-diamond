@@ -149,12 +149,12 @@ print("")
 ###                   Get check beam/control scannable                      ###
 ###############################################################################
 from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
-from i09shared.pseudodevices.pauseDetectorWhileMonitorBelowThreshold import WaitForScannableStateAndHandleShutter
+from gdascripts.scannable.beamokay import WaitForScannableState, id_pause_msg  # @UnusedImport
 print("-"*100)
 print("Creating 'checkjid' scannable to be used to pause or resume detector acquisition based on ID control")
-from gdaserver import fsk1, psk1 #@UnresolvedImport
-from gdaserver import  jidaccesscontrol #@UnresolvedImport
-checkjid = WaitForScannableStateAndHandleShutter('checkjid', [fsk1, psk1], jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'])
+from gdaserver import psk1 #@UnresolvedImport
+from gdaserver import  jidaccesscontrol, jgap #@UnresolvedImport
+checkjid = WaitForScannableState('checkjid', jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[jgap, polarisation], shutters=[fsk1, psk1], additional_pause_msg=id_pause_msg(jidaccesscontrol))
 print("")
 
 ###############################################################################

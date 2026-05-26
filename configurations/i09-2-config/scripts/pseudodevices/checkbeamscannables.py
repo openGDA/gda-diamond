@@ -25,7 +25,7 @@ try:
 	from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 	from gda.device.scannable.scannablegroup import ScannableGroup
 	
-	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0, id1gap=jgap)
+	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0)
 	checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1.0, secondsToWaitAfterBeamBackUp=5.0)
 	checkfe = WaitForScannableState('checkfe', feBeamPermit, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0)
 	checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
