@@ -131,10 +131,10 @@ from gdaserver import fsi1, fsj1, igap, jgap #@UnresolvedImport
 print("-"*100)
 print("Creating 'checkjid' scannable to be used to pause or resume detector acquisition based on ID control")
 from gdaserver import  jidaccesscontrol #@UnresolvedImport
-checkjid = WaitForScannableState('checkjid', jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[jgap], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(jgap))
+checkjid = WaitForScannableState('checkjid', jidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[jgap, polarisation], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(jidaccesscontrol))
 from gdaserver import  iidaccesscontrol #@UnresolvedImport
 print "Creating 'checkiid' scannable to be used to pause or resume detector acquisition based on ID control"
-checkiid = WaitForScannableState('checkiid', iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[igap], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(igap))
+checkiid = WaitForScannableState('checkiid', iidaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[igap], shutters=[fsi1, fsj1], additional_pause_msg=id_pause_msg(iidaccesscontrol))
 print("")
 
 ###############################################################################
