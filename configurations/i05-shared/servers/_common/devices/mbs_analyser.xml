@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="mbs_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:CAM:" />
+	</bean>
+
+	<bean id="mbs_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ANALYSER_PV_BASENAME}:ARR:" />
+				<property name="initialArrayPort" value="DET.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="mbs_controller" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserController">
+		<constructor-arg name="adBase" ref="mbs_adbase" />
+		<constructor-arg name="ndArray" ref="mbs_ndarray" />
+		<constructor-arg name="basePvName" value="#{ANALYSER_PV_BASENAME}:" />
+	</bean>
+
+	<bean id="mbs_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<property name="viewName" value="Detector Plot" />
+		<property name="maximumActiveRois" value="1" />
+	</bean>
+
+	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
+		<constructor-arg name="controller" ref="mbs_controller" />
+		<property name="name" value="analyser" />
+		<property name="collectionStrategy">
+			<bean id="mbs_total_only_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserTotalOnlyCollectionStrategy" />
+		</property>
+		<property name="energyRange" ref="mbs_analyser_energy_range" />
+		<property name="fixedModeConfiguration" ref="detector_config" />
+		<property name="sweptModeConfiguration" ref="detector_config" />
+		<property name="ditherModeConfiguration" ref="detector_config" />
+		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
+	</bean>
+
+	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
+		<property name="currentPointPV" value="#{ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
+		<property name="maxSweepPV" value="#{ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV" />
+		<property name="percentagePV" value="#{ANALYSER_PV_BASENAME}:CAM:ProgressPct_RBV" />
+		<property name="currentIterationPV" value="#{ANALYSER_PV_BASENAME}:CAM:CurrentScanNumber_RBV"/>
+	</bean>
+
+	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:CentreKE" />
+	</bean>
+
+	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
+	</bean>
+
+	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
+		<!-- DeflX_RBV does not work properly in MBS software, see I05-542 -->
+		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:DeflX" />
+		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:DeflX" />
+		<property name="dynamicScannableLimits" ref="dynamic_limits"/>
+	</bean>
+
+	<bean id="dynamic_limits" class="gda.device.controlpoint.DynamicScannableLimits" destroy-method="destroy">
+		<property name="limitsMap" ref="defl_x_range" />
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:LensMode"/>
+		<property name="useMonitor" value="true"/>
+	</bean>
+
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+</beans>
