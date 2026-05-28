@@ -49,6 +49,28 @@
 
 	<!-- Femto -->
 	<bean id="m4femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="m4femto1gain" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="posChangeEventFlag" value="true"/>
+		<property name="positions">
+			<list>
+				<value>10^3 low noise</value>
+				<value>10^4 low noise</value>
+				<value>10^5 low noise</value>
+				<value>10^6 low noise</value>
+				<value>10^7 low noise</value>
+				<value>10^8 low noise</value>
+				<value>10^9 low noise</value>
+				<value>10^5 high speed</value>
+				<value>10^6 high speed</value>
+				<value>10^7 high speed</value>
+				<value>10^8 high speed</value>
+				<value>10^9 high speed</value>
+				<value>10^10 high spd</value>
+				<value>10^11 high spd</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="m4femto2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 </beans>

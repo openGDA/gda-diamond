@@ -308,6 +308,71 @@
 <!-- 			</util:map> -->
 <!-- 		</property> -->
 <!-- 	</bean> -->
+
+	<bean id="m4femto1gain" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="green_colour" class="org.eclipse.swt.graphics.Color">
+		<constructor-arg name="device">
+			<null/>
+		</constructor-arg>
+		<constructor-arg name="red">
+			<value>0</value>
+		</constructor-arg>
+		<constructor-arg name="green">
+			<value>255</value>
+		</constructor-arg>
+		<constructor-arg name="blue">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="yellow_colour" class="org.eclipse.swt.graphics.Color">
+		<constructor-arg name="device">
+			<null/>
+		</constructor-arg>
+		<constructor-arg name="red">
+			<value>255</value>
+		</constructor-arg>
+		<constructor-arg name="green">
+			<value>255</value>
+		</constructor-arg>
+		<constructor-arg name="blue">
+			<value>0</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="m4femto1gain_warning" class="uk.ac.gda.client.livecontrol.ScannableColourDiscreteStateControl">
+		<property name="displayName" value="m4femto1gain" />
+		<property name="group" value="Status" />
+		<property name="scannableName" value="m4femto1gain" />
+		<property name="canvasHeight" value="24" />
+		<property name="canvasWidth" value="24" />
+		<property name="groupLabel" value="false"/>
+		<property name="stateMap">
+			<util:map map-class="java.util.HashMap">
+				<entry key="10^3 low noise" value-ref="yellow_colour"/>
+				<entry key="10^4 low noise" value-ref="yellow_colour"/>
+				<entry key="10^5 low noise" value-ref="yellow_colour"/>
+				<entry key="10^6 low noise" value-ref="yellow_colour"/>
+				<entry key="10^7 low noise" value-ref="green_colour"/>
+				<entry key="10^8 low noise" value-ref="yellow_colour"/>
+				<entry key="10^9 low noise" value-ref="yellow_colour"/>
+				<entry key="10^5 high speed" value-ref="yellow_colour"/>
+				<entry key="10^6 high speed" value-ref="yellow_colour"/>
+				<entry key="10^7 high speed" value-ref="yellow_colour"/>
+				<entry key="10^8 high speed" value-ref="yellow_colour"/>
+				<entry key="10^9 high speed" value-ref="yellow_colour"/>
+				<entry key="10^10 high spd" value-ref="yellow_colour"/>
+				<entry key="10^11 high spd" value-ref="yellow_colour"/>
+			</util:map>
+		</property>
+	</bean>
+	
+	<bean id="m4femto1gain_reset" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="group" value="Status"/>
+		<property name="command" value="pos m4femto1gain '10^7 low noise'"/>
+		<property name="buttonText" value="Reset"/>
+		<property name="buttonTooltip" value="Reset the m4femto1gain back to '10^7 low noise'"/>
+	</bean>
 	
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="viewName" value="Live Controls"/>
@@ -321,6 +386,8 @@
 				<ref bean="s5v1gap_control" />
 				<ref bean="m4c1_control" />
 				<ref bean="feedback_state" />
+				<ref bean="m4femto1gain_warning"/>
+				<ref bean="m4femto1gain_reset"/>
 				<ref bean="sample_temperature_display" />
 				<ref bean="cryo_temperature_display" />
 				<ref bean="fastshutter_control"/>
