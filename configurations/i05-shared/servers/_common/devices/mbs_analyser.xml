@@ -64,6 +64,7 @@
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
+		<property name="lowerLimit" value="0.2"/>
 	</bean>
 
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">
@@ -82,5 +83,13 @@
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
 		<property name="outputFormat" value="%s" />
+	</bean>
+
+	<bean id="analyser_lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:LensMode" />
+	</bean>
+
+	<bean id="analyser_pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:PassEnergy" />
 	</bean>
 </beans>
