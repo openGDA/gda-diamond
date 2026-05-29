@@ -29,6 +29,7 @@
     <elements xsi:type="basic:PartSashContainer" xmi:id="_WiGYYLSDEe2yJairNSqN8A" elementId="uk.ac.gda.beamline.b07-2.partsashcontainer.1" horizontal="true">
       <children xsi:type="basic:Part" xmi:id="_0v21oLRxEe2yJairNSqN8A" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es1b_cam1#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="ES1_Cam1"/>
       <children xsi:type="basic:Part" xmi:id="_SPajkLR1Ee2yJairNSqN8A" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es1b_cam2#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="ES1_Cam2"/>
+      <children xsi:type="basic:Part" xmi:id="_jNMBMFthEfGCrYbPeN0ueQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:es1b_cam6#MJPEG" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="ES1_Cam6"/>
     </elements>
     <elements xsi:type="basic:PartStack" xmi:id="_geQ0oLSFEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.partstack.7">
       <children xsi:type="basic:Part" xmi:id="_TaXEALSGEe2yJairNSqN8A" elementId="uk.ac.diamond.daq.devices.specs.phoibos.ui.part.alignmentcontrol" toBeRendered="false" visible="false" contributionURI="bundleclass://uk.ac.diamond.daq.devices.specs.phoibos.ui/uk.ac.diamond.daq.devices.specs.phoibos.ui.control.SpecsAlignmentView" label="Alignment Controls">
