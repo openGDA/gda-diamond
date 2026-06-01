@@ -12,4 +12,5 @@
 	<import resource="stream_views_es2b_cam2.xml"/>
 	<import resource="stream_views_es1b_cam1.xml"/>
 	<import resource="stream_views_es1b_cam2.xml"/>
+	<import resource="stream_views_es1b_cam6.xml"/>
 </beans>
