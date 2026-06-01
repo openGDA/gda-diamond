@@ -139,7 +139,7 @@ public class I20Validator extends ExafsValidator {
 		if (scanColour == null || scanColour.useRow1()) {
 			errors.addAll(checkXesParameters(x, 0));
 		}
-		if (scanColour != null && scanColour.useRow2() && scanColour != ScanColourType.ONE_COLOUR) {
+		if (scanColour != null && scanColour.useRow2()) {
 			errors.addAll(checkXesParameters(x, 1));
 		}
 		return errors;
@@ -160,30 +160,41 @@ public class I20Validator extends ExafsValidator {
 			try {
 				energyRange = xesEnergy.get().getEnergyRange();
 			} catch (DeviceException e) {
-				logger.error("Problemm look up energy range from "+xesEnergy.get().getName()+" - using default range "+Arrays.asList(energyRange), e);
+				logger.error("Problem looking up energy range from "+xesEnergy.get().getName()+" - using default range "+Arrays.asList(energyRange), e);
 			}
 		}
+
 		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
-			// find the allowed range of energy transfer values
-			if (xesScanParams.isScanEnergyTransfer()) {
-				List<Double> allowedRange;
-				if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
-					allowedRange = XesUtils.convertToEnergyTransfer(List.of(energyRange[0], energyRange[1]), xesScanParams.getMonoEnergy());
-				} else {
-					List<Double> monoRange = List.of(xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy());
-					allowedRange = XesUtils.convertToEnergyTransfer(List.of(energyRange[0], energyRange[1]),  monoRange);
-				}
-				energyRange[0] = Collections.min(allowedRange);
-				energyRange[1] = Collections.max(allowedRange);
-			}
-
-			checkBounds("Integration Time", specParams.getIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
-			checkBounds("XES Initial energy", specParams.getInitialEnergy(), energyRange[0], energyRange[1], errors);
-			checkBounds("XES Final energy", specParams.getFinalEnergy(), energyRange[0], energyRange[1], errors);
-
+			// check the mono energy
 			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 				checkEnergyRange("Mono", xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy(), errors);
+			} else {
+				checkEnergyRange("Mono", xesScanParams.getMonoEnergy(), xesScanParams.getMonoEnergy(), errors);
+			}
+
+			// check the integration time
+			checkBounds("Integration Time", specParams.getIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
+
+			if (xesScanParams.isScanEnergyTransfer()) {
+
+				// Get mono energy values to use when converting from energy transfer
+				List<Double> monoEnergies = Arrays.asList(xesScanParams.getMonoEnergy());
+				if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+					monoEnergies = Arrays.asList(xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy());
+				}
+
+				// For each mono energy, convert energy transfer initial/final energy to XES energy and do range check
+				for (double monoEnergy : monoEnergies) {
+					double xesInitial = XesUtils.convertFromEnergyTransfer(specParams.getInitialEnergy(), monoEnergy);
+					double xesFinal = XesUtils.convertFromEnergyTransfer(specParams.getFinalEnergy(), monoEnergy);
+					checkBounds("XES Initial energy from energy transfer", xesInitial, energyRange[0], energyRange[1], errors);
+					checkBounds("XES Final energy from energy transfer", xesFinal, energyRange[0], energyRange[1], errors);
+				}
+
+			} else {
+				checkBounds("XES Initial energy", specParams.getInitialEnergy(), energyRange[0], energyRange[1], errors);
+				checkBounds("XES Final energy", specParams.getFinalEnergy(), energyRange[0], energyRange[1], errors);
 			}
 
 		} else if (bean != null) {
