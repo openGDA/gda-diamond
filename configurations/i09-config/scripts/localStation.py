@@ -165,8 +165,27 @@ dynamic_meta = DynamicScanMetadata(
 	},
 )
 
-scan.scanListeners = scan.scanListeners + [dynamic_meta]
-mrscan.scanListeners = mrscan.scanListeners + [dynamic_meta]
+def _add_listeners_to_scan(scan_command, listeners):
+	scan_command.scanListeners = scan_command.scanListeners + listeners
+
+# Add dynamic metadata for spec commands
+_add_listeners_to_scan(ascan, [dynamic_meta])
+_add_listeners_to_scan(a2scan, [dynamic_meta])
+_add_listeners_to_scan(a3scan, [dynamic_meta])
+_add_listeners_to_scan(mesh, [dynamic_meta])
+_add_listeners_to_scan(dscan, [dynamic_meta])
+_add_listeners_to_scan(d2scan, [dynamic_meta])
+_add_listeners_to_scan(d3scan, [dynamic_meta])
+
+# Add dynamic meta data for scan commands
+_add_listeners_to_scan(scan, [dynamic_meta])
+_add_listeners_to_scan(rscan, [dynamic_meta])
+_add_listeners_to_scan(cscan, [dynamic_meta])
+_add_listeners_to_scan(mrscan, [dynamic_meta])
+
+#Add dynamic metadata for cvscan
+from i09shared.scan.cvscan import cvscan_traj
+_add_listeners_to_scan(cvscan_traj, [dynamic_meta])
 
 print("-"*100)
 print("I and J branch metadata is now added dynamically to scan")
