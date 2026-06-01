@@ -49,6 +49,7 @@ polarisation_wrapper.connectScannable()
 print("-"*100)
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 print("")
 
 ###############################################################################

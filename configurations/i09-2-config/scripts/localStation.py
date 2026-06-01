@@ -26,6 +26,7 @@ print "Custom i09-2 initialisation code.";
 print("-"*100)
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 print("")
 
 from gdascripts.scan.installMultiRegionalScanWithProcessing import mrscan # @UnusedImport
