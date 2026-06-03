@@ -5,8 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean class="uk.ac.diamond.daq.arpes.ui.e4.context.SpringContextHolder"/>
-
 	<bean id="AnalyserPVConfig" class = "uk.ac.gda.apres.ui.config.AnalyserPVConfig">
 		<property name="analyserEnergyAxisPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:EScale_RBV" />
 		<property name="analyserEnergyAxisCountPv" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:EScale_RBV.NORD" />
@@ -62,38 +60,4 @@
 		</property>
 	</bean>
 
-	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">
-		<property name="currentPointPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
-		<property name="maxSweepPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV" />
-		<property name="percentagePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ProgressPct_RBV" />
-		<property name="currentIterationPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentScanNumber_RBV"/>
-	</bean>
-
-	<bean id="analyser_lens_mode" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:LensMode" />
-	</bean>
-
-	<bean id="analyser_pass_energy" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PassEnergy" />
-	</bean>
-
-	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
-		<property name="outputFormat" value="%s" />
-	</bean>
-
-	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
-		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE" />
-	</bean>
-
-	<bean id="centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE_RBV" />
-		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CentreKE" />
-	</bean>
-
-	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
-		<property name="pvNameSetPoint" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
-	</bean>
 </beans>

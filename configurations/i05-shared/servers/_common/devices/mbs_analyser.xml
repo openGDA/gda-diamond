@@ -65,6 +65,7 @@
 		<property name="pvNameGetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="#{ANALYSER_PV_BASENAME}:CAM:AcquireTime" />
 		<property name="lowerLimit" value="0.2"/>
+		<property name="upperLimit" value="10.0"/>
 	</bean>
 
 	<bean id="deflector_x" class="gda.device.controlpoint.EpicsControlPoint">

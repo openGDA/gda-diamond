@@ -25,6 +25,4 @@
 	<!-- MBS analyser -->
 	<import resource="mbs_analyser.xml" />
 
-	<import resource="min_dwell_scannable.xml"/>
-
 </beans>
