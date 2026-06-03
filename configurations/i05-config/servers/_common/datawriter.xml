@@ -19,9 +19,9 @@
 				<entry key="s2_ysize" value-ref="s2y_size_datawriter"/>
 				<entry key="s2_xsize" value-ref="s2x_size_datawriter"/>
 				<entry key="pgm_linedensity" value-ref="pgm_linedensity_datawriter"/>
-				<entry key="cryostat" value-ref="cryostat_datawriter"/>
 				<entry key="sample_name" value-ref="sample_name_datawriter"/>
 				<!-- Endstation specific datawriters -->
+				<entry key="cryostat" value-ref="cryostat_datawriter"/>
 				<entry key="s6_xsize">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -173,6 +173,31 @@
 				<value>ring_current</value>
 				<value>ring_energy</value>
 			</set>
+		</property>
+	</bean>
+
+	<bean id="cryostat_datawriter" class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+		<property name="paths">
+			<list>
+				<value>sample:NXsample/temperature_demand</value>
+				<value>sample:NXsample/cryostat_temperature</value>
+				<value>sample:NXsample/temperature</value>
+				<value>sample:NXsample/shield_temperature</value>
+				<value>sample:NXsample/shield2_temperature</value>
+				<value>sample:NXsample/heater_percent</value>
+				<value>sample:NXsample/heater_setting</value>
+			</list>
+		</property>
+		<property name="units">
+			<list>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value>K</value>
+				<value></value>
+				<value></value>
+			</list>
 		</property>
 	</bean>
 
