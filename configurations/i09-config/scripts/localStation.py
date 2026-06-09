@@ -224,6 +224,20 @@ from gdaserver import lakeshore # @UnresolvedImport
 tsample = SampleTemperature("tsample", lakeshore, channel_number = 1)
 
 ###############################################################################
+###                   Create hexapod scannable group                        ###
+###############################################################################
+print("-"*100)
+from i09_2_shared.scannable.hexapod.sm6_motors import sm6x, sm6y, sm6z, sm6yaw, sm6pitch, sm6roll
+
+sm6 = ScannableGroup("sm6", [sm6x, sm6y, sm6z, sm6yaw, sm6pitch, sm6roll])
+sm6x.configure()
+sm6y.configure()
+sm6z.configure()
+sm6yaw.configure()
+sm6pitch.configure()
+sm6roll.configure()
+
+###############################################################################
 ###                      Reflectivity camera help text                      ###
 ###############################################################################
 from gdaserver import nixswr_repeat, nixswr_time # @UnresolvedImport @UnusedImport

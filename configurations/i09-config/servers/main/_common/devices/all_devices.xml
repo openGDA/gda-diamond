@@ -21,7 +21,6 @@
 	<import resource="SD11.xml"/>
 	<import resource="SM4.xml"/>
 	<import resource="SM5.xml"/>
-	<import resource="SM6.xml"/>
 
 	<import resource="BeamMonitor.xml"/>
 	<import resource="SMPM.xml" />

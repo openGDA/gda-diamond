@@ -55,10 +55,11 @@
 
 	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Photon Energy " />
-		<property name="group" value="Beamline" />
+		<property name="group" value="Beam Control" />
 		<property name="scannableName" value="jenergy_wrapper" />
 		<property name="incrementTextWidth" value="60"/>
 		<property name="increment" value="0.01" />
+		<property name="showIncrement" value="false" />
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 	</bean>
 
@@ -84,7 +85,7 @@
 	<bean id="sm6y_motor_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Beam Height" />
 		<property name="group" value="Beam Control" />
-		<property name="scannableName" value="sm6y" />
+		<property name="scannableName" value="sm6_y_wrapper" />
 		<property name="showStop" value="false" />
 		<property name="increment" value="0.001" />
 	</bean>
@@ -92,7 +93,7 @@
 	<bean id="stop_beam_control" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="command" value="stop_beam_control" />
 		<property name="buttonText" value="STOP" />
-		<property name="group" value="Beam Control" />
+		<property name="group" value="Beamline" />
 	</bean>
 
 	<!-- group Manipulator Control -->
@@ -168,12 +169,12 @@
 				<ref bean="fast_shutter_control" />
 				<ref bean="mm_on" />
 				<ref bean="mm_off" />
-				<ref bean="photon_energy_control" />
+				<ref bean="stop_beam_control" />
 
 				<ref bean="ss7xgap_motor_control" />
 				<ref bean="ss7ygap_motor_control" />
 				<ref bean="sm6y_motor_control" />
-				<ref bean="stop_beam_control" />
+				<ref bean="photon_energy_control" />
 
 				<ref bean="sample_stage_image"/>
 				<ref bean="sxc_control" />

@@ -54,6 +54,22 @@ print("Importing utility mathematical scannable class ScannableFunctionClassFor2
 ###                   Configure scannable output formats                        ###
 ###############################################################################
 globals()['sm3pitch'].setOutputFormat(["%10.1f"])
+
+###############################################################################
+###                   Create hexapod scannable group                        ###
+###############################################################################
+print("-"*100)
+from i09_2_shared.scannable.hexapod.sm6_motors import sm6x, sm6y, sm6z, sm6yaw, sm6pitch, sm6roll
+from gdaserver import sm6iamp27, sm6fpitch
+
+sm6 = ScannableGroup("sm6", [sm6x, sm6y, sm6z, sm6yaw, sm6pitch, sm6roll, sm6iamp27, sm6fpitch])
+sm6x.configure()
+sm6y.configure()
+sm6z.configure()
+sm6yaw.configure()
+sm6pitch.configure()
+sm6roll.configure()
+
 ###############################################################################
 ###                         Create epics devices                            ###
 ###############################################################################
@@ -146,12 +162,12 @@ sz2.configure()
 ###############################################################################
 ###                   Configure stop command                                ###
 ###############################################################################
-from gdaserver import ss7xgap,ss7ygap,sm6y # @UnresolvedImport
+from gdaserver import ss7xgap,ss7ygap,sm6_y_wrapper # @UnresolvedImport
 def stop_beam_control():
 	print "Stopping slit, beam height motors and sample manipulator"
 	ss7xgap.stop()
 	ss7ygap.stop()
-	sm6y.stop()
+	sm6_y_wrapper.stop()
 	sx1.stop()
 	sx2.stop()
 	sx3.stop()
@@ -161,7 +177,7 @@ def stop_beam_control():
 alias(stop_beam_control)
 
 ###############################################################################
-###                   Creat time scannable                                  ###
+###                   Create time scannable                                  ###
 ###############################################################################
 from gdascripts.scannable.timerelated import TimeSinceScanStart
 print("-"*100)
@@ -201,12 +217,13 @@ help(sp)
 from pseudodevices.delayedGetPositionScannable import delayedGetPositionScannable # @UnusedImport
 
 #Connect the JythonScannableWrappers for client live controls
-from gdaserver import polarisation_wrapper,sy_wrapper,jenergy_wrapper, Kenergy_wrapper, focus_wrapper # @UnresolvedImport
+from gdaserver import polarisation_wrapper,sy_wrapper,jenergy_wrapper, Kenergy_wrapper, focus_wrapper,sm6_y_wrapper # @UnresolvedImport
 polarisation_wrapper.connectScannable()
 sy_wrapper.connectScannable()
 jenergy_wrapper.connectScannable()
 Kenergy_wrapper.connectScannable()
 focus_wrapper.connectScannable()
+sm6_y_wrapper.connectScannable()
 
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 tsample = SampleTemperature("tsample", None)
