@@ -43,7 +43,7 @@ class ISegVoltageControl(ScannableMotionBase):
 		self.target_tolerance = tolerance
 		self.saved_ramp_speed = None
 		self.ramp_speed = ramp_speed
-
+		self.ramp_factor = 20.0
 
 	def configure(self):
 		''' create channel access clients, but not connect to PVs.
@@ -155,3 +155,14 @@ class ISegVoltageControl(ScannableMotionBase):
 		else:
 				print("voltage control is off")
 
+	def getMotor(self):
+		return self
+
+	def getMaxSpeed(self):
+		return 2.0*self.ramp_speed
+
+	def getSpeed(self):
+		return float(self.rampspeedCli.caget())*self.ramp_factor
+
+	def setSpeed(self, speed):
+		self.setRampSpeed(speed/self.ramp_factor)

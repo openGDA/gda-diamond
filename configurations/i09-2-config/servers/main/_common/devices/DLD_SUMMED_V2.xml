@@ -42,11 +42,11 @@
 		<property name="attrByDim" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="SwmrModeEnabled" value="false"/>
- 		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
+		<property name="ndArrayPortVal" value="#{dld_proc_summed.getPortName_RBV()}"/>
 	</bean>
 
 	<!-- NXDetector -->
- 	<bean id="dld" class="gda.device.detector.NXDetector">
+	<bean id="dld" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -59,7 +59,7 @@
 	</bean>
 
 	<!-- NXDetector -->
- 	<bean id="dld_py" class="gda.device.detector.NXDetector">
+	<bean id="dld_py" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld_py" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -75,7 +75,7 @@
 	</bean>
 
 	<!-- NXDetector -->
- 	<bean id="dld_total" class="gda.device.detector.NXDetector">
+	<bean id="dld_total" class="gda.device.detector.NXDetector">
 		<property name="name" value="dld_total" />
 		<property name="collectionStrategy" ref="dldSummedCollectionStrategy" />
 		<property name="additionalPluginList">

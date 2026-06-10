@@ -86,13 +86,18 @@ m8c1 = ISegChannelControlScannable("m8c1", 8, 1, pv_root = ISEG_DEVICE_PV, toler
 m8c2 = ISegChannelControlScannable("m8c2", 8, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c2.configure()
 m8c3 = ISegChannelControlScannable("m8c3", 8, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m8c3.configure()
 
+m9c0 = ISegChannelControlScannable("m9c0", 9, 0, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m9c0.configure()
+m9c1 = ISegChannelControlScannable("m9c1", 9, 1, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m9c1.configure()
+m9c2 = ISegChannelControlScannable("m9c2", 9, 2, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m9c2.configure()
+m9c3 = ISegChannelControlScannable("m9c3", 9, 3, pv_root = ISEG_DEVICE_PV, tolerance = 0.1, voltage_ramp_speed = 1.0, current_ramp_speed = 1.0, voltage_control = True); m9c3.configure()
+
 hda_group = [m0c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7]
 main_lenses_group = [m1c0, m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m6c0]
 stig_group = [m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7]
-downstream_group = [m0c1, m6c1, m6c2, m6c3, m5c4]
+downstream_group = [m0c1, m6c1, m6c2, m6c3, m7c4]
 HDA_PEEM_group = [m0c0, m0c2, m0c3, m0c5, m0c6]
 #MM_group = [m1c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7,m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m0c0, m0c1,m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7, m7c1, m7c2, m7c3, m7c4, m6c2, m6c3, m6c4] ## , m1c7
-MM_group = [m0c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7, m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7, m1c0, m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m6c0, m6c1, m6c2, m6c3, m5c4, m6c5, m6c6,m6c7] ## , m1c7
+MM_group = [m0c0, m0c2, m0c3, m0c4, m0c5, m0c6, m0c7, m2c0, m2c1, m2c2, m2c3, m2c4, m2c5, m2c6, m2c7, m4c0, m4c1, m4c2, m4c3, m4c4, m4c5, m4c6, m4c7, m1c0, m3c0, m3c1, m3c2, m3c3, m3c4, m3c5, m3c6, m6c0, m6c1, m6c2, m6c3,  m6c5, m6c6,m6c7,m7c4] ## , m1c7
 
 hda = ISegGroup("hda", hda_group)
 mainlenses = ISegGroup("mainlenses", main_lenses_group)
