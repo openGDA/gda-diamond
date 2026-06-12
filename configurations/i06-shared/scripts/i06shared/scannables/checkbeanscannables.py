@@ -19,17 +19,19 @@ try:
     print "    (change threshold with checkrc.minumumThreshold=12345)"
     print " 2. 'checktopup_time', - avoid topup period, pause 5 seconds before topup starts, 5s wait after topup finished."
     print " 3. 'checkfe', - check Front end shutter, pause when shutter closed, resume 60s after shutter opened."
-    print " 4. 'checkbeam', - composite scannable of above 3 scannables"
+    print " 4. 'checkidd', - check idd access control, pause scan when control group remove access, restore iddgap position and resume scan when access restored."
+    print " 5. 'checkidu', - check idu access control, pause scan when control group remove access, restore idugap position and resume scan when access restored."
+    print " 6. 'checkbeam', - composite scannable of above 3 scannables"
     print " Checking is done every second!"
 
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState, id_pause_msg
     from gda.device.scannable.scannablegroup import ScannableGroup
 
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5, id1gap = iddgap, id2gap = idugap, accesscontrol4id1 = idblena_id1, accesscontrol4id2 = idblena_id2)
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', ringcurrent, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5)
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) 
     checkfe = WaitForScannableState('checkfe', fepb, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) 
-    checkidd = WaitForScannableState('checkid', iddaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[idugap], additional_pause_msg=id_pause_msg(iddgap))
-    checkidu = WaitForScannableState('checkid', iduaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[iddgap], additional_pause_msg=id_pause_msg(idugap))
+    checkidd = WaitForScannableState('checkidd', iddaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[iddgap], additional_pause_msg=id_pause_msg(iddgap))
+    checkidu = WaitForScannableState('checkidu', iduaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[iddgap], additional_pause_msg=id_pause_msg(idugap))
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time, checkidd, checkidu])
     checkbeam.configure()
 

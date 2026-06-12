@@ -28,9 +28,9 @@ class ProjectionInLeem(ScannableMotionBase):
         if not self.cli.isConfigured():
             self.cli.configure()
         val = self.cli.caget()
-        if val.contains("LEEM"):
+        if "LEEM" in val:
             return "reciprocal"
-        elif val.contains("disp"):
+        elif "disp" in val:
             return "energy"
         else:
             return "real"
