@@ -1,7 +1,8 @@
 import sys
 from datetime import datetime, timedelta
 from threading import Timer
-from time import sleep, time
+from time import sleep
+import time
 from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 from gda.epics import CAClient
