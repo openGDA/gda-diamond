@@ -33,7 +33,7 @@
 
 	<bean id="analyser_total" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
-		<property name="name" value="analyser" />
+		<property name="name" value="analyser_total" />
 		<property name="collectionStrategy">
 			<bean id="mbs_total_only_collection_strategy" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyserTotalOnlyCollectionStrategy" />
 		</property>
@@ -41,6 +41,7 @@
 		<property name="fixedModeConfiguration" ref="detector_config" />
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
+		<property name="maximumNumberOfSteps" value="8000" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
@@ -82,7 +83,7 @@
 	</bean>
 
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:PsuMode_RBV" />
+		<property name="pvName" value="#{ANALYSER_PV_BASENAME}:CAM:Connection_RBV" />
 		<property name="outputFormat" value="%s" />
 	</bean>
 

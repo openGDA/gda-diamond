@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<!-- Currently this config is the same for all modes so we're just going to re-use one DetectorConfiguration object -->
 	<bean id="detector_config" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 		<property name="startX" value="202" />
@@ -14,7 +13,6 @@
 		<property name="sizeY" value="835" />
 		<property name="slices" value="835" />
 	</bean>
-
 
 	<bean id="analyser" class="uk.ac.diamond.daq.devices.mbs.MbsAnalyser">
 		<constructor-arg name="controller" ref="mbs_controller" />
@@ -27,11 +25,10 @@
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
-		<property name="maximumNumberOfSteps" value="2000" />
+		<property name="maximumNumberOfSteps" value="8000" />
 		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
 		<property name="energyStepPerPixel" value="0.08283989303014" />
 	</bean>
-
 
 	<bean id="AnalyserLive" class="uk.ac.diamond.daq.devices.mbs.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
@@ -43,6 +40,7 @@
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
+					<value>FixedTrigd</value>
 					<value>Dither</value>
 				</list>
 		</property>
@@ -58,6 +56,7 @@
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
+					<value>FixedTrigd</value>
 					<value>Dither</value>
 				</list>
 		</property>
@@ -123,8 +122,13 @@
 						<constructor-arg name="high" value="40.00" />
 					</bean>
 				</entry>
+				<entry key="L5Ang0d4">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-24.03" />
+						<constructor-arg name="high" value="24.03" />
+					</bean>
+				</entry>
 			</map>
 		</constructor-arg>
 	</bean>
-
 </beans>

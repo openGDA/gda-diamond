@@ -15,16 +15,16 @@
 		<property name="analyserManufacturerPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Manufacturer_RBV"/>
 	</bean>
 
-	<!-- Data dispatchers with events-->
+	<!-- Data dispatchers with events for SINGLE frame-->
 	<bean id="AnalyserLiveDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
 		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
 		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:SINGLE:ARR:ArrayData" />
 		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
-		<property name="monitorIterationProgress" value="false"/>
+		<property name="numExposuresPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
+					<value>FixedTrigd</value>
 					<value>Dither</value>
 				</list>
 		</property>
@@ -35,19 +35,16 @@
 		</property>
 	</bean>
 
+	<!-- Data dispatchers with events for SUMMED frames-->
 	<bean id="AnalyserSumDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
 		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
 		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:ARR:ArrayData" />
 		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="acquirePV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:Acquire" />
-		<property name="monitorIterationProgress" value="true"/>
-		<property name="numScansPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumScans_RBV"/>
-		<property name="progressCounterPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CompletedScans_RBV"/>
-		<property name="numStepsSweptPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumSteps_RBV"/>
-		<property name="currentStepSweptPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:CurrentStepNumber_RBV" />
+		<property name="numExposuresPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
+					<value>FixedTrigd</value>
 					<value>Dither</value>
 					<value>Swept</value>
 				</list>
