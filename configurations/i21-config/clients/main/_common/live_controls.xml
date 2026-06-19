@@ -294,6 +294,17 @@
 		<property name="unitDisplayOutsideTextBox" value="true"/>
 		<property name="horizontalLayout" value="true"/>
 	</bean>	
+	<bean id="polsigma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="polsigma" />
+		<property name="group" value="Detector" />
+		<property name="scannableName" value="polsigma" />
+		<property name="increment" value="1" />
+		<property name="showIncrement" value="false"/>
+		<property name="showStop" value="false"/>
+		<property name="userUnits" value="mm"/>
+		<property name="unitDisplayOutsideTextBox" value="true"/>
+		<property name="horizontalLayout" value="true"/>
+	</bean>	
 
 <!-- 	<bean id="uvw_control" class="uk.ac.gda.client.livecontrol.MultiFieldsScannableControl"> -->
 <!-- 		<property name="displayName" value="" /> -->
@@ -406,6 +417,8 @@
 				<ref bean="specl_control" />
 				<ref bean="specgamma_control" />
 				<ref bean="polstick_control" />
+				<ref bean="polsigma_control" />
+				
 <!-- 				<ref bean="uvw_control" /> -->
 			</list>
 		</property>
