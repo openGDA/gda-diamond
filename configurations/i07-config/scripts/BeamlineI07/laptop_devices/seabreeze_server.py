@@ -8,8 +8,7 @@ class SeaBreezeServerClass(object):
     will then be able to communicate with it from gda on the beamline workstation.
     """
 
-    def __init__(self, name, port=5678):
-        self.name = name
+    def __init__(self, port=5678):
         self.port = port
         self.spec = None
         self.integration_time = 1000000
@@ -49,5 +48,5 @@ class SeaBreezeServerClass(object):
     def intensities(self):
         return self.spec.intensities().tolist()
 
-sbserver = SeaBreezeServerClass("sbserver")
+sbserver = SeaBreezeServerClass()
 sbserver.serve()
