@@ -49,7 +49,7 @@ Usage:
     set_dark_scan(None)
     set_energy_calibration(None)
     set_elastic_calibration(None)
-    
+
     # Show metadata
     meta.ll('calibration')
 
@@ -77,8 +77,8 @@ DARK_IMAGE = 'dark_image'
 CMD_PATH = '/entry/scan_command'
 ENERGY_PATH = '/entry/sample/beam/incident_energy'
 RESOLUTION_PATH = '/processed/result/data'  # resolution = element 0 for linear or element 1 for quadratic
-SLOPE_PATH = '/processed/summary/{ii:d}-RIXS elastic line reduction/line_0_m/data'
-OFFSET_PATH = '/processed/summary/{ii:d}-RIXS elastic line reduction/line_0_c/data'
+SLOPE_PATH = '/processed/auxiliary/{ii:d}-RIXS elastic line reduction/line_0_m/data'
+OFFSET_PATH = '/processed/auxiliary/{ii:d}-RIXS elastic line reduction/line_0_c/data'
 
 
 ## SCANNABLES ##
@@ -263,7 +263,7 @@ def set_energy_calibration(resolution_or_filename, search_for_processed=True):
         meta.rm("calibration", "energy_dispersion_scan_file")
         print('Removed resolution from metadata')
         return
-    
+
     if isinstance(resolution_or_filename, int):
         # scan number
         resolution_or_filename = get_scan_file(resolution_or_filename)
@@ -308,6 +308,9 @@ def set_elastic_calibration(slope_or_filename, offset=0, search=True):
         set_elastic_calibration(0.1, 450) -> set metadata directly (slope, offset)
         set_elastic_calibration(None) -> remove metadata fields
         meta.ll('calibration') -> show current calibration metadata
+    
+    Note that in Dawn,  the user can use the CombinedRIXSImageReduction (in place of RIXSImageReduction) 
+    operation and that will find and process the elastic line scan.
     """
     if slope_or_filename is None:
         meta.disable("elastic_slope", "elastic_offset")
@@ -315,7 +318,7 @@ def set_elastic_calibration(slope_or_filename, offset=0, search=True):
         meta.rm("calibration", "elastic_scan_file")
         print('Removed elastic slope and offset from metadata')
         return
-    
+
     if isinstance(slope_or_filename, int):
         # scan number
         slope_or_filename = get_scan_file(slope_or_filename)
