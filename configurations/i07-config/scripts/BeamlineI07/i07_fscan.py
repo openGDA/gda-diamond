@@ -201,8 +201,9 @@ def fhklscan_e(hkl, start, stop, step, runnable_device, exposure_time):
     submit(request)
 
 def fhklscan(hkl, start, stop, step, runnable_device, exposure_time):
+    args=[hkl, start, stop, step, runnable_device, exposure_time]
     set_user_cmd_scannable("fhklscan", args)
-    perform_scan(scan_method=fhklscan_e, args=[hkl, start, stop, step, runnable_device, exposure_time])
+    perform_scan(args, scan_method=fhklscan_e)
 
 alias("fscan")
 alias("fpscan")
