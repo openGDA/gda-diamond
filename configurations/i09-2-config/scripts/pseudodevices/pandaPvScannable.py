@@ -56,7 +56,7 @@ class PandaPVScannableClass(ScannableMotionBase):
 
 	def arm_pcap(self):
 		# arm position counter pcap via epics DRV plugin
-		if self.acquireCli.caget()==0:
+		if int(self.acquireCli.caget())==0:
 			self.acquireCli.caput(1)
 
 	def stop(self):
