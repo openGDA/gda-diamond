@@ -30,4 +30,6 @@
 	<!-- FE -->
 	<import resource="frontEnd.xml" />
 
+	<import resource="mbs_slits.xml"/>
+
 </beans>

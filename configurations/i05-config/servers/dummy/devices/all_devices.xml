@@ -10,7 +10,6 @@
 	<import resource="shtr1.xml"/>
 	<import resource="analyser_over_exposure.xml" />
 	<import resource="tenma_psu.xml" />
-	<import resource="mbs_slits.xml" />
 	<import resource="m4m5.xml" />
 
 	<!-- Femtos -->
@@ -53,5 +52,4 @@
 		<!-- diodes -->
 	<import resource="diodes.xml" />
 
-	<import resource="mbs_analyser.xml" />
 </beans>

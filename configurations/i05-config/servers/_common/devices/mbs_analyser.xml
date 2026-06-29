@@ -5,6 +5,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="ANALYSER_PV_BASENAME" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL05I-EA-DET-02"/>
+	</bean>
+
+	<bean id="ANALYSER_SLITS_PV_BASENAME" class="java.lang.String">
+		<constructor-arg type="java.lang.String" value="BL05I-EA-SLITS-01:POS"/>
+	</bean>
+
 	<!-- Currently this config is the same for all modes so we're just going to re-use one DetectorConfiguration object -->
 	<bean id="detector_config" class="uk.ac.diamond.daq.pes.api.DetectorConfiguration">
 		<property name="startX" value="202" />

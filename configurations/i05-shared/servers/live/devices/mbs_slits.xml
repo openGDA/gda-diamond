@@ -6,11 +6,14 @@
 
 	<bean id="mbs_slits" class="org.opengda.detector.electronanalyser.entrance.slit.AnalyserEntranceSlit" destroy-method="dispose">
 		<property name="slitScannable" ref="analyser_slit"/>
-		<property name="defaultSlitString" value="100 0.1 curved vertical"/>
+		<property name="defaultSlitString" value="Straight, S0.1, A1.0"/>
+		<property name="splitSeparator" value=", "/>
+		<property name="slitShapePosition" value="0"/>
+		<property name="slitSizePosition" value="1"/>
 	</bean>
 
 	<bean id="analyser_slit" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL05J-EA-SLITS-01:POS" />
+		<property name="pvName" value="#{ANALYSER_SLITS_PV_BASENAME}" />
 		<property name="values">
 			<map>
 				<entry	key="Straight, S0.05, A0.5" value="Straight, S0.05, A0.5"/>
@@ -21,7 +24,7 @@
 				<entry  key="Straight, S0.2, A1.9" value="Straight, S0.2, A1.9"/>
 				<entry  key="Straight, S0.4, A1.9" value="Straight, S0.4, A1.9"/>
 				<entry 	key="Straight, S3.2, A5.4" value="Straight, S3.2, A5.4" />
-				<entry 	key="Curved, S0.2, A1.0" 	value="Curved, S0.2, A1.0" />
+				<entry 	key="Curved, S0.2, A1.0" value="Curved, S0.2, A1.0" />
 			</map>
 		</property>
 	</bean>

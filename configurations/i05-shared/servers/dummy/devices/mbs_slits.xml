@@ -6,22 +6,24 @@
 
 	<bean id="mbs_slits" class="org.opengda.detector.electronanalyser.entrance.slit.AnalyserEntranceSlit" destroy-method="dispose">
 		<property name="slitScannable" ref="analyser_slit"/>
-		<property name="defaultSlitString" value="100 0.1 curved vertical"/>
+		<property name="defaultSlitString" value="Straight, S0.1, A1.0"/>
+		<property name="splitSeparator" value=", "/>
+		<property name="slitShapePosition" value="0"/>
+		<property name="slitSizePosition" value="1"/>
 	</bean>
 
 	<bean id="analyser_slit" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>100 0.1 curved vertical</value>
-				<value>200 0.1 straight vertical</value>
-				<value>300 0.2 curved vertical</value>
-				<value>400 0.2 straight vertical</value>
-				<value>500 0.2 straight vertical</value>
-				<value>600 0.3 straight vertical</value>
-				<value>700 0.5 straight vertical</value>
-				<value>800 0.8 straight vertical</value>
-				<value>850 3 hole vertical</value>
-				<value>900 1.5 straight vertical</value>
+				<value>Straight, S0.05, A0.5</value>
+				<value>Straight, S0.1, A1.0</value>
+				<value>Straight, S0.1, A1.3</value>
+				<value>Straight, S0.1, A1.9</value>
+				<value>Straight, S0.2, A1.0</value>
+				<value>Straight, S0.2, A1.9</value>
+				<value>Straight, S0.4, A1.9</value>
+				<value>Straight, S3.2, A5.4</value>
+				<value>Curved, S0.2, A1.0</value>
 			</list>
 		</property>
 		<property name="posChangeEventFlag" value="true"/>

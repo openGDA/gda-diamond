@@ -30,4 +30,6 @@
 
 	<!-- diodes -->
 	<import resource="d3.xml" />
+
+	<import resource="mbs_slits.xml"/>
 </beans>

@@ -17,7 +17,6 @@
 	<!-- analyser -->
 	<import resource="mbs_analyser.xml"/>
 	<import resource="mbs_energy_range.xml"/>
-	<import resource="mbs_slits.xml"/>
 	<import resource="analyser_rotation.xml" />
 
 	<!-- resolution calculator config -->
@@ -25,5 +24,4 @@
 
 	<!-- diagnostics -->
 	<import resource="diodes.xml"/>
-
 </beans>

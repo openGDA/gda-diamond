@@ -89,7 +89,7 @@ print("")
 
 def set_analyser_slit(slit):
 		""" Set analyser entrance slit by integer value """
-		analyser.getEntranceSlitInformationProvider().setCurrentSlitByValue(slit)
+		analyser.getEntranceSlitInformationProvider().setCurrentSlitByRawValue(slit)
 		print "Analyser slit is set to: "
 		print get_analyser_slit()
 

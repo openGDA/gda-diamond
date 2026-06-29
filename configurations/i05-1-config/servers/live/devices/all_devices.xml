@@ -35,5 +35,4 @@
 	<!-- pressure gauges -->
 	<import resource="pressure_gauges.xml"/>
 
-	<import resource="mbs_analyser.xml"/>
 </beans>
