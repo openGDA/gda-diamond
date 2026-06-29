@@ -11,9 +11,10 @@ from gdascripts.utils import caput
 
 dldv = ISegVoltageControl('dldv',3,7,pv_root="BL09K-EA-PSU-01:0", tolerance = 1.0, ramp_speed = 1.0); dldv.configure()
 mcp_b = ISegVoltageControl('mcp_b',7,1,pv_root="BL09K-EA-PSU-01:0", tolerance = 1.0, ramp_speed = 1.0); mcp_b.configure()
-#kenergy = ISegVoltageControl('kenergy',5,3,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.01, ramp_speed = 4.0); kenergy.configure() #for sample biasing with 500 V module
-kenergy = ISegVoltageControl('kenergy',7,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.04, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 4000 V module
-#kenergy = ISegVoltageControl('kenergy',6,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.04, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 2000 V module
+#kenergy = ISegVoltageControl('kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.006, ramp_speed = 4.0); kenergy.configure() #for sample biasing with 500 V module
+#kenergy = ISegVoltageControl('kenergy',7,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.04, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 4000 V module
+kenergy = ISegVoltageControl('kenergy',6,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.045, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 2000 V module
+kenergy.ramp_factor = 500/100
 focus = ISegVoltageControl('focus',3,0,pv_root="BL09K-EA-PSU-01:0", tolerance = 1, ramp_speed = 1.0); focus.configure()
 testPS = ISegVoltageControl('testPS',7,0,pv_root="BL09K-EA-PSU-01:0", tolerance = .2, ramp_speed = 1.0); testPS.configure()
 int_spec = IntegratedSpectrum("int_spec", "BL09K-EA-D-01:")
@@ -94,7 +95,8 @@ def DLDonly_stop():
 
 def MM_on_button():
 	pos(fsk1, 'In')
-	kenergy.on()
+	confirm=raw_input("PLEASE CHECK TC IS DISCONNECTED - CONFIRM by pressing ENTER!!!")
+	kenergy.on(); sleep(5); kenergy.on()
 	# kenergy.rawAsynchronousMoveTo(500)
 	# sleep(5)
 	MM_on()
@@ -104,6 +106,8 @@ def MM_off_button():
 	DLD.off()
 	sleep(5)
 	Ext.off()
+	m8c1.off()
+	m9c2.off()
 	MM_off()
 	sleep(25)
 	kenergy.off()
