@@ -111,6 +111,18 @@
 						<constructor-arg name="high" value="17.85" />
 					</bean>
 				</entry>
+				<entry key="L5Ang0d46">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-17.85" />
+						<constructor-arg name="high" value="17.85" />
+					</bean>
+				</entry>
+				<entry key="L5Ang0d3">
+					<bean class="gda.device.controlpoint.Limits">
+						<constructor-arg name="low" value="-40.00" />
+						<constructor-arg name="high" value="40.00" />
+					</bean>
+				</entry>
 			</map>
 		</constructor-arg>
 	</bean>
