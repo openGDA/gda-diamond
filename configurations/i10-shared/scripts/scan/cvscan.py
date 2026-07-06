@@ -12,8 +12,6 @@ import sys
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.scan import trajscans
 from gdascripts.scan.installStandardScansWithProcessing import scan_processor
-from gdascripts.scan.scanListener import ScanListener
-from org.slf4j import LoggerFactory
 from scannables.checkbeanscannables import ZiePassthroughScannableDecorator
 from scannables.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
 from utils.ExceptionLogs import localStation_exception
@@ -29,6 +27,7 @@ from gdascripts.functions.nexusYamlTemplateProcessor import preprocess_spring_ex
 from uk.ac.diamond.osgi.services import ServiceProvider # @UnresolvedImport
 from uk.ac.diamond.daq.configuration import BeamlineConfiguration
 from gda.configuration.properties import LocalProperties
+from gda.jython.commands.ScannableCommands import get_defaults, remove_default, add_default
 spring_profiles = ServiceProvider.getService(BeamlineConfiguration).profiles.toList()
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i10")
 
@@ -39,39 +38,28 @@ elif beamline_name == "i10-1":
         NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_hfm_fastscan.yaml"
     if "em" in spring_profiles:
         NEXUS_TEMPLATE_YAML_FILE_NAME = "NXxas_template_em_fastscan.yaml"
-        
-class TrajectoryControllerHelper(ScanListener):
 
-    def __init__(self):  # motors, maybe also detector to set the delay time
-        self.logger = LoggerFactory.getLogger("TrajectoryControllerHelper")
-        self.original_default_scannables = []
+def clear_default_scannables():
+    # remove default scannables as they cannot work with cvscan
+    original_default_scannables = []
+    default_scannables = get_defaults()
+    print("remove original default scannables: %r from default" % default_scannables)
+    for scn in default_scannables:
+        original_default_scannables.append(scn)
+        remove_default(scn)
+    return original_default_scannables
 
-    def prepareForScan(self):
-        self.logger.info("prepareForCVScan()")
-        # remove default scannables as they cannot work with cvscan
-        self.original_default_scannables = []
-        from gda.jython.commands.ScannableCommands import get_defaults, remove_default
-        default_scannables = get_defaults()
-        self.logger.debug("remove original default scannables: %r from default" % default_scannables)
-        for scn in default_scannables:
-            self.original_default_scannables.append(scn)
-            remove_default(scn)
-
-    def update(self, scan_object):
-        self.logger.info("update(%r)" % scan_object)
-        # restore default scannables after cvscan completed.
-        if self.original_default_scannables is not None:
-            from gda.jython.commands.ScannableCommands import add_default
-            self.logger.debug("add original default scannables %r to default" % self.original_default_scannables)
-            for scn in self.original_default_scannables:
-                add_default(scn)
-            self.original_default_scannables = []
-        else:
-            self.logger.debug("original default scannables is empty!")
+def restore_default_scannables(original_default_scannables):
+    # restore default scannables after cvscan completed.
+    if original_default_scannables is not None:
+        print("adding original default scannables %r to default" % self.original_default_scannables)
+        for scn in original_default_scannables:
+            add_default(scn)
+    else:
+        print("Could not restore default scannables - original default scannables is empty!")
 
 
-trajectory_controller_helper = TrajectoryControllerHelper()
-cvscan_traj = trajscans.CvScan([scan_processor, trajectory_controller_helper])
+cvscan_traj = trajscans.CvScan([scan_processor])
 
 idd_access_control = Finder.find("idblena_id1")
 idu_access_control = Finder.find("idblena_id2")
@@ -173,10 +161,12 @@ def cvscan(c_energy, start, stop, step, *args):
     ndwc.addNexusTemplate(NEXUS_TEMPLATE_YAML_FILE_NAME, template)
     print("NXxas nexus template is added before scan")
     try:
+        original_default_scannables = clear_default_scannables()
         cvscan_traj([arg for arg in newargs])
     except Exception as e:
         localStation_exception(sys.exc_info(), "cvscan exits with Error: %s" % (e))
     finally:
+        restore_default_scannables(original_default_scannables)
         meta.rm("user_input", "command")
         if original_mode and xasmode_scannable:
             xasmode_scannable.asynchronousMoveTo(original_mode)
