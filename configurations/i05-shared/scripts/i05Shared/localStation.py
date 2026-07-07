@@ -104,6 +104,9 @@ print "Load snake scan function snscan: "
 from i05Shared.snake_scan import snakescan #@UnusedWildImport
 print("")
 
+#check beam scannables
+from scannables.checkbeamscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
+
 print("-"*100)
 print "Finished general initialisation code for i05-shared.";
 print("")

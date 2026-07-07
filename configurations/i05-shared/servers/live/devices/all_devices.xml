@@ -26,4 +26,8 @@
 
 	<!-- diodes -->
 	<import resource="d3.xml" />
+
+	<!-- FE -->
+	<import resource="frontEnd.xml" />
+
 </beans>
