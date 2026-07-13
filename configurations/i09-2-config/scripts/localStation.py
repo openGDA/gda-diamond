@@ -188,6 +188,13 @@ tsample = SampleTemperature("tsample", None)
 from pseudodevices.pandaPvScannable import PandaPVScannableClass
 panda_scannable = PandaPVScannableClass('panda_scannable', 'BL09K-EA-PANDA-01', 'V', '%.3e')
 
+
+print "-"*100
+print "Load fastscan function fastscan: "
+from scanCommands.fastscan import fastscan #@UnusedWildImport
+alias("fastscan")
+print("")
+
 print("="*100)
 print("localStation.py Initialisation script complete.")
 print("="*100)
