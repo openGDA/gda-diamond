@@ -166,11 +166,12 @@ public class I20Validator extends ExafsValidator {
 
 		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
-			// check the mono energy
 			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+				// check mono energy scan range is within range and valid
 				checkEnergyRange("Mono", xesScanParams.getMonoInitialEnergy(), xesScanParams.getMonoFinalEnergy(), errors);
 			} else {
-				checkEnergyRange("Mono", xesScanParams.getMonoEnergy(), xesScanParams.getMonoEnergy(), errors);
+				// check mono energy is within range of allowed energies
+				checkBounds("Mono", xesScanParams.getMonoEnergy(), getMinEnergy(), getMaxEnergy(), errors);
 			}
 
 			// check the integration time
