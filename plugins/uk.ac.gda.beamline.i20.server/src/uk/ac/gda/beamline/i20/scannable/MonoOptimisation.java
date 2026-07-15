@@ -232,13 +232,13 @@ public class MonoOptimisation extends FindableBase {
 		}
 	}
 
-	public void optimiseManual(Scannable bragg, double braggEnergy) throws DeviceException {
+	public void optimiseManual(Scannable bragg, double lowEnergy, double highEnergy) throws DeviceException {
 		if (!allowOptimisation) {
 			logger.info("allowOptimisation flag set to false - skipping optimisation.");
 			return;
 		}
 
-		logger.info("Running manual optimisation for single energy {}", braggEnergy);
+		logger.info("Running manual optimisation for energies: low energy = {}, high energy = {}", lowEnergy, highEnergy);
 
 		if (scannableToMonitor instanceof TFGCounterTimer tfg) {
 			tfg.clearFrameSets();
@@ -251,12 +251,24 @@ public class MonoOptimisation extends FindableBase {
 
 		scanPreparer.beforeCollection();
 		try {
+
+			logger.info("Running Bragg offset measurement at high energy : {}", highEnergy);
+			moveEnergyScannable(bragg, highEnergy);
 			Dataset combinedData = doManualScan();
+			fittedGaussianHighEnergy = curveFitter.findPeakOutput(combinedData);
+			this.highEnergy = highEnergy;
 
-
-			fittedGaussianLowEnergy = curveFitter.findPeakOutput(combinedData);
-			this.lowEnergy = braggEnergy;
-			this.highEnergy = braggEnergy;
+			if (Math.abs(lowEnergy - highEnergy) > 1e-3) {
+				logger.info("Running Bragg offset measurement at low energy : {}", lowEnergy);
+				moveEnergyScannable(bragg, lowEnergy);
+				combinedData = doManualScan();
+				fittedGaussianLowEnergy = curveFitter.findPeakOutput(combinedData);
+				this.lowEnergy = lowEnergy;
+			} else {
+				logger.info("Skipping Bragg offset measurement at low energy (energy is very close to high energy)");
+				fittedGaussianLowEnergy = fittedGaussianHighEnergy;
+				this.lowEnergy = lowEnergy;
+			}
 
 			// Try to setup the offset parameters for the scannable
 			if (bragg instanceof MonoMoveWithOffsetScannable monoWithOffset) {
