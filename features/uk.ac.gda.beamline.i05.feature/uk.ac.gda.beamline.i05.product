@@ -13,8 +13,8 @@
    <launcherArgs>
       <vmArgs>-Dgda.mode=dummy
 -Dgda.config=${project_loc:i05-config}
--Xms1g
--Xmx4g
+-Xms2g
+-Xmx6g
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
