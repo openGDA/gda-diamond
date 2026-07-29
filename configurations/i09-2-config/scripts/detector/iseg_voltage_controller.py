@@ -166,3 +166,33 @@ class ISegVoltageControl(ScannableMotionBase):
 
 	def setSpeed(self, speed):
 		self.setRampSpeed(speed/self.ramp_factor)
+
+
+
+class ISegVoltageControlNoWait(ISegVoltageControl):
+	'''
+	A voltage controller - on, off, ramp speed, move to new position given.
+	It will only sleep for "delay" time when moving to new position.
+	'''
+	def __init__(self, name, module_number, channel_number, pv_root = ISEG_DEVICE, tolerance = 0.1, ramp_speed = VOLTAGE_RAMP_SPEED, delay = DELAY_TIME):
+		self.delay = delay
+		super(ISegVoltageControlNoWait,self).__init__(name, module_number, channel_number, pv_root, tolerance, ramp_speed) ##self,
+
+	def rawAsynchronousMoveTo(self,new_position):
+		if installation.isLive():
+			self.target = float(new_position)
+			self.setCli.caput(self.target)
+		else:
+			self.target = float(new_position)
+			new_thread = Thread(target = self._task)
+			new_thread.start()
+		sleep(self.delay)
+
+	def isBusy(self):
+		return 0
+
+	def rawGetPosition(self):
+		if installation.isLive():
+			return self.target
+		else:
+			return self.current_position

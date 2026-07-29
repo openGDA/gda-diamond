@@ -19,6 +19,10 @@ focus = ISegVoltageControl('focus',3,0,pv_root="BL09K-EA-PSU-01:0", tolerance = 
 testPS = ISegVoltageControl('testPS',7,0,pv_root="BL09K-EA-PSU-01:0", tolerance = .2, ramp_speed = 1.0); testPS.configure()
 int_spec = IntegratedSpectrum("int_spec", "BL09K-EA-D-01:")
 
+Kenergy = ISegVoltageControlNoWait('Kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.005, ramp_speed = 4.0);
+Kenergy.configure()
+Kenergy.delay = 0.05
+
 #caput("BL09K-EA-D-01:Stats1:NDArrayPort", "ROI1")
 '''Sample_IRamp=EpicsReadWritePVClass("Sample_IRamp","BL09K-EA-PSU-01:0:1:CurrentRampSpeed","%/s*I_nom","%f")'''
 
