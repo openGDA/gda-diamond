@@ -147,7 +147,8 @@ def setState(name, pv, newState):
 	if (newState == currentState):
 		LoggerFactory.getLogger("setState").info("{} position already: {}", name, text)
 	else:
-		beamline.setValue("Top",pv, newState)
+		#beamline.setValue("Top",pv, newState)
+		beamline.setValue(None, "Top",pv, newState, 15.0) # Use 15s rather default 5s timeout
 		LoggerFactory.getLogger("setState").info("{} position changed to: {}", name, text)
 
 def align():           # open EH and fast shutter
