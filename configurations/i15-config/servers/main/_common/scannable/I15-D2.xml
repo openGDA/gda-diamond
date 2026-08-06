@@ -6,11 +6,11 @@
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda.xsd">
 
-	<bean id="PHDGN2"
+	<bean id="FEMTO2"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-02:I" />
+				<entry key="RECORD" value="BL15I-DI-FEMTO-02:OUTPUT" />
 			</map>
 		</property>
 		<property name="dummyMode" value="${gda.dummy.mode}"/>

@@ -1,4 +1,5 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -9,11 +10,11 @@
 	<gda:motor id="d3y" live-pvName="BL15I-DI-PHDGN-03:Y"/>
 	<gda:motor id="d3z" live-pvName="BL15I-DI-PHDGN-03:Z"/>
 
-	<bean id="PHDGN3"
+	<bean id="FEMTO3"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-03:I" />
+				<entry key="RECORD" value="BL15I-DI-FEMTO-03:OUTPUT" />
 			</map>
 		</property>
 		<property name="dummyMode" value="${gda.dummy.mode}"/>
