@@ -264,3 +264,5 @@ for localStationException in localStation_exceptions:
     simpleLog(localStationException)
 
 simpleLog("%s ================ GDA I15-1 ONLINE ================" % time.strftime("%Y-%m-%d %H:%M"))
+print ">>> Message broker is %s <<<" % LocalProperties.get(LocalProperties.GDA_MESSAGE_BROKER_IMPL,None)
+
