@@ -83,6 +83,7 @@
 		<property name="hideCentreXControl" value="true" />
 		<property name="hideCentreYControl" value="true" />
 		<property name="hideSpacingControl" value="true" />
+		<property name="updateEpics" value="true"/>
 	</bean>
 
 	<!-- Analyser camera -->
