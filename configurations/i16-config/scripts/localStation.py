@@ -314,6 +314,7 @@ waittime=waittimeClass('Waittime')
 atime=absoluteTimeClass('atime')
 atimetwo=absoluteTimeClassTwo('atimetwo')
 w=waittime	#abreviated name
+w_det_delay=waittimeClass('w_det_delay') ; w_det_delay.setLevel(100)
 mrwolf=mrwolfClass('mrwolf')
 
 ### Create offset devices
