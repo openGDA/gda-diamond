@@ -54,7 +54,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         '''
     harmonicOrder = 1
 
-    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap = "IDEnergy2GapCalibrations.csv", lut4phase = "IDEnergy2PhaseCalibrations.csv", energyConstant = False, polarisationConstant = False, energy_offset = None, maxGap = 200, minGap = 16, maxPhase = 24):
+    def __init__(self, name, source, pgmenergy, idd_controls, idu_controls, lut4gap = "IDEnergy2GapCalibrations.csv", lut4phase = "IDEnergy2PhaseCalibrations.csv", energyConstant = False, polarisationConstant = False, energy_offset = None, maxGap = 200, minGap = 15.8, maxPhase = 24):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut4gap, self.header = load_lookup_table(LocalProperties.get("gda.config.shared") + "/lookupTables/" + lut4gap)
         self.lut4phase, self.header = load_lookup_table(LocalProperties.get("gda.config.shared") + "/lookupTables/" + lut4phase)
