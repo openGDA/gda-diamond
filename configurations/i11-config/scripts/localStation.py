@@ -392,7 +392,7 @@ except:
 
 try:
 	# Temporarily removed height because of UPPER_LIMIT error on motor
-    for scnbl in [Ie, Ic4, Io, dcm_energy, dcm_pitch, dcm_roll, m1pitch, delta, ringcurrent, ringenergy, spos, theta, tth, xtr1, xtr2, y1, y2, y3, yaw, s4xcentre, s4ycentre, s4xgap, s4ygap]:
+    for scnbl in [Ie, Ic4, Io, dcm_energy, dcm_pitch, dcm_roll, m1pitch, delta, ringcurrent, ringenergy, spos, theta, tth, xtr1, xtr2, y1, y2, y3, s4xcentre, s4ycentre, s4xgap, s4ygap]:
         try:
             add_default scnbl
         except:
