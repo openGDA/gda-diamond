@@ -6,14 +6,14 @@
 	<!-- AD hardware -->
 
 	<bean id="merlin_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16I-EA-DET-13:Merlin2:" />
+		<property name="basePVName" value="BL16I-EA-DET-33:Merlin3:" />
 	</bean>
 
 	<bean id="merlin_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL16I-EA-DET-13:TIFF:" />
+		<property name="basePVName" value="BL16I-EA-DET-33:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL16I-EA-DET-13:TIFF:" />
+				<property name="basePVName" value="BL16I-EA-DET-33:TIFF:" />
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false"/>
@@ -21,14 +21,14 @@
 
 	<bean id="merlin_ndfile_hdf5"
 			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL16I-EA-DET-13:HDF5:" />
+		<property name="basePVName" value="BL16I-EA-DET-33:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL16I-EA-DET-13:HDF5:" />
+				<property name="basePVName" value="BL16I-EA-DET-33:HDF5:" />
 				<property name="resetToInitialValues" value="false" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL16I-EA-DET-13:HDF5:" />
+						<property name="basePVName" value="BL16I-EA-DET-33:HDF5:" />
 					</bean>
 				</property>
 			</bean>
@@ -106,54 +106,54 @@
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats1" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI1:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT1:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI1:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT1:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats2" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI2:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT2:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI2:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT2:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats3" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI3:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT3:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI3:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT3:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats4" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI4:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT4:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI4:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT4:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats5" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI5:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT5:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI5:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT5:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats6" />
-					<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI6:" />
-					<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT6:" />
-					<property name="roiInputNdArrayPort" value="mpx2.cam" />
+					<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI6:" />
+					<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT6:" />
+					<property name="roiInputNdArrayPort" value="mpx3.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
 				</bean>
@@ -162,11 +162,11 @@
 	</bean>
 
 	<bean id="merlin_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL16I-EA-DET-13:ARR:" />
+		<property name="basePVName" value="BL16I-EA-DET-33:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL16I-EA-DET-13:ARR:" />
-				<property name="initialArrayPort" value="mpx2.roi" /><!-- TODO check -->
+				<property name="basePVName" value="BL16I-EA-DET-33:ARR:" />
+				<property name="initialArrayPort" value="mpx3.roi" /><!-- TODO check -->
 			</bean>
 		</property>
 	</bean>
