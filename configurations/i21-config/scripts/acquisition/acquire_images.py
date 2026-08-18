@@ -72,6 +72,8 @@ alias("acquireRIXS")
 def acquiredark(n, det, exposure_time, *args):
     '''collect dark image data without creating node link in subsequent scan data files.
     '''
+    initial_shutter_state = fastshutter.getPosition()
+
     fsxas()
     fastshutter("Closed")
     acquireImages(n, det, exposure_time, *args)
@@ -82,5 +84,8 @@ def acquiredark(n, det, exposure_time, *args):
         polpi()
     elif det is Polandor_V:
         pol_sigma()
+
+    if fastshutter.getPosition() != initial_shutter_state:
+        fastshutter(initial_shutter_state)
 
 alias("acquiredark")
