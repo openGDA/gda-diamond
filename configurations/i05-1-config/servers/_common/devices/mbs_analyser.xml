@@ -27,7 +27,6 @@
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
-		<property name="maximumNumberOfSteps" value="8000" />
 		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
 		<property name="energyStepPerPixel" value="0.08283989303014" />
 	</bean>

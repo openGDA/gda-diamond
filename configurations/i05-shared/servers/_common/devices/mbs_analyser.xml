@@ -41,7 +41,6 @@
 		<property name="fixedModeConfiguration" ref="detector_config" />
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
-		<property name="maximumNumberOfSteps" value="8000" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 	</bean>
 
