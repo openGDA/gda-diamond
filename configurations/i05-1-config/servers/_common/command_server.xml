@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Place i05-1 scrips first on the path if two equivalent named scripts 
+	<!-- Place i05-1 scrips first on the path if two equivalent named scripts
 		are present the i05-1 will be used -->
 	<bean class="gda.jython.ScriptProject">
 		<property name="path" value="/dls_sw/i05-1/scripts/" />
