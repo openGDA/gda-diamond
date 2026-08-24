@@ -6,7 +6,7 @@ from uk.ac.gda.server.exafs.scan import XasScanFactory, XesScanFactory
 from uk.ac.gda.client.microfocus.scan import MapSelector, MapFactory
 
 from gda.configuration.properties import LocalProperties
-from gda.device.scannable import DummyScannable
+from gda.device.scannable import DummyScannable, ScannableMotor
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
@@ -266,7 +266,7 @@ def setup():
     sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
     detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, raster_counterTimer01) # @UndefinedVariable
     detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_counterTimer01, qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin])
-        
+
     global beamlinePreparer
     global samplePreparer
     global outputPreparer
@@ -318,6 +318,9 @@ def setup():
     
     run_script("ionchamber-checker-scannables.py")
     
+    run_script("panda_03_scannables.py")
+    #detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_panda])
+
     set_subdirectory(None) # clear any subdirectory that may have been set
     
     setup_position_notification()
@@ -329,14 +332,15 @@ print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
     daServer = counterTimer01.getScaler().getDaServer()
     print "Trying to reconnect to DAServer..."
-    counterTimer01.getScaler().close()
     daServer.close()
+    counterTimer01.getScaler().close()
     sleep(1)
     daServer.reconnect()
     sleep(1)
     counterTimer01.configure()
     sleep(1)
     counterTimer01.getScaler().clear()
+    print "Finished"
 
 def setup_short_scaler_mode(short_mode) :
     
