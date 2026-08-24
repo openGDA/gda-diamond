@@ -23,11 +23,11 @@
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
-	
+
 	<!-- ring -->
 	<import resource="ring.xml" />
-	
-	<!-- abstract base beans -->	
+
+	<!-- abstract base beans -->
 	<import resource="abstract_nxplugins.xml" />
 
 	<!-- mirrors -->
@@ -36,10 +36,10 @@
 	<import resource="m4.xml" />
 	<import resource="m5.xml" />
 	<import resource="BeamMonitor.xml"/>
-	
+
 	<!-- PGM -->
 	<import resource="pgm.xml" />
-	
+
 	<!-- ID -->
 	<import resource="id.xml" />
 	<import resource="smp.xml" />
@@ -54,6 +54,11 @@
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="TestMotors.xml"/>
 	<import resource="i21_detector.xml"/>
-<!-- 	<import resource="xcam.xml"/> -->
+
+	<!-- 	<import resource="xcam.xml"/> -->
 	<import resource="jython_scannable_wrappers.xml"/>
+
+	<import resource="mbs_analyser.xml"/>
+	<import resource="mbs_energy_range.xml"/>
+	<import resource="mbs_slits.xml"/>
 </beans>
