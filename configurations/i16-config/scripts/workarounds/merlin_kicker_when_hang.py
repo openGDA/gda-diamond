@@ -94,5 +94,5 @@ class MerlinKickerWhenAcquisitionHangs(ScannableMotionBase, MonitorListener):
     def isBusy(self):
         return False
     
-merlin_watcher = MerlinKickerWhenAcquisitionHangs("merlin_watcher", "BL16I-EA-DET-13:Merlin2:Acquire", "BL16I-EA-DET-13:Merlin2:DetectorState_RBV")
+merlin_watcher = MerlinKickerWhenAcquisitionHangs("merlin_watcher", "BL16I-EA-DET-33:Merlin3:Acquire", "BL16I-EA-DET-33:Merlin3:DetectorState_RBV")
     

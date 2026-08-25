@@ -13,10 +13,10 @@
 	<!-- ROI-STAT pairs for Live Stream View -->
 	<bean id="merlin_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="merlin_RoiStats1" />
-		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI1:" />
-		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT1:" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI1:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT1:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="roiInputNdArrayPort" value="mpx3.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -28,10 +28,10 @@
 	</bean>
 	<bean id="merlin_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="merlin_RoiStats2" />
-		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI2:" />
-		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT2:" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI2:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT2:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="roiInputNdArrayPort" value="mpx3.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -43,10 +43,10 @@
 	</bean>
 	<bean id="merlin_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="merlin_RoiStats3" />
-		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI3:" />
-		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT3:" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI3:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT3:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="roiInputNdArrayPort" value="mpx3.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -58,10 +58,10 @@
 	</bean>
 	<bean id="merlin_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="merlin_RoiStats4" />
-		<property name="baseRoiPVName" value="BL16I-EA-DET-13:ROI4:" />
-		<property name="baseStatsPVName" value="BL16I-EA-DET-13:STAT4:" />
+		<property name="baseRoiPVName" value="BL16I-EA-DET-33:ROI4:" />
+		<property name="baseStatsPVName" value="BL16I-EA-DET-33:STAT4:" />
 		<property name="legacyTSpvs" value="false"/>
-		<property name="roiInputNdArrayPort" value="mpx2.cam" />
+		<property name="roiInputNdArrayPort" value="mpx3.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
