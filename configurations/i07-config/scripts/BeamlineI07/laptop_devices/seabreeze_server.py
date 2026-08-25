@@ -18,6 +18,7 @@ class SeaBreezeServerClass(object):
         self.server.register_function(self.integration_time_micros, "integration_time_micros")
         self.server.register_function(self.wavelengths, "wavelengths")
         self.server.register_function(self.intensities, "intensities")
+        self.server.register_function(self.get_bins_count, "get_bins_count")
 
     def serve(self):
         print("Listening on port " + str(self.port) + "...")
@@ -47,6 +48,9 @@ class SeaBreezeServerClass(object):
 
     def intensities(self):
         return self.spec.intensities().tolist()
+
+    def get_bins_count(self):
+        return self.spec.pixels #TODO this doesn't seem to work on seatease (no attribute _spectrum_length), despite being in the docs.  Maybe only in the real one or may not exist at all.
 
 sbserver = SeaBreezeServerClass()
 sbserver.serve()
