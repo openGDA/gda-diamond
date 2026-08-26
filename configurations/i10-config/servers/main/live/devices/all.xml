@@ -2,6 +2,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- for all end stations -->
+	<import resource="andor.xml" />
 	<import resource="RASOR-SCALER1.xml" />
 	<import resource="Shutter1.xml" />
 	<import resource="accessControl4I.xml" />
