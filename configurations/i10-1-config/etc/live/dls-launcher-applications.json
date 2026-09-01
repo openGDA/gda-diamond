@@ -72,13 +72,48 @@
         "type": "group",
         "children": [
             {
-                "type": "button", 
-                "text": "PolSpeX", 
+                "args": "-c 'module load dawn; dawn'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+                "text": "Dawn Stable",
+                "type": "button"
+            },
+            {
+                "args": "-c 'module load dawn; dawn --reset'",
+                "command": "/usr/bin/env bash",
+                "icon": "/dls_sw/apps/DawnDiamond/bin/dawn-16x16.png",
+                "text": "Dawn Stable with fresh workspace (dawn --reset)",
+                "type": "button"
+            },
+            {
+                "type": "button",
+                "text": "PolSpeX",
                 "args": "-c 'module load polspex; polspex'",
-                "command": "/usr/bin/env bash",  
+                "command": "/usr/bin/env bash", 
                 "icon": "/dls_sw/apps/polspex/0.1/polspex.png"
+            },
+            {
+                "type": "button",
+                "text": "MMG DataViewer",
+                "args": "-c 'module load mmg && python -m mmg_toolbox gui'",
+                "command": "/usr/bin/env bash", 
+                "icon": "/dls_sw/i16/software/python/Py16/Logo.png"
+            },
+            {
+                "type": "button",
+                "text": "Jupyter Notebook",
+                "args": "-c 'module load mmg && jupyter lab'",
+                "command": "/usr/bin/env bash", 
+                "icon": "/dls_sw/apps/python/miniforge/25.11/pkgs/ipywidgets-8.1.8-pyhd8ed1ab_0/site-packages/ipywidgets/widgets/tests/data/jupyter-logo-transparent.png"
+            },
+            {
+                "type": "button",
+                "text": "Dans_Diffraction",
+                "args": "-c 'module load Dans_Diffraction && python -m Dans_Diffraction gui'",
+                "command": "/usr/bin/env bash", 
+                "icon": "/dls_sw/apps/Dans_Diffraction/3.4/Dans_Diffraction/DD_icon.png"
             }
-        ], 
+        ],
         "name": "Data Analysis"
     }
 ]
