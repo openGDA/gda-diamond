@@ -16,7 +16,7 @@ to/from keV units automatically in asnchronousMoveTo and getPosition
  - Override  getDesiredSpeed - to return speed in keV/second (i.e. soeed in motor units)
  - Override checkDeadbandAndMove - just call asynchronousMoveTo without any checks.
 """
-class QexafsTest(ZebraQexafsScannable):
+class I18ZebraQexafsScannable(ZebraQexafsScannable):
     
     def toggleEnergyControl(self):
         pass
@@ -64,10 +64,13 @@ class QexafsTest(ZebraQexafsScannable):
         print("Motor scan speed : %.4f"%(self.getDesiredSpeed()))
         ZebraQexafsScannable.performContinuousMove(self)
 
+    def getNumberOfDataPoints(self):
+        num_points = ZebraQexafsScannable.getNumberOfDataPoints(self)
+        return num_points-1
 
 zebra = Finder.find("zebra")
 
-qexafs_energy = QexafsTest()
+qexafs_energy = I18ZebraQexafsScannable()
 qexafs_energy.setZebraDevice(zebra)
 qexafs_energy.setPcEncType(3) # encoder 4
 
