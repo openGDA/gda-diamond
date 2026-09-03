@@ -10,7 +10,7 @@ Created on 10 Apr 2018
 ###############################################################################
 from utils.ExceptionLogs import localStation_exception
 import sys
-from gdaserver import rc, topup_time, frontend, idd_gap, idu_gap, idblena_id1, idblena_id2 # @UnresolvedImport
+from gdaserver import rc, topup_time, frontend, idd_gap, idu_gap, iddaccesscontrol, iduaccesscontrol # @UnresolvedImport
 print("-"*100)
 try:
     print("Creating checkbeam and checkbeamcv devices composed of 3 conditions:")
@@ -24,19 +24,16 @@ try:
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState, id_pause_msg
     from gda.device.scannable.scannablegroup import ScannableGroup
 
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5, id1gap = idd_gap, id2gap = idu_gap, accesscontrol4id1 = idblena_id1, accesscontrol4id2 = idblena_id2)
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
     checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
     checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 60)
-
-    from gdaserver import  iddaccesscontrol #@UnresolvedImport
     checkidd = WaitForScannableState('checkidd', iddaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[idd_gap], additional_pause_msg=id_pause_msg(idd_gap))
-    from gdaserver import  iduaccesscontrol #@UnresolvedImport
     checkidu = WaitForScannableState('checkidu', iduaccesscontrol, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5.0, readyStates=['ENABLED'], additionalScannablesToRestore=[idu_gap], additional_pause_msg=id_pause_msg(idu_gap))
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time, checkidd, checkidu])
     checkbeam.configure()
 
     # beam monitors used for continuous scan
-    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5, id1gap = idd_gap, id2gap = idu_gap, accesscontrol4id1 = idblena_id1, accesscontrol4id2 = idblena_id2)
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
     checkrc_cv.setOperatingContinuously(True)
     checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks = 1, secondsToWaitAfterBeamBackUp = 5)
     checktopup_time_cv.setOperatingContinuously(True)
