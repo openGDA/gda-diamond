@@ -16,6 +16,8 @@
   <user fedid="fri44821" level="3" staff="true"/> <!-- Keith -->
   <user fedid="akz63626" level="3" staff="true"/> <!-- Richard -->
   <user fedid="ffv81422" level="3" staff="true"/> <!-- Dominic -->
+  <user fedid="vdp96513" level="3" staff="true"/> <!-- Jake -->
+
 
   <!-- BEAMLINE USERS -->
   <!-- by default users have permission 1 -->
@@ -23,4 +25,7 @@
   <!-- with the current configuration all motors are accessible with level 3 -->
   <user fedid="gdg98951" level="2" />
   <user fedid="noc14454" level="2" />
+  <user fedid="hck38156" level="2" />
+  <user fedid="wrp85372" level="2" />
 </permissions>
+

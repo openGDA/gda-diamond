@@ -57,11 +57,11 @@ def resetPilatusDetector(detectorPVprefix, detectorType):
         PVprefix = "TWOML"
 
     # So, let's start by reconfiguring CAM
-    caputWithCheck (detectorPVprefix + ':CAM:ImageMode', "Multiple")
-    if LocalProperties.check("gda.ncd.saxs.forceExternalTrigger",False):
-        trigger_mode = "Mult. Trigger"
-    else:
-        trigger_mode = "Ext. Enable"
+    caputWithCheck(detectorPVprefix + ':CAM:ImageMode', "Multiple")
+    # if LocalProperties.check("gda.ncd.saxs.forceExternalTrigger",False):
+    #     trigger_mode = "Mult. Trigger"
+    # else:
+    trigger_mode = "Ext. Enable"
         
     caputWithCheck(detectorPVprefix + ':CAM:TriggerMode', trigger_mode)
 
@@ -85,6 +85,8 @@ def resetTetrammDetector(detectorPVprefix, detectorType):
         PVprefix = "XBPM2"
     elif (detectorType == "It"):
         PVprefix = "TTRM2"
+    elif (detectorType == "User"):
+        PVprefix = "TTRM1"
 
     # So, let's start by reconfiguring DRV
     caputWithCheck(detectorPVprefix + ':DRV:TriggerMode', '0')
@@ -173,6 +175,12 @@ def resetBsdiodesTetramm():
     print('Beamstop diode amplifier set up')
 
 
+def resetUserTetramm():
+    print('Setting up user diode amplifier')
+    resetTetrammDetector('BL22I-EA-TTRM-01', 'User')
+    print('User diode amplifier set up')
+
+
 def resetOAV():
     print('Setting up on-axis optical camera')
     resetOpticalDetector('BL22I-DI-OAV-01')
@@ -183,6 +191,7 @@ def reEnableTetramms():
     print('Changing to linescan acquisition mode')
     resetI0Tetramm()
     resetBsdiodesTetramm()
+    resetUserTetramm()
     print('Mode change complete')
 
 
@@ -192,6 +201,7 @@ def tfgAcquisition():
     resetWAXSdetector()
     resetI0Tetramm()
     resetBsdiodesTetramm()
+    resetUserTetramm()
     resetOAV()
     print('Mode change complete')
 
@@ -321,12 +331,13 @@ except:
 
 
 from setup import malcolm_tfg
-from gdaserver import Pilatus2M_SAXS, I0, bsdiodes
+from gdaserver import Pilatus2M_SAXS, I0, bsdiodes, user_tetramm
 
 saxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_SAXS)
 # waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
 i0_reset = malcolm_tfg.NcdTetrammReset(I0)
 bsdiodes_reset = malcolm_tfg.NcdTetrammReset(bsdiodes)
+user_tetramm_reset = malcolm_tfg.NcdTetrammReset(user_tetramm)
 
 def install_hook(detector, action):
     detector.addPreScanAction(action)
@@ -336,6 +347,8 @@ install_hook(Pilatus2M_SAXS, saxs_reset)
 # install_hook(Pilatus2M_WAXS, waxs_reset)
 install_hook(I0, i0_reset)
 install_hook(bsdiodes, bsdiodes_reset)
+install_hook(user_tetramm, user_tetramm_reset)
+
 
 class CheckBeamScannableEH(ScannableMotionBase):
 

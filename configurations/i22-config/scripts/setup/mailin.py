@@ -2,8 +2,8 @@ from setup import excel
 from itertools import groupby, product
 
 from __main__ import rscan
-from gdaserver import saxs_cal, waxs_cal, sample_background, sample_name, title,\
-    ncddetectors, GDAMetadata as meta
+from gdaserver import saxs_cal, waxs_cal, sample_background, sample_name, title, ncddetectors,\
+     GDAMetadata as meta
 from mapping_scan_commands import sample
 
 class Mailin(object):
@@ -25,7 +25,7 @@ class Mailin(object):
         # if missing_backgrounds:
         #     raise ValueError('Some samples rely on missing backgrounds: ' + ', '.join(str(s['position']) for mb in missing_backgrounds for s in samples[mb]))
     
-        return backgrounds, samples, all_samples['visit']
+        return backgrounds, samples, all_samples['visit'].lower()
 
     def run_capillaries(self, filename):
         print 'Running capillary scan'

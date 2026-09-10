@@ -92,6 +92,17 @@ setfacl -R -m         group:i22_staff:rwx \
     scripts/sampleEnvironment \
     scripts/templatesRepository \
     etc/i22.cfg
+nfs4_setfacl -a  A:g:i22_staff@diamond.ac.uk:rwadxtTnNcC \
+    xml/permissions.xml \
+    scripts/beamlineScripts \
+    scripts/sampleEnvironment \
+    scripts/templatesRepository \
+    etc/i22.cfg
+
+nfs4_setfacl -a A:dg:i22_staff@diamond.ac.uk:rwadxtTnNcC \
+    scripts/beamlineScripts \
+    scripts/sampleEnvironment \
+    scripts/templatesRepository
 """
 
 def test_2d_scan(scan_command, main, meta, gaussian_2d):
