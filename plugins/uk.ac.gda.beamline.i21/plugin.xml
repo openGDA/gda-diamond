@@ -769,6 +769,20 @@
             name="Maranax"
             restorable="true">
       </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.beamline.i21.views.ContinuousModeControllerView"
+            id="uk.ac.gda.arpes.ContinuousModeControllerView"
+            name="Continuous Mode"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.ARPESPlotView"
+            id="uk.ac.gda.client.arpes.cameraview"
+            name="Detector Plot"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="dummy_product"

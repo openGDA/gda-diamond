@@ -281,4 +281,6 @@ if len(localStation_exceptions) > 0:
 for localStationException in localStation_exceptions:
     simpleLog(localStationException)
 
+import arpes
+
 simpleLog("===================== GDA ONLINE =====================")

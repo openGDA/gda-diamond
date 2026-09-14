@@ -247,6 +247,7 @@
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
+	<!-- 
 	<bean id="smp_cam_4" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 4" />
 		<property name="urlPv" value="BL21I-DI-DCAM-23:MJPG:MJPG_URL_RBV" />
@@ -257,7 +258,8 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}smplcam4Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
+	</bean>
+	 -->	
 	<bean id="smp_cam_5" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample Camera 5" />
 		<property name="urlPv" value="BL21I-DI-DCAM-25:MJPG:MJPG_URL_RBV" />

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Example analyser configuration for i05 -->
+<ARPESScanBean>
+    <lensMode>Angular30</lensMode>
+    <sweptMode>false</sweptMode>
+    <passEnergy>5</passEnergy>
+    <startEnergy>34.789</startEnergy>
+    <endEnergy>35.211</endEnergy>
+    <stepEnergy>0.405</stepEnergy>
+    <timePerStep>1.0</timePerStep>
+    <iterations>10</iterations>
+    <configureOnly>false</configureOnly>
+</ARPESScanBean>
