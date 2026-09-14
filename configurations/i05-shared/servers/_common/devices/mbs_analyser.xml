@@ -42,6 +42,7 @@
 		<property name="sweptModeConfiguration" ref="detector_config" />
 		<property name="ditherModeConfiguration" ref="detector_config" />
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
+		<property name="entranceSlitInformationProvider" ref="mbs_slits" />
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.diamond.daq.devices.mbs.SweepUpdater">

@@ -37,6 +37,7 @@
 		<property name="cpsRoiProvider" ref="mbs_roi_provider"/>
 		<property name="deflectorRangeConfiguration" ref="analyser_deflector_range" />
 		<property name="energyStepPerPixel" value="0.08283989303014" />
+		<property name="entranceSlitInformationProvider" ref="mbs_slits" />
 	</bean>
 
 	<!-- Configure limits when using deflector_x in Jython -->
