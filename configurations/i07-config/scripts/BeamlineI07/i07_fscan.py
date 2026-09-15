@@ -52,6 +52,10 @@ def perform_scan(args, motors_to_reset=[], scan_method=mscan_master):
         try:
             return scan_method(*args)
         except ScanningException as e:
+            if "Lim(LOW)" in e.getMessage() or "Lim(HIGH)" in e.getMessage() :
+                print("Scan exceeded motor limits, please check target value.")
+                log_error(e)
+                break
             print "Error encountered running malcolm scan, attempting to restart.  Error is seen below."
             print 'ERROR:', e
             log_error(e)
