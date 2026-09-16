@@ -33,8 +33,9 @@ def mapend(scanlist,ps,setup_paths,testing=0):
 
 def checkzocalo():
     """
-    Check that the ioc is running, if not restart it and wait for it to finish restarting.  Will error if the ioc does
-    not start in a reasonable time (15s).
+    Check that the ioc is running, if not restart it and wait for it to finish restarting.  Will print message and 
+    return if the ioc does not start in a reasonable time (15s). Changed to not error so that function can be used in 
+    macro collection scripts, and will not stop data collection if IOC is not starting. 
     """
     if caget(pv_base + ":STATUS") == "0" : 
         print("Zocalo connection is running.")
@@ -47,4 +48,4 @@ def checkzocalo():
             print(pv_base + " successfully restarted.")
             caput(pv_base + ":AUTORESTART", 1)
             return
-    raise ValueError("IOC for " + pv_base + " is not running and could not be started.")
+    print("IOC for " + pv_base + " is not running and could not be started. Autoprocessing will not be possible until this IOC is restarted")
