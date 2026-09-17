@@ -13,3 +13,7 @@ default_deployment = "gda"
 client = "client/gda-i05"
 config = "config"
 server = "server/gda-server"
+
+[client.env]
+"WEBKIT_DISABLE_COMPOSITING_MODE" = "1"
+"LIBGL_ALWAYS_SOFTWARE" = "1"
