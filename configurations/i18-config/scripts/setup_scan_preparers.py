@@ -23,5 +23,5 @@ samplePreparer = I18SamplePreparer()
 
 outputPreparer = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
 
-auto_mDeg_idGap_mm_converter = Finder.find("auto_mDeg_idGap_mm_converter")
+auto_mDeg_idGap_mm_converter = Finder.find("auto_mDeg_idGap_mm_converter_Si111")
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)  # @UndefinedVariable

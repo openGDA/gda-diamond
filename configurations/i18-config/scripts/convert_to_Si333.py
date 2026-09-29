@@ -66,8 +66,6 @@ def adjust_energy_scannables(converter) :
         scn.setConvertor(converter)
     
     print("Using %s for Si111 converter in qexafs energy scannable"%(converter.getName()))
-    delegates = {"Si311" : eV_Deg_converter_Si311, "Si111" : converter}
-    # zebraBraggEnergy.setDelegateConverters(delegates)
     
 ## Adjust the harmonic energy range (end of harmonic1, start of harmonic3
 def adjust_harmonic_range(include_333) :
@@ -87,64 +85,3 @@ def adjust_harmonic_range(include_333) :
         
     print("Harmonic3 Si111 range : %.4f ... %.4f"%(harmonic3_Si111.getRangeStart(), harmonic3_Si111.getRangeStop()))
 
-    """
-    harm1_end=end_start_vals[0]
-    harm3_start=end_start_vals[1]
-    harmonic1 = harmonic1_Si333 if include_333 else harmonic1_Si111
-    print("\tSetting %s end to %f"%(harmonic1.getName(), harm1_end))
-    harmonic1.setRangeStop(harm1_end)
-    
-    print("\tSetting %s start to %f"%(harmonic3_Si111.getName(), harm3_start))
-    harmonic3_Si111.setRangeStart(harm3_start)
-    """
-
-from gda.util import QuantityFactory 
-lookup_name_provider_Si311 = Finder.find("lookup_name_provider_Si311")
-auto_mDeg_idGap_mm_converter_Si111=Finder.find("auto_mDeg_idGap_mm_converter_Si111")
-auto_mDeg_idGap_mm_converter_Si311=Finder.find("auto_mDeg_idGap_mm_converter_Si311")
-
-# Lookup id gap and lookup table name that will be used for given Bragg angle
-def get_undulator_setting(bragg_angle, lookup_name_provider, auto_mDeg_idGap_mm_converter) :
-    
-
-    """
-    harm1_end=end_start_vals[0]
-    harm3_start=end_start_vals[1]
-    harmonic1 = harmonic1_Si333 if include_333 else harmonic1_Si111
-    print("\tSetting %s end to %f"%(harmonic1.getName(), harm1_end))
-    harmonic1.setRangeStop(harm1_end)
-    
-    print("\tSetting %s start to %f"%(harmonic3_Si111.getName(), harm3_start))
-    harmonic3_Si111.setRangeStart(harm3_start)
-    """
-
-from gda.util import QuantityFactory 
-lookup_name_provider_Si311 = Finder.find("lookup_name_provider_Si311")
-auto_mDeg_idGap_mm_converter_Si111=Finder.find("auto_mDeg_idGap_mm_converter_Si111")
-auto_mDeg_idGap_mm_converter_Si311=Finder.find("auto_mDeg_idGap_mm_converter_Si311")
-
-# Lookup id gap and lookup table name that will be used for given Bragg angle
-def get_undulator_setting(bragg_angle, lookup_name_provider, auto_mDeg_idGap_mm_converter) :
-    
-    # extract the Si111, Si333 part from the end of the converter name
-    conv_name = auto_mDeg_idGap_mm_converter.getName()
-    ind = conv_name.find("Si")
-    nice_name = conv_name[ind:] if ind > 0 else conv_name
-    
-    # create 'quantity' object for the Bragg angle to pass to converter#toTarget method
-    quant = QuantityFactory.createFromString(str(bragg_angle)+" deg")
-    
-    # lookup UD gap for the Bragg angle (and convert to float)
-    id_gap = auto_mDeg_idGap_mm_converter.toTarget(quant).getValue()
-
-    # Get the name of the table that was used to lookup to ID gap value :    
-    converter_name = lookup_name_provider.getConverterName() # (bragg_angle)
-    
-    print("\nCrystal cut : %s\nBragg angle : %.5f deg\nLookup table : %s\nId gap : %.5f mm\n"%(nice_name, bragg_angle, converter_name, id_gap))
-    return id_gap
-
-def get_undulator_setting_Si311(bragg_angle) :
-    return get_undulator_setting(bragg_angle, lookup_name_provider_Si311, auto_mDeg_idGap_mm_converter_Si311)
-
-def get_undulator_setting_Si111(bragg_angle) :
-    return get_undulator_setting(bragg_angle, lookup_name_provider_Si111, auto_mDeg_idGap_mm_converter_Si111)
