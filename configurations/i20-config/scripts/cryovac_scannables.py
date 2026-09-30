@@ -15,6 +15,7 @@ cryovac_t2.configure()
 
 # Create scannable motor to control X translation stage
 cryovac_x_motor = EpicsMotor()
+cryovac_x_motor.setName("cryovac_x_motor")
 cryovac_x_motor.setPvName("BL20I-MO-CRYO-01:X")
 cryovac_x_motor.configure()
 

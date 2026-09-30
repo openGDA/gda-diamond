@@ -7,7 +7,6 @@ from java.lang import Exception
 import math
 import datetime
 from gda.jython import InterfaceProvider
-from __builtin__ import False
 from uk.ac.gda.server.exafs.scan import DetectorPreparer
 
 print("\nRunning 'ionchamber-checker.py")
@@ -16,20 +15,24 @@ run('ionchamber-checker.py')
 
 print "New reconnect daserver command : reconnect_daserver_new() "
 def reconnect_daserver_new() :
-    print "Closing connection to DAServer..."
+    print("Reconnecting to DAServer")
+ 
+    print("Closing current connection to DAServer...")
     mem = counterTimer01.getScaler()
     mem.close()
     sleep(1)
     mem.getDaServer().close()
     sleep(1)
     
-    print "Trying to reconnect to DAServer..."
+    print("Trying to reconnect to DAServer...")
     mem.getDaServer().reconfigure()
     sleep(1)
     mem.clear()
     sleep(1)
-    print "Finished"
-    
+    print("Finished")
+
+from time import time
+
 class IonchamberDetectorPreparer(DetectorPreparer) :
 
     def __init__(self, ionchamberChecker):
@@ -37,7 +40,8 @@ class IonchamberDetectorPreparer(DetectorPreparer) :
         self.ionchamberChecker = ionchamberChecker
         self.runChecker = False
         self.rep_number = 0
-        self.check_interval = 1 # 0 = off, 1 = run every rep,
+        self.check_interval_mins = 30 # time interval between successive runs of the checker (minutes)
+        self.time_of_last_check =  0.0
         self.shutter = sample_shutter
 
     def configure(self, scanBean, detectorBean, outputBean, experimentFullPath) :
@@ -50,16 +54,15 @@ class IonchamberDetectorPreparer(DetectorPreparer) :
         return self.runChecker
 
     def beforeEachRepetition(self):
-        if self.check_interval <= 0 :
-            return
+        if self.check_last_run_time():
+            self.run_checker()
+            self.time_of_last_check = time()
         
-        self.rep_number += 1
+    def check_last_run_time(self): 
+        time_since_last_check = (time() - self.time_of_last_check)/60.0
+        print("Since since last check : %.1f minutes (check interval = %.0f minutes)"%(time_since_last_check, self.check_interval_mins))
+        return time_since_last_check > self.check_interval_mins
 
-        if self.rep_number%self.check_interval != 1:
-            return
-        
-        self.run_checker()
-    
     def run_checker(self):
         try :
             self.move_shutter("Close")
@@ -92,7 +95,7 @@ ionchamberChecker.setNumPoints(5);
 ionchamberChecker.setfixIonchamberFunction(reconnect_daserver_new)
 
 checker_preparer = IonchamberDetectorPreparer(ionchamberChecker)
-checker_preparer.check_interval = 1
+checker_preparer.check_interval_mins = 30
 
 det_preparer_delegates = DetectorPreparerDelegate()
 det_preparer_delegates.setPreparers([checker_preparer])

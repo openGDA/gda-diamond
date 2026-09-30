@@ -81,7 +81,7 @@ global run, etl, prop, add_default, vararg_alias, \
 	bsx, bsy,\
 	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
 	s7xpos, s7ypos, s7xgap, s7ygap,\
-	d6x,\
+	d7x,\
 	fs2x, fs2y,\
 	skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,\
 	svfmcurve, svfmellip, svfmy, svfmpitch, \
@@ -91,7 +91,7 @@ global run, etl, prop, add_default, vararg_alias, \
 	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
-	d1, d2, d3, d4, d5, d6, d7, d8, d9
+	d1, d2, d3, d4, d5, d7, d8, d9, d10
 
 if isFindable("cryox"):
 	global cryox, cryoy, cryoz, cryorot
@@ -336,11 +336,11 @@ try:
 			return diode
 
 		simpleLog("Create diodes 1-5")
-		d1=diodeFactory("d1", "PHDGN1")
-		d2=diodeFactory("d2", "PHDGN2")
-		d3=diodeFactory("d3", "PHDGN3")
-		d4=diodeFactory("d4", "PHDGN4")
-		d5=diodeFactory("d5", "PHDGN5")
+		d1=diodeFactory("d1", "FEMTO1")
+		d2=diodeFactory("d2", "FEMTO2")
+		d3=diodeFactory("d3", "FEMTO3")
+		d4=diodeFactory("d4", "FEMTO4")
+		d5=diodeFactory("d5", "FEMTO5")
 
 		simpleLog("Create diode ratios")
 		d2_d1 = Simple_PD_Ratio('d2_d1', d2, d1)
@@ -349,17 +349,18 @@ try:
 		d5_d1 = Simple_PD_Ratio('d5_d1', d5, d1)
 
 		simpleLog("Create diode sums")
-		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
-		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
-		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
-		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
-		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
+		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-FEMTO-01:DIODESUM", "", "%f")
+		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-FEMTO-02:DIODESUM", "", "%f")
+		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-FEMTO-03:DIODESUM", "", "%f")
+		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-FEMTO-04:DIODESUM", "", "%f")
+		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-FEMTO-05:DIODESUM", "", "%f")
 		#add_default(d1sum) - Moved to /dls/i15/scripts/localStationUser.py
 
-		simpleLog("Create diodes 6+")
-		d6=diodeFactory("d6", "PHDGN6")
-		d8=diodeFactory("d8", "PHDGN8")
-		d9=diodeFactory("d9", "PHDGN9")
+		simpleLog("Create diodes 7+")
+		d7=diodeFactory("d7", "FEMTO7")
+		d8=diodeFactory("d8", "FEMTO8")
+		d9=diodeFactory("d9", "FEMTO9")
+		d10=diodeFactory("d10", "FEMTO10")
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
@@ -873,7 +874,7 @@ try:
 				'bsx', 'bsy',
 				'tab2jack1', 'tab2jack2', 'tab2jack3', 'tab2transx', 'tab2rotation',
 				's7xpos', 's7ypos', 's7xgap', 's7ygap',
-				'd6x',
+				'd7x',
 				'fs2x', 'fs2y',
 				'skbjack1', 'skbjack2', 'skbjack3', 'skby', 'skbpitch', 'skbroll',
 				'svfmcurve', 'svfmellip', 'svfmy', 'svfmpitch',
@@ -883,7 +884,7 @@ try:
 				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
 				'bs2x', 'bs2y',
 				'det2z',
-				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
+				'd1', 'd2', 'd3', 'd4', 'd5', 'd7', 'd8', 'd9', 'd10',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				)
 			if isFindable('bs3x'):

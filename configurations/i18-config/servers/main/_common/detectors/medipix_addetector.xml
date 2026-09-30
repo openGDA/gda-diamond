@@ -47,6 +47,7 @@
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg value="0" />
 		<property name="readAcquisitionTime" value="false" />
+		<property name="useArrayCounterForStatus" value="true" />
 	</bean>	
 
 	<bean id="medipix" class="gda.device.detector.addetector.ADDetector">

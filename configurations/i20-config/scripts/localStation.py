@@ -277,6 +277,10 @@ def setVisit(visitStr) :
     print "Changing visit from ",currentVisit," to ",visitStr
 
 
+# Set nedipix1, medipix2 ADROICounts plugin to use correct (I1) ionchamber for I1 counts
+get_medipix_plugins(medipix1)[1].setCounterTimer(I1)
+get_medipix_plugins(medipix2)[1].setCounterTimer(I1)
+
 
 if not LocalProperties.isDummyModeEnabled() :
     try :

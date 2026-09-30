@@ -1,4 +1,6 @@
 from xspress_functions import *
+from gda.device.scannable import ScannableBase
+from gda.jython import InterfaceProvider
 from uk.ac.gda.devices.detector.xspress4 import XspressPvProviderBase
 from sleep_scannable import sleep_detector, async_sleep_detector
 
@@ -55,6 +57,8 @@ def setup_ffi0_channel(i0_channel=2) :
         det.setI0_channel(i0_channel)
 
 def setup_medipix() :
+    if not object_exists("medipix"):
+        return
     
     #medipix.getNdStats().reset()
     #medipix.getNdArray().reset()
@@ -82,21 +86,74 @@ def setup_medipix() :
     medipix.setCollectionStrategy(medipix_hardware_triggered_collectionstrategy)
     
 
-def setup_xspress3mini() :
+def setup_xspress3mini(collect_frame=True) :
+    if not object_exists("xspress3Mini"):
+        return
+    
     cont = xspress3Mini.getController()
     base_pv = cont.getBasePv()
     set_hdf5_filetemplate(base_pv)
-    CAClient.put(base_pv+":HDF5:LazyOpen", 0)
-    CAClient.put(base_pv+":HDF5:NDArrayPort", "XSP3")
+    putvalue(base_pv, ":HDF5:LazyOpen", 0)
+    putvalue(base_pv, ":HDF5:NDArrayPort", "XSP3")
+    putvalue(base_pv, ":HDF5:PositionMode", "0")
+    if collect_frame:
+        collect_software_triggered_frame(base_pv, 0.1)
+        collect_software_triggered_frame(base_pv, 0.1)
 
-    collect_software_triggered_frame(base_pv, 1.0)
 
 def set_medipix_collection_time(acq_time, dead_time=0.1) :
     sleep_detector.setCollectionTime(acq_time+dead_time)
     async_sleep_detector.sleep_time = acq_time + dead_time
     medipix_hardware_triggered_collectionstrategy.setCollectionTime(acq_time)
     
+
+class SetupXspressMini(ScannableBase):
     
+    def __init__(self, detector, name):
+        super(SetupXspressMini, self).__init__(name)
+        self.name = name
+        self.inputNames = [name]
+        self.setOutputFormat({});
+        self.setInputNames({});
+        self.det_name = detector.getName()
+    
+    def get_scan_info(self):
+        h = InterfaceProvider.getCurrentScanInformationHolder()
+        if h is not None:
+            return h.getCurrentScanInformation()
+        return h
+    
+    def atScanStart(self):
+        scan_info = self.get_scan_info()
+        if scan_info is None:
+            print("Cannot setup "+self.det_name+" no scan is running")
+            return
+        
+        det_names = scan_info.getDetectorNames()
+        if self.det_name in det_names:
+            print(self.name+" - running 'setup_xspress3mini' function")
+            setup_xspress3mini(collect_frame=True)
+
+    def stop(self):
+        self.atScanEnd()
+ 
+    def atCommandFailure(self):
+        self.atScanEnd()
+ 
+    def isBusy(self):
+        return False
+ 
+    def rawAsynchronousMoveTo(self,new_position):
+        pass
+ 
+    def rawGetPosition(self):
+        return None
+
+# add default scannable to setup xspress3Mini if it's included in scan comman
+if object_exists("xspress3Mini"):
+    xspress3mini_setup = SetupXspressMini(xspress3Mini, "xspress3mini_setup")
+    add_default(xspress3mini_setup)
+
 run_in_try_catch(setup_andor)
 run_in_try_catch(setup_xmap)
 run_in_try_catch(setup_xspress3Odin)

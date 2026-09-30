@@ -170,32 +170,33 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		if (!adjustBraggOffset) {
 			bragg.asynchronousMoveTo(energy);
 		} else {
-			// move bragg and block until finished so that offset can then be adjusted
-			bragg.moveTo(energy);
 
-			// XAS or 1d XES scan : adjust offset
-			if (scanType == 0 || scanType != XesScanParameters.SCAN_XES_SCAN_MONO) {
-				adjustBraggOffsetMotor(energy);
-			} else if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 				// 2D scan,
 
 				if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
-					// Mono is inner loop : optimise for low energy at start of each loop, adjust offset motor as normal,
+					// Mono is inner loop : optimise for low and high energy at start of each loop, adjust offset motor as normal,
 					if (energy < braggEnergyLastMove) {
-						monoOptimiser.optimiseManual(this, energy);
+						monoOptimiser.optimiseManual(this, energy, braggEnergyLastMove);
 						setTimeFrames();
 					}
+					bragg.moveTo(energy);
 					adjustBraggOffsetMotor(energy);
 				} else {
 					// When XES is inner loop : each mono move corresponds to start of new line - optimise the
 					// bragg offset each time energy changes
 					if (Math.abs(energy - braggEnergyLastMove) > 1e-3 && monoOptimiser != null) {
-						monoOptimiser.optimiseManual(this, energy);
+						monoOptimiser.optimiseManual(this, energy, energy);
 						setTimeFrames();
 					}
 					// adjust bragg offset
+					bragg.moveTo(energy);
 					adjustBraggOffsetMotor(energy);
 				}
+			} else {
+				// XAS or 1d XES scan : adjust offset
+				bragg.moveTo(energy);
+				adjustBraggOffsetMotor(energy);
 			}
 		}
 

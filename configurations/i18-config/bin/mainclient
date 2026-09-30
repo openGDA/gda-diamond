@@ -4,5 +4,5 @@ plugin_customization_file="/dls_sw/i18/software/gda/workspace_git/gda-diamond.gi
 
 profiles=$(generate-profile-list.py)
 
-gda client -f --plugin-customisation $plugin_customization_file $profiles $*
+gda -G client -f --plugin-customisation $plugin_customization_file $profiles $*
 

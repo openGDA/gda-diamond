@@ -255,9 +255,6 @@ buffered_scaler.configure()
 # buffered_scaler.getFrameReadoutOffset = lambda : 4
 # buffered_scaler.setDarkCurrentRequired(False)
 
-# make sure medipix2 plugin chain is using new buffered_scaler for I1 values
-get_medipix_plugins(medipix2)[1].setCounterTimer(buffered_scaler)
-
 def send_usr0_pulse():
     switch_valve_positions([1,1], 0.01, 0.01)
 
@@ -277,7 +274,7 @@ trigger_preparer_new.sequences = { "initial":[1,1], "one" : [1,1], "two":[2,2] }
 # reset valve state and send USR0 or USR1 to switch to gas 1 or 2.
 trigger_preparer_new.sequences = { "initial":[3,1], "one" : [3,1], "two":[3,2] }
 
-## Set FFI1 medipix plugin to use buffered_scaler as source of I1 value
+## Set FFI1 medipix plugins to use buffered_scaler as source of I1 value
 get_medipix_plugins(medipix1)[1].setCounterTimer(buffered_scaler)
 get_medipix_plugins(medipix2)[1].setCounterTimer(buffered_scaler)
 

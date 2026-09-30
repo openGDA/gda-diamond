@@ -1,5 +1,4 @@
 from gda.device.scannable.zebra import ZebraQexafsScannable
-from gda.device.scannable import ScannableMotor, ScannableMotionBase
 from time import sleep
 import math
 
@@ -8,14 +7,15 @@ from gda.jython.commands.ScannableCommands import cv as cvscan
 from pickle import FALSE
 vararg_alias("cvscan")
 
-# Class for I18 to allow them to reuse the B18 position based continuous scannable classes :
-# - Use dummy implementation for 'energy control' related functions
-# - Motor control uses keV energy units -> override rawGetCurrentPosition to return energy in eV
-#    and asynchronousMoveTo to convert energy from eV to keV,
-# - Override performContinuousMove to recalculate desiredSpeed to motor units (i.e. kev per second,
-# not degrees per second)
-# 16/1/2024
-
+"""
+ Class for I18 to allow them to reuse the B18 position based continuous scannable classes :
+ - Use empty implementation for 'energy control' related functions
+ - Motor controls uses keV energy units -> set user units to 'eV' to have scannable handle conversion
+to/from keV units automatically in asnchronousMoveTo and getPosition
+ - Override prepareForContinuousMove add extra setup Zebra steps
+ - Override  getDesiredSpeed - to return speed in keV/second (i.e. soeed in motor units)
+ - Override checkDeadbandAndMove - just call asynchronousMoveTo without any checks.
+"""
 class QexafsTest(ZebraQexafsScannable):
     
     def toggleEnergyControl(self):
@@ -26,23 +26,21 @@ class QexafsTest(ZebraQexafsScannable):
     
     def setEnergySwitchOn(self):
         pass
-
-    # Return current position in eV
-    def rawGetPosition(self):
-        current_position_kev = super(QexafsTest,self).rawGetPosition()
-        # print(current_position_kev)
-        return float(current_position_kev)*1000
     
     def asynchronousMoveTo(self, position_ev):
-        position_kev = float(position_ev)/1000.0
-        print("Moving %s to %.4f keV"%(self.getName(), position_kev))
-        super(QexafsTest, self).asynchronousMoveTo(position_kev)
+        ZebraQexafsScannable.asynchronousMoveTo(self, position_ev)
     
     def setMaxSpeed(self, max_speed):
         self.maxSpeed = max_speed
-        
+
+    # Just do the move - checkDeadbandAndMove only works for motor moves in degrees (b18)
+    # and i18 control the energy in keV.
+    def checkDeadbandAndMove(self, position_ev):
+        # could add deadband check here if needed by comparing with current position in eV.
+        ZebraQexafsScannable.asynchronousMoveTo(self, position_ev)
+
     def prepareForContinuousMove(self):
-         # need to reset zebra before trying to configure it (seems to not disarm properly due to stuck 'point download')
+        # need to reset zebra before trying to configure it (seems to not disarm properly due to stuck 'point download')
         zebra = self.getZebraDevice()
         zebra.reset()
         
@@ -57,21 +55,24 @@ class QexafsTest(ZebraQexafsScannable):
         # copy encoder4 value to zebra (i.e. Bragg angle of DCM)
         zebra.encCopyMotorPosToZebra(4)
 
-        super(QexafsTest, self).prepareForContinuousMove()
-        
+        ZebraQexafsScannable.prepareForContinuousMove(self) 
+
+    def getDesiredSpeed(self):
+        return 1e-3*math.fabs(self.continuousParameters.getEndPosition() - self.continuousParameters.getStartPosition())/self.continuousParameters.getTotalTime()    
+
     def performContinuousMove(self):
-        # set the motor speed to the required scan speed (kev per second)
-        self.desiredSpeed = 1e-3*math.fabs(self.continuousParameters.getEndPosition() - self.continuousParameters.getStartPosition())//self.continuousParameters.getNumberDataPoints()
-        super(QexafsTest, self).performContinuousMove()
-        
-#from gda.util import CrystalParameters
-#CrystalParameters.CrystalSpacing.Si_111.getLabel()
+        print("Motor scan speed : %.4f"%(self.getDesiredSpeed()))
+        ZebraQexafsScannable.performContinuousMove(self)
+
 
 zebra = Finder.find("zebra")
 
 qexafs_energy = QexafsTest()
 qexafs_energy.setZebraDevice(zebra)
 qexafs_energy.setPcEncType(3) # encoder 4
+
+# Set userUnits to eV so that conversions to and from keV are #handled automatically by the Scannable
+qexafs_energy.setUserUnits("eV")
 
 basePv = "BL18I-MO-DCM-01:"
 qexafs_energy.setAccelPV(basePv+"ENERGY.ACCL") 
@@ -137,8 +138,6 @@ def run_tfg_continuous_scan(num_points, scan_time=5, external_start=False, exter
     sc=ContinuousScan(cont_scannable, 0, num_points, num_points, scan_time, all_detectors)
     sc.runScan()
   
-
-
 daServer = qexafs_counterTimer01.getScaler().getDaServer()
 
 from gda.data.scan.datawriter import DefaultDataWriterFactory

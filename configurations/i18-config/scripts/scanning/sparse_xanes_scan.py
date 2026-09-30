@@ -51,6 +51,10 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=
 
     y_positions = dnp.arange(y_min, y_max, y_step)
     num_y_positions = len(y_positions)
+    n_lines = int (rows_percentage*num_y_positions)#
+    if n_lines < 1:
+        raise Exception("Number of lines in map for sparse percentage %.0f is zero!\n"
+                        "Try increasing number of rows in the map or increasing the sparse percentage."%(rows_percentage*100))
 
     all_nexus_file_names = []
     
@@ -71,7 +75,6 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=
         
         # last scan will be all positions
         if idx < len(energies)-1:
-            n_lines = int (rows_percentage*num_y_positions)#
             # print(n_lines, rows_percentage, num_y_positions)
             rand_y_index = []
             while len(rand_y_index) < n_lines:
@@ -128,6 +131,9 @@ def run_sparse_xanes_scan_request(scanRequest, xanesEdgeParams, block_on_submit=
                   .withProcessingRequest(scanRequest.getProcessingRequest()) \
                   .withStartPosition(dcm_energy_position) \
                   .withFilePath(file_path) \
+                  .withBeforeScript(scanRequest.getBeforeScript()) \
+                  .withAfterScript(scanRequest.getAfterScript()) \
+                  .alwaysRunAfterScript(scanRequest.isAlwaysRunAfterScript()) \
                   .build()
                   
         # Add processing to scan request to reconstruct the map after final energy has been collected

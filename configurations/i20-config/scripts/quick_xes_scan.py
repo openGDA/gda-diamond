@@ -58,6 +58,11 @@ def run_qxes_scan_energy(xes_energy_scn, energy_start, energy_end, energy_step, 
 def run_qxes_scan_pitch(xes_energy_scn, pitch_start, pitch_end, pitch_step, exposure_time=0.1, num_reps=1, outer_scannable=None, 
                              use_malcolm = True, continuous_scan = True, is_alternating=True, scan_metadata=None):
     
+    malcolm_block_dict = axis_detector_map_malcolm if use_malcolm else axis_detector_map_gda
+    # check we know which block to use for the given xes energy scannable
+    if xes_energy_scn not in malcolm_block_dict: 
+        raise Exception("Could not find Malcolm axis to use for "+xes_energy_scn.getName())
+
     # lookup detector and axis name to use for given XESEnergyScannable object
     axis_det_pair = axis_detector_map_malcolm[xes_energy_scn] if use_malcolm else axis_detector_map_gda[xes_energy_scn]
     axis_name = axis_det_pair[0]

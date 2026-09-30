@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+# * Copyright © 2013 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,13 +18,17 @@
 
 package uk.ac.gda.beamline.i18.views;
 
+import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.plotting.services.util.SWTImageUtils;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.january.dataset.DataEvent;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.IDataListener;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
@@ -34,14 +38,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.epics.CAClient;
-import gda.factory.FactoryException;
-import gda.factory.FindableBase;
-import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
-import gda.images.camera.ImageListener;
-import gda.images.camera.VideoReceiver;
 import gda.jython.InterfaceProvider;
 import gov.aps.jca.CAException;
 import uk.ac.gda.beamline.i18.I18BeamlineActivator;
+import uk.ac.gda.client.live.stream.LiveStreamWrapper;
+import uk.ac.gda.client.live.stream.view.CameraConfiguration;
+import uk.ac.gda.client.live.stream.view.StreamType;
 import uk.ac.gda.client.microfocus.views.BeamCentreFigure;
 import uk.ac.gda.client.viewer.ImageViewer;
 
@@ -51,34 +53,27 @@ public class CameraView extends ViewPart {
 
 	private static final String I18_SAMPLE_CAMERA_STREAM_PV = "http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.mjpg.mjpg";
 	private ImageViewer viewer;
-	private VideoReceiver<ImageData> videoReceiver;
-	private ImageListener<ImageData> listener = new VideoListener();
-	private Rectangle beamCentreFigurePosition = new Rectangle(0, 0, -1, -1);
-	private BeamCentreFigure beamCentreFigure;
-	private boolean layoutReset;
+	private LiveStreamWrapper stream;
 	private String snapDirectory = InterfaceProvider.getPathConstructor().createFromProperty("gda.cameraview.snapshot.dir");
 
 
 	@Override
 	public void createPartControl(Composite parent) {
-
 		viewer = new ImageViewer(parent, SWT.DOUBLE_BUFFERED);
 
-		I18MotionJpegOverHttpReceiverSwt mjpeg = new I18MotionJpegOverHttpReceiverSwt();
-		mjpeg.setUrl(I18_SAMPLE_CAMERA_STREAM_PV);
+		// Create CameraConfig that just points to the MJPEG stream URL
+		CameraConfiguration config = new CameraConfiguration();
+		config.setUrl(I18_SAMPLE_CAMERA_STREAM_PV);
+
+		// Connect to the camera stream
+		stream = new LiveStreamWrapper(config, StreamType.MJPEG);
 		try {
-			mjpeg.configure();
-		} catch (FactoryException e) {
-
-			logger.error("Error trying to connect to ", e);
-			return;
+			stream.connect();
+			stream.addDataListener(mjpegDataListener);
+		} catch (Exception e) {
+			logger.warn("Problem connecting to MJPeg stream", e);
 		}
-
-		videoReceiver = mjpeg;
-		videoReceiver.addImageListener(listener);
-		videoReceiver.start();
 		initializeToolBar();
-
 	}
 
 	@Override
@@ -93,70 +88,24 @@ public class CameraView extends ViewPart {
 		super.dispose();
 		if (viewer != null) {
 			viewer.dispose();
-			videoReceiver.removeImageListener(listener);
+		}
+		if (stream != null) {
+			stream.disconnect();
 		}
 	}
 
 	private void initializeToolBar() {
+		Action openFiles = createAction("Open File", "Opens browser to locate an image file on disk",
+				"icons/folder_camera.png", () -> viewer.onFileOpen());
+
+		Action resetView = createAction("Reset view", "Reset panning and zooming", "icons/page_refresh.png",
+				() -> viewer.zoomFit());
+
+		Action start = createAction("Start", "Start video capture", "icons/camera.png", this::start);
+		Action stop = createAction("Stop", "Stop video capture", "icons/stop.png", this::stop);
+		Action snap = createAction("Snapshot", "Snap shot", "icons/folder_camera.png", this::openSnapshotDialog);
+
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
-
-		Action openFiles = new Action() {
-			@Override
-			public void run() {
-				viewer.onFileOpen();
-			}
-		};
-		openFiles.setText("Open File");
-		openFiles.setToolTipText("Opens browser to locate an image file on disk");
-		openFiles.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/folder_camera.png"));
-
-		Action resetView = new Action() {
-			@Override
-			public void run() {
-				viewer.zoomFit();
-			}
-		};
-		resetView.setText("Reset view");
-		resetView.setToolTipText("Reset panning and zooming");
-		resetView.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/page_refresh.png"));
-
-		Action start = new Action() {
-			@Override
-			public void run() {
-				start();
-			}
-		};
-		start.setText("Start");
-		start.setToolTipText("Start video capture");
-		start.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/camera.png"));
-
-		Action stop = new Action() {
-			@Override
-			public void run() {
-				stop();
-			}
-		};
-		stop.setText("stop");
-		stop.setToolTipText("stop video capture");
-		stop.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/stop.png"));
-
-		Action snap = new Action() {
-			@Override
-			public void run() {
-				FileDialog fileChooser = new FileDialog(viewer.getCanvas().getShell(), SWT.SAVE);
-				fileChooser.setText("Save image file");
-				fileChooser.setFilterPath(snapDirectory);
-				fileChooser.setFilterExtensions(new String[] { "*.jpg" });
-				fileChooser.setFilterNames(new String[] { "SWT image" + " (jpg)" });
-				String filename = fileChooser.open();
-				if (filename != null)
-					saveImage(filename, fileChooser.getFilterExtensions()[0]);
-			}
-		};
-		snap.setText("Snapshot");
-		snap.setToolTipText("Snap shot");
-		snap.setImageDescriptor(I18BeamlineActivator.getImageDescriptor("icons/folder_camera.png"));
-
 		toolbarManager.add(new Separator());
 		toolbarManager.add(openFiles);
 		toolbarManager.add(resetView);
@@ -166,33 +115,83 @@ public class CameraView extends ViewPart {
 		toolbarManager.add(snap);
 	}
 
-	public void saveImage(String filename, String format) {
-		ImageLoader loader = new ImageLoader();
-		loader.data = new ImageData[] { viewer.getImageData() };
-		try {
-			logger.debug("Saving file {} of the format {}", filename, format);
-			if (loader.data != null && loader.data.length != 0 && loader.data[0] != null)
-				loader.save(filename, SWT.IMAGE_JPEG);
-			else
-				logger.error("No image available");
-		} catch (SWTException e) {
-			logger.error("problem saving the image as " + format + "in file " + filename, e);
+	private Action createAction(String label, String toolTip, String imageName, Runnable runnable) {
+		Action action = new Action() {
+			@Override
+			public void run() {
+				runnable.run();
+			}
+		};
+		action.setText(label);
+		action.setToolTipText(toolTip);
+		action.setImageDescriptor(I18BeamlineActivator.getImageDescriptor(imageName));
+		return action;
+	}
+
+	private void openSnapshotDialog() {
+		String[] filterExtensions = { "*.jpg", "*.png" };
+
+		FileDialog fileChooser = new FileDialog(viewer.getCanvas().getShell(), SWT.SAVE);
+		fileChooser.setText("Save image file");
+		fileChooser.setFilterPath(snapDirectory);
+		fileChooser.setFilterExtensions(filterExtensions);
+		fileChooser.setFilterNames(new String[] { "JPG image (jpg)", "Png image (png)" });
+		String filename = fileChooser.open();
+		if (filename != null) {
+			String fileType = FilenameUtils.getExtension(filename).toUpperCase();
+			saveSnapshotImage(filename, fileType);
 		}
 	}
 
-	private final class VideoListener extends FindableBase implements ImageListener<ImageData> {
+	private void saveSnapshotImage(String filename, String format) {
+		logger.info("Saving snapshot in {} format to {}", format, filename);
+		try {
+			int formatNum = format.equals("PNG" ) ? SWT.IMAGE_PNG : SWT.IMAGE_JPEG;
+			ImageData data = getImageData();
+			ImageLoader saver = new ImageLoader();
+			saver.data = new ImageData[] { data};
+			saver.save(filename, formatNum);
+		} catch (Exception e) {
+			logger.warn("Problem collecting mjpeg image", e);
+		}
+
+	}
+
+	/**
+	 * Extract latest dataset from Live stream, and convert to make ImageData
+	 * (format suitable for plotting and saving).
+	 * @return
+	 * @throws Exception
+	 */
+	private ImageData getImageData() throws Exception {
+		Dataset dset = (Dataset) stream.getDataset().getSlice(null, null, null);
+		return SWTImageUtils.createImageData(dset, 0, 255, null);
+	}
+
+	private IDataListener mjpegDataListener = new IDataListener() {
+		private BeamCentreFigure beamCentreFigure;
+		private boolean layoutReset = false;
 
 		@Override
-		public void processImage(ImageData image) {
-			if (image == null)
+		public void dataChangePerformed(DataEvent event) {
+			logger.debug("Data changed event : {} , {}", event.getName(), event.getShape());
+			if (viewer == null) {
 				return;
-			if (viewer != null) {
-				viewer.loadImage(image);
-				initViewer();
+			}
+
+			try {
+				ImageData image = getImageData();
+				if (image != null) {
+					viewer.loadImage(image);
+					initViewer();
+				}
+			} catch (Exception e) {
+				logger.error("Problem collecting mjpeg image", e);
 			}
 		}
 
 		private void initViewer() {
+			// only layout after the first image has been loaded into the view.
 			if (!layoutReset) {
 				layoutReset = true;
 				viewer.getCanvas().getDisplay().asyncExec(() -> {
@@ -206,7 +205,7 @@ public class CameraView extends ViewPart {
 		private void updateBeamCentreFigure() {
 			int x = (viewer.getImageData().width - beamCentreFigure.getCrossHairSize().width) / 2;
 			int y = (viewer.getImageData().height - beamCentreFigure.getCrossHairSize().height) / 2;
-			beamCentreFigurePosition = new Rectangle(x, y, -1, -1);
+			Rectangle beamCentreFigurePosition = new Rectangle(x, y, -1, -1);
 			viewer.getTopFigure().setConstraint(beamCentreFigure, beamCentreFigurePosition);
 		}
 
@@ -217,7 +216,7 @@ public class CameraView extends ViewPart {
 				viewer.getTopFigure().add(beamCentreFigure, new Rectangle(0, 0, -1, -1));
 			}
 		}
-	}
+	};
 
 	private void start() {
 		// only do this if we are connected
