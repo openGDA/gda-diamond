@@ -19,8 +19,7 @@
 	<bean id="AnalyserLiveDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
 		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
 		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:SINGLE:ARR:ArrayData" />
-		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="numExposuresPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
@@ -39,8 +38,7 @@
 	<bean id="AnalyserSumDispatcher" class="uk.ac.diamond.daq.arpes.ui.e4.dispatcher.MbsArpesLiveDataDispatcherE4" init-method="configure">
 		<property name="analyserPVConfig" ref = "AnalyserPVConfig"/>
 		<property name="arrayPV" value="#{configProperties.ANALYSER_PV_BASENAME}:ARR:ArrayData" />
-		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:ArrayCounter_RBV" />
-		<property name="numExposuresPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
+		<property name="frameNumberPV" value="#{configProperties.ANALYSER_PV_BASENAME}:CAM:NumExposuresCounter_RBV" />
 		<property name="supportedAcquisitionModes">
 				<list>
 					<value>Fixed</value>
