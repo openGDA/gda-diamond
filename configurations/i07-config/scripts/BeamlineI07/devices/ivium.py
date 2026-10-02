@@ -207,7 +207,7 @@ class IviumPotentiastat:
     def isAcquiring(self):
         return caget(self.pvStem+"PORT"+str(1)+":Acquire") == str(1)
 
-ivium = IviumPotentiastat(pvStem="BL07I-EA-IVIUM-01:")
+ivium = IviumPotentiastat(pvStem="BL07I-EA-IVIUM-02:")
 
 
 def caputS(pv,string):
@@ -332,32 +332,32 @@ class IviumMethodScannable(ScannableBase):
 
 iviumPotential = IviumEpicsMonitor()
 iviumPotential.setController(ivium)
-iviumPotential.setPvName("BL07I-EA-IVIUM-01:CHAN1:MeasuredPotential_RBV")
+iviumPotential.setPvName("BL07I-EA-IVIUM-02:CHAN1:MeasuredPotential_RBV")
 iviumPotential.setName("iviumPotential")
 
 iviumCurrent = IviumEpicsMonitor()
 iviumCurrent.setController(ivium)
-iviumCurrent.setPvName("BL07I-EA-IVIUM-01:CHAN1:MeasuredCurrent_RBV")
+iviumCurrent.setPvName("BL07I-EA-IVIUM-02:CHAN1:MeasuredCurrent_RBV")
 iviumCurrent.setName("iviumCurrent")
 
 iviumRange = EpicsSimpleMbbinary()
 iviumRange.setName("iviumRange")
-iviumRange.setRecordName("BL07I-EA-IVIUM-01:PORT1:CurrentRange")
+iviumRange.setRecordName("BL07I-EA-IVIUM-02:PORT1:CurrentRange")
 iviumRange.configure()
 iviumRange.setReadOnly(False)
 
 
 iviumStatus = EpicsSimpleMbbinary()
 iviumStatus.setName("iviumStatus")
-iviumStatus.setRecordName("BL07I-EA-IVIUM-01:CHAN1:DeviceStatus_RBV")
+iviumStatus.setRecordName("BL07I-EA-IVIUM-02:CHAN1:DeviceStatus_RBV")
 iviumStatus.configure()
 iviumStatus.setReadOnly(True)
 
-iviumMethodS = IviumMethodScannable("iviumMethod", "BL07I-EA-IVIUM-01")
+iviumMethodS = IviumMethodScannable("iviumMethod", "BL07I-EA-IVIUM-02")
 iviumMethodS.configure()
 iviumMethodS.setLevel(100)
 
-ivium1 = ScannableIvium("ivium1", "BL07I-EA-IVIUM-01")
+ivium1 = ScannableIvium("ivium1", "BL07I-EA-IVIUM-02")
 
 """
 NOTES ON OPERATION IN DIRECT MODE
@@ -500,12 +500,12 @@ class CustomScanNumberFileWriter(MultipleImagesPerHDF5FileWriter):
 
 
 iviumNdFilePb = NDPluginBaseImpl()
-iviumNdFilePb.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFilePb.setBasePVName("BL07I-EA-IVIUM-02:HDF:")
 iviumNdFilePb.setInitialArrayPort("ADSIM.CAM")
 iviumNdFilePb.afterPropertiesSet()
 
 iviumNdFile = NDFileImpl()
-iviumNdFile.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFile.setBasePVName("BL07I-EA-IVIUM-02:HDF:")
 iviumNdFile.setPluginBase(iviumNdFilePb)
 iviumNdFile.setInitialWriteMode(0)
 iviumNdFile.setInitialNumCapture(1)
@@ -515,7 +515,7 @@ iviumNdFile.afterPropertiesSet()
 
 iviumNdFileHdf = NDFileHDF5Impl()
 iviumNdFileHdf.setFile(iviumNdFile)
-iviumNdFileHdf.setBasePVName("BL07I-EA-IVIUM-01:HDF:")
+iviumNdFileHdf.setBasePVName("BL07I-EA-IVIUM-02:HDF:")
 iviumNdFileHdf.afterPropertiesSet()
 #iviumNdFileHdf.configure()
 
