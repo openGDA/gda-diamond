@@ -43,7 +43,10 @@ class Keithley2400Current(ScannableMotionBase):
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.logger = logger.getChild(self.__class__.__name__)
-        
+
+    def set_compliance(self, val):
+        self.keithley.set_compliance("VOLT", val)
+
     def configure(self):
         self.keithley.reset() #Both *RST and :SYSTem:PREset enables source auto range
         self.keithley.senseFunction("VOLT")
@@ -148,8 +151,8 @@ class Keithley2400Current(ScannableMotionBase):
             raise
 
     def asynchronousMoveTo(self, value):
-        if not self.inScan:
-            self.configure()
+        #if not self.inScan:
+        #    self.configure()
         try:
             self._busy = True
             self.keithley.sourceValue("CURR", value)
@@ -182,6 +185,9 @@ class Keithley2400Voltage(ScannableMotionBase):
         self.config_wait = 2.0
         self._epics_wait = 0.1
         self.logger = logger.getChild(self.__class__.__name__)
+
+    def set_compliance(self, val):
+        self.keithley.set_compliance("CURR", val)
         
     def configure(self):
         self.keithley.reset()
@@ -288,8 +294,8 @@ class Keithley2400Voltage(ScannableMotionBase):
             raise
 
     def asynchronousMoveTo(self, value):
-        if not self.inScan:
-            self.configure()
+        #if not self.inScan:
+        #    self.configure()
         try:
             self._busy = True
             self.keithley.sourceValue("VOLT", value)
