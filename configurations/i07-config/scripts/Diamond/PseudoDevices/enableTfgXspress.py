@@ -1,8 +1,6 @@
 from java import lang
 from gda.factory import Finder
 from gda.device.scannable import ScannableMotionBase
-from gda.device import Scannable
-from time import sleep
 
 #The Class for creating a PEEM UView Detector as Psuedo Device
 #For PEEM UView in I06 only.
@@ -29,7 +27,7 @@ class TfgDetectorClass(ScannableMotionBase):
 		self.disableXspress();
 		print self.tfgXs.readout();
 		return -1;
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.tfgXs.setCollectionTime(newPos);
 		self.tfgXs.collectData();
@@ -45,7 +43,7 @@ class TfgDetectorClass(ScannableMotionBase):
 #		self.xs2.stop();
 		print "TfgXspress scan completed";
 
-	
+
 	def getCollectionTime(self):
 		print self.tfgXs.getCollectionTime();
 
@@ -54,10 +52,10 @@ class TfgDetectorClass(ScannableMotionBase):
 
 	def disableXspress(self):
 		self.xs2.stop();
-	
+
 	def setXsReadoutMode (self, mode):
 		self.xs2.setReadoutMode(mode);
-		
+
 
 tfgXp = TfgDetectorClass("tfgXp");
 

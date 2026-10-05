@@ -1,5 +1,4 @@
 
-from time import sleep;
 import sys;
 import socket;
 
@@ -34,6 +33,6 @@ while True:
 		print "Received <-- " + repr(reply);
 	except SocketError:
 		print "Catch a Timeout Error";
-		
-		
+
+
 

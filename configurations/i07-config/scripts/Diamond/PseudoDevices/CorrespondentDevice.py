@@ -1,6 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
-from gda.device import Scannable
-from gda.factory import Finder
+from time import sleep
 
 import __main__ as gdamain
 
@@ -46,12 +45,12 @@ class CorrespondentDeviceClass(ScannableMotionBase):
 		#return eval(self.bFun + "("+ str(y) +")");
 		x = vars(gdamain)[self.funNameBackward](y);
 		return x;
-		
+
 	def funForeward(self, x):
 		#return eval(self.fFun + "("+ str(x) +")");
 		y=vars(gdamain)[self.funNameForeward](x);
 		return y;
-	
+
 
 	def getPosition(self):
 #		self.X=eval(self.refObjName + ".getPosition()");
@@ -63,7 +62,7 @@ class CorrespondentDeviceClass(ScannableMotionBase):
 		#self.lowLimitYGap = self.funBladeToGap(float(strLo.split(' ',1)[0]));
 		#self.highLimitYGap = self.funBladeToGap(float(strHi.split(' ',1)[0]));
 		return self.y;
-	
+
 	def moveTo(self, new_position):
 		printed = False;
 		while self.isBusy():
@@ -71,10 +70,10 @@ class CorrespondentDeviceClass(ScannableMotionBase):
 				print "Target object is busy, waiting...";
 				printed = True;
 			sleep(0.2);
-			
+
 		print "Target object is ready. Now moving...";
 		self.refObj.moveTo(self.x);
-	
+
 	def asynchronousMoveTo(self, new_position):
 		self.y = new_position;
 		self.x=self.funBackward(self.y);
@@ -82,7 +81,7 @@ class CorrespondentDeviceClass(ScannableMotionBase):
 
 	def isBusy(self):
 		return self.refObj.isBusy();
-	
+
 	def stop(self):
 		return self.refObj.stop();
 
@@ -106,7 +105,7 @@ class CorrespondentDeviceClass(ScannableMotionBase):
 #			format= '%20s  :  ' + outformat[i]+'  %s \n';
 #			s=s + format % (names[i], values, self.getUnits());
 #		return s;
-	
+
 	def setUnits(self, units):
 		self.Units=units;
 

@@ -1,4 +1,3 @@
-from time import sleep
 from java import lang
 #from gda.device.scannable import ScannableBase
 #from gda.device import Scannable
@@ -18,7 +17,7 @@ import scisoftpy as dnp
 # pvScanReady02       = 'BL06I-MO-FSCAN-01:PGM:MODE.RVAL'
 # pvScanReady03       = 'BL06I-MO-FSCAN-01:ID:ENABLE.RVAL'
 # pvScanReady04       = 'BL06I-MO-FSCAN-01:DATA:OK.RVAL'
-# 
+#
 # #setup PVs
 # pvStartEnergy       = 'BL06I-MO-FSCAN-01:EV:START'
 # pvEndEnergy        = 'BL06I-MO-FSCAN-01:EV:FINISH'
@@ -28,7 +27,7 @@ import scisoftpy as dnp
 # pvBuildButton       = 'BL06I-MO-FSCAN-01:BUILD'
 # pvStartButton        = 'BL06I-MO-FSCAN-01:START'
 # pvReadyState       = 'BL06I-MO-FSCAN-01:RUN:STATE'
-# 
+#
 # #waveform PVs
 # #pvDataChannel01 = 'BL06I-DI-8512-02:CH1DATA'
 # #pvDataChannel02 = 'BL06I-DI-8512-02:CH2DATA'
@@ -37,7 +36,7 @@ import scisoftpy as dnp
 # #pvEnergyIDGAP  = 'BL06I-DI-8512-02:CH5DATA'
 # #pvEnergyPGM     = 'BL06I-DI-8512-02:CH6DATA'
 # #pvElementCounter='BL06I-DI-8512-02:ELEMENTCOUNTER'
-# 
+#
 # pvDataChannel01 = 'BL06I-MO-FSCAN-01:CH1DATA'
 # pvDataChannel02 = 'BL06I-MO-FSCAN-01:CH2DATA'
 # pvDataChannel03 = 'BL06I-MO-FSCAN-01:CH3DATA'
@@ -70,7 +69,7 @@ class FastEnergyScanClass:
 		self.scanReady02 = CAClient(pvScanReady02);
 		self.scanReady03 = CAClient(pvScanReady03);
 		self.scanReady04 = CAClient(pvScanReady04);
-		
+
 		self.scanStatus='Idle';
 		self.arrayHead=0;
 
@@ -216,7 +215,7 @@ class FastEnergyScanClass:
 			self.scanStatus = newScanStatus;
 			print self.scanStatus;
 		return self.scanStatus;
-				
+
 	def isBusy(self):
 		strStatus = self.getStatus();
 		if strStatus == 'Scan complete':
@@ -267,7 +266,7 @@ class FastEnergyScanClass:
 			arrayChannel02=self.channel02.cagetArrayDouble();
 			arrayChannel03=self.channel03.cagetArrayDouble();
 			arrayChannel04=self.channel04.cagetArrayDouble();
-			
+
 			for i in range( numberOfPoints):
 				if arrayEnergyPGM[i] < self.se:
 					continue;
@@ -299,7 +298,7 @@ class FastEnergyScanClass:
 		arrayChannel02=self.channel02.cagetArrayDouble();
 		arrayChannel03=self.channel03.cagetArrayDouble();
 		arrayChannel04=self.channel04.cagetArrayDouble();
-		
+
 		dataSetPGM=dnp.array([numberOfPoints]);
 
 		for i in range( numberOfPoints ):
@@ -326,22 +325,22 @@ class FastEnergyScanClass:
 
 		dataSetEnergyPGM=dnp.zeros([newHead]);
 		dataSetEnergyPGM.setName("PGM Energy");
-		
+
 		dataSetEnergyIDGAP=dnp.zeros([newHead]);
 		dataSetEnergyIDGAP.setName("ID Gap Energy")
-		
-		dataSetChannel01=dnp.zeros([newHead]); 
+
+		dataSetChannel01=dnp.zeros([newHead]);
 		dataSetChannel01.setName("Channel 1");
-		
-		dataSetChannel02=dnp.zeros([newHead]); 
+
+		dataSetChannel02=dnp.zeros([newHead]);
 		dataSetChannel02.setName("Channel 2");
-		
+
 		dataSetChannel03=dnp.zeros([newHead]);
 		dataSetChannel03.setName("Channel 3");
-		
+
 		dataSetChannel04=dnp.zeros([newHead]);
 		dataSetChannel04.setName("Channel 4");
-		
+
 		for i in range(0, newHead):
 			#print i, arrayEnergyPGM[i], arrayEnergyIDGAP[i], arrayChannel01[i], arrayChannel02[i], arrayChannel03[i], arrayChannel04[i];
 			dataSetEnergyPGM[i] = arrayEnergyPGM[i]
@@ -359,5 +358,5 @@ class FastEnergyScanClass:
 
 
 #lpr -P b.i06.cc1.col.1 -o InputSlot=Auto -o Resolution=600dpi -o PageSize=A4 -o Duplex=DuplexNoTumble
-	
-	
+
+

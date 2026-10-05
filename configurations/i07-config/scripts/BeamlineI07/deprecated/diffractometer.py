@@ -1,8 +1,5 @@
 raise DeprecationWarning("This script is no longer supported (as of November 2018) and should not be used")
 
-from time import sleep
-
-
 from Diamond.PseudoDevices.DiffractometerDevices import DiffractometerModeClass, DiffractometerAxisClass;
 
 """

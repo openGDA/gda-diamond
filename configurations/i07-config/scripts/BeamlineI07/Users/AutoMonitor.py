@@ -1,4 +1,5 @@
 from gda.device.detector import DetectorBase
+from time import sleep
 
 #
 # Class for creating monitors that automatically set their integration times
@@ -30,7 +31,7 @@ class AutoMonitor(DetectorBase):
         return self.detector.getCollectionTime()
 
     def getPosition(self):
-        return self.monitor.getPosition()        
+        return self.monitor.getPosition()
 
     def asynchronousMoveTo(self, time):
         self.monitor.asynchronousMoveTo(time)

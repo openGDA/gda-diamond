@@ -18,8 +18,6 @@ from gda.jython import ScriptBase;
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 logger=ScriptLoggerClass();
 
-
-from time import sleep;
 import math;
 import sys, os, stat, shutil;
 
@@ -35,39 +33,39 @@ class PolarisationError(Exception):
         self.msg = msg
     def __str__(self):
         return repr(self.msg)
-    
+
 class EnergyError(Exception):
     def __init__(self, msg):
         self.msg = msg
     def __str__(self):
         return repr(self.msg)
-    
+
 class MagneticDichroismDevice(object):
-                           #Reference            Real value                 
+                           #Reference            Real value
     PolarisationCommand={   'LinearHorizontal' : 'Horizontal',
                             'LinearVertical'   : 'Vertical',
                             'PositiveCircular' : 'PosCirc',
                             'NegativeCircular' : 'NegCirc' };
 
-    
+
     def __init__(self, name, imageDetector, energyDevice, polarisationDevice):
         self.name = name;
-        
+
         self.detector = imageDetector;
         self.energyDevice = energyDevice;
         self.polarisationDevice=polarisationDevice;
 
     def setImageDetector(self, imageDetector):
         self.detector = imageDetector;
-    
+
     def setEnergyDevice(self, energyDevice):
         self.energyDevice = energyDevice;
         return self.energyDevice.getPosition();
-    
+
     def setPolarisationDevice(self, polarisationDevice):
         self.polarisationDevice = polarisationDevice;
         return self.polarisationDevice.getPosition();
-    
+
     def setEnergy(self, energy):
         try:
             self.energyDevice.moveTo(energy);
@@ -76,7 +74,7 @@ class MagneticDichroismDevice(object):
             print "XXXXXXXXXX:  Errors when changing the energy."
             logger.dump("---> ", exceptionType, exception, traceback)
             raise EnergyError("Eenergy Error");
-        
+
     def getEnergy(self):
         try:
             return self.energyDevice.getPosition();
@@ -85,7 +83,7 @@ class MagneticDichroismDevice(object):
             print "XXXXXXXXXX:  Errors when changing the energy."
             logger.dump("---> ", exceptionType, exception, traceback)
             raise EnergyError("Eenergy Error");
-        
+
     def setPolarisation(self, polarisation):
         try:
             self.polarisationDevice.moveTo(MagneticDichroismDevice.PolarisationCommand[polarisation]);
@@ -94,7 +92,7 @@ class MagneticDichroismDevice(object):
             print "XXXXXXXXXX:  Errors when changing the polarisation."
             logger.dump("---> ", exceptionType, exception, traceback)
             raise PolarisationError("Polarisation Error");
-        
+
     def getPolarisation(self):
         try:
             return self.polarisationDevice.getPosition();
@@ -103,20 +101,20 @@ class MagneticDichroismDevice(object):
             print "XXXXXXXXXX:  Errors when getting the polarisation."
             logger.dump("---> ", exceptionType, exception, traceback)
             raise PolarisationError("Polarisation Error");
-        
+
     def createPrecessingDir(self, subDir):
         """Set file path and name"""
         #Get the current data directory
         dataDir = InterfaceProvider.getPathConstructor().createFromDefaultProperty();
-        
+
         fullPath = os.path.join(dataDir, "processing", subDir);
-        
+
         if not os.path.exists(fullPath):
             #logger.simpleLog( "Warning: Image processing directory does not exist. Create new" );
             #print "OS Command: " + "umask 0002; mkdir -p " + fullPath;
             os.system("umask 0002; mkdir -p " + fullPath);
-            
-#        Check the new path created.        
+
+#        Check the new path created.
         if not os.path.exists(fullPath):
             logger.simpleLog( "Error: Image processing directory does not exist and can not be created")
             raise Exception("Directory can not be created.");
@@ -129,8 +127,8 @@ class MagneticDichroismDevice(object):
         for f in fileList:
 #            os.system("cp -p " + f + " " + targetDir);
             shutil.copy2(f, targetDir);
-            
-        
+
+
     def getFullFileName(self):
         """Returns file path of the LAST CREATED image"""
         return self.detector.getFullFileName();
@@ -139,7 +137,7 @@ class MagneticDichroismDevice(object):
 
         #To setup the new directory for images
         self.detector.scanImageDirectory();
-        
+
         #To create a new xmcd folder based on xmcd run number
         #get current scan number
         nt = NumTracker(trackerName);
@@ -150,8 +148,8 @@ class MagneticDichroismDevice(object):
         nt.incrementNumber();
         return targetDir;
 
-    
-    #To mvoe the energy, shot multiple shots and copy file to a processing directory    
+
+    #To mvoe the energy, shot multiple shots and copy file to a processing directory
     def action(self, energy, numberOfImages, integrationTime, targetDir):
 #        ScriptBase.checkForPauses();
         self.setEnergy(energy);
@@ -163,7 +161,7 @@ class MagneticDichroismDevice(object):
         self.detector.setCollectionTime(integrationTime);
         fileList = self.detector.multiShot(numberOfImages, None, False);
         self.copyFiles(fileList, targetDir);
-        
+
         return [[energy]*len(fileList), [pol]*len(fileList), fileList];
 
     def saveSRSData(self, energy, pol, fileList):
@@ -184,7 +182,7 @@ class MagneticDichroismDevice(object):
 
             titleLine='%(v1)s \t %(v2)s \t %(v3)s \n' %{'v1': self.energyDevice.getName(), 'v2': self.polarisationDevice.getName(), 'v3': self.detector.getName()};
             fh.write(titleLine);
-            
+
             nf=len(fileList);
             for n in range(nf):
                 #print i, arrayEnergyPGM[i], arrayEnergyIDGAP[i], arrayChannel01[i], arrayChannel02[i], arrayChannel03[i], arrayChannel04[i];
@@ -194,7 +192,7 @@ class MagneticDichroismDevice(object):
             print "Scan complete. File saved in " + fileName;
         except:
             print "ERROR: Could not save data into file."
-    
+
     #X-ray magnetic circular dichroism
     def xmcd(self, startEnergy, endEnergy, numberOfImages, integrationTime):
         logger.simpleLog( "X-ray magnetic circular dichroism images acquisition...");
@@ -202,19 +200,19 @@ class MagneticDichroismDevice(object):
         #To prepare the xmd tracker and directory
         targetDir=self.prepare();
         energy=[];pol=[];source=[];
-        
+
         try:
             #To change to Positive Circular Polarisation
             logger.simpleLog( "To change polarisation and energy...");
             self.setPolarisation('PositiveCircular');
-            
+
             #To take multiple shots at start energy point
             [e, p, s]=self.action(startEnergy, numberOfImages, integrationTime, targetDir);
             energy.extend(e);pol.extend(p), source.extend(s);
             #To take multiple shots at end energy point
             [e, p, s]=self.action(endEnergy, numberOfImages, integrationTime, targetDir)
             energy.extend(e);pol.extend(p), source.extend(s);
-            
+
             #To change to Negative Circular Polarisation
             logger.simpleLog( "To change polarisation and energy...");
             self.setPolarisation('NegativeCircular');
@@ -224,15 +222,15 @@ class MagneticDichroismDevice(object):
             #To take multiple shots at end energy point
             [e, p, s]=self.action(endEnergy, numberOfImages, integrationTime, targetDir)
             energy.extend(e);pol.extend(p), source.extend(s);
-            
+
             #To create a SRS data file for this scan
             self.saveSRSData(energy, pol, source);
-            
+
         except (PolarisationError, EnergyError), e:
             print e;
         except:
             raise;
-        
+
         print "For analysis, images are copied to : " + targetDir;
         return targetDir;
 
@@ -242,7 +240,7 @@ class MagneticDichroismDevice(object):
         #To prepare the xmd tracker and directory
         targetDir=self.prepare();
         energy=[];pol=[];source=[];
-        
+
         try:
             logger.simpleLog( "To change polarisation and energy...");
             #To change to Linear Horizontal Polarisation
@@ -253,7 +251,7 @@ class MagneticDichroismDevice(object):
             #To take multiple shots at end energy point
             [e,p,s]=self.action(endEnergy, numberOfImages, integrationTime, targetDir)
             energy.extend(e);pol.extend(p), source.extend(s);
-            
+
             logger.simpleLog( "To change polarisation and energy...");
             #To change to Linear Vertical Polarisation
             self.setPolarisation('LinearVertical');
@@ -263,26 +261,26 @@ class MagneticDichroismDevice(object):
             #To take multiple shots at end energy point
             [e,p,s]=self.action(endEnergy, numberOfImages, integrationTime, targetDir)
             energy.extend(e);pol.extend(p), source.extend(s);
-            
+
             #To create a SRS data file for this scan
             self.saveSRSData(energy, pol, source);
-            
+
         except (PolarisationError, EnergyError), e:
             print e;
         except:
             raise;
-        
+
         print "For analysis, images are copied to : " + targetDir;
         return targetDir;
 
     #X-ray magnetic dichroism
     def xmd(self, startEnergy, endEnergy, numberOfImages, integrationTime):
         logger.simpleLog( "X-ray magnetic dichroism images acquisition...");
-        
+
         #To prepare the xmd tracker and directory
         targetDir=self.prepare();
         energy=[];pol=[];source=[];
-        
+
         try:
             logger.simpleLog( "To change energy...");
             #To take multiple shots at start energy point
@@ -292,22 +290,22 @@ class MagneticDichroismDevice(object):
             logger.simpleLog( "To change energy...");
             [e,p,s]=self.action(endEnergy, numberOfImages, integrationTime, targetDir)
             energy.extend(e);pol.extend(p), source.extend(s);
-            
+
             #To create a SRS data file for this scan
             self.saveSRSData(energy, pol, source);
-            
+
         except (PolarisationError, EnergyError), e:
             print e;
         except:
             raise;
-        
+
         print "For analysis, images are copied to : " + targetDir;
         return targetDir;
 
     def xmlde(self, startEnergy, endEnergy, numberOfImages, integrationTime):
         return self.xmd(startEnergy, endEnergy, numberOfImages, integrationTime);
 
-    
+
 #Example:
 
 #md=MagneticDichroismDevice("md", imageDetector, energyDevice, polarisationDevice);
@@ -317,4 +315,3 @@ class MagneticDichroismDevice(object):
 #md.xmld(400, 500, 10, 0.5);
 #md.xmlde(400, 500, 10, 0.5);
 
-   

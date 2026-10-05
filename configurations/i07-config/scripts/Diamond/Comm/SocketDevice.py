@@ -1,6 +1,5 @@
 # -*- coding: utf8 -*-
 
-from time import sleep;
 import socket;
 
 #For TCP client sockets
@@ -29,13 +28,13 @@ class SocketDeviceClass(object):
 		self.socket=None; # socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 
 #		print "Default Socket Timeout: " + str(socket.getdefaulttimeout());
-		
+
 	def setTimeout(self, newTimeout):
 		self.timeOut = newTimeout;
 		print "Default Socket Timeout: " + str(socket.getdefaulttimeout());
 		socket.setdefaulttimeout(self.timeOut);
-		
-	#Socket connection implementation		
+
+	#Socket connection implementation
 	def setupServer(self, hostName, hostPort):
 		self.serverHost = hostName;
 		self.serverPort = hostPort;
@@ -46,7 +45,7 @@ class SocketDeviceClass(object):
 #		self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1);
 #		self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1);
 #		self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_TIMEOUT, 3);
-		
+
 		try:
 			self.socket.connect((self.serverHost,self.serverPort));
 			self.socket.settimeout(self.timeOut);
@@ -83,13 +82,13 @@ class SocketDeviceClass(object):
 		data = None;
 		if retry < 0:
 			retry = 1;
-			
+
 		for i in range(retry+1):
 			try:
 				data = self.sendAndReply(strSend);
 				return data;
 			except SocketError, msg:
-				print "Communication Error with Server: " + str(msg); 
+				print "Communication Error with Server: " + str(msg);
 				print "Retry... " + str(i);
 
 		raise SocketError("Retry Efforts Failed");
@@ -128,7 +127,7 @@ class SingleSessionSocketDeviceClass(SocketDeviceClass):
 		except socket.error, msg:
 			raise SocketError( str(msg) );
 			data = 'Connection Error, other exceptions.';
-		
+
 		print 'Received ->' + data; print;
 		return data;
 
@@ -141,7 +140,7 @@ class SingleSessionSocketDeviceClass(SocketDeviceClass):
 		except socket.error, msg:
 			raise SocketError( str(msg) );
 
-		
+
 	def receive(self):
 		try:
 			data = self.socket.recv(1024);

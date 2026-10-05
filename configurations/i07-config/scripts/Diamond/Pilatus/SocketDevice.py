@@ -1,5 +1,3 @@
-
-from time import sleep;
 import socket;
 
 #The Class for creating a socket-based Device
@@ -10,9 +8,9 @@ class SingleSessionSockteDeviceClass(object):
 
 		self.socket=None; # socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 		self.connectionStatus = False;
-		
 
-	#Socket connection implementation		
+
+	#Socket connection implementation
 	def setupServer(self, hostName, hostPort):
 		self.serverHost = hostName;
 		self.serverPort = hostPort;
@@ -43,7 +41,7 @@ class SingleSessionSockteDeviceClass(object):
 		except socket.error, msg:
 			print 'something wrong: ' + str(msg);
 			data = 'Connection Error, other exceptions.';
-		
+
 		print 'Received ->' + data; print;
 		return data;
 
@@ -61,7 +59,7 @@ class SockteDeviceClass(object):
 		#socket.setdefaulttimeout(10);
 		#self.socket.settimeout(10);
 
-	#Socket connection implementation		
+	#Socket connection implementation
 	def setupServer(self, hostName, hostPort):
 		self.serverHost = hostName;
 		self.serverPort = hostPort;
@@ -80,7 +78,7 @@ class SockteDeviceClass(object):
 		except socket.error, msg:
 			print 'something wrong: ' + str(msg);
 			data = 'Connection Error, other exceptions.';
-		
+
 		print 'Received ->' + data; print;
 		self.socket.close();
 		return data;

@@ -1,7 +1,4 @@
-from time import sleep
-from java import lang
 from gda.device.scannable import ScannableMotionBase
-from gda.device import Scannable
 from gda.epics import CAClient
 
 #The Class for creating a Scaler channel monitor directly from EPICS PV
@@ -25,7 +22,7 @@ class PositionerPVClass(ScannableMotionBase):
 	#Scannable Implementations
 	def getPosition(self):
 		return self.getCount();
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.setCollectionTime(newPos);
 		self.collectData();
