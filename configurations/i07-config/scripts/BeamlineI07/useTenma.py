@@ -3,20 +3,20 @@ from gda.epics import CAClient
 from gdascripts.installation import isDummy as checkIfDummy
 
 class TenmaPsu(ScannableMotionBase):
-    
+
     possible_modes = ("I", "V")
 
     class dummy_single_value_chan():
-        
+
         def __init__(self):
             self.value = 0
-        
+
         def caget(self):
             return self.value
-        
+
         def caput(self, new_value):
             self.value = new_value
-    
+
     def __init__(self, name, pvBase):
         self.setName(name)
         self.isDummy = checkIfDummy()
@@ -33,24 +33,34 @@ class TenmaPsu(ScannableMotionBase):
             self.readCurrentChan.clearup()
             self.setVoltageChan.clearup()
             self.setCurrentChan.clearup()
-                
+            self.outputCheckChannel.clearup()
+            self.outputOffChannel.clearup()
+            self.outputOnChannel.clearup()
+
     def epicsSetup(self, pvBase):
         if self.isDummy :
             self.readVoltageChan = self.dummy_single_value_chan()
             self.readCurrentChan = self.dummy_single_value_chan()
             self.setVoltageChan = self.readVoltageChan
             self.setCurrentChan = self.readCurrentChan
+            self.outputCheckChannel = self.dummy_single_value_chan()
+            self.outputOffChannel = self.dummy_single_value_chan()
+            self.outputOnChannel = self.dummy_single_value_chan()
+            self.outputCheckChannel.caput(1)
         else :
             self.readVoltageChan = self.createChannel(pvBase + ':VOLTAGE')
             self.readCurrentChan = self.createChannel(pvBase + ':CURRENT')
             self.setVoltageChan = self.createChannel(pvBase + ':SET_VOLTAGE')
             self.setCurrentChan = self.createChannel(pvBase + ':SET_CURRENT')
-        
+            self.outputCheckChannel = self.createChannel(pvBase + ':STATUS_RBV.B6')
+            self.outputOffChannel = self.createChannel(pvBase + ':OUTPUT_OFF.PROC')
+            self.outputOnChannel = self.createChannel(pvBase + ':OUTPUT_ON.PROC')
+
     def createChannel(self, pv):
         chan = CAClient(pv)
         chan.configure()
         return chan
-    
+
     def getPosition(self):
         """Gets the Voltage and Current"""
         V = self.readVoltageChan.caget()
@@ -62,12 +72,12 @@ class TenmaPsu(ScannableMotionBase):
         if self.target == None :
             return False
         elif self.mode == "I" :
-            return abs(self.readCurrentChan.caget() - self.target) < 0.01
+            return abs(float(self.readCurrentChan.caget()) - self.target) > 0.01
         elif self.mode == "V" :
-            return abs(self.readVoltageChan.caget() - self.target) < 0.01
+            return abs(float(self.readVoltageChan.caget()) - self.target) > 0.01
         else :
             raise ValueError("Mode must be I (current) or V (voltage)")
-    
+
     def setCurrent(self, current):
         self.target = current
         self.setCurrentChan.caput(current)
@@ -78,11 +88,15 @@ class TenmaPsu(ScannableMotionBase):
 
     def asynchronousMoveTo(self, new_position):
         """Allows scanning over the Current or Voltage depending on the mode"""
+        if self.outputCheckChannel.caget() != "1" :
+            raise RuntimeError("Output is off and the voltage/current will not update, please check the tenma IOC")
         if self.mode == "I" :
             self.setCurrent(new_position)
         elif self.mode == "V" :
             self.setVoltage(new_position)
-            
+        else :
+            raise ValueError("Mode must be I (current) or V (voltage)")
+
     def setMode(self, new_mode):
         if self.isBusy() :
             print "Device busy, not setting mode."
@@ -92,6 +106,12 @@ class TenmaPsu(ScannableMotionBase):
         else :
             self.mode = new_mode
             self.target = None
+
+    def outputOn(self):
+        self.outputOnChannel.caput(1)
+
+    def outputOff(self):
+        self.outputOffChannel.caput(1)
 
 tenma = TenmaPsu("tenma", "BL07I-EA-TENMA-01")
 
