@@ -173,7 +173,7 @@ if isLive() :
 	run "transmissions.py"
 
 from BeamlineI07.devices.IviumDevice import IviumMethodScannableClass
-ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-01", 1, subdir = "processing")
+ivium_method = IviumMethodScannableClass("ivium_method", "BL07I-EA-IVIUM-02", 1, subdir = "processing")
 
 from BeamlineI07.zocalofunctions import currentscan, mapstart, mapend, checkzocalo
 from BeamlineI07.laptop_devices.seabreeze_client import sb
