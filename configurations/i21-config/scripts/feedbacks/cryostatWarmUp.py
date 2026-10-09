@@ -77,9 +77,9 @@ class CryostatWarmUp(ScannableBase, Runnable):
 
     def asynchronousMoveTo(self, new_temp):
         heater_range =self.cryostat.getHeaterRange()
-        if new_temp > 100 and heater_range != 3:
+        if new_temp > 79 and heater_range != 3:
             self.cryostat.setHeaterRange(3)
-        elif new_temp <= 100 and heater_range != 2:
+        elif new_temp <= 79 and heater_range != 2:
             self.cryostat.setHeaterRange(2)
         existingTemperature=self.cryostat.getCurrentDemandTemperature()
         if new_temp > existingTemperature:
