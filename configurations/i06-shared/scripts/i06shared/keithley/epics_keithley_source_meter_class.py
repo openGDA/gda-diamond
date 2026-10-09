@@ -263,7 +263,9 @@ class EpicsKeithleySourceMeter(object):
                 while self.get_response() == '+':
                     sleep(self.read_wait)
         if self.enable_output_control_per_point:
-            self.outputOff()
+            # Disabled - see https://jira.diamond.ac.uk/browse/I06-1465
+            pass
+            # self.outputOff()
                 
     def prepare_trace_buffer(self, count):
         '''
