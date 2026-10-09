@@ -36,7 +36,7 @@ class SuperconductingMagnetClass(object):
 #        self.Units=['Telsa','Deg','Deg'];
 #        self.setLevel(7);
 		self.magnetRootPV = rootPV;
-		self.timeoutLimit = 300;
+		self.timeoutLimit = 600;
 		self._delay = 5;
 		self._tolerance = 0;
 
