@@ -13,11 +13,11 @@
 		</property>
 	</bean>
 
-	<bean id="dldAcquirePeriod" class="gda.device.scannable.PVScannable">
-		<property name="pvName" value="BL09K-EA-DET-01:CAM:AcquirePeriod"/>
+	<bean id="dldProcFrames" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL09K-EA-DET-01:PROC:NumFilter"/>
 		<property name="outputFormat">
 			<list>
-				<value>%4.3f</value>
+				<value>%3d</value>
 			</list>
 		</property>
 	</bean>
@@ -53,7 +53,7 @@
 		</property>
 	</bean>
 
-	<bean id="numFilter" class="gda.device.scannable.PVScannable">
+	<bean id="dld_movsum1_control" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:SUM1:NumFilter"/>
 		<property name="outputFormat">
 			<list>
@@ -62,7 +62,7 @@
 		</property>
 	</bean>
 
-	<bean id="numFilter_monitor" class="gda.device.scannable.PVScannable">
+	<bean id="dld_movsum1_control_monitor" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:SUM1:NumFiltered_RBV"/>
 		<property name="outputFormat">
 			<list>
@@ -71,9 +71,5 @@
 		</property>
 	</bean>
 
-	<bean id="dld_movsum1_control" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL09K-EA-DET-01:SUM1:EnableCallbacks"/>
-		<property name="readOnly" value="false"/>
-	</bean>
 
 </beans>

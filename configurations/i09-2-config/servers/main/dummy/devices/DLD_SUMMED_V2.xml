@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	
+
 	<!-- Area Detector EPICS Plugins -->
 	<bean id="dld_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
 	</bean>
-	
+
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="dld_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
 	<bean id="dld_roi_rmi" class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
@@ -17,7 +17,7 @@
 		<property name="service" ref="dld_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
-	
+
 	<bean id="mcp_roi"	class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="0" />
 		<property name="ystart" value="0" />
@@ -31,10 +31,10 @@
 		<property name="xsize" value="1212" />
 		<property name="ysize" value="1212" />
 	</bean>
-	
+
 <!-- 	This configuration requires beans from DLD.XML -->
-	<bean id="dld_proc_summed" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" /> 
+	<bean id="dld_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
@@ -42,20 +42,8 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<!-- This one is used to get basePVname in collection strategy -->
-	<bean id="dld_summed_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
-				<property name="initialArrayPort" value="ADSIM.rois.roi1" />
-			</bean>
-		</property>
-	</bean>
-	
 
-	<bean id="dld_summed_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+	<bean id="dld_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
@@ -64,8 +52,8 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="dld_summed_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+
+	<bean id="dld_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
@@ -78,48 +66,39 @@
 		<property name="initialFileName" value="dld" />
 		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
 	</bean>
-	<bean id="dld_summed_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+	<bean id="dld_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
-		<property name="file" ref="dld_summed_ndfile" />
+		<property name="file" ref="dld_ndfile" />
 		<property name="attrByDimPVsAvailable" value="false"/>
 		<property name="swmrModePVsAvailable" value="false"/>
 	</bean>
 
 	<!-- ROI-STAT pairs -->
-	<bean id="dld_summed_RoiStats_Fixed" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="dld_summed_RoiStats_Fixed" />
+
+	<bean id="dld_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dld_RoiStats" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
 		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
-		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider" ref="mcp_roi" />
-		<property name="legacyTSpvs" value="false"/>
-	</bean>
-	<bean id="dld_summed_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="dld_summed_RoiStats1" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="ADSIM.proc" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="dld_roi" />
-	            <property name="index" value="0" />
-	        </bean>
+		<property name="enabledBasicStats">
+			<list>
+				<value>Total</value>
+				<value>MeanValue</value>
+			</list>
 		</property>
+		<property name="roiProvider" ref="mcp_roi"/>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
-	
+
 		<!-- Python plugin -->
-	<bean id="dld_summed_ndPython" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
+	<bean id="dld_ndPython" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
 		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PY" />
 <!-- 		these parameters are not set - just to please class afterPropertiesSet() method -->
 		<property name="pythonParameters">
-	    	<map>
-	       	 	<entry key="output" value="Int2_RBV" />
-	   	 	</map>
+				<map>
+							<entry key="output" value="Int2_RBV" />
+					</map>
 		</property>
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
@@ -128,33 +107,17 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="dld_summed_python" class="gda.device.detector.nxdetector.plugin.areadetector.ADPythonPlugin">
-		<property name="ndPython" ref="dld_summed_ndPython" />
+
+	<bean id="dld_python" class="gda.device.detector.nxdetector.plugin.areadetector.ADPythonPlugin">
+		<property name="ndPython" ref="dld_ndPython" />
 		<property name="inputPort" value="ADSIM.proc"/>
 		<property name="enableFileLoad" value="false"/>
 		<property name="enableClassLoad" value="false"/>
 		<property name="enableParameterValuesLoad" value="false"/>
 	</bean>
-	
-	<bean id="dld_summed_python_RoiStats_Fixed" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="dld_summed_python_RoiStats_Fixed" />
-		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
-		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="ADSIM.PY" />
-		<property name="enabledBasicStats">
-			<list>
-				<value>Total</value>
-				<value>MeanValue</value>
-			</list> 
-		</property>
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider" ref="mcp_python_roi" />
-		<property name="legacyTSpvs" value="false"/>
-	</bean>
-		
-	<bean id="dld_summed_python_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="dld_summed_python_RoiStats" />
+
+	<bean id="dld_python_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="dld_python_RoiStats" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
 		<property name="roiInputNdArrayPort" value="ADSIM.PY" />
@@ -162,16 +125,64 @@
 			<list>
 				<value>Total</value>
 				<value>MeanValue</value>
-			</list> 
-		</property> 
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
-	            <property name="liveStreamRoiProvider" ref="dld_roi" />
-	            <property name="index" value="1" /> 
-	        </bean>
+			</list>
 		</property>
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider" ref="mcp_python_roi"/>
 		<property name="legacyTSpvs" value="false"/>
 	</bean>
-		
+
+	<!--  HDF5 plugin configuration -->
+	<bean id="dldHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="dld_hdf5"/>
+		<property name="fileNameTemplate" value="dld"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="SwmrModeEnabled" value="false"/>
+		<property name="ndArrayPortVal" value="ADSIM.proc"/>
+	</bean>
+
+
+	<!-- This one is used to get basePVname in collection strategy -->
+	<bean id="dld_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+				<property name="initialArrayPort" value="ADSIM.rois.roi1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dldCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+		<property name="ndProcess" ref="dld_proc"/>
+		<property name="processDataTypeOut" value="10"/>
+		<property name="restoreState" value="true"/>
+		<property name="applyFlatFieldSettings"	value="false"/>
+		<property name="applyProcessDataTypeOutSettings" value="true"/>
+		<property name="skipFrame"	value="true"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ProcStartStop">
+						<property name="ndProcess" ref="dld_proc"/>
+						<property name="adBase" ref="dld_adbase" />
+						<property name="procMonitorPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:ArrayCounter_RBV" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 </beans>

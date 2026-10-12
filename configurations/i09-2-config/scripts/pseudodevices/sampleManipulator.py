@@ -12,12 +12,12 @@ if installation.isLive():
 	# sxc = SingleEpicsPositionerNoStatusClassDeadbandCheckInput("sxc","BL09K-MO-SM-01:PI:X","BL09K-MO-SM-01:PI:X.RBV","BL09K-MO-SM-01:PI:X.MOVN","BL09K-MO-SM-01:PI:X.STOP","mm","%f",0.01)
 	# szc = SingleEpicsPositionerNoStatusClassDeadbandCheckInput("szc","BL09K-MO-SM-01:PI:Z","BL09K-MO-SM-01:PI:Z.RBV","BL09K-MO-SM-01:PI:Z.MOVN","BL09K-MO-SM-01:PI:Z.STOP","mm","%f",0.01)
 
-	sx1 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx1",base_pv+"X1:MOV:WR","BL09K-MO-SM-01:PI:X1:POS:RD","BL09K-MO-SM-01:PI:X1:ONT:RD","BL09K-MO-SM-01:PI:X1:HLT:WR.PROC","mm","%f",0.01)
-	sx2 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx2","BL09K-MO-SM-01:PI:X2:MOV:WR","BL09K-MO-SM-01:PI:X2:POS:RD","BL09K-MO-SM-01:PI:X2:ONT:RD","BL09K-MO-SM-01:PI:X2:HLT:WR.PROC","mm","%f",0.01)
-	sx3 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx3","BL09K-MO-SM-01:PI:X3:MOV:WR","BL09K-MO-SM-01:PI:X3:POS:RD","BL09K-MO-SM-01:PI:X3:ONT:RD","BL09K-MO-SM-01:PI:X3:HLT:WR.PROC","mm","%f",0.01)
-	sz1 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sz1","BL09K-MO-SM-01:PI:Z1:MOV:WR","BL09K-MO-SM-01:PI:Z1:POS:RD","BL09K-MO-SM-01:PI:Z1:ONT:RD","BL09K-MO-SM-01:PI:Z1:HLT:WR.PROC","mm","%f",0.01)
-	sz2 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sz2","BL09K-MO-SM-01:PI:Z2:MOV:WR","BL09K-MO-SM-01:PI:Z2:POS:RD","BL09K-MO-SM-01:PI:Z2:ONT:RD","BL09K-MO-SM-01:PI:Z2:HLT:WR.PROC","mm","%f",0.01)
-	sy  = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sy","BL09K-MO-SM-01:PI:Y:MOV:WR","BL09K-MO-SM-01:PI:Y:POS:RD","BL09K-MO-SM-01:PI:Y:ONT:RD","BL09K-MO-SM-01:PI:Y:HLT:WR.PROC","mm","%f",0.01)
+	sx1 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx1",base_pv+"X1:MOV:WR",base_pv+"X1:POS:RD",base_pv+"X1:ONT:RD",base_pv+"X1:HLT:WR.PROC","mm","%f",0.01)
+	sx2 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx2",base_pv+"X2:MOV:WR",base_pv+"X2:POS:RD",base_pv+"X2:ONT:RD",base_pv+"X2:HLT:WR.PROC","mm","%f",0.01)
+	sx3 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sx3",base_pv+"X3:MOV:WR",base_pv+"X3:POS:RD",base_pv+"X3:ONT:RD",base_pv+"X3:HLT:WR.PROC","mm","%f",0.01)
+	sz1 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sz1",base_pv+"Z1:MOV:WR",base_pv+"Z1:POS:RD",base_pv+"Z1:ONT:RD",base_pv+"Z1:HLT:WR.PROC","mm","%f",0.01)
+	sz2 = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sz2",base_pv+"Z2:MOV:WR",base_pv+"Z2:POS:RD",base_pv+"Z2:ONT:RD",base_pv+"Z2:HLT:WR.PROC","mm","%f",0.01)
+	sy  = SingleEpicsPositionerNoStatusClassDeadbandSyncInput("sy",base_pv+"Y:MOV:WR",base_pv+"Y:POS:RD",base_pv+"Y:ONT:RD",base_pv+"Y:HLT:WR.PROC","mm","%f",0.01)
 
 else:
 	from gda.device.scannable import DummyScannable #@UnresolvedImport

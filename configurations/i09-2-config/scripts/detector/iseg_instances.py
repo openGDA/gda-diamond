@@ -5,24 +5,23 @@ Created on Oct 31, 2022
 
 @author: fy65
 '''
-from detector.iseg_voltage_controller import ISegVoltageControl
+from detector.iseg_voltage_controller import ISegVoltageControl,ISegVoltageControlNoWait
 from detector.total_image_count import IntegratedSpectrum
 from gdascripts.utils import caput
 
 dldv = ISegVoltageControl('dldv',3,7,pv_root="BL09K-EA-PSU-01:0", tolerance = 1.0, ramp_speed = 1.0); dldv.configure()
 mcp_b = ISegVoltageControl('mcp_b',7,1,pv_root="BL09K-EA-PSU-01:0", tolerance = 1.0, ramp_speed = 1.0); mcp_b.configure()
-#kenergy = ISegVoltageControl('kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.006, ramp_speed = 4.0); kenergy.configure() #for sample biasing with 500 V module
+kenergy = ISegVoltageControl('kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.006, ramp_speed = 4.0); kenergy.configure() #for sample biasing with 500 V module
 #kenergy = ISegVoltageControl('kenergy',7,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.04, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 4000 V module
-kenergy = ISegVoltageControl('kenergy',6,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.045, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 2000 V module
+#kenergy = ISegVoltageControl('kenergy',6,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.045, ramp_speed = 1.0); kenergy.configure() #for sample biasing with 2000 V module
 kenergy.ramp_factor = 500/100
 focus = ISegVoltageControl('focus',3,0,pv_root="BL09K-EA-PSU-01:0", tolerance = 1, ramp_speed = 1.0); focus.configure()
 testPS = ISegVoltageControl('testPS',7,0,pv_root="BL09K-EA-PSU-01:0", tolerance = .2, ramp_speed = 1.0); testPS.configure()
 int_spec = IntegratedSpectrum("int_spec", "BL09K-EA-D-01:")
 
-Kenergy = ISegVoltageControlNoWait('Kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.005, ramp_speed = 4.0);
+Kenergy = ISegVoltageControlNoWait('Kenergy',5,4,pv_root="BL09K-EA-PSU-01:0", tolerance = 0.006, ramp_speed = 4.0);
 Kenergy.configure()
-Kenergy.delay = 0.05
-
+Kenergy.delay = 0.02
 #caput("BL09K-EA-D-01:Stats1:NDArrayPort", "ROI1")
 '''Sample_IRamp=EpicsReadWritePVClass("Sample_IRamp","BL09K-EA-PSU-01:0:1:CurrentRampSpeed","%/s*I_nom","%f")'''
 
@@ -111,7 +110,7 @@ def MM_off_button():
 	sleep(5)
 	Ext.off()
 	m8c1.off()
-	m9c2.off()
+	m9c2.off(); m9c1.off()
 	MM_off()
 	sleep(25)
 	kenergy.off()
