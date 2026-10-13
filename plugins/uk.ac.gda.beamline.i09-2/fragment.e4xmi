@@ -18,10 +18,6 @@
           <children xsi:type="basic:PartStack" xmi:id="_r0MPwHUqEfG2TaiDxx8caw" elementId="uk.ac.gda.beamline.i09-2.partstack.7" containerData="4000">
             <children xsi:type="basic:Part" xmi:id="_kMYyllRJEfGsS-nO7QlNWw" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="4000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls"/>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_kMYyl1RJEfGsS-nO7QlNWw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.2" containerData="2000" selectedElement="_kMYymFRJEfGsS-nO7QlNWw" horizontal="true">
-            <children xsi:type="advanced:Placeholder" xmi:id="_kMYymFRJEfGsS-nO7QlNWw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.placeholder.2" containerData="100" ref="_rkKycII8Ee-HAJ8yek2WpQ"/>
-            <children xsi:type="advanced:Placeholder" xmi:id="_kMYymVRJEfGsS-nO7QlNWw" elementId="org.eclipse.ui.editorss" containerData="200" ref="_rkKLYII8Ee-HAJ8yek2WpQ"/>
-          </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_kMYymlRJEfGsS-nO7QlNWw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.3" containerData="2500">
           <children xsi:type="basic:PartSashContainer" xmi:id="_kMYym1RJEfGsS-nO7QlNWw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.4" horizontal="true">
@@ -88,82 +84,78 @@
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_nf26YII6Ee-HAJ8yek2WpQ" featurename="children" parentElementId="IDEWindow">
     <elements xsi:type="advanced:PerspectiveStack" xmi:id="_8hdr8II6Ee-HAJ8yek2WpQ" elementId="uk.ac.diamond.daq.arpes.ui.e4.perspectivestack.0">
-      <children xsi:type="advanced:Perspective" xmi:id="_0501gLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4" label="DLD">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_0501gbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.0" horizontal="true">
-          <children xsi:type="basic:PartSashContainer" xmi:id="_0501grNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.1" containerData="2000">
-            <children xsi:type="basic:PartStack" xmi:id="_0501g7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.6" containerData="1500">
-              <children xsi:type="basic:Part" xmi:id="_0501hLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="1500" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
+      <children xsi:type="advanced:Perspective" xmi:id="_OzS4sMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4" label="DLD">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4scZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.0" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4ssZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.1" containerData="2000">
+            <children xsi:type="basic:PartStack" xmi:id="_OzS4s8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.6" containerData="1500">
+              <children xsi:type="basic:Part" xmi:id="_OzS4tMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.rcp.views.dashboardView" containerData="1500" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Dashboard" iconURI="platform:/plugin/uk.ac.gda.client/icons/layout_content.png" closeable="true">
                 <tags>View</tags>
                 <tags>categoryTag:uk.ac.gda.client.general.category</tags>
-                <menus xmi:id="_0501hbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.rcp.views.dashboardView">
+                <menus xmi:id="_OzS4tcZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.rcp.views.dashboardView">
                   <tags>ViewMenu</tags>
                 </menus>
-                <toolbar xmi:id="_0501hrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.rcp.views.dashboardView"/>
+                <toolbar xmi:id="_OzS4tsZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.rcp.views.dashboardView"/>
               </children>
             </children>
-            <children xsi:type="basic:Part" xmi:id="_0501h7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.scanprogressview" containerData="500" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.ScanProgressView" label="Scan Progress"/>
-            <children xsi:type="basic:PartStack" xmi:id="_0501iLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.7" containerData="4000">
-              <children xsi:type="basic:Part" xmi:id="_0501ibNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="4000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls"/>
-            </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501irNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.2" containerData="2000" selectedElement="_0501i7NaEfG6uoJ_6ufDDw" horizontal="true">
-              <children xsi:type="advanced:Placeholder" xmi:id="_0501i7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.placeholder.2" containerData="100" ref="_rkKycII8Ee-HAJ8yek2WpQ"/>
-              <children xsi:type="advanced:Placeholder" xmi:id="_0501jLNaEfG6uoJ_6ufDDw" elementId="org.eclipse.ui.editorss" containerData="200" ref="_rkKLYII8Ee-HAJ8yek2WpQ"/>
+            <children xsi:type="basic:Part" xmi:id="_OzS4t8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.scanprogressview" containerData="500" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.ScanProgressView" label="Scan Progress"/>
+            <children xsi:type="basic:PartStack" xmi:id="_OzS4uMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.7" containerData="4000">
+              <children xsi:type="basic:Part" xmi:id="_OzS4ucZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:beamline_control_set" containerData="4000" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Controls"/>
             </children>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_0501jbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.3" containerData="2500">
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501jrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.4" horizontal="true">
-              <children xsi:type="basic:PartStack" xmi:id="_0501j7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.8" containerData="2000">
-                <children xsi:type="advanced:Placeholder" xmi:id="_0501kLNaEfG6uoJ_6ufDDw" elementId="uk.ac.diamond.daq.arpes.ui.e4.placeholder.0" containerData="2000" ref="_rkJkUII8Ee-HAJ8yek2WpQ"/>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4usZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.3" containerData="2500">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4u8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.4" horizontal="true">
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4vMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.8" containerData="2000">
+                <children xsi:type="advanced:Placeholder" xmi:id="_OzS4vcZFEfGWSYK6KQXpqQ" elementId="uk.ac.diamond.daq.arpes.ui.e4.placeholder.0" containerData="2000" ref="_rkJkUII8Ee-HAJ8yek2WpQ"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501kbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.5" horizontal="true">
-              <children xsi:type="basic:PartStack" xmi:id="_0501krNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partstack.2">
-                <children xsi:type="basic:Part" xmi:id="_0501k7NaEfG6uoJ_6ufDDw" elementId="gda.rcp.jythonterminalview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console"/>
-                <children xsi:type="basic:Part" xmi:id="_0501lLNaEfG6uoJ_6ufDDw" elementId="gda.rcp.views.baton.BatonView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Baton Manager"/>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4vsZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.5" horizontal="true">
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4v8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partstack.2">
+                <children xsi:type="basic:Part" xmi:id="_OzS4wMZFEfGWSYK6KQXpqQ" elementId="gda.rcp.jythonterminalview" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Jython Console"/>
+                <children xsi:type="basic:Part" xmi:id="_OzS4wcZFEfGWSYK6KQXpqQ" elementId="gda.rcp.views.baton.BatonView" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Baton Manager"/>
               </children>
             </children>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_0501lbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.6" containerData="5000">
-            <children xsi:type="basic:PartStack" xmi:id="_0501lrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.9" containerData="1200">
-              <children xsi:type="basic:Part" xmi:id="_0501l7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:live_image_control_set" containerData="800" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Image Live Control"/>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4wsZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.6" containerData="5000">
+            <children xsi:type="basic:PartStack" xmi:id="_OzS4w8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.9" containerData="1200">
+              <children xsi:type="basic:Part" xmi:id="_OzS4xMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:live_image_control_set" containerData="800" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Live Image Live Control"/>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501mLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.7" containerData="5000" horizontal="true">
-              <children xsi:type="basic:PartStack" xmi:id="_0501mbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.0">
-                <children xsi:type="basic:Part" xmi:id="_0501mrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_xy#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4xcZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.7" containerData="5000" horizontal="true">
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4xsZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.0">
+                <children xsi:type="basic:Part" xmi:id="_OzS4x8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_xy#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
               </children>
-              <children xsi:type="basic:PartStack" xmi:id="_0501m7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.1">
-                <children xsi:type="basic:Part" xmi:id="_0501nLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_xt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4yMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.1">
+                <children xsi:type="basic:Part" xmi:id="_OzS4ycZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_xt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
               </children>
-              <children xsi:type="basic:PartStack" xmi:id="_0501nbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.2">
-                <children xsi:type="basic:Part" xmi:id="_0501nrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_yt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
-              </children>
-            </children>
-            <children xsi:type="basic:PartStack" xmi:id="_0501n7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.10" containerData="1200">
-              <children xsi:type="basic:Part" xmi:id="_0501oLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:accum_image_control_set" containerData="800" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Accumulated Image Live Control"/>
-            </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501obNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.8" containerData="5000" horizontal="true">
-              <children xsi:type="basic:PartStack" xmi:id="_0501orNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.3">
-                <children xsi:type="basic:Part" xmi:id="_0501o7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_xy#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
-              </children>
-              <children xsi:type="basic:PartStack" xmi:id="_0501pLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.4">
-                <children xsi:type="basic:Part" xmi:id="_0501pbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_xt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
-              </children>
-              <children xsi:type="basic:PartStack" xmi:id="_0501prNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.partstack.5">
-                <children xsi:type="basic:Part" xmi:id="_0501p7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_yt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4ysZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.2">
+                <children xsi:type="basic:Part" xmi:id="_OzS4y8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_liveimage_yt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
               </children>
             </children>
-            <children xsi:type="basic:PartSashContainer" xmi:id="_0501qLNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.9" containerData="800" horizontal="true">
-              <children xsi:type="basic:Part" xmi:id="_0501qbNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontrolx" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control T">
+            <children xsi:type="basic:PartStack" xmi:id="_OzS4zMZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.10" containerData="1200">
+              <children xsi:type="basic:Part" xmi:id="_OzS4zcZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.livecontrol.LiveControlsView:accum_image_control_set" containerData="800" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView" label="Accumulated Image Live Control"/>
+            </children>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_OzS4zsZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.8" containerData="5000" horizontal="true">
+              <children xsi:type="basic:PartStack" xmi:id="_OzS4z8ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.3">
+                <children xsi:type="basic:Part" xmi:id="_OzS40MZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_xy#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_OzS40cZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.4">
+                <children xsi:type="basic:Part" xmi:id="_OzS40sZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_xt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_OzS408ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.partstack.5">
+                <children xsi:type="basic:Part" xmi:id="_OzS41MZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.client.live.stream.view.LiveStreamView:dld_accumimage_yt#EPICS_ARRAY" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityView"/>
+              </children>
+            </children>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_OzS41cZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.partsashcontainer.9" containerData="800" horizontal="true">
+              <children xsi:type="basic:Part" xmi:id="_OzS41sZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontrolx" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control T">
                 <properties key="roiSizeScannableName" value="dld_t_size"/>
                 <properties key="roiBinningScannableName" value="dld_t_binning"/>
                 <properties key="roiStartScannableName" value="dld_t_start"/>
               </children>
-              <children xsi:type="basic:Part" xmi:id="_0501qrNaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontroly" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control Y">
+              <children xsi:type="basic:Part" xmi:id="_OzS418ZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontroly" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control Y">
                 <properties key="roiSizeScannableName" value="dld_y_size"/>
                 <properties key="roiBinningScannableName" value="dld_y_binning"/>
                 <properties key="roiStartScannableName" value="dld_y_start"/>
               </children>
-              <children xsi:type="basic:Part" xmi:id="_0501q7NaEfG6uoJ_6ufDDw" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontrolz" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control X">
+              <children xsi:type="basic:Part" xmi:id="_OzS42MZFEfGWSYK6KQXpqQ" elementId="uk.ac.gda.beamline.i09-2.dld.e4.part.slicingcontrolz" containerData="" contributionURI="bundleclass://uk.ac.gda.beamline.i09-2/uk.ac.gda.beamline.i09_2.views.e4.RoiBinningControl" label="Slicing Control X">
                 <properties key="roiSizeScannableName" value="dld_x_size"/>
                 <properties key="roiBinningScannableName" value="dld_x_binning"/>
                 <properties key="roiStartScannableName" value="dld_x_start"/>

@@ -58,7 +58,7 @@
 		</property>
 	</bean>
 
-	<bean id="dld_z_start" class="gda.device.scannable.PVScannable">
+	<bean id="dld_t_start" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:ROI1:MinZ"/>
 		<property name="outputFormat">
 			<list>
@@ -67,7 +67,7 @@
 		</property>
 	</bean>
 
-	<bean id="dld_z_size" class="gda.device.scannable.PVScannable">
+	<bean id="dld_t_size" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:ROI1:SizeZ"/>
 		<property name="outputFormat">
 			<list>
@@ -76,7 +76,7 @@
 		</property>
 	</bean>
 
-	<bean id="dld_z_binning" class="gda.device.scannable.PVScannable">
+	<bean id="dld_t_binning" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL09K-EA-DET-01:ROI1:BinZ"/>
 		<property name="outputFormat">
 			<list>

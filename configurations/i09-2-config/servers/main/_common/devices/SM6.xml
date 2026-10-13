@@ -7,18 +7,8 @@
 		<property name="motor" ref="sm6fpitch_motor" />
 	</bean>
 
-	<bean id="sm6" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="sm6x" />
-				<ref bean="sm6y" />
-				<ref bean="sm6z"/>
-				<ref bean="sm6pitch" />
-				<ref bean="sm6roll" />
-				<ref bean="sm6yaw" />
-				<ref bean="sm6iamp27"/>
-				<ref bean="sm6fpitch"/>
-			</list>
-		</property>
+	<bean id="sm6_y_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="sm6y"/>
+		<property name="command" value="sm6y.deleteIObservers()"/>
 	</bean>
 </beans>
