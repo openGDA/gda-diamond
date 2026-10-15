@@ -4,12 +4,8 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="cleanX_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-MO-ABSB-01:CLEAN:X" />
-	</bean>
+			class="gda.device.motor.DummyMotor"/>
 
 	<bean id="cleanY_motor"
-			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-MO-ABSB-01:CLEAN:Y" />
-	</bean>
+			class="gda.device.motor.DummyMotor"/>
 </beans>
