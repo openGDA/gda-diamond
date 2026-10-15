@@ -26,8 +26,9 @@
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartDoNotForceStop">
 								<property name="adBase" ref="mythen3_adbase" />
+								<property name="timeoutSeconds" value="300" />
 							</bean>
 						</property>
 					</bean>
