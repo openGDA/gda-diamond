@@ -572,7 +572,7 @@ try:
 	try:
 		from scannables.EpicsRockingScannable import EpicsRockingScannable
 		dkphi_rockscan = EpicsRockingScannable('dkphi_rockscan', scannable=dkphi,
-			check_cs_pv_base='BL15I-MO-STEP-08:M6', check_cs_raw_value=u'2.0', check_cs_axis_value=u'I')
+			check_cs_pv_base='BL15I-MO-PPMAC-22:M6', check_cs_raw_value=u'2.0', check_cs_axis_value=u'I')
 		alias('dkphi_rockscan')
 		if not dkphi_rockscan.checkSetup():
 			localStation_exception(sys.exc_info(), "checking dkphi_rockscan object")
