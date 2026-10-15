@@ -93,8 +93,8 @@ def openEHShutter():
 	status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
 	"""status: 0)Fault, 1)Open, 2)Opening, 3)Closed, 4)Closing"""
 	if status != 1:
-		beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
-		beamline.setValue("Top","-PS-SHTR-02:CON",0)		#OPEN
+		beamline.setValue(None, "Top","-PS-SHTR-02:CON",2, 10)		#RESET
+		beamline.setValue(None, "Top","-PS-SHTR-02:CON",0, 10)		#OPEN
 		logger.info("Opening the EH shutter required...")
 	else:
 		logger.info("Opening the EH shutter not required...")
@@ -102,7 +102,7 @@ def openEHShutter():
 	while (status != 1):
 		sleep(1)  # Pause for 1 second.
 		count = count +1
-		if count ==6:
+		if count ==11:
 			logger.error("Opening the EH shutter timed out!")
 			simpleLog( " -> Time out: Could not Open EH shutter")
 			return
@@ -120,15 +120,15 @@ def closeEHShutter():
 	syntax: closeExperimentalHutchShutter()
 	"""
 	checkConfigured()
-	beamline.setValue("Top","-PS-SHTR-02:CON",2)		#RESET
-	beamline.setValue("Top","-PS-SHTR-02:CON",1)		#CLOSE
+	beamline.setValue(None, "Top","-PS-SHTR-02:CON",2, 10)		#RESET
+	beamline.setValue(None, "Top","-PS-SHTR-02:CON",1, 10)		#CLOSE
 	LoggerFactory.getLogger("closeEHShutter").info("Closing the EH shutter...")
 	status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
 	count = 0
 	while (status != 3):
 		sleep(1)  # Pause for 1 second.
 		count = count +1
-		if count ==8:
+		if count ==11:
 			simpleLog( " -> Time out: Could not Close EH shutter")
 			return
 		status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")
