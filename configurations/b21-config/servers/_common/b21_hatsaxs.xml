@@ -49,6 +49,14 @@
 			<ref bean="hplcPlate" />
 		</property>
 		<property name="availableCapillaries" value="KW402.5,KW403,KW404,KW405,S200,Superose6,Other"/>
+		<!-- 
+		<property name="viciValves">
+			<list>
+				<ref bean="vici_valve_1" />
+				<ref bean="vici_valve_2" />
+			</list>
+		</property>
+		 -->
 		<property name="viciValve1">
 			<ref bean="vici_valve_1" />
 		</property>
