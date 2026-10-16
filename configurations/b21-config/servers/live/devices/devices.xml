@@ -18,4 +18,5 @@
 	<import resource="ion.xml"/>
 	<import resource="syringes.xml"/>
 	<import resource="biosaxscam.xml"/>
+	<import resource="vici_valves.xml"/>
 </beans>
