@@ -320,7 +320,7 @@ sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), 
 
 from standardScan import * #@UnusedWildImport
 
-from config_tests import slug_trigger
+# from config_tests import slug_trigger
 
 def get_wavelength_from_poni(poni_file=None):
     wavelength = 0.0
@@ -347,4 +347,5 @@ if wavelength == 0:
 
 
 
-
+global beamline
+beamline = Finder.find("beamline")
