@@ -1454,7 +1454,7 @@ from gdascripts.scan.flyscans import flyscannable, FlyScanPositionsProvider, fly
 from scan.miscan import miscan  # @UnusedImport
 if installation.isLive() :
 	from detector_wrappers.snap import snap, fs_snap  # @UnusedImport
-	from scannable.fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
+	from scannable.fast_fixed_rois import create_new_roi, remove_roi, mroi1, mroi2, roi1, roi2, roi3, roi4  # @UnusedImport
 
 from detector_wrappers.xspress3Mini import xsp3  # @UnusedImport
 from gdascripts.scannable.virtual_scannable import VirtualScannable

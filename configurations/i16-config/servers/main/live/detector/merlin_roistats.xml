@@ -1,0 +1,202 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- NX detector to hold ROIStats pairs and make them available in jython -->
+	<!-- Names of holder bean conforms to "#{detector_name}_roistats_holder" -->
+	<!-- This NX detector should NOT be used in measurements -->
+	<bean id="merlin_roistats_holder" class="gda.device.detector.NXDetector">
+		<property name="name" value="merlin_roistats_holder" />
+		<property name="collectionStrategy" ref="merlin_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="merlin_roistats_holder_stats_1"/>
+				<ref bean="merlin_roistats_holder_stats_2"/>
+				<ref bean="merlin_roistats_holder_stats_3"/>
+				<ref bean="merlin_roistats_holder_stats_4"/>
+				<ref bean="merlin_roistats_holder_stats_5"/>
+				<ref bean="merlin_roistats_holder_stats_6"/>
+				<ref bean="merlin_roistats_holder_roi_1"/>
+				<ref bean="merlin_roistats_holder_roi_2"/>
+				<ref bean="merlin_roistats_holder_roi_3"/>
+				<ref bean="merlin_roistats_holder_roi_4"/>
+				<ref bean="merlin_roistats_holder_roi_5"/>
+				<ref bean="merlin_roistats_holder_roi_6"/>
+			</list>
+		</property>
+	</bean>
+
+	<!-- BASIC STATS PLUGINS -->
+	<!-- Names of stat beans conform to "merlin_roistats_holder_stats_N" -->
+	<bean id="merlin_roistats_holder_stats_1" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_1"/>
+		<constructor-arg ref="merlin_stats_1"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_1" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT1:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT1:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_roistats_holder_stats_2" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_2"/>
+		<constructor-arg ref="merlin_stats_2"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_2" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT2:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT2:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_roistats_holder_stats_3" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_3"/>
+		<constructor-arg ref="merlin_stats_3"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_3" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT3:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT3:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi3" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_roistats_holder_stats_4" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_4"/>
+		<constructor-arg ref="merlin_stats_4"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_4" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT4:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT4:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi4" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_roistats_holder_stats_5" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_5"/>
+		<constructor-arg ref="merlin_stats_5"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_5" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT5:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi5" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="merlin_roistats_holder_stats_6" class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<property name="name" value="merlin_roistats_holder_stats_6"/>
+		<constructor-arg ref="merlin_stats_6"/>
+		<property name="computeStats" value="true"/>
+	</bean>
+	<bean id="merlin_stats_6" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL16I-EA-DET-33:STAT6:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16I-EA-DET-33:STAT6:" />
+				<property name="initialArrayPort" value="mpx3.rois.roi6" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- AD_ROIS PLUGINS -->
+	<!-- Names of roi beans conform to "merlin_roistats_holder_roi_N" -->
+	<bean id="merlin_roistats_holder_roi_1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_1"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI1:"/>
+		<constructor-arg ref="merlin_roi_provider_1"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_1" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="merlin_roistats_holder_roi_2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_2"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI2:"/>
+		<constructor-arg ref="merlin_roi_provider_2"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_2" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="merlin_roistats_holder_roi_3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_3"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI3:"/>
+		<constructor-arg ref="merlin_roi_provider_3"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_3" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="merlin_roistats_holder_roi_4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_4"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI4:"/>
+		<constructor-arg ref="merlin_roi_provider_4"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_4" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="merlin_roistats_holder_roi_5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_5"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI5:"/>
+		<constructor-arg ref="merlin_roi_provider_5"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_5" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+
+	<bean id="merlin_roistats_holder_roi_6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRectangularROIPlugin" factory-method="createFromBasePVName">
+		<constructor-arg value="merlin_roistats_holder_roi_6"/>
+		<constructor-arg value="BL16I-EA-DET-33:ROI6:"/>
+		<constructor-arg ref="merlin_roi_provider_6"/>
+		<property name="inputNDArrayPort" value="mpx3.cam"/>
+	</bean>
+	<bean id="merlin_roi_provider_6" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+		<property name="xstart" value="0" />
+		<property name="ystart" value="0" />
+		<property name="xsize" value="500" />
+		<property name="ysize" value="500" />
+	</bean>
+</beans>
