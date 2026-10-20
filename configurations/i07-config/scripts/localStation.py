@@ -4,8 +4,6 @@ print " Performing Beamline I07 specific initialisation code (localStation.py)."
 print
 
 import sys
-from os import system
-from time import sleep
 
 from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport

@@ -1,5 +1,6 @@
 from gdaserver import ecva1, ecva2, ecva3, ecva4, ecva5, ecva6, ecva7, ecva8, ecva9, ecva10
 from gda.jython.commands.GeneralCommands import alias
+from time import sleep
 
 VALVES = {
     1: ecva1,

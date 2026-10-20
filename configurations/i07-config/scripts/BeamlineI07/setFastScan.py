@@ -1,7 +1,4 @@
-
 import sys;
-from time import sleep, ctime;
-
 
 from Diamond.Scans.FastScan import FastScanControlClass
 from Diamond.Scans.FastScan import EpicsMCADataDeviceClass
@@ -23,7 +20,7 @@ fastData = EpicsMCADataDeviceClass("fastData", rootPV, numberOfMCA);
 def cvscan(scannableDevice, startPosition, stopPosition,scanTime, pointTime):
 	fastController.setScannable(scannableDevice);
 	fastMotion = FastMotionDeviceClass("fastMotion", fastController, fastData);
-		
+
 	fastController.setAcceleration(0.2);
 	fastController.setMotorSpeed(6);
 
@@ -31,7 +28,7 @@ def cvscan(scannableDevice, startPosition, stopPosition,scanTime, pointTime):
 		fastMotion.cvscan(startPosition, stopPosition, scanTime, pointTime);
 	except:
 		type, exception, traceback = sys.exc_info();
-		logger.fullLog(None, "Error in stopping the zacscan ", type, exception , traceback, False);		
+		logger.fullLog(None, "Error in stopping the zacscan ", type, exception , traceback, False);
 
 alias("cvscan");
 

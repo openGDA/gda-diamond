@@ -1,6 +1,5 @@
 from gda.epics import CAClient
 from gda.device.scannable import ScannableMotionBase
-from time import sleep;
 
 from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass, EpicsSetterClass;
 
@@ -16,7 +15,7 @@ class BimorphPowerSupplyDeviceClass(ScannableMotionBase):
 	This class is a wrapper for the Bimporph Mirror Power Supply Unit.
 	Ref: http://serv0002.cs.diamond.ac.uk/cgi-bin/wiki.cgi/bimorphpsu
 	"""
-	
+
 	def __init__(self, name, basePV):
 		self.name = name;
 		self.basePV = basePV;
@@ -25,7 +24,7 @@ class BimorphPowerSupplyDeviceClass(ScannableMotionBase):
 
 		print "init bimorphs: " + self.name;
 		self.initScannables();
-			
+
 	def initScannables(self):
 		formatstring = '%.6f'
 		self.bm_vs = [];
@@ -43,18 +42,18 @@ class BimorphPowerSupplyDeviceClass(ScannableMotionBase):
 			self.bm_vms.append( EpicsMonitorClass(name, pvMonitor, 'V', formatstring) );
 
 		self.setDelay(self.delay);
-		
+
 	def getPosPlusIncrement(self, increment):
 		newPos=[];
 		for v in self.bm_vms:
 			newPos.append(v.getPosition()+increment);
-		
+
 		return newPos;
-	
+
 	def setVoltages(self, newPos):
 		for v in self.bm_vs:
 			v.moveTo( newPos[self.bm_vs.index(v)] );
-		
+
 	def getVoltages(self):
 		newPos=[];
 		for v in self.bm_vms:
@@ -64,7 +63,7 @@ class BimorphPowerSupplyDeviceClass(ScannableMotionBase):
 		return newPos;
 
 	def getStatus(self):
-		
+
 
 	def setDelay(self, newDelay):
 		for v in self.bm_vs:

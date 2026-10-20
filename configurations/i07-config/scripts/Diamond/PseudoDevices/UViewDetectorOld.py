@@ -1,9 +1,5 @@
-from time import sleep
-from java import lang
-
 from gda.factory import Finder
 from gda.device.scannable import ScannableMotionBase
-from gda.device import Scannable
 
 
 #The Class for creating a PEEM UView Detector as Psuedo Device
@@ -24,7 +20,7 @@ class UViewDetectorClass(ScannableMotionBase):
 	def getPosition(self):
 		print self.uview.readout();
 		return -1;
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.uview.setCollectionTime(newPos);
 		self.uview.collectData();
@@ -38,7 +34,7 @@ class UViewDetectorClass(ScannableMotionBase):
 	def singleShot(self, newExpos):
 		self.uview.setCollectionTime(newExpos);
 		print self.uview.shotSingleImage();
-		
+
 	def getCollectionTime(self):
 		print self.uview.getCollectionTime();
 
@@ -60,12 +56,12 @@ class UViewDetectorROIClass(ScannableMotionBase):
 
 	def reset(self):
 		self.roi = Finder.find(roi);
-		
+
 	#Scannable Implementations
 	def getPosition(self):
 		temp = self.roi.readout();
 		return temp;
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.roi.setCollectionTime(newPos);
 		self.roi.collectData();

@@ -1,7 +1,6 @@
 from gda.epics import CAClient
 from java import lang
 from gda.device.scannable import ScannableMotionBase
-from time import sleep
 
 #The Class for creating a Monitor directly from EPICS PV
 class MonitorEpicsPVClass(ScannableMotionBase):
@@ -28,7 +27,7 @@ class MonitorEpicsPVClass(ScannableMotionBase):
 
 	def isBusy(self):
 		return 0
-	
+
 	def atScanEnd(self):
 		if self.cli.isConfigured():
 			self.cli.clearup()

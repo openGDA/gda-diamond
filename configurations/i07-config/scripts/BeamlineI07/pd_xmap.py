@@ -1,6 +1,5 @@
 from gda.device.scannable import ScannableMotionBase
-from gda.epics import CAClient 
-from time import sleep
+from gda.epics import CAClient
 
 class DisplayEpicsPVClass(ScannableMotionBase):
 	'''
@@ -31,14 +30,14 @@ class xmapcounter(ScannableMotionBase):
 	def __init__(self, name, pv='ME13C-EA-DET-01:',formatstring='%6f'):
 		self.setLevel(9)
 		self.setOutputFormat([formatstring]*4)
-		self.setName(name)	
+		self.setName(name)
 		self.setInputNames([name])
 		self.pvt=CAClient(pv+'EraseStart')
 		self.rt=CAClient(pv+'PresetReal')
 		self.rt.configure()
 		self.pvt.configure()
 		self.checkbusy=CAClient(pv+'ElapsedReal')
-		self.checkbusy.configure()	
+		self.checkbusy.configure()
 		self.setExtraNames(['xmroi1','xmroi2','xmroi3'])
 		self.new_position=1
 

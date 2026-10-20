@@ -2,8 +2,6 @@ from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.factory import Finder
 
-from time import sleep
-
 
 #The Class is for creating a Psuedo Device to read the average current amplifier reading from RS232
 #Usage:
@@ -30,14 +28,14 @@ class CurrentAmplifierSumClass(ScannableMotionBase):
 		self.setExtraNames([name+"_average"]);
 #		self.Units=[strUnit];
 		self.setLevel(7);
-		
+
 		self.sum = 0;
 		self.average = 0;
 		self.total = 1; #default number of counts
 
 #		self.refCA = globals()[refCA];
 		self.refCA = Finder.find(refCA);
-		
+
 
 	def atScanStart(self):
 		self.sum = 0;
@@ -53,7 +51,7 @@ class CurrentAmplifierSumClass(ScannableMotionBase):
 #		return self.sum;
 #		return self.average;
 		return [self.sum, self.average];
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.total = newPos;
 
