@@ -8,6 +8,7 @@ client.spring-xml = "clients/${gda.mode}/client.xml"
 properties = [
 	"properties/java.properties",
 	"properties/${gda.mode}/java.properties",
+	#"properties/live/bluesky.properties",
 ]
 
 logging = "properties/logging_customisation.xml"
