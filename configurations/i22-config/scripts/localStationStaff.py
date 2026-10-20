@@ -331,10 +331,10 @@ except:
 
 
 from setup import malcolm_tfg
-from gdaserver import Pilatus2M_SAXS, I0, bsdiodes, user_tetramm
+from gdaserver import Pilatus2M_SAXS, Pilatus2M_WAXS, I0, bsdiodes, user_tetramm
 
 saxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_SAXS)
-# waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
+waxs_reset = malcolm_tfg.NcdPilatusReset(Pilatus2M_WAXS)
 i0_reset = malcolm_tfg.NcdTetrammReset(I0)
 bsdiodes_reset = malcolm_tfg.NcdTetrammReset(bsdiodes)
 user_tetramm_reset = malcolm_tfg.NcdTetrammReset(user_tetramm)
@@ -344,7 +344,7 @@ def install_hook(detector, action):
     add_reset_hook(lambda det=detector, act=action: det.removePreScanAction(act))
 
 install_hook(Pilatus2M_SAXS, saxs_reset)
-# install_hook(Pilatus2M_WAXS, waxs_reset)
+install_hook(Pilatus2M_WAXS, waxs_reset)
 install_hook(I0, i0_reset)
 install_hook(bsdiodes, bsdiodes_reset)
 install_hook(user_tetramm, user_tetramm_reset)
@@ -473,10 +473,15 @@ def AFL_Acquisition(scan_title = 'Scan', background_frame = '730798', frame_time
     pos base_x x_position
     pos base_y y_position
     setTitle(scan_title)
-    setSampleBackground('/dls/i22/data/2024/sm35647-1/i22-' + background_frame + '.nxs')
+    setSampleBackground('/dls/i22/data/2026/nt47343-1/i22-' + background_frame + '.nxs')
 
-    with tfgGroups():
-        addGroup(num_frames, 10, frame_time, '00100000', '11111111')
+    if num_frames == 1:
+        with tfgGroups():
+            addGroup(1, 50, frame_time, '01100000', '11111111')
+    else:
+        with tfgGroups():
+            addGroup(1, 50, frame_time, '01100000', '11111111')
+            addGroup(num_frames-1, 1, frame_time, '01100000', '11111111')
 
     staticscan ncddetectors
 
@@ -487,8 +492,13 @@ def AFL_Background(scan_title = 'Scan', frame_time = 1000, num_frames = 1, x_pos
     pos base_y y_position
     setTitle(scan_title)
 
-    with tfgGroups():
-        addGroup(num_frames, 10, frame_time, '00100000', '11111111')
+    if num_frames == 1:
+        with tfgGroups():
+            addGroup(1, 50, frame_time, '01100000', '11111111')
+    else:
+        with tfgGroups():
+            addGroup(1, 50, frame_time, '01100000', '11111111')
+            addGroup(num_frames-1, 1, frame_time, '01100000', '11111111')
 
     staticscan ncddetectors
     print(gda.jython.InterfaceProvider.getScanDataPointProvider().getLastScanDataPoint().getScanIdentifier())

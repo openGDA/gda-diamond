@@ -9,15 +9,14 @@
   <user fedid="rng73417" level="3" staff="true"/> <!-- Tim -->
   <user fedid="flo14131" level="3" staff="true"/> <!-- Thomas -->
   <user fedid="iao73719" level="3" staff="true"/> <!-- Abdul -->
-  <user fedid="ifp76392" level="2" staff="true"/> <!-- Elisabetta -->
   <user fedid="sgj38332" level="3" staff="true"/> <!-- Tom -->
   <user fedid="vgz78127" level="3" staff="true"/> <!-- Emily -->
-  <user fedid="tok56258" level="3" staff="true"/> <!-- Mostafa -->
   <user fedid="fri44821" level="3" staff="true"/> <!-- Keith -->
   <user fedid="akz63626" level="3" staff="true"/> <!-- Richard -->
   <user fedid="ffv81422" level="3" staff="true"/> <!-- Dominic -->
   <user fedid="vdp96513" level="3" staff="true"/> <!-- Jake -->
-
+  <user fedid="voo82358" level="3" staff="true"/> <!-- Mark -->
+  <user fedid="oly42191" level="3" staff="true"/> <!-- Yi -->
 
   <!-- BEAMLINE USERS -->
   <!-- by default users have permission 1 -->
@@ -27,5 +26,7 @@
   <user fedid="noc14454" level="2" />
   <user fedid="hck38156" level="2" />
   <user fedid="wrp85372" level="2" />
+  <user fedid="ifp76392" level="2" /> <!-- Elisabetta -->
+  
 </permissions>
 
