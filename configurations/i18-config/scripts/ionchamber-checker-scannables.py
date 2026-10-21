@@ -33,10 +33,10 @@ def reconnect_daserver_new() :
 
 from time import time
 
-class IonchamberDetectorPreparer(DetectorPreparer) :
+class IonchamberCountCheckerPreparer(DetectorPreparer) :
 
     def __init__(self, ionchamberChecker):
-        self.logger = LoggerFactory.getLogger("IonchamberDetectorPreparer")
+        self.logger = LoggerFactory.getLogger("IonchamberCountCheckerPreparer")
         self.ionchamberChecker = ionchamberChecker
         self.runChecker = False
         self.rep_number = 0
@@ -54,7 +54,7 @@ class IonchamberDetectorPreparer(DetectorPreparer) :
         return self.runChecker
 
     def beforeEachRepetition(self):
-        if self.check_last_run_time():
+        if self.runChecker and self.check_last_run_time():
             self.run_checker()
             self.time_of_last_check = time()
         
@@ -94,14 +94,9 @@ ionchamberChecker.setFirstPointCollectionTime(0.25)
 ionchamberChecker.setNumPoints(5);
 ionchamberChecker.setfixIonchamberFunction(reconnect_daserver_new)
 
-checker_preparer = IonchamberDetectorPreparer(ionchamberChecker)
-checker_preparer.check_interval_mins = 30
-
-det_preparer_delegates = DetectorPreparerDelegate()
-det_preparer_delegates.setPreparers([checker_preparer])
-det_preparer_delegates.setThrowExceptions(True)
-
-detectorPreparer.setPreparerDelegates(det_preparer_delegates)
+ionchamber_checker_preparer = IonchamberCountCheckerPreparer(ionchamberChecker)
+ionchamber_checker_preparer.check_interval_mins = 30
+# this is added to I18DetectorPreparer in setup_scan_prepearer.py
 
 ## Generate new metadata entry to show the results of the ion chamber checker
 print("Adding metadata entry for ionchamberChecker test results to Ascii writer and Nexus configuration")

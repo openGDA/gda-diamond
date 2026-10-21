@@ -145,6 +145,21 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
 		detector.hdfwriter.setFilePathTemplate(filePathTemplate)
 		detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
+		detector.hdfwriter.setClearXmlLayoutFile(False)
+		detector.hdfwriter.getNdFileHDF5().setPredefinedPositionMode(0)
+		"""How do we do		caput("BL15I-EA-PILAT-03:HDF5:PositionMode", "Off") here?
+		NDFileHDF5Impl.setPredefinedPositionMode
+		MultipleImagesPerHDF5FileWriter.setClearXmlLayoutFile
+		>>> pil3.hdfwriter
+		gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter@7575c019
+		>>> pil3.hdfwriter.setClearXmlLayoutFile(False);
+		>>> pil3.hdfwriter.getNdFileHDF5()
+		gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl@201588b6
+		>>> caget("BL15I-EA-PILAT-03:HDF5:PositionMode")
+		u'1'
+		>>> pil3.hdfwriter.getNdFileHDF5().getPredefinedPositionMode()
+		1
+		"""
 
 	# Then configure multi-file filewriters
 

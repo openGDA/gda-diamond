@@ -9,6 +9,7 @@ client.spring-xml = [
 ]
 
 properties = [
+	#"properties/${gda.mode}/bluesky.properties",
 	"properties/${gda.mode}/${gda.mode}_instance_java.properties",
 	"properties/_common/common_instance_java.properties",
 ]
@@ -22,7 +23,7 @@ logging = [
 # rather than in a properties file using gda.spring.profiles.active
 profiles = ["trans","hexapod"] #,"xps5"
 # profiles listed here should not be included in the list of optional profiles in the gda-conf.py
-# configuration at /dls_sw/$BEAMLINE/software/gda_versions/var/$BEAMLINE.cfg
+# configuration at /dls_sw/$BEAMLINE/etc/$BEAMLINE.cfg
 
 
 [defaults]

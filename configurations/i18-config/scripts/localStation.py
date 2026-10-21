@@ -1,15 +1,13 @@
-from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
-from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
-from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
-from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
 from uk.ac.gda.server.exafs.scan import XasScanFactory, XesScanFactory
 from uk.ac.gda.client.microfocus.scan import MapSelector, MapFactory
 
 from gda.configuration.properties import LocalProperties
-from gda.device.scannable import DummyScannable, ScannableMotor
+from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
+from gda.device.scannable import ScannableMotor
+
 from gda.factory import Finder
 from stageSelector import StageSelector
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
@@ -260,35 +258,13 @@ def setup():
     if Finder.find("datawriterconfig").getHeader() != None:
         original_header = Finder.find("datawriterconfig").getHeader()[:]
     elementListScriptController = Finder.find("elementListScriptController")
-    
-    global detectorPreparer
-    sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedVariable
-    sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
-    detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, raster_counterTimer01) # @UndefinedVariable
-    detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_counterTimer01, qexafs_xspress3Odin, qexafs_FFI0_xspress3Odin])
-
-    global beamlinePreparer
-    global samplePreparer
-    global outputPreparer
-    samplePreparer   = I18SamplePreparer() # @UndefinedVariable
-    outputPreparer   = I18OutputPreparer(datawriterconfig, Finder.find("metashop"))
-    beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
-    
-    global energy_scannable_for_scans
-    if live_mode and beam_available() :
-        energy_scannable_for_scans = energy # @UndefinedVariable
-    else:
-        energy_scannable_for_scans = energy_nogap # @UndefinedVariable
-    set_energy_output_format()
-    
+        
     # simulation
     if not live_mode:
         energy(7000) # @UndefinedVariable
         energy_nogap(7000) # @UndefinedVariable
     
-    setup_factories()
     setup_aliases()
-    set_energy_scannable(energy_scannable_for_scans)
     excalibur_metadata = DiffractionAppenderManager("excalibur_calibration_appender", "excalibur_mask_appender")
 
     #  Make the spectrometer setup functions available
@@ -299,9 +275,7 @@ def setup():
         set_initial_crystal_values(XESEnergyJohann)
     
     run_script("tfgSetup.py")
-    
-    tfg=TFG()
-    
+        
     run_script("sleep_scannable.py")
     
     # Setup xspress3 Odin live mode
@@ -319,11 +293,25 @@ def setup():
     run_script("ionchamber-checker-scannables.py")
     
     run_script("panda_03_scannables.py")
-    #detectorPreparer.addQexafsDetectors("Xspress3Odin", [qexafs_panda])
-
-    set_subdirectory(None) # clear any subdirectory that may have been set
     
+    run_script("calculate_energy_settings.py")
+    
+    run "setup_scan_preparers.py"  
+    
+    set_subdirectory(None)
+        
     setup_position_notification()
+
+    global energy_scannable_for_scans
+    if live_mode and beam_available() :
+        energy_scannable_for_scans = energy # @UndefinedVariable
+    else:
+        energy_scannable_for_scans = energy_nogap # @UndefinedVariable
+    
+    setup_factories()
+
+    set_energy_output_format()
+    set_energy_scannable(energy_scannable_for_scans)
     
     print("\n...initialisation complete!")
     print_useful_info()
@@ -413,4 +401,3 @@ class FilenameListener(IBeanListener):
         
 filename_listener = FilenameListener()
 add_reset_hook(filename_listener.close)
-

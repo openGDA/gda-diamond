@@ -12,7 +12,9 @@ DEFAULT_RUN_PAUSE = 0 #no pause
 DEFAULT_WAIT_PAUSE = 0 #no pause
 
 INVERSION = 'Inversion'
-fs_channel = 2
+
+DUAL_FS_CHANNELS = [1, 2]
+
 
 class State:
     LOW = 0
@@ -81,21 +83,40 @@ def setupTfg(*a, **kw):
     with tfgGroups():
         addGroup(*a, **kw)
 
-def fs(actionrequested=None):
-    """Set the idle position of the fast shutter
+
+def fs(actionrequested=None, ch=None):
+    """Set or read the idle position of the fast shutter(s)
 
     action: 'Open' or 'Close'
+    ch: int, list/tuple of ints, or None (defaults to all channels)
     """
     state_map = FS_MODES[operationMode()]
     current_inversion = timer.getAttribute(INVERSION)
     requested = state_map.get(actionrequested, None)
-    if requested == State.LOW:
-        timer.setAttribute(INVERSION, current_inversion & ~(1 << fs_channel))
-    elif requested == State.HIGH:
-        timer.setAttribute(INVERSION, current_inversion | (1 << fs_channel))
+
+    if ch is None:
+        channels = DUAL_FS_CHANNELS
+    elif isinstance(ch, int):
+        channels = [ch]
+    elif isinstance(ch, (list, tuple)):
+        channels = ch
     else:
-        posn = current_inversion >> fs_channel & 1
-        if posn == state_map.get('Close'):
-            print 'fs: Closed'
-        elif posn == state_map.get('Open'):
-            print 'fs: Open'
+        raise ValueError("ch must be int, list, tuple, or None")
+
+    mask = sum([1 << c for c in channels])
+
+    if requested == State.LOW:
+        current_inversion &= ~mask
+        timer.setAttribute(INVERSION, current_inversion)
+
+    elif requested == State.HIGH:
+        current_inversion |= mask
+        timer.setAttribute(INVERSION, current_inversion)
+
+    else:
+        for c in channels:
+            posn = (current_inversion >> c) & 1
+            if posn == state_map.get('Close'):
+                print 'dualfs[%d]: Closed' % c
+            elif posn == state_map.get('Open'):
+                print 'dualfs[%d]: Open' % c

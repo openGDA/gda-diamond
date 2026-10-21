@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+    profile="usaxs"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.diamond.ac.uk/schema/gda/gda
+            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.2.xsd">
+	<!--  Upstream x and coarse yaw -->
+    <gda:motor id="usaxs_ux" live-pvName="BL22I-MO-USAXS-01:UPSX" live-protectionLevel="3"/>
+    <gda:motor id="usaxs_uyaw" live-pvName="BL22I-MO-USAXS-01:UPSYAW" live-protectionLevel="3"/>
+    
+	<!--  Sample x and y -->
+    <gda:motor id="usaxs_sx" live-pvName="BL22I-MO-USAXS-01:XTRANS" />
+    <gda:motor id="usaxs_sy" live-pvName="BL22I-MO-USAXS-01:YTRANS" />
+	<!--  Downstream x and coarse yaw -->
+    <gda:motor id="usaxs_dx" live-pvName="BL22I-MO-USAXS-01:DWNX" />
+    <gda:motor id="usaxs_dyaw" live-pvName="BL22I-MO-USAXS-01:DWNYAW" />
+	<!--  Fine yaw (upstream and downstream) -->
+    <gda:motor id="usaxs_ufyaw" live-pvName="BL22I-MO-USAXS-01:MCS2:YAW1" />
+    <gda:motor id="usaxs_dfyaw" live-pvName="BL22I-MO-USAXS-01:MCS2:YAW2" />
+    <bean id="usaxs" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="usaxs_ux"/>
+                <ref bean="usaxs_uyaw"/>
+                <ref bean="usaxs_sx"/>
+                <ref bean="usaxs_sy"/>
+                <ref bean="usaxs_dx"/>
+                <ref bean="usaxs_dyaw"/>
+                <ref bean="usaxs_ufyaw"/>
+                <ref bean="usaxs_dfyaw"/>
+            </list>
+        </property>
+    </bean>
+</beans>

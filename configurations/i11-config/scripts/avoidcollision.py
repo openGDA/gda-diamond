@@ -15,17 +15,17 @@ PSD_SAFE_POSITION_TOLERANCE=psdsafeposition.getTolerance()
 
 def move(motor, new_position):
     if motor is tth: #@UndefinedVariable
-        if not delta.isAt(PSD_SAFE_POSITION):
+        if not psdsafeposition.test(float(delta.getPosition())):
             delta.moveTo(PSD_SAFE_POSITION)
-        if abs(float(delta.getPosition()) - PSD_SAFE_POSITION) > PSD_SAFE_POSITION_TOLERANCE: #@UndefinedVariable
+        if not psdsafeposition.test(float(delta.getPosition())): #@UndefinedVariable
             raise UnsafeOperationException(float(delta.getPosition()), PSD_SAFE_POSITION, "Cannot proceed as PSD detector is not at safe position.") #@UndefinedVariable
         else:
             motor.moveTo(new_position)
             print "%s move completed at %f" % (motor.getName(), motor.getPosition())
     elif motor is delta: #@UndefinedVariable
-        if not tth.isAt(MAC_SAFE_POSITION):
+        if not macsafeposition.test(float(tth.getPosition())):
             tth.moveTo(MAC_SAFE_POSITION)
-        if abs(float(tth.getPosition()) - MAC_SAFE_POSITION) > MAC_SAFE_POSITION_TOLERANCE: #@UndefinedVariable
+        if not macsafeposition.test(float(tth.getPosition())): #@UndefinedVariable
             raise UnsafeOperationException(float(tth.getPosition()),MAC_SAFE_POSITION, "Cannot proceed as MAC detector is not at safe position.") #@UndefinedVariable
         else:
             motor.moveTo(new_position)
@@ -33,13 +33,13 @@ def move(motor, new_position):
 
 def asynmove(motor, new_position):
     if motor is tth: #@UndefinedVariable
-        if abs(float(delta.getPosition()) - PSD_SAFE_POSITION) > PSD_SAFE_POSITION_TOLERANCE: #@UndefinedVariable
+        if not psdsafeposition.test(float(delta.getPosition())): #@UndefinedVariable
             raise UnsafeOperationException(float(delta.getPosition()), PSD_SAFE_POSITION, "Cannot proceed as PSD detector is not at safe position.") #@UndefinedVariable
         else:
             motor.asynchronousMoveTo(new_position)
             print "%s starts to move" % (motor.getName())
     elif motor is delta: #@UndefinedVariable
-        if abs(float(tth.getPosition()) - MAC_SAFE_POSITION) > MAC_SAFE_POSITION_TOLERANCE: #@UndefinedVariable
+        if not macsafeposition.test(float(tth.getPosition())): #@UndefinedVariable
             raise UnsafeOperationException(float(tth.getPosition()),MAC_SAFE_POSITION, "Cannot proceed as MAC detector is not at safe position.") #@UndefinedVariable
         else:
             motor.asynchronousMoveTo(new_position)
