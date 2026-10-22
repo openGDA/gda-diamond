@@ -4,8 +4,10 @@ import math
 
 # Import cvscan to make it easier to run ContinuousScans
 from gda.jython.commands.ScannableCommands import cv as cvscan
-from pickle import FALSE
 vararg_alias("cvscan")
+
+from gda.device.scannable import PVScannable
+
 
 """
  Class for I18 to allow them to reuse the B18 position based continuous scannable classes :
@@ -16,8 +18,17 @@ to/from keV units automatically in asnchronousMoveTo and getPosition
  - Override  getDesiredSpeed - to return speed in keV/second (i.e. soeed in motor units)
  - Override checkDeadbandAndMove - just call asynchronousMoveTo without any checks.
 """
-class QexafsTest(ZebraQexafsScannable):
-    
+class I18ZebraQexafsScannable(ZebraQexafsScannable):
+    def __init__(self):
+        self.id_gap_velocity = PVScannable("id_gap_velocity", "SR18I-MO-SERVC-01:BLGSETVEL")
+        self.id_gap_velocity.configure()
+        self.gap_default_speed = 1.0
+        self.gap_accel_time = 2.0 # 2.0 seconds according to Epics. but seems to actually vary with velocity.
+        self.gap_move_sleep = 0.2
+        self.energy_converters = converters_Si111
+        self.id_gap = sc_idgap
+        self.use_id_gap = True
+
     def toggleEnergyControl(self):
         pass
 
@@ -28,6 +39,15 @@ class QexafsTest(ZebraQexafsScannable):
         pass
     
     def asynchronousMoveTo(self, position_ev):
+        if self.use_id_gap:
+            print("Starting ID gap move to %.4f mm"%(self.gap_low_energy))
+            self.id_gap.asynchronousMoveTo(self.gap_high_energy)
+            
+            # Default sleep of gap_accel_time if there is no user specified value?
+            if self.gap_move_sleep > 0:
+                print("Waiting for %.2f secs to start mono move"%(self.gap_move_sleep))
+                sleep(self.gap_move_sleep)
+
         ZebraQexafsScannable.asynchronousMoveTo(self, position_ev)
     
     def setMaxSpeed(self, max_speed):
@@ -60,14 +80,55 @@ class QexafsTest(ZebraQexafsScannable):
     def getDesiredSpeed(self):
         return 1e-3*math.fabs(self.continuousParameters.getEndPosition() - self.continuousParameters.getStartPosition())/self.continuousParameters.getTotalTime()    
 
+    def prepare_id_gap(self):
+        self.gap_low_energy = self.energy_converters.get_energy_values(self.continuousParameters.getStartPosition(), True)[2]
+        self.gap_high_energy = self.energy_converters.get_energy_values(self.continuousParameters.getEndPosition(), False)[2]
+        self.gap_velocity = math.fabs((self.gap_high_energy - self.gap_low_energy)/self.continuousParameters.getTotalTime())
+        
+        # Calculate runup distance, assuming the gap velocity changes from 0 to demand velocity
+        # in 'gap_accel_time' seconds. Note that 'gap_accel_time' seems to be not constant,
+        # and is less than 2 seconds for higher velocities.
+        gap_runup = 0.5*self.gap_velocity*self.gap_accel_time
+
+        direction = -1 if self.gap_low_energy < self.gap_high_energy else 1
+        self.low_energy_with_runup = self.gap_low_energy + gap_runup*direction
+        print("Setting up ID gap : range = %.4f, %.4f, velocity = %.4f mm/sec, runup = %.4f mm"%(self.gap_low_energy, self.gap_high_energy, self.gap_velocity, gap_runup))
+        print("Start gap with runup : %.4f"%(self.low_energy_with_runup))
+        
+            
+        self.id_gap_velocity.moveTo(self.gap_default_speed)
+        self.id_gap.waitWhileBusy()
+        self.id_gap.moveTo(self.low_energy_with_runup)
+        self.id_gap_velocity.moveTo(self.gap_velocity)
+
     def performContinuousMove(self):
-        print("Motor scan speed : %.4f"%(self.getDesiredSpeed()))
+        if self.use_id_gap:
+            self.prepare_id_gap()
+        print("Energy axis velocity : %.4f eV/sec"%(self.getDesiredSpeed()))
         ZebraQexafsScannable.performContinuousMove(self)
+
+    def getNumberOfDataPoints(self):
+        num_points = ZebraQexafsScannable.getNumberOfDataPoints(self)
+        return num_points-1
+
+    def set_id_gap_speed(self, speed):
+        print("Setting ID gap velocity to : %.4f mm/sec"%(speed))
+        self.id_gap_velocity.moveTo(speed)
+        
+    def atScanEnd(self):
+        print("Resetting ID velocity at end of scan")
+        self.id_gap_velocity.moveTo(self.gap_default_speed)
+    
+    def stop(self):
+        self.atScanEnd()
+        
+    def atCommandFailure(self):
+        self.atScanEnd()
 
 
 zebra = Finder.find("zebra")
 
-qexafs_energy = QexafsTest()
+qexafs_energy = I18ZebraQexafsScannable()
 qexafs_energy.setZebraDevice(zebra)
 qexafs_energy.setPcEncType(3) # encoder 4
 

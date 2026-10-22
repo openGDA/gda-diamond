@@ -38,6 +38,7 @@ def create_single_collection(collection_time_ms, wait_between_collection_ms, tri
 	collection["wait_pulses"] = [1,1,0,0,0]
 	collection["run_time"] = collection_time_ms
 	collection["run_pulses"] = [1,1,1,1,1]
+	collection["frames"] = 1
 	
 	shutter_closes = default_group.copy()
 	shutter_closes["wait_time"] = delay_between_shutters

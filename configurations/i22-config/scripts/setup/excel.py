@@ -1,6 +1,5 @@
 from org.apache.poi.xssf.usermodel import XSSFWorkbook
 from org.apache.poi.openxml4j.opc import OPCPackage
-from org.apache.poi.ss.usermodel.Cell import CELL_TYPE_STRING
 from collections import OrderedDict
 import java
 
@@ -77,8 +76,10 @@ def _key_func(column):
 
 def string_value(cell):
     if cell is None: return None
-    cell.setCellType(CELL_TYPE_STRING)
-    return cell.getStringCellValue()
+    try:
+        return cell.getStringCellValue()
+    except:
+        return str(float_value(cell))
 
 def float_value(cell):
     if cell is None: return None
@@ -91,8 +92,11 @@ def float_value(cell):
 
 def int_value(cell):
     if cell is None: return None
-    value = string_value(cell)
-    return int(value) if value else None
+    try:
+        value = string_value(cell)
+        return int(value) if value else None
+    except:
+        return int(float_value(cell))
 
 def grid_position(cell):
     value = string_value(cell)

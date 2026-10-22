@@ -5,7 +5,7 @@
 
 	<import resource="machineStatus.xml" />
 	<import resource="beamlineStatus.xml" />
-	<!-- <import resource="hidenRGA.xml" /> -->
+	<import resource="hidenRGA.xml" />
 	<import resource="cvscan.xml" />
 	<import resource="mythenview.xml" />
 	<import resource="../_common/client.xml" />

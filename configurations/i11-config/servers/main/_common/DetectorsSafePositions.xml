@@ -8,7 +8,7 @@
 		<property name="tolerance" value="1.0"/>
 	</bean>
 
-	<bean id="psdsafeposition" class="gda.hrpd.pmac.SafePosition">
+	<bean id="psdsafeposition" class="gda.hrpd.pmac.SafeWhenGreaterThanPosition">
 		<property name="position" value="70.0"/>
 		<property name="tolerance" value="1.0"/>
 	</bean>
