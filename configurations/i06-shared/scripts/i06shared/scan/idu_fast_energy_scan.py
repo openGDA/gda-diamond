@@ -64,7 +64,7 @@ fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData)
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     # configure collection strategy for zacscan
     if beamline_name == "i06":
-        from gdaserver import zacmedipix #@UnresolvedImport
+        from gdaserver import medipix, zacmedipix #@UnresolvedImport
         zac_collection_strategy = zacmedipix.getCollectionStrategy()
         normal_collection_strategy = medipix.getCollectionStrategy()
     else:
