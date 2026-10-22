@@ -75,4 +75,6 @@
 <!-- 	<import resource="xcam.xml"/> -->
 	<import resource="simad_motors.xml"/>
 
+	<import resource="mbs_analyser.xml"/>
+
 </beans>

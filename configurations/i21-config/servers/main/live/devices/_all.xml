@@ -69,6 +69,7 @@
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="topup.xml" />
 	<import resource="feedback.xml"/>
+	<import resource="mbs_analyser.xml"/>
 <!-- 	<beans profile="xcamlive"> -->
 <!-- 		<import resource="xcam.xml"/> -->
 <!-- 	</beans> -->

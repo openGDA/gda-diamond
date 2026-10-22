@@ -34,5 +34,10 @@
 		<property name="scannableName" value="elastic_slope"/>
 		<property name="command" value="elastic_slope.deleteIObservers()"/>
 	</bean>
+
+	<bean id="energy_wrapper" class="gda.device.scannable.JythonScannableWrapper">
+		<property name="scannableName" value="energy"/>
+		<property name="command" value="energy.deleteIObservers()"/>
+	</bean>
 	
 </beans>
