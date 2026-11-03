@@ -74,5 +74,8 @@ scan_processor.rootNamespaceDict=globals()
 import gdascripts
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 
+from gda.device.temperature import DummyTemp
+tsample = DummyTemp(); tsample.setName("tsample")
+
 print("="*100)
 print("end of localStation.py for Beamline I06-2)")
