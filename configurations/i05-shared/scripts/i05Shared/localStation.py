@@ -106,6 +106,8 @@ print("")
 
 #check beam scannables
 from scannables.checkbeamscannables import checkbeam, checkfe, checkrc, checktopup_time  # @UnusedImport
+from gda.device.scannable import DummyScannable
+ds = DummyScannable("ds")
 
 print("-"*100)
 print "Finished general initialisation code for i05-shared.";

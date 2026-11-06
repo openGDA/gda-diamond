@@ -184,6 +184,9 @@ from gdascripts.scannable.virtual_scannable import VirtualScannable
 comment = VirtualScannable("comment", initial_value="Not set", value_format="%s")
 sample_name = VirtualScannable("sample_name", initial_value="Not set", value_format="%s")
 
+from gda.device.scannable import DummyScannable
+ds = DummyScannable("ds")
+
 # sample temperature metadata
 from gdascripts.scannable.temperature.sample_temperature import SampleTemperature
 tsample = SampleTemperature('tsample', lakeshore_base)  # @UndefinedVariable
