@@ -52,7 +52,7 @@ def clear_default_scannables():
 def restore_default_scannables(original_default_scannables):
     # restore default scannables after cvscan completed.
     if original_default_scannables is not None:
-        print("adding original default scannables %r to default" % self.original_default_scannables)
+        print("adding original default scannables %r to default" % original_default_scannables)
         for scn in original_default_scannables:
             add_default(scn)
     else:
