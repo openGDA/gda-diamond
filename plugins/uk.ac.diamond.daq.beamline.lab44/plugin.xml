@@ -189,7 +189,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS Beamone Lab44">
+               value="GDA for DLS Beamline Lab44">
          </property>
          <property
                name="startupForegroundColor"

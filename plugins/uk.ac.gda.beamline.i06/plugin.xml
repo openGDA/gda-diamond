@@ -22,7 +22,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS Beamone i06.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009-2017 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
+               value="GDA for DLS Beamline i06.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009-2017 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
          </property>
          <property
                name="startupForegroundColor"
@@ -535,7 +535,7 @@
 
          <property
                name="aboutText"
-               value="GDA for DLS Beamone i06.">
+               value="GDA for DLS Beamline i06.">
          </property>
          <property
                name="windowImages"

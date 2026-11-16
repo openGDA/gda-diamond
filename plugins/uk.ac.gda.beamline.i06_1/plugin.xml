@@ -13,7 +13,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS Beamone i06-1.">
+               value="GDA for DLS Beamline i06-1.">
          </property>
          <property
                name="aboutImage"
@@ -53,7 +53,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS Beamone i06-1.">
+               value="GDA for DLS Beamline i06-1.">
          </property>
          <property
                name="startupForegroundColor"
